@@ -1,0 +1,172 @@
+
+<ui>
+	<css name="$QC_TextDefault">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="18"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$QC_Fullsize">
+		<width value="100%"/>
+		<height value="100%"/>
+	</css>
+	<css name="$QC_MiddleAligned">
+		<marginLeft value="-50%"/>
+		<left value="50%"/>
+	</css>
+	<css name="$QC_MiddleVAligned">
+		<top value="50%"/>
+		<marginTop value="-50%"/>
+	</css>
+	<css name="$QC_MiddleAlignedAbsolutely">
+		<position value="absolute"/>
+		<marginLeft value="-50%"/>
+		<left value="50%"/>
+	</css>
+	<block className="ModalWindowQuickCommands">
+		<styleClass value="$QC_Fullsize"/>
+		<style>
+			<position value="absolute"/>
+		</style>
+		<bind name="stageSize"/>
+		<bind name="firstEntityDH" value="'quickCommandsPanelEntity'; CC.quickCommandsPanel"/>
+		<bind name="watchDH" value="'commandsData'; ['quickCommandsPanelEntity.quickCommandsPanel.evChanged']; quickCommandsPanelEntity.quickCommandsPanel.commandsData"/>
+		<bind name="var" value="{_currentMenuSector: -1}"/>
+		<bind name="catch" value="'currentMenuSectorChanged'"/>
+		<bind name="action" value="'_currentMenuSector' + varChanged; 'quickCommandChanged'; { 'commandId': commandsData[_currentMenuSector].commandId }"/>
+		<block>
+			<styleClass value="$QC_MiddleAlignedAbsolutely"/>
+			<styleClass value="$QC_MiddleVAligned"/>
+			<style>
+				<height value="100%"/>
+				<width value="100%"/>
+				<backgroundColor value="0x00cccccc"/>
+			</style>
+			<bind name="dispatch" value="'rollOver'; 'currentMenuSectorChanged'; {_currentMenuSector: -1}"/>
+		</block>
+		<block>
+			<bind name="appear" value="'startShow'; 0.1; 0.1; {alpha: 0}; {alpha: 1}"/>
+			<styleClass value="$QC_MiddleAligned"/>
+			<styleClass value="$QC_MiddleVAligned"/>
+			<block>
+				<styleClass value="$QC_MiddleAlignedAbsolutely"/>
+				<styleClass value="$QC_MiddleVAligned"/>
+				<bind name="repeat" value="8; 'QCSector'; {_stageHeight: stageHeight}"/>
+			</block>
+			<block>
+				<styleClass value="$QC_MiddleAlignedAbsolutely"/>
+				<styleClass value="$QC_MiddleVAligned"/>
+				<bind name="repeat" value="4; 'QCSectorFar'; {_stageHeight: stageHeight}"/>
+			</block>
+			<block>
+				<styleClass value="$QC_MiddleAlignedAbsolutely"/>
+				<styleClass value="$QC_MiddleVAligned"/>
+				<bind name="repeat" value="commandsData; 'QCItem'"/>
+			</block>
+			<block className="quick_command_crosshair" type="native">
+				<styleClass value="$QC_MiddleAlignedAbsolutely"/>
+				<styleClass value="$QC_MiddleVAligned"/>
+				<style>
+					<alpha value="0.6"/>
+				</style>
+			</block>
+		</block>
+	</block>
+	<block className="QCSector">
+		<bind name="firstEntityDH" value="'quickCommandsPanelEntity'; CC.quickCommandsPanel"/>
+		<bind name="watchDH" value="'commandsData'; ['quickCommandsPanelEntity.quickCommandsPanel.evChanged']; quickCommandsPanelEntity.quickCommandsPanel.commandsData"/>
+		<bind name="watchDH" value="'selected'; ['quickCommandsPanelEntity.quickCommandsPanel.evChanged']; !!quickCommandsPanelEntity.quickCommandsPanel.commandsData[$index].selected"/>
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
+		<bind name="transition" value="(selected || rollOver) &amp;&amp; commandsData[$index].enabled; 0.05; {alpha: 0.25}; {alpha: 0.4}"/>
+		<style>
+			<position value="absolute"/>
+			<left value="0px"/>
+			<top value="0px"/>
+		</style>
+		<bind name="watch" value="'_circRad'; (_stageHeight * 0.4)"/>
+		<bind name="watch" value="'_circInRad'; (_stageHeight * 0.1)"/>
+		<bind name="dispatch" value="'rollOver'; 'currentMenuSectorChanged'; {_currentMenuSector: (commandsData[$index].enabled ? $index : -1)}"/>
+		<bind name="changeDispatch" value="selected; 'currentMenuSectorChanged'; {_currentMenuSector: (commandsData[$index].enabled ? $index : -1)}"/>
+		<block className="lesta.display.Sector" type="native">
+			<bind name="cacheAsBitmap" value="true"/>
+			<bind name="rotation" value="$index * 45 - 22.5"/>
+			<bind name="color" value="0xff000000"/>
+			<bind name="arc" value="44.5"/>
+			<bind name="radius" value="_circRad"/>
+			<bind name="innerRadius" value="_circInRad"/>
+		</block>
+	</block>
+	<block className="QCSectorFar">
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
+		<bind name="transition" value="rollOver; 0.05; {alpha: 0.25}; {alpha: 0.4}"/>
+		<style>
+			<position value="absolute"/>
+			<left value="0px"/>
+			<top value="0px"/>
+		</style>
+		<bind name="watch" value="'_circRad'; (_stageHeight * 0.4)"/>
+		<bind name="dispatch" value="'rollOver'; 'currentMenuSectorChanged'; {_currentMenuSector: $index + 8}"/>
+		<block className="lesta.display.Sector" type="native">
+			<bind name="cacheAsBitmap" value="true"/>
+			<bind name="rotation" value="$index * 90"/>
+			<bind name="color" value="0xff000000"/>
+			<bind name="arc" value="89.5"/>
+			<bind name="radius" value="_stageHeight * 2"/>
+			<bind name="innerRadius" value="_circRad + (_stageHeight * 0.005)"/>
+		</block>
+	</block>
+	<block className="QCItem">
+		<bind name="stageSize"/>
+		<bind name="style" value="'alpha'; enabled ? 1 : 0.3"/>
+		<style>
+			<position value="absolute"/>
+			<marginTop value="-50%"/>
+			<marginLeft value="-50%"/>
+			<hitTest value="false"/>
+		</style>
+		<bind name="watch" value="'itemPosition'; [ { qc_left: (stageHeight * 0.27) + 'px' },
+								{ qc_top: (stageHeight * 0.18) + 'px', qc_left: (stageHeight * 0.2) + 'px' },
+								{ qc_top: (stageHeight * 0.27) + 'px' },
+								{ qc_top: (stageHeight * 0.18) + 'px', qc_left: -(stageHeight * 0.2) + 'px' },
+								{ qc_left: -(stageHeight * 0.27) + 'px' },
+								{ qc_top: -(stageHeight * 0.18) + 'px', qc_left: -(stageHeight * 0.2) + 'px' },
+								{ qc_top: -(stageHeight * 0.27) + 'px' },
+								{ qc_top: -(stageHeight * 0.18) + 'px', qc_left: (stageHeight * 0.2) + 'px' }, 
+
+								{ qc_top: (stageHeight * 0.10) + 'px', qc_left: (stageHeight * 0.5) + 'px' }, 
+								{ qc_top: (stageHeight * 0.10) + 'px', qc_left: -(stageHeight * 0.5) + 'px' },
+								{ qc_top: -(stageHeight * 0.10) + 'px', qc_left: -(stageHeight * 0.5) + 'px' },
+								{ qc_top: -(stageHeight * 0.10) + 'px', qc_left: (stageHeight * 0.5) + 'px' } ]"/>
+		<bind name="style" value="'top'; itemPosition[$index].qc_top"/>
+		<bind name="style" value="'left'; itemPosition[$index].qc_left"/>
+		<block className="quick_command_sector" type="native">
+			<bind name="visible" value="icon != null"/>
+			<styleClass value="$QC_MiddleAligned"/>
+			<bind name="gotoAndStop!" value="icon"/>
+		</block>
+		<block type="text">
+			<styleClass value="$QC_MiddleAligned"/>
+			<styleClass value="$QC_TextDefault"/>
+			<style>
+				<textAlign value="center"/>
+				<textColor value="0xffffffff"/>
+				<width value="1280:150,1920:220ah"/>
+			</style>
+			<bind name="text" value="text"/>
+		</block>
+		<block>
+			<bind name="visible" value="!!commandName"/>
+			<styleClass value="$QC_MiddleAligned"/>
+			<style>
+				<marginTop value="5px"/>
+			</style>
+			<block type="text">
+				<bind name="text" value="'[' + commandName + ']'"/>
+				<bind name="substitute" value="''; 4"/>
+			</block>
+		</block>
+	</block>
+</ui>

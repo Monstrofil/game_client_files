@@ -1,0 +1,3016 @@
+
+<ui>
+	<css name="$Fullsize">
+		<width value="100%"/>
+		<height value="100%"/>
+	</css>
+	<css name="$FullsizeAbsolute">
+		<width value="100%"/>
+		<position value="absolute"/>
+		<height value="100%"/>
+	</css>
+	<css name="$FullWidth">
+		<width value="100%"/>
+	</css>
+	<css name="$MiddleAligned">
+		<marginLeft value="-50%"/>
+		<left value="50%"/>
+	</css>
+	<css name="$MiddleAlignedAbsolutely">
+		<position value="absolute"/>
+		<marginLeft value="-50%"/>
+		<left value="50%"/>
+	</css>
+	<css name="$MiddleVAligned">
+		<top value="50%"/>
+		<marginTop value="-50%"/>
+	</css>
+	<css name="$EyeLevelVAligned">
+		<top value="720:360,2160:900ah"/>
+		<marginTop value="-50%"/>
+	</css>
+	<css name="$MiddleVAlignedAbsolutely">
+		<position value="absolute"/>
+		<top value="50%"/>
+		<marginTop value="-50%"/>
+	</css>
+	<css name="$MiddleVHAbsolutely">
+		<position value="absolute"/>
+		<top value="50%"/>
+		<marginLeft value="-50%"/>
+		<marginTop value="-50%"/>
+		<left value="50%"/>
+	</css>
+	<css name="$AlignRight">
+		<position value="absolute"/>
+		<right value="0"/>
+	</css>
+	<css name="$MouseDisable">
+		<hitTest value="false"/>
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+	</css>
+	<css name="$InfoLineBoundaries">
+		<marginTop value="6px"/>
+		<marginBottom value="6px"/>
+	</css>
+	<css name="$InfoBlockHorizontalIndent">
+		<width value="100%"/>
+		<marginLeft value="12px"/>
+		<marginRight value="12px"/>
+	</css>
+	<css name="$InfoBlockIndent">
+		<width value="100%"/>
+		<marginTop value="9px"/>
+		<marginLeft value="12px"/>
+		<marginBottom value="9px"/>
+		<marginRight value="12px"/>
+	</css>
+	<css name="$InfoBlockHorizontalIndentNoWidth">
+		<marginLeft value="12px"/>
+		<marginRight value="12px"/>
+	</css>
+	<css name="$DockPanelMargins">
+		<marginLeft value="13px"/>
+		<marginRight value="13px"/>
+	</css>
+	<css name="$InfoBlockIndentNoWidth">
+		<marginBottom value="9px"/>
+		<marginTop value="9px"/>
+		<marginLeft value="12px"/>
+		<marginRight value="12px"/>
+	</css>
+	<css name="$ShipTechStats">
+		<width value="312px"/>
+		<top value="32px"/>
+		<position value="absolute"/>
+		<right value="10px"/>
+		<height value="100%"/>
+	</css>
+	<css name="$TextInputEnterButton">
+		<right value="2px"/>
+		<top value="50%"/>
+		<height value="25px"/>
+		<width value="52px"/>
+		<position value="absolute"/>
+		<marginTop value="-11px"/>
+	</css>
+	<css name="$TextAreaEnterButton">
+		<position value="absolute"/>
+		<height value="25px"/>
+		<right value="2px"/>
+		<width value="52px"/>
+		<bottom value="0px"/>
+	</css>
+	<css name="$DefaultScrollBar">
+		<wheelScrollSpeed value="15"/>
+		<scrollbarController value="lesta.unbound.style.UbScrollingControllerModern"/>
+		<scrollArea value="ModernScrollArea"/>
+		<scrollbar value="ModernScrollBar"/>
+		<scrollbarTrackMode value="scrollToCursor"/>
+	</css>
+	<css name="$None"/>
+	<css name="$PxHorizontalCorrection">
+		<marginLeft value="1px"/>
+		<marginRight value="1px"/>
+	</css>
+	<css name="$PxIndent">
+		<marginTop value="1px"/>
+		<marginBottom value="1px"/>
+		<marginLeft value="1px"/>
+		<marginRight value="1px"/>
+	</css>
+	<css name="$BottomMenu">
+		<position value="absolute"/>
+		<bottom value="0px"/>
+		<width value="100%"/>
+		<height value="30px"/>
+	</css>
+	<block className="HorizontalDivider">
+		<styleClass value="$PxHorizontalCorrection"/>
+		<style>
+			<width value="100%"/>
+			<height value="3px"/>
+		</style>
+		<block className="divider_h" type="native">
+			<styleClass value="$Fullsize"/>
+		</block>
+	</block>
+	<block className="VerticalDivider">
+		<style>
+			<height value="100%"/>
+			<width value="3px"/>
+		</style>
+		<block className="divider_v" type="native">
+			<styleClass value="$Fullsize"/>
+		</block>
+	</block>
+	<block className="TableDivider">
+		<style>
+			<backgroundImage value="symbol:dotted_line"/>
+			<backgroundRepeatX value="true"/>
+			<width value="100%"/>
+			<height value="1px"/>
+			<alpha value="0.1"/>
+		</style>
+	</block>
+	<block className="Underline">
+		<bind name="style" value="'backgroundColor'; (rollOver &amp;&amp; !mouseDown) ? '0xFFFFFFFF' : '0x00856933'"/>
+		<bind name="transition" value="(rollOver &amp;&amp; !mouseDown) == true; 0.3; {scaleX : 0, alpha : 0}; {scaleX : 1, alpha :1}"/>
+		<style>
+			<backgroundColor value="0xFFFFFFFF"/>
+			<position value="absolute"/>
+			<height value="1px"/>
+			<width value="100%"/>
+			<bottom value="0px"/>
+			<marginLeft value="2px"/>
+			<marginRight value="2px"/>
+		</style>
+	</block>
+	<block className="BlurMap">
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<style>
+			<position value="absolute"/>
+			<width value="100%"/>
+			<height value="100%"/>
+			<hitTest value="false"/>
+		</style>
+		<bind name="visible" value="optionData.blurEnabled"/>
+		<block className="mc_blurmap5" type="native">
+			<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
+			<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
+			<style>
+				<width value="100%"/>
+				<height value="100%"/>
+			</style>
+			<bind name="blurMap" value="0"/>
+		</block>
+	</block>
+	<block className="BlurMapNotifications">
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<bind name="visible" value="optionData.blurEnabled"/>
+		<style>
+			<position value="absolute"/>
+			<width value="100%"/>
+			<height value="100%"/>
+		</style>
+		<block className="mc_blurmap5_feather" type="native">
+			<bind name="fade" value="_start; 0.3; {alpha: 0, top: 10}; {alpha: 1, top:0 }; {alpha: 0, top: -20}; 1; 0.15"/>
+			<style>
+				<width value="100%"/>
+				<height value="100%"/>
+			</style>
+			<bind name="blurMap" value="0"/>
+		</block>
+	</block>
+	<block className="DeclareBlurLayer">
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<bind name="visible" value="optionData.blurEnabled"/>
+		<block className="transparentPixel" type="native">
+			<bind name="blurLayer" value="0"/>
+		</block>
+		<style>
+			<position value="absolute"/>
+		</style>
+	</block>
+	<css name="$ContextMenuListItem">
+		<width value="100%"/>
+		<height value="29px"/>
+	</css>
+	<css name="$ContextMenuListItemContent">
+		<width value="198px"/>
+		<marginLeft value="6px"/>
+		<marginRight value="6px"/>
+	</css>
+	<css name="$ContextMenuDimentions">
+		<width value="210px"/>
+	</css>
+	<block className="DropShadow">
+		<styleClass value="$FullsizeAbsolute"/>
+		<styleClass value="$MouseDisable"/>
+		<block className="drop_shadow" type="native">
+			<styleClass value="$Fullsize"/>
+			<style>
+				<position value="absolute"/>
+				<marginTop value="-2px"/>
+				<marginRight value="-6px"/>
+				<marginBottom value="-10px"/>
+				<marginLeft value="-6px"/>
+			</style>
+		</block>
+	</block>
+	<block className="EmptyItem">
+		<bind name="visible" value="false"/>
+	</block>
+	<block className="DottedLine">
+		<style>
+			<backgroundImage value="symbol:dotted_line"/>
+			<backgroundRepeatX value="true"/>
+			<width value="100%"/>
+			<height value="1px"/>
+			<alpha value="0.5"/>
+		</style>
+	</block>
+	<css name="$TextNano">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="13"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$TextSecondary">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="13"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$TextSecondaryNoFilter">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFont"/>
+		<fontSize value="13"/>
+		<selectable value="false"/>
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$TextSecondaryBold">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="13"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$TextDefault">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="15"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$TextDefaultBold">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<fontSize value="15"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$TextHeaderBold">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="17"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$TextHeader">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="19"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$TextHeaderWhite">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="19"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextHeaderHugeWhite">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="30"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextHeaderBigDefault">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="17"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$TextHeaderBigTeamKiller">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="17"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFF96CA"/>
+	</css>
+	<css name="$TextHeaderBigNegative">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="17"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFF6600"/>
+	</css>
+	<css name="$TextHeaderBigWhite">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="17"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextAccent">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="25"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$TextAccentBold">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="25"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$TextAccentSecond">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="60"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$TextHeaderUnready">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFont"/>
+		<fontSize value="25"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFF9933"/>
+	</css>
+	<css name="$TextDefaultWhite">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFont"/>
+		<fontSize value="15"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultWhiteBold">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<fontSize value="15"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextSmallCompareNegative">
+		<fontFamily value="$WWSDefaultFont"/>
+		<textColor value="0xFF6600"/>
+		<fontSize value="15"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+	</css>
+	<css name="$TextSmallWhite">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="13"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextSmallGold">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="13"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFCC66"/>
+	</css>
+	<css name="$TextDefaultExpSmall">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="13"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$TextSmallNegative">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="13"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFF6600"/>
+	</css>
+	<css name="$TextTurquoiseQuests">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFont"/>
+		<fontSize value="17"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0x00cccc"/>
+	</css>
+	<css name="$TextLargeHeader">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="21"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextLargeHeaderBold">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="21"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextLargeHeaderBlack">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFont"/>
+		<fontSize value="21"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0x08222a"/>
+	</css>
+	<css name="$TextThumbelina">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="7"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextAccentWhite">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFont"/>
+		<fontSize value="25"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultTech">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFont"/>
+		<fontSize value="15"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0x9CBABA"/>
+	</css>
+	<css name="$TextHeaderBigDefaultTech">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFont"/>
+		<fontSize value="17"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0x9CBABA"/>
+	</css>
+	<css name="$BlackLabel">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$ZurichCondensedBold"/>
+		<fontSize value="13"/>
+		<selectable value="false"/>
+		<textColor value="0x08222a"/>
+	</css>
+	<css name="$TextHeaderWhiteBold">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="19"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$ResultsReward">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="60"/>
+		<letterSpacing value="-3"/>
+		<marginRight value="2px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextAccentGreyBold">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<textColor value="0xDDDDDD"/>
+		<fontSize value="60"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+	</css>
+	<css name="$TextAccentBoldAccountLevel">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<textColor value="0xFFFFFF"/>
+		<fontSize value="50"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+	</css>
+	<css name="$TextAccentBoldAccountLevel1">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<textColor value="0xFFFFFF"/>
+		<fontSize value="36"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+	</css>
+	<css name="$TextAccentBoldAccountLevel2">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<textColor value="0xFFFFFF"/>
+		<fontSize value="30"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+	</css>
+	<css name="$ConfirmationWindowWidth">
+		<width value="472px"/>
+	</css>
+	<css name="$ModalWindowDefaultWidth">
+		<width value="472px"/>
+	</css>
+	<css name="$ModalWindowLargeCostMargins">
+		<marginLeft value="5px"/>
+		<marginRight value="4px"/>
+	</css>
+	<css name="$SelectTypeListItem">
+		<width value="100%"/>
+		<height value="74px"/>
+	</css>
+	<css name="$SelectTypeListItemIndent">
+		<marginBottom value="15px"/>
+		<marginTop value="15px"/>
+		<marginLeft value="21px"/>
+		<marginRight value="21px"/>
+	</css>
+	<block className="ModalWindowOkCancelRequest">
+		<style>
+			<flow value="horizontal"/>
+			<marginTop value="15px"/>
+		</style>
+		<block>
+			<bind name="appear" value="'startShow'; 0.15; 0.60; {alpha: 0, top: 5}; {alpha: 1, top: 0}"/>
+			<bind name="appear" value="'startHide'; 0.15; 0.45; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
+			<styleClass value="$InfoLineBoundaries"/>
+			<style>
+				<width value="129px"/>
+				<marginRight value="20px"/>
+			</style>
+			<bind name="instance" value="'DefaultButton'; {	_width: '129px', _request: _request, _requestParams: _requestParams, _enabled: true, _isTransactionBtn: true,
+											_containerName: ('Modal_window_action_Button' + _okLabel), _label: _okLabel,
+											_focusIndex: 1, _defaultFocused: true,
+											_name: 'btn_ok'}"/>
+		</block>
+		<block>
+			<style>
+				<width value="129px"/>
+			</style>
+			<bind name="appear" value="'startShow'; 0.15; 0.45; {alpha: 0, top: 5}; {alpha: 1, top: 0}"/>
+			<bind name="appear" value="'startHide'; 0.15; 0.45; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
+			<block className="DefaultButtonModal">
+				<styleClass value="$InfoLineBoundaries"/>
+				<style>
+					<width value="100%"/>
+				</style>
+				<bind name="name" value="'Modal_window_action_Button' + _cancelLabel"/>
+				<block className="button_default" type="native">
+					<style>
+						<width value="100%"/>
+					</style>
+					<bind name="label" value="_cancelLabel"/>
+					<params>
+						<param name="name" value="btn_cancel"/>
+					</params>
+					<bind name="input"/>
+					<bind name="focus" value="2;false"/>
+				</block>
+			</block>
+		</block>
+	</block>
+	<block className="ModalWindowHeader">
+		<style>
+			<marginBottom value="3px"/>
+		</style>
+		<bind name="style" value="'width'; _headerWidth ? _headerWidth : '450px'"/>
+		<block>
+			<style>
+				<marginBottom value="9px"/>
+				<width value="100%"/>
+			</style>
+			<block type="text">
+				<styleClass value="$MiddleAligned"/>
+				<styleClass value="$TextLargeHeaderBold"/>
+				<bind name="text" value="toUpperCase(tr(_header))"/>
+			</block>
+			<block>
+				<styleClass value="$AlignRight"/>
+				<bind name="style" value="'right'; _innerCloseButton ? '60px' : '0px'"/>
+				<block className="ModalWindowCloseIcon">
+					<style>
+						<position value="absolute"/>
+						<right value="-50px"/>
+						<top value="9px"/>
+						<flow value="horizontal"/>
+					</style>
+					<bind name="name" value="'btn_cancel'"/>
+					<bind name="input"/>
+					<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_CLOSE'}; 0"/>
+					<block>
+						<style>
+							<backgroundColor value="0x01000000"/>
+						</style>
+						<block>
+							<style>
+								<marginTop value="-3px"/>
+							</style>
+							<block className="hotkey_holder_white_9slice" type="native">
+								<bind name="visible" value="!_noHotkey"/>
+								<block type="text">
+									<style>
+										<marginLeft value="3px"/>
+										<marginRight value="3px"/>
+										<marginTop value="-1px"/>
+										<marginBottom value="-1px"/>
+									</style>
+									<styleClass value="$BlackLabel"/>
+									<text value="ESC"/>
+								</block>
+							</block>
+						</block>
+						<block className="button_close" type="native">
+							<params>
+								<param name="focusable" value="false"/>
+							</params>
+						</block>
+						<style>
+							<flow value="horizontal"/>
+						</style>
+					</block>
+				</block>
+			</block>
+		</block>
+		<block>
+			<style>
+				<width value="100%"/>
+				<position value="absolute"/>
+				<bottom value="-3"/>
+			</style>
+			<block className="HorizontalDivider">
+				<styleClass value="$PxHorizontalCorrection"/>
+				<style>
+					<width value="100%"/>
+					<height value="3px"/>
+				</style>
+				<block className="divider_h" type="native">
+					<styleClass value="$Fullsize"/>
+				</block>
+			</block>
+		</block>
+	</block>
+	<block className="ModalWindowHeaderConfirmation">
+		<style>
+			<marginBottom value="3px"/>
+			<width value="100%"/>
+		</style>
+		<block>
+			<style>
+				<marginBottom value="9px"/>
+				<width value="100%"/>
+			</style>
+			<block>
+				<styleClass value="$MiddleAligned"/>
+				<block className="icon_warning_grey_big" type="native">
+					<style>
+						<marginTop value="6px"/>
+					</style>
+				</block>
+				<block type="text">
+					<styleClass value="$TextLargeHeaderBold"/>
+					<text value="IDS_CONFIRMATION"/>
+				</block>
+				<style>
+					<flow value="horizontal"/>
+				</style>
+			</block>
+			<block className="ModalWindowCloseIcon">
+				<style>
+					<position value="absolute"/>
+					<right value="-70px"/>
+					<top value="9px"/>
+					<flow value="horizontal"/>
+				</style>
+				<bind name="name" value="'btn_cancel'"/>
+				<bind name="input"/>
+				<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_CLOSE'}; 0"/>
+				<block>
+					<style>
+						<backgroundColor value="0x01000000"/>
+					</style>
+					<block>
+						<style>
+							<marginTop value="-3px"/>
+						</style>
+						<block className="hotkey_holder_white_9slice" type="native">
+							<bind name="visible" value="true"/>
+							<block type="text">
+								<style>
+									<marginLeft value="3px"/>
+									<marginRight value="3px"/>
+									<marginTop value="-1px"/>
+									<marginBottom value="-1px"/>
+								</style>
+								<styleClass value="$BlackLabel"/>
+								<text value="ESC"/>
+							</block>
+						</block>
+					</block>
+					<block className="button_close" type="native">
+						<params>
+							<param name="focusable" value="false"/>
+						</params>
+					</block>
+					<style>
+						<flow value="horizontal"/>
+					</style>
+				</block>
+			</block>
+		</block>
+		<block>
+			<style>
+				<width value="100%"/>
+			</style>
+			<block className="HorizontalDivider">
+				<styleClass value="$PxHorizontalCorrection"/>
+				<style>
+					<width value="100%"/>
+					<height value="3px"/>
+				</style>
+				<block className="divider_h" type="native">
+					<styleClass value="$Fullsize"/>
+				</block>
+			</block>
+		</block>
+	</block>
+	<block className="ModalWindowHeaderNoEsc">
+		<style>
+			<marginBottom value="3px"/>
+			<width value="450px"/>
+		</style>
+		<bind name="style" value="'width'; _headerWidth ? _headerWidth : '450px'"/>
+		<block>
+			<style>
+				<marginBottom value="9px"/>
+				<width value="100%"/>
+			</style>
+			<block type="text">
+				<styleClass value="$MiddleAligned"/>
+				<styleClass value="$TextHeader"/>
+				<bind name="class" value="'$FontSizeHeader5'"/>
+				<bind name="class" value="'$Bold'"/>
+				<bind name="class" value="'$FontColorWhite'"/>
+				<bind name="text" value="toUpperCase(tr(_header))"/>
+			</block>
+		</block>
+		<block>
+			<style>
+				<width value="100%"/>
+				<marginRight value="-12px"/>
+				<marginLeft value="-12px"/>
+			</style>
+			<block className="HorizontalDivider">
+				<styleClass value="$PxHorizontalCorrection"/>
+				<style>
+					<width value="100%"/>
+					<height value="3px"/>
+				</style>
+				<block className="divider_h" type="native">
+					<styleClass value="$Fullsize"/>
+				</block>
+			</block>
+		</block>
+	</block>
+	<block className="ModalWindowHeaderWithIcon">
+		<style>
+			<marginBottom value="3px"/>
+		</style>
+		<bind name="style" value="'width'; _headerWidth ? _headerWidth : '450px'"/>
+		<block>
+			<style>
+				<marginBottom value="9px"/>
+				<width value="100%"/>
+			</style>
+			<block>
+				<styleClass value="$MiddleAligned"/>
+				<block className="icons_modal_window_heading" type="native">
+					<styleClass value="$MiddleVAligned"/>
+					<style>
+						<marginRight value="3px"/>
+					</style>
+					<bind name="gotoAndStop!" value="_type"/>
+				</block>
+				<block type="text">
+					<styleClass value="$TextLargeHeaderBold"/>
+					<bind name="text" value="toUpperCase(tr(_header))"/>
+				</block>
+				<style>
+					<flow value="horizontal"/>
+				</style>
+			</block>
+			<block>
+				<bind name="visible" value="_showInnerCloseButton"/>
+				<styleClass value="$AlignRight"/>
+				<block className="ModalWindowCloseIcon">
+					<style>
+						<position value="absolute"/>
+						<right value="-50px"/>
+						<top value="9px"/>
+						<flow value="horizontal"/>
+					</style>
+					<bind name="name" value="'btn_cancel'"/>
+					<bind name="input"/>
+					<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_CLOSE'}; 0"/>
+					<block>
+						<style>
+							<backgroundColor value="0x01000000"/>
+						</style>
+						<block>
+							<style>
+								<marginTop value="-3px"/>
+							</style>
+							<block className="hotkey_holder_white_9slice" type="native">
+								<bind name="visible" value="true"/>
+								<block type="text">
+									<style>
+										<marginLeft value="3px"/>
+										<marginRight value="3px"/>
+										<marginTop value="-1px"/>
+										<marginBottom value="-1px"/>
+									</style>
+									<styleClass value="$BlackLabel"/>
+									<text value="ESC"/>
+								</block>
+							</block>
+						</block>
+						<block className="button_close" type="native">
+							<params>
+								<param name="focusable" value="false"/>
+							</params>
+						</block>
+						<style>
+							<flow value="horizontal"/>
+						</style>
+					</block>
+				</block>
+			</block>
+		</block>
+		<block>
+			<style>
+				<width value="100%"/>
+			</style>
+			<block className="HorizontalDivider">
+				<styleClass value="$PxHorizontalCorrection"/>
+				<style>
+					<width value="100%"/>
+					<height value="3px"/>
+				</style>
+				<block className="divider_h" type="native">
+					<styleClass value="$Fullsize"/>
+				</block>
+			</block>
+		</block>
+	</block>
+	<block className="ModalWindowHeaderOptionalIcon">
+		<style>
+			<marginBottom value="3px"/>
+		</style>
+		<bind name="style" value="'width'; _headerWidth ? _headerWidth : '100%'"/>
+		<block>
+			<style>
+				<marginBottom value="9px"/>
+				<width value="100%"/>
+			</style>
+			<block>
+				<styleClass value="$MiddleAligned"/>
+				<block className="icon_warning_grey_big" type="native">
+					<bind name="visible" value="_showIcon"/>
+					<style>
+						<marginTop value="6px"/>
+					</style>
+				</block>
+				<block type="text">
+					<styleClass value="$TextLargeHeaderBold"/>
+					<bind name="text" value="toUpperCase(tr(_header))"/>
+				</block>
+				<style>
+					<flow value="horizontal"/>
+				</style>
+			</block>
+			<block>
+				<bind name="visible" value="_showInnerCloseButton"/>
+				<styleClass value="$AlignRight"/>
+				<block className="ModalWindowCloseIcon">
+					<style>
+						<position value="absolute"/>
+						<right value="-50px"/>
+						<top value="9px"/>
+						<flow value="horizontal"/>
+					</style>
+					<bind name="name" value="'btn_cancel'"/>
+					<bind name="input"/>
+					<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_CLOSE'}; 0"/>
+					<block>
+						<style>
+							<backgroundColor value="0x01000000"/>
+						</style>
+						<block>
+							<style>
+								<marginTop value="-3px"/>
+							</style>
+							<block className="hotkey_holder_white_9slice" type="native">
+								<bind name="visible" value="true"/>
+								<block type="text">
+									<style>
+										<marginLeft value="3px"/>
+										<marginRight value="3px"/>
+										<marginTop value="-1px"/>
+										<marginBottom value="-1px"/>
+									</style>
+									<styleClass value="$BlackLabel"/>
+									<text value="ESC"/>
+								</block>
+							</block>
+						</block>
+						<block className="button_close" type="native">
+							<params>
+								<param name="focusable" value="false"/>
+							</params>
+						</block>
+						<style>
+							<flow value="horizontal"/>
+						</style>
+					</block>
+				</block>
+			</block>
+		</block>
+		<block>
+			<style>
+				<width value="100%"/>
+			</style>
+			<block className="HorizontalDivider">
+				<styleClass value="$PxHorizontalCorrection"/>
+				<style>
+					<width value="100%"/>
+					<height value="3px"/>
+				</style>
+				<block className="divider_h" type="native">
+					<styleClass value="$Fullsize"/>
+				</block>
+			</block>
+		</block>
+	</block>
+	<block className="DifficultySwitcher">
+		<bind name="primaryEntityDH" value="'pveBattleTypeEntity'; CC.battleType; BattleTypes.PVE_BATTLE"/>
+		<bind name="firstEntityDH" value="'pveStateEntity'; CC.pveState"/>
+		<bind name="watchDH" value="'hardComingSoon'; ['pveStateEntity.pveState.evStateUpdated']; pveStateEntity.pveState.hardComingSoon"/>
+		<bind name="collectionDH" value="CC.userPrefs; 'userPrefsCollection'"/>
+		<bind name="entityDH" value="'userPrefsEntity'; userPrefsCollection[0].id"/>
+		<bind name="watchDH" value="'userPrefs'; ['userPrefsEntity.userPrefs.evUserPrefsChanged']; userPrefsEntity.userPrefs.userPrefs"/>
+		<bind name="catch" value="'setDifficulty'"/>
+		<bind name="watch" value="'opDifficulty'; (userPrefs.uiPVEOperationsDifficulty == null)	? 'normal'
+																				: userPrefs.uiPVEOperationsDifficulty"/>
+		<bind name="changeDispatch" value="opDifficulty; 'opDifficultyChangedEv'; {}; 2"/>
+		<bind name="action" value="'opDifficultyChangedEv'; 'setUserPref'; {value: opDifficulty, name: 'uiPVEOperationsDifficulty'}"/>
+		<block>
+			<styleClass value="$MiddleAligned"/>
+			<style>
+				<height value="136px"/>
+				<width value="136px"/>
+				<marginBottom value="16px"/>
+			</style>
+			<block className="icon_battletypes_big" type="native">
+				<bind name="transition" value="(opDifficulty == 'normal'); 0.15; {alpha: 0}; {alpha: 1}; {alpha: 0}; (opDifficulty == 'normal') ? 0 : 0.05"/>
+				<styleClass value="$FullsizeAbsolute"/>
+				<bind name="gotoAndStop!" value="'PVEBattle'"/>
+			</block>
+			<block className="icon_battletypes_big" type="native">
+				<bind name="transition" value="(opDifficulty == 'hard'); 0.15; {alpha: 0}; {alpha: 1}; {alpha: 0}; (opDifficulty == 'hard') ? 0 : 0.05"/>
+				<styleClass value="$FullsizeAbsolute"/>
+				<bind name="gotoAndStop!" value="'PVEBattle_hard'"/>
+			</block>
+		</block>
+		<block>
+			<block className="tab_bar_bg" type="native">
+				<styleClass value="$FullsizeAbsolute"/>
+			</block>
+			<block>
+				<style>
+					<marginLeft value="2px"/>
+					<marginRight value="2px"/>
+				</style>
+				<block>
+					<style>
+						<position value="absolute"/>
+					</style>
+					<bind name="transition" value="(opDifficulty == 'hard'); 0.2; {x : 0}; {x : 113}; {x : 0}; 2"/>
+					<bind name="fade" value="opDifficulty; 0.2; {alpha: 1}; {alpha: 0}; {alpha: 1}; 0; 0.2"/>
+					<block className="status_transition_element" type="native">
+						<style>
+							<marginTop value="2px"/>
+							<width value="110px"/>
+							<height value="23px"/>
+						</style>
+					</block>
+				</block>
+				<block>
+					<style>
+						<width value="110px"/>
+						<height value="27px"/>
+					</style>
+					<block className="status_ready_item" type="native">
+						<styleClass value="$Fullsize"/>
+						<bind name="label" value="toUpperCase(tr('IDS_OPERATION_NORMAL_DIFFICULTY'))"/>
+						<bind name="dispatch" value="'buttonClick'; 'setDifficulty'; {opDifficulty: 'normal'}; 2"/>
+						<bind name="selected" value="(opDifficulty == 'normal')"/>
+					</block>
+				</block>
+				<block className="divider_v" type="native">
+					<style>
+						<height value="27px"/>
+					</style>
+				</block>
+				<block>
+					<style>
+						<width value="110px"/>
+						<height value="27px"/>
+					</style>
+					<bind name="tooltip" value="'SimpleWarningTooltip'; hardComingSoon ? {_text: tr('IDS_PVE_HARD_MODE_DISABLED')} : null; 0"/>
+					<block className="status_not_ready_item" type="native">
+						<styleClass value="$Fullsize"/>
+						<bind name="style" value="'colorMatrixFilter'; hardComingSoon ? '0 -100 0 -40' : '0 0 0 0' "/>
+						<bind name="style" value="'mouseEnabled'; (hardComingSoon == false)"/>
+						<bind name="label" value="toUpperCase(tr('IDS_OPERATION_HARD_DIFFICULTY'))"/>
+						<bind name="dispatch" value="'buttonClick'; 'setDifficulty'; {opDifficulty: 'hard'}; 2"/>
+						<bind name="selected" value="(opDifficulty == 'hard')"/>
+					</block>
+				</block>
+				<style>
+					<flow value="horizontal"/>
+				</style>
+			</block>
+		</block>
+		<block>
+			<styleClass value="$MiddleAligned"/>
+			<style>
+				<alpha value="0.7"/>
+				<marginTop value="720:30,1080:32ah"/>
+			</style>
+			<bind name="repeat" value="	[	{_paragraphText: 'IDS_PVE_OPERATION_HINT_0'},
+							{_paragraphText: 'IDS_PVE_OPERATION_HINT_1'},
+							{_paragraphText: subst('IDS_PVE_OPERATION_HINT_2', [], {minPlayers: pveBattleTypeEntity.divisionRestrictions.shipsCount[0]})}
+						];	'RepeatParagraphItem'; {	_maxWidth: 270, _marginBottom: '22px',
+														_middleAligned: false, _class: '$TextDefault19NM',
+														_textAlign: 'left', _leading: -2}"/>
+		</block>
+	</block>
+	<block className="PVEOperationItemBig">
+		<params>
+			<param name="name" value="PVEOperationItemBig"/>
+		</params>
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
+		<bind name="entityDH" value="'operationEntity'; _operationEntityId"/>
+		<bind name="watchDH" value="'map'; []; operationEntity.operation.map"/>
+		<bind name="collectionDH" value="CC.userPrefs; 'userPrefsCollection'"/>
+		<bind name="entityDH" value="'userPrefsEntity'; userPrefsCollection[0].id"/>
+		<bind name="watchDH" value="'userPrefs'; ['userPrefsEntity.userPrefs.evUserPrefsChanged']; userPrefsEntity.userPrefs.userPrefs"/>
+		<bind name="watch" value="'opDifficulty'; (userPrefs.uiPVEOperationsDifficulty == null) ? 'normal' : userPrefs.uiPVEOperationsDifficulty"/>
+		<bind name="watch" value="'difficultiesCollectionPath'; 'byOperation.' + operationEntity.operation.id"/>
+		<bind name="collectionDH" value="CC.operationDifficulty; 'operationDifficultiesCollection'; difficultiesCollectionPath"/>
+		<bind name="watch" value="'opDifficultyComponent'; opDifficulty == 'normal' ? operationDifficultiesCollection[1] : operationDifficultiesCollection[0]"/>
+		<bind name="firstEntityDH" value="'pveStateEntity'; CC.pveState"/>
+		<bind name="watchDH" value="'activeOperationId';	['pveStateEntity.pveState.evStateUpdated'];	pveStateEntity.pveState.activeOperation"/>
+		<bind name="watchDH" value="'chosenOperationId';	['pveStateEntity.pveState.evStateUpdated'];	pveStateEntity.pveState.chosenOperation"/>
+		<bind name="watchDH" value="'chosenDifficulty';	['pveStateEntity.pveState.evStateUpdated']; pveStateEntity.pveState.chosenDifficulty"/>
+		<bind name="watch" value="'selected';	((chosenOperationId == operationEntity.operation.id) &amp;&amp;
+									(chosenDifficulty == opDifficulty) &amp;&amp;
+									isPveBattleTypeSelected)"/>
+		<bind name="watchDH" value="'bestResultsTime'; ['opDifficultyComponent.operationDifficulty.evBestResultsChanged']; opDifficultyComponent.operationDifficulty.bestResultsTime"/>
+		<bind name="primaryEntityDH" value="'pveBattleTypeEntity'; CC.battleType; BattleTypes.PVE_BATTLE"/>
+		<bind name="watchDH" value="'isPveBattleTypeSelected'; ['pveBattleTypeEntity.battleType.evSelectionChanged']; pveBattleTypeEntity.battleType.selected"/>
+		<style>
+			<width value="400px"/>
+			<height value="454px"/>
+			<marginLeft value="1280:24,1920:32aw"/>
+			<marginRight value="1280:24,1920:32aw"/>
+			<marginBottom value="32px"/>
+		</style>
+		<bind name="firstEntityDH" value="'dockDataEntity'; CC.dockDataMarker"/>
+		<bind name="watchDH" value="'pveOperationChooserVisible'; ['dockDataEntity.dockData.evOperationChooserChanged']; dockDataEntity.dockData.operationChooserVisible"/>
+		<bind name="fade" value="pveOperationChooserVisible; 0; {alpha: 0}; {alpha: 1, top: 0}; {alpha: 0}"/>
+		<bind name="appear" value="selected ? null : 'hideOperationsOnPveOperationChose'; 0.14; 0.02;	{alpha: 1, top: 0}; {alpha: 0, top: -5}; 3"/>
+		<bind name="appear" value="selected ? 'hideOperationsOnPveOperationChose' : null; 0.11; 0.12;	{alpha: 1};	{alpha: 0}; 2"/>
+		<block>
+			<bind name="name" value="'PVEOperationItemBig_' + operationEntity.operation.gpName"/>
+			<bind name="clickSplit"/>
+			<bind name="request" value="'right_click'; 'modalPVEOperationInfo'; {operationId: operationEntity.operation.id}"/>
+			<bind name="dispatch" value="'left_click'; 'pveOperationChose'; null; false"/>
+			<bind name="action" value="'left_click'; isPveBattleTypeSelected ? null : 'setBattleType'; {battleType: BattleTypes.PVE_BATTLE}"/>
+			<bind name="action" value="'left_click'; 'PVEScriptsProxy.chooseOperation'; {operationId: operationEntity.operation.id, difficulty: opDifficulty, shouldEnterMM: true}"/>
+			<styleClass value="$MiddleAligned"/>
+			<styleClass value="$MiddleVAligned"/>
+			<style>
+				<width value="400px"/>
+				<height value="454px"/>
+			</style>
+			<bind name="transition" value="selected; 0.1; {width: 400, height: 454}; {width: (400 + 16), height: (454 + 16)}; {width: 400, height: 454}"/>
+			<block>
+				<styleClass value="$FullsizeAbsolute"/>
+				<bind name="tooltip" value="'MouseInstructionTooltip'; {_mouseInstructions: [{_type: 'right', _instructionText: 'IDS_MORE_INFO_ABOUT_PVE_OPERATION_TOOLTIP'},
+																			{_type: 'left', _instructionText: 'IDS_CHOOSE_PVE_OPERATION_MOUSE_INSTRUCTION'}], _msaxWidth: 250}"/>
+				<block>
+					<styleClass value="$FullsizeAbsolute"/>
+					<style>
+						<backgroundSize value="cover"/>
+					</style>
+					<bind name="style" value="'backgroundImage'; 'url:../pve/operation_bg/' + map + '.png'"/>
+					<block className="inner_panel" type="native">
+						<style>
+							<alpha value="3"/>
+						</style>
+						<styleClass value="$FullsizeAbsolute"/>
+					</block>
+				</block>
+				<block>
+					<style>
+						<width value="100%"/>
+						<height value="130px"/>
+					</style>
+					<styleClass value="$FullsizeAbsolute"/>
+					<style>
+						<backgroundSize value="cover"/>
+					</style>
+					<bind name="style" value="'backgroundImage'; 'url:../pve/operation_bg/' + map + '.png'"/>
+					<block className="shadow_h_zero_edge_fullsize" type="native">
+						<styleClass value="$FullsizeAbsolute"/>
+					</block>
+				</block>
+			</block>
+			<block>
+				<style>
+					<position value="absolute"/>
+					<hitTest value="false"/>
+					<marginTop value="16px"/>
+					<marginLeft value="16px"/>
+					<width value="100%"/>
+					<alpha value="0.9"/>
+				</style>
+				<block type="text">
+					<styleClass value="$TextDefaultBold23NM"/>
+					<bind name="text" value="tr('IDS_' + toUpperCase(operationEntity.operation.gpName) + '_NAME')"/>
+				</block>
+			</block>
+			<block>
+				<style>
+					<width value="100%"/>
+					<position value="absolute"/>
+					<hitTest value="false"/>
+					<top value="127px"/>
+				</style>
+				<block className="HorizontalDivider">
+					<styleClass value="$PxHorizontalCorrection"/>
+					<style>
+						<width value="100%"/>
+						<height value="3px"/>
+					</style>
+					<block className="divider_h" type="native">
+						<styleClass value="$Fullsize"/>
+					</block>
+				</block>
+			</block>
+			<block>
+				<styleClass value="$Fullsize"/>
+				<style>
+					<marginTop value="130px"/>
+					<paddingRight value="16px"/>
+					<paddingLeft value="16px"/>
+					<paddingBottom value="16px"/>
+					<paddingTop value="16px"/>
+				</style>
+				<block type="text">
+					<style>
+						<width value="100%"/>
+						<marginBottom value="8px"/>
+						<alpha value="0.75"/>
+						<hitTest value="false"/>
+					</style>
+					<styleClass value="$TextDefault19NM"/>
+					<bind name="text" value="tr('IDS_' + toUpperCase(operationEntity.operation.gpName)+'_GOAL')"/>
+				</block>
+				<block>
+					<style>
+						<width value="100%"/>
+						<marginBottom value="16px"/>
+						<hitTest value="false"/>
+						<marginRight value="-16px"/>
+						<marginLeft value="-16px"/>
+					</style>
+					<block className="HorizontalDivider">
+						<styleClass value="$PxHorizontalCorrection"/>
+						<style>
+							<width value="100%"/>
+							<height value="3px"/>
+						</style>
+						<block className="divider_h" type="native">
+							<styleClass value="$Fullsize"/>
+						</block>
+					</block>
+				</block>
+				<block type="text">
+					<style>
+						<hitTest value="false"/>
+						<marginBottom value="4px"/>
+					</style>
+					<styleClass value="$TextDefault19NM"/>
+					<bind name="class" value="'$FontColorBlueish'"/>
+					<bind name="text" value="'IDS_PVE_TECH_CONDITIONS'"/>
+				</block>
+				<block>
+					<style>
+						<width value="100%"/>
+					</style>
+					<bind name="watch" value="'compatibleShipsCollectionPath'; 'operation' + operationEntity.operation.id"/>
+					<bind name="collectionDH" value="CC.ownShip; 'compatibleShipList'; compatibleShipsCollectionPath "/>
+					<bind name="tooltip" value="'ShipListTooltip'; {_shipList: compatibleShipList}"/>
+					<bind name="instance" value="'ShipRestrictions'; {_restrictionsEntityId: operationEntity.id, _withShipTypeCounters: false,
+													 _flow: 'htile', _width: '100%'}"/>
+				</block>
+			</block>
+			<block>
+				<styleClass value="$MiddleAlignedAbsolutely"/>
+				<style>
+					<alpha value="0.9"/>
+					<hitTest value="false"/>
+					<bottom value="16px"/>
+				</style>
+				<bind name="instance" value="'PVEOperationOfTheWeekLabel'; {}"/>
+			</block>
+			<block>
+				<style>
+					<position value="absolute"/>
+					<top value="75px"/>
+					<left value="12px"/>
+				</style>
+				<bind name="instance" value="'OperationRewardsContainerAdapter'; {	_operationId: operationEntity.operation.id, _difficulty: opDifficulty, _smallIcons: true,
+																	_noAnimation: true, _rMargin: (8+'px')}"/>
+			</block>
+			<block className="white_panel_gradient" type="native">
+				<style>
+					<hitTest value="false"/>
+				</style>
+				<bind name="transition" value="rollOver; 0.1; {alpha: 0}; {alpha: 0.2}; {alpha: 0}"/>
+				<styleClass value="$FullsizeAbsolute"/>
+			</block>
+			<block className="hint_panel_bold" type="native">
+				<style>
+					<hitTest value="false"/>
+				</style>
+				<bind name="transition" value="selected; 0.07; {alpha: 0}; {alpha: 1}; {alpha: 0}"/>
+				<styleClass value="$FullsizeAbsolute"/>
+			</block>
+		</block>
+		<block>
+			<bind name="request" value="'click'; 'modalPVEOperationInfo'; {operationId: operationEntity.operation.id}"/>
+			<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_MORE_INFO_ABOUT_PVE_OPERATION_TOOLTIP'}"/>
+			<bind name="transition" value="rollOver; 0.1; {alpha: 0, top: 5}; {alpha: 1, top: 0}"/>
+			<style>
+				<position value="absolute"/>
+				<top value="91px"/>
+				<right value="16px"/>
+			</style>
+			<block className="button_info" type="native"/>
+		</block>
+	</block>
+	<block className="PVEOperationItemSmall">
+		<style>
+			<marginLeft value="1280:24,1920:32aw"/>
+			<marginRight value="1280:24,1920:32aw"/>
+			<marginBottom value="32px"/>
+		</style>
+		<block className="PVEOperationItemSmallNoMargins">
+			<bind name="name" value="'small_operation_' + operationEntity.operation.gpName"/>
+			<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
+			<bind name="dataRefDH" value="'operationEntity'; '$dataRef.ref'"/>
+			<bind name="entityDH" value="'operationEntity'; _operationEntityId"/>
+			<bind name="watchDH" value="'pveOperationStatus';		['operationEntity.operation.evStatusChanged'];	operationEntity.operation.status"/>
+			<bind name="watchDH" value="'operationUnlockTimeStamp';	['operationEntity.operation.evPeriodsChanged'];	operationEntity.operation.unlockTime"/>
+			<bind name="timeFormat" value="operationUnlockTimeStamp; 'dd.MM.yyyy'; 'operationUnlockTime'; true"/>
+			<bind name="collectionDH" value="CC.userPrefs; 'userPrefsCollection'"/>
+			<bind name="entityDH" value="'userPrefsEntity'; userPrefsCollection[0].id"/>
+			<bind name="watchDH" value="'userPrefs'; ['userPrefsEntity.userPrefs.evUserPrefsChanged']; userPrefsEntity.userPrefs.userPrefs"/>
+			<bind name="watch" value="'opDifficulty'; (userPrefs.uiPVEOperationsDifficulty == null) ? 'normal' : userPrefs.uiPVEOperationsDifficulty"/>
+			<bind name="watch" value="'difficultiesCollectionPath'; 'byOperation.' + operationEntity.operation.id"/>
+			<bind name="collectionDH" value="CC.operationDifficulty; 'operationDifficultiesCollection'; difficultiesCollectionPath"/>
+			<bind name="watch" value="'opDifficultyComponent'; opDifficulty == 'normal' ? operationDifficultiesCollection[1] : operationDifficultiesCollection[0]"/>
+			<bind name="firstEntityDH" value="'pveStateEntity'; CC.pveState"/>
+			<bind name="watchDH" value="'activeOperationId';	['pveStateEntity.pveState.evStateUpdated'];	pveStateEntity.pveState.activeOperation"/>
+			<bind name="watchDH" value="'chosenOperationId';	['pveStateEntity.pveState.evStateUpdated'];	pveStateEntity.pveState.chosenOperation"/>
+			<bind name="watchDH" value="'chosenDifficulty';	['pveStateEntity.pveState.evStateUpdated']; pveStateEntity.pveState.chosenDifficulty"/>
+			<bind name="watch" value="'selected';	((chosenOperationId == operationEntity.operation.id) &amp;&amp;
+									(chosenDifficulty == opDifficulty) &amp;&amp;
+									isPveBattleTypeSelected &amp;&amp;
+									_isTooltip != true)"/>
+			<bind name="watchDH" value="'bestResultsTime'; ['opDifficultyComponent.operationDifficulty.evBestResultsChanged']; opDifficultyComponent.operationDifficulty.bestResultsTime"/>
+			<bind name="primaryEntityDH" value="'pveBattleTypeEntity'; CC.battleType; BattleTypes.PVE_BATTLE"/>
+			<bind name="watchDH" value="'isPveBattleTypeSelected'; ['pveBattleTypeEntity.battleType.evSelectionChanged']; pveBattleTypeEntity.battleType.selected"/>
+			<style>
+				<width value="400px"/>
+				<height value="130px"/>
+			</style>
+			<bind name="style" value="'hitTest'; (	pveOperationStatus == 2 || 
+								pveOperationStatus == 3) &amp;&amp; !(_isTooltip)"/>
+			<block>
+				<styleClass value="$MiddleAligned"/>
+				<styleClass value="$MiddleVAligned"/>
+				<style>
+					<width value="400px"/>
+					<height value="130px"/>
+				</style>
+				<bind name="transition" value="selected; 0.1; {width: 400, height: 130}; {width: (400 + 16), height: (130 + 16)}; {width: 400, height: 130}"/>
+				<bind name="firstEntityDH" value="'dockDataEntity'; CC.dockDataMarker"/>
+				<bind name="watchDH" value="'pveOperationChooserVisible'; ['dockDataEntity.dockData.evOperationChooserChanged']; dockDataEntity.dockData.operationChooserVisible"/>
+				<bind name="fade" value="(pveOperationChooserVisible || (_isTooltip == true)); 0; {alpha: 0}; {alpha: 1, top: 0}; {alpha: 0}"/>
+				<bind name="appear" value="selected || (_isTooltip == true) ? null : 'hideOperationsOnPveOperationChose'; 0.14; 0.02;	{alpha: 1, top: 0}; {alpha: 0, top: -5}; 3"/>
+				<bind name="appear" value="(selected &amp;&amp; (_isTooltip != true)) ? 'hideOperationsOnPveOperationChose' : null; 0.11; 0.12;	{alpha: 1};	{alpha: 0}; 2"/>
+				<bind name="clickSplit"/>
+				<bind name="request" value="'right_click'; 'modalPVEOperationInfo'; {operationId: operationEntity.operation.id}"/>
+				<bind name="dispatch" value="'left_click'; 'pveOperationChose'; null; false"/>
+				<bind name="action" value="'left_click'; isPveBattleTypeSelected ? null : 'setBattleType'; {battleType: BattleTypes.PVE_BATTLE}"/>
+				<bind name="action" value="'left_click'; 'PVEScriptsProxy.chooseOperation'; {operationId: operationEntity.operation.id, difficulty: opDifficulty, shouldEnterMM: true}"/>
+				<block>
+					<styleClass value="$FullsizeAbsolute"/>
+					<bind name="tooltip" value="'PVEOperationTooltip'; {_operationEntityId: operationEntity.id, isOperationCardTooltip: true}"/>
+					<style>
+						<backgroundSize value="cover"/>
+					</style>
+					<bind name="style" value="'colorMatrixFilter'; (	pveOperationStatus == 1 ||
+												pveOperationStatus == 0)	? '0 -100 0 -15'
+																										: '0 0 0 0'"/>
+					<bind name="style" value="'backgroundImage'; 'url:../pve/operation_bg/' + operationEntity.operation.map + '.png'"/>
+					<block className="shadow_h_zero_edge_fullsize" type="native">
+						<styleClass value="$FullsizeAbsolute"/>
+					</block>
+				</block>
+				<block>
+					<style>
+						<position value="absolute"/>
+						<hitTest value="false"/>
+						<marginTop value="16px"/>
+						<marginLeft value="16px"/>
+						<marginRight value="16px"/>
+						<width value="100%"/>
+					</style>
+					<bind name="style" value="'alpha'; (	pveOperationStatus == 1 ||
+									pveOperationStatus == 0 ? 0.7 : 0.9)"/>
+					<block type="text">
+						<styleClass value="$TextDefaultBold23NM"/>
+						<bind name="text" value="tr('IDS_' + toUpperCase(operationEntity.operation.gpName) + '_NAME')"/>
+					</block>
+					<block>
+						<bind name="visible" value="(	(pveOperationStatus == 1 || 
+									pveOperationStatus == 0) ? true : false)"/>
+						<style>
+							<hitTest value="false"/>
+							<width value="100%"/>
+							<marginTop value="16px"/>
+						</style>
+						<block type="text">
+							<style>
+								<width value="100%"/>
+							</style>
+							<styleClass value="$TextDefault19NM"/>
+							<bind name="text" value="(pveOperationStatus == 1	? (tr('IDS_OPERATION_WILL_BE_AVAILABLE_ON') + ' ' + operationUnlockTime) :
+								pveOperationStatus == 0	? tr('IDS_OPERATION_CLOSED_ON_RECONSTRUCTION')
+																						: 'smth goes wrong' )"/>
+						</block>
+					</block>
+				</block>
+				<block>
+					<style>
+						<position value="absolute"/>
+						<bottom value="16px"/>
+						<left value="12px"/>
+					</style>
+					<bind name="instance" value="'OperationRewardsContainerAdapter'; (	pveOperationStatus == 2 || 
+																	pveOperationStatus == 3)	? {	_operationId: operationEntity.operation.id,
+																																_difficulty: opDifficulty, _smallIcons: true,
+																																_noAnimation: true, _rMargin: (8+'px')}
+																															: null"/>
+				</block>
+				<block className="white_panel_gradient" type="native">
+					<style>
+						<hitTest value="false"/>
+					</style>
+					<styleClass value="$FullsizeAbsolute"/>
+					<bind name="transition" value="rollOver; 0.1; {alpha: 0}; {alpha: 0.2}; {alpha: 0}"/>
+				</block>
+				<block className="hint_panel_bold" type="native">
+					<style>
+						<hitTest value="false"/>
+					</style>
+					<styleClass value="$FullsizeAbsolute"/>
+					<bind name="transition" value="selected; 0.07; {alpha: 0}; {alpha: 1}; {alpha: 0}"/>
+				</block>
+			</block>
+			<block>
+				<bind name="request" value="'click'; 'modalPVEOperationInfo'; {operationId: operationEntity.operation.id}"/>
+				<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_MORE_INFO_ABOUT_PVE_OPERATION_TOOLTIP'}"/>
+				<bind name="transition" value="rollOver; 0.1; {alpha: 0, top: 5}; {alpha: 1, top: 0}"/>
+				<style>
+					<position value="absolute"/>
+					<bottom value="16px"/>
+					<right value="16px"/>
+				</style>
+				<block className="button_info" type="native"/>
+			</block>
+		</block>
+	</block>
+	<block className="PVEOperationItemSmallNoMargins">
+		<bind name="name" value="'small_operation_' + operationEntity.operation.gpName"/>
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
+		<bind name="dataRefDH" value="'operationEntity'; '$dataRef.ref'"/>
+		<bind name="entityDH" value="'operationEntity'; _operationEntityId"/>
+		<bind name="watchDH" value="'pveOperationStatus';		['operationEntity.operation.evStatusChanged'];	operationEntity.operation.status"/>
+		<bind name="watchDH" value="'operationUnlockTimeStamp';	['operationEntity.operation.evPeriodsChanged'];	operationEntity.operation.unlockTime"/>
+		<bind name="timeFormat" value="operationUnlockTimeStamp; 'dd.MM.yyyy'; 'operationUnlockTime'; true"/>
+		<bind name="collectionDH" value="CC.userPrefs; 'userPrefsCollection'"/>
+		<bind name="entityDH" value="'userPrefsEntity'; userPrefsCollection[0].id"/>
+		<bind name="watchDH" value="'userPrefs'; ['userPrefsEntity.userPrefs.evUserPrefsChanged']; userPrefsEntity.userPrefs.userPrefs"/>
+		<bind name="watch" value="'opDifficulty'; (userPrefs.uiPVEOperationsDifficulty == null) ? 'normal' : userPrefs.uiPVEOperationsDifficulty"/>
+		<bind name="watch" value="'difficultiesCollectionPath'; 'byOperation.' + operationEntity.operation.id"/>
+		<bind name="collectionDH" value="CC.operationDifficulty; 'operationDifficultiesCollection'; difficultiesCollectionPath"/>
+		<bind name="watch" value="'opDifficultyComponent'; opDifficulty == 'normal' ? operationDifficultiesCollection[1] : operationDifficultiesCollection[0]"/>
+		<bind name="firstEntityDH" value="'pveStateEntity'; CC.pveState"/>
+		<bind name="watchDH" value="'activeOperationId';	['pveStateEntity.pveState.evStateUpdated'];	pveStateEntity.pveState.activeOperation"/>
+		<bind name="watchDH" value="'chosenOperationId';	['pveStateEntity.pveState.evStateUpdated'];	pveStateEntity.pveState.chosenOperation"/>
+		<bind name="watchDH" value="'chosenDifficulty';	['pveStateEntity.pveState.evStateUpdated']; pveStateEntity.pveState.chosenDifficulty"/>
+		<bind name="watch" value="'selected';	((chosenOperationId == operationEntity.operation.id) &amp;&amp;
+									(chosenDifficulty == opDifficulty) &amp;&amp;
+									isPveBattleTypeSelected &amp;&amp;
+									_isTooltip != true)"/>
+		<bind name="watchDH" value="'bestResultsTime'; ['opDifficultyComponent.operationDifficulty.evBestResultsChanged']; opDifficultyComponent.operationDifficulty.bestResultsTime"/>
+		<bind name="primaryEntityDH" value="'pveBattleTypeEntity'; CC.battleType; BattleTypes.PVE_BATTLE"/>
+		<bind name="watchDH" value="'isPveBattleTypeSelected'; ['pveBattleTypeEntity.battleType.evSelectionChanged']; pveBattleTypeEntity.battleType.selected"/>
+		<style>
+			<width value="400px"/>
+			<height value="130px"/>
+		</style>
+		<bind name="style" value="'hitTest'; (	pveOperationStatus == 2 || 
+								pveOperationStatus == 3) &amp;&amp; !(_isTooltip)"/>
+		<block>
+			<styleClass value="$MiddleAligned"/>
+			<styleClass value="$MiddleVAligned"/>
+			<style>
+				<width value="400px"/>
+				<height value="130px"/>
+			</style>
+			<bind name="transition" value="selected; 0.1; {width: 400, height: 130}; {width: (400 + 16), height: (130 + 16)}; {width: 400, height: 130}"/>
+			<bind name="firstEntityDH" value="'dockDataEntity'; CC.dockDataMarker"/>
+			<bind name="watchDH" value="'pveOperationChooserVisible'; ['dockDataEntity.dockData.evOperationChooserChanged']; dockDataEntity.dockData.operationChooserVisible"/>
+			<bind name="fade" value="(pveOperationChooserVisible || (_isTooltip == true)); 0; {alpha: 0}; {alpha: 1, top: 0}; {alpha: 0}"/>
+			<bind name="appear" value="selected || (_isTooltip == true) ? null : 'hideOperationsOnPveOperationChose'; 0.14; 0.02;	{alpha: 1, top: 0}; {alpha: 0, top: -5}; 3"/>
+			<bind name="appear" value="(selected &amp;&amp; (_isTooltip != true)) ? 'hideOperationsOnPveOperationChose' : null; 0.11; 0.12;	{alpha: 1};	{alpha: 0}; 2"/>
+			<bind name="clickSplit"/>
+			<bind name="request" value="'right_click'; 'modalPVEOperationInfo'; {operationId: operationEntity.operation.id}"/>
+			<bind name="dispatch" value="'left_click'; 'pveOperationChose'; null; false"/>
+			<bind name="action" value="'left_click'; isPveBattleTypeSelected ? null : 'setBattleType'; {battleType: BattleTypes.PVE_BATTLE}"/>
+			<bind name="action" value="'left_click'; 'PVEScriptsProxy.chooseOperation'; {operationId: operationEntity.operation.id, difficulty: opDifficulty, shouldEnterMM: true}"/>
+			<block>
+				<styleClass value="$FullsizeAbsolute"/>
+				<bind name="tooltip" value="'PVEOperationTooltip'; {_operationEntityId: operationEntity.id, isOperationCardTooltip: true}"/>
+				<style>
+					<backgroundSize value="cover"/>
+				</style>
+				<bind name="style" value="'colorMatrixFilter'; (	pveOperationStatus == 1 ||
+												pveOperationStatus == 0)	? '0 -100 0 -15'
+																										: '0 0 0 0'"/>
+				<bind name="style" value="'backgroundImage'; 'url:../pve/operation_bg/' + operationEntity.operation.map + '.png'"/>
+				<block className="shadow_h_zero_edge_fullsize" type="native">
+					<styleClass value="$FullsizeAbsolute"/>
+				</block>
+			</block>
+			<block>
+				<style>
+					<position value="absolute"/>
+					<hitTest value="false"/>
+					<marginTop value="16px"/>
+					<marginLeft value="16px"/>
+					<marginRight value="16px"/>
+					<width value="100%"/>
+				</style>
+				<bind name="style" value="'alpha'; (	pveOperationStatus == 1 ||
+									pveOperationStatus == 0 ? 0.7 : 0.9)"/>
+				<block type="text">
+					<styleClass value="$TextDefaultBold23NM"/>
+					<bind name="text" value="tr('IDS_' + toUpperCase(operationEntity.operation.gpName) + '_NAME')"/>
+				</block>
+				<block>
+					<bind name="visible" value="(	(pveOperationStatus == 1 || 
+									pveOperationStatus == 0) ? true : false)"/>
+					<style>
+						<hitTest value="false"/>
+						<width value="100%"/>
+						<marginTop value="16px"/>
+					</style>
+					<block type="text">
+						<style>
+							<width value="100%"/>
+						</style>
+						<styleClass value="$TextDefault19NM"/>
+						<bind name="text" value="(pveOperationStatus == 1	? (tr('IDS_OPERATION_WILL_BE_AVAILABLE_ON') + ' ' + operationUnlockTime) :
+								pveOperationStatus == 0	? tr('IDS_OPERATION_CLOSED_ON_RECONSTRUCTION')
+																						: 'smth goes wrong' )"/>
+					</block>
+				</block>
+			</block>
+			<block>
+				<style>
+					<position value="absolute"/>
+					<bottom value="16px"/>
+					<left value="12px"/>
+				</style>
+				<bind name="instance" value="'OperationRewardsContainerAdapter'; (	pveOperationStatus == 2 || 
+																	pveOperationStatus == 3)	? {	_operationId: operationEntity.operation.id,
+																																_difficulty: opDifficulty, _smallIcons: true,
+																																_noAnimation: true, _rMargin: (8+'px')}
+																															: null"/>
+			</block>
+			<block className="white_panel_gradient" type="native">
+				<style>
+					<hitTest value="false"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
+				<bind name="transition" value="rollOver; 0.1; {alpha: 0}; {alpha: 0.2}; {alpha: 0}"/>
+			</block>
+			<block className="hint_panel_bold" type="native">
+				<style>
+					<hitTest value="false"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
+				<bind name="transition" value="selected; 0.07; {alpha: 0}; {alpha: 1}; {alpha: 0}"/>
+			</block>
+		</block>
+		<block>
+			<bind name="request" value="'click'; 'modalPVEOperationInfo'; {operationId: operationEntity.operation.id}"/>
+			<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_MORE_INFO_ABOUT_PVE_OPERATION_TOOLTIP'}"/>
+			<bind name="transition" value="rollOver; 0.1; {alpha: 0, top: 5}; {alpha: 1, top: 0}"/>
+			<style>
+				<position value="absolute"/>
+				<bottom value="16px"/>
+				<right value="16px"/>
+			</style>
+			<block className="button_info" type="native"/>
+		</block>
+	</block>
+	<block className="PVEOperationOfTheWeekLabel">
+		<bind name="firstEntityDH" value="'pveStateEntity'; CC.pveState"/>
+		<bind name="watchDH" value="'activeOperationId';	['pveStateEntity.pveState.evStateUpdated'];	pveStateEntity.pveState.activeOperation"/>
+		<bind name="primaryEntityDH" value="'operationEntity'; CC.operation; activeOperationId"/>
+		<bind name="watchDH" value="'operationType';	['operationEntity.operation.evStatusChanged']; operationEntity.operation.type"/>
+		<bind name="watchDH" value="'startTime';		['operationEntity.operation.evPeriodsChanged'];	operationEntity.operation.startTime"/>
+		<bind name="watchDH" value="'finishTime';	['operationEntity.operation.evPeriodsChanged'];	operationEntity.operation.finishTime"/>
+		<bind name="timeFormat" value="startTime; 'dd.MM'; 'startOperationOfTheWeekDate'; true"/>
+		<bind name="timeFormat" value="finishTime; 'dd.MM'; 'finishOperationOfTheWeekDate'; true"/>
+		<style>
+			<alpha value="0.95"/>
+		</style>
+		<block type="text">
+			<bind name="visible" value="(_noDate ? false : true)"/>
+			<bind name="rotation" value="-3"/>
+			<styleClass value="$TextDefaultBold30NM"/>
+			<bind name="text" value="startOperationOfTheWeekDate + '–' + finishOperationOfTheWeekDate"/>
+		</block>
+		<block>
+			<style>
+				<marginTop value="18px"/>
+			</style>
+			<styleClass value="$MiddleAligned"/>
+			<block className="icon_issued" type="native">
+				<style>
+					<left value="50%"/>
+				</style>
+				<bind name="scaleX" value="0.75"/>
+				<bind name="scaleY" value="0.8"/>
+				<innerBind elementName="item.item" name="text" value="(operationType == 'event') 	? 'IDS_PVE_EVENT_NAME'
+																					: toUpperCase(tr('IDS_OPERATION_OF_THE_WEEK_OPERATION_STATUS'))"/>
+				<bind name="gotoAndPlay!" value="'issued'"/>
+			</block>
+		</block>
+	</block>
+	<block className="PVEOperationBestResultTime">
+		<block type="text">
+			<styleClass value="$TextDefaultNM"/>
+			<bind name="class" value="'$FontColorBlueish'"/>
+			<bind name="text" value="((_bestResultsTime == 0) ? tr('IDS_PVE_OPERATION_IS_NOT_DONE')
+											: subst('IDS_PVE_OPERATION_BEST_RESULT_DATE', [], {bestDoneDate: _bestResultsTime}))"/>
+		</block>
+	</block>
+	<block className="PVEOperationTooltip">
+		<style>
+			<width value="400px"/>
+			<hitTest value="false"/>
+		</style>
+		<bind name="var" value="{_isTooltip: true}"/>
+		<block>
+			<style>
+				<marginBottom value="-1px"/>
+				<marginTop value="-1px"/>
+				<marginLeft value="-1px"/>
+				<marginRight value="-1px"/>
+			</style>
+			<styleClass value="$FullsizeAbsolute"/>
+			<bind name="instance" value="'TooltipBackground'; {_isInBattle: false}"/>
+		</block>
+		<block>
+			<style>
+				<width value="400px"/>
+				<height value="130px"/>
+			</style>
+			<block className="PVEOperationItemSmallNoMargins">
+				<bind name="name" value="'small_operation_' + operationEntity.operation.gpName"/>
+				<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
+				<bind name="dataRefDH" value="'operationEntity'; '$dataRef.ref'"/>
+				<bind name="entityDH" value="'operationEntity'; _operationEntityId"/>
+				<bind name="watchDH" value="'pveOperationStatus';		['operationEntity.operation.evStatusChanged'];	operationEntity.operation.status"/>
+				<bind name="watchDH" value="'operationUnlockTimeStamp';	['operationEntity.operation.evPeriodsChanged'];	operationEntity.operation.unlockTime"/>
+				<bind name="timeFormat" value="operationUnlockTimeStamp; 'dd.MM.yyyy'; 'operationUnlockTime'; true"/>
+				<bind name="collectionDH" value="CC.userPrefs; 'userPrefsCollection'"/>
+				<bind name="entityDH" value="'userPrefsEntity'; userPrefsCollection[0].id"/>
+				<bind name="watchDH" value="'userPrefs'; ['userPrefsEntity.userPrefs.evUserPrefsChanged']; userPrefsEntity.userPrefs.userPrefs"/>
+				<bind name="watch" value="'opDifficulty'; (userPrefs.uiPVEOperationsDifficulty == null) ? 'normal' : userPrefs.uiPVEOperationsDifficulty"/>
+				<bind name="watch" value="'difficultiesCollectionPath'; 'byOperation.' + operationEntity.operation.id"/>
+				<bind name="collectionDH" value="CC.operationDifficulty; 'operationDifficultiesCollection'; difficultiesCollectionPath"/>
+				<bind name="watch" value="'opDifficultyComponent'; opDifficulty == 'normal' ? operationDifficultiesCollection[1] : operationDifficultiesCollection[0]"/>
+				<bind name="firstEntityDH" value="'pveStateEntity'; CC.pveState"/>
+				<bind name="watchDH" value="'activeOperationId';	['pveStateEntity.pveState.evStateUpdated'];	pveStateEntity.pveState.activeOperation"/>
+				<bind name="watchDH" value="'chosenOperationId';	['pveStateEntity.pveState.evStateUpdated'];	pveStateEntity.pveState.chosenOperation"/>
+				<bind name="watchDH" value="'chosenDifficulty';	['pveStateEntity.pveState.evStateUpdated']; pveStateEntity.pveState.chosenDifficulty"/>
+				<bind name="watch" value="'selected';	((chosenOperationId == operationEntity.operation.id) &amp;&amp;
+									(chosenDifficulty == opDifficulty) &amp;&amp;
+									isPveBattleTypeSelected &amp;&amp;
+									_isTooltip != true)"/>
+				<bind name="watchDH" value="'bestResultsTime'; ['opDifficultyComponent.operationDifficulty.evBestResultsChanged']; opDifficultyComponent.operationDifficulty.bestResultsTime"/>
+				<bind name="primaryEntityDH" value="'pveBattleTypeEntity'; CC.battleType; BattleTypes.PVE_BATTLE"/>
+				<bind name="watchDH" value="'isPveBattleTypeSelected'; ['pveBattleTypeEntity.battleType.evSelectionChanged']; pveBattleTypeEntity.battleType.selected"/>
+				<style>
+					<width value="400px"/>
+					<height value="130px"/>
+				</style>
+				<bind name="style" value="'hitTest'; (	pveOperationStatus == 2 || 
+								pveOperationStatus == 3) &amp;&amp; !(_isTooltip)"/>
+				<block>
+					<styleClass value="$MiddleAligned"/>
+					<styleClass value="$MiddleVAligned"/>
+					<style>
+						<width value="400px"/>
+						<height value="130px"/>
+					</style>
+					<bind name="transition" value="selected; 0.1; {width: 400, height: 130}; {width: (400 + 16), height: (130 + 16)}; {width: 400, height: 130}"/>
+					<bind name="firstEntityDH" value="'dockDataEntity'; CC.dockDataMarker"/>
+					<bind name="watchDH" value="'pveOperationChooserVisible'; ['dockDataEntity.dockData.evOperationChooserChanged']; dockDataEntity.dockData.operationChooserVisible"/>
+					<bind name="fade" value="(pveOperationChooserVisible || (_isTooltip == true)); 0; {alpha: 0}; {alpha: 1, top: 0}; {alpha: 0}"/>
+					<bind name="appear" value="selected || (_isTooltip == true) ? null : 'hideOperationsOnPveOperationChose'; 0.14; 0.02;	{alpha: 1, top: 0}; {alpha: 0, top: -5}; 3"/>
+					<bind name="appear" value="(selected &amp;&amp; (_isTooltip != true)) ? 'hideOperationsOnPveOperationChose' : null; 0.11; 0.12;	{alpha: 1};	{alpha: 0}; 2"/>
+					<bind name="clickSplit"/>
+					<bind name="request" value="'right_click'; 'modalPVEOperationInfo'; {operationId: operationEntity.operation.id}"/>
+					<bind name="dispatch" value="'left_click'; 'pveOperationChose'; null; false"/>
+					<bind name="action" value="'left_click'; isPveBattleTypeSelected ? null : 'setBattleType'; {battleType: BattleTypes.PVE_BATTLE}"/>
+					<bind name="action" value="'left_click'; 'PVEScriptsProxy.chooseOperation'; {operationId: operationEntity.operation.id, difficulty: opDifficulty, shouldEnterMM: true}"/>
+					<block>
+						<styleClass value="$FullsizeAbsolute"/>
+						<bind name="tooltip" value="'PVEOperationTooltip'; {_operationEntityId: operationEntity.id, isOperationCardTooltip: true}"/>
+						<style>
+							<backgroundSize value="cover"/>
+						</style>
+						<bind name="style" value="'colorMatrixFilter'; (	pveOperationStatus == 1 ||
+												pveOperationStatus == 0)	? '0 -100 0 -15'
+																										: '0 0 0 0'"/>
+						<bind name="style" value="'backgroundImage'; 'url:../pve/operation_bg/' + operationEntity.operation.map + '.png'"/>
+						<block className="shadow_h_zero_edge_fullsize" type="native">
+							<styleClass value="$FullsizeAbsolute"/>
+						</block>
+					</block>
+					<block>
+						<style>
+							<position value="absolute"/>
+							<hitTest value="false"/>
+							<marginTop value="16px"/>
+							<marginLeft value="16px"/>
+							<marginRight value="16px"/>
+							<width value="100%"/>
+						</style>
+						<bind name="style" value="'alpha'; (	pveOperationStatus == 1 ||
+									pveOperationStatus == 0 ? 0.7 : 0.9)"/>
+						<block type="text">
+							<styleClass value="$TextDefaultBold23NM"/>
+							<bind name="text" value="tr('IDS_' + toUpperCase(operationEntity.operation.gpName) + '_NAME')"/>
+						</block>
+						<block>
+							<bind name="visible" value="(	(pveOperationStatus == 1 || 
+									pveOperationStatus == 0) ? true : false)"/>
+							<style>
+								<hitTest value="false"/>
+								<width value="100%"/>
+								<marginTop value="16px"/>
+							</style>
+							<block type="text">
+								<style>
+									<width value="100%"/>
+								</style>
+								<styleClass value="$TextDefault19NM"/>
+								<bind name="text" value="(pveOperationStatus == 1	? (tr('IDS_OPERATION_WILL_BE_AVAILABLE_ON') + ' ' + operationUnlockTime) :
+								pveOperationStatus == 0	? tr('IDS_OPERATION_CLOSED_ON_RECONSTRUCTION')
+																						: 'smth goes wrong' )"/>
+							</block>
+						</block>
+					</block>
+					<block>
+						<style>
+							<position value="absolute"/>
+							<bottom value="16px"/>
+							<left value="12px"/>
+						</style>
+						<bind name="instance" value="'OperationRewardsContainerAdapter'; (	pveOperationStatus == 2 || 
+																	pveOperationStatus == 3)	? {	_operationId: operationEntity.operation.id,
+																																_difficulty: opDifficulty, _smallIcons: true,
+																																_noAnimation: true, _rMargin: (8+'px')}
+																															: null"/>
+					</block>
+					<block className="white_panel_gradient" type="native">
+						<style>
+							<hitTest value="false"/>
+						</style>
+						<styleClass value="$FullsizeAbsolute"/>
+						<bind name="transition" value="rollOver; 0.1; {alpha: 0}; {alpha: 0.2}; {alpha: 0}"/>
+					</block>
+					<block className="hint_panel_bold" type="native">
+						<style>
+							<hitTest value="false"/>
+						</style>
+						<styleClass value="$FullsizeAbsolute"/>
+						<bind name="transition" value="selected; 0.07; {alpha: 0}; {alpha: 1}; {alpha: 0}"/>
+					</block>
+				</block>
+				<block>
+					<bind name="request" value="'click'; 'modalPVEOperationInfo'; {operationId: operationEntity.operation.id}"/>
+					<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_MORE_INFO_ABOUT_PVE_OPERATION_TOOLTIP'}"/>
+					<bind name="transition" value="rollOver; 0.1; {alpha: 0, top: 5}; {alpha: 1, top: 0}"/>
+					<style>
+						<position value="absolute"/>
+						<bottom value="16px"/>
+						<right value="16px"/>
+					</style>
+					<block className="button_info" type="native"/>
+				</block>
+			</block>
+			<block>
+				<style>
+					<bottom value="0px"/>
+					<width value="100%"/>
+					<position value="absolute"/>
+				</style>
+				<block className="HorizontalDivider">
+					<styleClass value="$PxHorizontalCorrection"/>
+					<style>
+						<width value="100%"/>
+						<height value="3px"/>
+					</style>
+					<block className="divider_h" type="native">
+						<styleClass value="$Fullsize"/>
+					</block>
+				</block>
+			</block>
+		</block>
+		<block>
+			<style>
+				<width value="100%"/>
+				<marginLeft value="16px"/>
+				<marginRight value="16px"/>
+				<marginTop value="16px"/>
+				<marginBottom value="16px"/>
+			</style>
+			<block type="text">
+				<style>
+					<width value="100%"/>
+					<alpha value="0.75"/>
+					<leading value="-2"/>
+				</style>
+				<styleClass value="$TextDefault19NM"/>
+				<bind name="text" value="tr('IDS_' + toUpperCase(operationEntity.operation.gpName)+'_GOAL')"/>
+			</block>
+		</block>
+		<block className="HorizontalDivider">
+			<styleClass value="$PxHorizontalCorrection"/>
+			<style>
+				<width value="100%"/>
+				<height value="3px"/>
+			</style>
+			<block className="divider_h" type="native">
+				<styleClass value="$Fullsize"/>
+			</block>
+		</block>
+		<block>
+			<style>
+				<width value="100%"/>
+				<marginLeft value="16px"/>
+				<marginBottom value="12px"/>
+				<marginTop value="12px"/>
+			</style>
+			<block type="text">
+				<style>
+					<marginBottom value="4"/>
+					<width value="100%"/>
+				</style>
+				<styleClass value="$TextDefault19NM"/>
+				<bind name="class" value="'$FontColorBlueish'"/>
+				<bind name="text" value="'IDS_PVE_TECH_CONDITIONS'"/>
+			</block>
+			<bind name="instance" value="'ShipRestrictions'; {_restrictionsEntityId: operationEntity.id, _withShipTypeCounters: false,
+											 _flow: 'htile', _width: '100%'}"/>
+		</block>
+		<block>
+			<bind name="visible" value="(pveOperationStatus == 3)"/>
+			<styleClass value="$MiddleAligned"/>
+			<style>
+				<alpha value="0.9"/>
+				<hitTest value="false"/>
+				<marginTop value="4px"/>
+				<marginBottom value="-8px"/>
+			</style>
+			<bind name="instance" value="'PVEOperationOfTheWeekLabel'; pveOperationStatus == 3 ? {} : null"/>
+		</block>
+		<block className="HorizontalDivider">
+			<styleClass value="$PxHorizontalCorrection"/>
+			<style>
+				<width value="100%"/>
+				<height value="3px"/>
+			</style>
+			<block className="divider_h" type="native">
+				<styleClass value="$Fullsize"/>
+			</block>
+		</block>
+		<block>
+			<style>
+				<marginLeft value="13px"/>
+				<marginTop value="16px"/>
+				<marginBottom value="16px"/>
+			</style>
+			<bind name="repeat" value="[	{_type: 'right', _instructionText: 'IDS_MORE_INFO_ABOUT_PVE_OPERATION_TOOLTIP'},
+						{_type: 'left', _instructionText: 'IDS_CHOOSE_PVE_OPERATION_MOUSE_INSTRUCTION'}];
+						'MouseInstructionRepeater'; {_maxWidth: 320, _lastIndex: 1}"/>
+		</block>
+	</block>
+	<block className="NoItemsComeBackLater">
+		<styleClass value="$MiddleAlignedAbsolutely"/>
+		<style>
+			<top value="35%"/>
+			<marginTop value="-50%"/>
+		</style>
+		<block type="text">
+			<styleClass value="$MiddleAligned"/>
+			<styleClass value="$TextAccentBold"/>
+			<bind name="text" value="toUpperCase(tr('IDS_NO_CURRENT_' + _type))"/>
+		</block>
+		<bind name="instance" value="'InstructionBigTech'; _disableSubText != true ? { _instructionText: _subText ? _subText : 'IDS_COME_BACK_LATER', _type: 'info', _maxWidth: 980 } : null"/>
+	</block>
+	<block className="ServerIsUnavailable">
+		<styleClass value="$MiddleAligned"/>
+		<styleClass value="$MiddleVAligned"/>
+		<block>
+			<block type="text">
+				<styleClass value="$MiddleAligned"/>
+				<styleClass value="$TextHeaderBold"/>
+				<bind name="class" value="_isBig ? '$TextAccentBoldAccountLevel2' : '$TextHeaderBold'"/>
+				<bind name="style" value="'maxWidth'; _maxWidth ? _maxWidth : '300'"/>
+				<bind name="style" value="'marginBottom'; _small ? '2px' : '4px'"/>
+				<style>
+					<textAlign value="center"/>
+				</style>
+				<bind name="class" value="'$FontColorUnready'"/>
+				<bind name="text" value="_type	? toUpperCase(tr('IDS_SERVICE_IS_UNAVAILABLE_'+(_type)))
+								: toUpperCase(tr('IDS_SERVICE_IS_UNAVAILABLE_CHAT'))"/>
+			</block>
+			<block>
+				<styleClass value="$MiddleAligned"/>
+				<bind name="instance" value="'EmptyStatusParagraph'; {_text : 'IDS_WE_ARE_WORKING_ON_THIS', _maxWidth: (_maxWidth ? _maxWidth : '280'), _sizeClass: _isBig ? '$FontSizeHeader5' : '$FontSizeLarge'}"/>
+			</block>
+		</block>
+	</block>
+	<css name="$TextMouseDisable">
+		<mouseChildren value="false"/>
+		<selectable value="false"/>
+		<mouseEnabled value="false"/>
+	</css>
+	<css name="$MouseEnable">
+		<hitTest value="true"/>
+		<mouseChildren value="true"/>
+		<mouseEnabled value="true"/>
+	</css>
+	<css name="$FontFamilyDefault">
+		<fontFamily value="$WWSDefaultFont"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+	</css>
+	<css name="$FontFamilyDefaultBold">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+	</css>
+	<css name="$Bold">
+		<fontFamily value="$WWSDefaultFontBold"/>
+	</css>
+	<css name="$FontColorDefault">
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$FontColorGrey">
+		<textColor value="0xDDDDDD"/>
+	</css>
+	<css name="$FontColorStrongGrey">
+		<textColor value="0x636363"/>
+	</css>
+	<css name="$FontColorWhite">
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$FontColorBlueish">
+		<textColor value="0x9CBABA"/>
+	</css>
+	<css name="$FontColorStrongBlueish">
+		<textColor value="0x758b8b"/>
+	</css>
+	<css name="$FontColorDarkBlueish">
+		<textColor value="0x2B393A"/>
+	</css>
+	<css name="$FontColorSpecialButton">
+		<textColor value="0xFFE8D3"/>
+	</css>
+	<css name="$FontColorTurquoise">
+		<textColor value="0x00cccc"/>
+	</css>
+	<css name="$FontColorBuoyancy">
+		<textColor value="0x13C9F7"/>
+	</css>
+	<css name="$FontColorHealth">
+		<textColor value="0x4ce8aa"/>
+	</css>
+	<css name="$FontColorGolden">
+		<textColor value="0xFFCC66"/>
+	</css>
+	<css name="$FontColorGold">
+		<textColor value="0xFFCC66"/>
+	</css>
+	<css name="$FontColorFreeExp">
+		<textColor value="0xCCFF99"/>
+	</css>
+	<css name="$FontColorExp">
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$FontColorUnready">
+		<textColor value="0xFF9933"/>
+	</css>
+	<css name="$FontColorAlmostBlack">
+		<textColor value="0x08222a"/>
+	</css>
+	<css name="$FontColorTeamkiller">
+		<textColor value="0xFF96CA"/>
+	</css>
+	<css name="$FontColorTTK">
+		<textColor value="0xc8751c"/>
+	</css>
+	<css name="$FontColorParty">
+		<textColor value="0x00cccc"/>
+	</css>
+	<css name="$FontColorDefaultButtonUp">
+		<textColor value="0xc7e2e2"/>
+	</css>
+	<css name="$FontColorComparePositive">
+		<textColor value="0x4CE8AA"/>
+	</css>
+	<css name="$FontColorCompareNegative">
+		<textColor value="0xFF6600"/>
+	</css>
+	<css name="$FontColorMercenaries">
+		<textColor value="0x4ce8aa"/>
+	</css>
+	<css name="$FontSizeThumbelina">
+		<fontSize value="7"/>
+	</css>
+	<css name="$FontSizeNano">
+		<fontSize value="11"/>
+	</css>
+	<css name="$FontSizeSmall">
+		<fontSize value="13"/>
+	</css>
+	<css name="$FontSizeDefault">
+		<fontSize value="15"/>
+	</css>
+	<css name="$FontSizeLarge">
+		<fontSize value="17"/>
+	</css>
+	<css name="$FontSizeHeader6">
+		<fontSize value="19"/>
+	</css>
+	<css name="$FontSizeHeader5">
+		<fontSize value="21"/>
+	</css>
+	<css name="$FontSizeHeader4">
+		<fontSize value="23"/>
+	</css>
+	<css name="$FontSizeHeader3">
+		<fontSize value="25"/>
+	</css>
+	<css name="$FontSizeHeader2">
+		<fontSize value="30"/>
+	</css>
+	<css name="$FontSizeHeader1">
+		<fontSize value="36"/>
+	</css>
+	<css name="$FontAccentSize2">
+		<fontSize value="50"/>
+	</css>
+	<css name="$FontAccentSize1">
+		<fontSize value="60"/>
+	</css>
+	<css name="$LetterSpacingSmall">
+		<letterSpacing value="0.8"/>
+	</css>
+	<css name="$InvertedTextEffect">
+		<dropShadowFilter value="0 90 0xffffff 1.0 3.0 3.0 0.3"/>
+		<textColor value="0x08222a"/>
+	</css>
+	<css name="$FontGlowFilterBright">
+		<dropShadowFilter value="1 90 0xffffff 0.3 5.0 3.0 0.9 2"/>
+	</css>
+	<css name="$BlockGlowFilterBright">
+		<dropShadowFilter value="1 90 0xffffff 0.3 4.0 3.0 0.2 2"/>
+	</css>
+	<css name="$GlowDisabler">
+		<dropShadowFilter value="0 0 0x000000 0 0 0 0 0"/>
+	</css>
+	<css name="$DropShadowDisabler">
+		<dropShadowFilter value="0 0 0x000000 0 0 0 0 0"/>
+	</css>
+	<css name="$FontDropShadowFilter1">
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+	</css>
+	<css name="$FontDropShadowFilterStrong">
+		<dropShadowFilter value="1 90 0x08222a 0.8 3 3 1.5"/>
+	</css>
+	<css name="$FontDropShadowWhite">
+		<dropShadowFilter value="0 90 0xffffff 1.0 3.0 3.0 0.3"/>
+	</css>
+	<css name="$BlockDropShadowFilter1">
+		<dropShadowFilter value="5 110 0x000000 0.6 6 6 0.6"/>
+	</css>
+	<css name="$BlockDropShadowFilter2">
+		<dropShadowFilter value="3 110 0x000000 0.6 6 6 0.6"/>
+	</css>
+	<block className="DefaultButton">
+		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
+		<bind name="watchDH" value="'operationsAccountLocked';	['resourceEntity.accountResource.evOperationsLockChanged'];	resourceEntity.accountResource.operationsLocked"/>
+		<bind name="style" value="'width'; _width ? _width : '100%'"/>
+		<bind name="name" value="_containerName ? _containerName : null"/>
+		<block className="button_default" type="native">
+			<bind name="style" value="'width'; _width ? _width : '100%'"/>
+			<bind name="label" value="_label"/>
+			<bind name="focus" value="_focusIndex; _defaultFocused"/>
+			<bind name="focusable" value="_focusIndex ? true : false"/>
+			<bind name="enabled" value="_enabled &amp;&amp; (_isTransactionBtn ? !(operationsAccountLocked) : true)"/>
+			<bind name="event" value="'buttonClick'; _method ? _method : null"/>
+			<bind name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
+			<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams"/>
+			<bind name="name" value="_name ? _name : null"/>
+			<bind name="input"/>
+			<block>
+				<bind name="visible" value="_isExternal == true"/>
+				<style>
+					<position value="absolute"/>
+					<top value="7px"/>
+					<right value="4px"/>
+					<hitTest value="false"/>
+				</style>
+				<block className="icon_out_grey" type="native"/>
+			</block>
+		</block>
+	</block>
+	<block className="DefaultButtonBig">
+		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
+		<bind name="watchDH" value="'operationsAccountLocked';	['resourceEntity.accountResource.evOperationsLockChanged'];	resourceEntity.accountResource.operationsLocked"/>
+		<bind name="style" value="'width'; _width ? _width : '100%'"/>
+		<bind name="name" value="_containerName ? _containerName : null"/>
+		<block className="button_default_big" type="native">
+			<style>
+				<width value="100%"/>
+			</style>
+			<bind name="name" value="_name ? _name : null"/>
+			<bind name="input"/>
+			<bind name="label" value="_label"/>
+			<bind name="enabled" value="_enabled &amp;&amp; (_isTransactionBtn ? !(operationsAccountLocked) : true)"/>
+			<bind name="event" value="'buttonClick'; _method ? _method : null"/>
+			<bind name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
+			<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
+		</block>
+	</block>
+	<block className="DefaultButtonCostMedium">
+		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
+		<bind name="watchDH" value="'operationsAccountLocked';	['resourceEntity.accountResource.evOperationsLockChanged'];	resourceEntity.accountResource.operationsLocked"/>
+		<bind name="tooltip" value="'DiscountTooltip'; priceInfo.basePrice &amp;&amp; (priceInfo.finalPrice != priceInfo.basePrice) ? { priceInfo: priceInfo, _isExternal: _isExternal } : null"/>
+		<style>
+			<width value="100%"/>
+		</style>
+		<bind name="style" value="'height'; _height ? _height : 'auto'"/>
+		<bind name="name" value="_name ? _name : null"/>
+		<block className="button_default_no_label" type="native">
+			<style>
+				<width value="100%"/>
+			</style>
+			<bind name="style" value="'height'; _height ? _height : 'auto'"/>
+			<bind name="focus" value="_focusIndex; _defaultFocused"/>
+			<bind name="enabled" value="_enabled &amp;&amp; (_isTransactionBtn ? !(operationsAccountLocked) : true)"/>
+			<bind name="dispatch" value="'buttonClick'; _dispatchEvent ? _dispatchEvent : null"/>
+			<bind name="event" value="'buttonClick'; _method ? _method : null"/>
+			<bind name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
+			<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
+			<bind name="selected" value="_selected"/>
+			<block>
+				<styleClass value="$MiddleAligned"/>
+				<style>
+					<marginTop value="3px"/>
+					<marginBottom value="4px"/>
+					<hitTest value="false"/>
+				</style>
+				<bind name="style" value="'alpha'; _enabled ? 1 : 0.55"/>
+				<block type="text">
+					<styleClass value="$TextDefaultBold"/>
+					<bind name="class" value="'$FontColorDefaultButtonUp'"/>
+					<bind name="class" value="_enabled ? '$None' : '$FontColorAlmostBlack'"/>
+					<bind name="text" value="_label"/>
+				</block>
+				<block>
+					<bind name="visible" value="priceInfo.finalPrice &gt; 0"/>
+					<style>
+						<marginLeft value="4px"/>
+					</style>
+					<styleClass value="$MiddleVAligned"/>
+					<bind name="instance" value="'PriceTag'; priceInfo.finalPrice &gt; 0 ? {priceInfo: priceInfo, _showDiscountTag: _showDiscountTag } : null"/>
+				</block>
+				<block>
+					<bind name="visible" value="_isExternal == true"/>
+					<style>
+						<marginTop value="2px"/>
+						<marginLeft value="8px"/>
+					</style>
+					<block className="icon_out_grey" type="native"/>
+				</block>
+				<style>
+					<flow value="horizontal"/>
+				</style>
+			</block>
+		</block>
+	</block>
+	<block className="DefaultButtonCostSmall">
+		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
+		<bind name="watchDH" value="'operationsAccountLocked';	['resourceEntity.accountResource.evOperationsLockChanged'];	resourceEntity.accountResource.operationsLocked"/>
+		<bind name="tooltip" value="'DiscountTooltip'; priceInfo.basePrice &amp;&amp; (priceInfo.finalPrice != priceInfo.basePrice) ? { priceInfo: priceInfo } : null"/>
+		<block className="button_default_no_label_small" type="native">
+			<bind name="enabled" value="(_enabled &amp;&amp; !(operationsAccountLocked))"/>
+			<bind name="event" value="'buttonClick'; _method ? _method : null"/>
+			<bind name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
+			<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
+			<block>
+				<style>
+					<marginBottom value="1px"/>
+					<marginRight value="18px"/>
+					<marginLeft value="18px"/>
+					<hitTest value="false"/>
+				</style>
+				<bind name="style" value="'alpha'; _enabled ? 1 : 0.55"/>
+				<block type="text">
+					<styleClass value="$TextSecondaryBold"/>
+					<bind name="class" value="'$FontColorDefaultButtonUp'"/>
+					<bind name="class" value="_enabled ? '$None' : '$FontColorAlmostBlack'"/>
+					<bind name="text" value="_label"/>
+				</block>
+				<block>
+					<styleClass value="$MiddleVAligned"/>
+					<style>
+						<marginLeft value="2px"/>
+					</style>
+					<bind name="instance" value="'PriceTag'; priceInfo.finalPrice &gt; 0 ? {priceInfo: priceInfo, _small: true, _showDiscountTag: _showDiscountTag} : null"/>
+				</block>
+				<style>
+					<flow value="horizontal"/>
+				</style>
+			</block>
+		</block>
+	</block>
+	<block className="ButtonSpecial">
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
+		<bind name="name" value="_name"/>
+		<block className="button_special_no_label" type="native">
+			<bind name="soundSet" value="'hard_button'"/>
+			<bind name="enabled" value="_enabled"/>
+			<bind name="action" value="'buttonClick'; _action; _actionParams ? _actionParams : {}"/>
+			<block type="text">
+				<style>
+					<marginRight value="18px"/>
+					<marginLeft value="18px"/>
+					<marginTop value="3px"/>
+					<marginBottom value="4px"/>
+					<hitTest value="false"/>
+				</style>
+				<bind name="class" value="_enabled 	? rollOver &amp;&amp; !(mouseDown) ? '$FontColorDefault' : '$FontColorSpecialButton'
+									: '$FontColorAlmostBlack'"/>
+				<bind name="class" value="_enabled ? '$FontDropShadowFilter1' : '$FontDropShadowWhite'"/>
+				<styleClass value="$TextDefaultBold"/>
+				<bind name="text" value="_label"/>
+			</block>
+		</block>
+	</block>
+	<block className="DockButton">
+		<style>
+			<width value="100%"/>
+		</style>
+		<block className="button_dock" type="native">
+			<bind name="name" value="_name"/>
+			<style>
+				<width value="100%"/>
+				<height value="30px"/>
+			</style>
+			<bind name="enabled" value="_enabled"/>
+			<bind name="dispatch" value="'buttonClick'; _dispatchEvent; {}"/>
+			<block type="text">
+				<styleClass value="$TextDefaultBold"/>
+				<styleClass value="$MiddleAligned"/>
+				<style>
+					<marginTop value="3px"/>
+					<mouseEnabled value="false"/>
+					<mouseChildren value="false"/>
+				</style>
+				<bind name="style" value="'alpha'; _enabled ? 1 : 0.55"/>
+				<bind name="text" value="_label"/>
+			</block>
+		</block>
+	</block>
+	<css name="$TextDefaultNM">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="15"/>
+		<marginText value="-3px|-3px|-6px|-5px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultBoldNM">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="15"/>
+		<marginText value="-3px|-3px|-6px|-5px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefault17NM">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="17"/>
+		<marginText value="-3px|-4px|-7px|-6px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultBold17NM">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="17"/>
+		<marginText value="-3px|-3px|-7px|-6px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefault19NM">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="19"/>
+		<marginText value="-3px|-3px|-7px|-5px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultBold19NM">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="19"/>
+		<marginText value="-3px|-3px|-8px|-6px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefault21NM">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="21"/>
+		<marginText value="-3px|-3px|-8px|-7px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultBold21NM">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="21"/>
+		<marginText value="-3px|-3px|-8px|-7px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultBold23NM">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="23"/>
+		<marginText value="-3px|-3px|-9px|-6px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefault25NM">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="25"/>
+		<marginText value="-3px|-3px|-9px|-8px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultBold25NM">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="25"/>
+		<marginText value="-3px|-3px|-9px|-8px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultBold30NM">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="30"/>
+		<marginText value="-3px|-4px|-11px|-8px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultBold36NM">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="36"/>
+		<marginText value="-3px|-4px|-12px|-10px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultBold46NM">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="46"/>
+		<marginText value="-3px|-4px|-12px|-10px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<block className="OperationRewardsAdapter">
+		<bind name="watch" value="'rewardsCollectionPath'; 'byDiffs.' + _difficulty + _operationId"/>
+		<bind name="collectionDH" value="CC.operationTaskForReward; 'pveRewardsCollection'; rewardsCollectionPath"/>
+		<bind name="entityDH" value="'rewardEntity_0'; pveRewardsCollection[0].id"/>
+		<bind name="entityDH" value="'rewardEntity_1'; pveRewardsCollection[1].id"/>
+		<bind name="entityDH" value="'rewardEntity_2'; pveRewardsCollection[2].id"/>
+		<bind name="entityDH" value="'rewardEntity_3'; pveRewardsCollection[3].id"/>
+		<bind name="entityDH" value="'rewardEntity_4'; pveRewardsCollection[4].id"/>
+		<bind name="watchDH" value="'reward_0_rewardTime'; ['rewardEntity_0.pveReward.evRewardTimeChanged']; rewardEntity_0.pveReward.rewardTime"/>
+		<bind name="watchDH" value="'reward_1_rewardTime'; ['rewardEntity_1.pveReward.evRewardTimeChanged']; rewardEntity_1.pveReward.rewardTime"/>
+		<bind name="watchDH" value="'reward_2_rewardTime'; ['rewardEntity_2.pveReward.evRewardTimeChanged']; rewardEntity_2.pveReward.rewardTime"/>
+		<bind name="watchDH" value="'reward_3_rewardTime'; ['rewardEntity_3.pveReward.evRewardTimeChanged']; rewardEntity_3.pveReward.rewardTime"/>
+		<bind name="watchDH" value="'reward_4_rewardTime'; ['rewardEntity_4.pveReward.evRewardTimeChanged']; rewardEntity_4.pveReward.rewardTime"/>
+		<bind name="watch" value="'giftsArr'; [	{state: reward_0_rewardTime ? 'issued' : 'not_issued', issued_date: reward_0_rewardTime,
+								 rewards: rewardEntity_0.pveReward.rewardsCommon,  rewardsSpecial: rewardEntity_0.pveReward.rewardsSpecial},
+
+								{state: reward_1_rewardTime ? 'issued' : 'not_issued', issued_date: reward_1_rewardTime,
+								 rewards: rewardEntity_1.pveReward.rewardsCommon,  rewardsSpecial: rewardEntity_1.pveReward.rewardsSpecial},
+
+								{state: reward_2_rewardTime ? 'issued' : 'not_issued', issued_date: reward_2_rewardTime,
+								 rewards: rewardEntity_2.pveReward.rewardsCommon,  rewardsSpecial: rewardEntity_2.pveReward.rewardsSpecial},
+
+								{state: reward_3_rewardTime ? 'issued' : 'not_issued', issued_date: reward_3_rewardTime,
+								 rewards: rewardEntity_3.pveReward.rewardsCommon,  rewardsSpecial: rewardEntity_3.pveReward.rewardsSpecial},
+
+								{state: reward_4_rewardTime ? 'issued' : 'not_issued', issued_date: reward_4_rewardTime,
+								 rewards: rewardEntity_4.pveReward.rewardsCommon,  rewardsSpecial: rewardEntity_4.pveReward.rewardsSpecial}]"/>
+	</block>
+	<block className="OperationRewardsContainerAdapter">
+		<block className="OperationRewardsAdapter">
+			<bind name="watch" value="'rewardsCollectionPath'; 'byDiffs.' + _difficulty + _operationId"/>
+			<bind name="collectionDH" value="CC.operationTaskForReward; 'pveRewardsCollection'; rewardsCollectionPath"/>
+			<bind name="entityDH" value="'rewardEntity_0'; pveRewardsCollection[0].id"/>
+			<bind name="entityDH" value="'rewardEntity_1'; pveRewardsCollection[1].id"/>
+			<bind name="entityDH" value="'rewardEntity_2'; pveRewardsCollection[2].id"/>
+			<bind name="entityDH" value="'rewardEntity_3'; pveRewardsCollection[3].id"/>
+			<bind name="entityDH" value="'rewardEntity_4'; pveRewardsCollection[4].id"/>
+			<bind name="watchDH" value="'reward_0_rewardTime'; ['rewardEntity_0.pveReward.evRewardTimeChanged']; rewardEntity_0.pveReward.rewardTime"/>
+			<bind name="watchDH" value="'reward_1_rewardTime'; ['rewardEntity_1.pveReward.evRewardTimeChanged']; rewardEntity_1.pveReward.rewardTime"/>
+			<bind name="watchDH" value="'reward_2_rewardTime'; ['rewardEntity_2.pveReward.evRewardTimeChanged']; rewardEntity_2.pveReward.rewardTime"/>
+			<bind name="watchDH" value="'reward_3_rewardTime'; ['rewardEntity_3.pveReward.evRewardTimeChanged']; rewardEntity_3.pveReward.rewardTime"/>
+			<bind name="watchDH" value="'reward_4_rewardTime'; ['rewardEntity_4.pveReward.evRewardTimeChanged']; rewardEntity_4.pveReward.rewardTime"/>
+			<bind name="watch" value="'giftsArr'; [	{state: reward_0_rewardTime ? 'issued' : 'not_issued', issued_date: reward_0_rewardTime,
+								 rewards: rewardEntity_0.pveReward.rewardsCommon,  rewardsSpecial: rewardEntity_0.pveReward.rewardsSpecial},
+
+								{state: reward_1_rewardTime ? 'issued' : 'not_issued', issued_date: reward_1_rewardTime,
+								 rewards: rewardEntity_1.pveReward.rewardsCommon,  rewardsSpecial: rewardEntity_1.pveReward.rewardsSpecial},
+
+								{state: reward_2_rewardTime ? 'issued' : 'not_issued', issued_date: reward_2_rewardTime,
+								 rewards: rewardEntity_2.pveReward.rewardsCommon,  rewardsSpecial: rewardEntity_2.pveReward.rewardsSpecial},
+
+								{state: reward_3_rewardTime ? 'issued' : 'not_issued', issued_date: reward_3_rewardTime,
+								 rewards: rewardEntity_3.pveReward.rewardsCommon,  rewardsSpecial: rewardEntity_3.pveReward.rewardsSpecial},
+
+								{state: reward_4_rewardTime ? 'issued' : 'not_issued', issued_date: reward_4_rewardTime,
+								 rewards: rewardEntity_4.pveReward.rewardsCommon,  rewardsSpecial: rewardEntity_4.pveReward.rewardsSpecial}]"/>
+		</block>
+		<style>
+			<flow value="horizontal"/>
+		</style>
+		<bind name="repeat" value="_smallIcons ? giftsArr : 0; 'PVEStarIconReward'; {_rMargin: _rMargin, _giftsArr: giftsArr, _noAnimation: _noAnimation}"/>
+	</block>
+	<block className="PVEStarIconReward">
+		<bind name="watch" value="'tooltipText'; subst('IDS_PVE_TASK_REWARDS_REASON', [], {task_count: ($index + 1)}, ($index + 1))"/>
+		<bind name="tooltip" value="'RewardContainerTooltipPVE'; {	_state: state, _tooltipText: tooltipText, _issued_date: issued_date,
+													_rewards: rewards, _rewardsSpecial: rewardsSpecial}"/>
+		<bind name="style" value="'marginRight'; _rMargin ? _rMargin : '4px'"/>
+		<bind name="instance" value="'PVETaskStatusIcon'; {_state: state, _index: $index, _noAnimation: true}"/>
+	</block>
+	<block className="PVETaskStatusIcon">
+		<bind name="style" value="'alpha'; _noAnimation ? 1 : 0"/>
+		<block className="icon_rank_star_small" type="native">
+			<bind name="gotoAndStop!" value=" (_state == 'issued'	? 'earned'
+													: 'not_earned')"/>
+		</block>
+	</block>
+	<block className="RewardContainerTooltipPVE">
+		<styleClass value="$DefaultTooltipBehaviour"/>
+		<style>
+			<width value="340px"/>
+		</style>
+		<block className="DeclareBlurLayer">
+			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<bind name="visible" value="optionData.blurEnabled"/>
+			<block className="transparentPixel" type="native">
+				<bind name="blurLayer" value="0"/>
+			</block>
+			<style>
+				<position value="absolute"/>
+			</style>
+		</block>
+		<block className="BlurMap">
+			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<style>
+				<position value="absolute"/>
+				<width value="100%"/>
+				<height value="100%"/>
+				<hitTest value="false"/>
+			</style>
+			<bind name="visible" value="optionData.blurEnabled"/>
+			<block className="mc_blurmap5" type="native">
+				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
+				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
+				<style>
+					<width value="100%"/>
+					<height value="100%"/>
+				</style>
+				<bind name="blurMap" value="0"/>
+			</block>
+		</block>
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<block className="contrast_panel" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<bind name="visible" value="optionData.contrast"/>
+		</block>
+		<block className="hint_panel" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+		</block>
+		<block>
+			<style>
+				<width value="100%"/>
+			</style>
+			<block>
+				<style>
+					<width value="100%"/>
+					<marginTop value="16px"/>
+					<marginBottom value="16px"/>
+					<marginLeft value="16px"/>
+					<marginRight value="16px"/>
+				</style>
+				<block>
+					<style>
+						<marginLeft value="8px"/>
+						<marginRight value="8px"/>
+					</style>
+					<bind name="instance" value="'NoAnimationGiftboxReward'; {state: _state, _rewards: _rewards, _no_status_icon: true}"/>
+				</block>
+				<block>
+					<style>
+						<width value="100%"/>
+						<marginLeft value="16px"/>
+					</style>
+					<block type="text">
+						<style>
+							<width value="100%"/>
+							<leading value="-4"/>
+						</style>
+						<styleClass value="$TextDefault19NM"/>
+						<bind name="text" value="_tooltipText"/>
+					</block>
+				</block>
+				<style>
+					<flow value="horizontal"/>
+				</style>
+			</block>
+			<block>
+				<style>
+					<width value="100%"/>
+					<bottom value="0px"/>
+					<position value="absolute"/>
+				</style>
+				<block className="HorizontalDivider">
+					<styleClass value="$PxHorizontalCorrection"/>
+					<style>
+						<width value="100%"/>
+						<height value="3px"/>
+					</style>
+					<block className="divider_h" type="native">
+						<styleClass value="$Fullsize"/>
+					</block>
+				</block>
+			</block>
+		</block>
+		<block>
+			<bind name="visible" value="_state == 'issued' || _state == 'issued_now'"/>
+			<bind name="timeFormat" value="_issued_date; 'dd.MM.yyyy'; 'formatted_issued_date'; true"/>
+			<style>
+				<width value="100%"/>
+				<marginTop value="16px"/>
+			</style>
+			<block>
+				<style>
+					<width value="100%"/>
+					<marginBottom value="16px"/>
+					<marginLeft value="16px"/>
+					<marginRight value="16px"/>
+				</style>
+				<block type="text">
+					<style>
+						<width value="100%"/>
+					</style>
+					<styleClass value="$TextDefault19NM"/>
+					<bind name="class" value="'$FontColorBlueish'"/>
+					<bind name="text" value="_state == 'issued'		? subst('IDS_PVE_REWARD_ISSUED', [], {issued_date: formatted_issued_date}) :
+							_state == 'issued_now'	? 'IDS_PVE_REWARD_ISSUED_THIS_BATTLE'
+													: ''"/>
+				</block>
+			</block>
+			<block>
+				<style>
+					<width value="100%"/>
+					<bottom value="0px"/>
+					<position value="absolute"/>
+				</style>
+				<block className="HorizontalDivider">
+					<styleClass value="$PxHorizontalCorrection"/>
+					<style>
+						<width value="100%"/>
+						<height value="3px"/>
+					</style>
+					<block className="divider_h" type="native">
+						<styleClass value="$Fullsize"/>
+					</block>
+				</block>
+			</block>
+		</block>
+		<block>
+			<bind name="visible" value="_rewards.length &gt; 0"/>
+			<style>
+				<width value="100%"/>
+				<marginLeft value="16px"/>
+				<marginRight value="12px"/>
+			</style>
+			<bind name="repeat" value="_rewards; 'RewardContainerTooltipItemAdapter'"/>
+		</block>
+		<block>
+			<bind name="visible" value="_rewardsSpecial.length &gt; 0"/>
+			<style>
+				<width value="100%"/>
+				<marginLeft value="16px"/>
+				<marginRight value="12px"/>
+			</style>
+			<bind name="repeat" value="_rewardsSpecial; 'RewardContainerTooltipItemAdapter'"/>
+		</block>
+	</block>
+	<block className="NoAnimationGiftboxReward">
+		<bind name="style" value="'marginRight'; _rMargin"/>
+		<bind name="watch" value="'tooltipText'; subst('IDS_PVE_TASK_REWARDS_REASON', [], {task_count: ($index + 1)}, ($index + 1))"/>
+		<bind name="tooltip" value="'RewardContainerTooltipPVE'; {	_state: state, _tooltipText: tooltipText, _issued_date: issued_date,
+													_rewards: rewards, _rewardsSpecial: rewardsSpecial}"/>
+		<bind name="watch" value="'curState';	(state == 'issued_now')		? 'issued' :
+								(state == 'not_issued_now')	? 'not_issued'
+															: state"/>
+		<block>
+			<bind name="visible" value="(state == 'issued_now')"/>
+			<styleClass value="$MiddleVAligned"/>
+			<styleClass value="$MiddleAlignedAbsolutely"/>
+			<block className="glow_animation" type="native">
+				<bind name="gotoAndPlay!" value="(state == 'issued_now'	? 'animation'
+														: 'stop')"/>
+				<style>
+					<position value="absolute"/>
+				</style>
+				<bind name="scaleX" value="_scale ? (_scale - 0.29) : 0.71"/>
+				<bind name="scaleY" value="_scale ? (_scale - 0.29) : 0.71"/>
+			</block>
+		</block>
+		<block>
+			<bind name="style" value="'alpha';	(state == 'issued' 			? 0.65 :
+								state == 'not_issued_now'	? 0.55
+															: 1)"/>
+			<block>
+				<bind name="style" value="'marginBottom'; _no_status_icon ? '0px' : '8px'"/>
+				<bind name="instance" value="'GiftBoxIconSmall'; {_scale: _scale, _state: curState}"/>
+			</block>
+			<block>
+				<styleClass value="$MiddleAligned"/>
+				<bind name="instance" value="'PVETaskStatusIcon'; _no_status_icon	? null 
+																	: {_state: state, _index: $index, _noAnimation: true}"/>
+			</block>
+		</block>
+	</block>
+	<block className="GiftBoxIconSmall">
+		<block className="icon_giftbox_small" type="native">
+			<style>
+				<alpha value="0.9"/>
+			</style>
+			<bind name="scaleX" value="_scale ? _scale : 1"/>
+			<bind name="scaleY" value="_scale ? _scale : 1"/>
+		</block>
+		<block>
+			<styleClass value="$MouseDisable"/>
+			<styleClass value="$MiddleAlignedAbsolutely"/>
+			<styleClass value="$MiddleVAligned"/>
+			<block>
+				<style>
+					<position value="absolute"/>
+				</style>
+				<block className="icon_issued_small" type="native">
+					<bind name="scaleX" value="_scale ? (_scale - 0.04) : 0.96"/>
+					<bind name="scaleY" value="_scale ? (_scale - 0.04) : 0.96"/>
+					<innerBind elementName="item.item" name="text" value="'IDS_ISSUED_STAMP'"/>
+					<bind name="gotoAndPlay!" value="_state	? _state
+											: 'not_issued'"/>
+				</block>
+			</block>
+		</block>
+	</block>
+	<block className="ModalWindowPVEOperationChooser">
+		<styleClass value="$Fullsize"/>
+		<bind name="appear" value="'addedToStage'; 0.15; 0 + 0 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
+		<bind name="appear" value="'startHide'; 0.15; 0 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+		<bind name="collectionDH" value="CC.pveSeason; 'seasonsCollection'"/>
+		<bind name="firstEntityDH" value="'dockDataEntity'; CC.dockDataMarker"/>
+		<bind name="watchDH" value="'pveOperationChooserVisible'; ['dockDataEntity.dockData.evOperationChooserChanged']; dockDataEntity.dockData.operationChooserVisible"/>
+		<bind name="fade" value="pveOperationChooserVisible; 0.12; {alpha: 0}; {alpha: 1}; {alpha: 0}"/>
+		<bind name="dispatch" value="'pveOperationChose'; 'hideOperationsOnPveOperationChose'; null; true; 0.05"/>
+		<bind name="dispatch" value="'pveOperationChose'; 'delayedClosePVEOperationChooserModalWindow'; null; false; 0.25"/>
+		<bind name="dispatch" value="'pveOperationChose'; 'Tooltip.Close'; null; true"/>
+		<bind name="request" value="'delayedClosePVEOperationChooserModalWindow'; 'closeModalPVEOperationChooser'; {}"/>
+		<block>
+			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<styleClass value="$FullsizeAbsolute"/>
+			<style>
+				<hitTest value="false"/>
+			</style>
+			<bind name="visible" value="optionData.blurEnabled"/>
+			<block className="mc_blurmap5" type="native">
+				<bind name="appear" value="'hideOperationsOnPveOperationChose'; 0.16; 0.07; {alpha: 1}; {alpha: 0}; 3"/>
+				<bind name="fade" value="pveOperationChooserVisible; 0.1; {alpha: 0}; {alpha: 1}; {alpha: 0}"/>
+				<styleClass value="$Fullsize"/>
+				<bind name="blurMap" value="0"/>
+			</block>
+		</block>
+		<block>
+			<params>
+				<param name="name" value="ModalWindowPVEOperationChooser"/>
+			</params>
+			<bind name="appear" value="'hideOperationsOnPveOperationChose'; 0.16; 0.07; {alpha: 1}; {alpha: 0}; 3"/>
+			<bind name="fade" value="pveOperationChooserVisible; 0; {alpha: 0}; {alpha: 1}; {alpha: 0}"/>
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="contrast_panel" type="native">
+				<styleClass value="$FullsizeAbsolute"/>
+				<bind name="visible" value="optionData.contrast"/>
+			</block>
+			<block className="modal_panel" type="native">
+				<style>
+					<alpha value="0.7"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
+			</block>
+		</block>
+		<block>
+			<bind name="fade" value="pveOperationChooserVisible; 0; {alpha: 0}; {alpha: 1, top: 0}; {alpha: 0}"/>
+			<bind name="appear" value="'hideOperationsOnPveOperationChose'; 0.14; 0; {alpha: 1, top: 0}; {alpha: 0, top: -5}; 3"/>
+			<styleClass value="$Fullsize"/>
+			<style>
+				<paddingRight value="1280:20,1920:46aw"/>
+				<paddingLeft value="1280:20,1920:46aw"/>
+				<paddingBottom value="1280:20,1920:46aw"/>
+				<paddingTop value="1280:20,1920:46aw"/>
+			</style>
+			<block>
+				<style>
+					<position value="absolute"/>
+					<top value="1px"/>
+				</style>
+				<bind name="instance" value="'BackButton'; {_text: 'IDS_RETURN_TO_BATTLETYPE_CHOOSER', _request: 'returnToBattleTypeChooserFromOperationChooser'}"/>
+			</block>
+			<block>
+				<style>
+					<position value="absolute"/>
+					<right value="4px"/>
+					<top value="9px"/>
+				</style>
+				<block className="ModalWindowCloseIcon">
+					<style>
+						<position value="absolute"/>
+						<right value="0px"/>
+						<top value="0px"/>
+						<flow value="horizontal"/>
+					</style>
+					<bind name="name" value="'btn_cancel'"/>
+					<bind name="input"/>
+					<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_CLOSE'}; 0"/>
+					<block>
+						<style>
+							<backgroundColor value="0x01000000"/>
+						</style>
+						<block>
+							<style>
+								<marginTop value="-3px"/>
+							</style>
+							<block className="hotkey_holder_white_9slice" type="native">
+								<bind name="visible" value="true"/>
+								<block type="text">
+									<style>
+										<marginLeft value="3px"/>
+										<marginRight value="3px"/>
+										<marginTop value="-1px"/>
+										<marginBottom value="-1px"/>
+									</style>
+									<styleClass value="$BlackLabel"/>
+									<text value="ESC"/>
+								</block>
+							</block>
+						</block>
+						<block className="button_close" type="native">
+							<params>
+								<param name="focusable" value="false"/>
+							</params>
+						</block>
+						<style>
+							<flow value="horizontal"/>
+						</style>
+					</block>
+				</block>
+			</block>
+			<block>
+				<style>
+					<width value="100%"/>
+				</style>
+				<block type="text">
+					<styleClass value="$MiddleAligned"/>
+					<styleClass value="$TextLargeHeaderBold"/>
+					<bind name="text" value="toUpperCase(tr('IDS_CHOOSE_PVE_SCENARIO_MODAL_HEADER'))"/>
+				</block>
+				<block>
+					<style>
+						<width value="100%"/>
+						<marginTop value="720:2,1080:4ah"/>
+					</style>
+					<block className="HorizontalDivider">
+						<styleClass value="$PxHorizontalCorrection"/>
+						<style>
+							<width value="100%"/>
+							<height value="3px"/>
+						</style>
+						<block className="divider_h" type="native">
+							<styleClass value="$Fullsize"/>
+						</block>
+					</block>
+				</block>
+			</block>
+			<block>
+				<bind name="firstEntityDH" value="'pveStateEntity'; CC.pveState"/>
+				<bind name="watchDH" value="'chosenOperationId'; ['pveStateEntity.pveState.evStateUpdated']; pveStateEntity.pveState.chosenOperation"/>
+				<bind name="watchDH" value="'chosenDifficulty'; ['pveStateEntity.pveState.evStateUpdated']; pveStateEntity.pveState.chosenDifficulty"/>
+				<style>
+					<position value="absolute"/>
+				</style>
+				<style>
+					<left value="170px"/>
+				</style>
+				<style>
+					<flow value="horizontal"/>
+				</style>
+			</block>
+			<block>
+				<styleClass value="$MiddleAligned"/>
+				<style>
+					<marginTop value="720:32,1080:128ah"/>
+					<marginBottom value="720:24,1080:98ah"/>
+					<height value="100%"/>
+				</style>
+				<bind name="visible" value="((seasonsCollection.length &gt; 0) == true)"/>
+				<block>
+					<bind name="fade" value="pveOperationChooserVisible; 0; {alpha: 0}; {alpha: 1, top: 0}; {alpha: 0}"/>
+					<bind name="appear" value="'hideOperationsOnPveOperationChose'; 0.14; 0.04; {alpha: 1, top: 0}; {alpha: 0, top: -5}; 3"/>
+					<style>
+						<width value="270px"/>
+						<marginLeft value="16px"/>
+						<marginRight value="1280:64,1920:90aw"/>
+					</style>
+					<block>
+						<styleClass value="$MiddleAligned"/>
+						<bind name="instance" value="'DifficultySwitcher'; seasonsCollection.length &gt; 0 ? {} : null"/>
+					</block>
+				</block>
+				<block>
+					<styleClass value="$DefaultScrollBar"/>
+					<style>
+						<overflow value="scroll"/>
+						<height value="100%f"/>
+					</style>
+					<bind name="instance" value="'PVEOperationsContent'; {}"/>
+				</block>
+				<style>
+					<flow value="horizontal"/>
+				</style>
+			</block>
+			<block>
+				<styleClass value="$FullsizeAbsolute"/>
+				<bind name="fade" value="pveOperationChooserVisible; 0; {alpha: 0}; {alpha: 1, top: 0}; {alpha: 0}"/>
+				<bind name="appear" value="'hideOperationsOnPveOperationChose'; 0.14; 0.04; {alpha: 1, top: 0}; {alpha: 0, top: -5}; 3"/>
+				<bind name="instance" value="'NoItemsComeBackLater'; (seasonsCollection.length == 0) ? {_type: 'PVE_OPERATIONS'} : null"/>
+			</block>
+		</block>
+	</block>
+	<block className="PVEOperationsContent">
+		<bind name="collectionDH" value="CC.operation; 'seasonWeeklyOperationsCollection'; 'sorted.cut.1'"/>
+		<bind name="collectionDH" value="CC.userPrefs; 'userPrefsCollection'"/>
+		<bind name="entityDH" value="'userPrefsEntity'; userPrefsCollection[0].id"/>
+		<bind name="watchDH" value="'userPrefs'; ['userPrefsEntity.userPrefs.evUserPrefsChanged']; userPrefsEntity.userPrefs.userPrefs"/>
+		<bind name="watch" value="'isLayoutWithOperationOfTheWeek'; ((seasonWeeklyOperationsCollection.length &gt; 0) &amp;&amp; (userPrefs.uiPVEOperationsDifficulty == 'normal'))"/>
+		<bind name="child" value="isLayoutWithOperationOfTheWeek; {_pveSeasonEntityId: pveSeasonEntity.id}; 'NoOperationOfTheWeekSeasonLayout'; 'OperationOfTheWeekSeasonLayout'"/>
+	</block>
+	<block className="NoOperationOfTheWeekSeasonLayout">
+		<bind name="collectionDH" value="CC.operation; 'seasonOperationsCollection'; 'sorted'"/>
+		<style>
+			<marginTop value="16px"/>
+			<width value="1280:896,1920:928aw"/>
+			<flow value="htile"/>
+			<marginBottom value="-16px"/>
+		</style>
+		<bind name="appear" value="'addedToStage'; 0.21; 0.1; {alpha: 0.1}; {alpha: 1}; 4"/>
+		<bind name="collectionRepeatDH" value="CC.operation; 'PVEOperationItemSmall'; 'sorted'; {}"/>
+	</block>
+	<block className="OperationOfTheWeekSeasonLayout">
+		<bind name="collectionDH" value="CC.operation; 'seasonWeeklyOperationsCollection'; 'sorted.cut.1'"/>
+		<bind name="collectionDH" value="CC.operation; 'nextThreeOperationsCollection'; 'sorted.cut.2'"/>
+		<style>
+			<marginTop value="16px"/>
+		</style>
+		<bind name="appear" value="'addedToStage'; 0.21; 0.1; {alpha: 0.1}; {alpha: 1}; 4"/>
+		<block>
+			<block>
+				<bind name="instance" value="'PVEOperationItemBig'; {_operationEntityId: seasonWeeklyOperationsCollection[0].id}"/>
+			</block>
+			<block>
+				<block>
+					<bind name="instance" value="'PVEOperationItemSmall'; {_operationEntityId: nextThreeOperationsCollection[0].id}"/>
+				</block>
+				<block>
+					<bind name="instance" value="'PVEOperationItemSmall'; {_operationEntityId: nextThreeOperationsCollection[1].id}"/>
+				</block>
+				<block>
+					<bind name="instance" value="'PVEOperationItemSmall'; {_operationEntityId: nextThreeOperationsCollection[2].id}"/>
+				</block>
+			</block>
+			<style>
+				<flow value="horizontal"/>
+			</style>
+		</block>
+		<block>
+			<style>
+				<flow value="htile"/>
+				<marginBottom value="-16px"/>
+				<width value="100%"/>
+			</style>
+			<bind name="collectionRepeatDH" value="CC.operation; 'PVEOperationItemSmall'; 'sorted.cut.3'; {}"/>
+		</block>
+	</block>
+</ui>

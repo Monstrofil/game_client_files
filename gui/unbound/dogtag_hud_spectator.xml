@@ -1,0 +1,38 @@
+
+<ui>
+	<block className="DogTagInHUDSpectator">
+		<bind name="firstEntityDH" value="'cameraEntity'; CC.camera"/>
+		<bind name="watchDH" value="'observedShipId';['cameraEntity.camera.evObservedShipChanged']; cameraEntity.camera.observedShipId"/>
+		<bind name="primaryEntityDH" value="'vehicleEntity'; CC.vehicle; observedShipId"/>
+		<bind name="var" value="{currentDogTag:[]}"/>
+		<bind name="catch" value="'changeCurrentDogTag'"/>
+		<bind name="dispatch" value="'vehicleEntity'+varChanged; vehicleEntity != null ? 'changeCurrentDogTag' : ''; {currentDogTag:vehicleEntity.dogTagView.components}; 0; 0"/>
+		<bind name="collectionDH" value="CC.avatar; 'selfAvatarCollection'+'ROOT'"/>
+		<bind name="collectionDesign" value="'DES_'+'selfAvatarCollection'+'ROOT'; 'selfAvatarCollection'; {'filter':$entity.relation.value == 0}; []"/>
+		<bind name="watch" value="'selfAvatarEntityId'; selfAvatarCollection[0].id"/>
+		<bind name="entityDH" value="'selfAvatarEntity'; selfAvatarEntityId"/>
+		<bind name="watchDH" value="'killerId'; ['selfAvatarEntity.health.evKilled']; selfAvatarEntity.health.killerId"/>
+		<bind name="watchDH" value="'isDead'; ['selfAvatarEntity.health.evKilled']; !selfAvatarEntity.health.isAlive"/>
+		<bind name="watch" value="'isVisible'; isDead || (killerId != 0)"/>
+		<bind name="fade" value="isVisible; 0.2; {alpha: 0}; {alpha: 1}; {alpha: 0}; 1; 0.2"/>
+		<block>
+			<style>
+				<width value="190px"/>
+				<height value="190px"/>
+			</style>
+			<bind name="repeat" value=" (currentDogTag.length &gt; 0) ? currentDogTag : selfAvatarEntity.dogTagView.components; 'DogTagViewImageItemAvatarSpectator'"/>
+		</block>
+	</block>
+	<block className="DogTagViewImageItemAvatarSpectator">
+		<bind name="primaryEntityDH" value="'entity'; CC.dogTagComponent; $value"/>
+		<bind name="watchDH" value="'iconPath'; ['entity.dogTagComponent.evUpdate']; entity.dogTagComponent.iconPath"/>
+		<style>
+			<width value="190px"/>
+			<height value="190px"/>
+			<backgroundStretchX value="true"/>
+			<backgroundStretchY value="true"/>
+			<position value="absolute"/>
+		</style>
+		<bind name="style" value="'backgroundImage'; 'url:../dogTags/medium/' + iconPath"/>
+	</block>
+</ui>

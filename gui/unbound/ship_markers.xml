@@ -1,0 +1,441 @@
+
+<ui>
+	<css name="$TextHUD">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFont"/>
+		<fontSize value="18"/>
+		<selectable value="false"/>
+		<textColor value="0xFFD9D9D9"/>
+	</css>
+	<css name="$TextHUDBold">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="18"/>
+		<selectable value="false"/>
+		<textColor value="0xFFD9D9D9"/>
+	</css>
+	<css name="$TextHUD16Bold">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<fontSize value="16"/>
+		<selectable value="false"/>
+		<textColor value="0xFFD9D9D9"/>
+	</css>
+	<css name="$TextHUD14Bold">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<fontSize value="14"/>
+		<selectable value="false"/>
+		<textColor value="0xFFD9D9D9"/>
+	</css>
+	<css name="$TextHUD16">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="16"/>
+		<selectable value="false"/>
+		<textColor value="0xFFD9D9D9"/>
+	</css>
+	<css name="$TextHUD14">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="14"/>
+		<selectable value="false"/>
+		<textColor value="0xFFD9D9D9"/>
+	</css>
+	<css name="$TextColorHUDAlly">
+		<textColor value="0xFF08b8f9"/>
+	</css>
+	<css name="$TextColorHUDDivision">
+		<textColor value="0xFFFFCC66"/>
+	</css>
+	<css name="$TextColorHUDTK">
+		<textColor value="0xFFFF96CA"/>
+	</css>
+	<css name="$TextColorHUDAllyInvert">
+		<textColor value="0xFF001b33"/>
+	</css>
+	<css name="$TextColorHUDEnemy">
+		<textColor value="0xFFd91c3c"/>
+	</css>
+	<css name="$TextColorHUDEnemyInvert">
+		<textColor value="0xFF330012"/>
+	</css>
+	<css name="$TextColorHUDNeutral">
+		<textColor value="0xFFD9D9D9"/>
+	</css>
+	<css name="$TextColorHUDPositive">
+		<textColor value="0xFF4CE8AA"/>
+	</css>
+	<css name="$TextColorHUDWarning">
+		<textColor value="0xFFFF9933"/>
+	</css>
+	<css name="$TextColorHUDCritical">
+		<textColor value="0xFFd91c3c"/>
+	</css>
+	<css name="$TextColorHUDDead">
+		<textColor value="0xFF000000"/>
+	</css>
+	<css name="$TextColorHUDDark">
+		<textColor value="0xFF000000"/>
+	</css>
+	<block className="CapturePointMarker" debug_info="capture_point.uss:1:1-ship_markers.uss:1:1">
+		<style>
+			<width value="40px"/>
+			<height value="40px"/>
+			<position value="absolute"/>
+			<align value="center|middle"/>
+		</style>
+		<bind debug_info="capture_point.uss:8:7-ship_markers.uss:1:1" name="x" value="-20"/>
+		<bind debug_info="capture_point.uss:9:7-ship_markers.uss:1:1" name="y" value="-20"/>
+		<block debug_info="capture_point.uss:10:2-ship_markers.uss:1:1">
+			<style>
+				<position value="absolute"/>
+				<width value="100%"/>
+				<height value="100%"/>
+				<alpha value="0.3"/>
+				<backgroundColor value="0xFF000000"/>
+			</style>
+		</block>
+		<block debug_info="capture_point.uss:19:2-ship_markers.uss:1:1" type="text">
+			<styleClass value="$TextHUDBold"/>
+			<bind debug_info="capture_point.uss:21:8-ship_markers.uss:1:1" name="class" value="relation == 'ally' ? '$TextColorHUDAlly' : relation == 'enemy' ? '$TextColorHUDEnemy' : '$TextColorHUDNeutral'"/>
+			<bind debug_info="capture_point.uss:22:9-ship_markers.uss:1:1" name="text" value="entity.capturePoint.label"/>
+		</block>
+	</block>
+	<block className="ShipMarkersContainer" debug_info="ship_markers.uss:4:1">
+		<bind debug_info="ship_markers.uss:5:7" name="mouseEnabled" value="false"/>
+		<bind debug_info="ship_markers.uss:6:7" name="mouseChildren" value="false"/>
+		<bind debug_info="ship_markers.uss:7:7" name="collectionRepeatDH" value="CC.screenPosition; 'SimpleMarker'; 'cameraDistanceSortedDescending'; {}"/>
+	</block>
+	<block className="SimpleMarker" debug_info="ship_markers.uss:10:1">
+		<style>
+			<position value="absolute"/>
+		</style>
+		<params>
+			<param name="name" value="SimpleMarker"/>
+		</params>
+		<bind debug_info="ship_markers.uss:13:7" name="dataRefDH" value="'entity'; '$dataRef.ref'"/>
+		<bind debug_info="ship_markers.uss:14:7" name="firstEntityDH" value="'timerEntity'; CC.timer"/>
+		<bind debug_info="ship_markers.uss:15:10" name="firstEntityDH" value="'cameraEntity'; CC.camera"/>
+		<bind debug_info="ship_markers.uss:17:7" name="watchDH" value="'type'; []; entity.entityType.value"/>
+		<bind debug_info="ship_markers.uss:18:7" name="watchDH" value="'distance'; ['timerEntity.timer.evInfrequent']; format(entity.distance.distanceToShip, 1)"/>
+		<bind debug_info="ship_markers.uss:20:7" name="name" value="'SimpleMarker ' + entity.id"/>
+		<bind debug_info="ship_markers.uss:21:7" name="perFrameUpdate" value="{x : entity.screenPosition.position.x, y: entity.screenPosition.position.y}"/>
+		<bind debug_info="ship_markers.uss:23:7" name="firstEntityDH" value="'closestEntity'; CC.closestMouseHandler"/>
+		<bind debug_info="ship_markers.uss:24:7" name="watch" value="'isInFocus'; closestEntity == entity"/>
+		<bind debug_info="ship_markers.uss:26:7" name="watchDH" value="'relation'; ['entity.relation.evChanged']; 	entity.relation.value == 1 ? 'ally' :
+																entity.relation.value == 2 ? 'enemy' : 'own'"/>
+		<bind debug_info="ship_markers.uss:38:7" name="childParentScope" value="type;
+		'BattleScreenShipMarker';
+		'StabMarker';
+		'CapturePointMarker';
+		'StabMarker';
+		'StabMarker';
+		'StabMarker';
+		'StabMarker';
+		'TorpedoMarker'"/>
+	</block>
+	<block className="TorpedoMarker" debug_info="ship_markers.uss:50:1">
+		<style>
+			<position value="absolute"/>
+			<width value="4px"/>
+			<height value="16px"/>
+			<backgroundColor value="0xFFD9D9D9"/>
+		</style>
+		<bind debug_info="ship_markers.uss:57:7" name="x" value="-2"/>
+		<bind debug_info="ship_markers.uss:58:10" name="y" value="-16"/>
+	</block>
+	<block className="StabMarker" debug_info="ship_markers.uss:63:1">
+		<style>
+			<width value="10px"/>
+			<height value="10px"/>
+			<backgroundColor value="0x80FFFFFF"/>
+		</style>
+	</block>
+	<block className="BattleScreenShipMarker" debug_info="ship_markers.uss:72:1">
+		<style>
+			<position value="absolute"/>
+		</style>
+		<bind debug_info="ship_markers.uss:81:7" name="changeDispatch" value="isAppearing; 'evShipAppear'; {}; 1; true"/>
+		<bind debug_info="ship_markers.uss:82:7" name="changeDispatch" value="isAppearing; 'evShipDisappear'; {}; 1; false"/>
+		<bind debug_info="ship_markers.uss:83:7" name="appear" value="'evShipAppear'; 0.3; 0; {alpha: 0}; {alpha: 1}; 1"/>
+		<bind debug_info="ship_markers.uss:84:7" name="appear" value="'evShipDisappear'; 0.5; 0; {alpha: 1}; {alpha: 0}; 2"/>
+		<bind debug_info="ship_markers.uss:86:7" name="changeDispatch" value="isAlive; 'evShipDeadDisappear'; {}; 1; false"/>
+		<bind debug_info="ship_markers.uss:87:7" name="appear" value="'evShipDeadDisappear'; 0.5; 1.5; {alpha: 1}; {alpha: 0}; 2"/>
+		<bind debug_info="ship_markers.uss:94:7" name="name" value="'bssMarker_'+$index"/>
+		<bind debug_info="ship_markers.uss:96:7" name="firstEntityDH" value="'timerEntity'; CC.timer"/>
+		<bind debug_info="ship_markers.uss:100:7" name="watchDH" value="'nickName'; []; entity.avatar.pureName"/>
+		<bind debug_info="ship_markers.uss:101:7" name="watchDH" value="'isInSameDivision'; ['entity.avatar.evDivisionChanged']; entity.avatar.isInSameDivision"/>
+		<bind debug_info="ship_markers.uss:102:10" name="watchDH" value="'targetFlags'; ['entity.target.evChanged']; entity.target ? entity.target.flags : 0"/>
+		<bind debug_info="ship_markers.uss:103:7" name="watchDH" value="'isAlive'; ['entity.health.evKilled']; entity.health.isAlive"/>
+		<bind debug_info="ship_markers.uss:104:7" name="watchDH" value="'health'; ['entity.health.evValueChanged', 'entity.health.evKilled']; entity.health.value"/>
+		<bind debug_info="ship_markers.uss:105:7" name="watchDH" value="'tacticalMap'; ['cameraEntity.camera.evTacticalStateChanged']; cameraEntity.camera.isTactical"/>
+		<bind debug_info="ship_markers.uss:106:7" name="watchDH" value="'markerYaw'; ['timerEntity.timer.evFrequent']; math.radToGrad(entity.mapPosition.yaw)"/>
+		<bind debug_info="ship_markers.uss:107:7" name="watchDH" value="'altVision'; ['cameraEntity.camera.evAltVisionChanged']; cameraEntity.camera.altVision"/>
+		<bind debug_info="ship_markers.uss:109:7" name="watchDH" value="'tkStatus'; []; entity.teamKiller.status &amp;&amp; (relation == 'ally')"/>
+		<bind debug_info="ship_markers.uss:111:7" name="watchDH" value="'isAppearing'; ['entity.dissolve.evTransitionStarted']; entity.dissolve.appearing"/>
+		<bind debug_info="ship_markers.uss:112:7" name="watchDH" value="'appearingTime'; []; entity.dissolve.timeLeft"/>
+		<bind debug_info="ship_markers.uss:115:7" name="watch" value="'isSelf'; entity.relation.value == 0"/>
+		<bind debug_info="ship_markers.uss:116:7" name="watch" value="'isAlly'; entity.relation.value == 1"/>
+		<bind debug_info="ship_markers.uss:117:7" name="watch" value="'isEnemy'; entity.relation.value == 2"/>
+		<bind debug_info="ship_markers.uss:120:7" name="var" value="{fxDelay: 0.6}"/>
+		<bind debug_info="hud_replaces.uss:6:10-ship_markers.uss:121:1" name="var" value="{fxDelay: fxDelay}"/>
+		<bind debug_info="hud_replaces.uss:8:7-ship_markers.uss:121:1" name="catch" value="'set'+'newHealth'"/>
+		<bind debug_info="hud_replaces.uss:9:7-ship_markers.uss:121:1" name="var" value="{newHealth: -1}"/>
+		<bind debug_info="hud_replaces.uss:10:7-ship_markers.uss:121:1" name="catch" value="'set'+'prevHealth'"/>
+		<bind debug_info="hud_replaces.uss:11:7-ship_markers.uss:121:1" name="var" value="{prevHealth: -1}"/>
+		<bind debug_info="hud_replaces.uss:13:7-ship_markers.uss:121:1" name="dispatch" value="'addedToStage'; 'set'+'prevHealth'; {prevHealth: health}"/>
+		<bind debug_info="hud_replaces.uss:14:7-ship_markers.uss:121:1" name="changeDispatch" value="health; 'set'+'newHealth'; {newHealth: health}; 1"/>
+		<bind debug_info="hud_replaces.uss:15:7-ship_markers.uss:121:1" name="changeDispatch" value="health; 'dispatchSet'+'prevHealth'"/>
+		<bind debug_info="hud_replaces.uss:16:7-ship_markers.uss:121:1" name="watch" value="'isUpChange'; newHealth &gt; prevHealth"/>
+		<bind debug_info="hud_replaces.uss:17:7-ship_markers.uss:121:1" name="dispatch" value="'dispatchSet'+'prevHealth'; 'set'+'prevHealth'; {prevHealth: health}; 0; isUpChange ? 0 : fxDelay"/>
+		<bind debug_info="ship_markers.uss:134:7" name="var" value="{ distance: 0}"/>
+		<bind debug_info="ship_markers.uss:135:7" name="var" value="{ distancePostfix: tr('IDS_KILOMETER')}"/>
+		<bind debug_info="ship_markers.uss:142:7" name="watch" value="'isTargetLocked'; (targetFlags &amp; (1 + 4)) &gt; 0"/>
+		<bind debug_info="ship_markers.uss:143:7" name="watch" value="'isATBAFocused'; (targetFlags &amp; 2) &gt; 0"/>
+		<bind debug_info="ship_markers.uss:153:7" name="watch" value="'isExtended'; altVision || isTargetLocked || isInFocus"/>
+		<bind debug_info="hud_replaces.uss:21:6-ship_markers.uss:155:1" name="stageSize"/>
+		<bind debug_info="hud_replaces.uss:22:6-ship_markers.uss:155:1" name="scaleX" value="uiScale"/>
+		<bind debug_info="hud_replaces.uss:23:6-ship_markers.uss:155:1" name="scaleY" value="uiScale"/>
+		<bind debug_info="hud_replaces.uss:24:6-ship_markers.uss:155:1" name="ubScaleX" value="1/uiScale"/>
+		<bind debug_info="hud_replaces.uss:25:6-ship_markers.uss:155:1" name="ubScaleY" value="1/uiScale"/>
+		<block debug_info="ship_markers.uss:157:2">
+			<bind debug_info="ship_markers.uss:163:8" name="watch" value="'distanceScale'; distance &lt; 15 ? 1 :
+										distance &lt; 20 ? 0.8 : 0.6"/>
+			<bind debug_info="ship_markers.uss:165:8" name="watch" value="'distanceAlpha'; distance &lt;= 10 ? 1 : 1 - (distance - 10)*0.03"/>
+			<bind debug_info="ship_markers.uss:166:8" name="scaleX" value="distanceScale"/>
+			<bind debug_info="ship_markers.uss:167:8" name="scaleY" value="distanceScale"/>
+			<bind debug_info="ship_markers.uss:168:8" name="style" value="'alpha'; distanceAlpha"/>
+			<bind debug_info="ship_markers.uss:170:11" name="childParentScope" value="tacticalMap ? 1 : 0; {}; 'ShipMarkerContentDefault'; 'ShipMarkerContentTactical'"/>
+		</block>
+	</block>
+	<block className="ShipMarkerContentDefault" debug_info="ship_markers.uss:174:1">
+		<bind debug_info="ship_markers.uss:175:7" name="visible" value="!isSelf"/>
+		<style>
+			<marginTop value="-100%"/>
+			<marginBottom value="30px"/>
+		</style>
+		<block debug_info="ship_markers.uss:179:2">
+			<style>
+				<height value="20px"/>
+				<align value="middle"/>
+			</style>
+			<block debug_info="ship_markers.uss:181:3">
+				<style>
+					<left value="12px"/>
+					<marginTop value="12px"/>
+				</style>
+				<bind debug_info="ship_markers.uss:196:9" name="instance" value="'MarkerShipTypeIconCentered'; {
+														_isAlive : isAlive,
+														_isSelf : isSelf,
+														_relation: relation,
+														_isAllyTeam : isAlly,
+														_shipSubtype: entity.avatar.ship.ref.ship.subtype,
+														_yaw: markerYaw,
+														_tkStatus: tkStatus,
+														_isInSameDivision : isInSameDivision,
+														_rotate: false,
+														_isTargetLocked: isTargetLocked,
+														_defaultCamera: true
+													};"/>
+			</block>
+			<block debug_info="ship_markers.uss:213:3">
+				<style>
+					<marginLeft value="1px"/>
+				</style>
+				<bind debug_info="ship_markers.uss:215:9" name="fade" value="isExtended; 0.15; {scaleX: 0, alpha: 0}; {scaleX: 1, alpha: 1}; {scaleX: 0, alpha: 0}; 1"/>
+				<block debug_info="ship_markers.uss:216:4" type="text">
+					<styleClass value="$TextHUDBold"/>
+					<style>
+						<marginBottom value="2px"/>
+						<letterSpacing value="1.5"/>
+					</style>
+					<bind debug_info="ship_markers.uss:223:10" name="pureText" value="toUpperCase(tr(entity.avatar.ship.ref.ship.nameIDS))"/>
+				</block>
+			</block>
+			<style>
+				<flow value="horizontal"/>
+			</style>
+		</block>
+		<block debug_info="ship_markers.uss:230:2">
+			<bind debug_info="ship_markers.uss:231:8" name="var" value="{healthBarWidthExtended: 116, healthBarWidth: 44, healthBarHeightExtended: 20, healthBarHeight: 3}"/>
+			<bind debug_info="ship_markers.uss:232:8" name="fade" value="isExtended; 0.15; {ubScaleY: 0, scaleY: 0, scaleX: 0, alpha: 0}; {ubScaleY: 1, scaleY: 1, scaleX: 1, alpha: 1}; {ubScaleY: 0, scaleY: 0, scaleX: 0, alpha: 0}; 1"/>
+			<bind debug_info="ship_markers.uss:235:8" name="instance" value="'ShipHealthIndicator'; {_width: healthBarWidthExtended,
+												_height: healthBarHeightExtended,
+												_currentHealth: health,
+												_newHealth: newHealth,
+												_prevHealth: prevHealth,
+												_maxHealth: entity.health.max,
+												_relation: relation,
+												_fxDelay: fxDelay,
+												_isExtended: isExtended }"/>
+		</block>
+		<block debug_info="ship_markers.uss:247:2" type="text">
+			<styleClass value="$TextHUD16Bold"/>
+			<style>
+				<marginLeft value="-2px"/>
+				<marginTop value="-1px"/>
+			</style>
+			<bind debug_info="ship_markers.uss:250:8" name="text" value="distance + ' ' + distancePostfix"/>
+		</block>
+		<block debug_info="ship_markers.uss:255:2" type="text">
+			<bind debug_info="ship_markers.uss:256:8" name="fade" value="isExtended; 0.15; {ubScaleY: 0, scaleX: 0, alpha: 0}; {ubScaleY: 1, scaleX: 1, alpha: 0.6}; {ubScaleY: 0, scaleX: 0, alpha: 0}; 1"/>
+			<styleClass value="$TextHUD16Bold"/>
+			<style>
+				<position value="absolute"/>
+				<left value="-2px"/>
+				<bottom value="-16px"/>
+				<alpha value="0.6"/>
+			</style>
+			<bind debug_info="ship_markers.uss:259:8" name="pureText" value="nickName"/>
+		</block>
+		<block debug_info="ship_markers.uss:263:2">
+			<bind debug_info="ship_markers.uss:264:8" name="fade" value="isATBAFocused; 0.1; {alpha: 0, top: -10}; {alpha: 1, top: 0}; null; 2"/>
+			<style>
+				<position value="absolute"/>
+				<bottom value="14px"/>
+				<left value="-32px"/>
+			</style>
+			<block className="atba_focus" debug_info="ship_markers.uss:266:6" type="native"/>
+		</block>
+	</block>
+	<block className="ShipMarkerContentTactical" debug_info="ship_markers.uss:270:1">
+		<block debug_info="ship_markers.uss:272:2">
+			<bind debug_info="ship_markers.uss:273:8" name="instance" value="'MarkerShipTypeIconCentered'; {
+														_isAlive : isAlive,
+														_isSelf : isSelf,
+														_relation: relation,
+														_isAllyTeam : isAlly,
+														_shipSubtype: entity.avatar.ship.ref.ship.subtype,
+														_yaw: markerYaw,
+														_tkStatus: tkStatus,
+														_isInSameDivision : isInSameDivision,
+														_rotate: true,
+														_isTargetLocked: isTargetLocked
+													};"/>
+		</block>
+		<block debug_info="ship_markers.uss:289:2" type="text">
+			<bind debug_info="ship_markers.uss:290:8" name="visible" value="!isSelf"/>
+			<styleClass value="$TextHUD16Bold"/>
+			<style>
+				<position value="absolute"/>
+				<top value="10px"/>
+				<alpha value="0.85"/>
+			</style>
+			<bind debug_info="ship_markers.uss:293:8" name="text" value="distance + ' ' + distancePostfix"/>
+		</block>
+		<block debug_info="ship_markers.uss:297:2">
+			<bind debug_info="ship_markers.uss:298:8" name="fade" value="isATBAFocused; 0.1; {alpha: 0}; {alpha: 1}; null; 2"/>
+			<bind debug_info="ship_markers.uss:299:8" name="scaleX" value="0.7"/>
+			<bind debug_info="ship_markers.uss:300:8" name="scaleY" value="0.7"/>
+			<style>
+				<position value="absolute"/>
+				<top value="12px"/>
+				<left value="-22px"/>
+			</style>
+			<block className="atba_focus" debug_info="ship_markers.uss:302:6" type="native"/>
+		</block>
+	</block>
+	<block className="MarkerShipTypeIconCentered" debug_info="ship_markers.uss:334:1">
+		<bind debug_info="ship_markers.uss:337:7" name="scaleX" value="_minimap ? 0.75 : 1"/>
+		<bind debug_info="ship_markers.uss:338:7" name="scaleY" value="_minimap ? 0.75 : 1"/>
+		<block debug_info="ship_markers.uss:341:2">
+			<style>
+				<position value="absolute"/>
+			</style>
+			<bind debug_info="ship_markers.uss:343:8" name="scaleX" value="_defaultCamera ? 1.0 : 0.6"/>
+			<bind debug_info="ship_markers.uss:344:8" name="scaleY" value="_defaultCamera ? 1.0 : 0.6"/>
+			<bind debug_info="ship_markers.uss:345:8" name="instance" value="'AimTargetLock'; { _isTargetLocked: _isTargetLocked }"/>
+		</block>
+		<block debug_info="ship_markers.uss:347:2">
+			<bind debug_info="ship_markers.uss:353:8" name="watch" value="'iconRelation'; _isAlive 	? (_lastVis ? '' : (_isInSameDivision ? '_division' : _tkStatus ? '_tk' : ('_' + _relation)))
+												: (_isAllyTeam ? '_ally' : '_enemy')"/>
+			<bind debug_info="ship_markers.uss:356:8" name="watch" value="'iconClass'; toLowerCase(_shipSubtype) + (_isAlive ? (_lastVis ? '_lastvis' : _invis ? '_invis' : '') : '_dead') + iconRelation + '_c'"/>
+			<block debug_info="ship_markers.uss:369:3">
+				<bind debug_info="ship_markers.uss:370:9" name="visible" value="!(_isSelf) || (_isSelf &amp;&amp; !_isAlive)"/>
+				<style>
+					<width value="24px"/>
+					<height value="12px"/>
+				</style>
+				<bind debug_info="ship_markers.uss:372:9" name="style" value="'backgroundSprite'; iconClass"/>
+				<bind debug_info="ship_markers.uss:373:9" name="rotation" value="_rotate ? (_yaw + (90 * (_isAllyTeam || _lastVis ? -1 : 1))) : 0"/>
+			</block>
+			<block className="ship_own_c" debug_info="ship_markers.uss:376:6" type="native">
+				<bind debug_info="ship_markers.uss:377:9" name="visible" value="_isSelf &amp;&amp; _isAlive"/>
+				<bind debug_info="ship_markers.uss:378:9" name="rotation" value="_rotate ? (_yaw - 90) : 0"/>
+			</block>
+		</block>
+	</block>
+	<block className="AimTargetLock" debug_info="ship_markers.uss:383:1">
+		<block className="target_locked_c" debug_info="ship_markers.uss:384:5" type="native">
+			<bind debug_info="ship_markers.uss:386:8" name="fade" value="_isTargetLocked; 0.15; {scaleX:2, scaleY:2, alpha:0}; {scaleX:1, scaleY:1, alpha:1}; {scaleX:0, scaleY:0, alpha:0}; 2; _isTargetLocked ? 0.15 : 0.05"/>
+		</block>
+	</block>
+	<block className="ShipHealthIndicator" debug_info="ship_markers.uss:396:1">
+		<style>
+			<width value="1px"/>
+			<height value="1px"/>
+			<marginTop value="0px"/>
+			<align value="center|middle"/>
+		</style>
+		<bind debug_info="ship_markers.uss:398:7" name="style" value="'width'; _width"/>
+		<bind debug_info="ship_markers.uss:399:7" name="style" value="'height'; _height"/>
+		<bind debug_info="ship_markers.uss:400:7" name="style" value="'marginTop'; _isExtended ? 0 : '8px'"/>
+		<block className="health_bar_track" debug_info="ship_markers.uss:401:5" type="native">
+			<style>
+				<position value="absolute"/>
+				<width value="1px"/>
+				<height value="1px"/>
+			</style>
+			<bind debug_info="ship_markers.uss:403:8" name="style" value="'width'; _width"/>
+			<bind debug_info="ship_markers.uss:404:8" name="style" value="'height'; _height"/>
+			<bind debug_info="ship_markers.uss:405:8" name="gotoAndStop!" value="_relation"/>
+		</block>
+		<block debug_info="ship_markers.uss:407:2">
+			<style>
+				<position value="absolute"/>
+			</style>
+			<bind debug_info="ship_markers.uss:409:8" name="transition" value="_newHealth == 0 ? 0.1 : _newHealth; 0.3; {scaleX: _prevHealth / _maxHealth}; {scaleX: _newHealth / _maxHealth}; null; 1; _fxDelay - 0.05"/>
+			<block className="health_bar_damage" debug_info="ship_markers.uss:410:6" type="native">
+				<style>
+					<width value="1px"/>
+					<height value="1px"/>
+					<alpha value="0.8"/>
+				</style>
+				<bind debug_info="ship_markers.uss:412:9" name="visible" value="_newHealth != _prevHealth"/>
+				<bind debug_info="ship_markers.uss:413:9" name="style" value="'width'; _width"/>
+				<bind debug_info="ship_markers.uss:414:9" name="style" value="'height'; _height"/>
+			</block>
+		</block>
+		<block debug_info="ship_markers.uss:417:2">
+			<style>
+				<position value="absolute"/>
+			</style>
+			<bind debug_info="ship_markers.uss:419:8" name="transition" value="_newHealth == 0 ? 0.1 : _newHealth; 0.15; {scaleX: _prevHealth / _maxHealth}; {scaleX: _newHealth / _maxHealth}; null; 1; 0.05"/>
+			<block className="health_bar" debug_info="ship_markers.uss:420:6" type="native">
+				<style>
+					<width value="1px"/>
+					<height value="1px"/>
+				</style>
+				<bind debug_info="ship_markers.uss:422:9" name="style" value="'width'; _width"/>
+				<bind debug_info="ship_markers.uss:423:9" name="style" value="'height'; _height"/>
+				<bind debug_info="ship_markers.uss:424:9" name="gotoAndStop!" value="_relation"/>
+			</block>
+		</block>
+		<block debug_info="ship_markers.uss:428:2" type="text">
+			<styleClass value="$TextHUDBold"/>
+			<style>
+				<marginTop value="-1px"/>
+			</style>
+			<bind debug_info="ship_markers.uss:432:8" name="style" value="'fontSize'; _maxHealth &gt;= 100000 ? 15 : 17"/>
+			<bind debug_info="ship_markers.uss:433:8" name="class" value="_relation == 'ally' ? '$TextColorHUDAllyInvert' : '$TextColorHUDEnemyInvert'"/>
+			<bind debug_info="ship_markers.uss:434:8" name="text" value="format(_currentHealth) + ' / ' + format(_maxHealth)"/>
+		</block>
+	</block>
+</ui>
