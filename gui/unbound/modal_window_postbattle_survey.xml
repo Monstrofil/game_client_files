@@ -660,6 +660,100 @@
 			</block>
 		</block>
 	</block>
+	<block className="ModalWindowUniversalHeader">
+		<style>
+			<marginBottom value="720:32,1080:64ah"/>
+		</style>
+		<bind name="style" value="'width'; _headerWidth ? _headerWidth : '100%'"/>
+		<block>
+			<bind name="visible" value="_header != null"/>
+			<style>
+				<width value="100%"/>
+			</style>
+			<block type="text">
+				<style>
+					<width value="100%"/>
+					<textAlign value="center"/>
+					<marginTop value="12px"/>
+				</style>
+				<styleClass value="$TextDefaultBold21NM"/>
+				<bind name="text" value="toUpperCase(tr(_header))"/>
+			</block>
+			<block>
+				<style>
+					<width value="100%"/>
+					<marginTop value="720:9,1080:11ah"/>
+				</style>
+				<block className="HorizontalDivider">
+					<styleClass value="$PxHorizontalCorrection"/>
+					<style>
+						<width value="100%"/>
+						<height value="3px"/>
+					</style>
+					<block className="divider_h" type="native">
+						<styleClass value="$Fullsize"/>
+					</block>
+				</block>
+			</block>
+		</block>
+		<block>
+			<bind name="visible" value="!_hideBackButton"/>
+			<style>
+				<position value="absolute"/>
+				<top value="7px"/>
+			</style>
+			<bind name="instance" value="'BackButton'; {_text: 'IDS_RETURN_TO_DOCK', _action: 'btn_cancel'}"/>
+		</block>
+		<block>
+			<bind name="visible" value="!_hideCloseButton"/>
+			<style>
+				<position value="absolute"/>
+			</style>
+			<bind name="style" value="'right'; _innerCloseButton ? '60px' : '8px'"/>
+			<block className="ModalWindowCloseIcon">
+				<style>
+					<position value="absolute"/>
+					<right value="0px"/>
+					<top value="13px"/>
+					<flow value="horizontal"/>
+				</style>
+				<bind name="name" value="'btn_cancel'"/>
+				<bind name="input"/>
+				<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_CLOSE'}; 0"/>
+				<block>
+					<style>
+						<backgroundColor value="0x01000000"/>
+					</style>
+					<block>
+						<style>
+							<marginTop value="-3px"/>
+						</style>
+						<block className="hotkey_holder_white_9slice" type="native">
+							<bind name="visible" value="true"/>
+							<block type="text">
+								<style>
+									<marginLeft value="3px"/>
+									<marginRight value="3px"/>
+									<marginTop value="-1px"/>
+									<marginBottom value="-1px"/>
+								</style>
+								<styleClass value="$BlackLabel"/>
+								<text value="ESC"/>
+							</block>
+						</block>
+					</block>
+					<block className="button_close" type="native">
+						<params>
+							<param name="focusable" value="false"/>
+						</params>
+					</block>
+					<style>
+						<flow value="horizontal"/>
+					</style>
+				</block>
+			</block>
+		</block>
+	</block>
 	<block className="ModalWindowHeader">
 		<style>
 			<marginBottom value="3px"/>
@@ -1454,6 +1548,15 @@
 		<block className="notification_panel" type="native">
 			<styleClass value="$FullsizeAbsolute"/>
 		</block>
+		<block className="button_close" type="native">
+			<bind name="visible" value="_showCloseBtn == true"/>
+			<style>
+				<right value="8"/>
+				<top value="7"/>
+				<position value="absolute"/>
+			</style>
+			<bind name="dispatch" value="'buttonClick'; 'hideWrongMessageEv'"/>
+		</block>
 		<block>
 			<styleClass value="$MiddleAligned"/>
 			<style>
@@ -2009,7 +2112,8 @@
 				<bind name="watch" value="'pveFilterVisible'; selectedBattle.type == BattleTypes.PVE_BATTLE"/>
 				<bind name="watch" value="'trainingFilterVisible'; trainingRoomEntity &amp;&amp; hasTrainingRoomRestrictions"/>
 				<bind name="watch" value="'rankedFilterVisible'; selectedBattle.type == BattleTypes.RANKED_BATTLE"/>
-				<bind name="watch" value="'battleTypeFilterVisible'; pveFilterVisible || trainingFilterVisible || rankedFilterVisible"/>
+				<bind name="watch" value="'eventFilterVisible'; selectedBattle.type == BattleTypes.EVENT_BATTLE"/>
+				<bind name="watch" value="'battleTypeFilterVisible'; pveFilterVisible || trainingFilterVisible || rankedFilterVisible || eventFilterVisible"/>
 				<bind name="instance" value="'AppliedBattleTypeFilter'; battleTypeFilterVisible ? {}	: null"/>
 			</block>
 			<block>
@@ -2684,6 +2788,7 @@
 	<block className="AppliedBattleTypeFilter">
 		<bind name="firstEntityDH" value="'enterBattleEntity'; CC.enterBattle"/>
 		<bind name="watchDH" value="'selectedBattle'; ['enterBattleEntity.enterBattle.evBattleTypesUpdated']; enterBattleEntity.enterBattle.selectedBattle"/>
+		<bind name="primaryEntityDH" value="'selectedBattleTypeEntity'; CC.battleType; selectedBattle.type"/>
 		<bind name="firstEntityDH" value="'pveStateEntity'; CC.pveState"/>
 		<bind name="watchDH" value="'chosenOperationId'; ['pveStateEntity.pveState.evStateUpdated']; pveStateEntity.pveState.chosenOperation"/>
 		<bind name="primaryEntityDH" value="'operationEntity'; CC.operation; chosenOperationId"/>
@@ -2693,14 +2798,16 @@
 		<bind name="watch" value="'restrictionsEntityId';	selectedBattle.type == BattleTypes.PVE_BATTLE 		? 	operationEntity.id :
 											selectedBattle.type == BattleTypes.TRAINING_BATTLE	?	trainingRoomEntity.id :
 											selectedBattle.type == BattleTypes.RANKED_BATTLE	?	rankedRestrictionsEntity.id
-																								:	null"/>
+																								:	selectedBattleTypeEntity.id"/>
 		<bind name="watch" value="'filterIcons';	selectedBattle.type == BattleTypes.PVE_BATTLE 		? 	'pve' :
 								selectedBattle.type == BattleTypes.TRAINING_BATTLE	?	'training_room':
-								selectedBattle.type == BattleTypes.RANKED_BATTLE	?	'rank'
+								selectedBattle.type == BattleTypes.RANKED_BATTLE	?	'rank':
+								selectedBattle.type == BattleTypes.EVENT_BATTLE		?	'event'
 																					:	'no_icon'"/>
 		<bind name="watch" value="'filterText';	selectedBattle.type == BattleTypes.PVE_BATTLE		? tr('IDS_' + toUpperCase(operationEntity.operation.gpName) + '_NAME') :
 								selectedBattle.type == BattleTypes.TRAINING_BATTLE	? 'IDS_CUSTOM_ROOM' :
-								selectedBattle.type == BattleTypes.RANKED_BATTLE 	? 'IDS_RANKED_BATTLES'
+								selectedBattle.type == BattleTypes.RANKED_BATTLE 	? 'IDS_RANKED_BATTLES' :
+								selectedBattle.type == BattleTypes.EVENT_BATTLE 	? 'IDS_EVENTBATTLE'
 																					: 'UNKNOWN_BATTLE_TYPE'"/>
 		<style>
 			<height value="30px"/>

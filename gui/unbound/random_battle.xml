@@ -1449,7 +1449,6 @@
 					<bind name="style" value="'backgroundImage'; 'url:' + shipInfo.pathPreview"/>
 				</block>
 				<block>
-					<bind name="visible" value="!shipInfo.isEventLike"/>
 					<bind name="style" value="'marginTop'; isOwned ? '-15px' : '0px'"/>
 					<style>
 						<width value="100%"/>
@@ -2318,6 +2317,15 @@
 		</block>
 		<block className="notification_panel" type="native">
 			<styleClass value="$FullsizeAbsolute"/>
+		</block>
+		<block className="button_close" type="native">
+			<bind name="visible" value="_showCloseBtn == true"/>
+			<style>
+				<right value="8"/>
+				<top value="7"/>
+				<position value="absolute"/>
+			</style>
+			<bind name="dispatch" value="'buttonClick'; 'hideWrongMessageEv'"/>
 		</block>
 		<block>
 			<styleClass value="$MiddleAligned"/>
@@ -3608,7 +3616,8 @@
 										 (queueTypeIdent == 'CLUB_BATTLE')						? 'url:../bg/balancer/balancer_club.jpg' :
  										 (queueTypeIdent == 'PVE_BATTLE')						? 'url:../bg/balancer/balancer_pve.jpg' :
  										 (queueTypeIdent == 'CLAN_BATTLE')						? 'url:../bg/balancer/balancer_club.jpg' :
-										 (queueTypeIdent == 'TRAINING_BATTLE')					? 'url:../bg/balancer/balancer_random.jpg'
+										 (queueTypeIdent == 'TRAINING_BATTLE')					? 'url:../bg/balancer/balancer_random.jpg' :
+ 										 (queueTypeIdent == 'EVENT_BATTLE')						? 'url:../bg/balancer/balancer_event.jpg'
 																								: 'url:../bg/balancer/balancer_coop.jpg')"/>
 			<styleClass value="$FullsizeAbsolute"/>
 		</block>
@@ -3679,6 +3688,7 @@
 																	: queueTypeIdent == 'CLAN_BATTLE'		? 'IDS_IN_CLAN_BATTLE'
 																	: queueTypeIdent == 'RANDOM'			? 'IDS_IN_RANDOM_BATTLE'
 																	: queueTypeIdent == 'PVE_BATTLE'		? 'IDS_IN_PVE_BATTLE'
+																	: queueTypeIdent == 'EVENT_BATTLE'		? 'IDS_IN_EVENT_BATTLE'
 																	: 'IDS_IN_COOPERATIVE_BATTLE') +
 								' ' +
 								toLowerCase(tr(onlyFullBattles ? 'IDS_NOT_LIMITED' : 'IDS_NOT_MORE_THAN'))"/>
@@ -3868,7 +3878,8 @@
 										(queueTypeIdent == 'PVE_BATTLE') &amp;&amp; (operationType == 'event')	?	'PVEBattle_event' :
 										queueTypeIdent == 'PVE_BATTLE'													?	'PVEBattle' :
 										queueTypeIdent == 'TRAINING_BATTLE'												?	'TrainingBattle' :
-										queueTypeIdent == 'CLAN_BATTLE'													?	'ClanBattle'
+										queueTypeIdent == 'CLAN_BATTLE'													?	'ClanBattle' :
+										queueTypeIdent == 'EVENT_BATTLE'												?	'EventBattle'
 																														:	'CooperativeBattle'"/>
 					</block>
 				</block>
@@ -3880,7 +3891,8 @@
 							queueTypeIdent == 'RANDOM'							?	'IDS_RANDOMBATTLE' :
 							queueTypeIdent == 'CLAN_BATTLE'						?	'IDS_CLANBATTLE' :
 							queueTypeIdent == 'TRAINING_BATTLE'					?	'IDS_TRAININGBATTLE' :
-							queueTypeIdent == 'PVE_BATTLE'						?	tr('IDS_' + toUpperCase(operationEntity.operation.gpName) + '_NAME')
+							queueTypeIdent == 'PVE_BATTLE'						?	tr('IDS_' + toUpperCase(operationEntity.operation.gpName) + '_NAME') :
+							queueTypeIdent == 'EVENT_BATTLE'					?	'IDS_EVENTBATTLE'
 																				:	'IDS_COOPERATIVEBATTLE'"/>
 				</block>
 				<bind name="firstEntityDH" value="'pveStateEntity'; CC.pveState"/>
@@ -3899,8 +3911,9 @@
 					<bind name="text" value="queueTypeIdent == 'PVE_BATTLE'	?  tr('IDS_PVE_BATTLE_WITH_DOT') + ' ' +	(isChosenOperationOfTheWeek == true 			? tr('IDS_OPERATION_OF_THE_WEEK_OPERATION_TITLE') :
 																										(chosenDifficulty == 'normal'	? tr('IDS_OPERATION_NORMAL_DIFFICULTY_TITLE') 
 																																						: tr('IDS_OPERATION_HARD_DIFFICULTY_TITLE'))) 
-															: queueTypeIdent == 'CLAN_BATTLE' ? tr('IDS_CLAN_BATTLE_LOADING_TITLE') 
-															: 'IDS_RANDOMBATTLE_DESCRIPTION'"/>
+															: queueTypeIdent == 'CLAN_BATTLE'	? tr('IDS_CLAN_BATTLE_LOADING_TITLE')
+															: queueTypeIdent == 'EVENT_BATTLE'	? 'IDS_EVENTBATTLE_LOADING_DESCRIPTION'
+																								: 'IDS_RANDOMBATTLE_DESCRIPTION'"/>
 					<bind name="name" value="'random_battle_description'"/>
 				</block>
 				<block>

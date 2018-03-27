@@ -660,6 +660,100 @@
 			</block>
 		</block>
 	</block>
+	<block className="ModalWindowUniversalHeader">
+		<style>
+			<marginBottom value="720:32,1080:64ah"/>
+		</style>
+		<bind name="style" value="'width'; _headerWidth ? _headerWidth : '100%'"/>
+		<block>
+			<bind name="visible" value="_header != null"/>
+			<style>
+				<width value="100%"/>
+			</style>
+			<block type="text">
+				<style>
+					<width value="100%"/>
+					<textAlign value="center"/>
+					<marginTop value="12px"/>
+				</style>
+				<styleClass value="$TextDefaultBold21NM"/>
+				<bind name="text" value="toUpperCase(tr(_header))"/>
+			</block>
+			<block>
+				<style>
+					<width value="100%"/>
+					<marginTop value="720:9,1080:11ah"/>
+				</style>
+				<block className="HorizontalDivider">
+					<styleClass value="$PxHorizontalCorrection"/>
+					<style>
+						<width value="100%"/>
+						<height value="3px"/>
+					</style>
+					<block className="divider_h" type="native">
+						<styleClass value="$Fullsize"/>
+					</block>
+				</block>
+			</block>
+		</block>
+		<block>
+			<bind name="visible" value="!_hideBackButton"/>
+			<style>
+				<position value="absolute"/>
+				<top value="7px"/>
+			</style>
+			<bind name="instance" value="'BackButton'; {_text: 'IDS_RETURN_TO_DOCK', _action: 'btn_cancel'}"/>
+		</block>
+		<block>
+			<bind name="visible" value="!_hideCloseButton"/>
+			<style>
+				<position value="absolute"/>
+			</style>
+			<bind name="style" value="'right'; _innerCloseButton ? '60px' : '8px'"/>
+			<block className="ModalWindowCloseIcon">
+				<style>
+					<position value="absolute"/>
+					<right value="0px"/>
+					<top value="13px"/>
+					<flow value="horizontal"/>
+				</style>
+				<bind name="name" value="'btn_cancel'"/>
+				<bind name="input"/>
+				<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_CLOSE'}; 0"/>
+				<block>
+					<style>
+						<backgroundColor value="0x01000000"/>
+					</style>
+					<block>
+						<style>
+							<marginTop value="-3px"/>
+						</style>
+						<block className="hotkey_holder_white_9slice" type="native">
+							<bind name="visible" value="true"/>
+							<block type="text">
+								<style>
+									<marginLeft value="3px"/>
+									<marginRight value="3px"/>
+									<marginTop value="-1px"/>
+									<marginBottom value="-1px"/>
+								</style>
+								<styleClass value="$BlackLabel"/>
+								<text value="ESC"/>
+							</block>
+						</block>
+					</block>
+					<block className="button_close" type="native">
+						<params>
+							<param name="focusable" value="false"/>
+						</params>
+					</block>
+					<style>
+						<flow value="horizontal"/>
+					</style>
+				</block>
+			</block>
+		</block>
+	</block>
 	<block className="ModalWindowHeader">
 		<style>
 			<marginBottom value="3px"/>
@@ -1042,10 +1136,10 @@
 		</block>
 	</block>
 	<block className="ModalBattleTypeRenderer">
-		<bind name="dataRefDH" value="'battleTypeEntity'; '$dataRef.ref'"/>
+		<bind name="entityDH" value="'battleTypeEntity'; id"/>
 		<bind name="watchDH" value="'type'; []; battleTypeEntity.battleType.type"/>
 		<bind name="name" value="'typeItem' + type"/>
-		<bind name="child" value="(type == BattleTypes.PVE_BATTLE ? 0 : 1); {_type: type}; 'ModalBattleTypeRendererPVE'; 'ModalBattleTypeRendererCommon'"/>
+		<bind name="child" value="(type == BattleTypes.PVE_BATTLE ? 0 : 1); {_type: type, _isSmallView: _isSmallView}; 'ModalBattleTypeRendererPVE'; 'ModalBattleTypeRendererCommon'"/>
 	</block>
 	<block className="ModalBattleTypeRendererPVE">
 		<bind name="primaryEntityDH" value="'battleTypeEntity'; CC.battleType; _type"/>
@@ -1297,8 +1391,8 @@
 		<bind name="watchDH" value="'label'; []; battleTypeEntity.battleType.label"/>
 		<bind name="watchDH" value="'featureId'; []; battleTypeEntity.battleType.featureId"/>
 		<bind name="watchDH" value="'selected'; ['battleTypeEntity.battleType.evSelectionChanged']; battleTypeEntity.battleType.selected)"/>
-		<bind name="collectionDH" value="CC.battleType; 'coomonBattleTypes'; 'common'"/>
-		<bind name="watch" value="'isVisible'; type != BattleTypes.INTRO_MISSION || coomonBattleTypes.length &lt; 6"/>
+		<bind name="collectionDH" value="CC.battleType; 'commonBattleTypes'; 'common'"/>
+		<bind name="watch" value="'isVisible'; type != BattleTypes.INTRO_MISSION || commonBattleTypes.length &lt; 6"/>
 		<bind name="feature" value="featureId; 'click'"/>
 		<bind name="visible" value="isVisible"/>
 		<bind name="watch" value="'isDivisionsAvailableInThisBattleType';	(type == BattleTypes.INTRO_MISSION) ||
@@ -1306,7 +1400,8 @@
 															(type == BattleTypes.RANKED_BATTLE) ? false : true"/>
 		<bind name="watch" value="'isSelectableBattleType'; ((status != 2) &amp;&amp; (!(divisionData.divisionExist) || isDivisionsAvailableInThisBattleType))"/>
 		<bind name="dispatch" value="'click'; isSelectableBattleType ? 'battleTypeChose' : null; null; false"/>
-		<bind name="action" value="'click'; isSelectableBattleType ? 'setBattleType' : null; {battleType: type}"/>
+		<bind name="action" value="'click'; (isSelectableBattleType &amp;&amp; type != BattleTypes.TRAINING_BATTLE) ? 'setBattleType' : null; { battleType: type }"/>
+		<bind name="request" value="'click'; (isSelectableBattleType &amp;&amp; type == BattleTypes.TRAINING_BATTLE) ? 'showTrainingRoomsList' : null; {}"/>
 		<bind name="firstEntityDH" value="'dockDataEntity'; CC.dockDataMarker"/>
 		<bind name="watchDH" value="'battleTypeChooserVisible'; ['dockDataEntity.dockData.evBattleChooserChanged']; dockDataEntity.dockData.battleChooserVisible"/>
 		<bind name="fade" value="(battleTypeChooserVisible &amp;&amp; isVisible); 0; {alpha: 0}; {alpha: 1, top: 0}; {alpha: 0}"/>
@@ -1344,48 +1439,27 @@
 			<bind name="transition" value="isBright &amp;&amp; !(mouseDown); 0.06; {alpha: 0.85}; {alpha: 1}; {alpha: 0.85}"/>
 			<block>
 				<styleClass value="$MiddleAligned"/>
-				<style>
-					<width value="136px"/>
-					<height value="136px"/>
-					<marginBottom value="16px"/>
-				</style>
+				<bind name="style" value="'marginBottom'; _isSmallView ? '4px' : '16px'"/>
+				<bind name="style" value="'width'; _isSmallView ? '80px' : '136px'"/>
+				<bind name="style" value="'height'; _isSmallView ? '80px' : '136px'"/>
+				<bind name="style" value="'colorMatrixFilter';	!(isSelectableBattleType)	? '0 -100 0 0'
+																			: '0 0 0 0'"/>
 				<block>
-					<style>
-						<width value="280px"/>
-						<height value="280px"/>
-					</style>
+					<bind name="style" value="'width'; _isSmallView ? '170px' : '280px'"/>
+					<bind name="style" value="'height'; _isSmallView ? '170px' : '280px'"/>
 					<bind name="instance" value="'SelectedBattleTypeAnimation'; selected ? {} : null"/>
 					<styleClass value="$MiddleAlignedAbsolutely"/>
 					<styleClass value="$MiddleVAligned"/>
 				</block>
-				<block>
-					<styleClass value="$MiddleAlignedAbsolutely"/>
-					<styleClass value="$MiddleVAligned"/>
-					<style>
-						<width value="136px"/>
-						<height value="136px"/>
-						<backgroundSize value="cover"/>
-					</style>
-					<bind name="transition" value="selected; 0.09; {width: 128, height: 128}; {width: 136, height: 136}; {width: 128, height: 128}"/>
-					<bind name="style" value="'colorMatrixFilter';	!(isSelectableBattleType) &amp;&amp; (status != 2)	? '0 -100 0 0'
-																													: '0 0 0 0'"/>
-					<block className="icon_battletypes_big" type="native">
-						<styleClass value="$Fullsize"/>
-						<bind name="gotoAndStop!" value="type == BattleTypes.RANKED_BATTLE	?	(status == 2)				?	'RankedBattle_disabled'
-																																:	'RankedBattle'
-										: type == BattleTypes.CLAN_BATTLE	?	(status == 2)				?	'ClanBattle_disabled'
-																																: 	'ClanBattle'
-																			: type"/>
-					</block>
-				</block>
+				<bind name="child" value="_isSmallView ? 0 : 1; {_status: status, _type: type, _selected: selected}; 'BattleTypeIconSmall'; 'BattleTypeIconBig'"/>
 			</block>
 			<block>
 				<bind name="style" value="'colorMatrixFilter';	isSelectableBattleType	? '0 0 0 0'
 																		: '0 -100 0 -20'"/>
 				<style>
-					<marginBottom value="16px"/>
 					<width value="100%"/>
 				</style>
+				<bind name="style" value="'marginBottom'; _isSmallView ? '8px' : '16px'"/>
 				<block type="text">
 					<style>
 						<alpha value="0.85"/>
@@ -1404,8 +1478,8 @@
 						<width value="100%"/>
 						<textAlign value="center"/>
 						<leading value="-2"/>
-						<marginTop value="16px"/>
 					</style>
+					<bind name="style" value="'marginTop'; _isSmallView ? '8px' : '16px'"/>
 					<bind name="style" value="'alpha'; selected ? 0.8 : 0.6"/>
 					<styleClass value="$TextDefaultNM"/>
 					<bind name="text" value="type == BattleTypes.COOPERATIVE_BATTLE	? 'IDS_COOPERATIVE_SHORT_DESCRIPTION' :
@@ -1415,6 +1489,8 @@
 				</block>
 			</block>
 			<block>
+				<bind name="visible" value="isDivisionDenyReasonVisible"/>
+				<bind name="style" value="'marginTop'; _isSmallView ? '4px' : '0px'"/>
 				<bind name="watch" value="'isDivisionDenyReasonVisible'; (divisionData.divisionExist &amp;&amp; isDivisionsAvailableInThisBattleType == false) &amp;&amp;
 														 (battleTypeDenyReasons.length &gt; 0) &amp;&amp; (status != 2)"/>
 				<bind name="name" value="isDivisionDenyReasonVisible ? type + '_division' : ''"/>
@@ -1429,6 +1505,7 @@
 					<marginTop value="4px"/>
 					<position value="absolute"/>
 				</style>
+				<bind name="style" value="'marginLeft'; _isSmallView ? '40px' : '0px'"/>
 				<block className="icon_sticker_new" type="native">
 					<style>
 						<hitTest value="false"/>
@@ -1700,116 +1777,40 @@
 			<bind name="text" value="dailyPrimeTimeStarts + '–' + dailyPrimeTimeEnds"/>
 		</block>
 	</block>
-	<block className="TrainingBattleTypeRenderer">
-		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'divisionData'"/>
-		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
-		<bind name="primaryEntityDH" value="'battleTypeEntity'; CC.battleType; BattleTypes.TRAINING_BATTLE"/>
-		<bind name="watchDH" value="'selected'; ['battleTypeEntity.battleType.evSelectionChanged']; battleTypeEntity.battleType.selected"/>
-		<bind name="watchDH" value="'battleTypeDenyReasons'; ['battleTypeEntity.battleType.evDisableReasonChanged']; battleTypeEntity.battleType.battleTypeReasons"/>
-		<bind name="watchDH" value="'description'; []; battleTypeEntity.battleType.description"/>
-		<bind name="watchDH" value="'labelIds'; []; battleTypeEntity.battleType.labelIds"/>
-		<bind name="watchDH" value="'type'; []; battleTypeEntity.battleType.type"/>
-		<bind name="watchDH" value="'label'; []; battleTypeEntity.battleType.label"/>
-		<bind name="watchDH" value="'featureId'; []; battleTypeEntity.battleType.featureId"/>
-		<bind name="name" value="'typeItem' + type"/>
+	<block className="BattleTypeIconBig">
+		<styleClass value="$MiddleAlignedAbsolutely"/>
+		<styleClass value="$MiddleVAligned"/>
 		<style>
-			<backgroundColor value="0x01000000"/>
+			<width value="136px"/>
+			<height value="136px"/>
+			<backgroundSize value="cover"/>
 		</style>
-		<bind name="feature" value="featureId; 'click'"/>
-		<bind name="watch" value="'isSelectableBattleType'; !(divisionData.divisionExist)"/>
-		<bind name="request" value="'click'; isSelectableBattleType ? 'showTrainingRoomsList' : null; {}"/>
-		<bind name="dispatch" value="'click'; isSelectableBattleType ? 'battleTypeChose' : null; null; false; 0.2"/>
-		<bind name="tooltip" value="'MouseInstructionTooltip'; {	_multiParagraphArray:	[{_paragraphText: description}],
-												_mouseInstructions:	isSelectableBattleType	? [{_type: 'left', _instructionText: tr('IDS_CHOOSE') + ' ' + tr(labelIds + '_ACC')}]
-																							: [{_type: 'warning', _instructionText: battleTypeDenyReasons[0]}],
-												_maxWidth: 250}"/>
-		<bind name="firstEntityDH" value="'dockDataEntity'; CC.dockDataMarker"/>
-		<bind name="watchDH" value="'battleTypeChooserVisible'; ['dockDataEntity.dockData.evBattleChooserChanged']; dockDataEntity.dockData.battleChooserVisible"/>
-		<bind name="fade" value="battleTypeChooserVisible; 0; {alpha: 0}; {alpha: 1, top: 0}; {alpha: 0}"/>
-		<bind name="appear" value="selected ? null : 'hideBattleTypesOnBattleTypeChose'; 0.14; 0.04; {alpha: 1, top: 0}; {alpha: 0, top: -5}; 3"/>
-		<bind name="appear" value="selected ? 'hideBattleTypesOnBattleTypeChose' : null; 0.11; 0.12;	{alpha: 1};	{alpha: 0}; 2"/>
-		<block>
-			<bind name="transition" value="(selected || rollOver) &amp;&amp; isSelectableBattleType; 0.06; {alpha: 0.85}; {alpha: 1}; {alpha: 0.85}"/>
-			<block>
-				<style>
-					<width value="80px"/>
-					<height value="80px"/>
-				</style>
-				<bind name="style" value="'colorMatrixFilter';	!(isSelectableBattleType)	? '0 -100 0 0'
-																			: '0 0 0 0'"/>
-				<block>
-					<style>
-						<width value="170px"/>
-						<height value="170px"/>
-					</style>
-					<bind name="instance" value="'SelectedBattleTypeAnimation'; selected ? {} : null"/>
-					<styleClass value="$MiddleAlignedAbsolutely"/>
-					<styleClass value="$MiddleVAligned"/>
-				</block>
-				<block>
-					<styleClass value="$MiddleAlignedAbsolutely"/>
-					<styleClass value="$MiddleVAligned"/>
-					<style>
-						<width value="80px"/>
-						<height value="80px"/>
-						<backgroundSize value="cover"/>
-					</style>
-					<block className="icon_battletypes" type="native">
-						<styleClass value="$Fullsize"/>
-						<bind name="gotoAndStop!" value="BattleTypes.TRAINING_BATTLE"/>
-					</block>
-				</block>
-			</block>
-			<block>
-				<style>
-					<marginLeft value="16px"/>
-				</style>
-				<block>
-					<bind name="style" value="'colorMatrixFilter';	!(isSelectableBattleType)	? '0 -100 0 -20'
-																				: '0 0 0 0'"/>
-					<block type="text">
-						<styleClass value="$TextDefaultBold21NM"/>
-						<style>
-							<alpha value="0.85"/>
-						</style>
-						<bind name="class" value="(selected == true ? '$FontColorWhite' : '$FontColorBlueish')"/>
-						<bind name="text" value="label"/>
-					</block>
-					<block type="text">
-						<style>
-							<marginTop value="16px"/>
-							<maxWidth value="220"/>
-							<leading value="-2"/>
-						</style>
-						<styleClass value="$TextDefaultNM"/>
-						<bind name="class" value="'$FontColorBlueish'"/>
-						<bind name="text" value="description"/>
-					</block>
-				</block>
-				<block>
-					<bind name="watch" value="'isDenyReasonVisible'; ((battleTypeDenyReasons.length &gt; 0) &amp;&amp; !isSelectableBattleType)"/>
-					<bind name="name" value="isDenyReasonVisible ? type + '_division' : ''"/>
-					<style>
-						<marginTop value="16px"/>
-					</style>
-					<bind name="instance" value="'BattletypeDenyReason'; isDenyReasonVisible	? { _neutral: false, _reasonText: battleTypeDenyReasons, _maxWidth: 220}
-																			: null"/>
-				</block>
-			</block>
-			<style>
-				<flow value="horizontal"/>
-			</style>
+		<bind name="transition" value="_selected; 0.09; {width: 128, height: 128}; {width: 136, height: 136}; {width: 128, height: 128}"/>
+		<block className="icon_battletypes_big" type="native">
+			<styleClass value="$Fullsize"/>
+			<bind name="gotoAndStop!" value="   _type == BattleTypes.RANKED_BATTLE	?	(_status == 2)		?	'RankedBattle_disabled'
+																												:	'RankedBattle'
+							:   _type == BattleTypes.CLAN_BATTLE	?	(_status == 2)		?	'ClanBattle_disabled'
+																												: 	'ClanBattle'
+																	: _type"/>
 		</block>
-		<block>
-			<bind name="fade" value="featureState == 'new'; 0.15; {alpha: 0, top: 10}; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
-			<style>
-				<position value="absolute"/>
-			</style>
-			<block className="icon_sticker_new" type="native">
-				<style>
-					<hitTest value="false"/>
-				</style>
-			</block>
+	</block>
+	<block className="BattleTypeIconSmall">
+		<styleClass value="$MiddleAlignedAbsolutely"/>
+		<styleClass value="$MiddleVAligned"/>
+		<style>
+			<width value="80px"/>
+			<height value="80px"/>
+			<backgroundSize value="cover"/>
+		</style>
+		<bind name="transition" value="_selected; 0.09; {width: 72, height: 72}; {width: 80, height: 80}; {width: 72, height: 72}"/>
+		<block className="icon_battletypes" type="native">
+			<styleClass value="$Fullsize"/>
+			<bind name="gotoAndStop!" value="   _type == BattleTypes.RANKED_BATTLE	?	(_status == 2)		?	'RankedBattle_disabled'
+																												:	'RankedBattle'
+							:   _type == BattleTypes.CLAN_BATTLE	?	(_status == 2)		?	'ClanBattle_disabled'
+																												: 	'ClanBattle'
+																	: _type"/>
 		</block>
 	</block>
 	<block className="SelectedBattleEventTypeAnimation">
@@ -3597,21 +3598,29 @@
 					<top value="18sh"/>
 					<position value="absolute"/>
 				</style>
-				<bind name="collectionRepeatDH" value="CC.battleType; 'ModalBattleTypeRenderer'; 'common.sorted'; {}"/>
+				<bind name="collectionDH" value="CC.battleType; 'commonBattleTypes'; 'common.sorted'"/>
+				<bind name="collectionDesign" value="DES_commonBattleTypes; 'enabledBattleTypes'; {'filter': $entity.battleType.status != 2}; ['battleType.evStatusChanged']"/>
+				<bind name="repeat" value="enabledBattleTypes; 'ModalBattleTypeRenderer'; {}"/>
 			</block>
 			<block>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'slimClientData'"/>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 				<bind name="feature" value="28; ''"/>
 				<bind name="watch" value="'isTrainingBattleAvailable'; slimClientData.isFull &amp;&amp; (feature_28 != 'locked') &amp;&amp; (optionData.disableTrainingRoom == false)"/>
+				<bind name="collectionDH" value="CC.battleType; 'sortedBattleTypes'; 'sorted'"/>
+				<bind name="collectionDesign" value="DES_sortedBattleTypes; 'disabledBattleTypes'; {'filter': $entity.battleType.status == 2}; ['battleType.evStatusChanged']"/>
 				<style>
 					<bottom value="720:128,1080:256ah"/>
 				</style>
 				<styleClass value="$MiddleAlignedAbsolutely"/>
-				<bind name="instance" value="'TrainingBattleTypeRenderer'; isTrainingBattleAvailable ? {} : null"/>
-				<style>
-					<flow value="horizontal"/>
-				</style>
+				<block>
+					<bind name="primaryEntityDH" value="'battleTypeEntity'; CC.battleType; BattleTypes.TRAINING_BATTLE"/>
+					<bind name="instance" value="'ModalBattleTypeRenderer'; isTrainingBattleAvailable ? {id: battleTypeEntity.id, _isSmallView: true} : null"/>
+					<bind name="repeat" value="disabledBattleTypes; 'ModalBattleTypeRenderer'; {_isSmallView: true}"/>
+					<style>
+						<flow value="horizontal"/>
+					</style>
+				</block>
 			</block>
 		</block>
 	</block>

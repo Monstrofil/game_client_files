@@ -828,9 +828,13 @@
 			<mgVisibilityTime><Type> FLOAT </Type></mgVisibilityTime>
 			<smokeVisibilityTime><Type> FLOAT </Type></smokeVisibilityTime>
 			<GMIdealRadius><Type> FLOAT </Type></GMIdealRadius>
+			<GSIdealRadius><Type> FLOAT </Type></GSIdealRadius>
+			<AAMaxDist><Type> FLOAT </Type></AAMaxDist>
 			<shootShift><Type> FLOAT </Type></shootShift>
+			<speedCoef><Type> FLOAT </Type></speedCoef>
 			<airplanesSpeed><Type> FLOAT </Type></airplanesSpeed>
 			<burnDamage><Type> FLOAT </Type></burnDamage>
+			<burnTime><Type> FLOAT </Type></burnTime>
 			<smokeLifeTime><Type> FLOAT </Type></smokeLifeTime>
 			<maxShipVisionDistance><Type> FLOAT </Type></maxShipVisionDistance>
 			<maxPlaneVisionDistance><Type> FLOAT </Type></maxPlaneVisionDistance>
@@ -852,7 +856,6 @@
 		<Properties>
 			<globalWeatherId><Type>ENTITY_ID</Type></globalWeatherId>
 			<localWeather> <Type>ARRAY<of>LOCAL_WEATHER_STATE</of></Type></localWeather>
-			<entityLogicParams><Type>ARRAY<of>ENTITY_WEATHER_STATE</of></Type></entityLogicParams>
 		</Properties>
 	</WEATHER_STATE>
 	
@@ -990,4 +993,19 @@
         </Properties>
         <AllowNone>true</AllowNone>
     </BATTLE_LOGIC_UI_INFO>
+	<AIR_DEFENCE_AURA>
+		FIXED_DICT
+		<Properties>
+			<id><Type> INT8 </Type></id>
+			<enabled><Type> BOOL </Type></enabled>
+		</Properties>
+	</AIR_DEFENCE_AURA>
+    <PREREQUISITE_SHIP>
+        FIXED_DICT
+        <Properties>
+            <shipParamsId><Type>GAMEPARAMS_ID</Type> </shipParamsId>
+            <maxUpgrades><Type>BOOL</Type> </maxUpgrades>
+            <camoParamsId><Type>GAMEPARAMS_ID</Type> </camoParamsId>
+        </Properties>
+    </PREREQUISITE_SHIP>
 </root>

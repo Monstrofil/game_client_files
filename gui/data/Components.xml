@@ -687,9 +687,10 @@
 		<property name ="inStorage" type="Integer"/>
 		<property name ="curBoxType" type="Integer"/>
 		<property name ="chosenBoxType" type="Integer"/>
-		<event name="evUpdate"/>
-		<event name="evLootboxGot"/>
-	</component>
+		<property name="isLucky" type="Boolean"/>
+        <event name="evUpdate" />
+		<event name="evLootboxGot" />
+    </component>
 	
 	<component name="LootboxComponent">
 		<property name="rewards" type="Array"/>
@@ -2197,6 +2198,7 @@
 		<property	name="shortName"			type="String"		/>
 		<property	name="fullName"				type="String"		/>
 		<property	name="nameIDS"				type="String"		/>
+		<property	name="fullNameRoman"		type="String"		/> <!-- lowercase unicode with some chars translated by Constants.SHIP_NAMES_TRANS_TABLE -->
 		<property	name="nameUpper"			type="String"		/>
 		<property	name="country"				type="String"		/>
 		<property	name="level"				type="Integer"		/>
@@ -3048,4 +3050,9 @@
 		<event name="evTempCountChanged"/>
 	</component>
 
-</components>
+	<component 		name="ByteArrayData">
+		<property   name="id"				type="String"	pk="true" />
+		<property   name="data"				type="ByteArray"/>
+
+		<event		name="evUpdate" />
+	</component></components>

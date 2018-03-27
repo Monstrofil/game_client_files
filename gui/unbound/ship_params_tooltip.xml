@@ -1329,6 +1329,15 @@
 		<block className="notification_panel" type="native">
 			<styleClass value="$FullsizeAbsolute"/>
 		</block>
+		<block className="button_close" type="native">
+			<bind name="visible" value="_showCloseBtn == true"/>
+			<style>
+				<right value="8"/>
+				<top value="7"/>
+				<position value="absolute"/>
+			</style>
+			<bind name="dispatch" value="'buttonClick'; 'hideWrongMessageEv'"/>
+		</block>
 		<block>
 			<styleClass value="$MiddleAligned"/>
 			<style>
@@ -2327,11 +2336,9 @@
 	</css>
 	<block className="ShipParamsTooltip">
 		<bind name="primaryEntityDH" value="'cmdEntity'; CC.commandMappingCommandName; 'CMD_SHIP_PARAMS'"/>
-		<bind name="watchDH" value="'keyEntityId'; ['cmdEntity.commandKeyList.evChanged']; cmdEntity.commandKeyList.deviceMap[0]"/>
-		<bind name="entityDH" value="'keyEntity'; keyEntityId"/>
-		<bind name="watchDH" value="'keyId'; []; keyEntity.commandMappingKey.keyId"/>
-		<bind name="primaryEntityDH" value="'inputKeyEntity'; CC.inputKey; keyId"/>
-		<bind name="watchDH" value="'keyState'; ['inputKeyEntity.inputKey.evStateChanged']; inputKeyEntity.inputKey.state"/>
+		<bind name="handleEventDH" value="'cmdEntity.commandMappingCommand.evCall'; 'evCommandCall'"/>
+		<bind name="catch" value="'evCommandCall'"/>
+		<bind name="watch" value="'isCommandDown'; $args[0]"/>
 		<bind name="collectionDH" value="CC.avatar; 'selfAvatarCollection'+'ROOT'"/>
 		<bind name="collectionDesign" value="'DES_'+'selfAvatarCollection'+'ROOT'; 'selfAvatarCollection'; {'filter':$entity.relation.value == 0}; []"/>
 		<bind name="watch" value="'selfAvatarEntityId'; selfAvatarCollection[0].id"/>
@@ -2414,6 +2421,10 @@
 		<bind name="watchDH" value="'shootMGRange'+'_vis'; ['shootMGRangeEntity.parameter.evChanged']; shootMGRangeEntity.parameter.currentValue"/>
 		<bind name="primaryEntityDH" value="'visionRangeEntity'; CC.parameter; selfAvatarEntityId + '_' + 'visionRange'"/>
 		<bind name="watchDH" value="'visionRange'; ['visionRangeEntity.parameter.evChanged']; (format(visionRangeEntity.parameter.currentValue, 1, true) + tr('IDS_KILOMETER_SPACE'))"/>
+		<bind name="firstEntityDH" value="'localWeatherEntity'; CC.localWeather"/>
+		<bind name="watchDH" value="'weatherName'; ['localWeatherEntity.localWeather.evChanged']; toUpperCase(localWeatherEntity.localWeather.gpName)"/>
+		<bind name="collectionDH" value="CC.state; 'avatarStatesRoot'; 'byEntity.' + selfAvatarEntityId"/>
+		<bind name="collectionDesign" value="DES_avatarStatesRoot; 'weatherStates'; {'filter': $entity.state.type == EntityState.INSIDE_WEATHER}"/>
 		<bind name="watch" value="'shipParams';
 			[	{ title: 'IDS_SHIP_TOOLTIP_VISIBILITY', value: visibilityRange, paramsArr:
 					[	{ title: 'IDS_SHIP_PARAM_VISIBILITY_DIST_BY_SHIP',									value: visibilityByShipRangeBase,
@@ -2447,6 +2458,10 @@
 									{title: 'IDS_AA_MID_STATE',		value: aaMidState,	isInvisible: (aaBaseMidState_vis == 0)},
 									{title: 'IDS_AA_FAR_STATE',		value: aaFarState,	isInvisible: (aaBaseFarState_vis == 0)}
 								]
+				},
+				{ 	title: tr('IDS_LOCAL_WEATHER_SHIP_PARAM_HEADER_' + weatherName), 
+					value: no_value, isInvisible: (weatherName == null) || !(weatherStates.length), isNegative: true,
+					paramsArr: [ {title: 'IDS_LOCAL_WEATHER_SHIP_PARAM_DESCRIPTION_' + weatherName, value: no_value, isTextParam: true} ]
 				}
 			]
 		}"/>
@@ -2467,7 +2482,7 @@
 		<bind name="entityDH" value="'selfAvatarEntity'; selfAvatarEntityId"/>
 		<bind name="watchDH" value="'playerIsAlive'; ['selfAvatarEntity.health.evKilled']; selfAvatarEntity.health.isAlive"/>
 		<block>
-			<bind name="fade" value="(keyState || rollOver) &amp;&amp; playerIsAlive; 0.07; {alpha: 0}; {alpha: 1}; {alpha: 0}"/>
+			<bind name="fade" value="isCommandDown || (rollOver &amp;&amp; playerIsAlive); 0.07; {alpha: 0}; {alpha: 1}; {alpha: 0}"/>
 			<style>
 				<position value="absolute"/>
 				<width value="320px"/>
@@ -2504,6 +2519,17 @@
 				<marginBottom value="10px"/>
 				<marginTop value="8px"/>
 			</style>
+			<block className="battle_stats_backgrounds" type="native">
+				<bind name="visible" value="isNegative == true"/>
+				<style>
+					<marginLeft value="-12px"/>
+					<marginRight value="-12px"/>
+					<marginBottom value="-10px"/>
+					<marginTop value="-10px"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
+				<bind name="gotoAndStop!" value="'red'"/>
+			</block>
 			<block type="text">
 				<style>
 					<width value="100%"/>
@@ -2607,9 +2633,9 @@
 				<width value="100%"/>
 			</style>
 			<block type="text">
+				<bind name="style" value="'leading'; isTextParam ? 0 : -4"/>
 				<style>
 					<width value="100%"/>
-					<leading value="-4"/>
 				</style>
 				<styleClass value="$TextDefaultNM"/>
 				<bind name="text" value="title"/>
@@ -2623,6 +2649,7 @@
 				<bind name="text" value="value"/>
 			</block>
 			<block>
+				<bind name="visible" value="isTextParam != true"/>
 				<style>
 					<position value="absolute"/>
 					<width value="100%"/>
