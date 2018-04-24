@@ -513,22 +513,43 @@
 		</style>
 	</block>
 	<block className="BlurMap">
+		<bind name="visible" value="optionData.blurEnabled"/>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 		<style>
-			<position value="absolute"/>
-			<width value="100%"/>
-			<height value="100%"/>
 			<hitTest value="false"/>
 		</style>
+		<styleClass value="$FullsizeAbsolute"/>
+		<block className="mc_blurmap_medium" type="native">
+			<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
+			<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
+			<styleClass value="$FullsizeAbsolute"/>
+			<bind name="blurMap" value="0"/>
+		</block>
+		<block className="inner_panel" type="native">
+			<style>
+				<alpha value="0.5"/>
+			</style>
+			<styleClass value="$FullsizeAbsolute"/>
+		</block>
+	</block>
+	<block className="BlurMapLow">
 		<bind name="visible" value="optionData.blurEnabled"/>
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<style>
+			<hitTest value="false"/>
+		</style>
+		<styleClass value="$FullsizeAbsolute"/>
 		<block className="mc_blurmap5" type="native">
 			<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 			<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-			<style>
-				<width value="100%"/>
-				<height value="100%"/>
-			</style>
+			<styleClass value="$FullsizeAbsolute"/>
 			<bind name="blurMap" value="0"/>
+		</block>
+		<block className="inner_panel" type="native">
+			<style>
+				<alpha value="0.2"/>
+			</style>
+			<styleClass value="$FullsizeAbsolute"/>
 		</block>
 	</block>
 	<block className="BlurMapNotifications">
@@ -1723,7 +1744,7 @@
 				<backgroundColor value="0x01000000"/>
 			</style>
 			<bind name="tooltip" value="'ModernizationTooltip'; {installed: false, iconPath: _itemToMount.iconPath, title: _itemToMount.title,
-												paramsList: _itemToMount.paramsList, numInStorage: _itemToMount.numInStorage, 
+												_attributesPositive: _itemToMount.attributesPositive, _attributesNegative: _itemToMount.attributesNegative, numInStorage: _itemToMount.numInStorage, 
 												tooltiptype: 'modalWindow', type: _itemToMount.type,
 												priceInfoSet: priceInfoSet, _modId: _itemToMount.modId, description: _itemToMount.description}; TooltipBehaviour.simple"/>
 			<block>
@@ -1830,7 +1851,7 @@
 				<bind name="instance" value="'PriceDeficit'; {_large: true, priceInfo: priceInfoSet.prices[selectedPriceIndex], _deficit: priceDeficit}"/>
 			</block>
 			<block>
-				<bind name="visible" value="(priceDeficit &lt;= 0)"/>
+				<bind name="visible" value="btnEnabled"/>
 				<style>
 					<marginTop value="9px"/>
 				</style>
@@ -1908,7 +1929,7 @@
 			<bind name="appear" value="'addedToStage'; 0.15; _windowAppearLag + 1 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
 			<bind name="appear" value="'startHide'; 0.15; 1 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
 			<bind name="tooltip" value="'ModernizationTooltip'; {installed: true, iconPath: _itemToUnmount.iconPath, title: _itemToUnmount.title,
-												paramsList: _itemToUnmount.paramsList, numInStorage: _itemToUnmount.numInStorage,
+												_attributesPositive: _itemToUnmount.attributesPositive, _attributesNegative: _itemToUnmount.attributesNegative, numInStorage: _itemToUnmount.numInStorage,
 												tooltiptype: 'modalWindow', priceInfoSet: null, _modId: _itemToUnmount.modId,
 												description:_itemToUnmount.description, type: _itemToUnmount.type}; TooltipBehaviour.simple"/>
 			<style>
@@ -2062,7 +2083,7 @@
 			<bind name="appear" value="'addedToStage'; 0.15; _windowAppearLag + 1 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
 			<bind name="appear" value="'startHide'; 0.15; 1 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
 			<bind name="tooltip" value="'ModernizationTooltip'; {installed: false, iconPath: _itemToMount.iconPath, title: _itemToMount.title,
-												paramsList: _itemToMount.paramsList, numInStorage: _itemToMount.numInStorage, 
+												_attributesPositive: _itemToMount.attributesPositive, _attributesNegative: _itemToMount.attributesNegative, numInStorage: _itemToMount.numInStorage, 
 												tooltiptype: 'modalWindow', type: _itemToMount.type,
 												priceInfoSet: priceInfoSet, _modId: _itemToMount.modId, description:_itemToMount.description}; TooltipBehaviour.simple"/>
 			<style>
@@ -2160,7 +2181,7 @@
 					<backgroundColor value="0x01000000"/>
 				</style>
 				<bind name="tooltip" value="'ModernizationTooltip'; {installed: true, iconPath: _itemToUnmount.iconPath, title: _itemToUnmount.title,
-													paramsList: _itemToUnmount.paramsList, numInStorage: _itemToUnmount.numInStorage,
+													_attributesPositive: _itemToUnmount.attributesPositive, _attributesNegative: _itemToUnmount.attributesNegative, numInStorage: _itemToUnmount.numInStorage,
 													tooltiptype: 'modalWindow', priceInfoSet: null, _modId: _itemToUnmount.modId, 
 													description: _itemToUnmount.description, type: _itemToUnmount.type}; TooltipBehaviour.simple"/>
 				<bind name="instance" value="'ModalModernizationItem'; {	_iconPath: _itemToUnmount.iconPath, 
@@ -2506,22 +2527,23 @@
 				</style>
 			</block>
 			<block className="BlurMap">
+				<bind name="visible" value="optionData.blurEnabled"/>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 				<style>
-					<position value="absolute"/>
-					<width value="100%"/>
-					<height value="100%"/>
 					<hitTest value="false"/>
 				</style>
-				<bind name="visible" value="optionData.blurEnabled"/>
-				<block className="mc_blurmap5" type="native">
+				<styleClass value="$FullsizeAbsolute"/>
+				<block className="mc_blurmap_medium" type="native">
 					<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 					<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-					<style>
-						<width value="100%"/>
-						<height value="100%"/>
-					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 					<bind name="blurMap" value="0"/>
+				</block>
+				<block className="inner_panel" type="native">
+					<style>
+						<alpha value="0.5"/>
+					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 				</block>
 			</block>
 		</block>
@@ -2932,22 +2954,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<block className="GUIContrast">
@@ -3349,6 +3372,7 @@
 								haveClanTag			?	('[' + _clanTag + ']' + _playerName)
 													: _playerName"/>
 		<bind name="watch" value="'fontColor'; 	_isSelf 	? 	_ttkStatus 			? '$FontColorTTK' :
+												_ctkStatus			? '$FontColorCompareNegative' :
 												_tkStatus 			? '$FontColorTeamkiller'
 																	: '$FontColorGolden':
 								!_isDead 	?  	_ttkStatus 			? '$FontColorTTK' :

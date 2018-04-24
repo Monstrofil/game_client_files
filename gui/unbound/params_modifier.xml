@@ -1,0 +1,65 @@
+
+<ui>
+	<block className="ParamsModifierItem">
+		<style>
+			<width value="100%"/>
+			<flow value="horizontal"/>
+			<marginBottom value="16px"/>
+		</style>
+		<bind name="style" value="'paddingTop'; (_alignLeft == true) ? '-8px': '0px'"/>
+		<block type="text">
+			<styleClass value="$TextDefaultNM"/>
+			<style>
+				<leading value="-3"/>
+				<alpha value="0.8"/>
+				<width value="100%"/>
+			</style>
+			<bind name="style" value="'width'; (_alignLeft == true) ? '100%f': '100%'"/>
+			<bind name="text" value="attributeIDS"/>
+		</block>
+		<block type="text">
+			<style>
+				<marginLeft value="12px"/>
+			</style>
+			<styleClass value="$TextDefaultNM"/>
+			<bind name="class" value="category == 'positive' ? '$FontColorComparePositive' : 
+					 category == 'negative'	? '$FontColorCompareNegative'
+					 						: '$FontColorDefault'"/>
+			<bind name="text" value="measuredValue"/>
+		</block>
+		<block type="text">
+			<style>
+				<marginLeft value="4px"/>
+			</style>
+			<styleClass value="$TextDefaultNM"/>
+			<bind name="style" value="'alpha'; category == 'positive' ? 0.65 : 0.8"/>
+			<bind name="class" value="category == 'positive' ? '$FontColorComparePositive' : 
+					 category == 'negative'	? '$FontColorCompareNegative'
+					 						: '$FontColorDefault'"/>
+			<bind name="text" value="measure"/>
+		</block>
+	</block>
+	<block className="ParamsModifierList">
+		<style>
+			<width value="100%"/>
+		</style>
+		<block>
+			<style>
+				<width value="100%"/>
+			</style>
+			<bind name="repeat" value="_attributesPositive; 'ParamsModifierItem'; {_alignLeft: _alignLeft}"/>
+		</block>
+		<block>
+			<style>
+				<width value="100%"/>
+			</style>
+			<bind name="repeat" value="_attributesNegative; 'ParamsModifierItem'; {_alignLeft: _alignLeft}"/>
+		</block>
+		<block>
+			<style>
+				<width value="100%"/>
+			</style>
+			<bind name="repeat" value="_attributesNeutral; 'ParamsModifierItem'; {_alignLeft: _alignLeft}"/>
+		</block>
+	</block>
+</ui>

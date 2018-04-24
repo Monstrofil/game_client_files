@@ -116,10 +116,13 @@
     <properties config='../unbound/dogtag_hud_spectator.xml' rootElementId='DogTagInHUDSpectator' hitTest = "false"/>
   </element>
   <element name="ribbonContainer" class="RibbonContainerClip" url="achievements.swf" autoPerfTestGroup="ribbons">
-    <properties spacingHor='5' spacingVert='5' multiline='true' maxCount='5' direction = 'horizontal' hitTest = 'true'/>
+    <properties spacingHor='5' spacingVert='5' multiline='true' maxCount='4' direction = 'horizontal' hitTest = 'true'/> <!-- maxCount is changed by controller now -->
   </element>
   <element name="ribbonAppear" class="RibbonAppearClip" url="achievements.swf">
     <properties hitTest = 'true'/>
+  </element>
+  <element name="damageWidget" class="DamageWidgetClip" url="achievements.swf">
+    <properties spacingVert='-4' direction='vertical' hitTest = 'true'/>
   </element>
   <element name="flyOffDamage" class="FlyOffDamageClip" url="flyoffdamage.swf"/>
     <element name="deathPanel" class="AfterDeathAttentionPanel" url="after_death_panel.swf" autoPerfTest="false">
@@ -200,7 +203,7 @@
 	<!--<controller class="lesta.dialogs.battle_window_controllers.RegisterFocusComponent" clips="combatLog.chat.txa_input"/>-->
 	<controller class="lesta.dialogs.battle_window_controllers.CarrierPanelController" clips="carrierPanel,weaponsPanel"/>
 	<!--<controller class="lesta.dialogs.battle_window_controllers.ComplainController" clips="combatLog.chat"/>-->
-	<controller class="lesta.dialogs.battle_window_controllers.AchievementController" clips="ribbonContainer,ribbonAppear"/>
+	<controller class="lesta.dialogs.battle_window_controllers.AchievementController" clips="damageWidget,ribbonContainer,ribbonAppear"/>
 	<controller class="lesta.dialogs.battle_window_controllers.TutorialController" clips="expectedAction"/>	
 	<controller class="lesta.dialogs.battle_window_controllers.DeathPanelController" clips="deathPanel,crosshairSpectator"/>	
 	<controller class="lesta.dialogs.battle_window_controllers.BattleTasksController" clips="tasksContainer"/>	

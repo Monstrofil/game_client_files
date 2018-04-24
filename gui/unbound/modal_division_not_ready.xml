@@ -168,22 +168,43 @@
 		</style>
 	</block>
 	<block className="BlurMap">
+		<bind name="visible" value="optionData.blurEnabled"/>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 		<style>
-			<position value="absolute"/>
-			<width value="100%"/>
-			<height value="100%"/>
 			<hitTest value="false"/>
 		</style>
+		<styleClass value="$FullsizeAbsolute"/>
+		<block className="mc_blurmap_medium" type="native">
+			<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
+			<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
+			<styleClass value="$FullsizeAbsolute"/>
+			<bind name="blurMap" value="0"/>
+		</block>
+		<block className="inner_panel" type="native">
+			<style>
+				<alpha value="0.5"/>
+			</style>
+			<styleClass value="$FullsizeAbsolute"/>
+		</block>
+	</block>
+	<block className="BlurMapLow">
 		<bind name="visible" value="optionData.blurEnabled"/>
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<style>
+			<hitTest value="false"/>
+		</style>
+		<styleClass value="$FullsizeAbsolute"/>
 		<block className="mc_blurmap5" type="native">
 			<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 			<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-			<style>
-				<width value="100%"/>
-				<height value="100%"/>
-			</style>
+			<styleClass value="$FullsizeAbsolute"/>
 			<bind name="blurMap" value="0"/>
+		</block>
+		<block className="inner_panel" type="native">
+			<style>
+				<alpha value="0.2"/>
+			</style>
+			<styleClass value="$FullsizeAbsolute"/>
 		</block>
 	</block>
 	<block className="BlurMapNotifications">
@@ -1529,22 +1550,23 @@
 				</style>
 			</block>
 			<block className="BlurMap">
+				<bind name="visible" value="optionData.blurEnabled"/>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 				<style>
-					<position value="absolute"/>
-					<width value="100%"/>
-					<height value="100%"/>
 					<hitTest value="false"/>
 				</style>
-				<bind name="visible" value="optionData.blurEnabled"/>
-				<block className="mc_blurmap5" type="native">
+				<styleClass value="$FullsizeAbsolute"/>
+				<block className="mc_blurmap_medium" type="native">
 					<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 					<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-					<style>
-						<width value="100%"/>
-						<height value="100%"/>
-					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 					<bind name="blurMap" value="0"/>
+				</block>
+				<block className="inner_panel" type="native">
+					<style>
+						<alpha value="0.5"/>
+					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 				</block>
 			</block>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -1561,7 +1583,7 @@
 			<block type="text">
 				<styleClass value="$InfoBlockIndentNoWidth"/>
 				<styleClass value="$TextHeaderBigDefault"/>
-				<bind name="style" value="'leading'; tooltipText.length &gt; 40 ? 0 : -3"/>
+				<bind name="style" value="'leading'; (tooltipText.length &gt; 30 ? 0 : -3)"/>
 				<style>
 					<maxWidth value="300"/>
 				</style>
@@ -1583,22 +1605,23 @@
 				</style>
 			</block>
 			<block className="BlurMap">
+				<bind name="visible" value="optionData.blurEnabled"/>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 				<style>
-					<position value="absolute"/>
-					<width value="100%"/>
-					<height value="100%"/>
 					<hitTest value="false"/>
 				</style>
-				<bind name="visible" value="optionData.blurEnabled"/>
-				<block className="mc_blurmap5" type="native">
+				<styleClass value="$FullsizeAbsolute"/>
+				<block className="mc_blurmap_medium" type="native">
 					<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 					<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-					<style>
-						<width value="100%"/>
-						<height value="100%"/>
-					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 					<bind name="blurMap" value="0"/>
+				</block>
+				<block className="inner_panel" type="native">
+					<style>
+						<alpha value="0.5"/>
+					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 				</block>
 			</block>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -1850,22 +1873,23 @@
 				</style>
 			</block>
 			<block className="BlurMap">
+				<bind name="visible" value="optionData.blurEnabled"/>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 				<style>
-					<position value="absolute"/>
-					<width value="100%"/>
-					<height value="100%"/>
 					<hitTest value="false"/>
 				</style>
-				<bind name="visible" value="optionData.blurEnabled"/>
-				<block className="mc_blurmap5" type="native">
+				<styleClass value="$FullsizeAbsolute"/>
+				<block className="mc_blurmap_medium" type="native">
 					<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 					<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-					<style>
-						<width value="100%"/>
-						<height value="100%"/>
-					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 					<bind name="blurMap" value="0"/>
+				</block>
+				<block className="inner_panel" type="native">
+					<style>
+						<alpha value="0.5"/>
+					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 				</block>
 			</block>
 		</block>
@@ -2276,22 +2300,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<block className="GUIContrast">
@@ -2693,6 +2718,7 @@
 								haveClanTag			?	('[' + _clanTag + ']' + _playerName)
 													: _playerName"/>
 		<bind name="watch" value="'fontColor'; 	_isSelf 	? 	_ttkStatus 			? '$FontColorTTK' :
+												_ctkStatus			? '$FontColorCompareNegative' :
 												_tkStatus 			? '$FontColorTeamkiller'
 																	: '$FontColorGolden':
 								!_isDead 	?  	_ttkStatus 			? '$FontColorTTK' :
@@ -2814,22 +2840,23 @@
 				</style>
 			</block>
 			<block className="BlurMap">
+				<bind name="visible" value="optionData.blurEnabled"/>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 				<style>
-					<position value="absolute"/>
-					<width value="100%"/>
-					<height value="100%"/>
 					<hitTest value="false"/>
 				</style>
-				<bind name="visible" value="optionData.blurEnabled"/>
-				<block className="mc_blurmap5" type="native">
+				<styleClass value="$FullsizeAbsolute"/>
+				<block className="mc_blurmap_medium" type="native">
 					<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 					<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-					<style>
-						<width value="100%"/>
-						<height value="100%"/>
-					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 					<bind name="blurMap" value="0"/>
+				</block>
+				<block className="inner_panel" type="native">
+					<style>
+						<alpha value="0.5"/>
+					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 				</block>
 			</block>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -4427,22 +4454,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -4496,22 +4524,23 @@
 				</style>
 			</block>
 			<block className="BlurMap">
+				<bind name="visible" value="optionData.blurEnabled"/>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 				<style>
-					<position value="absolute"/>
-					<width value="100%"/>
-					<height value="100%"/>
 					<hitTest value="false"/>
 				</style>
-				<bind name="visible" value="optionData.blurEnabled"/>
-				<block className="mc_blurmap5" type="native">
+				<styleClass value="$FullsizeAbsolute"/>
+				<block className="mc_blurmap_medium" type="native">
 					<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 					<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-					<style>
-						<width value="100%"/>
-						<height value="100%"/>
-					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 					<bind name="blurMap" value="0"/>
+				</block>
+				<block className="inner_panel" type="native">
+					<style>
+						<alpha value="0.5"/>
+					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 				</block>
 			</block>
 			<style>
@@ -4603,22 +4632,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<block className="dock_panel" type="native">
@@ -4823,22 +4853,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -5002,22 +5033,23 @@
 			<width value="330px"/>
 		</style>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -5184,22 +5216,23 @@
 			<width value="330px"/>
 		</style>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -5340,22 +5373,23 @@
 				</style>
 			</block>
 			<block className="BlurMap">
+				<bind name="visible" value="optionData.blurEnabled"/>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 				<style>
-					<position value="absolute"/>
-					<width value="100%"/>
-					<height value="100%"/>
 					<hitTest value="false"/>
 				</style>
-				<bind name="visible" value="optionData.blurEnabled"/>
-				<block className="mc_blurmap5" type="native">
+				<styleClass value="$FullsizeAbsolute"/>
+				<block className="mc_blurmap_medium" type="native">
 					<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 					<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-					<style>
-						<width value="100%"/>
-						<height value="100%"/>
-					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 					<bind name="blurMap" value="0"/>
+				</block>
+				<block className="inner_panel" type="native">
+					<style>
+						<alpha value="0.5"/>
+					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 				</block>
 			</block>
 		</block>
@@ -5452,22 +5486,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<style>
@@ -5537,22 +5572,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<style>
@@ -5627,22 +5663,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<style>
@@ -5838,22 +5875,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<style>
@@ -6103,22 +6141,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -6609,22 +6648,23 @@
 				</style>
 			</block>
 			<block className="BlurMap">
+				<bind name="visible" value="optionData.blurEnabled"/>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 				<style>
-					<position value="absolute"/>
-					<width value="100%"/>
-					<height value="100%"/>
 					<hitTest value="false"/>
 				</style>
-				<bind name="visible" value="optionData.blurEnabled"/>
-				<block className="mc_blurmap5" type="native">
+				<styleClass value="$FullsizeAbsolute"/>
+				<block className="mc_blurmap_medium" type="native">
 					<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 					<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-					<style>
-						<width value="100%"/>
-						<height value="100%"/>
-					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 					<bind name="blurMap" value="0"/>
+				</block>
+				<block className="inner_panel" type="native">
+					<style>
+						<alpha value="0.5"/>
+					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 				</block>
 			</block>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -6679,22 +6719,23 @@
 				</style>
 			</block>
 			<block className="BlurMap">
+				<bind name="visible" value="optionData.blurEnabled"/>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 				<style>
-					<position value="absolute"/>
-					<width value="100%"/>
-					<height value="100%"/>
 					<hitTest value="false"/>
 				</style>
-				<bind name="visible" value="optionData.blurEnabled"/>
-				<block className="mc_blurmap5" type="native">
+				<styleClass value="$FullsizeAbsolute"/>
+				<block className="mc_blurmap_medium" type="native">
 					<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 					<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-					<style>
-						<width value="100%"/>
-						<height value="100%"/>
-					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 					<bind name="blurMap" value="0"/>
+				</block>
+				<block className="inner_panel" type="native">
+					<style>
+						<alpha value="0.5"/>
+					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 				</block>
 			</block>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -6749,22 +6790,23 @@
 				</style>
 			</block>
 			<block className="BlurMap">
+				<bind name="visible" value="optionData.blurEnabled"/>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 				<style>
-					<position value="absolute"/>
-					<width value="100%"/>
-					<height value="100%"/>
 					<hitTest value="false"/>
 				</style>
-				<bind name="visible" value="optionData.blurEnabled"/>
-				<block className="mc_blurmap5" type="native">
+				<styleClass value="$FullsizeAbsolute"/>
+				<block className="mc_blurmap_medium" type="native">
 					<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 					<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-					<style>
-						<width value="100%"/>
-						<height value="100%"/>
-					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 					<bind name="blurMap" value="0"/>
+				</block>
+				<block className="inner_panel" type="native">
+					<style>
+						<alpha value="0.5"/>
+					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 				</block>
 			</block>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -7021,8 +7063,6 @@
 		<bind name="watchDH" value="'isBotsAIEnabled'; ['trainingRoomEntity.trainingRoom.evUpdate']; trainingRoomEntity.trainingRoom.isBotsAIEnabled"/>
 		<styleClass value="$Fullsize"/>
 		<bind name="collectionDH" value="CC.ship; 'shipsCollection'; 'allShipsForBots.suitable'"/>
-		<bind name="request" value="'evUpdateSuitableShipsForBot'; 'updateSuitableShipsForBot'; { teamId: _teamId }"/>
-		<bind name="contains" value="shipsCollection; $item.ship.id == selectedShipId; 'isSelectedShipAllowed'; false; selectedShipId"/>
 		<bind name="var" value="{isActive: false,
 				isArmed: false,
 				_curItemIndex: 0,
@@ -7031,14 +7071,12 @@
 		<bind name="watch" value="'hasAvailableShips'; shipsCollection.length &gt; 0"/>
 		<bind name="firstEntityDH" value="'selfPlayerEntity'; CC.accountSelf"/>
 		<bind name="watchDH" value="'selfPreBattleId'; ['selfPlayerEntity.preBattlePlayerSimple.evPreBattleIdChanged']; selfPlayerEntity.preBattlePlayerSimple.preBattleId"/>
-		<bind name="primaryEntityDH" value="'preBattleEntity'; CC.preBattle; selfPreBattleId"/>
-		<bind name="handleEventDH" value="'preBattleEntity.preBattle.evShipClassesCountChanged'; 'evUpdateSuitableShipsForBot'"/>
 		<bind name="collectionDH" value="CC.preBattlePlayerSimple; 'preBattlePlayers'; 'byPreBattleAndTeam.' + selfPreBattleId + '_' + _teamId + '.preBattleMembers'"/>
 		<bind name="collectionDH" value="CC.preBattlePlayerSimple; 'preBattleInvitedPlayers'; 'byPreBattleAndTeam.' + selfPreBattleId + '_' + _teamId + '.invitedPlayers'"/>
 		<bind name="watchDH" value="'trainingRoomTeamSize'; ['trainingRoomEntity.trainingRoom.evUpdate']; trainingRoomEntity.trainingRoom.teamSize"/>
 		<bind name="watch" value="'curPlayersInFormation'; (preBattlePlayers.length + preBattleInvitedPlayers.length)"/>
 		<bind name="watch" value="'hasFreePlacesInFormation'; (trainingRoomTeamSize - curPlayersInFormation) &gt; 0"/>
-		<bind name="watch" value="'isBotAddEnabled'; hasAvailableShips &amp;&amp; hasFreePlacesInFormation &amp;&amp; isSelectedShipAllowed"/>
+		<bind name="watch" value="'isBotAddEnabled'; hasAvailableShips &amp;&amp; hasFreePlacesInFormation"/>
 		<block>
 			<style>
 				<width value="100%"/>
@@ -7137,9 +7175,8 @@
 				<marginTop value="5px"/>
 			</style>
 			<styleClass value="$MiddleAligned"/>
-			<bind name="tooltip" value="'SimpleWarningTooltip'; !(isBotAddEnabled) ? { _text: 	!(isSelectedShipAllowed)	? 'IDS_SELECT_ONE_OF_SHIPS_ALLOWED_FOR_TRAINING' :
-																				!(hasAvailableShips) 		? 'IDS_NO_SUITABLE_SHIPS'
-																											: 'IDS_NO_FREE_PLACES_IN_FORMATION' } : null; 0"/>
+			<bind name="tooltip" value="'SimpleWarningTooltip'; !(isBotAddEnabled) ? { _text: !(hasAvailableShips) 	? 'IDS_NO_SUITABLE_SHIPS'
+																									: 'IDS_NO_FREE_PLACES_IN_FORMATION' } : null; 0"/>
 			<bind name="instance" value="'DefaultButton'; { _enabled: isBotAddEnabled, _width: '150px', _label: toUpperCase(tr('IDS_ADD')), 
 				_action: 'TrainingRoomProxy.addBot',
 				_actionParams: { botAiLevel: BOT_AI_LEVELS[_curItemIndex], canMove: isActive, canShoot: isArmed, shipId: selectedShipId, teamId: _teamId} }"/>
@@ -8104,22 +8141,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<style>
@@ -8887,22 +8925,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -9966,7 +10005,7 @@
 		<block>
 			<styleClass value="$MiddleAligned"/>
 			<block type="text">
-				<styleClass value="$TextSecondaryNoFilter"/>
+				<styleClass value="$TextSecondary"/>
 				<style>
 					<position value="absolute"/>
 					<maxWidth value="110"/>
@@ -9977,7 +10016,7 @@
 				<bind name="text" value="nameIDS"/>
 			</block>
 			<block type="text">
-				<styleClass value="$TextSecondaryNoFilter"/>
+				<styleClass value="$TextSecondary"/>
 				<style>
 					<position value="absolute"/>
 					<maxWidth value="110"/>
@@ -9988,7 +10027,7 @@
 				<bind name="text" value="nameIDS"/>
 			</block>
 			<block type="text">
-				<styleClass value="$TextSecondaryNoFilter"/>
+				<styleClass value="$TextSecondary"/>
 				<style>
 					<position value="absolute"/>
 					<maxWidth value="110"/>
@@ -9999,7 +10038,7 @@
 				<bind name="text" value="nameIDS"/>
 			</block>
 			<block type="text">
-				<styleClass value="$TextSecondaryNoFilter"/>
+				<styleClass value="$TextSecondary"/>
 				<style>
 					<position value="absolute"/>
 					<maxWidth value="110"/>
@@ -10010,8 +10049,7 @@
 				<bind name="text" value="nameIDS"/>
 			</block>
 			<block type="text">
-				<styleClass value="$TextSecondaryNoFilter"/>
-				<bind name="class" value="'$FontColorAlmostBlack'"/>
+				<styleClass value="$TextSecondary"/>
 				<style>
 					<maxWidth value="110"/>
 					<textAlign value="center"/>
@@ -10019,8 +10057,7 @@
 				<bind name="text" value="nameIDS"/>
 			</block>
 			<block type="text">
-				<styleClass value="$TextSecondaryNoFilter"/>
-				<bind name="class" value="'$FontColorAlmostBlack'"/>
+				<styleClass value="$TextSecondary"/>
 				<style>
 					<position value="absolute"/>
 					<maxWidth value="110"/>
@@ -10915,22 +10952,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -11722,28 +11760,49 @@
 			</style>
 		</block>
 		<bind name="firstEntityDH" value="'loginEntity'; CC.loginData"/>
+		<bind name="firstEntityDH" value="'AccountSelfEntity'; CC.accountSelf"/>
 		<bind name="firstEntityDH" value="'steamLoginEntity'; CC.steamLoginData"/>
+		<bind name="watchDH" value="'shouldRedirectOnCompletion'; 	[]; AccountSelfEntity.accountSelf.shouldRedirectOnCompletion"/>
 		<bind name="watchDH" value="'isSteamClient'; 	['loginEntity.loginData.evUpdate']; loginEntity.loginData.isSteam"/>
 		<bind name="watchDH" value="'isExternalPlatformClient'; ['loginEntity.loginData.evUpdate']; loginEntity.loginData.isExternalPlatformClient"/>
-		<bind name="watchDH" value="'isWinstoreClient'; 	['loginEntity.loginData.evUpdate']; loginEntity.loginData.isWinstore"/>
+		<bind name="watchDH" value="'isWinstoreClient'; 	['loginEntity.loginData.evUpdate']; loginEntity.loginData.isWinStore"/>
 		<bind name="watchDH" value="'accountCompleted'; ['steamLoginEntity.steamLoginData.evUpdate']; steamLoginEntity.steamLoginData.emailBind"/>
 		<bind name="watch" value="'externalFeaturesEnabled'; (isSteamClient 		&amp;&amp; realmConstants.accountCompletion.steam) ||
   											(isWinstoreClient 	&amp;&amp; realmConstants.accountCompletion.live)"/>
 		<bind name="watch" value="'featuresEnabled'; 	!(isExternalPlatformClient) || externalFeaturesEnabled"/>
 		<block>
-			<bind name="visible" value="externalFeaturesEnabled &amp;&amp; !(accountCompleted)"/>
+			<bind name="visible" value="externalFeaturesEnabled &amp;&amp; !(accountCompleted) &amp;&amp; !shouldRedirectOnCompletion"/>
 			<bind name="tooltip" value="'SubTextTooltip'; {tooltipText: 'IDS_ACCOUNT_COMPLETION_TOOLTIP_TEXT', tooltipSubText: 'IDS_ACCOUNT_COMPLETION_TOOLTIP_SUBTEXT' }"/>
-			<bind name="instance" value="'AccountInfotipItem'; { _text: toUpperCase(tr('IDS_ACCOUNT_COMPLETION')), _icon: 'wg_account', _external: false}"/>
 			<bind name="name" value="'buttonAccountCompletion'"/>
 			<bind name="input"/>
 			<block className="icon_sticker_new" type="native">
 				<style>
 					<hitTest value="false"/>
 					<position value="absolute"/>
-					<marginTop value="3px"/>
-					<right value="0px"/>
+					<left value="22px"/>
+					<top value="10px"/>
 				</style>
 			</block>
+			<block>
+				<bind name="instance" value="'AccountInfotipItem'; { _text: toUpperCase(tr('IDS_ACCOUNT_COMPLETION')), _icon: 'wg_account', _external: false}"/>
+			</block>
+		</block>
+		<block>
+			<bind name="visible" value="externalFeaturesEnabled &amp;&amp; !(accountCompleted) &amp;&amp; shouldRedirectOnCompletion"/>
+			<bind name="tooltip" value="'SubTextTooltip'; {tooltipText: 'IDS_ACCOUNT_COMPLETION_TOOLTIP_TEXT', tooltipSubText: 'IDS_KOREAN_ACCOUNT_COMPLETION_TOOLTIP_SUBTEXT' }"/>
+			<bind name="name" value="'buttonAccountCompletionKorean'"/>
+			<block className="icon_sticker_new" type="native">
+				<style>
+					<hitTest value="false"/>
+					<position value="absolute"/>
+					<left value="22px"/>
+					<top value="10px"/>
+				</style>
+			</block>
+			<block>
+				<bind name="instance" value="'AccountInfotipItem'; { _text: toUpperCase(tr('IDS_ACCOUNT_COMPLETION')), _icon: 'wg_account', _external: true}"/>
+			</block>
+			<bind name="action" value="'click'; 'gotoUrlByIdent'; {ident: URL.PLATFORMS_KOREAN_ACCOUNT_COMPLETION}"/>
 		</block>
 		<block>
 			<block>
@@ -11909,7 +11968,7 @@
 						<width value="100%"/>
 						<marginRight value="8px"/>
 					</style>
-					<bind name="instance" value="'PlayerStereotype'; {_playerDbId: selfPlayerDbId, _currentProgress: currentProgress, _levelProgress: levelProgress, _maxLevelEnabled: maxLevelEnabled}"/>
+					<bind name="instance" value="'PlayerStereotype'; {_playerDbId: selfPlayerDbId, _currentProgress: currentProgress, _levelProgress: levelProgress, _maxLevelEnabled: maxLevelEnabled, _abuseStatus: accountLevelInfo.abuseStatus}"/>
 				</block>
 			</block>
 		</block>
@@ -11995,22 +12054,23 @@
 				</style>
 			</block>
 			<block className="BlurMap">
+				<bind name="visible" value="optionData.blurEnabled"/>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 				<style>
-					<position value="absolute"/>
-					<width value="100%"/>
-					<height value="100%"/>
 					<hitTest value="false"/>
 				</style>
-				<bind name="visible" value="optionData.blurEnabled"/>
-				<block className="mc_blurmap5" type="native">
+				<styleClass value="$FullsizeAbsolute"/>
+				<block className="mc_blurmap_medium" type="native">
 					<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 					<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-					<style>
-						<width value="100%"/>
-						<height value="100%"/>
-					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 					<bind name="blurMap" value="0"/>
+				</block>
+				<block className="inner_panel" type="native">
+					<style>
+						<alpha value="0.5"/>
+					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 				</block>
 			</block>
 		</block>
@@ -12065,28 +12125,49 @@
 							</style>
 						</block>
 						<bind name="firstEntityDH" value="'loginEntity'; CC.loginData"/>
+						<bind name="firstEntityDH" value="'AccountSelfEntity'; CC.accountSelf"/>
 						<bind name="firstEntityDH" value="'steamLoginEntity'; CC.steamLoginData"/>
+						<bind name="watchDH" value="'shouldRedirectOnCompletion'; 	[]; AccountSelfEntity.accountSelf.shouldRedirectOnCompletion"/>
 						<bind name="watchDH" value="'isSteamClient'; 	['loginEntity.loginData.evUpdate']; loginEntity.loginData.isSteam"/>
 						<bind name="watchDH" value="'isExternalPlatformClient'; ['loginEntity.loginData.evUpdate']; loginEntity.loginData.isExternalPlatformClient"/>
-						<bind name="watchDH" value="'isWinstoreClient'; 	['loginEntity.loginData.evUpdate']; loginEntity.loginData.isWinstore"/>
+						<bind name="watchDH" value="'isWinstoreClient'; 	['loginEntity.loginData.evUpdate']; loginEntity.loginData.isWinStore"/>
 						<bind name="watchDH" value="'accountCompleted'; ['steamLoginEntity.steamLoginData.evUpdate']; steamLoginEntity.steamLoginData.emailBind"/>
 						<bind name="watch" value="'externalFeaturesEnabled'; (isSteamClient 		&amp;&amp; realmConstants.accountCompletion.steam) ||
   											(isWinstoreClient 	&amp;&amp; realmConstants.accountCompletion.live)"/>
 						<bind name="watch" value="'featuresEnabled'; 	!(isExternalPlatformClient) || externalFeaturesEnabled"/>
 						<block>
-							<bind name="visible" value="externalFeaturesEnabled &amp;&amp; !(accountCompleted)"/>
+							<bind name="visible" value="externalFeaturesEnabled &amp;&amp; !(accountCompleted) &amp;&amp; !shouldRedirectOnCompletion"/>
 							<bind name="tooltip" value="'SubTextTooltip'; {tooltipText: 'IDS_ACCOUNT_COMPLETION_TOOLTIP_TEXT', tooltipSubText: 'IDS_ACCOUNT_COMPLETION_TOOLTIP_SUBTEXT' }"/>
-							<bind name="instance" value="'AccountInfotipItem'; { _text: toUpperCase(tr('IDS_ACCOUNT_COMPLETION')), _icon: 'wg_account', _external: false}"/>
 							<bind name="name" value="'buttonAccountCompletion'"/>
 							<bind name="input"/>
 							<block className="icon_sticker_new" type="native">
 								<style>
 									<hitTest value="false"/>
 									<position value="absolute"/>
-									<marginTop value="3px"/>
-									<right value="0px"/>
+									<left value="22px"/>
+									<top value="10px"/>
 								</style>
 							</block>
+							<block>
+								<bind name="instance" value="'AccountInfotipItem'; { _text: toUpperCase(tr('IDS_ACCOUNT_COMPLETION')), _icon: 'wg_account', _external: false}"/>
+							</block>
+						</block>
+						<block>
+							<bind name="visible" value="externalFeaturesEnabled &amp;&amp; !(accountCompleted) &amp;&amp; shouldRedirectOnCompletion"/>
+							<bind name="tooltip" value="'SubTextTooltip'; {tooltipText: 'IDS_ACCOUNT_COMPLETION_TOOLTIP_TEXT', tooltipSubText: 'IDS_KOREAN_ACCOUNT_COMPLETION_TOOLTIP_SUBTEXT' }"/>
+							<bind name="name" value="'buttonAccountCompletionKorean'"/>
+							<block className="icon_sticker_new" type="native">
+								<style>
+									<hitTest value="false"/>
+									<position value="absolute"/>
+									<left value="22px"/>
+									<top value="10px"/>
+								</style>
+							</block>
+							<block>
+								<bind name="instance" value="'AccountInfotipItem'; { _text: toUpperCase(tr('IDS_ACCOUNT_COMPLETION')), _icon: 'wg_account', _external: true}"/>
+							</block>
+							<bind name="action" value="'click'; 'gotoUrlByIdent'; {ident: URL.PLATFORMS_KOREAN_ACCOUNT_COMPLETION}"/>
 						</block>
 						<block>
 							<block>
@@ -12703,12 +12784,9 @@
 				<styleClass value="$MouseDisable"/>
 				<style>
 					<width value="100%"/>
-					<marginLeft value="26px"/>
 					<marginRight value="12px"/>
-					<marginTop value="1px"/>
-					<marginBottom value="3px"/>
 				</style>
-				<bind name="style" value="'marginLeft'; secondLevelTooltip ? '12px' : '20px'"/>
+				<bind name="style" value="'marginLeft'; secondLevelTooltip ? '12px' : '32px'"/>
 				<bind name="style" value="'marginTop'; (viewParams.list[$index - 1].meta || viewParams.list[$index - 1] == null) &amp;&amp; !(meta) ? '5px' : '1px'"/>
 				<bind name="style" value="'marginBottom'; viewParams.list[$index + 1].meta || viewParams.list[$index + 1] == null ? '8px' : '3px'"/>
 				<block>
@@ -12762,7 +12840,7 @@
 					<bind name="fade" value="!(isRoot) &amp;&amp; !(excursionOff) &amp;&amp; !(dockDefaultValues.armourVisibility); 0.3; {alpha: 0}; {alpha: 1}"/>
 					<style>
 						<position value="absolute"/>
-						<left value="-15px"/>
+						<left value="-22px"/>
 						<top value="7px"/>
 					</style>
 					<block className="icon_camera_off" type="native">
@@ -12782,7 +12860,7 @@
 					<bind name="visible" value="((id == 'armour') &amp;&amp; (_armourOff != true))"/>
 					<style>
 						<position value="absolute"/>
-						<left value="-17px"/>
+						<left value="-22px"/>
 						<top value="6px"/>
 					</style>
 					<block className="button_armour_switcher_small" type="native">
@@ -12818,7 +12896,7 @@
 			<block>
 				<style>
 					<width value="100%"/>
-					<marginLeft value="20px"/>
+					<marginLeft value="32px"/>
 					<marginRight value="12px"/>
 					<marginTop value="1px"/>
 					<marginBottom value="3px"/>
@@ -12838,7 +12916,7 @@
 				<position value="absolute"/>
 				<height value="24px"/>
 				<width value="100%"/>
-				<marginLeft value="3px"/>
+				<marginLeft value="8px"/>
 			</style>
 		</block>
 	</block>
@@ -12975,22 +13053,23 @@
 				<width value="100%"/>
 			</style>
 			<block className="BlurMap">
+				<bind name="visible" value="optionData.blurEnabled"/>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 				<style>
-					<position value="absolute"/>
-					<width value="100%"/>
-					<height value="100%"/>
 					<hitTest value="false"/>
 				</style>
-				<bind name="visible" value="optionData.blurEnabled"/>
-				<block className="mc_blurmap5" type="native">
+				<styleClass value="$FullsizeAbsolute"/>
+				<block className="mc_blurmap_medium" type="native">
 					<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 					<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-					<style>
-						<width value="100%"/>
-						<height value="100%"/>
-					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 					<bind name="blurMap" value="0"/>
+				</block>
+				<block className="inner_panel" type="native">
+					<style>
+						<alpha value="0.5"/>
+					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 				</block>
 			</block>
 			<block className="notification_panel" type="native">
@@ -13752,22 +13831,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -13868,22 +13948,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -14112,22 +14193,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; (_isArmour &amp;&amp; (_armourOff != true)) ? 'dockDefaultValues' : null; 'dockInitData,dockUpdateData'"/>
@@ -14372,22 +14454,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -15322,23 +15405,24 @@
 			<bind name="style" value="'alpha'; !excluded ? 1 : 0.3"/>
 			<styleClass value="$MiddleAligned"/>
 			<styleClass value="$MiddleVAligned"/>
-			<block className="BlurMap">
+			<block className="BlurMapLow">
+				<bind name="visible" value="optionData.blurEnabled"/>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 				<style>
-					<position value="absolute"/>
-					<width value="100%"/>
-					<height value="100%"/>
 					<hitTest value="false"/>
 				</style>
-				<bind name="visible" value="optionData.blurEnabled"/>
+				<styleClass value="$FullsizeAbsolute"/>
 				<block className="mc_blurmap5" type="native">
 					<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 					<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-					<style>
-						<width value="100%"/>
-						<height value="100%"/>
-					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 					<bind name="blurMap" value="0"/>
+				</block>
+				<block className="inner_panel" type="native">
+					<style>
+						<alpha value="0.2"/>
+					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 				</block>
 			</block>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -16561,7 +16645,7 @@
 			<bind name="visible" value="checkbox == true"/>
 			<bind name="clickSplit"/>
 			<bind name="name" value="'CarouselCheckBox_pecularity_' + ids"/>
-			<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: checkbox_enabled ? tr(ids + '_HIDE_SHIP_TOOLTIP') : tr(ids + '_SHOW_SHIP_TOOLTIP')}"/>
+			<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: tr(ids + '_SHOW_SHIP_TOOLTIP')}"/>
 			<bind name="action" value="'left_click'; 'ServerUIDataUSS.hideFromCarousel'; { pecId: value }"/>
 			<bind name="selected" value="checkbox_enabled"/>
 			<bind name="enabled" value="!operationsAccountLocked"/>
@@ -16659,22 +16743,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -16741,22 +16826,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -16932,6 +17018,7 @@
 		</block>
 	</block>
 	<block className="DogTagConstructorMain">
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'accountLevelInfo'"/>
 		<bind name="var" value="{dogInset: 0}"/>
 		<bind name="catch" value="'changeDogInset'"/>
 		<bind name="watch" value="'categoryEntityId'; dogInset == 0 ? dtcategories[0].id : dtcategories[1].id"/>
@@ -16950,7 +17037,7 @@
 		<bind name="collectionDH" value="CC.dogTagComponentDoll; 'unAvailableCategoryComponents'+'ROOT'"/>
 		<bind name="collectionDesign" value="'DES_'+'unAvailableCategoryComponents'+'ROOT'; 'unAvailableCategoryComponents'; {'filter': $entity.dogTagComponent.enabled == false}; []"/>
 		<bind name="collectionDH" value="CC.dogTagComponent; 'dtcomponentsUnique'+'ROOT'"/>
-		<bind name="collectionDesign" value="'DES_'+'dtcomponentsUnique'+'ROOT'; 'dtcomponentsUnique'; 			{'filter': ($entity.dogTagComponent.unique != false), 'sort':['dogTagComponent.sortOrder']}; ['dogTagComponent.evUpdate']"/>
+		<bind name="collectionDesign" value="'DES_'+'dtcomponentsUnique'+'ROOT'; 'dtcomponentsUnique'; 			{'filter': ($entity.dogTagComponent.unique != false) &amp;&amp; ((($entity.dogTagComponent.enabled &amp;&amp; $entity.dogTagComponent.hidden)) || !($entity.dogTagComponent.hidden)), 'sort':['dogTagComponent.sortOrder']}; ['dogTagComponent.evUpdate']"/>
 		<bind name="collectionDH" value="CC.dogTagComponentDoll; 'playercomponentsUnique'+'ROOT'"/>
 		<bind name="collectionDesign" value="'DES_'+'playercomponentsUnique'+'ROOT'; 'playercomponentsUnique'; 	{'filter': ($entity.dogTagComponent.unique != false), 'sort':['dogTagComponent.zindex']}; []"/>
 		<bind name="watch" value="'currentDogTagComponents'; dogInset == 0	? playercomponents.length &gt; 0			? playercomponents
@@ -17068,7 +17155,7 @@
 						<style>
 							<marginLeft value="12px"/>
 						</style>
-						<bind name="instance" value="'PlayerStereotype'; {_playerDbId: selfPlayerDbId}"/>
+						<bind name="instance" value="'PlayerStereotype'; {_playerDbId: selfPlayerDbId, _abuseStatus: accountLevelInfo.abuseStatus}"/>
 					</block>
 					<style>
 						<flow value="horizontal"/>
@@ -17394,7 +17481,7 @@
 						<width value="150px"/>
 						<height value="150px"/>
 					</style>
-					<bind name="repeat" value="$root.slots; 'PlayerDogTagItem'; {_path: 'url:../dogTags/big/'}"/>
+					<bind name="repeat" value="$root.slots; 'PlayerDogTagItemByPK'; {_path: 'url:../dogTags/big/'}"/>
 				</block>
 				<style>
 					<flow value="horizontal"/>
@@ -17503,8 +17590,18 @@
 														  						: 'url:../dogTags/big/'}"/>
 	</block>
 	<block className="PlayerDogTagItem">
-		<bind name="primaryEntityDH" value="'dogTagEntity'; CC.dogTagComponent; $value"/>
 		<bind name="entityDH" value="'dogTagEntity'; id"/>
+		<bind name="watchDH" value="'iconPath'; ['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.iconPath"/>
+		<styleClass value="$FullsizeAbsolute"/>
+		<style>
+			<backgroundStretchX value="true"/>
+			<backgroundStretchY value="true"/>
+		</style>
+		<bind name="style" value="'backgroundImage'; _path + iconPath"/>
+		<bind name="name" value="'dogTag_' + _path + '_' + $index + '_' + dogTagEntity.dogTagComponent.gpName"/>
+	</block>
+	<block className="PlayerDogTagItemByPK">
+		<bind name="primaryEntityDH" value="'dogTagEntity'; CC.dogTagComponent; $value"/>
 		<bind name="watchDH" value="'iconPath'; ['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.iconPath"/>
 		<styleClass value="$FullsizeAbsolute"/>
 		<style>
@@ -17565,22 +17662,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -17788,9 +17886,11 @@
 			</block>
 		</block>
 		<block>
-			<bind name="visible" value="isNotSelf != true &amp;&amp; _canInstall == 'true'"/>
-			<styleClass value="$HugeMargins"/>
-			<bind name="instance" value="'MouseInstruction'; unique ? {_type: 'left', _instructionText: 'IDS_SELECT_DOGTAG_COMPONENT_UNIQUE', _maxWidth: 300 } : {_type: 'left', _instructionText: 'IDS_SELECT_DOGTAG_COMPONENT', _maxWidth: 300 }"/>
+			<bind name="visible" value="(isNotSelf != true &amp;&amp; _canInstall == 'true') || isRewardTooltip"/>
+			<styleClass value="$InfoBlockIndent"/>
+			<bind name="instance" value="'MouseInstruction'; isRewardTooltip ? {_type: 'left', _instructionText: 'IDS_DOGTAG_TOOLTIP_GO_TO_CONSTUCTOR', _maxWidth: 300 } :
+											unique			? {_type: 'left', _instructionText: 'IDS_SELECT_DOGTAG_COMPONENT_UNIQUE', _maxWidth: 300 } 
+															: {_type: 'left', _instructionText: 'IDS_SELECT_DOGTAG_COMPONENT', _maxWidth: 300 }"/>
 		</block>
 	</block>
 	<block className="DogTagComponentTooltipHeader">
@@ -17868,7 +17968,6 @@
 		<bind name="watchDH" value="'clanTag'; 	['clanEntity.clan.evTagChanged']; _clanTag ? _clanTag : clanEntity.clan.tag"/>
 		<bind name="primaryEntityDH" value="'clanExtendedEntity'; CC.clanExtended; clanId"/>
 		<bind name="watchDH" value="'clanTagColor'; 	['clanExtendedEntity.clanExtended.evColorChanged']; _clanTagColor ? _clanTagColor : clanExtendedEntity.clanExtended.color"/>
-		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'accountLevelInfo'"/>
 		<style>
 			<width value="100%f"/>
 			<marginTop value="14px"/>
@@ -17881,9 +17980,10 @@
 			<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_TOOLTIP_PLAYER_STEREOTYPE_NAME'}"/>
 			<bind name="instance" value="'PlayerNameAndClanTag'; {
 								_isSelf: 			isSelf,
-								_tkStatus: 			_player.tkStatus,
-								_ttkStatus:			_player.ttkStatus,
-								_isInSameDivision:	false,
+								_tkStatus: 			_tkStatus || _abuseStatus == AbuseStatus.SUSPECT, 
+								_ctkStatus:			_ctkStatus || _abuseStatus == AbuseStatus.CONFIRMED, 
+								_ttkStatus:			_ttkStatus, 
+								_isInSameDivision:  _player.isInSameDivision,
 								_fontSize:			19,
 								_playerName:		pureName,
 								_clanTag:			clanTag,
@@ -18182,8 +18282,8 @@
 			<height value="70px"/>
 		</style>
 		<block>
-			<bind name="tooltip" value="'ModernizationTooltip'; {installed:installed, iconPath: iconPath, title: title, paramsList:paramsList, 
-												numInStorage:numInStorage, tooltiptype: 0, priceInfoSet: priceInfoSet, _modId: modId, 
+			<bind name="tooltip" value="'ModernizationTooltip'; {installed:installed, iconPath: iconPath, title: title, _attributesPositive: attributesPositive, _attributesNegative: attributesNegative,
+												_attributesNeutral: attributesNeutral, numInStorage:numInStorage, tooltiptype: 0, priceInfoSet: priceInfoSet, _modId: modId, 
 												type:type, description: description}; 0"/>
 			<styleClass value="$Fullsize"/>
 			<block>
@@ -18404,22 +18504,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -18596,11 +18697,13 @@
 				<block>
 					<style>
 						<width value="100%"/>
-						<marginLeft value="13px"/>
-						<marginRight value="13px"/>
-						<marginTop value="6px"/>
+						<paddingTop value="16px"/>
+						<paddingLeft value="12px"/>
+						<paddingRight value="12px"/>
 					</style>
-					<bind name="repeat" value="paramsList; 'ModernizationsParams'"/>
+					<bind name="instance" value="'ParamsModifierList'; { _attributesPositive: _attributesPositive,
+														_attributesNegative: _attributesNegative,
+														_attributesNeutral:	_attributesNeutral}"/>
 				</block>
 			</block>
 			<block className="HorizontalDivider">
@@ -18655,22 +18758,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<block className="contrast_panel" type="native">
@@ -20090,7 +20194,7 @@
 		<bind name="watch" value="'selfAvatarEntityId'; selfAvatarCollection[0].id"/>
 		<bind name="entityDH" value="'selfAvatarEntity'; selfAvatarEntityId"/>
 		<bind name="watchDH" value="'playerIsAlive'; ['selfAvatarEntity.health.evKilled']; selfAvatarEntity.health.isAlive"/>
-		<bind name="watchDH" value="'killerId'; ['selfAvatarEntity.health.evKilled']; selfAvatarEntity.health.killerId"/>
+		<bind name="watchDH" value="'killerId'; ['selfAvatarEntity.health.evKillerIdChanged']; selfAvatarEntity.health.killerId"/>
 		<bind name="primaryEntityDH" value="'killerEntity'; CC.avatar; killerId"/>
 		<bind name="watchDH" value="'enemyName'; ['killerEntity.accountName.evChanged']; killerEntity.accountName.name"/>
 		<block>
@@ -20101,7 +20205,6 @@
 				<left value="-140px"/>
 				<top value="-280px"/>
 			</style>
-			<bind name="tooltip" value="'SimpleTooltip';{tooltipText: 'IDS_DOGTAG_TOOLTIP_GO_TO_CONSTUCTOR'}"/>
 			<bind name="instance" value="'BattleKillerDogTag'; killerId != 0 ? {_killerId: killerId, _enemyName: enemyName} : null"/>
 		</block>
 	</block>
@@ -20914,6 +21017,68 @@
 		<bind name="dispatch" value="'objUnderPoint'; 'viewDogTagChanged'; {_entityToViewId:id}"/>
 		<bind name="dispatch" value="'noObjUnderPoint'; 'viewDogTagChanged'; {_entityToViewId:-1}"/>
 	</block>
+	<block className="ParamsModifierItem">
+		<style>
+			<width value="100%"/>
+			<flow value="horizontal"/>
+			<marginBottom value="16px"/>
+		</style>
+		<bind name="style" value="'paddingTop'; (_alignLeft == true) ? '-8px': '0px'"/>
+		<block type="text">
+			<styleClass value="$TextDefaultNM"/>
+			<style>
+				<leading value="-3"/>
+				<alpha value="0.8"/>
+				<width value="100%"/>
+			</style>
+			<bind name="style" value="'width'; (_alignLeft == true) ? '100%f': '100%'"/>
+			<bind name="text" value="attributeIDS"/>
+		</block>
+		<block type="text">
+			<style>
+				<marginLeft value="12px"/>
+			</style>
+			<styleClass value="$TextDefaultNM"/>
+			<bind name="class" value="category == 'positive' ? '$FontColorComparePositive' : 
+					 category == 'negative'	? '$FontColorCompareNegative'
+					 						: '$FontColorDefault'"/>
+			<bind name="text" value="measuredValue"/>
+		</block>
+		<block type="text">
+			<style>
+				<marginLeft value="4px"/>
+			</style>
+			<styleClass value="$TextDefaultNM"/>
+			<bind name="style" value="'alpha'; category == 'positive' ? 0.65 : 0.8"/>
+			<bind name="class" value="category == 'positive' ? '$FontColorComparePositive' : 
+					 category == 'negative'	? '$FontColorCompareNegative'
+					 						: '$FontColorDefault'"/>
+			<bind name="text" value="measure"/>
+		</block>
+	</block>
+	<block className="ParamsModifierList">
+		<style>
+			<width value="100%"/>
+		</style>
+		<block>
+			<style>
+				<width value="100%"/>
+			</style>
+			<bind name="repeat" value="_attributesPositive; 'ParamsModifierItem'; {_alignLeft: _alignLeft}"/>
+		</block>
+		<block>
+			<style>
+				<width value="100%"/>
+			</style>
+			<bind name="repeat" value="_attributesNegative; 'ParamsModifierItem'; {_alignLeft: _alignLeft}"/>
+		</block>
+		<block>
+			<style>
+				<width value="100%"/>
+			</style>
+			<bind name="repeat" value="_attributesNeutral; 'ParamsModifierItem'; {_alignLeft: _alignLeft}"/>
+		</block>
+	</block>
 	<block className="ShipRestrictions">
 		<style>
 			<height value="21px"/>
@@ -21376,22 +21541,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<block className="hint_panel" type="native">
@@ -21835,22 +22001,23 @@
 				</style>
 			</block>
 			<block className="BlurMap">
+				<bind name="visible" value="optionData.blurEnabled"/>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 				<style>
-					<position value="absolute"/>
-					<width value="100%"/>
-					<height value="100%"/>
 					<hitTest value="false"/>
 				</style>
-				<bind name="visible" value="optionData.blurEnabled"/>
-				<block className="mc_blurmap5" type="native">
+				<styleClass value="$FullsizeAbsolute"/>
+				<block className="mc_blurmap_medium" type="native">
 					<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 					<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-					<style>
-						<width value="100%"/>
-						<height value="100%"/>
-					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 					<bind name="blurMap" value="0"/>
+				</block>
+				<block className="inner_panel" type="native">
+					<style>
+						<alpha value="0.5"/>
+					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 				</block>
 			</block>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>

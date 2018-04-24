@@ -168,22 +168,43 @@
 		</style>
 	</block>
 	<block className="BlurMap">
+		<bind name="visible" value="optionData.blurEnabled"/>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 		<style>
-			<position value="absolute"/>
-			<width value="100%"/>
-			<height value="100%"/>
 			<hitTest value="false"/>
 		</style>
+		<styleClass value="$FullsizeAbsolute"/>
+		<block className="mc_blurmap_medium" type="native">
+			<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
+			<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
+			<styleClass value="$FullsizeAbsolute"/>
+			<bind name="blurMap" value="0"/>
+		</block>
+		<block className="inner_panel" type="native">
+			<style>
+				<alpha value="0.5"/>
+			</style>
+			<styleClass value="$FullsizeAbsolute"/>
+		</block>
+	</block>
+	<block className="BlurMapLow">
 		<bind name="visible" value="optionData.blurEnabled"/>
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<style>
+			<hitTest value="false"/>
+		</style>
+		<styleClass value="$FullsizeAbsolute"/>
 		<block className="mc_blurmap5" type="native">
 			<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 			<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-			<style>
-				<width value="100%"/>
-				<height value="100%"/>
-			</style>
+			<styleClass value="$FullsizeAbsolute"/>
 			<bind name="blurMap" value="0"/>
+		</block>
+		<block className="inner_panel" type="native">
+			<style>
+				<alpha value="0.2"/>
+			</style>
+			<styleClass value="$FullsizeAbsolute"/>
 		</block>
 	</block>
 	<block className="BlurMapNotifications">
@@ -1147,8 +1168,10 @@
 		<style>
 			<width value="100%"/>
 			<flow value="horizontal"/>
+			<marginBottom value="16px"/>
 		</style>
 		<block>
+			<bind name="instance" value="'CrewSkillEpicIcon'; skill.isEpic ? {} : null"/>
 			<style>
 				<width value="60px"/>
 				<height value="60px"/>
@@ -1163,19 +1186,42 @@
 			<block type="text">
 				<style>
 					<maxWidth value="210"/>
+					<marginLeft value="4px"/>
+					<leading value="-3"/>
 				</style>
-				<styleClass value="$TextHeaderBold"/>
-				<bind name="class" value="_penalty &amp;&amp; skill.learned ? '$FontColorUnready' : '$None'"/>
+				<styleClass value="$TextDefaultBold19NM"/>
+				<bind name="class" value="_penalty &amp;&amp; skill.learned 	? '$FontColorUnready' :
+						!_penalty &amp;&amp; skill.learned 	? '$FontColorGolden'
+													: '$None'"/>
 				<bind name="text" value="'IDS_SKILL_' + toUpperCase(skill.name)"/>
 			</block>
 			<block type="text">
 				<style>
 					<maxWidth value="210"/>
+					<marginLeft value="4px"/>
+					<marginTop value="12px"/>
 				</style>
-				<styleClass value="$TextSecondary"/>
-				<bind name="text" value="'IDS_SKILL_DESC_' + toUpperCase(skill.name)"/>
+				<styleClass value="$TextDefaultNM"/>
+				<bind name="class" value="_penalty &amp;&amp; skill.learned 	? '$FontColorUnready' :
+						!_penalty &amp;&amp; skill.learned 	? '$FontColorGolden'
+													: '$None'"/>
+				<bind name="watch" value="'category'; (	(skill.column == 0 || skill.column == 1)	?  	'IDS_SKILL_CAT_NAME_ENDURANCE' :
+										(skill.column == 2 || skill.column == 3)	?	'IDS_SKILL_CAT_NAME_ATTACK' :
+										(skill.column == 4 || skill.column == 5)	?	'IDS_SKILL_CAT_NAME_SUPPORT' :
+										(skill.column == 6 || skill.column == 7) 	?	'IDS_SKILL_CAT_NAME_VERSALITY'
+																					:   'IDS_SKILL_CAT_NAME_DEFAULT')
+										+ (skill.isEpic ? '_ISEPIC' : '')"/>
+				<bind name="text" value="category"/>
 			</block>
 		</block>
+	</block>
+	<block className="CrewSkillEpicIcon">
+		<style>
+			<width value="14px"/>
+			<height value="14px"/>
+			<position value="absolute"/>
+		</style>
+		<bind name="style" value="'backgroundImage'; 'url:../service_kit/item_types/icon_modernization_special.png')"/>
 	</block>
 	<block className="CrewSkillItemSmall">
 		<bind name="primaryEntityDH" value="'skillEntity'; CC.crewSkill; _skillIDs[$index]; 'evUpdate'"/>
@@ -1196,6 +1242,7 @@
 			<width value="60px"/>
 			<height value="60px"/>
 		</style>
+		<bind name="instance" value="'CrewSkillEpicIcon'; skill.isEpic ? {} : null"/>
 		<bind name="style" value="'backgroundImage'; 'url:../crew_commander/skills/big/icon_perk_' + skill.name + (_penalty ? '_penalty.png' : '.png')"/>
 	</block>
 	<block className="CrewFileSkillItem">
@@ -1221,6 +1268,7 @@
 				<width value="60px"/>
 				<height value="60px"/>
 			</style>
+			<bind name="instance" value="'CrewSkillEpicIcon'; skill.isEpic ? {} : null"/>
 			<bind name="style" value="'backgroundImage'; ('url:../crew_commander/skills/big/icon_perk_' + skill.name +
 										((crew.skillsEffectiveness &lt; 1) &amp;&amp; skill.learned 	?	'_penalty.png' :
 										skill.hasLearnedSkillOnPreviousTier					?	'.png'

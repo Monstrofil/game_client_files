@@ -679,22 +679,43 @@
 		</style>
 	</block>
 	<block className="BlurMap">
+		<bind name="visible" value="optionData.blurEnabled"/>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 		<style>
-			<position value="absolute"/>
-			<width value="100%"/>
-			<height value="100%"/>
 			<hitTest value="false"/>
 		</style>
+		<styleClass value="$FullsizeAbsolute"/>
+		<block className="mc_blurmap_medium" type="native">
+			<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
+			<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
+			<styleClass value="$FullsizeAbsolute"/>
+			<bind name="blurMap" value="0"/>
+		</block>
+		<block className="inner_panel" type="native">
+			<style>
+				<alpha value="0.5"/>
+			</style>
+			<styleClass value="$FullsizeAbsolute"/>
+		</block>
+	</block>
+	<block className="BlurMapLow">
 		<bind name="visible" value="optionData.blurEnabled"/>
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<style>
+			<hitTest value="false"/>
+		</style>
+		<styleClass value="$FullsizeAbsolute"/>
 		<block className="mc_blurmap5" type="native">
 			<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 			<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-			<style>
-				<width value="100%"/>
-				<height value="100%"/>
-			</style>
+			<styleClass value="$FullsizeAbsolute"/>
 			<bind name="blurMap" value="0"/>
+		</block>
+		<block className="inner_panel" type="native">
+			<style>
+				<alpha value="0.2"/>
+			</style>
+			<styleClass value="$FullsizeAbsolute"/>
 		</block>
 	</block>
 	<block className="BlurMapNotifications">
@@ -786,22 +807,23 @@
 				</style>
 			</block>
 			<block className="BlurMap">
+				<bind name="visible" value="optionData.blurEnabled"/>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 				<style>
-					<position value="absolute"/>
-					<width value="100%"/>
-					<height value="100%"/>
 					<hitTest value="false"/>
 				</style>
-				<bind name="visible" value="optionData.blurEnabled"/>
-				<block className="mc_blurmap5" type="native">
+				<styleClass value="$FullsizeAbsolute"/>
+				<block className="mc_blurmap_medium" type="native">
 					<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 					<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-					<style>
-						<width value="100%"/>
-						<height value="100%"/>
-					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 					<bind name="blurMap" value="0"/>
+				</block>
+				<block className="inner_panel" type="native">
+					<style>
+						<alpha value="0.5"/>
+					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 				</block>
 			</block>
 		</block>
@@ -1212,22 +1234,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<block className="GUIContrast">
@@ -1629,6 +1652,7 @@
 								haveClanTag			?	('[' + _clanTag + ']' + _playerName)
 													: _playerName"/>
 		<bind name="watch" value="'fontColor'; 	_isSelf 	? 	_ttkStatus 			? '$FontColorTTK' :
+												_ctkStatus			? '$FontColorCompareNegative' :
 												_tkStatus 			? '$FontColorTeamkiller'
 																	: '$FontColorGolden':
 								!_isDead 	?  	_ttkStatus 			? '$FontColorTTK' :
@@ -1897,22 +1921,23 @@
 				</style>
 			</block>
 			<block className="BlurMap">
+				<bind name="visible" value="optionData.blurEnabled"/>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 				<style>
-					<position value="absolute"/>
-					<width value="100%"/>
-					<height value="100%"/>
 					<hitTest value="false"/>
 				</style>
-				<bind name="visible" value="optionData.blurEnabled"/>
-				<block className="mc_blurmap5" type="native">
+				<styleClass value="$FullsizeAbsolute"/>
+				<block className="mc_blurmap_medium" type="native">
 					<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 					<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-					<style>
-						<width value="100%"/>
-						<height value="100%"/>
-					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 					<bind name="blurMap" value="0"/>
+				</block>
+				<block className="inner_panel" type="native">
+					<style>
+						<alpha value="0.5"/>
+					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 				</block>
 			</block>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -1929,7 +1954,7 @@
 			<block type="text">
 				<styleClass value="$InfoBlockIndentNoWidth"/>
 				<styleClass value="$TextHeaderBigDefault"/>
-				<bind name="style" value="'leading'; tooltipText.length &gt; 40 ? 0 : -3"/>
+				<bind name="style" value="'leading'; (tooltipText.length &gt; 30 ? 0 : -3)"/>
 				<style>
 					<maxWidth value="300"/>
 				</style>
@@ -1951,22 +1976,23 @@
 				</style>
 			</block>
 			<block className="BlurMap">
+				<bind name="visible" value="optionData.blurEnabled"/>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 				<style>
-					<position value="absolute"/>
-					<width value="100%"/>
-					<height value="100%"/>
 					<hitTest value="false"/>
 				</style>
-				<bind name="visible" value="optionData.blurEnabled"/>
-				<block className="mc_blurmap5" type="native">
+				<styleClass value="$FullsizeAbsolute"/>
+				<block className="mc_blurmap_medium" type="native">
 					<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 					<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-					<style>
-						<width value="100%"/>
-						<height value="100%"/>
-					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 					<bind name="blurMap" value="0"/>
+				</block>
+				<block className="inner_panel" type="native">
+					<style>
+						<alpha value="0.5"/>
+					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 				</block>
 			</block>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -2864,22 +2890,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -2956,22 +2983,23 @@
 				</style>
 			</block>
 			<block className="BlurMap">
+				<bind name="visible" value="optionData.blurEnabled"/>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 				<style>
-					<position value="absolute"/>
-					<width value="100%"/>
-					<height value="100%"/>
 					<hitTest value="false"/>
 				</style>
-				<bind name="visible" value="optionData.blurEnabled"/>
-				<block className="mc_blurmap5" type="native">
+				<styleClass value="$FullsizeAbsolute"/>
+				<block className="mc_blurmap_medium" type="native">
 					<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 					<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-					<style>
-						<width value="100%"/>
-						<height value="100%"/>
-					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 					<bind name="blurMap" value="0"/>
+				</block>
+				<block className="inner_panel" type="native">
+					<style>
+						<alpha value="0.5"/>
+					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 				</block>
 			</block>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -3071,22 +3099,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<block className="contrast_panel" type="native">
@@ -3477,22 +3506,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -3598,22 +3628,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -3920,6 +3951,12 @@
 	<css name="$FontSize20">
 		<fontSize value="20"/>
 	</css>
+	<css name="$AttributePositive">
+		<textColor value="0x4CE8AA"/>
+	</css>
+	<css name="$AttributeNegative">
+		<textColor value="0xFF6600"/>
+	</css>
 	<block className="SignalAndCamouflageHeader">
 		<bind name="firstEntityDH" value="'dockEntity'; CC.dockDataMarker"/>
 		<bind name="watchDH" value="'shipId'; ['dockEntity.shipSelection.evShipUpdate']; dockEntity.shipSelection.currentShipId"/>
@@ -4021,26 +4058,6 @@
 				<marginTop value="-4px"/>
 			</style>
 			<bind name="instance" value="'IconSlimClient'; !(shipInfoSlim.isDownloaded) ? { _isEventLike: shipInfo.isEventLike } : null"/>
-		</block>
-		<block>
-			<bind name="visible" value="inset != 2"/>
-			<style>
-				<right value="6px"/>
-				<position value="absolute"/>
-				<flow value="horizontal"/>
-				<marginTop value="-2px"/>
-			</style>
-			<block>
-				<bind name="tooltip" value="'SimpleTooltip';{tooltipText: 'IDS_CREDITS_C'}"/>
-				<bind name="instance" value="'PriceTag'; { priceInfo: {finalPrice: accountCredits, currency: 'credits'}, _medium:true}"/>
-			</block>
-			<block>
-				<style>
-					<marginLeft value="12px"/>
-				</style>
-				<bind name="tooltip" value="'SimpleTooltip';{tooltipText: 'IDS_TOOLTIP_GOLD_BALANCE'}"/>
-				<bind name="instance" value="'PriceTag'; { priceInfo: {finalPrice: accountGold, currency: 'gold'}, _medium:true}"/>
-			</block>
 		</block>
 	</block>
 	<block className="SignalsGroup">
@@ -4161,31 +4178,33 @@
 	</block>
 	<block className="Flag">
 		<bind name="controller" value="lesta.dialogs.controllers.CollectionController; 'ensigns'; 'ensigns'"/>
+		<bind name="primaryEntityDH" value="'shipEntity'; CC.ship; shipId; 'evUpdate'"/>
+		<bind name="watchDH" value="'shipInfo'; ['shipEntity.ship.evUpdate', 'shipEntity.ship.evCurrentSkinChanged']; shipEntity.ship"/>
+		<bind name="watchDH" value="'shipInfo' + 'Slim'; ['shipEntity.slimClientComponent.evUpdate']; shipEntity.slimClientComponent"/>
+		<bind name="watch" value="'navalFlags'; shipInfo.availableNavalFlags"/>
 		<style>
 			<width value="100%"/>
 			<height value="100%f"/>
 		</style>
 		<block>
-			<style>
-				<width value="100%"/>
-				<overflow value="scroll"/>
-				<height value="100%f"/>
-				<marginTop value="-20px"/>
-			</style>
 			<styleClass value="$DefaultScrollBar"/>
+			<style>
+				<overflow value="scroll"/>
+				<marginTop value="-20px"/>
+				<width value="100%"/>
+				<height value="100%f"/>
+			</style>
 			<block>
 				<style>
 					<flow value="htile"/>
 					<align value="center"/>
 					<width value="100%"/>
-					<marginBottom value="20px"/>
-					<marginTop value="20px"/>
 				</style>
 				<bind name="repeat" value="ensigns; 'FlagItem'; {shipId: shipId}"/>
 			</block>
 			<block>
 				<styleClass value="$MiddleAligned"/>
-				<bind name="visible" value="!(ensigns != null &amp;&amp; ensigns.length &gt; 0)"/>
+				<bind name="visible" value="!ensigns.length)"/>
 				<block type="text">
 					<styleClass value="$TextHeaderBold"/>
 					<styleClass value="$MiddleAligned"/>
@@ -4198,6 +4217,91 @@
 					</style>
 					<styleClass value="$MiddleAligned"/>
 					<bind name="instance" value="'InstructionBigTech'; { _instructionText: 'IDS_PARTICIPATE_IN_RANKED_BATTLES', _type: 'info', _maxWidth: '480' }"/>
+				</block>
+			</block>
+		</block>
+		<block>
+			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'realmConstants'"/>
+			<bind name="visible" value="(realmConstants.currentRealm != 'CN') &amp;&amp; (navalFlags.length &gt; 1)"/>
+			<style>
+				<width value="100%"/>
+			</style>
+			<block>
+				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+				<style>
+					<width value="100%"/>
+					<height value="32px"/>
+					<position value="absolute"/>
+				</style>
+				<block className="BlurMapCustom">
+					<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+					<styleClass value="$FullsizeAbsolute"/>
+					<style>
+						<hitTest value="false"/>
+					</style>
+					<bind name="visible" value="optionData.blurEnabled"/>
+					<block className="mc_blurmap_h_no_right" type="native">
+						<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
+						<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
+						<styleClass value="$Fullsize"/>
+						<bind name="blurMap" value="0"/>
+					</block>
+				</block>
+				<block className="contrast_panel" type="native">
+					<styleClass value="$Fullsize"/>
+					<bind name="visible" value="optionData.contrast"/>
+				</block>
+				<block className="inner_panel" type="native">
+					<styleClass value="$Fullsize"/>
+				</block>
+			</block>
+			<block>
+				<style>
+					<width value="100%"/>
+				</style>
+				<block>
+					<bind name="collectionDH" value="CC.userPrefs; 'userPrefsCollection'"/>
+					<bind name="entityDH" value="'userPrefsEntity'; userPrefsCollection[0].id"/>
+					<bind name="watchDH" value="'userPrefs'; ['userPrefsEntity.userPrefs.evUserPrefsChanged']; userPrefsEntity.userPrefs.userPrefs"/>
+					<bind name="watch" value="'isExpanded'; (userPrefs.navalFlagAccordeonExpanded == null) ? false : userPrefs.navalFlagAccordeonExpanded"/>
+					<bind name="action" value="'saveNavalFlagAccordeonExpanded'; 'setUserPref' ; {value: isExpanded, name: 'navalFlagAccordeonExpanded'}"/>
+					<bind name="dispatch" value="'click' ; 'invertExpand'"/>
+					<bind name="catch" value="'invertExpand'; {isExpanded: !isExpanded}; 'saveNavalFlagAccordeonExpanded'"/>
+					<block type="text">
+						<styleClass value="$TextMetaHeader"/>
+						<style>
+							<marginLeft value="32px"/>
+							<marginTop value="4px"/>
+						</style>
+						<bind name="text" value="'IDS_NAVAL_FLAGS'"/>
+					</block>
+					<block className="button_expand" type="native">
+						<style>
+							<position value="absolute"/>
+							<height value="24px"/>
+							<width value="100%"/>
+							<marginLeft value="8px"/>
+							<marginTop value="4px"/>
+						</style>
+						<params>
+							<param name="toggle" value="true"/>
+							<param name="soundSet" value="dropmenu_button"/>
+							<param name="focusable" value="false"/>
+						</params>
+						<bind name="selected" value="isExpanded"/>
+					</block>
+					<style>
+						<flow value="horizontal"/>
+					</style>
+				</block>
+				<block>
+					<bind name="fade" value="isExpanded; 0.15; {alpha: 0, top: 10, ubScaleY: 0}; {alpha: 1, top: 0, ubScaleY: 1}; {alpha: 0, top: 10, ubScaleY: 0}; 3"/>
+					<style>
+						<flow value="htile"/>
+						<width value="100%"/>
+						<marginBottom value="16px"/>
+					</style>
+					<bind name="repeat" value="navalFlags; 'FlagItem'; {shipId: shipId}"/>
 				</block>
 			</block>
 		</block>
@@ -4314,16 +4418,43 @@
 	<block className="FlagItem">
 		<bind name="primaryEntityDH" value="'exteriorEntity'; CC.exteriorConfig; id"/>
 		<bind name="watchDH" value="'exteriorConfig'; []; exteriorEntity.exteriorConfig"/>
-		<bind name="primaryEntityDH" value="'shipEntity'; CC.ownShip; shipId; 'evUpdate'"/>
-		<bind name="watchDH" value="'playerShipInfo'; ['shipEntity.ownShip.evUpdate', 'shipEntity.ownShip.evCrewChanged']; shipEntity.ownShip"/>
-		<bind name="tooltip" value="'FlagInfotip'; {_installed: installed, id: id, name: name, shipId: shipId, canUse: canUse, isRankSeasonTemp: isRankSeasonTemp, isLeague: isLeague, _selectedExteriorParams: exteriorConfig.params,
-									_enableExterior: (!(playerShipInfo.isLocked) &amp;&amp; !(playerShipInfo.isInFormation)) }; TooltipBehaviour.infotip"/>
-		<bind name="tooltip" value="'FlagTooltip'; {_installed: installed, id: id, name: name, shipId: shipId, canUse: canUse, isRankSeasonTemp: isRankSeasonTemp, isLeague: isLeague, _selectedExteriorParams: exteriorConfig.params}"/>
+		<bind name="primaryEntityDH" value="'playerShipEntity'; CC.ownShip; shipId; 'evUpdate'"/>
+		<bind name="watchDH" value="'playerShipInfo'; ['playerShipEntity.ownShip.evUpdate', 'playerShipEntity.ownShip.evCrewChanged']; playerShipEntity.ownShip"/>
+		<bind name="primaryEntityDH" value="'shipEntity'; CC.ship; shipId; 'evUpdate'"/>
+		<bind name="watchDH" value="'availableNavalFlags'; ['shipEntity.ship.evAvailableFlagsChanged']; shipEntity.ship.availableNavalFlags"/>
+		<bind name="watchDH" value="'currentNavalFlag'; ['shipEntity.ship.evCurrentFlagChanged']; shipEntity.ship.currentNavalFlag"/>
+		<bind name="primaryEntityDH" value="'navalFlagEntity'; CC.navalFlag; $value"/>
+		<bind name="watchDH" value="'navalFlag'; ['navalFlagEntity.navalFlag.evCurrentFlagChanged']; navalFlagEntity.navalFlag"/>
+		<bind name="watch" value="'flagName'; name ? name : navalFlag.nameIDS"/>
+		<bind name="tooltip" value="'FlagInfotip'; 
+					{	_installed: installed || (currentNavalFlag == $value), 
+						id: id, 
+						name: flagName, 
+						shipId: shipId, 
+						canUse: canUse, 
+						isRankSeasonTemp: isRankSeasonTemp, 
+						isLeague: isLeague, 
+						_enableExterior: (!(playerShipInfo.isLocked) &amp;&amp; !(playerShipInfo.isInFormation)),
+						_iconPath: (navalFlag ? navalFlag.iconPath : exteriorConfig.iconPath),
+						_isNaval: !!navalFlag,
+						_navalFlagName: $value }; 
+					TooltipBehaviour.infotip"/>
+		<bind name="tooltip" value="'FlagTooltip'; 
+					{	_installed: installed || (currentNavalFlag == $value),
+						 id: id,
+						 name: flagName,
+						 shipId: shipId,
+						 canUse: canUse,
+						 isRankSeasonTemp: isRankSeasonTemp,
+						 isLeague: isLeague,
+						 _iconPath: (navalFlag ? navalFlag.iconPath : exteriorConfig.iconPath),
+						 _isNaval: !!navalFlag }"/>
 		<bind name="soundOn" value="'click'; 'press'; 'exterior_item'"/>
 		<block>
 			<style>
 				<height value="60px"/>
 				<width value="100px"/>
+				<marginTop value="16px"/>
 			</style>
 			<block>
 				<styleClass value="$FullsizeAbsolute"/>
@@ -4347,11 +4478,12 @@
 					<width value="75px"/>
 				</style>
 				<styleClass value="$MiddleAligned"/>
-				<bind name="style" value="'alpha'; installed ? 1: 0.6"/>
-				<bind name="style" value="'backgroundImage'; !canUse ?  ('url:' + exteriorConfig.desaturatedIconPath) : ('url:' + exteriorConfig.iconPath)"/>
+				<bind name="style" value="'alpha'; (navalFlag ? (currentNavalFlag == $value) : installed) ? 1 : 0.6"/>
+				<bind name="style" value="'backgroundImage'; navalFlag ? ('url:' + navalFlag.iconPath) : !canUse ? ('url:' + exteriorConfig.desaturatedIconPath)
+																: ('url:' + exteriorConfig.iconPath)"/>
 			</block>
 			<block className="icon_check" type="native">
-				<bind name="visible" value="installed"/>
+				<bind name="visible" value="navalFlag ? (currentNavalFlag == $value) : installed"/>
 				<styleClass value="$MouseDisable"/>
 				<style>
 					<position value="absolute"/>
@@ -4426,10 +4558,7 @@
 					<height value="31px"/>
 				</style>
 				<block className="inner_panel" type="native">
-					<styleClass value="$Fullsize"/>
-					<style>
-						<position value="absolute"/>
-					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 				</block>
 				<block>
 					<bind name="visible" value="feature_15 != 'locked'"/>
@@ -4539,16 +4668,12 @@
 				</block>
 			</block>
 			<block>
+				<styleClass value="$Fullsize"/>
 				<style>
 					<marginTop value="20px"/>
-					<width value="100%"/>
-					<height value="100%f"/>
 				</style>
 				<block>
-					<style>
-						<width value="100%"/>
-						<height value="100%f"/>
-					</style>
+					<styleClass value="$Fullsize"/>
 					<bind name="child" value="exteriorPage; {shipId: shipId, exteriorPage: exteriorPage}; 'Camouflage'; 'Signals'; 'Flag'"/>
 				</block>
 			</block>
@@ -4642,28 +4767,28 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<block className="dock_panel" type="native">
-			<styleClass value="$Fullsize"/>
+			<styleClass value="$FullsizeAbsolute"/>
 			<style>
-				<position value="absolute"/>
 				<marginTop value="-10px"/>
 				<marginRight value="-14px"/>
 				<marginBottom value="-16px"/>
@@ -4942,17 +5067,27 @@
 				</block>
 			</block>
 			<block>
-				<bind name="visible" value="exteriorConfig.params.length &gt; 0"/>
+				<bind name="visible" value="((exteriorConfig.attributesPositive.length + exteriorConfig.attributesNegative.length + exteriorConfig.attributesNeutral.length) &gt; 0)"/>
 				<style>
 					<width value="100%"/>
 				</style>
 				<block className="inner_panel" type="native">
-					<styleClass value="$FullsizeAbsolute"/>
+					<styleClass value="$Fullsize"/>
 					<styleClass value="$PxHorizontalCorrection"/>
+					<style>
+						<position value="absolute"/>
+					</style>
 				</block>
 				<block>
-					<styleClass value="$InfoBlockIndent"/>
-					<bind name="repeat" value="exteriorConfig.params; 'ExteriorParams'"/>
+					<style>
+						<width value="100%"/>
+						<paddingTop value="16px"/>
+						<paddingLeft value="12px"/>
+						<paddingRight value="12px"/>
+					</style>
+					<bind name="instance" value="'ParamsModifierList'; { _attributesPositive: exteriorConfig.attributesPositive,
+														_attributesNegative: exteriorConfig.attributesNegative,
+														_attributesNeutral: exteriorConfig.attributesNeutral}"/>
 				</block>
 				<block>
 					<style>
@@ -5030,7 +5165,7 @@
 						 itemInstalled	? 'ButtonInstall' :
 						 itemTakeAway 	? 'ButtonTakeAway'
 										: ''"/>
-				<bind name="instance" value="'DefaultButtonCostMedium'; 	  buyAndInstall		? { _label: _isPermoflagePurchased ? toUpperCase(tr('IDS_INSTALL')) : toUpperCase(tr('IDS_DO_PURCHASE_AND_INSTALL')) , priceInfo: _isPermoflagePurchased ? null : prices[_selectedPriceIndex], _request: (_isPermoflage &amp;&amp; !_isPermoflagePurchased) || (_isCamouflage &amp;&amp; _storageItemCount == 0) || (_canBuy &amp;&amp; !_isPermoflagePurchased) ? 'buyAndInstallExteriorModal' : null, _requestParams: { _previewIndex: previewIndex, _camouflageEntityId : camouflageEntityId, shipName: shipInfo.fullName, _shipId: shipInfo.id, exteriorName: _exteriorName, useGold: prices[_selectedPriceIndex].currency == 'gold', _exteriorId: _exteriorId, _selectedPriceIndex: _selectedPriceIndex, _isPermoflagePurchased: _isPermoflagePurchased, _isPermoflage : _isPermoflage}, _action: _isPermoflagePurchased ? 'installExterior' : null, _actionParams: { exteriorName: _exteriorName, shipName: shipInfo.fullName, goldAutorecharge: prices[_selectedPriceIndex].currency == 'gold', viewParams: viewParams, colorsSchemeIndex: previewIndex }, _enabled: _enableExterior, _dispatchEvent: 'Tooltip.Close'}
+				<bind name="instance" value="'DefaultButtonCostMedium'; 	  buyAndInstall		? { _label: _isPermoflagePurchased ? toUpperCase(tr('IDS_INSTALL')) : toUpperCase(tr('IDS_DO_PURCHASE_AND_INSTALL')) , priceInfo: _isPermoflagePurchased ? null : prices[_selectedPriceIndex], _request: (_isPermoflage &amp;&amp; !_isPermoflagePurchased) || (_isCamouflage &amp;&amp; _storageItemCount == 0) || (_canBuy &amp;&amp; !_isPermoflagePurchased) ? 'buyAndInstallExteriorModal' : null, _requestParams: { _previewIndex: previewIndex, _camouflageEntityId : camouflageEntityId, shipName: shipInfo.fullName, _shipId: shipInfo.id, exteriorName: _exteriorName, useGold: prices[_selectedPriceIndex].currency == 'gold', _exteriorId: _exteriorId, _selectedPriceIndex: _selectedPriceIndex, _isPermoflagePurchased: _isPermoflagePurchased, _isPermoflage : _isPermoflage}, _action: _isPermoflagePurchased ? 'installExterior' : null, _actionParams: { exteriorName: _exteriorName, shipName: shipInfo.fullName, goldAutorecharge: prices[_selectedPriceIndex].currency == 'gold', viewParams: viewParams }, _enabled: _enableExterior, _dispatchEvent: 'Tooltip.Close'}
 														: itemInstalled		? { _label: toUpperCase(tr('IDS_INSTALL')), priceInfo: null, _request: null, _action: 'installExterior', _actionParams: { exteriorName: _exteriorName, shipName: shipInfo.fullName, goldAutorecharge: prices[_selectedPriceIndex].currency == 'gold', viewParams: viewParams, colorsSchemeIndex: previewIndex }, _enabled: _enableExterior, _dispatchEvent: 'Tooltip.Close'}
 														: itemTakeAway 		? { _label: toUpperCase(tr('IDS_TAKE_AWAY')), priceInfo: null, _request: null, _action: 'uninstallExterior', _actionParams: {exteriorName: _exteriorName, shipName: shipInfo.fullName }, _enabled: _enableExterior, _dispatchEvent: 'Tooltip.Close'}
 														: null"/>
@@ -5119,22 +5254,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -5428,20 +5564,24 @@
 				</block>
 			</block>
 			<block>
-				<bind name="visible" value="exteriorConfig.params.length &gt; 0"/>
+				<bind name="visible" value="((exteriorConfig.attributesPositive.length + exteriorConfig.attributesNegative.length + exteriorConfig.attributesNeutral.length) &gt; 0)"/>
 				<style>
 					<width value="100%"/>
 				</style>
 				<block className="inner_panel" type="native">
-					<styleClass value="$Fullsize"/>
+					<styleClass value="$FullsizeAbsolute"/>
 					<styleClass value="$PxHorizontalCorrection"/>
-					<style>
-						<position value="absolute"/>
-					</style>
 				</block>
 				<block>
-					<styleClass value="$InfoBlockIndent"/>
-					<bind name="repeat" value="exteriorConfig.params; 'ExteriorParams'"/>
+					<style>
+						<width value="100%"/>
+						<paddingTop value="16px"/>
+						<paddingLeft value="12px"/>
+						<paddingRight value="12px"/>
+					</style>
+					<bind name="instance" value="'ParamsModifierList'; { _attributesPositive: exteriorConfig.attributesPositive,
+														_attributesNegative: exteriorConfig.attributesNegative,
+														_attributesNeutral: exteriorConfig.attributesNeutral}"/>
 				</block>
 				<block>
 					<style>
@@ -5594,6 +5734,50 @@
 			</style>
 		</block>
 	</block>
+	<block className="ExteriorPositiveParams">
+		<style>
+			<width value="100%"/>
+			<marginTop value="3px"/>
+			<marginBottom value="3px"/>
+			<leading value="-3"/>
+		</style>
+		<block type="text">
+			<styleClass value="$TextDefault"/>
+			<style>
+				<leading value="-4"/>
+				<maxWidth value="200"/>
+			</style>
+			<bind name="text" value="attributeIDS"/>
+		</block>
+		<block type="text">
+			<styleClass value="$TextDefaultBold"/>
+			<styleClass value="$AttributePositive"/>
+			<styleClass value="$AlignRight"/>
+			<bind name="text" value="measuredValue"/>
+		</block>
+	</block>
+	<block className="ExteriorNegativeParams">
+		<style>
+			<width value="100%"/>
+			<marginTop value="3px"/>
+			<marginBottom value="3px"/>
+			<leading value="-3"/>
+		</style>
+		<block type="text">
+			<styleClass value="$TextDefault"/>
+			<style>
+				<leading value="-4"/>
+				<maxWidth value="200"/>
+			</style>
+			<bind name="text" value="attributeIDS"/>
+		</block>
+		<block type="text">
+			<styleClass value="$TextDefaultBold"/>
+			<styleClass value="$AttributeNegative"/>
+			<styleClass value="$AlignRight"/>
+			<bind name="text" value="measuredValue"/>
+		</block>
+	</block>
 	<block className="ExteriorParams">
 		<bind name="controller" value="lesta.unbound.core.UbController"/>
 		<style>
@@ -5617,6 +5801,8 @@
 		<bind name="watchDH" value="'shipInfo' + 'Slim'; ['shipEntity.slimClientComponent.evUpdate']; shipEntity.slimClientComponent"/>
 		<bind name="entityDH" value="'camouflageEntity'; _camouflageEntityId"/>
 		<bind name="watchDH" value="'camoColorSchemes'; 	['shipEntity.ownShip.evUpdate']; camouflageEntity.camouflage.camoColorSchemes"/>
+		<bind name="primaryEntityDH" value="'navalFlagEntity'; CC.navalFlag; _exteriorId"/>
+		<bind name="watchDH" value="'navalFlag'; ['navalFlagEntity.navalFlag.evCurrentFlagChanged']; navalFlagEntity.navalFlag"/>
 		<bind name="watch" value="'name'; toUpperCase(exteriorConfig.name)"/>
 		<bind name="style" value="'width'; (exteriorConfig.type == ExteriorTypes.FLAGS) ? '60px' : '75px'"/>
 		<style>
@@ -5624,7 +5810,7 @@
 		</style>
 		<block>
 			<bind name="visible" value="(exteriorConfig.type != ExteriorTypes.CAMOUFLAGE) || (camoColorSchemes.length == 0) || _needPNG || _isDesaturated"/>
-			<bind name="style" value="'backgroundImage'; _isDesaturated	? ('url:' + exteriorConfig.desaturatedIconPath) : ('url:' + exteriorConfig.iconPath)"/>
+			<bind name="style" value="'backgroundImage'; _isDesaturated	? ('url:' + exteriorConfig.desaturatedIconPath) : exteriorConfig.iconPath ? ('url:' + exteriorConfig.iconPath) : ('url:' + navalFlag.iconPath)"/>
 		</block>
 		<block>
 			<bind name="instance" value="'CamouflageRepaint';
@@ -5978,22 +6164,23 @@
 			<width value="330px"/>
 		</style>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -6002,10 +6189,7 @@
 			<bind name="visible" value="optionData.contrast"/>
 		</block>
 		<block className="hint_panel" type="native">
-			<styleClass value="$Fullsize"/>
-			<style>
-				<position value="absolute"/>
-			</style>
+			<styleClass value="$FullsizeAbsolute"/>
 		</block>
 		<block>
 			<styleClass value="$InfoBlockIndent"/>
@@ -6167,8 +6351,9 @@
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'shipOverview'"/>
 		<bind name="transition" value="shipOverview.enabled; shipOverview.enabled ? 0.4 : 0.25; {alpha: 1}; {alpha: 0}; {alpha: 1}; 2; !(shipOverview.enabled) &amp;&amp; !(inPort) ? 0.15 : 0.5"/>
 		<bind name="style" value="'hitTest'; !(shipOverview.enabled)"/>
-		<bind name="action" value="'Tooltip.selfClosed'; 'disableExteriorPreview'; {exteriorName:id}"/>
-		<bind name="action" value="'Tooltip.selfOpened'; 'previewExterior'; { exteriorName: id, shipId: shipId }"/>
+		<bind name="action" value="'Tooltip.selfClosed'; !_navalFlagName ? 'disableExteriorPreview' : 'disableNavalFlagPreview'; {exteriorName:id}"/>
+		<bind name="action" value="'Tooltip.selfOpened'; !_navalFlagName ? 'previewExterior' : 'previewNavalFlag'; !_navalFlagName ? { exteriorName: id, shipId: shipId } : {flagName: _navalFlagName}"/>
+		<bind name="action" value="'Tooltip.selfOpened'; 'setCameraDefaultPosition'; _navalFlagName ? {alias: 'navalFlag'} : {alias: 'ensign'}"/>
 		<styleClass value="$HorizontalInfotipBehaviour"/>
 		<block className="DeclareBlurLayer">
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -6181,28 +6366,28 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<block className="dock_panel" type="native">
-			<styleClass value="$Fullsize"/>
+			<styleClass value="$FullsizeAbsolute"/>
 			<style>
-				<position value="absolute"/>
 				<marginTop value="-10px"/>
 				<marginRight value="-14px"/>
 				<marginBottom value="-16px"/>
@@ -6215,7 +6400,7 @@
 			</style>
 			<block>
 				<styleClass value="$InfoBlockIndent"/>
-				<bind name="instance" value="'FlagTooltipHeader'; {id: id, name: name, isLeague: isLeague}"/>
+				<bind name="instance" value="'FlagTooltipHeader'; {_name: name, _installed: _installed, _isLeague: isLeague, _iconPath: _iconPath, _isNaval: _isNaval}"/>
 			</block>
 			<block className="HorizontalDivider">
 				<styleClass value="$PxHorizontalCorrection"/>
@@ -6256,7 +6441,7 @@
 					<block type="text">
 						<styleClass value="$TextDefault"/>
 						<bind name="class" value="'$FontColorUnready'"/>
-						<bind name="text" value="!canUse ? 'IDS_NOT_ACHIEVED' : 'IDS_NOT_INSTALLED'"/>
+						<bind name="text" value="!canUse &amp;&amp; !_isNaval ? 'IDS_NOT_ACHIEVED' : 'IDS_NOT_INSTALLED'"/>
 					</block>
 					<style>
 						<flow value="horizontal"/>
@@ -6273,6 +6458,7 @@
 					<styleClass value="$Fullsize"/>
 				</block>
 			</block>
+			<bind name="watch" value="'extraDescription'; tr('IDS_' + toUpperCase(name) + '_EXTRA_DESCRIPTION')"/>
 			<block>
 				<styleClass value="$InfoBlockIndent"/>
 				<block type="text">
@@ -6283,7 +6469,7 @@
 					<bind name="text" value="'IDS_' + toUpperCase(name) + '_DESCRIPTION'"/>
 				</block>
 				<block type="text">
-					<bind name="visible" value="!(isLeague)"/>
+					<bind name="visible" value="!(isLeague) &amp;&amp; !_isNaval &amp;&amp; extraDescription != ' '"/>
 					<style>
 						<maxWidth value="274"/>
 						<marginTop value="16px"/>
@@ -6292,18 +6478,24 @@
 					<bind name="text" value="'IDS_' + toUpperCase(name) + '_EXTRA_DESCRIPTION'"/>
 				</block>
 			</block>
-			<block className="HorizontalDivider">
-				<styleClass value="$PxHorizontalCorrection"/>
+			<block>
+				<bind name="visible" value="!_installed &amp;&amp; _navalFlagName"/>
 				<style>
 					<width value="100%"/>
-					<height value="3px"/>
 				</style>
-				<block className="divider_h" type="native">
-					<styleClass value="$Fullsize"/>
+				<block className="HorizontalDivider">
+					<styleClass value="$PxHorizontalCorrection"/>
+					<style>
+						<width value="100%"/>
+						<height value="3px"/>
+					</style>
+					<block className="divider_h" type="native">
+						<styleClass value="$Fullsize"/>
+					</block>
 				</block>
 			</block>
 			<block>
-				<bind name="visible" value="_selectedExteriorParams.length &gt; 0"/>
+				<bind name="visible" value="((exteriorConfig.attributesPositive.length + exteriorConfig.attributesNegative.length + exteriorConfig.attributesNeutral.length) &gt; 0) &amp;&amp; !_isNaval"/>
 				<style>
 					<width value="100%"/>
 				</style>
@@ -6312,8 +6504,15 @@
 					<styleClass value="$PxHorizontalCorrection"/>
 				</block>
 				<block>
-					<styleClass value="$InfoBlockIndent"/>
-					<bind name="repeat" value="_selectedExteriorParams; 'ExteriorParams'"/>
+					<style>
+						<width value="100%"/>
+						<paddingTop value="16px"/>
+						<paddingLeft value="12px"/>
+						<paddingRight value="12px"/>
+					</style>
+					<bind name="instance" value="'ParamsModifierList'; { _attributesPositive: exteriorConfig.attributesPositive,
+														_attributesNegative: exteriorConfig.attributesNegative,
+														_attributesNeutral:	exteriorConfig.attributesNeutral}"/>
 				</block>
 				<block>
 					<style>
@@ -6335,7 +6534,7 @@
 			</block>
 			<bind name="watch" value="'isShipRestrictionsVisible'; (shipEnsignRestrictionEntity) &amp;&amp; (shipEnsignRestrictionEntity.shipRestrictions.selectedFilters.length)"/>
 			<block>
-				<bind name="visible" value="isShipRestrictionsVisible"/>
+				<bind name="visible" value="isShipRestrictionsVisible &amp;&amp; !_isNaval"/>
 				<styleClass value="$InfoBlockIndent"/>
 				<block type="text">
 					<styleClass value="$TextDefault"/>
@@ -6352,7 +6551,7 @@
 				</block>
 			</block>
 			<block>
-				<bind name="visible" value="isShipRestrictionsVisible"/>
+				<bind name="visible" value="isShipRestrictionsVisible &amp;&amp; !_isNaval"/>
 				<style>
 					<width value="100%"/>
 				</style>
@@ -6368,7 +6567,7 @@
 				</block>
 			</block>
 			<block>
-				<bind name="visible" value="(!canUse &amp;&amp; !isLeague) || isRankSeasonTemp"/>
+				<bind name="visible" value="((!canUse &amp;&amp; !isLeague) || isRankSeasonTemp) &amp;&amp; !_isNaval"/>
 				<styleClass value="$InfoBlockIndent"/>
 				<block type="text">
 					<styleClass value="$TextDefault"/>
@@ -6381,9 +6580,22 @@
 			</block>
 			<block>
 				<bind name="visible" value="canUse"/>
-				<styleClass value="$InfoBlockIndent"/>
-				<bind name="instance" value="'DefaultButtonCostMedium';  !(_installed) 	? { _label: toUpperCase(tr('IDS_INSTALL')) , priceInfo: null, _action: 'installEnsign', _request: null, _actionParams: {ensignName: id, shipId: shipId}, _enabled: _enableExterior, _dispatchEvent: 'Tooltip.Close' }
-																		: { _label: toUpperCase(tr('IDS_TAKE_AWAY')) , priceInfo: null, _action: 'uninstallEnsign', _request: null, _actionParams: {ensignName: id, shipId: shipId}, _enabled: _enableExterior, _dispatchEvent: 'Tooltip.Close' }"/>
+				<bind name="class" value="_installed &amp;&amp; _navalFlagName ? '$None' : '$InfoBlockIndent'"/>
+				<bind name="instance" value="'DefaultButtonCostMedium';  !(_installed) 	? { _label: toUpperCase(tr('IDS_INSTALL')), 
+																			priceInfo: null,
+																			_action: _navalFlagName ? 'DockProxy.changeNavalFlag' : 'installEnsign',
+																			_request: null,
+																			_actionParams: _navalFlagName ? {shipID: shipId, flagName: _navalFlagName} : {ensignName: id, shipId: shipId},
+																			_enabled: _enableExterior,
+																			_dispatchEvent: 'Tooltip.Close' }
+																		: _navalFlagName 	? null
+																							: { _label: toUpperCase(tr('IDS_TAKE_AWAY')), 
+																								priceInfo: null, 
+																								_action: 'uninstallEnsign', 
+																								_request: null, 
+																								_actionParams: {ensignName: id, shipId: shipId}, 
+																								_enabled: _enableExterior,
+																								_dispatchEvent: 'Tooltip.Close' }"/>
 			</block>
 			<block>
 				<styleClass value="$InfoBlockIndent"/>
@@ -6410,6 +6622,8 @@
 	<block className="FlagTooltip">
 		<bind name="primaryEntityDH" value="'shipEntity'; CC.ownShip; shipId; 'evUpdate'"/>
 		<bind name="watchDH" value="'playerShipInfo'; ['shipEntity.ownShip.evUpdate', 'shipEntity.ownShip.evCrewChanged']; shipEntity.ownShip"/>
+		<bind name="primaryEntityDH" value="'exteriorEntity'; CC.exteriorConfig; id"/>
+		<bind name="watchDH" value="'exteriorConfig'; []; exteriorEntity.exteriorConfig"/>
 		<bind name="entityDH" value="'shipEnsignRestrictionEntity'; shipEntity.ownShip.ensignAvailables"/>
 		<styleClass value="$DefaultTooltipBehaviour"/>
 		<styleClass value="$MouseDisable"/>
@@ -6424,22 +6638,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -6453,7 +6668,7 @@
 			</style>
 			<block>
 				<styleClass value="$InfoBlockIndent"/>
-				<bind name="instance" value="'FlagTooltipHeader'; {id: id, name: name, isLeague: isLeague}"/>
+				<bind name="instance" value="'FlagTooltipHeader'; {_name: name, _installed: _installed, _isLeague: isLeague, _iconPath: _iconPath, _isNaval: _isNaval}"/>
 			</block>
 			<block className="HorizontalDivider">
 				<styleClass value="$PxHorizontalCorrection"/>
@@ -6486,7 +6701,7 @@
 					</style>
 				</block>
 				<block>
-					<bind name="visible" value="!(_installed)"/>
+					<bind name="visible" value="!_installed"/>
 					<styleClass value="$InfoBlockIndent"/>
 					<block className="icon_warning_orange" type="native">
 						<styleClass value="$MiddleVAligned"/>
@@ -6494,7 +6709,7 @@
 					<block type="text">
 						<styleClass value="$TextDefault"/>
 						<bind name="class" value="'$FontColorUnready'"/>
-						<bind name="text" value="!canUse ? 'IDS_NOT_ACHIEVED' : 'IDS_NOT_INSTALLED'"/>
+						<bind name="text" value="!canUse &amp;&amp; !_isNaval ? 'IDS_NOT_ACHIEVED' : 'IDS_NOT_INSTALLED'"/>
 					</block>
 					<style>
 						<flow value="horizontal"/>
@@ -6511,6 +6726,7 @@
 					<styleClass value="$Fullsize"/>
 				</block>
 			</block>
+			<bind name="watch" value="'extraDescription'; tr('IDS_' + toUpperCase(name) + '_EXTRA_DESCRIPTION')"/>
 			<block>
 				<styleClass value="$InfoBlockIndent"/>
 				<block type="text">
@@ -6521,12 +6737,12 @@
 					<bind name="text" value="'IDS_' + toUpperCase(name) + '_DESCRIPTION'"/>
 				</block>
 				<block type="text">
-					<bind name="visible" value="!(isLeague)"/>
+					<bind name="visible" value="!(isLeague) &amp;&amp; extraDescription != ' ' &amp;&amp; !_isNaval"/>
 					<style>
 						<maxWidth value="274"/>
 					</style>
 					<styleClass value="$TextDefault"/>
-					<bind name="text" value="'IDS_' + toUpperCase(name) + '_EXTRA_DESCRIPTION'"/>
+					<bind name="text" value="extraDescription"/>
 				</block>
 			</block>
 			<block className="HorizontalDivider">
@@ -6540,7 +6756,7 @@
 				</block>
 			</block>
 			<block>
-				<bind name="visible" value="_selectedExteriorParams.length &gt; 0"/>
+				<bind name="visible" value="((exteriorConfig.attributesPositive.length + exteriorConfig.attributesNegative.length + exteriorConfig.attributesNeutral.length) &gt; 0) &amp;&amp; !_isNaval"/>
 				<style>
 					<width value="100%"/>
 				</style>
@@ -6549,8 +6765,15 @@
 					<styleClass value="$PxHorizontalCorrection"/>
 				</block>
 				<block>
-					<styleClass value="$InfoBlockIndent"/>
-					<bind name="repeat" value="_selectedExteriorParams; 'ExteriorParams'"/>
+					<style>
+						<width value="100%"/>
+						<paddingTop value="16px"/>
+						<paddingLeft value="12px"/>
+						<paddingRight value="12px"/>
+					</style>
+					<bind name="instance" value="'ParamsModifierList'; { _attributesPositive: exteriorConfig.attributesPositive,
+														_attributesNegative: exteriorConfig.attributesNegative,
+														_attributesNeutral:	exteriorConfig.attributesNeutral}"/>
 				</block>
 				<block>
 					<style>
@@ -6572,7 +6795,7 @@
 			</block>
 			<bind name="watch" value="'isShipRestrictionsVisible'; (shipEnsignRestrictionEntity) &amp;&amp; (shipEnsignRestrictionEntity.shipRestrictions.selectedFilters.length)"/>
 			<block>
-				<bind name="visible" value="isShipRestrictionsVisible"/>
+				<bind name="visible" value="isShipRestrictionsVisible &amp;&amp; !_isNaval"/>
 				<styleClass value="$InfoBlockIndent"/>
 				<block type="text">
 					<styleClass value="$TextDefault"/>
@@ -6589,7 +6812,7 @@
 				</block>
 			</block>
 			<block>
-				<bind name="visible" value="isShipRestrictionsVisible"/>
+				<bind name="visible" value="isShipRestrictionsVisible &amp;&amp; !_isNaval"/>
 				<style>
 					<width value="100%"/>
 				</style>
@@ -6605,7 +6828,7 @@
 				</block>
 			</block>
 			<block>
-				<bind name="visible" value="(!canUse &amp;&amp; isLeague) || isRankSeasonTemp"/>
+				<bind name="visible" value="((!canUse &amp;&amp; isLeague) || isRankSeasonTemp) &amp;&amp; !_isNaval"/>
 				<styleClass value="$InfoBlockIndent"/>
 				<block type="text">
 					<bind name="visible" value="!canUse &amp;&amp; isLeague"/>
@@ -6627,21 +6850,20 @@
 				</block>
 			</block>
 			<block>
-				<bind name="visible" value="!(_installed) &amp;&amp; canUse"/>
+				<bind name="visible" value="!(_installed) &amp;&amp; (canUse || _isNaval)"/>
 				<styleClass value="$InfoBlockIndent"/>
 				<bind name="instance" value="'MouseInstruction'; {_type: 'left', _instructionText: 'IDS_INSTRUCTION_INSTALL_ENSIGN', _maxWidth: 270}"/>
 			</block>
 		</block>
 	</block>
 	<block className="FlagTooltipHeader">
-		<bind name="controller" value="lesta.dialogs.controllers.CollectionController; 'ensigns'; id; 'ensignsInfo'"/>
 		<block>
 			<block>
 				<style>
 					<height value="60px"/>
 					<width value="75px"/>
 				</style>
-				<bind name="style" value="'backgroundImage'; 'url:' + ensignsInfo.iconPath"/>
+				<bind name="style" value="'backgroundImage'; 'url:' + _iconPath"/>
 			</block>
 			<block>
 				<block type="text">
@@ -6649,15 +6871,15 @@
 						<maxWidth value="200"/>
 					</style>
 					<styleClass value="$TextHeaderBold"/>
-					<bind name="class" value="ensignsInfo.installed 	? '$FontColorGolden' :'$FontColorDefault'"/>
-					<bind name="text" value="'IDS_' + toUpperCase(ensignsInfo.name)"/>
+					<bind name="class" value="_installed ? '$FontColorGolden' :'$FontColorDefault'"/>
+					<bind name="text" value="'IDS_' + toUpperCase(_name)"/>
 				</block>
 				<block type="text">
 					<style>
 						<maxWidth value="200"/>
 					</style>
 					<styleClass value="$TextDefault"/>
-					<bind name="text" value="isLeague ? 'IDS_LEAGUE_FLAG' : 'IDS_SEASON_ENSIGN'"/>
+					<bind name="text" value="_isLeague ? 'IDS_LEAGUE_FLAG' : _isNaval ? 'IDS_NAVAL_FLAG' : 'IDS_SEASON_ENSIGN'"/>
 				</block>
 			</block>
 			<style>
@@ -7080,22 +7302,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -7190,7 +7413,7 @@
 				</block>
 			</block>
 			<block>
-				<bind name="visible" value="exteriorConfig.params.length &gt; 0"/>
+				<bind name="visible" value="((exteriorConfig.attributesPositive.length + exteriorConfig.attributesNegative.length + exteriorConfig.attributesNeutral.length) &gt; 0)"/>
 				<style>
 					<width value="100%"/>
 				</style>
@@ -7199,17 +7422,31 @@
 					<styleClass value="$PxHorizontalCorrection"/>
 				</block>
 				<block>
-					<styleClass value="$InfoBlockIndent"/>
-					<bind name="repeat" value="exteriorConfig.params; 'ExteriorParams'"/>
-				</block>
-				<block className="HorizontalDivider">
-					<styleClass value="$PxHorizontalCorrection"/>
 					<style>
 						<width value="100%"/>
-						<height value="3px"/>
+						<paddingTop value="16px"/>
+						<paddingLeft value="12px"/>
+						<paddingRight value="12px"/>
 					</style>
-					<block className="divider_h" type="native">
-						<styleClass value="$Fullsize"/>
+					<bind name="instance" value="'ParamsModifierList'; { _attributesPositive: exteriorConfig.attributesPositive,
+														_attributesNegative: exteriorConfig.attributesNegative,
+														_attributesNeutral:	exteriorConfig.attributesNeutral}"/>
+				</block>
+				<block>
+					<style>
+						<width value="100%"/>
+						<bottom value="-1px"/>
+						<position value="absolute"/>
+					</style>
+					<block className="HorizontalDivider">
+						<styleClass value="$PxHorizontalCorrection"/>
+						<style>
+							<width value="100%"/>
+							<height value="3px"/>
+						</style>
+						<block className="divider_h" type="native">
+							<styleClass value="$Fullsize"/>
+						</block>
 					</block>
 				</block>
 			</block>
@@ -7481,22 +7718,23 @@
 				</style>
 			</block>
 			<block className="BlurMap">
+				<bind name="visible" value="optionData.blurEnabled"/>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 				<style>
-					<position value="absolute"/>
-					<width value="100%"/>
-					<height value="100%"/>
 					<hitTest value="false"/>
 				</style>
-				<bind name="visible" value="optionData.blurEnabled"/>
-				<block className="mc_blurmap5" type="native">
+				<styleClass value="$FullsizeAbsolute"/>
+				<block className="mc_blurmap_medium" type="native">
 					<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 					<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-					<style>
-						<width value="100%"/>
-						<height value="100%"/>
-					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 					<bind name="blurMap" value="0"/>
+				</block>
+				<block className="inner_panel" type="native">
+					<style>
+						<alpha value="0.5"/>
+					</style>
+					<styleClass value="$FullsizeAbsolute"/>
 				</block>
 			</block>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -8097,6 +8335,13 @@
 		<bind name="action" value="'click'; rewardItem.isPRMP || !(rewardItem.type == 'Ability') ? '' : 'goToReward'; { type: rewardItem.type, subtype: rewardItem.subtype }"/>
 	</block>
 	<block className="RewardDogTagItem">
+		<bind name="firstEntityDH" value="'dockStateEntity'; CC.dockState"/>
+		<bind name="watchDH" value="'dockStateName'; ['dockStateEntity.dockState.evUpdate']; dockStateEntity.dockState.stateName"/>
+		<bind name="var" value="{isClicked: false}"/>
+		<bind name="catch" value="'click'; {isClicked: (dockStateName == 'barge' ? true : false)}"/>
+		<bind name="action" value="'click';  (dockStateName == 'barge' ? 'moveFromBarge' : null)"/>
+		<bind name="request" value="'removedFromStage'; (isClicked ? 'modalDogTag' : null); {}"/>
+		<bind name="request" value="'click'; (dockStateName == 'dock' &amp;&amp; !(isClicked)) ? 'modalDogTag' : null; {}"/>
 		<bind name="tooltip" value="'DogTagComponentTooltip'; _isNoTooltip ? null : { _id: rewardItem.id, isNotSelf: true, isRewardTooltip: true }"/>
 		<bind name="primaryEntityDH" value="'dogTagEntity'; CC.dogTagComponent; rewardItem.id"/>
 		<bind name="watchDH" value="'iconFileName'; ['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.iconPath"/>
@@ -8499,22 +8744,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -8642,22 +8888,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -8916,22 +9163,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -8971,7 +9219,8 @@
 		</block>
 		<block>
 			<bind name="visible" value="crewFirstNameIDS != ''"/>
-			<bind name="instance" value="'RewardCrewRestriction'; { _crew: rewardItem.params.item }"/>
+			<styleClass value="$InfoBlockIndent"/>
+			<bind name="instance" value="'RewardCrewImage'; { _crew: rewardItem.params.item}"/>
 		</block>
 		<block>
 			<bind name="visible" value="(rewardshipClasses.length &gt; 0) || (rewardNation != '')"/>
@@ -9615,22 +9864,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -9756,6 +10006,68 @@
 			<bind name="instance" value="'ShipParamsTooltipListView'; { viewParams: _viewParams, _width: _width }"/>
 		</block>
 	</block>
+	<block className="ParamsModifierItem">
+		<style>
+			<width value="100%"/>
+			<flow value="horizontal"/>
+			<marginBottom value="16px"/>
+		</style>
+		<bind name="style" value="'paddingTop'; (_alignLeft == true) ? '-8px': '0px'"/>
+		<block type="text">
+			<styleClass value="$TextDefaultNM"/>
+			<style>
+				<leading value="-3"/>
+				<alpha value="0.8"/>
+				<width value="100%"/>
+			</style>
+			<bind name="style" value="'width'; (_alignLeft == true) ? '100%f': '100%'"/>
+			<bind name="text" value="attributeIDS"/>
+		</block>
+		<block type="text">
+			<style>
+				<marginLeft value="12px"/>
+			</style>
+			<styleClass value="$TextDefaultNM"/>
+			<bind name="class" value="category == 'positive' ? '$FontColorComparePositive' : 
+					 category == 'negative'	? '$FontColorCompareNegative'
+					 						: '$FontColorDefault'"/>
+			<bind name="text" value="measuredValue"/>
+		</block>
+		<block type="text">
+			<style>
+				<marginLeft value="4px"/>
+			</style>
+			<styleClass value="$TextDefaultNM"/>
+			<bind name="style" value="'alpha'; category == 'positive' ? 0.65 : 0.8"/>
+			<bind name="class" value="category == 'positive' ? '$FontColorComparePositive' : 
+					 category == 'negative'	? '$FontColorCompareNegative'
+					 						: '$FontColorDefault'"/>
+			<bind name="text" value="measure"/>
+		</block>
+	</block>
+	<block className="ParamsModifierList">
+		<style>
+			<width value="100%"/>
+		</style>
+		<block>
+			<style>
+				<width value="100%"/>
+			</style>
+			<bind name="repeat" value="_attributesPositive; 'ParamsModifierItem'; {_alignLeft: _alignLeft}"/>
+		</block>
+		<block>
+			<style>
+				<width value="100%"/>
+			</style>
+			<bind name="repeat" value="_attributesNegative; 'ParamsModifierItem'; {_alignLeft: _alignLeft}"/>
+		</block>
+		<block>
+			<style>
+				<width value="100%"/>
+			</style>
+			<bind name="repeat" value="_attributesNeutral; 'ParamsModifierItem'; {_alignLeft: _alignLeft}"/>
+		</block>
+	</block>
 	<css name="$CrewSkillSmallSize">
 		<width value="26px"/>
 		<height value="26px"/>
@@ -9768,8 +10080,10 @@
 		<style>
 			<width value="100%"/>
 			<flow value="horizontal"/>
+			<marginBottom value="16px"/>
 		</style>
 		<block>
+			<bind name="instance" value="'CrewSkillEpicIcon'; skill.isEpic ? {} : null"/>
 			<style>
 				<width value="60px"/>
 				<height value="60px"/>
@@ -9784,19 +10098,42 @@
 			<block type="text">
 				<style>
 					<maxWidth value="210"/>
+					<marginLeft value="4px"/>
+					<leading value="-3"/>
 				</style>
-				<styleClass value="$TextHeaderBold"/>
-				<bind name="class" value="_penalty &amp;&amp; skill.learned ? '$FontColorUnready' : '$None'"/>
+				<styleClass value="$TextDefaultBold19NM"/>
+				<bind name="class" value="_penalty &amp;&amp; skill.learned 	? '$FontColorUnready' :
+						!_penalty &amp;&amp; skill.learned 	? '$FontColorGolden'
+													: '$None'"/>
 				<bind name="text" value="'IDS_SKILL_' + toUpperCase(skill.name)"/>
 			</block>
 			<block type="text">
 				<style>
 					<maxWidth value="210"/>
+					<marginLeft value="4px"/>
+					<marginTop value="12px"/>
 				</style>
-				<styleClass value="$TextSecondary"/>
-				<bind name="text" value="'IDS_SKILL_DESC_' + toUpperCase(skill.name)"/>
+				<styleClass value="$TextDefaultNM"/>
+				<bind name="class" value="_penalty &amp;&amp; skill.learned 	? '$FontColorUnready' :
+						!_penalty &amp;&amp; skill.learned 	? '$FontColorGolden'
+													: '$None'"/>
+				<bind name="watch" value="'category'; (	(skill.column == 0 || skill.column == 1)	?  	'IDS_SKILL_CAT_NAME_ENDURANCE' :
+										(skill.column == 2 || skill.column == 3)	?	'IDS_SKILL_CAT_NAME_ATTACK' :
+										(skill.column == 4 || skill.column == 5)	?	'IDS_SKILL_CAT_NAME_SUPPORT' :
+										(skill.column == 6 || skill.column == 7) 	?	'IDS_SKILL_CAT_NAME_VERSALITY'
+																					:   'IDS_SKILL_CAT_NAME_DEFAULT')
+										+ (skill.isEpic ? '_ISEPIC' : '')"/>
+				<bind name="text" value="category"/>
 			</block>
 		</block>
+	</block>
+	<block className="CrewSkillEpicIcon">
+		<style>
+			<width value="14px"/>
+			<height value="14px"/>
+			<position value="absolute"/>
+		</style>
+		<bind name="style" value="'backgroundImage'; 'url:../service_kit/item_types/icon_modernization_special.png')"/>
 	</block>
 	<block className="CrewSkillItemSmall">
 		<bind name="primaryEntityDH" value="'skillEntity'; CC.crewSkill; _skillIDs[$index]; 'evUpdate'"/>
@@ -9817,6 +10154,7 @@
 			<width value="60px"/>
 			<height value="60px"/>
 		</style>
+		<bind name="instance" value="'CrewSkillEpicIcon'; skill.isEpic ? {} : null"/>
 		<bind name="style" value="'backgroundImage'; 'url:../crew_commander/skills/big/icon_perk_' + skill.name + (_penalty ? '_penalty.png' : '.png')"/>
 	</block>
 	<block className="CrewFileSkillItem">
@@ -9842,6 +10180,7 @@
 				<width value="60px"/>
 				<height value="60px"/>
 			</style>
+			<bind name="instance" value="'CrewSkillEpicIcon'; skill.isEpic ? {} : null"/>
 			<bind name="style" value="'backgroundImage'; ('url:../crew_commander/skills/big/icon_perk_' + skill.name +
 										((crew.skillsEffectiveness &lt; 1) &amp;&amp; skill.learned 	?	'_penalty.png' :
 										skill.hasLearnedSkillOnPreviousTier					?	'.png'
@@ -10055,7 +10394,7 @@
 								<style>
 									<marginTop value="10px"/>
 								</style>
-								<bind name="repeat" value="selectedShipCrew.uniqueSkillSet; 'TalentCrewSkills'; {}"/>
+								<bind name="repeat" value="selectedShipCrew.uniqueSkillSet; 'TalentCrewSkills'; {}; true"/>
 								<style>
 									<flow value="horizontal"/>
 								</style>
@@ -10347,7 +10686,7 @@
 							<style>
 								<marginTop value="10px"/>
 							</style>
-							<bind name="repeat" value="selectedShipCrew.uniqueSkillSet; 'TalentCrewSkills'; {}"/>
+							<bind name="repeat" value="selectedShipCrew.uniqueSkillSet; 'TalentCrewSkills'; {}; true"/>
 							<style>
 								<flow value="horizontal"/>
 							</style>
@@ -10559,10 +10898,12 @@
 	<block className="TalentCrewSkillsTooltip">
 		<bind name="primaryEntityDH" value="'uniqueSkillEntity'; CC.crewUniqueSkill; _id"/>
 		<bind name="watchDH" value="'achievementName'; 	[]; uniqueSkillEntity.crewUniqueSkill.achievementName"/>
-		<bind name="watchDH" value="'attributes'; 		[]; uniqueSkillEntity.crewUniqueSkill.attributes"/>
+		<bind name="watchDH" value="'attributesPositive';[]; uniqueSkillEntity.crewUniqueSkill.attributesPositive"/>
+		<bind name="watchDH" value="'attributesNegative';[]; uniqueSkillEntity.crewUniqueSkill.attributesNegative"/>
+		<bind name="watchDH" value="'attributesNeutral';[]; uniqueSkillEntity.crewUniqueSkill.attributesNeutral"/>
 		<styleClass value="$DefaultTooltipBehaviour"/>
 		<style>
-			<width value="300px"/>
+			<width value="320px"/>
 			<hitTest value="false"/>
 		</style>
 		<block className="DeclareBlurLayer">
@@ -10576,22 +10917,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -10603,42 +10945,78 @@
 			<styleClass value="$FullsizeAbsolute"/>
 		</block>
 		<block>
-			<bind name="instance" value="'TalentItemWithDescription'; { _achievementName: achievementName }"/>
-		</block>
-		<block>
-			<style>
-				<marginLeft value="12px"/>
-				<marginBottom value="6px"/>
-			</style>
-			<block type="text">
-				<styleClass value="$TextDefault"/>
-				<bind name="text" value="tr('IDS_LEARN_COST') + tr('IDS_COLON') + ' ' + tr('IDS_FOR_FREE')"/>
-			</block>
-		</block>
-		<block>
 			<style>
 				<width value="100%"/>
+				<paddingTop value="16px"/>
+				<paddingLeft value="16px"/>
+				<paddingRight value="16px"/>
 			</style>
-			<block className="HorizontalDivider">
-				<styleClass value="$PxHorizontalCorrection"/>
-				<style>
-					<width value="100%"/>
-					<height value="3px"/>
-				</style>
-				<block className="divider_h" type="native">
-					<styleClass value="$Fullsize"/>
-				</block>
-			</block>
-			<block className="inner_panel" type="native">
-				<styleClass value="$FullsizeAbsolute"/>
-				<style>
-					<marginTop value="3px"/>
-					<marginBottom value="3px"/>
-				</style>
+			<block>
+				<bind name="instance" value="'TalentItemWithDescription'; { _achievementName: achievementName }"/>
 			</block>
 			<block>
-				<styleClass value="$InfoBlockIndent"/>
-				<bind name="repeat" value="attributes; 'SkillAttributeItem'"/>
+				<style>
+					<width value="100%"/>
+					<marginRight value="-16px"/>
+					<marginLeft value="-16px"/>
+				</style>
+				<block className="HorizontalDivider">
+					<styleClass value="$PxHorizontalCorrection"/>
+					<style>
+						<width value="100%"/>
+						<height value="3px"/>
+					</style>
+					<block className="divider_h" type="native">
+						<styleClass value="$Fullsize"/>
+					</block>
+				</block>
+			</block>
+			<block type="text">
+				<style>
+					<width value="100%"/>
+					<marginTop value="12px"/>
+					<marginBottom value="12px"/>
+				</style>
+				<styleClass value="$TextDefault17NM"/>
+				<bind name="text" value="tr('IDS_TALENT_' + achievementName + '_DESCRIPTION')"/>
+			</block>
+			<block>
+				<style>
+					<width value="100%"/>
+				</style>
+				<block>
+					<style>
+						<width value="100%"/>
+						<marginRight value="-16px"/>
+						<marginLeft value="-16px"/>
+					</style>
+					<block className="HorizontalDivider">
+						<styleClass value="$PxHorizontalCorrection"/>
+						<style>
+							<width value="100%"/>
+							<height value="3px"/>
+						</style>
+						<block className="divider_h" type="native">
+							<styleClass value="$Fullsize"/>
+						</block>
+					</block>
+				</block>
+				<block className="inner_panel" type="native">
+					<styleClass value="$FullsizeAbsolute"/>
+					<style>
+						<marginTop value="3px"/>
+						<marginBottom value="3px"/>
+						<marginLeft value="-16px"/>
+						<marginRight value="-16px"/>
+					</style>
+				</block>
+				<block>
+					<style>
+						<width value="100%"/>
+						<paddingTop value="16px"/>
+					</style>
+					<bind name="instance" value="'ParamsModifierList'; { _attributesPositive: attributesPositive, _attributesNegative: attributesNegative, _attributesNeutral: attributesNeutral}"/>
+				</block>
 			</block>
 		</block>
 	</block>
@@ -10690,22 +11068,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -10717,91 +11096,142 @@
 			<styleClass value="$FullsizeAbsolute"/>
 		</block>
 		<block>
-			<bind name="instance" value="'VanityItemWithDescription'; { _locked: locked, _vanityName: vanityName }"/>
-		</block>
-		<block className="HorizontalDivider">
-			<styleClass value="$PxHorizontalCorrection"/>
 			<style>
 				<width value="100%"/>
-				<height value="3px"/>
+				<paddingTop value="16px"/>
+				<paddingLeft value="16px"/>
+				<paddingRight value="16px"/>
 			</style>
-			<block className="divider_h" type="native">
-				<styleClass value="$Fullsize"/>
+			<block>
+				<bind name="instance" value="'VanityItemWithDescription'; { _locked: locked, _vanityName: vanityName }"/>
 			</block>
-		</block>
-		<block>
-			<bind name="visible" value="(state == true)"/>
-			<styleClass value="$InfoBlockIndent"/>
-			<block className="icon_check" type="native">
-				<styleClass value="$MiddleVAligned"/>
-			</block>
-			<block type="text">
-				<style>
-					<marginLeft value="4px"/>
-				</style>
-				<styleClass value="$TextDefault"/>
-				<bind name="class" value="'$FontColorGolden'"/>
-				<text value="IDS_VANITY_ACTIVATED"/>
-			</block>
-			<style>
-				<flow value="horizontal"/>
-			</style>
-		</block>
-		<block>
-			<bind name="visible" value="(state == false) || (locked == true)"/>
-			<styleClass value="$InfoBlockIndent"/>
-			<block className="icon_warning_orange" type="native">
-				<styleClass value="$MiddleVAligned"/>
-			</block>
-			<block type="text">
-				<style>
-					<marginLeft value="4px"/>
-				</style>
-				<styleClass value="$TextDefault"/>
-				<bind name="class" value="'$FontColorUnready'"/>
-				<bind name="text" value="locked == true ? 'IDS_NOT_ACHIEVED' : 'IDS_VANITY_NOT_ACTIVATED'"/>
-			</block>
-			<style>
-				<flow value="horizontal"/>
-			</style>
-		</block>
-		<block>
-			<bind name="visible" value="(locked == true)"/>
-			<style>
-				<width value="100%"/>
-			</style>
-			<block className="HorizontalDivider">
-				<styleClass value="$PxHorizontalCorrection"/>
+			<block>
 				<style>
 					<width value="100%"/>
-					<height value="3px"/>
+					<marginLeft value="-16px"/>
+					<marginRight value="-16px"/>
 				</style>
-				<block className="divider_h" type="native">
-					<styleClass value="$Fullsize"/>
+				<block className="HorizontalDivider">
+					<styleClass value="$PxHorizontalCorrection"/>
+					<style>
+						<width value="100%"/>
+						<height value="3px"/>
+					</style>
+					<block className="divider_h" type="native">
+						<styleClass value="$Fullsize"/>
+					</block>
 				</block>
 			</block>
-		</block>
-		<block>
-			<bind name="visible" value="(locked == true)"/>
-			<styleClass value="$InfoBlockIndent"/>
 			<block>
-				<bind name="instance" value="'RewardReasonsList'; (locked == true) ? { _rewardReasons: reasons, _rewardUnlocked: true } : null"/>
+				<style>
+					<width value="100%"/>
+					<marginTop value="8px"/>
+					<marginBottom value="8px"/>
+					<flow value="horizontal"/>
+				</style>
+				<block className="icon_module_state" type="native">
+					<style>
+						<position value="absolute"/>
+						<top value="-2px"/>
+						<left value="-1px"/>
+					</style>
+					<bind name="gotoAndStop!" value="(state == false) || (locked == true)	? 'action' :
+									state == true 							? 'installed'
+																			: 'installed'"/>
+				</block>
+				<block type="text">
+					<styleClass value="$TextDefaultNM"/>
+					<style>
+						<maxWidth value="260"/>
+						<marginLeft value="20px"/>
+					</style>
+					<bind name="class" value="state == true							? '$FontColorGolden' :
+							(state == false) || (locked == true)	? '$FontColorUnready' 
+																	: '$FontColorDefault'"/>
+					<bind name="text" value="state == true							? 'IDS_VANITY_ACTIVATED' :
+							(state == false) &amp;&amp; (locked == true) 	? 'IDS_NOT_ACHIEVED'
+																	: 'IDS_VANITY_NOT_ACTIVATED'"/>
+				</block>
 			</block>
-		</block>
-		<block className="HorizontalDivider">
-			<styleClass value="$PxHorizontalCorrection"/>
-			<style>
-				<width value="100%"/>
-				<height value="3px"/>
-			</style>
-			<block className="divider_h" type="native">
-				<styleClass value="$Fullsize"/>
+			<block>
+				<style>
+					<width value="100%"/>
+					<marginRight value="-16px"/>
+					<marginLeft value="-16px"/>
+				</style>
+				<block className="HorizontalDivider">
+					<styleClass value="$PxHorizontalCorrection"/>
+					<style>
+						<width value="100%"/>
+						<height value="3px"/>
+					</style>
+					<block className="divider_h" type="native">
+						<styleClass value="$Fullsize"/>
+					</block>
+				</block>
 			</block>
-		</block>
-		<block>
-			<styleClass value="$InfoBlockIndent"/>
-			<bind name="visible" value="locked == false"/>
-			<bind name="instance" value="'MouseInstruction'; { _type: 'left', _instructionText: (state == true) ? 'IDS_CREW_VANITY_UNINSTALL' : 'IDS_CREW_VANITY_INSTALL', _maxWidth: 220 }"/>
+			<block type="text">
+				<style>
+					<width value="100%"/>
+					<marginTop value="12px"/>
+					<marginBottom value="12px"/>
+				</style>
+				<styleClass value="$TextDefault17NM"/>
+				<bind name="text" value="tr('IDS_REWARD_UNLOCK_' + vanityName + '_DESCRIPTION')"/>
+			</block>
+			<block>
+				<bind name="visible" value="(locked == true)"/>
+				<style>
+					<width value="100%"/>
+					<marginLeft value="-16px"/>
+					<marginRight value="-16px"/>
+				</style>
+				<block className="HorizontalDivider">
+					<styleClass value="$PxHorizontalCorrection"/>
+					<style>
+						<width value="100%"/>
+						<height value="3px"/>
+					</style>
+					<block className="divider_h" type="native">
+						<styleClass value="$Fullsize"/>
+					</block>
+				</block>
+			</block>
+			<block>
+				<bind name="visible" value="(locked == true)"/>
+				<style>
+					<width value="100%"/>
+				</style>
+				<block>
+					<bind name="instance" value="'RewardReasonsList'; (locked == true) ? { _rewardReasons: reasons, _rewardUnlocked: true } : null"/>
+				</block>
+			</block>
+			<block>
+				<style>
+					<width value="100%"/>
+					<marginLeft value="-16px"/>
+					<marginRight value="-16px"/>
+				</style>
+				<block className="HorizontalDivider">
+					<styleClass value="$PxHorizontalCorrection"/>
+					<style>
+						<width value="100%"/>
+						<height value="3px"/>
+					</style>
+					<block className="divider_h" type="native">
+						<styleClass value="$Fullsize"/>
+					</block>
+				</block>
+			</block>
+			<block>
+				<style>
+					<width value="100%"/>
+					<marginBottom value="12px"/>
+					<marginTop value="12px"/>
+				</style>
+				<bind name="visible" value="locked == false"/>
+				<bind name="instance" value="'MouseInstruction'; { _type: 'left', _instructionText: (state == true) ? 'IDS_CREW_VANITY_UNINSTALL' : 'IDS_CREW_VANITY_INSTALL', _maxWidth: 220 }"/>
+			</block>
 		</block>
 	</block>
 	<block className="VanityCrewSkillsInfotip">
@@ -10826,22 +11256,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<block className="dock_panel" type="native">
@@ -10854,100 +11285,147 @@
 			</style>
 		</block>
 		<block>
-			<bind name="instance" value="'VanityItemWithDescription'; { _locked: locked, _vanityName: vanityName }"/>
-		</block>
-		<block className="HorizontalDivider">
-			<styleClass value="$PxHorizontalCorrection"/>
 			<style>
 				<width value="100%"/>
-				<height value="3px"/>
+				<paddingTop value="16px"/>
+				<paddingLeft value="16px"/>
+				<paddingRight value="16px"/>
 			</style>
-			<block className="divider_h" type="native">
-				<styleClass value="$Fullsize"/>
+			<block>
+				<bind name="instance" value="'VanityItemWithDescription'; { _locked: locked, _vanityName: vanityName }"/>
 			</block>
-		</block>
-		<block>
-			<bind name="visible" value="(state == true)"/>
-			<styleClass value="$InfoBlockIndent"/>
-			<block className="icon_check" type="native">
-				<styleClass value="$MiddleVAligned"/>
-			</block>
-			<block type="text">
-				<style>
-					<marginLeft value="4px"/>
-				</style>
-				<styleClass value="$TextDefault"/>
-				<bind name="class" value="'$FontColorGolden'"/>
-				<text value="IDS_VANITY_ACTIVATED"/>
-			</block>
-			<style>
-				<flow value="horizontal"/>
-			</style>
-		</block>
-		<block>
-			<bind name="visible" value="(state == false) || (locked == true)"/>
-			<styleClass value="$InfoBlockIndent"/>
-			<block className="icon_warning_orange" type="native">
-				<styleClass value="$MiddleVAligned"/>
-			</block>
-			<block type="text">
-				<style>
-					<marginLeft value="4px"/>
-				</style>
-				<styleClass value="$TextDefault"/>
-				<bind name="class" value="'$FontColorUnready'"/>
-				<bind name="text" value="locked == true ? 'IDS_NOT_ACHIEVED' : 'IDS_VANITY_NOT_ACTIVATED'"/>
-			</block>
-			<style>
-				<flow value="horizontal"/>
-			</style>
-		</block>
-		<block>
-			<bind name="visible" value="(locked == true)"/>
-			<style>
-				<width value="100%"/>
-			</style>
-			<block className="HorizontalDivider">
-				<styleClass value="$PxHorizontalCorrection"/>
+			<block>
 				<style>
 					<width value="100%"/>
-					<height value="3px"/>
+					<marginLeft value="-16px"/>
+					<marginRight value="-16px"/>
 				</style>
-				<block className="divider_h" type="native">
-					<styleClass value="$Fullsize"/>
+				<block className="HorizontalDivider">
+					<styleClass value="$PxHorizontalCorrection"/>
+					<style>
+						<width value="100%"/>
+						<height value="3px"/>
+					</style>
+					<block className="divider_h" type="native">
+						<styleClass value="$Fullsize"/>
+					</block>
 				</block>
 			</block>
-		</block>
-		<block>
-			<bind name="visible" value="(locked == true)"/>
-			<styleClass value="$InfoBlockIndent"/>
 			<block>
-				<bind name="instance" value="'RewardReasonsList'; (locked == true) ? { _rewardReasons: reasons, _rewardUnlocked: true } : null"/>
-			</block>
-		</block>
-		<block className="HorizontalDivider">
-			<styleClass value="$PxHorizontalCorrection"/>
-			<style>
-				<width value="100%"/>
-				<height value="3px"/>
-			</style>
-			<block className="divider_h" type="native">
-				<styleClass value="$Fullsize"/>
-			</block>
-		</block>
-		<block>
-			<styleClass value="$InfoBlockIndent"/>
-			<bind name="tooltip" value="'SimpleTooltip'; (locked == true) ? {tooltipText: 'IDS_VANITY_NOT_ACTIVATED_INFO'} : null; 0"/>
-			<bind name="dispatch" value="'buttonClick'; 'Tooltip.Close'; {}"/>
-			<block className="button_default" type="native">
 				<style>
-					<width value="140px"/>
+					<width value="100%"/>
+					<marginTop value="8px"/>
+					<marginBottom value="8px"/>
+					<flow value="horizontal"/>
 				</style>
-				<styleClass value="$MiddleAligned"/>
-				<bind name="focus" value="0; true"/>
-				<bind name="enabled" value="locked == false"/>
-				<bind name="action" value="'buttonClick'; 'setCrewVanity'; { crewID: _crewID, vanityType: vanityType, value: !state }"/>
-				<bind name="label" value="(state == true) ? toUpperCase(tr('IDS_CREW_VANITY_UNINSTALL')) : toUpperCase(tr('IDS_CREW_VANITY_INSTALL'))"/>
+				<block className="icon_module_state" type="native">
+					<style>
+						<position value="absolute"/>
+						<top value="-2px"/>
+						<left value="-1px"/>
+					</style>
+					<bind name="gotoAndStop!" value="(state == false) || (locked == true)	? 'action' :
+									state == true 							? 'installed'
+																			: 'installed'"/>
+				</block>
+				<block type="text">
+					<styleClass value="$TextDefaultNM"/>
+					<style>
+						<maxWidth value="260"/>
+						<marginLeft value="20px"/>
+					</style>
+					<bind name="class" value="state == true							? '$FontColorGolden' :
+							(state == false) || (locked == true)	? '$FontColorUnready' 
+																	: '$FontColorDefault'"/>
+					<bind name="text" value="state == true							? 'IDS_VANITY_ACTIVATED' :
+							(state == false) &amp;&amp; (locked == true) 	? 'IDS_NOT_ACHIEVED'
+																	: 'IDS_VANITY_NOT_ACTIVATED'"/>
+				</block>
+			</block>
+			<block>
+				<style>
+					<width value="100%"/>
+					<marginRight value="-16px"/>
+					<marginLeft value="-16px"/>
+				</style>
+				<block className="HorizontalDivider">
+					<styleClass value="$PxHorizontalCorrection"/>
+					<style>
+						<width value="100%"/>
+						<height value="3px"/>
+					</style>
+					<block className="divider_h" type="native">
+						<styleClass value="$Fullsize"/>
+					</block>
+				</block>
+			</block>
+			<block type="text">
+				<style>
+					<width value="100%"/>
+					<marginTop value="12px"/>
+					<marginBottom value="12px"/>
+				</style>
+				<styleClass value="$TextDefault17NM"/>
+				<bind name="text" value="tr('IDS_REWARD_UNLOCK_' + vanityName + '_DESCRIPTION')"/>
+			</block>
+			<block>
+				<bind name="visible" value="(locked == true)"/>
+				<style>
+					<width value="100%"/>
+					<marginLeft value="-16px"/>
+					<marginRight value="-16px"/>
+				</style>
+				<block className="HorizontalDivider">
+					<styleClass value="$PxHorizontalCorrection"/>
+					<style>
+						<width value="100%"/>
+						<height value="3px"/>
+					</style>
+					<block className="divider_h" type="native">
+						<styleClass value="$Fullsize"/>
+					</block>
+				</block>
+			</block>
+			<block>
+				<bind name="visible" value="(locked == true)"/>
+				<style>
+					<width value="100%"/>
+				</style>
+				<block>
+					<bind name="instance" value="'RewardReasonsList'; (locked == true) ? { _rewardReasons: reasons, _rewardUnlocked: true } : null"/>
+				</block>
+			</block>
+			<block>
+				<style>
+					<width value="100%"/>
+					<marginLeft value="-16px"/>
+					<marginRight value="-16px"/>
+				</style>
+				<block className="HorizontalDivider">
+					<styleClass value="$PxHorizontalCorrection"/>
+					<style>
+						<width value="100%"/>
+						<height value="3px"/>
+					</style>
+					<block className="divider_h" type="native">
+						<styleClass value="$Fullsize"/>
+					</block>
+				</block>
+			</block>
+			<block>
+				<styleClass value="$InfoBlockIndent"/>
+				<bind name="tooltip" value="'SimpleTooltip'; (locked == true) ? {tooltipText: 'IDS_VANITY_NOT_ACTIVATED_INFO'} : null; 0"/>
+				<bind name="dispatch" value="'buttonClick'; 'Tooltip.Close'; {}"/>
+				<block className="button_default" type="native">
+					<style>
+						<width value="140px"/>
+					</style>
+					<styleClass value="$MiddleAligned"/>
+					<bind name="focus" value="0; true"/>
+					<bind name="enabled" value="locked == false"/>
+					<bind name="action" value="'buttonClick'; 'setCrewVanity'; { crewID: _crewID, vanityType: vanityType, value: !state }"/>
+					<bind name="label" value="(state == true) ? toUpperCase(tr('IDS_CREW_VANITY_UNINSTALL')) : toUpperCase(tr('IDS_CREW_VANITY_INSTALL'))"/>
+				</block>
 			</block>
 		</block>
 	</block>
@@ -11648,22 +12126,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<block className="contrast_panel" type="native">
@@ -11746,63 +12225,79 @@
 		</block>
 	</block>
 	<block className="VanityItemWithDescription">
-		<styleClass value="$InfoBlockIndent"/>
 		<style>
+			<width value="100%"/>
 			<flow value="horizontal"/>
+			<marginBottom value="16px"/>
 		</style>
 		<block>
 			<style>
 				<width value="60px"/>
 				<height value="60px"/>
-				<backgroundSize value="cover"/>
-				<marginTop value="4px"/>
 			</style>
 			<bind name="style" value="'backgroundImage'; (locked == true) 	? 'url:../reward_icons/reward_unlocks/reward_unlock_' + toLowerCase(tr(_vanityName)) + '_inactive.png'
 															: 'url:../reward_icons/reward_unlocks/reward_unlock_' + toLowerCase(tr(_vanityName)) + '.png')"/>
 		</block>
 		<block>
 			<style>
-				<marginLeft value="10px"/>
+				<width value="100%"/>
+				<marginLeft value="6px"/>
 			</style>
 			<block type="text">
-				<styleClass value="$TextHeaderBold"/>
-				<bind name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 210"/>
+				<style>
+					<maxWidth value="210"/>
+					<marginLeft value="4px"/>
+					<leading value="-3"/>
+				</style>
+				<styleClass value="$TextDefaultBold19NM"/>
 				<bind name="text" value="tr('IDS_REWARD_UNLOCK_' + _vanityName)"/>
 			</block>
 			<block type="text">
-				<styleClass value="$TextDefault"/>
-				<bind name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 210"/>
-				<bind name="text" value="tr('IDS_REWARD_UNLOCK_' + _vanityName + '_DESCRIPTION')"/>
+				<style>
+					<maxWidth value="210"/>
+					<marginLeft value="4px"/>
+					<marginTop value="12px"/>
+				</style>
+				<styleClass value="$TextDefaultNM"/>
+				<bind name="text" value="'IDS_VANITY_CAT_NAME_DEFAULT'"/>
 			</block>
 		</block>
 	</block>
 	<block className="TalentItemWithDescription">
-		<styleClass value="$InfoBlockIndent"/>
 		<style>
+			<width value="100%"/>
 			<flow value="horizontal"/>
+			<marginBottom value="16px"/>
 		</style>
 		<block>
 			<style>
 				<width value="60px"/>
 				<height value="60px"/>
-				<backgroundSize value="cover"/>
-				<marginTop value="4px"/>
 			</style>
 			<bind name="style" value="'backgroundImage'; 'url:../crew_commander/talents/talent_icon_' + toLowerCase(tr(_achievementName)) + '.png')"/>
 		</block>
 		<block>
 			<style>
-				<marginLeft value="10px"/>
+				<width value="100%"/>
+				<marginLeft value="6px"/>
 			</style>
 			<block type="text">
-				<styleClass value="$TextHeaderBold"/>
-				<bind name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 210"/>
+				<style>
+					<maxWidth value="210"/>
+					<marginLeft value="4px"/>
+					<leading value="-3"/>
+				</style>
+				<styleClass value="$TextDefaultBold19NM"/>
 				<bind name="text" value="tr('IDS_TALENT_' + _achievementName)"/>
 			</block>
 			<block type="text">
-				<styleClass value="$TextDefault"/>
-				<bind name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 210"/>
-				<bind name="text" value="tr('IDS_TALENT_' + _achievementName + '_DESCRIPTION')"/>
+				<style>
+					<maxWidth value="210"/>
+					<marginLeft value="4px"/>
+					<marginTop value="12px"/>
+				</style>
+				<styleClass value="$TextDefaultNM"/>
+				<bind name="text" value="'IDS_TALENT_CAT_NAME_DEFAULT'"/>
 			</block>
 		</block>
 	</block>
@@ -11834,19 +12329,6 @@
 				<bind name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 210"/>
 				<bind name="text" value="tr('IDS_REWARD_' + toUpperCase(_unlockName) + '_DESCRIPTION')"/>
 			</block>
-		</block>
-	</block>
-	<block className="RewardCrewRestriction">
-		<styleClass value="$InfoBlockIndent"/>
-		<block type="text">
-			<styleClass value="$TextDefault"/>
-			<bind name="text" value="'IDS_REWARD_VANITY_FOR_CREW'"/>
-		</block>
-		<block>
-			<style>
-				<marginTop value="10px"/>
-			</style>
-			<bind name="instance" value="'RewardCrewImage'; { _crew: _crew }"/>
 		</block>
 	</block>
 	<block className="RewardShipAndNationRestriction">
@@ -11893,6 +12375,36 @@
 			<bind name="gotoAndStop!" value="$value"/>
 		</block>
 	</block>
+	<block className="CrewTalentsInTooltip">
+		<bind name="entityDH" value="'uniqueSkillEntity'; id"/>
+		<bind name="watchDH" value="'achievementName'; []; uniqueSkillEntity.crewUniqueSkill.achievementName"/>
+		<block>
+			<style>
+				<marginRight value="6px"/>
+				<marginBottom value="3px"/>
+				<marginTop value="3px"/>
+				<width value="60px"/>
+				<height value="60px"/>
+			</style>
+			<bind name="style" value="'backgroundImage'; 'url:../crew_commander/talents/talent_icon_' + toLowerCase(tr(achievementName)) + '.png')"/>
+		</block>
+	</block>
+	<block className="CrewVanityInTooltip">
+		<bind name="entityDH" value="'uniqueVanityEntity'; id"/>
+		<bind name="watchDH" value="'vanityName'; 	[]; uniqueVanityEntity.crewVanity.vanityName"/>
+		<bind name="watchDH" value="'state'; 		['uniqueVanityEntity.crewVanity.evUpdate']; uniqueVanityEntity.crewVanity.state"/>
+		<bind name="watchDH" value="'locked'; 		['uniqueVanityEntity.crewVanity.evUpdate']; uniqueVanityEntity.crewVanity.locked"/>
+		<block>
+			<style>
+				<marginRight value="6px"/>
+				<marginBottom value="3px"/>
+				<marginTop value="3px"/>
+				<width value="60px"/>
+				<height value="60px"/>
+			</style>
+			<bind name="style" value="'backgroundImage'; 'url:../reward_icons/reward_unlocks/reward_unlock_' + toLowerCase(tr(vanityName)) + '.png')"/>
+		</block>
+	</block>
 	<block className="PlayerDogTag">
 		<bind name="primaryEntityDH" value="'playerEntity'; CC.accountSimple; _playerDbId"/>
 		<bind name="watchDH" value="'dogTagList';['playerEntity.dogTagView.evUpdate']; playerEntity.dogTagView.components"/>
@@ -11912,8 +12424,18 @@
 														  						: 'url:../dogTags/big/'}"/>
 	</block>
 	<block className="PlayerDogTagItem">
-		<bind name="primaryEntityDH" value="'dogTagEntity'; CC.dogTagComponent; $value"/>
 		<bind name="entityDH" value="'dogTagEntity'; id"/>
+		<bind name="watchDH" value="'iconPath'; ['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.iconPath"/>
+		<styleClass value="$FullsizeAbsolute"/>
+		<style>
+			<backgroundStretchX value="true"/>
+			<backgroundStretchY value="true"/>
+		</style>
+		<bind name="style" value="'backgroundImage'; _path + iconPath"/>
+		<bind name="name" value="'dogTag_' + _path + '_' + $index + '_' + dogTagEntity.dogTagComponent.gpName"/>
+	</block>
+	<block className="PlayerDogTagItemByPK">
+		<bind name="primaryEntityDH" value="'dogTagEntity'; CC.dogTagComponent; $value"/>
 		<bind name="watchDH" value="'iconPath'; ['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.iconPath"/>
 		<styleClass value="$FullsizeAbsolute"/>
 		<style>
@@ -11974,22 +12496,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -12197,9 +12720,11 @@
 			</block>
 		</block>
 		<block>
-			<bind name="visible" value="isNotSelf != true &amp;&amp; _canInstall == 'true'"/>
-			<styleClass value="$HugeMargins"/>
-			<bind name="instance" value="'MouseInstruction'; unique ? {_type: 'left', _instructionText: 'IDS_SELECT_DOGTAG_COMPONENT_UNIQUE', _maxWidth: 300 } : {_type: 'left', _instructionText: 'IDS_SELECT_DOGTAG_COMPONENT', _maxWidth: 300 }"/>
+			<bind name="visible" value="(isNotSelf != true &amp;&amp; _canInstall == 'true') || isRewardTooltip"/>
+			<styleClass value="$InfoBlockIndent"/>
+			<bind name="instance" value="'MouseInstruction'; isRewardTooltip ? {_type: 'left', _instructionText: 'IDS_DOGTAG_TOOLTIP_GO_TO_CONSTUCTOR', _maxWidth: 300 } :
+											unique			? {_type: 'left', _instructionText: 'IDS_SELECT_DOGTAG_COMPONENT_UNIQUE', _maxWidth: 300 } 
+															: {_type: 'left', _instructionText: 'IDS_SELECT_DOGTAG_COMPONENT', _maxWidth: 300 }"/>
 		</block>
 	</block>
 	<block className="DogTagComponentTooltipHeader">
@@ -12277,7 +12802,6 @@
 		<bind name="watchDH" value="'clanTag'; 	['clanEntity.clan.evTagChanged']; _clanTag ? _clanTag : clanEntity.clan.tag"/>
 		<bind name="primaryEntityDH" value="'clanExtendedEntity'; CC.clanExtended; clanId"/>
 		<bind name="watchDH" value="'clanTagColor'; 	['clanExtendedEntity.clanExtended.evColorChanged']; _clanTagColor ? _clanTagColor : clanExtendedEntity.clanExtended.color"/>
-		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'accountLevelInfo'"/>
 		<style>
 			<width value="100%f"/>
 			<marginTop value="14px"/>
@@ -12290,9 +12814,10 @@
 			<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_TOOLTIP_PLAYER_STEREOTYPE_NAME'}"/>
 			<bind name="instance" value="'PlayerNameAndClanTag'; {
 								_isSelf: 			isSelf,
-								_tkStatus: 			_player.tkStatus,
-								_ttkStatus:			_player.ttkStatus,
-								_isInSameDivision:	false,
+								_tkStatus: 			_tkStatus || _abuseStatus == AbuseStatus.SUSPECT, 
+								_ctkStatus:			_ctkStatus || _abuseStatus == AbuseStatus.CONFIRMED, 
+								_ttkStatus:			_ttkStatus, 
+								_isInSameDivision:  _player.isInSameDivision,
 								_fontSize:			19,
 								_playerName:		pureName,
 								_clanTag:			clanTag,
@@ -12692,22 +13217,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<style>
@@ -12852,7 +13378,7 @@
 		<block>
 			<styleClass value="$MiddleAligned"/>
 			<block type="text">
-				<styleClass value="$TextSecondaryNoFilter"/>
+				<styleClass value="$TextSecondary"/>
 				<style>
 					<position value="absolute"/>
 					<maxWidth value="110"/>
@@ -12863,7 +13389,7 @@
 				<bind name="text" value="nameIDS"/>
 			</block>
 			<block type="text">
-				<styleClass value="$TextSecondaryNoFilter"/>
+				<styleClass value="$TextSecondary"/>
 				<style>
 					<position value="absolute"/>
 					<maxWidth value="110"/>
@@ -12874,7 +13400,7 @@
 				<bind name="text" value="nameIDS"/>
 			</block>
 			<block type="text">
-				<styleClass value="$TextSecondaryNoFilter"/>
+				<styleClass value="$TextSecondary"/>
 				<style>
 					<position value="absolute"/>
 					<maxWidth value="110"/>
@@ -12885,7 +13411,7 @@
 				<bind name="text" value="nameIDS"/>
 			</block>
 			<block type="text">
-				<styleClass value="$TextSecondaryNoFilter"/>
+				<styleClass value="$TextSecondary"/>
 				<style>
 					<position value="absolute"/>
 					<maxWidth value="110"/>
@@ -12896,8 +13422,7 @@
 				<bind name="text" value="nameIDS"/>
 			</block>
 			<block type="text">
-				<styleClass value="$TextSecondaryNoFilter"/>
-				<bind name="class" value="'$FontColorAlmostBlack'"/>
+				<styleClass value="$TextSecondary"/>
 				<style>
 					<maxWidth value="110"/>
 					<textAlign value="center"/>
@@ -12905,8 +13430,7 @@
 				<bind name="text" value="nameIDS"/>
 			</block>
 			<block type="text">
-				<styleClass value="$TextSecondaryNoFilter"/>
-				<bind name="class" value="'$FontColorAlmostBlack'"/>
+				<styleClass value="$TextSecondary"/>
 				<style>
 					<position value="absolute"/>
 					<maxWidth value="110"/>
@@ -13801,22 +14325,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -14143,7 +14668,7 @@
 			<styleClass value="$InfoBlockHorizontalIndent"/>
 			<bind name="style" value="'alpha';	!((crew.nation == targetShipInfo.country) || (isCrewCompatibleShipBySpecialList)) ||
 								(crew.dismissDelay &gt; 0) ||
-								(targetPlayerShipInfo.isLocked) ? 0.3 : 1"/>
+								(targetPlayerShipInfo.isLocked) || thisPlayerShipInfo.isLocked ? 0.3 : 1"/>
 			<bind name="class" value="!(thisPlayerShipInfo.isLocked) &amp;&amp; !(targetPlayerShipInfo.isLocked) ? '$TextMouseDisable' : '$MouseEnable'"/>
 			<style>
 				<backgroundColor value="0x01000000"/>
@@ -14224,12 +14749,12 @@
 				</block>
 			</block>
 			<block>
+				<bind name="visible" value="(crewRetraining.isInAdaptation != true)"/>
 				<style>
 					<position value="absolute"/>
 					<right value="64px"/>
 					<bottom value="0px"/>
 				</style>
-				<bind name="visible" value="(crewRetraining.isInAdaptation != true)"/>
 				<bind name="repeat" value="crew.learnedSkillIDs.length &gt; 6 ? 6 : crew.learnedSkillIDs.length; 'CrewSkillItemSmall'; 
 				{_skillIDs: crew.learnedSkillIDs, _penalty: crew.specializationID != _selectedShipId &amp;&amp; !(targetShipInfo.isWithoutCrewPenalty) }"/>
 				<style>
@@ -14271,6 +14796,15 @@
 				<bind name="fade" value="crew.dismissDelay &gt; 0 &amp;&amp; !rollOver; 0.15; {alpha: 0, top: -20}; {alpha: 1, top: 0}"/>
 				<bind name="instance" value="'WaitingForDemobilization'; {_dismissDelay: crew.dismissDelay}"/>
 			</block>
+		</block>
+		<block>
+			<bind name="visible" value="thisPlayerShipInfo.isLocked"/>
+			<style>
+				<position value="absolute"/>
+			</style>
+			<styleClass value="$MiddleAligned"/>
+			<styleClass value="$MiddleVAligned"/>
+			<bind name="instance" value="'CrewInBattle'; thisPlayerShipInfo.isLocked ? {} : null"/>
 		</block>
 		<block>
 			<style>
@@ -14411,22 +14945,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -14593,22 +15128,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<block>
@@ -14699,20 +15235,31 @@
 			</block>
 		</block>
 		<block>
-			<bind name="visible" value="crewsSingleton.canDisassignCrew &amp;&amp; !(crew.isInBarracks)"/>
+			<bind name="visible" value="!(crew.isInBarracks)"/>
 			<styleClass value="$ContextMenuListItem"/>
-			<bind name="style" value="'hitTest'; playerShipInfo.isLocked ? false : true"/>
-			<block className="dock_submenu_item" type="native">
-				<bind name="name" value="'dismissCrew'"/>
+			<style>
+				<backgroundColor value="0x01000000"/>
+			</style>
+			<bind name="tooltip" value="'SimpleWarningTooltip';	!crewsSingleton.canDisassignCrew &amp;&amp; !(crew.isInBarracks)	? {_text: tr('IDS_UNABLE_TO_DISASSIGN_CREW')}
+																											: null"/>
+			<block>
 				<styleClass value="$Fullsize"/>
-				<bind name="request" value="'buttonClick'; 'disassignCrew'; {crewID: _crewId}"/>
-				<block type="text">
-					<bind name="style" value="'alpha'; playerShipInfo.isLocked ? 0.6 : 1.0"/>
-					<styleClass value="$TextDefault"/>
-					<styleClass value="$MiddleVAligned"/>
-					<styleClass value="$ContextMenuListItemContent"/>
-					<text value="IDS_CREW_TO_BARRACKS"/>
+				<bind name="style" value="'hitTest'; (playerShipInfo.isLocked || !crewsSingleton.canDisassignCrew) ? false : true"/>
+				<bind name="style" value="'alpha'; (playerShipInfo.isLocked || !crewsSingleton.canDisassignCrew) ? 0.6 : 1.0"/>
+				<block className="MenuItem">
+					<styleClass value="$Fullsize"/>
+					<block className="dock_submenu_item" type="native">
+						<styleClass value="$FullsizeAbsolute"/>
+					</block>
+					<block type="text">
+						<styleClass value="$TextDefault"/>
+						<styleClass value="$MiddleVAligned"/>
+						<styleClass value="$ContextMenuListItemContent"/>
+						<bind name="text" value="'IDS_CREW_TO_BARRACKS'"/>
+					</block>
 				</block>
+				<bind name="name" value="'dismissCrew'"/>
+				<bind name="request" value="'click'; 'disassignCrew'; {crewID: _crewId}"/>
 			</block>
 		</block>
 		<block>
@@ -14835,22 +15382,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<styleClass value="$LeftSubMenuBehaviour"/>
@@ -14940,22 +15488,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<styleClass value="$LeftSubMenuBehaviour"/>
@@ -15065,22 +15614,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<block>
@@ -15180,6 +15730,10 @@
 		<bind name="watchDH" value="'targetShipInfo' + 'Slim'; ['shipTargetEntity.slimClientComponent.evUpdate']; shipTargetEntity.slimClientComponent"/>
 		<bind name="firstEntityDH" value="'dockEntity'; CC.dockDataMarker"/>
 		<bind name="watchDH" value="'crewsSingleton'; ['dockEntity.crewData.evUpdate']; dockEntity.crewData"/>
+		<bind name="collectionDH" value="CC.crewVanity; 'activeVanity'+'ROOT'"/>
+		<bind name="collectionDesign" value="'DES_'+'activeVanity'+'ROOT'; 'activeVanity'; {'filter': ($entity.crewVanity.state == true) &amp;&amp; ($entity.crewVanity.locked == false) &amp;&amp; ($entity.crewVanity.crewId == _crewId)}; ['crewVanity.evUpdate']"/>
+		<bind name="collectionDH" value="CC.crewUniqueSkill; 'activeTalent'+'ROOT'"/>
+		<bind name="collectionDesign" value="'DES_'+'activeTalent'+'ROOT'; 'activeTalent'; {'filter': ($entity.crewUniqueSkill.crewId == _crewId)}; []"/>
 		<bind name="watch" value="'isCrewCompatibleShipBySpecialList'; indexOf(targetShipInfo.fullName, crew.shipsToSeat) &gt; -1"/>
 		<styleClass value="$DefaultTooltipBehaviour"/>
 		<params>
@@ -15200,22 +15754,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -15354,8 +15909,35 @@
 				<align value="center"/>
 				<width value="100%"/>
 			</style>
+			<bind name="instance" value="'EmptyStatusParagraph'; (crew.learnedSkillIDs.length &gt; 0) ? null : {_text: 'IDS_CREW_HAS_NO_LEARNED_SKILLS'}"/>
 			<bind name="repeat" value="crew.learnedSkillIDs; 'CrewSkillItem'; { _penalty: crew.skillsEffectiveness &lt; 1 || _checkPenalty }"/>
-			<bind name="instance" value="'EmptyStatusParagraph'; crew.learnedSkillIDs.length &gt; 0 ? null : {_text: 'IDS_CREW_HAS_NO_LEARNED_SKILLS'}"/>
+		</block>
+		<block>
+			<bind name="visible" value="(activeTalent.length &gt; 0) || (activeVanity.length &gt; 0)"/>
+			<style>
+				<width value="100%"/>
+			</style>
+			<block className="HorizontalDivider">
+				<styleClass value="$PxHorizontalCorrection"/>
+				<style>
+					<width value="100%"/>
+					<height value="3px"/>
+				</style>
+				<block className="divider_h" type="native">
+					<styleClass value="$Fullsize"/>
+				</block>
+			</block>
+		</block>
+		<block>
+			<bind name="visible" value="(activeTalent.length &gt; 0) || (activeVanity.length &gt; 0)"/>
+			<styleClass value="$InfoBlockIndent"/>
+			<style>
+				<flow value="htile"/>
+				<align value="center"/>
+				<width value="100%"/>
+			</style>
+			<bind name="repeat" value="activeTalent; 'CrewTalentsInTooltip'; { _crewID: _crewId }"/>
+			<bind name="repeat" value="activeVanity; 'CrewVanityInTooltip'; { _crewID: _crewId }"/>
 		</block>
 		<block>
 			<bind name="visible" value="	(targetShipInfo &amp;&amp;
@@ -15478,59 +16060,46 @@
 	<block className="SkillLearnStatus">
 		<style>
 			<width value="100%"/>
+			<flow value="horizontal"/>
 		</style>
+		<block type="text">
+			<bind name="visible" value="_dependenciesLearned &amp;&amp; !(_learned)"/>
+			<styleClass value="$TextDefaultNM"/>
+			<style>
+				<marginRight value="12px"/>
+			</style>
+			<bind name="text" value="tr('IDS_LEARN_COST') + tr('IDS_COLON') +' ' + _cost"/>
+		</block>
+		<bind name="watch" value="'isDeficit'; (_dependenciesLearned &amp;&amp; (_deficit &gt; 0) &amp;&amp; !(_learned))"/>
 		<block>
+			<bind name="visible" value="_learned || !(_dependenciesLearned) || isDeficit"/>
 			<style>
 				<width value="100%"/>
+				<flow value="horizontal"/>
 			</style>
-			<bind name="visible" value="_learned || !(_dependenciesLearned)"/>
 			<block className="icon_module_state" type="native">
-				<bind name="gotoAndStop!" value="_dependenciesLearned 	? 'installed'
+				<style>
+					<position value="absolute"/>
+					<top value="-2px"/>
+					<left value="-1px"/>
+				</style>
+				<bind name="gotoAndStop!" value="isDeficit 				? 'not_enough' :
+								_dependenciesLearned 	? 'installed'
 														: 'action'"/>
 			</block>
 			<block type="text">
-				<styleClass value="$TextDefault"/>
+				<styleClass value="$TextDefaultNM"/>
 				<style>
 					<maxWidth value="260"/>
-					<marginTop value="-3px"/>
+					<marginLeft value="20px"/>
 				</style>
-				<bind name="class" value="_dependenciesLearned ? '$None' : '$FontColorUnready'"/>
-				<bind name="text" value="_dependenciesLearned 	? 'IDS_LEARNED'
+				<bind name="class" value="isDeficit 				? '$FontColorCompareNegative' :
+						_dependenciesLearned	? '$FontColorGolden' 
+												: '$FontColorUnready'"/>
+				<bind name="text" value="isDeficit 				? (tr('IDS_NOT_ENOUGH') + ' ' + _deficit) :
+						_dependenciesLearned 	? 'IDS_LEARNED'
 												: 'IDS_SKILL_LEARN_PREVIOUS_LEVEL'"/>
 			</block>
-			<style>
-				<flow value="horizontal"/>
-			</style>
-		</block>
-		<block>
-			<style>
-				<width value="100%"/>
-			</style>
-			<bind name="visible" value="_dependenciesLearned &amp;&amp; !(_learned)"/>
-			<block type="text">
-				<styleClass value="$TextDefault"/>
-				<style>
-					<marginRight value="6px"/>
-					<marginTop value="-3px"/>
-				</style>
-				<bind name="text" value="tr('IDS_LEARN_COST') + tr('IDS_COLON') +' ' + _cost"/>
-			</block>
-			<block className="icon_module_state" type="native">
-				<bind name="visible" value="_dependenciesLearned &amp;&amp; (_deficit &gt; 0) &amp;&amp; !(_learned)"/>
-				<bind name="gotoAndStop!" value="'not_enough'"/>
-			</block>
-			<block type="text">
-				<styleClass value="$TextDefault"/>
-				<style>
-					<marginTop value="-3px"/>
-				</style>
-				<bind name="class" value="'$FontColorCompareNegative'"/>
-				<bind name="visible" value="_dependenciesLearned &amp;&amp; (_deficit &gt; 0) &amp;&amp; !(_learned)"/>
-				<bind name="text" value="tr('IDS_NOT_ENOUGH') + ' ' + _deficit"/>
-			</block>
-			<style>
-				<flow value="horizontal"/>
-			</style>
 		</block>
 	</block>
 	<block className="SkillAdaptationStatus">
@@ -15538,42 +16107,29 @@
 			<width value="100%"/>
 			<flow value="horizontal"/>
 		</style>
-		<block className="icon_warning_red" type="native"/>
+		<block className="icon_warning_orange" type="native">
+			<style>
+				<marginTop value="-1px"/>
+			</style>
+		</block>
 		<block type="text">
-			<styleClass value="$TextSecondary"/>
+			<styleClass value="$TextDefaultNM"/>
 			<style>
 				<width value="100%"/>
-				<marginTop value="-3px"/>
+				<leading value="-3"/>
+				<marginLeft value="4px"/>
 			</style>
-			<bind name="class" value="'$FontColorCompareNegative'"/>
+			<bind name="class" value="'$FontColorUnready'"/>
 			<bind name="text" value="_blockable ? 'IDS_SKILL_INEFFICIENT' : 'IDS_SKILL_EFFICIENCY_REDUSED'"/>
 		</block>
 		<block type="text">
 			<bind name="visible" value="!_blockable"/>
-			<styleClass value="$TextHeaderHugeWhite"/>
 			<style>
-				<marginTop value="-6px"/>
-				<marginBottom value="-3px"/>
+				<marginTop value="2px"/>
 			</style>
-			<bind name="class" value="'$Bold'"/>
-			<bind name="class" value="'$FontColorCompareNegative'"/>
+			<styleClass value="$TextDefaultBold36NM"/>
+			<bind name="class" value="'$FontColorUnready'"/>
 			<bind name="text" value="'-' + _skillsEffectiveness * 100 + '%'"/>
-		</block>
-	</block>
-	<block className="SkillAttributeItem">
-		<style>
-			<width value="100%"/>
-		</style>
-		<block type="text">
-			<styleClass value="$TextDefault"/>
-			<style>
-				<width value="100%"/>
-				<marginTop value="3px"/>
-				<marginBottom value="3px"/>
-				<leading value="-3"/>
-			</style>
-			<bind name="text" value="$value"/>
-			<bind name="substitute" value="'KEYS'; 4; null; $value"/>
 		</block>
 	</block>
 	<block className="SkillTooltip">
@@ -15597,7 +16153,7 @@
 			<param name="name" value="skill_tooltip"/>
 		</params>
 		<style>
-			<width value="300px"/>
+			<width value="320px"/>
 		</style>
 		<styleClass value="$MouseDisable"/>
 		<block className="DeclareBlurLayer">
@@ -15611,22 +16167,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -15638,55 +16195,20 @@
 			<styleClass value="$FullsizeAbsolute"/>
 		</block>
 		<block>
-			<styleClass value="$InfoBlockIndent"/>
-			<bind name="instance" value="'SkillHeader'; { skill: skill, _penalty: _penalty}"/>
-		</block>
-		<block>
-			<styleClass value="$InfoBlockHorizontalIndent"/>
-			<style>
-				<marginBottom value="6px"/>
-			</style>
-			<bind name="instance" value="'SkillLearnStatus'; { _learned: skill.learned, _dependenciesLearned: skill.hasLearnedSkillOnPreviousTier, _cost: skill.tier, _deficit: (skill.tier - crew.freeSkillPoints) }"/>
-		</block>
-		<block>
-			<styleClass value="$InfoBlockHorizontalIndent"/>
-			<bind name="visible" value="skill.learned &amp;&amp; _penalty"/>
-			<style>
-				<marginBottom value="6px"/>
-			</style>
-			<bind name="instance" value="'SkillAdaptationStatus'; skill.learned &amp;&amp; _penalty ? {_skillsEffectiveness: crew.skillsEffectiveness, _blockable: skill.blockable } : null"/>
-		</block>
-		<block>
 			<style>
 				<width value="100%"/>
+				<paddingTop value="16px"/>
+				<paddingLeft value="16px"/>
+				<paddingRight value="16px"/>
 			</style>
-			<block className="HorizontalDivider">
-				<styleClass value="$PxHorizontalCorrection"/>
-				<style>
-					<width value="100%"/>
-					<height value="3px"/>
-				</style>
-				<block className="divider_h" type="native">
-					<styleClass value="$Fullsize"/>
-				</block>
-			</block>
-			<block className="inner_panel" type="native">
-				<bind name="visible" value="skill.attributes != 0"/>
-				<styleClass value="$FullsizeAbsolute"/>
-				<style>
-					<marginTop value="3px"/>
-					<marginBottom value="3px"/>
-				</style>
+			<block>
+				<bind name="instance" value="'SkillHeader'; { skill: skill, _penalty: _penalty}"/>
 			</block>
 			<block>
-				<bind name="visible" value="skill.attributes != 0"/>
-				<styleClass value="$InfoBlockIndent"/>
-				<bind name="repeat" value="skill.attributes; 'SkillAttributeItem'"/>
-			</block>
-			<block>
-				<bind name="visible" value="skill.attributes != 0"/>
 				<style>
 					<width value="100%"/>
+					<marginLeft value="-16px"/>
+					<marginRight value="-16px"/>
 				</style>
 				<block className="HorizontalDivider">
 					<styleClass value="$PxHorizontalCorrection"/>
@@ -15700,63 +16222,234 @@
 				</block>
 			</block>
 			<block>
-				<bind name="controller" value="lesta.dialogs.dock.controllers.ControllerParams; 0; crew.shipID; 'tooltipShipParams'; playerShipInfo.params; crewCompare; 1; 0; null; 1; 1; 0"/>
+				<style>
+					<width value="100%"/>
+					<marginTop value="8px"/>
+					<marginBottom value="8px"/>
+				</style>
+				<bind name="instance" value="'SkillLearnStatus'; { _learned: skill.learned, _dependenciesLearned: skill.hasLearnedSkillOnPreviousTier, _cost: skill.tier, _deficit: (skill.tier - crew.freeSkillPoints) }"/>
+			</block>
+			<block>
+				<style>
+					<width value="100%"/>
+					<marginRight value="-16px"/>
+					<marginLeft value="-16px"/>
+				</style>
+				<block className="HorizontalDivider">
+					<styleClass value="$PxHorizontalCorrection"/>
+					<style>
+						<width value="100%"/>
+						<height value="3px"/>
+					</style>
+					<block className="divider_h" type="native">
+						<styleClass value="$Fullsize"/>
+					</block>
+				</block>
+			</block>
+			<block type="text">
+				<style>
+					<width value="100%"/>
+					<marginTop value="12px"/>
+					<marginBottom value="12px"/>
+				</style>
+				<styleClass value="$TextDefault17NM"/>
+				<bind name="text" value="'IDS_SKILL_DESC_' + toUpperCase(skill.name)"/>
+			</block>
+			<block>
+				<bind name="visible" value="(skill.attributesPositive != 0) || (skill.attributesNegative != 0) || (skill.attributesNeutral != 0) "/>
 				<style>
 					<width value="100%"/>
 				</style>
-				<bind name="instance" value="'ParamsAfterMount'; !(skill.learned) &amp;&amp; viewParams.hasDiff	? {	_viewParams: viewParams,
-																							_title: 'IDS_AFTER_LEARN'}
-																						: null"/>
+				<block>
+					<style>
+						<width value="100%"/>
+						<marginRight value="-16px"/>
+						<marginLeft value="-16px"/>
+					</style>
+					<block className="HorizontalDivider">
+						<styleClass value="$PxHorizontalCorrection"/>
+						<style>
+							<width value="100%"/>
+							<height value="3px"/>
+						</style>
+						<block className="divider_h" type="native">
+							<styleClass value="$Fullsize"/>
+						</block>
+					</block>
+				</block>
+				<block className="inner_panel" type="native">
+					<styleClass value="$FullsizeAbsolute"/>
+					<style>
+						<marginTop value="3px"/>
+						<marginLeft value="-16px"/>
+						<marginRight value="-16px"/>
+					</style>
+				</block>
+				<block>
+					<style>
+						<width value="100%"/>
+						<paddingTop value="16px"/>
+					</style>
+					<bind name="instance" value="'ParamsModifierList'; { _attributesPositive: skill.attributesPositive, _attributesNegative: skill.attributesNegative, _attributesNeutral: skill.attributesNeutral}"/>
+				</block>
+				<block>
+					<bind name="visible" value="!(skill.learned) &amp;&amp; viewParams.hasDiff"/>
+					<style>
+						<width value="100%"/>
+						<marginRight value="-16px"/>
+						<marginLeft value="-16px"/>
+					</style>
+					<block className="HorizontalDivider">
+						<styleClass value="$PxHorizontalCorrection"/>
+						<style>
+							<width value="100%"/>
+							<height value="3px"/>
+						</style>
+						<block className="divider_h" type="native">
+							<styleClass value="$Fullsize"/>
+						</block>
+					</block>
+				</block>
+				<block>
+					<bind name="controller" value="lesta.dialogs.dock.controllers.ControllerParams; 0; crew.shipID; 'tooltipShipParams'; playerShipInfo.params; crewCompare; 1; 0; null; 1; 1; 0"/>
+					<style>
+						<width value="100%"/>
+						<marginRight value="-16px"/>
+						<marginLeft value="-16px"/>
+					</style>
+					<bind name="instance" value="'ParamsAfterMount'; !(skill.learned) &amp;&amp; viewParams.hasDiff	? {	_viewParams: viewParams,
+																								_title: 'IDS_AFTER_LEARN'}
+																							: null"/>
+				</block>
 			</block>
-		</block>
-		<block>
-			<styleClass value="$InfoBlockIndent"/>
-			<bind name="visible" value="skill.modifiers.additionalConsumables &gt; 0 &amp;&amp; (consumablesSlotsList.length &gt; 0) &amp;&amp; hasLimitedConsumables &amp;&amp; crew.shipID &gt; 0"/>
-			<block type="text">
-				<styleClass value="$TextDefault"/>
-				<text value="IDS_AFTER_LEARN"/>
+			<block>
+				<bind name="visible" value="skill.modifiers.additionalConsumables &gt; 0 &amp;&amp; (consumablesSlotsList.length &gt; 0) &amp;&amp; hasLimitedConsumables &amp;&amp; crew.shipID &gt; 0"/>
+				<style>
+					<width value="100%"/>
+					<marginRight value="-16px"/>
+					<marginLeft value="-16px"/>
+				</style>
+				<block className="HorizontalDivider">
+					<styleClass value="$PxHorizontalCorrection"/>
+					<style>
+						<width value="100%"/>
+						<height value="3px"/>
+					</style>
+					<block className="divider_h" type="native">
+						<styleClass value="$Fullsize"/>
+					</block>
+				</block>
 			</block>
 			<block>
 				<style>
-					<marginLeft value="6px"/>
-					<marginTop value="6px"/>
+					<width value="100%"/>
+					<paddingTop value="12px"/>
+					<paddingBottom value="8px"/>
 				</style>
-				<bind name="instance" value="'ShipLineItem'; { _shipId: crew.shipID}"/>
+				<bind name="visible" value="skill.modifiers.additionalConsumables &gt; 0 &amp;&amp; (consumablesSlotsList.length &gt; 0) &amp;&amp; hasLimitedConsumables &amp;&amp; crew.shipID &gt; 0"/>
+				<block type="text">
+					<style>
+						<width value="100%"/>
+						<paddingTop value="8px"/>
+					</style>
+					<styleClass value="$TextDefaultNM"/>
+					<text value="IDS_AFTER_LEARN"/>
+				</block>
+				<block>
+					<style>
+						<marginLeft value="8px"/>
+						<marginTop value="8px"/>
+					</style>
+					<bind name="instance" value="'ShipLineItem'; { _shipId: crew.shipID, _width: 'auto'}"/>
+				</block>
+				<block>
+					<bind name="repeat" value="consumablesSlotsList; 'ConsumableIcon'; {additionalConsumables: skill.learned ? 0 : skill.modifiers.additionalConsumables}"/>
+					<style>
+						<flow value="horizontal"/>
+					</style>
+				</block>
 			</block>
 			<block>
-				<bind name="repeat" value="consumablesSlotsList; 'ConsumableIcon'; {additionalConsumables: skill.learned ? 0 : skill.modifiers.additionalConsumables}"/>
+				<bind name="visible" value="skill.learned &amp;&amp; _penalty"/>
+				<style>
+					<width value="100%"/>
+					<marginLeft value="-16px"/>
+					<marginRight value="-16px"/>
+				</style>
+				<block className="HorizontalDivider">
+					<styleClass value="$PxHorizontalCorrection"/>
+					<style>
+						<width value="100%"/>
+						<height value="3px"/>
+					</style>
+					<block className="divider_h" type="native">
+						<styleClass value="$Fullsize"/>
+					</block>
+				</block>
+			</block>
+			<block>
+				<bind name="visible" value="skill.learned &amp;&amp; _penalty"/>
+				<style>
+					<width value="100%"/>
+					<marginBottom value="12px"/>
+					<marginTop value="12px"/>
+				</style>
+				<bind name="instance" value="'SkillAdaptationStatus'; skill.learned &amp;&amp; _penalty ? {_skillsEffectiveness: crew.skillsEffectiveness, _blockable: skill.blockable } : null"/>
+			</block>
+			<block>
+				<bind name="visible" value="!(_isLocked) &amp;&amp;
+							skill.learned != true &amp;&amp;
+							skill.hasLearnedSkillOnPreviousTier &amp;&amp;
+							(crew.freeSkillPoints - skill.tier &gt;= 0) &amp;&amp;
+							!(_noMouseInstructions)"/>
+				<style>
+					<width value="100%"/>
+					<marginLeft value="-16px"/>
+					<marginRight value="-16px"/>
+				</style>
+				<block className="HorizontalDivider">
+					<styleClass value="$PxHorizontalCorrection"/>
+					<style>
+						<width value="100%"/>
+						<height value="3px"/>
+					</style>
+					<block className="divider_h" type="native">
+						<styleClass value="$Fullsize"/>
+					</block>
+				</block>
+			</block>
+			<block>
+				<bind name="visible" value="!(_isLocked) &amp;&amp;
+							skill.learned != true &amp;&amp;
+							skill.hasLearnedSkillOnPreviousTier &amp;&amp;
+							(crew.freeSkillPoints - skill.tier &gt;= 0) &amp;&amp;
+							!(_noMouseInstructions)"/>
+				<style>
+					<width value="100%"/>
+					<marginBottom value="12px"/>
+					<marginTop value="12px"/>
+				</style>
+				<bind name="instance" value="'MouseInstruction'; {_type: 'left', _instructionText: 'IDS_CREW_SKILL_LEARN_INSTRUCTION', _maxWidth: 270}"/>
+			</block>
+			<block>
+				<bind name="visible" value="_isLocked || _isInFormation"/>
+				<styleClass value="$InfoBlockIndent"/>
+				<block className="icon_module_state" type="native">
+					<bind name="gotoAndStop!" value="'action'"/>
+				</block>
+				<block type="text">
+					<styleClass value="$TextDefault"/>
+					<style>
+						<maxWidth value="270"/>
+						<marginTop value="-3px"/>
+					</style>
+					<bind name="class" value="'$FontColorUnready'"/>
+					<bind name="text" value="(_isInFormation ? tr('IDS_READY_TO_BATTLE_IN_' + toUpperCase(divisionEntranceData.divisionType)) : tr('IDS_IN_BATTLE')) + '. ' + tr('IDS_CANT_LEARN_SKILLS')"/>
+				</block>
 				<style>
 					<flow value="horizontal"/>
 				</style>
 			</block>
-		</block>
-		<block>
-			<bind name="visible" value="!(_isLocked) &amp;&amp;
-						skill.learned != true &amp;&amp;
-						skill.hasLearnedSkillOnPreviousTier &amp;&amp;
-						(crew.freeSkillPoints - skill.tier &gt;= 0) &amp;&amp;
-						!(_noMouseInstructions)"/>
-			<styleClass value="$InfoBlockIndent"/>
-			<bind name="instance" value="'MouseInstruction'; {_type: 'left', _instructionText: 'IDS_CREW_SKILL_LEARN_INSTRUCTION', _maxWidth: 270}"/>
-		</block>
-		<block>
-			<bind name="visible" value="_isLocked || _isInFormation"/>
-			<styleClass value="$InfoBlockIndent"/>
-			<block className="icon_module_state" type="native">
-				<bind name="gotoAndStop!" value="'action'"/>
-			</block>
-			<block type="text">
-				<styleClass value="$TextDefault"/>
-				<style>
-					<maxWidth value="270"/>
-					<marginTop value="-3px"/>
-				</style>
-				<bind name="class" value="'$FontColorUnready'"/>
-				<bind name="text" value="(_isInFormation ? tr('IDS_READY_TO_BATTLE_IN_' + toUpperCase(divisionEntranceData.divisionType)) : tr('IDS_IN_BATTLE')) + '. ' + tr('IDS_CANT_LEARN_SKILLS')"/>
-			</block>
-			<style>
-				<flow value="horizontal"/>
-			</style>
 		</block>
 	</block>
 	<block className="CancelDemobilizationButton">
@@ -16088,6 +16781,17 @@
 			<bind name="style" value="'backgroundImage'; 'url:../crew_commander/icon_crew_unique.png'"/>
 		</block>
 	</block>
+	<block className="CrewInBattle">
+		<block type="text">
+			<style>
+				<textAlign value="center"/>
+				<maxWidth value="290"/>
+			</style>
+			<styleClass value="$TextHeaderBold"/>
+			<bind name="class" value="'$FontColorUnready'"/>
+			<bind name="text" value="toUpperCase(tr('IDS_WAITING_BATTLE_END'))"/>
+		</block>
+	</block>
 	<css name="$TextDefaultNM">
 		<fontFamily value="$WWSDefaultFont"/>
 		<mouseEnabled value="false"/>
@@ -16382,22 +17086,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>

@@ -168,22 +168,43 @@
 		</style>
 	</block>
 	<block className="BlurMap">
+		<bind name="visible" value="optionData.blurEnabled"/>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 		<style>
-			<position value="absolute"/>
-			<width value="100%"/>
-			<height value="100%"/>
 			<hitTest value="false"/>
 		</style>
+		<styleClass value="$FullsizeAbsolute"/>
+		<block className="mc_blurmap_medium" type="native">
+			<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
+			<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
+			<styleClass value="$FullsizeAbsolute"/>
+			<bind name="blurMap" value="0"/>
+		</block>
+		<block className="inner_panel" type="native">
+			<style>
+				<alpha value="0.5"/>
+			</style>
+			<styleClass value="$FullsizeAbsolute"/>
+		</block>
+	</block>
+	<block className="BlurMapLow">
 		<bind name="visible" value="optionData.blurEnabled"/>
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<style>
+			<hitTest value="false"/>
+		</style>
+		<styleClass value="$FullsizeAbsolute"/>
 		<block className="mc_blurmap5" type="native">
 			<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 			<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-			<style>
-				<width value="100%"/>
-				<height value="100%"/>
-			</style>
+			<styleClass value="$FullsizeAbsolute"/>
 			<bind name="blurMap" value="0"/>
+		</block>
+		<block className="inner_panel" type="native">
+			<style>
+				<alpha value="0.2"/>
+			</style>
+			<styleClass value="$FullsizeAbsolute"/>
 		</block>
 	</block>
 	<block className="BlurMapNotifications">
@@ -1207,39 +1228,25 @@
 			<bind name="transition" value="isBright &amp;&amp; !(battleType_mouseDown); 0.06; {alpha: 0.85}; {alpha: 1}; {alpha: 0.85}"/>
 			<block>
 				<styleClass value="$MiddleAligned"/>
-				<style>
-					<width value="136px"/>
-					<height value="136px"/>
-					<marginBottom value="16px"/>
-				</style>
+				<bind name="style" value="'marginBottom'; _isSmallView ? '4px' : '16px'"/>
+				<bind name="style" value="'width'; _isSmallView ? '80px' : '136px'"/>
+				<bind name="style" value="'height'; _isSmallView ? '80px' : '136px'"/>
+				<bind name="style" value="'colorMatrixFilter';	!(isSelectableBattleType)	? '0 -100 0 0'
+																			: '0 0 0 0'"/>
 				<block>
-					<style>
-						<width value="280px"/>
-						<height value="280px"/>
-					</style>
+					<bind name="style" value="'width'; _isSmallView ? '170px' : '280px'"/>
+					<bind name="style" value="'height'; _isSmallView ? '170px' : '280px'"/>
 					<bind name="instance" value="'SelectedBattleTypeAnimation'; selected &amp;&amp; !(operationType == 'event') ? {} : null"/>
 					<bind name="instance" value="'SelectedBattleEventTypeAnimation'; selected &amp;&amp; (operationType == 'event') || _forceVisible ? {} : null"/>
 					<styleClass value="$MiddleAlignedAbsolutely"/>
 					<styleClass value="$MiddleVAligned"/>
 				</block>
 				<block>
-					<styleClass value="$MiddleAlignedAbsolutely"/>
-					<styleClass value="$MiddleVAligned"/>
 					<style>
-						<width value="136px"/>
-						<height value="136px"/>
-						<backgroundSize value="cover"/>
+						<width value="100%"/>
+						<height value="100%"/>
 					</style>
-					<bind name="transition" value="selected || _forceVisible; 0.09; {width: 128, height: 128}; {width: 136, height: 136}; {width: 128, height: 128}"/>
-					<bind name="watchDH" value="'operationType';	['operationEntity.operation.evStatusChanged']; operationEntity.operation.type"/>
-					<block className="icon_battletypes_big" type="native">
-						<styleClass value="$Fullsize"/>
-						<bind name="gotoAndStop!" value="	(operationType == 'event')					?	'PVEBattle_event' :
-
-											!(isSelectableBattleType)									?	'PVEBattle_disabled' :
-											(chosenDifficulty == 'hard')					?	'PVEBattle_hard'
-																										:	'PVEBattle'"/>
-					</block>
+					<bind name="child" value="_isSmallView ? 0 : 1; {_status: status, _type: type, _selected: selected}; 'BattleTypeIconSmall'; 'BattleTypeIconBig'"/>
 				</block>
 				<block className="DeclareBlurLayer">
 					<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -1331,7 +1338,7 @@
 			<block className="button_info" type="native"/>
 		</block>
 		<block>
-			<bind name="visible" value="!_forceOtherOperationsHide"/>
+			<bind name="visible" value="!_forceOtherOperationsHide &amp;&amp; isSelectableBattleType"/>
 			<bind name="controller" value="lesta.unbound.controls.UbInteractiveController; null; 'otherOperationsBtn_'"/>
 			<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_INSTRUCTION_TOOLTIP_GO_TO_OPERATION_CHOOSER'}"/>
 			<styleClass value="$MiddleAligned"/>
@@ -1788,11 +1795,13 @@
 		<bind name="transition" value="_selected; 0.09; {width: 128, height: 128}; {width: 136, height: 136}; {width: 128, height: 128}"/>
 		<block className="icon_battletypes_big" type="native">
 			<styleClass value="$Fullsize"/>
-			<bind name="gotoAndStop!" value="   _type == BattleTypes.RANKED_BATTLE	?	(_status == 2)		?	'RankedBattle_disabled'
+			<bind name="gotoAndStop!" value="_type == BattleTypes.RANKED_BATTLE		?	(_status == 2)		?	'RankedBattle_disabled'
 																												:	'RankedBattle'
-							:   _type == BattleTypes.CLAN_BATTLE	?	(_status == 2)		?	'ClanBattle_disabled'
+							: _type == BattleTypes.CLAN_BATTLE		?	(_status == 2)		?	'ClanBattle_disabled'
 																												: 	'ClanBattle'
-																	: _type"/>
+							: _type == BattleTypes.RANDOM_BATTLE	?	(_status == 2)		?	'CooperativeBattle_disabled'
+																												:	'RandomBattle'
+																	:	_type"/>
 		</block>
 	</block>
 	<block className="BattleTypeIconSmall">
@@ -1806,11 +1815,13 @@
 		<bind name="transition" value="_selected; 0.09; {width: 72, height: 72}; {width: 80, height: 80}; {width: 72, height: 72}"/>
 		<block className="icon_battletypes" type="native">
 			<styleClass value="$Fullsize"/>
-			<bind name="gotoAndStop!" value="   _type == BattleTypes.RANKED_BATTLE	?	(_status == 2)		?	'RankedBattle_disabled'
+			<bind name="gotoAndStop!" value="_type == BattleTypes.RANKED_BATTLE		?	(_status == 2)		?	'RankedBattle_disabled'
 																												:	'RankedBattle'
-							:   _type == BattleTypes.CLAN_BATTLE	?	(_status == 2)		?	'ClanBattle_disabled'
+							: _type == BattleTypes.CLAN_BATTLE		?	(_status == 2)		?	'ClanBattle_disabled'
 																												: 	'ClanBattle'
-																	: _type"/>
+							: _type == BattleTypes.RANDOM_BATTLE	?	(_status == 2)		?	'CooperativeBattle_disabled'
+																												:	'RandomBattle'
+																	:	_type"/>
 		</block>
 	</block>
 	<block className="SelectedBattleEventTypeAnimation">
@@ -3249,22 +3260,23 @@
 			</style>
 		</block>
 		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<style>
-				<position value="absolute"/>
-				<width value="100%"/>
-				<height value="100%"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<style>
-					<width value="100%"/>
-					<height value="100%"/>
-				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -3615,7 +3627,9 @@
 				<styleClass value="$MiddleAlignedAbsolutely"/>
 				<block>
 					<bind name="primaryEntityDH" value="'battleTypeEntity'; CC.battleType; BattleTypes.TRAINING_BATTLE"/>
-					<bind name="instance" value="'ModalBattleTypeRenderer'; isTrainingBattleAvailable ? {id: battleTypeEntity.id, _isSmallView: true} : null"/>
+					<block>
+						<bind name="instance" value="'ModalBattleTypeRenderer'; isTrainingBattleAvailable ? {id: battleTypeEntity.id, _isSmallView: true} : null"/>
+					</block>
 					<bind name="repeat" value="disabledBattleTypes; 'ModalBattleTypeRenderer'; {_isSmallView: true}"/>
 					<style>
 						<flow value="horizontal"/>

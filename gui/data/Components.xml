@@ -150,7 +150,9 @@
 
 	<!-- UserDataGate components-->
 
-	<component name="AccountSelf"/>
+	<component name="AccountSelf">
+		<property	name="shouldRedirectOnCompletion"	type="Boolean"/>
+	</component>
 
 	<component name="AccountSimple">
 		<property	name="dbId"					type="Number"		pk="true"/>
@@ -470,6 +472,7 @@
 		<property	name="rank"					type="String"		/>
 		<property	name="firstNameIDS"			type="String"		/>
 		<property	name="lastNameIDS"			type="String"		/>
+		<property	name="fullName"				type="String"		/> <!-- tr(fistName)+' '+tr(lastName) -->
 
 		<!-- Crew isn't real, it's just history of changes in SystemMessages -->
 		<property	name="isHistory"			type="Boolean"		/>
@@ -492,6 +495,7 @@
 		<property	name="id"					type="String"	pk="true"/>
 		<property	name="name"					type="String"		/>
 		<property	name="skillType"			type="Integer"		/>
+		<property	name="isEpic"				type="Boolean"		/>
 		<property	name="tier"					type="Integer"		/>
 		<property	name="column"				type="Integer"		/>
 		<property	name="blockable"			type="Boolean"		/>
@@ -501,22 +505,28 @@
 		<property	name="hasLearnedSkillOnPreviousTier"	type="Boolean"/>
 		<property	name="hasEnoughSkillPointsToLearnSkill"	type="Boolean"/>
 
-		<property	name="attributes"			type="Array"		/>
-		<property	name="modifiers"			type="Dictionary"	/>
+		<property	name="attributesPositive"			type="Array"	/> <!-- [ModifierDescription]  -->
+		<property	name="attributesNeutral"			type="Array"	/> <!-- [ModifierDescription]  -->
+		<property	name="attributesNegative"			type="Array"	/> <!-- [ModifierDescription]  -->
+		<property	name="modifiers"					type="Dictionary"	/> <!-- {modifierName : ModifierDescription.numericValue]  -->
 
 		<event	name="evUpdate"/>
 	</component>
 
 	<component	name="CrewUniqueSkill">
 		<property	name="id"					type="String"	pk="true"/>
+		<property	name="crewId"				type="Integer"		/>
 		<property	name="achievementName"		type="String"		/>
-		
-		<property	name="attributes"			type="Array"		/>
-		
+
+		<property	name="attributesPositive"			type="Array"	/> <!-- [ModifierDescription]  -->
+		<property	name="attributesNeutral"			type="Array"	/> <!-- [ModifierDescription]  -->
+		<property	name="attributesNegative"			type="Array"	/> <!-- [ModifierDescription]  -->
+
 	</component>
 	
 	<component	name="CrewVanity">
 		<property	name="id"					type="String"	pk="true"/>
+		<property	name="crewId"				type="Integer"		/>
 		<property	name="vanityType"			type="Integer"		/>
 		<property	name="vanityName"			type="String"		/>
 		
@@ -667,7 +677,7 @@
 	<component name="PRMPComponent">
 		<property name="id" type="String" pk="true"/>
 		<property name="type" type="String"/>
-		<property name="prmpType" type="Number"/>
+		<property name="prmpType" type="String"/>
 		<property name="prices" type="Array"/>
 		<property name="rewards" type="Array"/>
 		<property name="timeLeft" type="Number"/>
@@ -788,7 +798,10 @@
 
 	<component	name="ClanBattleSeason"	>
 		<property	name="id"					type="Number"		pk="true"/>
+		<property	name="mapId"				type="Integer"		/>
+		<property	name="winnerClanId"			type="Integer"		/>
 		<property	name="active"				type="Boolean"		/>
+		<property	name="isCurrent"			type="Boolean"		/>
 		<property	name="stage"				type="Integer"		/>
 		<property	name="shipLevelMin"			type="Integer"		/>
 		<property	name="shipLevelMax"			type="Integer"		/>
@@ -1097,6 +1110,7 @@
 
 		<event		name="evValueChanged"		/>
 		<event		name="evKilled"				/>
+		<event		name="evKillerIdChanged"	/>
 	</component>
 
 	<component name="ShortLifeObject">
@@ -2098,7 +2112,11 @@
 		<property	name="type"				type="String"			/>
 
 		<property	name="achievements"		type="Array"			/>
-		<property	name="params"			type="Array"			/>
+
+		<property	name="attributesPositive"			type="Array"	/> <!-- [ModifierDescription]  -->
+		<property	name="attributesNeutral"			type="Array"	/> <!-- [ModifierDescription]  -->
+		<property	name="attributesNegative"			type="Array"	/> <!-- [ModifierDescription]  -->
+
 		<property	name="iconPath"			type="String"			/>
 		<property	name="desaturatedIconPath"	type="String"		/>
 		<property	name="canPutToStorage"	type="Boolean"	default="false"/>
@@ -2222,8 +2240,12 @@
 		<property	name="isTrainingDisabled"	type="Boolean"		/>
 		<property	name="onlyPVPPVE"			type="Boolean"		/>
 		<property	name="isWithoutCrewPenalty"	type="Boolean"		/>
+		<property	name="availableNavalFlags" 	type="Array"		/>
+		<property	name="currentNavalFlag"		type="String"		/>
 		<event		name="evGroupChanged"/>
 		<event		name="evPremiumChanged"/>
+		<event		name="evAvailableFlagsChanged"/>
+		<event		name="evCurrentFlagChanged"/>
 		<event		name="evUpdate"/>
 
 		<property	name="costCR"				type="Integer"		/>
@@ -2657,11 +2679,15 @@
 	</component>
 
 	<component name="SurveyData">
+		<property name="id" type="Number" pk="true"/>
+		<property name="question" type="String"/>
 		<property name="answers" type="Array"/>
 		<property name="layout" type="String"/>
 		<property name="type" type="String"/>
-		<property name="description" type="String"/>
+		<property name="weight" type="Number"/>
+		<property name="answered" type="Boolean"/>
 		<property name="exclusiveIndices" type="Array"/>
+		<property name="prmpID" type="Integer"/>
 		<event name="evUpdate"/>
 	</component>
 
@@ -3050,9 +3076,16 @@
 		<event name="evTempCountChanged"/>
 	</component>
 
-	<component 		name="ByteArrayData">
-		<property   name="id"				type="String"	pk="true" />
-		<property   name="data"				type="ByteArray"/>
+	<component name="ByteArrayData">
+		<property name="id"	type="String" pk="true"/>
+		<property name="data" type="ByteArray"/>
+		<event name="evUpdate"/>
+	</component>
 
-		<event		name="evUpdate" />
-	</component></components>
+	<component name="NavalFlag">
+		<property name="id" type="String" pk="true"/>
+		<property name="iconPath" type="String"/>
+		<property name="descriptionIDS" type="String"/>
+		<property name="nameIDS" type="String"/>
+	</component>
+</components>
