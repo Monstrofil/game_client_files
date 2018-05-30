@@ -16,7 +16,9 @@
 	<TARGET_ID>INT64</TARGET_ID>			<!-- place in which we can use PLANE_ID or ENTITY_ID -->
 	<MASTER_ID>UINT32</MASTER_ID>
 	<AVATAR_ID>INT64</AVATAR_ID>
-	
+	<CAMPAIGN_TASK_ID>UINT32</CAMPAIGN_TASK_ID>
+	<ARENA_UNIQUE_ID>UINT64</ARENA_UNIQUE_ID>
+
 	<ATBA_TARGETS>
 		ARRAY<of>UINT32</of>
 	</ATBA_TARGETS>
@@ -986,13 +988,45 @@
 		TUPLE<of>INT32</of><size>2</size>
 	</COUNTDOWN_INFO>
 
-    <BATTLE_LOGIC_UI_INFO>
-        FIXED_DICT
-        <Properties>
-            <localWeatherParamsId><Type>GAMEPARAMS_ID</Type> </localWeatherParamsId>
-        </Properties>
-        <AllowNone>true</AllowNone>
-    </BATTLE_LOGIC_UI_INFO>
+	<BATTLE_LOGIC_UI_INFO>
+		FIXED_DICT
+		<Properties>
+			<localWeatherParamsId><Type>GAMEPARAMS_ID</Type> </localWeatherParamsId>
+		</Properties>
+		<AllowNone>true</AllowNone>
+	</BATTLE_LOGIC_UI_INFO>
+
+	<REPLAY_METADATA_STATS>
+		FIXED_DICT
+		<Properties>
+			<credits><Type>UINT32</Type></credits>
+			<exp><Type>UINT32</Type></exp>
+			<damage><Type>UINT32</Type></damage>
+			<medals><Type>UINT8</Type></medals>
+			<kills><Type>UINT8</Type></kills>
+		</Properties>
+	</REPLAY_METADATA_STATS>
+
+	<REPLAY_METADATA>
+		FIXED_DICT
+		<Properties>
+			<replayId><Type>STRING</Type></replayId>
+			<mapName><Type>UINT16</Type></mapName>
+			<gameType><Type>INT8</Type></gameType>
+			<gameMode><Type>INT8</Type></gameMode>
+			<result><Type>INT8</Type></result>
+			<shipId><Type>SHIP_ID</Type></shipId>
+			<stats><Type>REPLAY_METADATA_STATS</Type></stats>
+			<dateTime><Type>STRING</Type></dateTime>
+			<version><Type>STRING</Type></version>
+			<networkInterface><Type>STRING</Type></networkInterface>
+		</Properties>
+		<implementedBy>ReplayMetadataDef.converter</implementedBy>
+	</REPLAY_METADATA>
+
+	<REPLAY_METADATA_LIST>
+		ARRAY<of>REPLAY_METADATA</of>
+	</REPLAY_METADATA_LIST>
 	<AIR_DEFENCE_AURA>
 		FIXED_DICT
 		<Properties>

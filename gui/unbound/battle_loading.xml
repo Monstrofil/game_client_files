@@ -1025,7 +1025,6 @@
 		</block>
 	</block>
 	<block className="SimpleUIListTeamResultRowRendererLeft">
-		<bind name="visible" value="(player.ids_ship_name != 'IDS_PXSX001')"/>
 		<bind name="controller" value="lesta.dialogs.controllers.CollectionController; 'rankedBattlesRanks';  _rankId; 'rankInfo'"/>
 		<bind name="appear" value="'startShow'; 0.15; 0.75 + 0.075 * $index; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
 		<bind name="watch" value="'starEarnCondition'; player.is_self ? personal.starsGained &gt; 0 : (place &lt;= rankInfo.starEarnPlace) &amp;&amp; (battleResult == 1)"/>
@@ -1033,6 +1032,7 @@
 		<bind name="watch" value="'thisPlayer'; _players[$index].player"/>
 		<bind name="primaryEntityDH" value="'playerEntity'; CC.accountSimple; player.dbId"/>
 		<bind name="watchDH" value="'pureName'; 		['playerEntity.accountName.evChanged']; playerEntity.accountName.name"/>
+		<bind name="watchDH" value="'isSuspended'; 	['playerEntity.accountSimple.evSuspendedChanged']; playerEntity.accountSimple.suspended"/>
 		<style>
 			<marginTop value="1px"/>
 			<width value="634px"/>
@@ -1070,8 +1070,8 @@
 				<bind name="watch" value="'isContextMenuAvailable'; (!(player.is_self) &amp;&amp; !(isBot))"/>
 				<block className="dock_submenu_item" type="native">
 					<styleClass value="$FullsizeAbsolute"/>
-					<bind name="tooltip" value="'BattlePlayerTooltip'; {	_playerDbId: player.dbId, _clanTagColor: clanColor, _clanTag: clanTag, 
-														_isInBattle: false,	_isInPostBattle: true, _player: thisPlayer, _battleType: battleType, _isBot: isBot}"/>
+					<bind name="tooltip" value="'BattlePlayerTooltip'; !(isSuspended) ? {	_playerDbId: player.dbId, _clanTagColor: clanColor, _clanTag: clanTag, 
+																			_isInBattle: false,	_isInPostBattle: true, _player: thisPlayer, _battleType: battleType, _isBot: isBot} : null"/>
 					<bind name="menu" value="'UIListPlayerContextMenu'; isContextMenuAvailable	? {	_player: thisPlayer, _playerDbId: player.dbId, _arenaId: game_data.arena_id, _battleType: battleType,
 																					_isInPBS: true, _complaintsAvailable: complaintsAvailable, _isInSameDivisionOnStart: isInSameDivisionOnStart, _isBot: isBot}
 																				: null; null; 'contextMenuVisible'"/>
@@ -1593,6 +1593,34 @@
 		fixedDirectionUp: true
 	}"/>
 	</css>
+	<css name="$ReplaysInfotip">
+		<userData value="{
+		appearDelay: 0.05,
+		appearDuration: 0.1,
+		appearOffset: 5.0,
+		disappearDelay: 0.0,
+		disappearDuration: 0.1,
+		disappearOffset: -10.0,
+
+		rightOffset: 300,
+		bottomOffset: 0,
+		isTipCenter: true
+	}"/>
+	</css>
+	<css name="$ReplaysInfotipFilter">
+		<userData value="{
+		appearDelay: 0.05,
+		appearDuration: 0.1,
+		appearOffset: 5.0,
+		disappearDelay: 0.0,
+		disappearDuration: 0.1,
+		disappearOffset: -10.0,
+
+		rightOffset: 0,
+		bottomOffset: 0,
+		isTipCenter: true
+	}"/>
+	</css>
 	<css name="$HorizontalInfotipBehaviour">
 		<userData value="{
 		appearDelay: 0.05,
@@ -1674,6 +1702,27 @@
 									(_multiParagraphArray.length &gt; 0) &amp;&amp; (_mouseInstructions.length &gt; 0)	? '0px'
 																											: '5px'"/>
 			<bind name="repeat" value="_multiParagraphArray; 'RepeatParagraphItem'; {_maxWidth: _maxWidth, _marginBottom: _marginBottom}"/>
+		</block>
+		<block>
+			<bind name="visible" value="_checkedLines.length &gt; 0"/>
+			<style>
+				<width value="100%"/>
+			</style>
+			<block className="HorizontalDivider">
+				<styleClass value="$PxHorizontalCorrection"/>
+				<style>
+					<width value="100%"/>
+					<height value="3px"/>
+				</style>
+				<block className="divider_h" type="native">
+					<styleClass value="$Fullsize"/>
+				</block>
+			</block>
+		</block>
+		<block>
+			<bind name="visible" value="_checkedLines.length &gt; 0"/>
+			<styleClass value="$InfoBlockIndentNoWidth"/>
+			<bind name="repeat" value="_checkedLines; 'CheckedLineRepeater'; {_maxWidth: _maxWidth, _marginBottom: _marginBottom, _lastIndex: _checkedLines.length - 1}"/>
 		</block>
 		<block>
 			<bind name="visible" value="(_multiParagraphArray.length &gt; 0) &amp;&amp; (_mouseInstructions.length &gt; 0)"/>
@@ -2028,6 +2077,7 @@
 		<bind name="primaryEntityDH" value="'entityAccountBattle'; CC.avatar; _player.id"/>
 		<bind name="watchDH" value="'entityAccountBattleDbId'; [];  entityAccountBattle.accountSimple.dbId"/>
 		<bind name="primaryEntityDH" value="'playerEntity'; CC.accountSimple; _playerDbId ? _playerDbId : entityAccountBattleDbId"/>
+		<bind name="watchDH" value="'isSuspended'; ['playerEntity.accountSimple.evSuspendedChanged']; playerEntity.accountSimple.suspended"/>
 		<bind name="watchDH" value="'isTextChatMuted'; ['playerEntity.avatar.evMuteChanged']; playerEntity.avatar.mute"/>
 		<bind name="watchDH" value="'isBotAvatar'; []; playerEntity.avatar.isBot"/>
 		<bind name="watchDH" value="'accountDbId'; [];  playerEntity.accountSimple.dbId"/>
@@ -2055,7 +2105,8 @@
 												(_isInPBS != true) &amp;&amp;
 												!(isEnemyPlayer) &amp;&amp;
 												!(isBot) &amp;&amp;
-												((_selfPlayer.isDivisionCommander) || (_selfPlayer.divisionId == 0))"/>
+												((_selfPlayer.isDivisionCommander) || (_selfPlayer.divisionId == 0)) &amp;&amp;
+												!(isSuspended)"/>
 		<bind name="watch" value="'canBeInChat';	((_battleType == BattleTypes.CLAN_BATTLE) &amp;&amp; VoiceChatState.enabled &amp;&amp; !(isEnemyPlayer)) ||
 								((_player.isInSameDivision &amp;&amp; VoiceChatState.enabled) &amp;&amp; ((_battleType == BattleTypes.RANDOM_BATTLE) ||
 																						 (_battleType == BattleTypes.COOPERATIVE_BATTLE) ||
@@ -2196,7 +2247,7 @@
 				<style>
 					<width value="100%"/>
 				</style>
-				<bind name="visible" value="!(_isBattleLoading) &amp;&amp; !(isBot)"/>
+				<bind name="visible" value="!(_isBattleLoading) &amp;&amp; !(isBot) &amp;&amp; !(isSuspended)"/>
 				<block>
 					<style>
 						<width value="100%"/>
@@ -2221,7 +2272,7 @@
 				</block>
 			</block>
 			<block>
-				<bind name="visible" value="(_isBattleStats == true) &amp;&amp; !(isBot)"/>
+				<bind name="visible" value="(_isBattleStats == true) &amp;&amp; !(isBot) &amp;&amp; !(isSuspended)"/>
 				<bind name="name" value="'id_mute'"/>
 				<style>
 					<width value="100%"/>
@@ -2262,7 +2313,7 @@
 				</block>
 			</block>
 			<block>
-				<bind name="visible" value="(canBeInChat &amp;&amp; !(_isInPBS) &amp;&amp; !(isBot))"/>
+				<bind name="visible" value="(canBeInChat &amp;&amp; !(_isInPBS) &amp;&amp; !(isBot) &amp;&amp; !(isSuspended))"/>
 				<bind name="name" value="'id_mute_voice'"/>
 				<style>
 					<width value="100%"/>
@@ -2312,7 +2363,7 @@
 				</block>
 			</block>
 			<block>
-				<bind name="visible" value="!(isBot) &amp;&amp; ((canBeInChat &amp;&amp; _isBattleLoading) || !_isBattleLoading)"/>
+				<bind name="visible" value="!(isSuspended) &amp;&amp; !(isBot) &amp;&amp; ((canBeInChat &amp;&amp; _isBattleLoading) || !_isBattleLoading)"/>
 				<style>
 					<width value="100%"/>
 					<marginTop value="3px"/>
@@ -2336,7 +2387,7 @@
 			<bind name="var" value="{isChatServerAvailable: false}"/>
 			<bind name="watchDH" value="'isChatServerAvailable'; ['chat.evConnected', 'chat.evDisConnected']; chat.isConnected"/>
 			<block>
-				<bind name="visible" value="!(isBot)"/>
+				<bind name="visible" value="!(isBot) &amp;&amp; !(isSuspended)"/>
 				<style>
 					<backgroundColor value="0x01000000"/>
 					<width value="100%"/>
@@ -2487,7 +2538,7 @@
 			</block>
 		</block>
 		<block>
-			<bind name="visible" value="(isBot == true)"/>
+			<bind name="visible" value="(isBot == true) || isSuspended"/>
 			<style>
 				<width value="100%"/>
 			</style>
@@ -2815,6 +2866,33 @@
 		<bind name="instance" value="'MouseInstruction'; _type == 'warning' ? null : { _type: _type, _instructionText: _instructionText, _maxWidth: _maxWidth}"/>
 		<bind name="instance" value="'InstructionWarning'; _type == 'warning' ? {_instructionText: _instructionText, _maxWidth: _maxWidth} : null"/>
 	</block>
+	<block className="CheckedLine">
+		<style>
+			<flow value="horizontal"/>
+		</style>
+		<block className="icon_check" type="native">
+			<style>
+				<marginLeft value="2px"/>
+				<marginTop value="8px"/>
+			</style>
+			<bind name="visible" value="!_isCheckMarkHidden"/>
+		</block>
+		<block type="text">
+			<styleClass value="$TextHeaderBigDefault"/>
+			<style>
+				<width value="288px"/>
+				<marginTop value="-2px"/>
+				<multiline value="false"/>
+			</style>
+			<bind name="class" value="'$FontColorGolden'"/>
+			<bind name="style" value="'marginLeft'; _isCheckMarkHidden ? '0' : '5px'"/>
+			<bind name="text" value="_checkedLineText"/>
+		</block>
+	</block>
+	<block className="CheckedLineRepeater">
+		<bind name="style" value="'marginBottom'; $index != _lastIndex ? '6px' : '-2px'"/>
+		<bind name="instance" value="'CheckedLine'; { _isCheckMarkHidden: _isCheckMarkHidden, _checkedLineText: _checkedLineText, _maxWidth: _maxWidth}"/>
+	</block>
 	<block className="InstructionBigTech">
 		<style>
 			<flow value="horizontal"/>
@@ -3047,6 +3125,9 @@
 	</css>
 	<block className="WarningMessage">
 		<bind name="appear" value="'addedToStage'; 0.15; _delay; {alpha: 0, top: _startTop ? _startTop : 10}; {alpha: 1, top: 0}; 2"/>
+		<bind name="var" value="{errorStringsToShowSupportLinkFor: [
+		tr('IDS_ACCOUNT_ERROR_ALL_SPA_LOGIN_ALREADY_TAKEN')
+	]}"/>
 		<block type="text">
 			<bind name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 280"/>
 			<bind name="class" value="_highWarning ? '$WarningTextRed' : '$WarningTextOrange'"/>
@@ -3054,6 +3135,19 @@
 				<textAlign value="center"/>
 			</style>
 			<bind name="text" value="_text"/>
+		</block>
+		<block>
+			<bind name="visible" value="errorStringsToShowSupportLinkFor.indexOf(_text) &gt; -1"/>
+			<styleClass value="$MiddleAligned"/>
+			<style>
+				<marginTop value="6px"/>
+			</style>
+			<bind name="instance" value="'LinkText'; errorStringsToShowSupportLinkFor.indexOf(_text) &gt; -1 	? {
+																								_label: 'IDS_LINK_SUPPORT', 
+																								_urlIdent: URL.SUPPORT, 
+																								_tooltipText: 'IDS_LINK_SUPPORT_HINT', 
+																								_name: 'ButtonSupport'} 
+																							: null"/>
 		</block>
 	</block>
 	<block className="WrongTextInputNotification">
@@ -9210,6 +9304,7 @@
 		<bind name="controller" value="lesta.dialogs.controllers.CollectionController; 'playersInvitedToDivision'; 'name'; entityAccount.accountName.name; 'playerInvitedToDivision'"/>
 		<bind name="watch" value="'isInDivision'; (playerInDivision.length == 0) ? false : true"/>
 		<bind name="watchDH" value="'isSelf'; []; entityAccount.accountSimple.isSelfPlayer"/>
+		<bind name="watchDH" value="'isSuspended'; ['entityAccount.accountSimple.evSuspendedChanged']; entityAccount.accountSimple.suspended"/>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'divisionEntranceData'"/>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'divisionData'"/>
 		<bind name="levelToFeature" value="accountLevel; 19; 'clubBattleFeatureUnLocked'"/>
@@ -9262,14 +9357,15 @@
 		<block className="dock_submenu_item_bg" type="native">
 			<bind name="transition" value="(mouseDown &amp;&amp; !isSelf); 0.03; {alpha: 1}; {alpha: 0.7}"/>
 			<bind name="transition" value="(rollOver || contactContextMenuVisible); 0.15; {alpha: 0}; {alpha: 1.0}"/>
+			<bind name="style" value="'hitTest'; !(isSuspended) || ((isSuspended) &amp;&amp; (groupIdsOfAccount != null))"/>
 			<styleClass value="$PxHorizontalCorrection"/>
 			<styleClass value="$FullsizeAbsolute"/>
-			<bind name="menu" value="'ContactContextMenu';	!(isSelf) 	? {	_entityAccountId: _entityAccountId, _currentGroupId: _currentGroupId, _actionDenyReason: actionDenyReason,
-															_playerContext: _playerContext, _inviteType: InviteType.COMMON, _isWardog: isWardog}
+			<bind name="menu" value="'ContactContextMenu';	!(isSelf)	? {	_entityAccountId: _entityAccountId, _currentGroupId: _currentGroupId, _actionDenyReason: actionDenyReason,
+															_playerContext: _playerContext, _inviteType: InviteType.COMMON, _isWardog: isWardog }
 														: null; null; 'contactContextMenuVisible'"/>
-			<bind name="tooltip" value="'ContactInfoTooltip'; {_entityAccountId: _entityAccountId, _playerContext: _playerContext, _actionDenyReason: actionDenyReason, _isWardog: isWardog, _dogTagView: dogtagview}"/>
+			<bind name="tooltip" value="'ContactInfoTooltip'; !(isSuspended) ? {_entityAccountId: _entityAccountId, _playerContext: _playerContext, _actionDenyReason: actionDenyReason, _isWardog: isWardog, _dogTagView: dogtagview} : null"/>
 			<bind name="clickSplit"/>
-			<bind name="watch" value="'isActionEnabled'; (!(isSelf) &amp;&amp; (actionDenyReason == 'no_reason'))"/>
+			<bind name="watch" value="'isActionEnabled'; (!(isSelf) &amp;&amp; (actionDenyReason == 'no_reason') &amp;&amp; !(isSuspended))"/>
 			<bind name="var" value="{showBusyIndicator: false, isInvitationSent: false}"/>
 			<bind name="catch" value="'evPlayerInvitationToClub'"/>
 			<bind name="catch" value="'evPlayerInvitationToClubRevoked'"/>
@@ -9327,7 +9423,8 @@
 						<bind name="transition" value="rollOver; 0.3; {alpha: 0}; {alpha: 1.0}; {alpha: 0}; 1; 0.07"/>
 						<bind name="watch" value="'isAddToContactsBtnVisible';	(_playerContext.type != 'clubMembersList') &amp;&amp;
 																(groupIdsOfAccount==null) &amp;&amp;
-																!(isIgnored)"/>
+																!(isIgnored) &amp;&amp;
+																!(isSuspended)"/>
 						<block>
 							<style>
 								<marginTop value="1px"/>
@@ -9365,7 +9462,8 @@
 																	(_playerContext.type != 'contactsClubMembers') &amp;&amp;
 																	(_playerContext.type != 'inviteToPartyFromClubMembersList') &amp;&amp;
 																	!(isSelfInParty) &amp;&amp;
-																	!(isInTrainingRoom) )"/>
+																	!(isInTrainingRoom) &amp;&amp;
+																	!(isSuspended) )"/>
 						<block>
 							<bind name="visible" value="isInviteToDivisionBtnVisible"/>
 							<style>
@@ -9381,6 +9479,7 @@
 							<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: isInvitedToDivision ? 'IDS_INVITED_IN_DIVISION_ALREADY' : 'IDS_INVITE_IN_DIVISION'}"/>
 						</block>
 						<block>
+							<bind name="visible" value="!(isSuspended)"/>
 							<block className="button_chat_small" type="native"/>
 							<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_SEND_MESSAGE'}"/>
 							<bind name="action" value="'click'; 'openChannelForPrivateMessages'; {dbId: entityAccount.accountSimple.dbId}"/>
@@ -9498,10 +9597,10 @@
 		<bind name="watchDH" value="'AILevel'; ['entityAccount.bot.evUpdate']; entityAccount.bot.AILevel"/>
 		<bind name="watchDH" value="'canShoot'; ['entityAccount.bot.evUpdate']; entityAccount.bot.canShoot"/>
 		<bind name="watchDH" value="'canMove'; ['entityAccount.bot.evUpdate']; entityAccount.bot.canMove"/>
-		<bind name="watch" value="'canShootStr'; canShoot	? 'IDS_TARGET_CAN_SHOOT_STATUS'
-											: 'IDS_TARGET_CAN_NOT_SHOOT_STATUS'"/>
-		<bind name="watch" value="'canMoveStr';	canMove		? 'IDS_TARGET_CAN_MOVE_STATUS'
-											: 'IDS_TARGET_CAN_NOT_MOVE_STATUS'"/>
+		<bind name="watch" value="'canShootStr'; canShoot	? 'IDS_BOT_CAN_SHOOT_STATUS'
+											: 'IDS_BOT_CAN_NOT_SHOOT_STATUS'"/>
+		<bind name="watch" value="'canMoveStr';	canMove		? 'IDS_BOT_CAN_MOVE_STATUS'
+											: 'IDS_BOT_CAN_NOT_MOVE_STATUS'"/>
 		<style>
 			<width value="100%"/>
 		</style>
@@ -9526,10 +9625,10 @@
 					<marginTop value="-3px"/>
 				</style>
 				<styleClass value="$TextDefault"/>
-				<bind name="text" value="!isBotsAIEnabled 	? 'IDS_DISABLED_AI_TARGET_STATUS' :
-						AILevel &gt; 9 		? 'IDS_HARD_LEVEL_TARGET_STATUS' :
-						AILevel &gt; 5 		? 'IDS_MEDIUM_LEVEL_TARGET_STATUS'
-											: 'IDS_LOW_LEVEL_TARGET_STATUS'"/>
+				<bind name="text" value="!isBotsAIEnabled 	? 'IDS_DISABLED_AI_BOT_STATUS' :
+						AILevel &gt; 9 		? 'IDS_HARD_LEVEL_BOT_STATUS' :
+						AILevel &gt; 5 		? 'IDS_MEDIUM_LEVEL_BOT_STATUS'
+											: 'IDS_LOW_LEVEL_BOT_STATUS'"/>
 			</block>
 		</block>
 		<block>
@@ -9713,6 +9812,7 @@
 		<bind name="watchDH" value="'accountOnline'; ['entityAccount.accountStatus.evOnlineChanged']; entityAccount.accountStatus.online"/>
 		<bind name="watchDH" value="'accountLevel'; ['entityAccount.accountLevel.evLevelChanged']; entityAccount.accountLevel.level"/>
 		<bind name="watchDH" value="'rank'; ['entityAccount.accountRank.evRankChanged']; entityAccount.accountRank.rank"/>
+		<bind name="watchDH" value="'isSuspended'; ['entityAccount.accountSimple.evSuspendedChanged']; entityAccount.accountSimple.suspended"/>
 		<bind name="watchDH" value="'pureName'; ['entityAccount.accountName.evChanged']; entityAccount.accountName.name"/>
 		<bind name="watchDH" value="'nickName'; ['entityAccount.accountName.evChanged']; entityAccount.accountName.nickName"/>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'divisionEntranceData'"/>
@@ -9932,7 +10032,7 @@
 					<marginTop value="7px"/>
 				</style>
 				<block>
-					<bind name="visible" value="_actionDenyReason == 'no_reason' &amp;&amp; !(isBot)"/>
+					<bind name="visible" value="_actionDenyReason == 'no_reason' &amp;&amp; !(isBot) &amp;&amp; !(isSuspended)"/>
 					<style>
 						<width value="100%"/>
 						<marginBottom value="5px"/>
@@ -10213,6 +10313,98 @@
 		</block>
 	</block>
 	<block className="ContactContextMenu">
+		<bind name="entityDH" value="'entityAccount'; _entityAccountId"/>
+		<bind name="watchDH" value="'isSuspended'; ['entityAccount.accountSimple.evSuspendedChanged']; entityAccount.accountSimple.suspended"/>
+		<bind name="childParentScope" value="isSuspended ? 0 : 1; {}; 'SuspendedContactContextMenu'; 'NormalContactContextMenu'"/>
+	</block>
+	<block className="SuspendedContactContextMenu">
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'shipOverview'"/>
+		<bind name="transition" value="shipOverview.enabled; shipOverview.enabled ? 0.4 : 0.25; {alpha: 1}; {alpha: 0}; {alpha: 1}; 2; !(shipOverview.enabled) &amp;&amp; !(inPort) ? 0.15 : 0.5"/>
+		<bind name="style" value="'hitTest'; !(shipOverview.enabled)"/>
+		<styleClass value="$DefaultMenuBehaviour"/>
+		<styleClass value="$ContextMenuDimentions"/>
+		<bind name="dataRefDH" value="'accountDbId'; 'entityAccount.accountSimple.dbId'"/>
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<block className="contrast_panel" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<bind name="visible" value="optionData.contrast"/>
+		</block>
+		<block className="MenuBg">
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="DeclareBlurLayer">
+				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+				<bind name="visible" value="optionData.blurEnabled"/>
+				<block className="transparentPixel" type="native">
+					<bind name="blurLayer" value="0"/>
+				</block>
+				<style>
+					<position value="absolute"/>
+				</style>
+			</block>
+			<block className="BlurMap">
+				<bind name="visible" value="optionData.blurEnabled"/>
+				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+				<style>
+					<hitTest value="false"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
+				<block className="mc_blurmap_medium" type="native">
+					<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
+					<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
+					<styleClass value="$FullsizeAbsolute"/>
+					<bind name="blurMap" value="0"/>
+				</block>
+				<block className="inner_panel" type="native">
+					<style>
+						<alpha value="0.5"/>
+					</style>
+					<styleClass value="$FullsizeAbsolute"/>
+				</block>
+			</block>
+			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<block className="contrast_panel" type="native">
+				<bind name="visible" value="optionData.contrast &amp;&amp; !(false)"/>
+				<styleClass value="$FullsizeAbsolute"/>
+			</block>
+			<block>
+				<styleClass value="$FullsizeAbsolute"/>
+				<bind name="visible" value="!(false)"/>
+				<block className="hint_panel" type="native">
+					<styleClass value="$FullsizeAbsolute"/>
+				</block>
+			</block>
+			<block>
+				<styleClass value="$FullsizeAbsolute"/>
+				<bind name="visible" value="false"/>
+				<block className="dock_panel" type="native">
+					<styleClass value="$FullsizeAbsolute"/>
+					<style>
+						<marginBottom value="-19px"/>
+						<marginRight value="-14px"/>
+						<marginLeft value="-14px"/>
+						<marginTop value="-9px"/>
+					</style>
+				</block>
+			</block>
+		</block>
+		<block>
+			<styleClass value="$ContextMenuListItem"/>
+			<block className="MenuItemWithAction">
+				<styleClass value="$Fullsize"/>
+				<block className="dock_submenu_item" type="native">
+					<styleClass value="$FullsizeAbsolute"/>
+				</block>
+				<block type="text">
+					<styleClass value="$TextDefault"/>
+					<styleClass value="$MiddleVAligned"/>
+					<styleClass value="$ContextMenuListItemContent"/>
+					<bind name="text" value="'IDS_REMOVE_FROM_CONTACTS'"/>
+				</block>
+				<bind name="action" value="'click'; 'removeContact'; {dbId: accountDbId}"/>
+			</block>
+		</block>
+	</block>
+	<block className="NormalContactContextMenu">
 		<bind name="firstEntityDH" value="'trainingRoomEntity'; CC.trainingRoomWindowState"/>
 		<bind name="watchDH" value="'windowState'; ['trainingRoomEntity.trainingRoomWindowState.evUpdate']; trainingRoomEntity.trainingRoomWindowState.state"/>
 		<bind name="watchDH" value="'notReadyWindowState'; ['trainingRoomEntity.trainingRoomWindowState.evUpdate']; trainingRoomEntity.trainingRoomWindowState.notReadyWindowState"/>
@@ -10234,7 +10426,6 @@
 		<bind name="watchDH" value="'selfTeamId'; ['selfPlayerEntity.preBattlePlayerSimple.evStateChanged']; selfPlayerEntity.preBattlePlayerSimple.teamId"/>
 		<bind name="watchDH" value="'selfPreBattlePlayerId'; []; selfPlayerEntity.preBattlePlayerSimple.id"/>
 		<bind name="watchDH" value="'isSelfPlayerTeamCommander'; ['selfPlayerEntity.trainingRoomPlayer.evUpdate']; selfPlayerEntity.trainingRoomPlayer.isCommander"/>
-		<bind name="entityDH" value="'entityAccount'; _entityAccountId"/>
 		<bind name="watchDH" value="'isSelf'; []; entityAccount.accountSimple.isSelfPlayer"/>
 		<bind name="watchDH" value="'prebattleInvitedPlayerId'; []; entityAccount.playerInvitedToPrebattleInfo.id"/>
 		<bind name="watchDH" value="'prebattlePlayerId'; []; entityAccount.preBattlePlayerSimple.id"/>
@@ -13085,7 +13276,7 @@
 		<bind name="watchDH" value="'shipInfo'; ['shipEntity.ship.evUpdate', 'shipEntity.ship.evCurrentSkinChanged']; shipEntity.ship"/>
 		<bind name="watchDH" value="'shipInfo' + 'Slim'; ['shipEntity.slimClientComponent.evUpdate']; shipEntity.slimClientComponent"/>
 		<bind name="watchDH" value="'upgradableShipInfo'; ['shipEntity.upgradableShipInfo.evUpdate']; shipEntity.upgradableShipInfo"/>
-		<bind name="watch" value="'isOwned'; playerShipInfo != null"/>
+		<bind name="watch" value="'notInvertable'; (playerShipInfo != null) || _notInvertable"/>
 		<style>
 			<flow value="horizontal"/>
 		</style>
@@ -13103,7 +13294,7 @@
 													: 'elite'"/>
 			</block>
 			<block className="icon_ship" type="native">
-				<bind name="gotoAndStop!" value="shipInfo.subtype + (!isOwned ? '_U' : (shipInfo.isPremium || shipInfo.uiSpecial ? '_P' : '')) "/>
+				<bind name="gotoAndStop!" value="shipInfo.subtype + (!notInvertable ? '_U' : (shipInfo.isPremium || shipInfo.uiSpecial ? '_P' : '')) "/>
 			</block>
 		</block>
 		<block>
@@ -13112,7 +13303,7 @@
 				<marginLeft value="3px"/>
 			</style>
 			<bind name="instance" value="'InvertableTextLine'; { _text: shipInfo.levelRome + ' ' + toUpperCase(tr(shipInfo.nameIDS)),
-												_invert: !isOwned, 
+												_invert: !notInvertable, 
 												_normalClass: (shipInfo.isPremium || shipInfo.uiSpecial ? (_large ? '$TextShipLinePremiumAccentBold' : '$TextShipLinePremiumBold') 
 																										: (_large ? '$TextShipLineBoldAccent' : '$TextShipLineBold')), 
 												_invertedClass: (_large ? '$TextShipLineBlackAccentBold': '$TextShipLineBlackBold'),

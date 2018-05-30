@@ -3240,6 +3240,12 @@
 	<block className="ServerMessage">
 		<bind name="appear" value="'addedToStage'; 0.15; 0.15; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 2"/>
 		<bind name="action" value="'click'; 'showErrorMessage'; {header: '', message: ''}"/>
+		<bind name="var" value="{errorStringsToIgnoreSupportLinkFor: [
+		'IDS_ACCOUNT_ACTIVATION_ERROR_ALL_INCORRECT_CONFIRMATION_CODE',
+		'IDS_ACCOUNT_ACTIVATION_ERROR_CODE_MIN_LENGTH',
+		'IDS_ACCOUNT_ACTIVATION_ERROR_CODE_MAX_LENGTH',
+		'IDS_ACCOUNT_ACTIVATION_ERROR_ALL_INCORRECT_CONFIRMATION_CODE_REQUEST_DEACTIVATED'
+	]}"/>
 		<style>
 			<marginRight value="-1px"/>
 			<marginLeft value="-1px"/>
@@ -3302,7 +3308,7 @@
 				<style>
 					<marginTop value="6px"/>
 				</style>
-				<bind name="instance" value="'LinkText'; {_label: 'IDS_LINK_SUPPORT', _urlIdent: URL.SUPPORT, _tooltipText: 'IDS_LINK_SUPPORT_HINT', _name: 'ButtonSupport'}"/>
+				<bind name="instance" value="'LinkText'; errorStringsToIgnoreSupportLinkFor.indexOf(_messageText) &gt; -1 ? null : {_label: 'IDS_LINK_SUPPORT', _urlIdent: URL.SUPPORT, _tooltipText: 'IDS_LINK_SUPPORT_HINT', _name: 'ButtonSupport'}"/>
 			</block>
 		</block>
 		<block>
@@ -3440,6 +3446,7 @@
 			<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
 			<bind name="entityDH" value="'entityAccount'; _entityAccountId ? _entityAccountId : $dataRef.ref.id"/>
 			<bind name="watch" value="'isSelfPlayer'; entityAccount.accountSimple.isSelfPlayer"/>
+			<bind name="watchDH" value="'isSuspended'; ['entityAccount.accountSimple.evSuspendedChanged']; entityAccount.accountSimple.suspended"/>
 			<bind name="watch" value="'isBot'; entityAccount.bot != undefined"/>
 			<bind name="watchDH" value="'shipId'; ['entityAccount.preBattlePlayerSimple.evShipIdChanged']; entityAccount.preBattlePlayerSimple.shipId"/>
 			<bind name="watchDH" value="'teamId'; ['entityAccount.preBattlePlayerSimple.evStateChanged']; entityAccount.preBattlePlayerSimple.teamId"/>
@@ -3475,6 +3482,7 @@
 				<styleClass value="$FullsizeAbsolute"/>
 				<styleClass value="$PxHorizontalCorrection"/>
 				<bind name="clickSplit"/>
+				<bind name="style" value="'hitTest'; !(isSuspended)"/>
 				<bind name="transition" value="(rollOver || _rollOver || formationPlayerContextMenuVisible) &amp;&amp; !(isSelfPlayer); 0.15; {alpha: 0}; {alpha: 1.0}"/>
 				<bind name="tooltip" value="'ContactInfoTooltip';	{	_entityAccountId: entityAccount.id, _actionDenyReason: 'no_reason',
 													_playerContext: {type: 'startPrivateChat'}}"/>
@@ -4824,6 +4832,34 @@
 		fixedDirectionUp: true
 	}"/>
 	</css>
+	<css name="$ReplaysInfotip">
+		<userData value="{
+		appearDelay: 0.05,
+		appearDuration: 0.1,
+		appearOffset: 5.0,
+		disappearDelay: 0.0,
+		disappearDuration: 0.1,
+		disappearOffset: -10.0,
+
+		rightOffset: 300,
+		bottomOffset: 0,
+		isTipCenter: true
+	}"/>
+	</css>
+	<css name="$ReplaysInfotipFilter">
+		<userData value="{
+		appearDelay: 0.05,
+		appearDuration: 0.1,
+		appearOffset: 5.0,
+		disappearDelay: 0.0,
+		disappearDuration: 0.1,
+		disappearOffset: -10.0,
+
+		rightOffset: 0,
+		bottomOffset: 0,
+		isTipCenter: true
+	}"/>
+	</css>
 	<css name="$HorizontalInfotipBehaviour">
 		<userData value="{
 		appearDelay: 0.05,
@@ -4905,6 +4941,27 @@
 									(_multiParagraphArray.length &gt; 0) &amp;&amp; (_mouseInstructions.length &gt; 0)	? '0px'
 																											: '5px'"/>
 			<bind name="repeat" value="_multiParagraphArray; 'RepeatParagraphItem'; {_maxWidth: _maxWidth, _marginBottom: _marginBottom}"/>
+		</block>
+		<block>
+			<bind name="visible" value="_checkedLines.length &gt; 0"/>
+			<style>
+				<width value="100%"/>
+			</style>
+			<block className="HorizontalDivider">
+				<styleClass value="$PxHorizontalCorrection"/>
+				<style>
+					<width value="100%"/>
+					<height value="3px"/>
+				</style>
+				<block className="divider_h" type="native">
+					<styleClass value="$Fullsize"/>
+				</block>
+			</block>
+		</block>
+		<block>
+			<bind name="visible" value="_checkedLines.length &gt; 0"/>
+			<styleClass value="$InfoBlockIndentNoWidth"/>
+			<bind name="repeat" value="_checkedLines; 'CheckedLineRepeater'; {_maxWidth: _maxWidth, _marginBottom: _marginBottom, _lastIndex: _checkedLines.length - 1}"/>
 		</block>
 		<block>
 			<bind name="visible" value="(_multiParagraphArray.length &gt; 0) &amp;&amp; (_mouseInstructions.length &gt; 0)"/>
@@ -5370,7 +5427,7 @@
 	</block>
 	<block className="EULAConfirmation">
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'realmConstants'"/>
-		<bind name="var" value="{btnEnabled: realmConstants.showEulaText == false}"/>
+		<bind name="var" value="{btnEnabled: (realmConstants.showEulaText == false || realmConstants.locale != 'ko')}"/>
 		<bind name="catch" value="'ScrollTracker.scrollFinished'; {btnEnabled: true}"/>
 		<styleClass value="$Fullsize"/>
 		<block className="DeclareBlurLayer">
@@ -5404,10 +5461,7 @@
 			</block>
 		</block>
 		<block className="modal_panel" type="native">
-			<styleClass value="$Fullsize"/>
-			<style>
-				<position value="absolute"/>
-			</style>
+			<styleClass value="$FullsizeAbsolute"/>
 		</block>
 		<block>
 			<styleClass value="$MiddleAligned"/>
@@ -5421,67 +5475,20 @@
 				</style>
 				<bind name="appear" value="'startShow'; 0.15; 0.3; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0.3; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
-				<bind name="instance" value="'ModalWindowHeaderOptionalIcon'; { _header: 'IDS_EULA', _headerWidth: '700px', _showInnerCloseButton: $root.showCloseButton, _showIcon: false}"/>
+				<bind name="instance" value="'ModalWindowHeaderOptionalIcon'; {
+				_header: (realmConstants.currentRealm == 'NA' || realmConstants.currentRealm == 'ASIA')	? toUpperCase(tr('IDS_EULA_CHANGED_HEADER'))
+																										: toUpperCase(tr('IDS_EULA')),
+				_headerWidth: '700px', _showInnerCloseButton: $root.showCloseButton, _showIcon: false}"/>
 			</block>
-			<block className="LinkedEULA">
-				<bind name="visible" value="realmConstants.showEulaText == false"/>
-				<block>
-					<styleClass value="$InfoBlockHorizontalIndent"/>
-					<bind name="appear" value="'startShow'; 0.15; 0.45; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
-					<bind name="appear" value="'startHide'; 0.15; 0.45; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
-					<style>
-						<flow value="horizontal"/>
-						<marginTop value="6px"/>
-					</style>
-					<block type="text">
-						<styleClass value="$TextHeader"/>
-						<bind name="class" value="'$FontColorBlueish'"/>
-						<text value="IDS_PLEASE_READ"/>
-					</block>
-					<block>
-						<bind name="instance" value="'LinkText'; {_label: 'IDS_EULA', _urlIdent: URL.EULA, _tooltipText: 'IDS_EULA_TOOLTIP', _name: 'requestEULA', _large: true}"/>
-					</block>
-					<block type="text">
-						<styleClass value="$TextHeader"/>
-						<bind name="class" value="'$FontColorBlueish'"/>
-						<text value="IDS_BEFORE_CONTINUE"/>
-					</block>
-				</block>
-				<block>
-					<styleClass value="$InfoBlockHorizontalIndent"/>
-					<bind name="appear" value="'startShow'; 0.15; 0.6; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
-					<bind name="appear" value="'startHide'; 0.15; 0.6; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
-					<style>
-						<marginTop value="12px"/>
-					</style>
-					<block type="text">
-						<style>
-							<maxWidth value="700"/>
-						</style>
-						<styleClass value="$TextHeader"/>
-						<bind name="class" value="'$FontColorBlueish'"/>
-						<text value="IDS_EULA_TEXT"/>
-					</block>
-				</block>
-			</block>
-			<block className="FullTextEULA">
-				<bind name="visible" value="realmConstants.showEulaText == true"/>
-				<bind name="controller" value="lesta.dialogs.controllers.ScrollTrackerController"/>
-				<styleClass value="$DefaultScrollBar"/>
+			<block>
 				<style>
 					<width value="100%"/>
-					<height value="400px"/>
-					<overflow value="scroll"/>
-					<wheelScrollSpeed value="50"/>
 				</style>
-				<block type="text">
-					<styleClass value="$TextHeader"/>
-					<bind name="class" value="'$FontColorBlueish'"/>
-					<style>
-						<width value="100%"/>
-					</style>
-					<bind name="text" value="realmConstants.eulaText"/>
-				</block>
+				<bind name="watch" value="'curEULA'; (realmConstants.currentRealm == 'NA' || realmConstants.currentRealm == 'ASIA')	? 'CUSTOM'
+																													: 'COMMON'"/>
+				<bind name="child" value="curEULA != null ? curEULA : 'COMMON'; {};	{	COMMON:	'CommonEULA',
+																		CUSTOM:	'CustomEULA',
+																	}"/>
 			</block>
 			<block>
 				<styleClass value="$MiddleAligned"/>
@@ -5520,8 +5527,111 @@
 			</block>
 		</block>
 	</block>
+	<block className="CommonEULA">
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'realmConstants'"/>
+		<style>
+			<width value="100%"/>
+		</style>
+		<bind name="instance" value="'LinkedEULA'; {}"/>
+	</block>
+	<block className="CustomEULA">
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'realmConstants'"/>
+		<style>
+			<width value="100%"/>
+		</style>
+		<bind name="instance" value="'CustomLinkedEULA'; realmConstants.locale != 'ko'	? {} : null"/>
+		<bind name="instance" value="'FullTextEULA';		realmConstants.locale == 'ko' 	? {} : null"/>
+	</block>
+	<block className="CustomLinkedEULA">
+		<styleClass value="$InfoBlockHorizontalIndent"/>
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'realmConstants'"/>
+		<block type="text">
+			<bind name="appear" value="'startShow'; 0.15; 0.45; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
+			<bind name="appear" value="'startHide'; 0.15; 0.45; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
+			<style>
+				<width value="100%"/>
+				<marginTop value="6px"/>
+			</style>
+			<styleClass value="$TextHeader"/>
+			<bind name="class" value="'$FontColorBlueish'"/>
+			<text value="IDS_CUSTOM_EULA_1"/>
+		</block>
+		<block>
+			<bind name="appear" value="'startShow'; 0.15; 0.48; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
+			<bind name="appear" value="'startHide'; 0.15; 0.48; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
+			<bind name="instance" value="'LinkText'; {	_label: 'IDS_CUSTOM_EULA_LINK_1', _urlIdent: URL.EULA_AFTER_15_06_2018, _tooltipText: 'IDS_EULA_TOOLTIP',
+										_name: 'request_EULA_AFTER_15_06_2018', _large: true}"/>
+		</block>
+		<block type="text">
+			<bind name="visible" value="realmConstants.currentRealm == 'ASIA'"/>
+			<bind name="appear" value="'startShow'; 0.15; 0.50; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
+			<bind name="appear" value="'startHide'; 0.15; 0.50; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
+			<style>
+				<width value="100%"/>
+			</style>
+			<styleClass value="$TextHeader"/>
+			<bind name="class" value="'$FontColorBlueish'"/>
+			<text value="IDS_CUSTOM_EULA_2"/>
+		</block>
+		<block>
+			<bind name="visible" value="realmConstants.currentRealm == 'ASIA'"/>
+			<bind name="appear" value="'startShow'; 0.15; 0.53; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
+			<bind name="appear" value="'startHide'; 0.15; 0.53; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
+			<bind name="instance" value="'LinkText'; {	_label: 'IDS_CUSTOM_EULA_LINK_2', _urlIdent: URL.AU_NZ_EULA_AFTER_15_06_2018, _tooltipText: 'IDS_EULA_TOOLTIP',
+										_name: 'request_AU_NZ_EULA_AFTER_15_06_2018', _large: true}"/>
+		</block>
+		<block type="text">
+			<bind name="appear" value="'startShow'; 0.15; 0.58; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
+			<bind name="appear" value="'startHide'; 0.15; 0.58; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
+			<style>
+				<width value="100%"/>
+				<marginTop value="16px"/>
+			</style>
+			<styleClass value="$TextHeader"/>
+			<bind name="class" value="'$FontColorBlueish'"/>
+			<text value="IDS_CUSTOM_EULA_3"/>
+		</block>
+		<block>
+			<bind name="appear" value="'startShow'; 0.15; 0.6; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
+			<bind name="appear" value="'startHide'; 0.15; 0.6; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
+			<bind name="instance" value="'LinkText'; {_label: 'IDS_CUSTOM_EULA_LINK_3', _urlIdent: URL.EULA, _tooltipText: 'IDS_EULA_TOOLTIP', _name: 'requestEULA', _large: true}"/>
+		</block>
+		<block type="text">
+			<bind name="appear" value="'startShow'; 0.15; 0.63; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
+			<bind name="appear" value="'startHide'; 0.15; 0.63; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
+			<style>
+				<width value="100%"/>
+				<marginTop value="16px"/>
+			</style>
+			<styleClass value="$TextHeader"/>
+			<bind name="class" value="'$FontColorBlueish'"/>
+			<text value="IDS_CUSTOM_EULA_4"/>
+		</block>
+		<block type="text">
+			<bind name="appear" value="'startShow'; 0.15; 0.65; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
+			<bind name="appear" value="'startHide'; 0.15; 0.65; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
+			<style>
+				<width value="100%"/>
+				<marginTop value="16px"/>
+			</style>
+			<styleClass value="$TextHeader"/>
+			<bind name="class" value="'$FontColorBlueish'"/>
+			<text value="IDS_CUSTOM_EULA_5"/>
+		</block>
+		<block type="text">
+			<bind name="appear" value="'startShow'; 0.15; 0.68; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
+			<bind name="appear" value="'startHide'; 0.15; 0.68; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
+			<style>
+				<width value="100%"/>
+				<marginTop value="16px"/>
+			</style>
+			<styleClass value="$TextHeader"/>
+			<bind name="class" value="'$FontColorBlueish'"/>
+			<text value="IDS_CUSTOM_EULA_6"/>
+		</block>
+	</block>
 	<block className="FullTextEULA">
-		<bind name="visible" value="realmConstants.showEulaText == true"/>
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'realmConstants'"/>
 		<bind name="controller" value="lesta.dialogs.controllers.ScrollTrackerController"/>
 		<styleClass value="$DefaultScrollBar"/>
 		<style>
@@ -5531,16 +5641,18 @@
 			<wheelScrollSpeed value="50"/>
 		</style>
 		<block type="text">
-			<styleClass value="$TextHeader"/>
-			<bind name="class" value="'$FontColorBlueish'"/>
 			<style>
 				<width value="100%"/>
 			</style>
+			<styleClass value="$TextHeader"/>
+			<bind name="class" value="'$FontColorBlueish'"/>
 			<bind name="text" value="realmConstants.eulaText"/>
 		</block>
 	</block>
 	<block className="LinkedEULA">
-		<bind name="visible" value="realmConstants.showEulaText == false"/>
+		<style>
+			<width value="100%"/>
+		</style>
 		<block>
 			<styleClass value="$InfoBlockHorizontalIndent"/>
 			<bind name="appear" value="'startShow'; 0.15; 0.45; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
@@ -5703,7 +5815,7 @@
 						</style>
 						<bind name="selected" value="tabInset == 1"/>
 						<bind name="catch" value="'click'; {tabInset: 1}"/>
-						<bind name="label" value="toUpperCase(tr('IDS_TRAINING_ROOM_TARGET'))"/>
+						<bind name="label" value="toUpperCase(tr('IDS_BOT'))"/>
 					</block>
 					<style>
 						<flow value="horizontal"/>
@@ -5925,7 +6037,7 @@
 					</style>
 					<bind name="selected" value="tabInset == 1"/>
 					<bind name="catch" value="'click'; {tabInset: 1}"/>
-					<bind name="label" value="toUpperCase(tr('IDS_TRAINING_ROOM_TARGET'))"/>
+					<bind name="label" value="toUpperCase(tr('IDS_BOT'))"/>
 				</block>
 				<style>
 					<flow value="horizontal"/>
@@ -6478,8 +6590,8 @@
 						<param name="name" value="botActiveCb"/>
 					</params>
 					<bind name="catch" value="'click'; { isActive: !isActive }"/>
-					<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_TARGET_ACTIVE_TOOLTIP'}"/>
-					<bind name="instance" value="'CheckBox'; { switchProperty: isActive, label: 'IDS_TARGET_ACTIVE' }"/>
+					<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_BOT_ACTIVE_TOOLTIP'}"/>
+					<bind name="instance" value="'CheckBox'; { switchProperty: isActive, label: 'IDS_BOT_ACTIVE' }"/>
 				</block>
 				<block>
 					<params>
@@ -6490,8 +6602,8 @@
 						<marginBottom value="4px"/>
 					</style>
 					<bind name="catch" value="'click'; { isArmed: !isArmed }"/>
-					<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_TARGET_ARMED_TOOLTIP'}"/>
-					<bind name="instance" value="'CheckBox'; { switchProperty: isArmed, label: 'IDS_TARGET_ARMED' }"/>
+					<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_BOT_ARMED_TOOLTIP'}"/>
+					<bind name="instance" value="'CheckBox'; { switchProperty: isArmed, label: 'IDS_BOT_ARMED' }"/>
 				</block>
 			</block>
 			<block>
@@ -8066,6 +8178,7 @@
 		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
 		<bind name="entityDH" value="'entityAccount'; _entityAccountId ? _entityAccountId : $dataRef.ref.id"/>
 		<bind name="watch" value="'isSelfPlayer'; entityAccount.accountSimple.isSelfPlayer"/>
+		<bind name="watchDH" value="'isSuspended'; ['entityAccount.accountSimple.evSuspendedChanged']; entityAccount.accountSimple.suspended"/>
 		<bind name="watch" value="'isBot'; entityAccount.bot != undefined"/>
 		<bind name="watchDH" value="'shipId'; ['entityAccount.preBattlePlayerSimple.evShipIdChanged']; entityAccount.preBattlePlayerSimple.shipId"/>
 		<bind name="watchDH" value="'teamId'; ['entityAccount.preBattlePlayerSimple.evStateChanged']; entityAccount.preBattlePlayerSimple.teamId"/>
@@ -8101,6 +8214,7 @@
 			<styleClass value="$FullsizeAbsolute"/>
 			<styleClass value="$PxHorizontalCorrection"/>
 			<bind name="clickSplit"/>
+			<bind name="style" value="'hitTest'; !(isSuspended)"/>
 			<bind name="transition" value="(rollOver || _rollOver || formationPlayerContextMenuVisible) &amp;&amp; !(isSelfPlayer); 0.15; {alpha: 0}; {alpha: 1.0}"/>
 			<bind name="tooltip" value="'ContactInfoTooltip';	{	_entityAccountId: entityAccount.id, _actionDenyReason: 'no_reason',
 													_playerContext: {type: 'startPrivateChat'}}"/>
@@ -10666,6 +10780,33 @@
 		<bind name="instance" value="'MouseInstruction'; _type == 'warning' ? null : { _type: _type, _instructionText: _instructionText, _maxWidth: _maxWidth}"/>
 		<bind name="instance" value="'InstructionWarning'; _type == 'warning' ? {_instructionText: _instructionText, _maxWidth: _maxWidth} : null"/>
 	</block>
+	<block className="CheckedLine">
+		<style>
+			<flow value="horizontal"/>
+		</style>
+		<block className="icon_check" type="native">
+			<style>
+				<marginLeft value="2px"/>
+				<marginTop value="8px"/>
+			</style>
+			<bind name="visible" value="!_isCheckMarkHidden"/>
+		</block>
+		<block type="text">
+			<styleClass value="$TextHeaderBigDefault"/>
+			<style>
+				<width value="288px"/>
+				<marginTop value="-2px"/>
+				<multiline value="false"/>
+			</style>
+			<bind name="class" value="'$FontColorGolden'"/>
+			<bind name="style" value="'marginLeft'; _isCheckMarkHidden ? '0' : '5px'"/>
+			<bind name="text" value="_checkedLineText"/>
+		</block>
+	</block>
+	<block className="CheckedLineRepeater">
+		<bind name="style" value="'marginBottom'; $index != _lastIndex ? '6px' : '-2px'"/>
+		<bind name="instance" value="'CheckedLine'; { _isCheckMarkHidden: _isCheckMarkHidden, _checkedLineText: _checkedLineText, _maxWidth: _maxWidth}"/>
+	</block>
 	<block className="InstructionBigTech">
 		<style>
 			<flow value="horizontal"/>
@@ -10898,6 +11039,9 @@
 	</css>
 	<block className="WarningMessage">
 		<bind name="appear" value="'addedToStage'; 0.15; _delay; {alpha: 0, top: _startTop ? _startTop : 10}; {alpha: 1, top: 0}; 2"/>
+		<bind name="var" value="{errorStringsToShowSupportLinkFor: [
+		tr('IDS_ACCOUNT_ERROR_ALL_SPA_LOGIN_ALREADY_TAKEN')
+	]}"/>
 		<block type="text">
 			<bind name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 280"/>
 			<bind name="class" value="_highWarning ? '$WarningTextRed' : '$WarningTextOrange'"/>
@@ -10905,6 +11049,19 @@
 				<textAlign value="center"/>
 			</style>
 			<bind name="text" value="_text"/>
+		</block>
+		<block>
+			<bind name="visible" value="errorStringsToShowSupportLinkFor.indexOf(_text) &gt; -1"/>
+			<styleClass value="$MiddleAligned"/>
+			<style>
+				<marginTop value="6px"/>
+			</style>
+			<bind name="instance" value="'LinkText'; errorStringsToShowSupportLinkFor.indexOf(_text) &gt; -1 	? {
+																								_label: 'IDS_LINK_SUPPORT', 
+																								_urlIdent: URL.SUPPORT, 
+																								_tooltipText: 'IDS_LINK_SUPPORT_HINT', 
+																								_name: 'ButtonSupport'} 
+																							: null"/>
 		</block>
 	</block>
 	<block className="WrongTextInputNotification">
@@ -14008,6 +14165,16 @@
 			</block>
 		</block>
 	</block>
+	<css name="$Text13">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="13"/>
+		<marginText value="-3px|-3px|-6px|-5px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
 	<css name="$TextDefaultNM">
 		<fontFamily value="$WWSDefaultFont"/>
 		<mouseEnabled value="false"/>
@@ -15541,9 +15708,16 @@
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'shipOverview'"/>
 		<bind name="transition" value="shipOverview.enabled; shipOverview.enabled ? 0.4 : 0.25; {alpha: 1}; {alpha: 0}; {alpha: 1}; 2; !(shipOverview.enabled) &amp;&amp; !(inPort) ? 0.15 : 0.5"/>
 		<bind name="style" value="'hitTest'; !(shipOverview.enabled)"/>
-		<styleClass value="$VerticalInfotipBehaviourCenterUpper"/>
+		<bind name="class" value="(_arrow == 'top') ? '$ReplaysInfotipFilter' : '$VerticalInfotipBehaviourCenterUpper'"/>
 		<bind name="name" value="'CarouselAppliedFilterInfotip'"/>
 		<bind name="firstEntityDH" value="'panelEntity'; CC.filterPanelComponent"/>
+		<block className="dock_panel_pin" type="native">
+			<bind name="visible" value="_arrow == 'top'"/>
+			<bind name="gotoAndStop!" value="'up'"/>
+			<params>
+				<param name="name" value="pinTop"/>
+			</params>
+		</block>
 		<block>
 			<styleClass value="$FullsizeAbsolute"/>
 			<style>
@@ -15593,9 +15767,9 @@
 			<bind name="instance" value="'FilterBlock'; {_title: _title, _filterType: _filterType, needDivider: false, _panelEntityId: panelEntity.id, _ident: 0}}"/>
 		</block>
 		<block className="dock_panel_pin" type="native">
+			<bind name="style" value="'alpha'; _arrow != 'top' ? '0.5' : '0'"/>
 			<style>
 				<marginBottom value="3px"/>
-				<alpha value="0.5"/>
 			</style>
 			<bind name="gotoAndStop!" value="'down'"/>
 			<params>
@@ -15956,10 +16130,10 @@
 			<style>
 				<height value="100%"/>
 			</style>
-			<bind name="tooltip" value="'CarouselAppliedFilterInfotip';	_filterType == 'level' 		? {_title: 'IDS_LEVEL', _filterType: _filterType} :
-														_filterType == 'shipType'	? {_title: 'IDS_CLASS', _filterType: _filterType} :
-														_filterType == 'nation' 	? {_title: 'IDS_NATION', _filterType: _filterType} :
-														_filterType == 'special'	? {_title: 'IDS_SPECIAL', _filterType: _filterType}
+			<bind name="tooltip" value="'CarouselAppliedFilterInfotip';	_filterType == 'level' 		? {_title: 'IDS_LEVEL', _filterType: _filterType, _arrow: _arrow} :
+														_filterType == 'shipType'	? {_title: 'IDS_CLASS', _filterType: _filterType, _arrow: _arrow} :
+														_filterType == 'nation' 	? {_title: 'IDS_NATION', _filterType: _filterType, _arrow: _arrow} :
+														_filterType == 'special'	? {_title: 'IDS_SPECIAL', _filterType: _filterType, _arrow: _arrow}
 																					: null; TooltipBehaviour.verticalInfotip; null; 'appliedFiltersInfotipSelected'"/>
 			<bind name="tooltip" value="'CarouselAppliedFilterShipNameInfotip'; (_filterType == 'shipName')	? {}
 																							: null;	 TooltipBehaviour.verticalInfotip; null; 'shipNameFIlterInfotipSelected'"/>
@@ -18647,7 +18821,7 @@
 		<bind name="watch" value="'showWGWalletWarning'; ((isSyncedWithWallet == false) || (walletAvailable == false))"/>
 		<bind name="watch" value="'playerInfotipItem'; rankedBattlesStats.participated &amp;&amp; !(rankedBattlesSeason.denyReason &amp; RBDeny.NO_SEASON) ? 0 : 1"/>
 		<style>
-			<width value="250px"/>
+			<width value="260px"/>
 			<marginLeft value="15px"/>
 		</style>
 		<block>
@@ -18672,10 +18846,9 @@
 		<bind name="watchDH" value="'accountCompleted'; ['steamLoginEntity.steamLoginData.evUpdate']; steamLoginEntity.steamLoginData.emailBind"/>
 		<bind name="watch" value="'externalFeaturesEnabled'; (isSteamClient 		&amp;&amp; realmConstants.accountCompletion.steam) ||
   											(isWinstoreClient 	&amp;&amp; realmConstants.accountCompletion.live)"/>
-		<bind name="watch" value="'featuresEnabled'; 	!(isExternalPlatformClient) || externalFeaturesEnabled"/>
 		<block>
 			<bind name="visible" value="externalFeaturesEnabled &amp;&amp; !(accountCompleted) &amp;&amp; !shouldRedirectOnCompletion"/>
-			<bind name="tooltip" value="'SubTextTooltip'; {tooltipText: 'IDS_ACCOUNT_COMPLETION_TOOLTIP_TEXT', tooltipSubText: 'IDS_ACCOUNT_COMPLETION_TOOLTIP_SUBTEXT' }"/>
+			<bind name="tooltip" value="'SubTextTooltip'; {tooltipText: 'IDS_FINISH_ACCOUNT_COMPLETION_TOOLTIP', tooltipSubText: 'IDS_ACCOUNT_COMPLETION_TOOLTIP_SUBTEXT' }"/>
 			<bind name="name" value="'buttonAccountCompletion'"/>
 			<bind name="input"/>
 			<block className="icon_sticker_new" type="native">
@@ -18683,29 +18856,12 @@
 					<hitTest value="false"/>
 					<position value="absolute"/>
 					<left value="22px"/>
-					<top value="10px"/>
+					<top value="11px"/>
 				</style>
 			</block>
 			<block>
-				<bind name="instance" value="'AccountInfotipItem'; { _text: toUpperCase(tr('IDS_ACCOUNT_COMPLETION')), _icon: 'wg_account', _external: false}"/>
+				<bind name="instance" value="'AccountInfotipItem'; { _text: toUpperCase(tr('IDS_FINISH_ACCOUNT_COMPLETION')), _icon: 'wg_account', _external: false}"/>
 			</block>
-		</block>
-		<block>
-			<bind name="visible" value="externalFeaturesEnabled &amp;&amp; !(accountCompleted) &amp;&amp; shouldRedirectOnCompletion"/>
-			<bind name="tooltip" value="'SubTextTooltip'; {tooltipText: 'IDS_ACCOUNT_COMPLETION_TOOLTIP_TEXT', tooltipSubText: 'IDS_KOREAN_ACCOUNT_COMPLETION_TOOLTIP_SUBTEXT' }"/>
-			<bind name="name" value="'buttonAccountCompletionKorean'"/>
-			<block className="icon_sticker_new" type="native">
-				<style>
-					<hitTest value="false"/>
-					<position value="absolute"/>
-					<left value="22px"/>
-					<top value="10px"/>
-				</style>
-			</block>
-			<block>
-				<bind name="instance" value="'AccountInfotipItem'; { _text: toUpperCase(tr('IDS_ACCOUNT_COMPLETION')), _icon: 'wg_account', _external: true}"/>
-			</block>
-			<bind name="action" value="'click'; 'gotoUrlByIdent'; {ident: URL.PLATFORMS_KOREAN_ACCOUNT_COMPLETION}"/>
 		</block>
 		<block>
 			<block>
@@ -18768,7 +18924,7 @@
 			<bind name="instance" value="'AccountInfotipItem'; { _text: 'IDS_BUY_GOLD', _icon: 'buy_gold', _external: !(isOpenPremInClientBrowser)}"/>
 		</block>
 		<block>
-			<bind name="visible" value="featuresEnabled &amp;&amp; (accountLevelInfo.accountLevel &gt;= 3)"/>
+			<bind name="visible" value="realmConstants.inviteRefferalFriendUIAvailable &amp;&amp; (accountLevelInfo.accountLevel &gt;= 3)"/>
 			<bind name="name" value="'buttonPlaytogether'"/>
 			<bind name="request" value="'click'; 'webBrowser'; {url: URL.PLAYTOGETHER_WEBSITE}"/>
 			<bind name="collectionDH" value="CC.userTask; 'userTaskCollection'"/>
@@ -18824,9 +18980,16 @@
 			</block>
 		</block>
 		<block>
-			<bind name="visible" value="realmConstants.newsUIAvailable &amp;&amp; (accountLevelInfo.accountLevel &gt; 1) &amp;&amp; featuresEnabled"/>
+			<bind name="visible" value="realmConstants.newsUIAvailable &amp;&amp; (accountLevelInfo.accountLevel &gt; 1)"/>
 			<bind name="name" value="buttonNewsBrowser"/>
 			<bind name="instance" value="'AccountButtonNewsBrowser'; realmConstants.newsUIAvailable ? {} : null"/>
+		</block>
+		<block>
+			<bind name="visible" value="accountSelfEntity.accountSelf.replaysAvailable"/>
+			<bind name="firstEntityDH" value="'accountSelfEntity'; CC.accountSelf"/>
+			<bind name="request" value="'click'; 'showReplaysWindow'"/>
+			<bind name="instance" value="'AccountInfotipItem'; { _text: toUpperCase(tr('IDS_REPLAYS')), _icon: 'replays', _external: false}"/>
+			<bind name="tooltip" value="'SubTextTooltip'; {tooltipText: 'IDS_REPLAYS', tooltipSubText: 'IDS_HINT_REPLAYS'}"/>
 		</block>
 	</block>
 	<block className="PlayerInfotipItemAccount">
@@ -18980,7 +19143,7 @@
 		<block>
 			<block className="dock_panel" type="native">
 				<style>
-					<width value="280px"/>
+					<width value="290px"/>
 				</style>
 				<block className="dock_panel_pin" type="native">
 					<style>
@@ -18992,7 +19155,7 @@
 				<block>
 					<style>
 						<marginTop value="10px"/>
-						<marginBottom value="15px"/>
+						<marginBottom value="18px"/>
 						<width value="100%"/>
 					</style>
 					<block className="SelectAccountRenderer">
@@ -19012,7 +19175,7 @@
 						<bind name="watch" value="'showWGWalletWarning'; ((isSyncedWithWallet == false) || (walletAvailable == false))"/>
 						<bind name="watch" value="'playerInfotipItem'; rankedBattlesStats.participated &amp;&amp; !(rankedBattlesSeason.denyReason &amp; RBDeny.NO_SEASON) ? 0 : 1"/>
 						<style>
-							<width value="250px"/>
+							<width value="260px"/>
 							<marginLeft value="15px"/>
 						</style>
 						<block>
@@ -19037,10 +19200,9 @@
 						<bind name="watchDH" value="'accountCompleted'; ['steamLoginEntity.steamLoginData.evUpdate']; steamLoginEntity.steamLoginData.emailBind"/>
 						<bind name="watch" value="'externalFeaturesEnabled'; (isSteamClient 		&amp;&amp; realmConstants.accountCompletion.steam) ||
   											(isWinstoreClient 	&amp;&amp; realmConstants.accountCompletion.live)"/>
-						<bind name="watch" value="'featuresEnabled'; 	!(isExternalPlatformClient) || externalFeaturesEnabled"/>
 						<block>
 							<bind name="visible" value="externalFeaturesEnabled &amp;&amp; !(accountCompleted) &amp;&amp; !shouldRedirectOnCompletion"/>
-							<bind name="tooltip" value="'SubTextTooltip'; {tooltipText: 'IDS_ACCOUNT_COMPLETION_TOOLTIP_TEXT', tooltipSubText: 'IDS_ACCOUNT_COMPLETION_TOOLTIP_SUBTEXT' }"/>
+							<bind name="tooltip" value="'SubTextTooltip'; {tooltipText: 'IDS_FINISH_ACCOUNT_COMPLETION_TOOLTIP', tooltipSubText: 'IDS_ACCOUNT_COMPLETION_TOOLTIP_SUBTEXT' }"/>
 							<bind name="name" value="'buttonAccountCompletion'"/>
 							<bind name="input"/>
 							<block className="icon_sticker_new" type="native">
@@ -19048,29 +19210,12 @@
 									<hitTest value="false"/>
 									<position value="absolute"/>
 									<left value="22px"/>
-									<top value="10px"/>
+									<top value="11px"/>
 								</style>
 							</block>
 							<block>
-								<bind name="instance" value="'AccountInfotipItem'; { _text: toUpperCase(tr('IDS_ACCOUNT_COMPLETION')), _icon: 'wg_account', _external: false}"/>
+								<bind name="instance" value="'AccountInfotipItem'; { _text: toUpperCase(tr('IDS_FINISH_ACCOUNT_COMPLETION')), _icon: 'wg_account', _external: false}"/>
 							</block>
-						</block>
-						<block>
-							<bind name="visible" value="externalFeaturesEnabled &amp;&amp; !(accountCompleted) &amp;&amp; shouldRedirectOnCompletion"/>
-							<bind name="tooltip" value="'SubTextTooltip'; {tooltipText: 'IDS_ACCOUNT_COMPLETION_TOOLTIP_TEXT', tooltipSubText: 'IDS_KOREAN_ACCOUNT_COMPLETION_TOOLTIP_SUBTEXT' }"/>
-							<bind name="name" value="'buttonAccountCompletionKorean'"/>
-							<block className="icon_sticker_new" type="native">
-								<style>
-									<hitTest value="false"/>
-									<position value="absolute"/>
-									<left value="22px"/>
-									<top value="10px"/>
-								</style>
-							</block>
-							<block>
-								<bind name="instance" value="'AccountInfotipItem'; { _text: toUpperCase(tr('IDS_ACCOUNT_COMPLETION')), _icon: 'wg_account', _external: true}"/>
-							</block>
-							<bind name="action" value="'click'; 'gotoUrlByIdent'; {ident: URL.PLATFORMS_KOREAN_ACCOUNT_COMPLETION}"/>
 						</block>
 						<block>
 							<block>
@@ -19133,7 +19278,7 @@
 							<bind name="instance" value="'AccountInfotipItem'; { _text: 'IDS_BUY_GOLD', _icon: 'buy_gold', _external: !(isOpenPremInClientBrowser)}"/>
 						</block>
 						<block>
-							<bind name="visible" value="featuresEnabled &amp;&amp; (accountLevelInfo.accountLevel &gt;= 3)"/>
+							<bind name="visible" value="realmConstants.inviteRefferalFriendUIAvailable &amp;&amp; (accountLevelInfo.accountLevel &gt;= 3)"/>
 							<bind name="name" value="'buttonPlaytogether'"/>
 							<bind name="request" value="'click'; 'webBrowser'; {url: URL.PLAYTOGETHER_WEBSITE}"/>
 							<bind name="collectionDH" value="CC.userTask; 'userTaskCollection'"/>
@@ -19189,9 +19334,16 @@
 							</block>
 						</block>
 						<block>
-							<bind name="visible" value="realmConstants.newsUIAvailable &amp;&amp; (accountLevelInfo.accountLevel &gt; 1) &amp;&amp; featuresEnabled"/>
+							<bind name="visible" value="realmConstants.newsUIAvailable &amp;&amp; (accountLevelInfo.accountLevel &gt; 1)"/>
 							<bind name="name" value="buttonNewsBrowser"/>
 							<bind name="instance" value="'AccountButtonNewsBrowser'; realmConstants.newsUIAvailable ? {} : null"/>
+						</block>
+						<block>
+							<bind name="visible" value="accountSelfEntity.accountSelf.replaysAvailable"/>
+							<bind name="firstEntityDH" value="'accountSelfEntity'; CC.accountSelf"/>
+							<bind name="request" value="'click'; 'showReplaysWindow'"/>
+							<bind name="instance" value="'AccountInfotipItem'; { _text: toUpperCase(tr('IDS_REPLAYS')), _icon: 'replays', _external: false}"/>
+							<bind name="tooltip" value="'SubTextTooltip'; {tooltipText: 'IDS_REPLAYS', tooltipSubText: 'IDS_HINT_REPLAYS'}"/>
 						</block>
 					</block>
 				</block>
@@ -19446,7 +19598,7 @@
 		<bind name="watchDH" value="'shipInfo'; ['shipEntity.ship.evUpdate', 'shipEntity.ship.evCurrentSkinChanged']; shipEntity.ship"/>
 		<bind name="watchDH" value="'shipInfo' + 'Slim'; ['shipEntity.slimClientComponent.evUpdate']; shipEntity.slimClientComponent"/>
 		<bind name="watchDH" value="'upgradableShipInfo'; ['shipEntity.upgradableShipInfo.evUpdate']; shipEntity.upgradableShipInfo"/>
-		<bind name="watch" value="'isOwned'; playerShipInfo != null"/>
+		<bind name="watch" value="'notInvertable'; (playerShipInfo != null) || _notInvertable"/>
 		<style>
 			<flow value="horizontal"/>
 		</style>
@@ -19464,7 +19616,7 @@
 													: 'elite'"/>
 			</block>
 			<block className="icon_ship" type="native">
-				<bind name="gotoAndStop!" value="shipInfo.subtype + (!isOwned ? '_U' : (shipInfo.isPremium || shipInfo.uiSpecial ? '_P' : '')) "/>
+				<bind name="gotoAndStop!" value="shipInfo.subtype + (!notInvertable ? '_U' : (shipInfo.isPremium || shipInfo.uiSpecial ? '_P' : '')) "/>
 			</block>
 		</block>
 		<block>
@@ -19473,7 +19625,7 @@
 				<marginLeft value="3px"/>
 			</style>
 			<bind name="instance" value="'InvertableTextLine'; { _text: shipInfo.levelRome + ' ' + toUpperCase(tr(shipInfo.nameIDS)),
-												_invert: !isOwned, 
+												_invert: !notInvertable, 
 												_normalClass: (shipInfo.isPremium || shipInfo.uiSpecial ? (_large ? '$TextShipLinePremiumAccentBold' : '$TextShipLinePremiumBold') 
 																										: (_large ? '$TextShipLineBoldAccent' : '$TextShipLineBold')), 
 												_invertedClass: (_large ? '$TextShipLineBlackAccentBold': '$TextShipLineBlackBold'),
@@ -23192,8 +23344,11 @@
 								($value == 3) 	? 'TutorialBattle' :
 								($value == 4) 	? 'RankedBattle':
 								($value == 5) 	? 'ClubBattle':
-								($value == 6) 	? 'PVEBattle'
-														: null"/>
+								($value == 6) 	? 'PVEBattle' :
+								($value == 7) 	? 'PVEBattle' :
+								($value == 8) 	? 'ClanBattle' :
+								($value == 9) 	? 'EventBattle'
+												: null"/>
 		</block>
 		<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 	($value == 0)	? 'IDS_RANDOM_BATTLE' :
 													($value == 1) 	? 'IDS_TRAINING_BATTLE' :
@@ -23201,7 +23356,10 @@
 													($value == 3) 	? 'IDS_INTRO_MISSION' :
 													($value == 4) 	? 'IDS_RANKED_BATTLE':
 													($value == 5) 	? 'IDS_CLUB_BATTLE':
-													($value == 6) 	? 'IDS_PVE_BATTLE'
+													($value == 6) 	? 'IDS_PVE_BATTLE':
+													($value == 7) 	? 'IDS_PVE_BATTLE':
+													($value == 8) 	? 'IDS_CLAN_BATTLE':
+													($value == 9) 	? 'IDS_EVENTBATTLE'
 																	: null}"/>
 	</block>
 	<block className="TaskShipLevelRestriction">

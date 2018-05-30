@@ -1287,85 +1287,76 @@
 		<bind debug_info="common_elements.uss:80:7-dock.uss:1:1" name="instance" value="'MouseInstruction'; _type == 'warning' ? null : { _type: _type, _instructionText: _instructionText, _maxWidth: _maxWidth}"/>
 		<bind debug_info="common_elements.uss:81:7-dock.uss:1:1" name="instance" value="'InstructionWarning'; _type == 'warning' ? {_instructionText: _instructionText, _maxWidth: _maxWidth} : null"/>
 	</block>
-	<block className="InstructionBigTech" debug_info="common_elements.uss:84:1-dock.uss:1:1">
+	<block className="CheckedLine" debug_info="common_elements.uss:87:1-dock.uss:1:1">
 		<style>
 			<flow value="horizontal"/>
 		</style>
-		<block debug_info="common_elements.uss:88:2-dock.uss:1:1" type="text">
+		<block className="icon_check" debug_info="common_elements.uss:90:5-dock.uss:1:1" type="native">
+			<style>
+				<marginLeft value="2px"/>
+				<marginTop value="8px"/>
+			</style>
+			<bind debug_info="common_elements.uss:92:8-dock.uss:1:1" name="visible" value="!_isCheckMarkHidden"/>
+		</block>
+		<block debug_info="common_elements.uss:94:2-dock.uss:1:1" type="text">
 			<styleClass value="$TextHeaderBigDefault"/>
-			<bind debug_info="common_elements.uss:90:8-dock.uss:1:1" name="class" value="'$FontColorBlueish'"/>
-			<bind debug_info="common_elements.uss:91:8-dock.uss:1:1" name="style" value="'leading'; _leading ? _leading : 0"/>
+			<style>
+				<width value="288px"/>
+				<marginTop value="-2px"/>
+				<multiline value="false"/>
+			</style>
+			<bind debug_info="common_elements.uss:97:8-dock.uss:1:1" name="class" value="'$FontColorGolden'"/>
+			<bind debug_info="common_elements.uss:98:8-dock.uss:1:1" name="style" value="'marginLeft'; _isCheckMarkHidden ? '0' : '5px'"/>
+			<bind debug_info="common_elements.uss:99:8-dock.uss:1:1" name="text" value="_checkedLineText"/>
+		</block>
+	</block>
+	<block className="CheckedLineRepeater" debug_info="common_elements.uss:103:1-dock.uss:1:1">
+		<bind debug_info="common_elements.uss:104:7-dock.uss:1:1" name="style" value="'marginBottom'; $index != _lastIndex ? '6px' : '-2px'"/>
+		<bind debug_info="common_elements.uss:105:7-dock.uss:1:1" name="instance" value="'CheckedLine'; { _isCheckMarkHidden: _isCheckMarkHidden, _checkedLineText: _checkedLineText, _maxWidth: _maxWidth}"/>
+	</block>
+	<block className="InstructionBigTech" debug_info="common_elements.uss:108:1-dock.uss:1:1">
+		<style>
+			<flow value="horizontal"/>
+		</style>
+		<block debug_info="common_elements.uss:112:2-dock.uss:1:1" type="text">
+			<styleClass value="$TextHeaderBigDefault"/>
+			<bind debug_info="common_elements.uss:114:8-dock.uss:1:1" name="class" value="'$FontColorBlueish'"/>
+			<bind debug_info="common_elements.uss:115:8-dock.uss:1:1" name="style" value="'leading'; _leading ? _leading : 0"/>
 			<style>
 				<textAlign value="center"/>
 			</style>
-			<bind debug_info="common_elements.uss:93:8-dock.uss:1:1" name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 500"/>
-			<bind debug_info="common_elements.uss:94:8-dock.uss:1:1" name="text" value="_instructionText"/>
+			<bind debug_info="common_elements.uss:117:8-dock.uss:1:1" name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 500"/>
+			<bind debug_info="common_elements.uss:118:8-dock.uss:1:1" name="text" value="_instructionText"/>
 		</block>
 	</block>
-	<block className="DockTopMenuLinkText" debug_info="common_elements.uss:97:1-dock.uss:1:1">
-		<bind debug_info="common_elements.uss:98:7-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
-		<block debug_info="common_elements.uss:99:2-dock.uss:1:1" type="text">
+	<block className="DockTopMenuLinkText" debug_info="common_elements.uss:121:1-dock.uss:1:1">
+		<bind debug_info="common_elements.uss:122:7-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
+		<block debug_info="common_elements.uss:123:2-dock.uss:1:1" type="text">
 			<styleClass value="$TextDockNano"/>
-			<bind debug_info="common_elements.uss:101:8-dock.uss:1:1" name="class" value="rollOver &amp;&amp; !(mouseDown) ? '$FontColorDefault' : '$None'"/>
-			<bind debug_info="common_elements.uss:102:8-dock.uss:1:1" name="text" value="_label"/>
+			<bind debug_info="common_elements.uss:125:8-dock.uss:1:1" name="class" value="rollOver &amp;&amp; !(mouseDown) ? '$FontColorDefault' : '$None'"/>
+			<bind debug_info="common_elements.uss:126:8-dock.uss:1:1" name="text" value="_label"/>
 		</block>
 	</block>
-	<block className="EmptyStatusParagraph" debug_info="common_elements.uss:106:1-dock.uss:1:1">
-		<block debug_info="common_elements.uss:107:2-dock.uss:1:1" type="text">
+	<block className="EmptyStatusParagraph" debug_info="common_elements.uss:130:1-dock.uss:1:1">
+		<block debug_info="common_elements.uss:131:2-dock.uss:1:1" type="text">
 			<styleClass value="$TextHeaderBigDefault"/>
-			<bind debug_info="common_elements.uss:109:8-dock.uss:1:1" name="class" value="_sizeClass ? _sizeClass : '$FontSizeLarge'"/>
-			<bind debug_info="common_elements.uss:110:8-dock.uss:1:1" name="class" value="'$FontColorBlueish'"/>
+			<bind debug_info="common_elements.uss:133:8-dock.uss:1:1" name="class" value="_sizeClass ? _sizeClass : '$FontSizeLarge'"/>
+			<bind debug_info="common_elements.uss:134:8-dock.uss:1:1" name="class" value="'$FontColorBlueish'"/>
 			<style>
 				<textAlign value="center"/>
 			</style>
-			<bind debug_info="common_elements.uss:112:8-dock.uss:1:1" name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 250"/>
-			<bind debug_info="common_elements.uss:113:8-dock.uss:1:1" name="text" value="_text"/>
+			<bind debug_info="common_elements.uss:136:8-dock.uss:1:1" name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 250"/>
+			<bind debug_info="common_elements.uss:137:8-dock.uss:1:1" name="text" value="_text"/>
 		</block>
 	</block>
-	<block className="InvertableTextLine" debug_info="common_elements.uss:116:1-dock.uss:1:1">
-		<block debug_info="common_elements.uss:117:2-dock.uss:1:1" type="text">
-			<bind debug_info="common_elements.uss:118:8-dock.uss:1:1" name="name" value="_name"/>
-			<bind debug_info="common_elements.uss:119:8-dock.uss:1:1" name="class" value="_invert ? _normalClass : _invertedClass"/>
+	<block className="InvertableTextLine" debug_info="common_elements.uss:140:1-dock.uss:1:1">
+		<block debug_info="common_elements.uss:141:2-dock.uss:1:1" type="text">
+			<bind debug_info="common_elements.uss:142:8-dock.uss:1:1" name="name" value="_name"/>
+			<bind debug_info="common_elements.uss:143:8-dock.uss:1:1" name="class" value="_invert ? _normalClass : _invertedClass"/>
 			<style>
 				<position value="absolute"/>
 				<alpha value="0.35"/>
 				<top value="1px"/>
-			</style>
-			<bind debug_info="common_elements.uss:121:8-dock.uss:1:1" name="style" value="'multiline'; _width ? false : true"/>
-			<bind debug_info="common_elements.uss:122:8-dock.uss:1:1" name="style" value="'width'; _width ? _width : 'auto'"/>
-			<bind debug_info="common_elements.uss:123:8-dock.uss:1:1" name="style" value="'letterSpacing'; _letterSpacing ? _letterSpacing : '0'"/>
-			<bind debug_info="common_elements.uss:124:8-dock.uss:1:1" name="text" value="_text"/>
-		</block>
-		<block debug_info="common_elements.uss:126:2-dock.uss:1:1" type="text">
-			<bind debug_info="common_elements.uss:127:8-dock.uss:1:1" name="class" value="_invert ? _normalClass : _invertedClass"/>
-			<style>
-				<position value="absolute"/>
-				<alpha value="0.1"/>
-				<top value="-1px"/>
-			</style>
-			<bind debug_info="common_elements.uss:129:8-dock.uss:1:1" name="style" value="'multiline'; _width ? false : true"/>
-			<bind debug_info="common_elements.uss:130:8-dock.uss:1:1" name="style" value="'width'; _width ? _width : 'auto'"/>
-			<bind debug_info="common_elements.uss:131:8-dock.uss:1:1" name="style" value="'letterSpacing'; _letterSpacing ? _letterSpacing : '0'"/>
-			<bind debug_info="common_elements.uss:132:8-dock.uss:1:1" name="text" value="_text"/>
-		</block>
-		<block debug_info="common_elements.uss:134:2-dock.uss:1:1" type="text">
-			<bind debug_info="common_elements.uss:135:8-dock.uss:1:1" name="class" value="_invert ? _normalClass : _invertedClass"/>
-			<style>
-				<position value="absolute"/>
-				<alpha value="0.2"/>
-				<left value="1px"/>
-			</style>
-			<bind debug_info="common_elements.uss:137:8-dock.uss:1:1" name="style" value="'multiline'; _width ? false : true"/>
-			<bind debug_info="common_elements.uss:138:8-dock.uss:1:1" name="style" value="'width'; _width ? _width : 'auto'"/>
-			<bind debug_info="common_elements.uss:139:8-dock.uss:1:1" name="style" value="'letterSpacing'; _letterSpacing ? _letterSpacing : '0'"/>
-			<bind debug_info="common_elements.uss:140:8-dock.uss:1:1" name="text" value="_text"/>
-		</block>
-		<block debug_info="common_elements.uss:142:2-dock.uss:1:1" type="text">
-			<bind debug_info="common_elements.uss:143:8-dock.uss:1:1" name="class" value="_invert ? _normalClass : _invertedClass"/>
-			<style>
-				<position value="absolute"/>
-				<alpha value="0.2"/>
-				<left value="-1px"/>
 			</style>
 			<bind debug_info="common_elements.uss:145:8-dock.uss:1:1" name="style" value="'multiline'; _width ? false : true"/>
 			<bind debug_info="common_elements.uss:146:8-dock.uss:1:1" name="style" value="'width'; _width ? _width : 'auto'"/>
@@ -1373,18 +1364,54 @@
 			<bind debug_info="common_elements.uss:148:8-dock.uss:1:1" name="text" value="_text"/>
 		</block>
 		<block debug_info="common_elements.uss:150:2-dock.uss:1:1" type="text">
-			<bind debug_info="common_elements.uss:151:8-dock.uss:1:1" name="class" value="_invert ? _invertedClass : _normalClass"/>
-			<bind debug_info="common_elements.uss:152:8-dock.uss:1:1" name="style" value="'multiline'; _width ? false : true"/>
-			<bind debug_info="common_elements.uss:153:8-dock.uss:1:1" name="style" value="'width'; _width ? _width : 'auto'"/>
-			<bind debug_info="common_elements.uss:154:8-dock.uss:1:1" name="style" value="'letterSpacing'; _letterSpacing ? _letterSpacing : '0'"/>
-			<bind debug_info="common_elements.uss:155:8-dock.uss:1:1" name="text" value="_text"/>
+			<bind debug_info="common_elements.uss:151:8-dock.uss:1:1" name="class" value="_invert ? _normalClass : _invertedClass"/>
+			<style>
+				<position value="absolute"/>
+				<alpha value="0.1"/>
+				<top value="-1px"/>
+			</style>
+			<bind debug_info="common_elements.uss:153:8-dock.uss:1:1" name="style" value="'multiline'; _width ? false : true"/>
+			<bind debug_info="common_elements.uss:154:8-dock.uss:1:1" name="style" value="'width'; _width ? _width : 'auto'"/>
+			<bind debug_info="common_elements.uss:155:8-dock.uss:1:1" name="style" value="'letterSpacing'; _letterSpacing ? _letterSpacing : '0'"/>
+			<bind debug_info="common_elements.uss:156:8-dock.uss:1:1" name="text" value="_text"/>
+		</block>
+		<block debug_info="common_elements.uss:158:2-dock.uss:1:1" type="text">
+			<bind debug_info="common_elements.uss:159:8-dock.uss:1:1" name="class" value="_invert ? _normalClass : _invertedClass"/>
+			<style>
+				<position value="absolute"/>
+				<alpha value="0.2"/>
+				<left value="1px"/>
+			</style>
+			<bind debug_info="common_elements.uss:161:8-dock.uss:1:1" name="style" value="'multiline'; _width ? false : true"/>
+			<bind debug_info="common_elements.uss:162:8-dock.uss:1:1" name="style" value="'width'; _width ? _width : 'auto'"/>
+			<bind debug_info="common_elements.uss:163:8-dock.uss:1:1" name="style" value="'letterSpacing'; _letterSpacing ? _letterSpacing : '0'"/>
+			<bind debug_info="common_elements.uss:164:8-dock.uss:1:1" name="text" value="_text"/>
+		</block>
+		<block debug_info="common_elements.uss:166:2-dock.uss:1:1" type="text">
+			<bind debug_info="common_elements.uss:167:8-dock.uss:1:1" name="class" value="_invert ? _normalClass : _invertedClass"/>
+			<style>
+				<position value="absolute"/>
+				<alpha value="0.2"/>
+				<left value="-1px"/>
+			</style>
+			<bind debug_info="common_elements.uss:169:8-dock.uss:1:1" name="style" value="'multiline'; _width ? false : true"/>
+			<bind debug_info="common_elements.uss:170:8-dock.uss:1:1" name="style" value="'width'; _width ? _width : 'auto'"/>
+			<bind debug_info="common_elements.uss:171:8-dock.uss:1:1" name="style" value="'letterSpacing'; _letterSpacing ? _letterSpacing : '0'"/>
+			<bind debug_info="common_elements.uss:172:8-dock.uss:1:1" name="text" value="_text"/>
+		</block>
+		<block debug_info="common_elements.uss:174:2-dock.uss:1:1" type="text">
+			<bind debug_info="common_elements.uss:175:8-dock.uss:1:1" name="class" value="_invert ? _invertedClass : _normalClass"/>
+			<bind debug_info="common_elements.uss:176:8-dock.uss:1:1" name="style" value="'multiline'; _width ? false : true"/>
+			<bind debug_info="common_elements.uss:177:8-dock.uss:1:1" name="style" value="'width'; _width ? _width : 'auto'"/>
+			<bind debug_info="common_elements.uss:178:8-dock.uss:1:1" name="style" value="'letterSpacing'; _letterSpacing ? _letterSpacing : '0'"/>
+			<bind debug_info="common_elements.uss:179:8-dock.uss:1:1" name="text" value="_text"/>
 		</block>
 	</block>
-	<block className="ResizeFrame" debug_info="common_elements.uss:255:1-dock.uss:1:1">
+	<block className="ResizeFrame" debug_info="common_elements.uss:279:1-dock.uss:1:1">
 		<styleClass value="$FullsizeAbsolute"/>
-		<block debug_info="common_elements.uss:259:2-dock.uss:1:1">
-			<bind debug_info="common_elements.uss:260:8-dock.uss:1:1" name="visible" value="!(restrict.up)"/>
-			<bind debug_info="common_elements.uss:261:8-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController; 'HANGAR_DRAGGING_UP'"/>
+		<block debug_info="common_elements.uss:283:2-dock.uss:1:1">
+			<bind debug_info="common_elements.uss:284:8-dock.uss:1:1" name="visible" value="!(restrict.up)"/>
+			<bind debug_info="common_elements.uss:285:8-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController; 'HANGAR_DRAGGING_UP'"/>
 			<style>
 				<position value="absolute"/>
 				<width value="100%"/>
@@ -1396,9 +1423,9 @@
 				<param name="name" value="grip_top"/>
 			</params>
 		</block>
-		<block debug_info="common_elements.uss:267:2-dock.uss:1:1">
-			<bind debug_info="common_elements.uss:268:8-dock.uss:1:1" name="visible" value="!(restrict.down)"/>
-			<bind debug_info="common_elements.uss:269:8-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController; 'HANGAR_DRAGGING_DOWN'"/>
+		<block debug_info="common_elements.uss:291:2-dock.uss:1:1">
+			<bind debug_info="common_elements.uss:292:8-dock.uss:1:1" name="visible" value="!(restrict.down)"/>
+			<bind debug_info="common_elements.uss:293:8-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController; 'HANGAR_DRAGGING_DOWN'"/>
 			<style>
 				<position value="absolute"/>
 				<width value="100%"/>
@@ -1410,9 +1437,9 @@
 				<param name="name" value="grip_bottom"/>
 			</params>
 		</block>
-		<block debug_info="common_elements.uss:275:2-dock.uss:1:1">
-			<bind debug_info="common_elements.uss:276:8-dock.uss:1:1" name="visible" value="!(restrict.left)"/>
-			<bind debug_info="common_elements.uss:277:8-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController; 'HANGAR_DRAGGING_LEFT'"/>
+		<block debug_info="common_elements.uss:299:2-dock.uss:1:1">
+			<bind debug_info="common_elements.uss:300:8-dock.uss:1:1" name="visible" value="!(restrict.left)"/>
+			<bind debug_info="common_elements.uss:301:8-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController; 'HANGAR_DRAGGING_LEFT'"/>
 			<style>
 				<position value="absolute"/>
 				<width value="6px"/>
@@ -1424,9 +1451,9 @@
 				<param name="name" value="grip_left"/>
 			</params>
 		</block>
-		<block debug_info="common_elements.uss:283:2-dock.uss:1:1">
-			<bind debug_info="common_elements.uss:284:8-dock.uss:1:1" name="visible" value="!(restrict.right)"/>
-			<bind debug_info="common_elements.uss:285:8-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController; 'HANGAR_DRAGGING_RIGHT'"/>
+		<block debug_info="common_elements.uss:307:2-dock.uss:1:1">
+			<bind debug_info="common_elements.uss:308:8-dock.uss:1:1" name="visible" value="!(restrict.right)"/>
+			<bind debug_info="common_elements.uss:309:8-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController; 'HANGAR_DRAGGING_RIGHT'"/>
 			<style>
 				<position value="absolute"/>
 				<width value="6px"/>
@@ -1438,9 +1465,9 @@
 				<param name="name" value="grip_right"/>
 			</params>
 		</block>
-		<block debug_info="common_elements.uss:292:2-dock.uss:1:1">
-			<bind debug_info="common_elements.uss:293:8-dock.uss:1:1" name="visible" value="!(restrict.up || restrict.left)"/>
-			<bind debug_info="common_elements.uss:294:8-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController; 'HANGAR_DRAGGING_UP_LEFT'"/>
+		<block debug_info="common_elements.uss:316:2-dock.uss:1:1">
+			<bind debug_info="common_elements.uss:317:8-dock.uss:1:1" name="visible" value="!(restrict.up || restrict.left)"/>
+			<bind debug_info="common_elements.uss:318:8-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController; 'HANGAR_DRAGGING_UP_LEFT'"/>
 			<style>
 				<position value="absolute"/>
 				<width value="12px"/>
@@ -1453,9 +1480,9 @@
 				<param name="name" value="grip_top_left"/>
 			</params>
 		</block>
-		<block debug_info="common_elements.uss:300:2-dock.uss:1:1">
-			<bind debug_info="common_elements.uss:301:8-dock.uss:1:1" name="visible" value="!(restrict.up || restrict.right)"/>
-			<bind debug_info="common_elements.uss:302:8-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController; 'HANGAR_DRAGGING_UP_RIGHT'"/>
+		<block debug_info="common_elements.uss:324:2-dock.uss:1:1">
+			<bind debug_info="common_elements.uss:325:8-dock.uss:1:1" name="visible" value="!(restrict.up || restrict.right)"/>
+			<bind debug_info="common_elements.uss:326:8-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController; 'HANGAR_DRAGGING_UP_RIGHT'"/>
 			<style>
 				<position value="absolute"/>
 				<width value="12px"/>
@@ -1468,9 +1495,9 @@
 				<param name="name" value="grip_top_right"/>
 			</params>
 		</block>
-		<block debug_info="common_elements.uss:308:2-dock.uss:1:1">
-			<bind debug_info="common_elements.uss:309:8-dock.uss:1:1" name="visible" value="!(restrict.down || restrict.left)"/>
-			<bind debug_info="common_elements.uss:310:8-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController; 'HANGAR_DRAGGING_DOWN_LEFT'"/>
+		<block debug_info="common_elements.uss:332:2-dock.uss:1:1">
+			<bind debug_info="common_elements.uss:333:8-dock.uss:1:1" name="visible" value="!(restrict.down || restrict.left)"/>
+			<bind debug_info="common_elements.uss:334:8-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController; 'HANGAR_DRAGGING_DOWN_LEFT'"/>
 			<style>
 				<position value="absolute"/>
 				<width value="12px"/>
@@ -1483,9 +1510,9 @@
 				<param name="name" value="grip_bottom_left"/>
 			</params>
 		</block>
-		<block debug_info="common_elements.uss:316:2-dock.uss:1:1">
-			<bind debug_info="common_elements.uss:317:8-dock.uss:1:1" name="visible" value="!(restrict.down || restrict.right)"/>
-			<bind debug_info="common_elements.uss:318:8-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController; 'HANGAR_DRAGGING_DOWN_RIGHT'"/>
+		<block debug_info="common_elements.uss:340:2-dock.uss:1:1">
+			<bind debug_info="common_elements.uss:341:8-dock.uss:1:1" name="visible" value="!(restrict.down || restrict.right)"/>
+			<bind debug_info="common_elements.uss:342:8-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController; 'HANGAR_DRAGGING_DOWN_RIGHT'"/>
 			<style>
 				<position value="absolute"/>
 				<width value="12px"/>
@@ -1517,25 +1544,25 @@
 		<selectable value="false"/>
 		<textColor value="0xFF9933"/>
 	</css>
-	<block className="WarningMessage" debug_info="common_elements.uss:334:1-dock.uss:1:1">
-		<bind debug_info="common_elements.uss:336:7-dock.uss:1:1" name="appear" value="'addedToStage'; 0.15; _delay; {alpha: 0, top: _startTop ? _startTop : 10}; {alpha: 1, top: 0}; 2"/>
-		<block debug_info="common_elements.uss:348:2-dock.uss:1:1" type="text">
-			<bind debug_info="common_elements.uss:349:8-dock.uss:1:1" name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 280"/>
-			<bind debug_info="common_elements.uss:350:8-dock.uss:1:1" name="class" value="_highWarning ? '$WarningTextRed' : '$WarningTextOrange'"/>
+	<block className="WarningMessage" debug_info="common_elements.uss:358:1-dock.uss:1:1">
+		<bind debug_info="common_elements.uss:360:7-dock.uss:1:1" name="appear" value="'addedToStage'; 0.15; _delay; {alpha: 0, top: _startTop ? _startTop : 10}; {alpha: 1, top: 0}; 2"/>
+		<block debug_info="common_elements.uss:372:2-dock.uss:1:1" type="text">
+			<bind debug_info="common_elements.uss:373:8-dock.uss:1:1" name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 280"/>
+			<bind debug_info="common_elements.uss:374:8-dock.uss:1:1" name="class" value="_highWarning ? '$WarningTextRed' : '$WarningTextOrange'"/>
 			<style>
 				<textAlign value="center"/>
 			</style>
-			<bind debug_info="common_elements.uss:353:8-dock.uss:1:1" name="text" value="_text"/>
+			<bind debug_info="common_elements.uss:377:8-dock.uss:1:1" name="text" value="_text"/>
 		</block>
 	</block>
-	<block className="WrongTextInputNotification" debug_info="common_elements.uss:356:1-dock.uss:1:1">
-		<bind debug_info="common_elements.uss:357:7-dock.uss:1:1" name="appear" value="'addedToStage'; 0.15; 0; {alpha: 0, top: _startTop ? _startTop : 10}; {alpha: 1, top: 0}; 2"/>
+	<block className="WrongTextInputNotification" debug_info="common_elements.uss:380:1-dock.uss:1:1">
+		<bind debug_info="common_elements.uss:381:7-dock.uss:1:1" name="appear" value="'addedToStage'; 0.15; 0; {alpha: 0, top: _startTop ? _startTop : 10}; {alpha: 1, top: 0}; 2"/>
 		<style>
 			<width value="100%"/>
 			<marginRight value="-1px"/>
 			<marginLeft value="-1px"/>
 		</style>
-		<block debug_info="common_elements.uss:360:2-dock.uss:1:1">
+		<block debug_info="common_elements.uss:384:2-dock.uss:1:1">
 			<styleClass value="$Fullsize"/>
 			<style>
 				<position value="absolute"/>
@@ -1567,26 +1594,26 @@
 				</block>
 			</block>
 		</block>
-		<block className="notification_panel" debug_info="common_elements.uss:367:5-dock.uss:1:1" type="native">
+		<block className="notification_panel" debug_info="common_elements.uss:391:5-dock.uss:1:1" type="native">
 			<styleClass value="$FullsizeAbsolute"/>
 		</block>
-		<block debug_info="common_elements.uss:371:2-dock.uss:1:1">
+		<block debug_info="common_elements.uss:395:2-dock.uss:1:1">
 			<styleClass value="$MiddleAligned"/>
 			<style>
 				<marginTop value="8px"/>
 				<marginBottom value="7px"/>
 			</style>
-			<bind debug_info="common_elements.uss:374:8-dock.uss:1:1" name="instance" value="'WarningMessage'; true	? { _delay: 0.07, _startTop: _startTop, _messageHiglight: _messageHiglight, _maxWidth: _maxWidth, _text: _text}
+			<bind debug_info="common_elements.uss:398:8-dock.uss:1:1" name="instance" value="'WarningMessage'; true	? { _delay: 0.07, _startTop: _startTop, _messageHiglight: _messageHiglight, _maxWidth: _maxWidth, _text: _text}
 												: null"/>
 		</block>
-		<bind debug_info="common_elements.uss:377:7-dock.uss:1:1" name="dispatch" value="'click'; 'hideWrongMessageEv'; {}"/>
+		<bind debug_info="common_elements.uss:401:7-dock.uss:1:1" name="dispatch" value="'click'; 'hideWrongMessageEv'; {}"/>
 	</block>
-	<block className="MultiParagraphHelpTooltip" debug_info="common_elements.uss:380:1-dock.uss:1:1">
+	<block className="MultiParagraphHelpTooltip" debug_info="common_elements.uss:404:1-dock.uss:1:1">
 		<styleClass value="$DefaultTooltipBehaviour"/>
 		<style>
 			<width value="330px"/>
 		</style>
-		<bind debug_info="common_elements.uss:383:7-dock.uss:1:1" name="style" value="'width'; _width ? _width : '330px'"/>
+		<bind debug_info="common_elements.uss:407:7-dock.uss:1:1" name="style" value="'width'; _width ? _width : '330px'"/>
 		<block className="DeclareBlurLayer" debug_info="utils.uss:273:1-browser_window.uss:1:1">
 			<bind debug_info="utils.uss:274:7-browser_window.uss:1:1" name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<bind debug_info="utils.uss:275:7-browser_window.uss:1:1" name="visible" value="optionData.blurEnabled"/>
@@ -1617,54 +1644,54 @@
 				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
-		<block className="GUIContrast" debug_info="common_elements.uss:452:1-dock.uss:1:1">
-			<bind debug_info="common_elements.uss:453:7-dock.uss:1:1" name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<block className="GUIContrast" debug_info="common_elements.uss:476:1-dock.uss:1:1">
+			<bind debug_info="common_elements.uss:477:7-dock.uss:1:1" name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 			<styleClass value="$FullsizeAbsolute"/>
-			<block className="contrast_panel" debug_info="common_elements.uss:455:5-dock.uss:1:1" type="native">
+			<block className="contrast_panel" debug_info="common_elements.uss:479:5-dock.uss:1:1" type="native">
 				<styleClass value="$FullsizeAbsolute"/>
-				<bind debug_info="common_elements.uss:457:8-dock.uss:1:1" name="visible" value="optionData.contrast"/>
+				<bind debug_info="common_elements.uss:481:8-dock.uss:1:1" name="visible" value="optionData.contrast"/>
 			</block>
 		</block>
-		<block className="hint_panel" debug_info="common_elements.uss:387:5-dock.uss:1:1" type="native">
+		<block className="hint_panel" debug_info="common_elements.uss:411:5-dock.uss:1:1" type="native">
 			<styleClass value="$Fullsize"/>
 			<style>
 				<position value="absolute"/>
 			</style>
 		</block>
-		<block debug_info="common_elements.uss:391:2-dock.uss:1:1">
+		<block debug_info="common_elements.uss:415:2-dock.uss:1:1">
 			<styleClass value="$InfoBlockIndent"/>
-			<bind debug_info="common_elements.uss:393:8-dock.uss:1:1" name="watch" value="'iconType'; _iconType ? _iconType : 'question'"/>
-			<block className="icon_question_mark" debug_info="common_elements.uss:395:6-dock.uss:1:1" type="native">
-				<bind debug_info="common_elements.uss:396:9-dock.uss:1:1" name="visible" value="iconType == 'question'"/>
+			<bind debug_info="common_elements.uss:417:8-dock.uss:1:1" name="watch" value="'iconType'; _iconType ? _iconType : 'question'"/>
+			<block className="icon_question_mark" debug_info="common_elements.uss:419:6-dock.uss:1:1" type="native">
+				<bind debug_info="common_elements.uss:420:9-dock.uss:1:1" name="visible" value="iconType == 'question'"/>
 				<style>
 					<marginRight value="6px"/>
 					<marginTop value="4px"/>
 				</style>
 			</block>
-			<block className="icon_info_big" debug_info="common_elements.uss:400:6-dock.uss:1:1" type="native">
-				<bind debug_info="common_elements.uss:401:9-dock.uss:1:1" name="visible" value="iconType == 'info'"/>
+			<block className="icon_info_big" debug_info="common_elements.uss:424:6-dock.uss:1:1" type="native">
+				<bind debug_info="common_elements.uss:425:9-dock.uss:1:1" name="visible" value="iconType == 'info'"/>
 				<style>
 					<marginRight value="6px"/>
 					<marginTop value="4px"/>
 				</style>
 			</block>
-			<block className="mc_icon_ship" debug_info="common_elements.uss:405:6-dock.uss:1:1" type="native">
-				<bind debug_info="common_elements.uss:406:9-dock.uss:1:1" name="visible" value="iconType == 'ship' &amp;&amp; _shipType != 'premiumShip'"/>
+			<block className="mc_icon_ship" debug_info="common_elements.uss:429:6-dock.uss:1:1" type="native">
+				<bind debug_info="common_elements.uss:430:9-dock.uss:1:1" name="visible" value="iconType == 'ship' &amp;&amp; _shipType != 'premiumShip'"/>
 				<style>
 					<marginRight value="6px"/>
 					<marginTop value="10px"/>
 				</style>
-				<bind debug_info="common_elements.uss:408:9-dock.uss:1:1" name="style" value="'marginLeft'; _shipType == 'Destroyer' ? '-2px' : '2px'"/>
-				<bind debug_info="common_elements.uss:409:9-dock.uss:1:1" name="gotoAndStop!" value="_shipType"/>
+				<bind debug_info="common_elements.uss:432:9-dock.uss:1:1" name="style" value="'marginLeft'; _shipType == 'Destroyer' ? '-2px' : '2px'"/>
+				<bind debug_info="common_elements.uss:433:9-dock.uss:1:1" name="gotoAndStop!" value="_shipType"/>
 			</block>
-			<block debug_info="common_elements.uss:412:3-dock.uss:1:1" type="text">
+			<block debug_info="common_elements.uss:436:3-dock.uss:1:1" type="text">
 				<style>
 					<top value="1px"/>
 				</style>
-				<bind debug_info="common_elements.uss:414:9-dock.uss:1:1" name="style" value="'maxWidth'; _width ? _width - 60 : 270"/>
+				<bind debug_info="common_elements.uss:438:9-dock.uss:1:1" name="style" value="'maxWidth'; _width ? _width - 60 : 270"/>
 				<styleClass value="$TextHeaderWhiteBold"/>
-				<bind debug_info="common_elements.uss:416:9-dock.uss:1:1" name="class" value="_shipType == 'premiumShip' ? '$FontColorGolden' : '$FontColorWhite'"/>
-				<bind debug_info="common_elements.uss:417:9-dock.uss:1:1" name="text" value="_tooltipHeader"/>
+				<bind debug_info="common_elements.uss:440:9-dock.uss:1:1" name="class" value="_shipType == 'premiumShip' ? '$FontColorGolden' : '$FontColorWhite'"/>
+				<bind debug_info="common_elements.uss:441:9-dock.uss:1:1" name="text" value="_tooltipHeader"/>
 			</block>
 			<style>
 				<flow value="horizontal"/>
@@ -1680,18 +1707,18 @@
 				<styleClass value="$Fullsize"/>
 			</block>
 		</block>
-		<block debug_info="common_elements.uss:421:2-dock.uss:1:1">
+		<block debug_info="common_elements.uss:445:2-dock.uss:1:1">
 			<style>
 				<width value="100%"/>
 			</style>
-			<block className="inner_panel" debug_info="common_elements.uss:423:6-dock.uss:1:1" type="native">
+			<block className="inner_panel" debug_info="common_elements.uss:447:6-dock.uss:1:1" type="native">
 				<styleClass value="$Fullsize"/>
 				<styleClass value="$PxHorizontalCorrection"/>
 				<style>
 					<position value="absolute"/>
 				</style>
 			</block>
-			<block debug_info="common_elements.uss:428:3-dock.uss:1:1">
+			<block debug_info="common_elements.uss:452:3-dock.uss:1:1">
 				<style>
 					<marginLeft value="12px"/>
 					<marginRight value="12px"/>
@@ -1699,122 +1726,122 @@
 					<marginBottom value="3px"/>
 					<width value="100%"/>
 				</style>
-				<bind debug_info="common_elements.uss:430:9-dock.uss:1:1" name="repeat" value="_multiParagraphArray; 'RepeatParagraphItem'; {_maxWidth: _width - 24}"/>
+				<bind debug_info="common_elements.uss:454:9-dock.uss:1:1" name="repeat" value="_multiParagraphArray; 'RepeatParagraphItem'; {_maxWidth: _width - 24}"/>
 			</block>
 		</block>
 	</block>
-	<block className="RepeatParagraphItem" debug_info="common_elements.uss:435:1-dock.uss:1:1">
-		<bind debug_info="common_elements.uss:436:7-dock.uss:1:1" name="style" value="'marginBottom'; _marginBottom ? _marginBottom : '6px'"/>
-		<bind debug_info="common_elements.uss:437:7-dock.uss:1:1" name="class" value="_middleAligned ? '$MiddleAligned' : ''"/>
-		<block debug_info="common_elements.uss:439:2-dock.uss:1:1" type="text">
+	<block className="RepeatParagraphItem" debug_info="common_elements.uss:459:1-dock.uss:1:1">
+		<bind debug_info="common_elements.uss:460:7-dock.uss:1:1" name="style" value="'marginBottom'; _marginBottom ? _marginBottom : '6px'"/>
+		<bind debug_info="common_elements.uss:461:7-dock.uss:1:1" name="class" value="_middleAligned ? '$MiddleAligned' : ''"/>
+		<block debug_info="common_elements.uss:463:2-dock.uss:1:1" type="text">
 			<styleClass value="$TextHeaderBigDefault"/>
-			<bind debug_info="common_elements.uss:441:8-dock.uss:1:1" name="class" value="_class"/>
-			<bind debug_info="common_elements.uss:442:8-dock.uss:1:1" name="style" value="'leading'; _leading ? _leading : 0"/>
-			<bind debug_info="common_elements.uss:443:8-dock.uss:1:1" name="style" value="'textAlign'; _textAlign ? _textAlign : 'left'"/>
-			<bind debug_info="common_elements.uss:444:8-dock.uss:1:1" name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 300"/>
-			<bind debug_info="common_elements.uss:445:8-dock.uss:1:1" name="text" value="(_toUpperCase ? toUpperCase(tr(_paragraphText)) : _paragraphText)"/>
-			<bind debug_info="common_elements.uss:446:8-dock.uss:1:1" name="substitute" value="	_substitute.mapName ? _substitute.mapName : '';
+			<bind debug_info="common_elements.uss:465:8-dock.uss:1:1" name="class" value="_class"/>
+			<bind debug_info="common_elements.uss:466:8-dock.uss:1:1" name="style" value="'leading'; _leading ? _leading : 0"/>
+			<bind debug_info="common_elements.uss:467:8-dock.uss:1:1" name="style" value="'textAlign'; _textAlign ? _textAlign : 'left'"/>
+			<bind debug_info="common_elements.uss:468:8-dock.uss:1:1" name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 300"/>
+			<bind debug_info="common_elements.uss:469:8-dock.uss:1:1" name="text" value="(_toUpperCase ? toUpperCase(tr(_paragraphText)) : _paragraphText)"/>
+			<bind debug_info="common_elements.uss:470:8-dock.uss:1:1" name="substitute" value="	_substitute.mapName ? _substitute.mapName : '';
 							_substitute.imageOffset ? _substitute.imageOffset : 0;
 							_substitute.map ? _substitute.map : {}"/>
 		</block>
 	</block>
-	<block className="GUIContrast" debug_info="common_elements.uss:452:1-dock.uss:1:1">
-		<bind debug_info="common_elements.uss:453:7-dock.uss:1:1" name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+	<block className="GUIContrast" debug_info="common_elements.uss:476:1-dock.uss:1:1">
+		<bind debug_info="common_elements.uss:477:7-dock.uss:1:1" name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 		<styleClass value="$FullsizeAbsolute"/>
-		<block className="contrast_panel" debug_info="common_elements.uss:455:5-dock.uss:1:1" type="native">
+		<block className="contrast_panel" debug_info="common_elements.uss:479:5-dock.uss:1:1" type="native">
 			<styleClass value="$FullsizeAbsolute"/>
-			<bind debug_info="common_elements.uss:457:8-dock.uss:1:1" name="visible" value="optionData.contrast"/>
+			<bind debug_info="common_elements.uss:481:8-dock.uss:1:1" name="visible" value="optionData.contrast"/>
 		</block>
 	</block>
-	<block className="CheckBox" debug_info="common_elements.uss:461:1-dock.uss:1:1">
-		<bind debug_info="common_elements.uss:462:7-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
-		<bind debug_info="common_elements.uss:463:7-dock.uss:1:1" name="watch" value="'isEnabled'; _disabled != true"/>
-		<block className="checkbox_no_label" debug_info="common_elements.uss:464:5-dock.uss:1:1" type="native">
+	<block className="CheckBox" debug_info="common_elements.uss:485:1-dock.uss:1:1">
+		<bind debug_info="common_elements.uss:486:7-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
+		<bind debug_info="common_elements.uss:487:7-dock.uss:1:1" name="watch" value="'isEnabled'; _disabled != true"/>
+		<block className="checkbox_no_label" debug_info="common_elements.uss:488:5-dock.uss:1:1" type="native">
 			<styleClass value="$FullsizeAbsolute"/>
-			<bind debug_info="common_elements.uss:466:8-dock.uss:1:1" name="enabled" value="isEnabled"/>
-			<bind debug_info="common_elements.uss:467:8-dock.uss:1:1" name="selected" value="switchProperty"/>
+			<bind debug_info="common_elements.uss:490:8-dock.uss:1:1" name="enabled" value="isEnabled"/>
+			<bind debug_info="common_elements.uss:491:8-dock.uss:1:1" name="selected" value="switchProperty"/>
 		</block>
-		<block debug_info="common_elements.uss:469:2-dock.uss:1:1" type="text">
+		<block debug_info="common_elements.uss:493:2-dock.uss:1:1" type="text">
 			<styleClass value="$TextHeaderBigDefault"/>
 			<style>
 				<marginLeft value="23px"/>
 				<marginTop value="-3px"/>
 				<hitTest value="false"/>
 			</style>
-			<bind debug_info="common_elements.uss:472:8-dock.uss:1:1" name="style" value="'maxWidth'; _maxTfWidth ? _maxTfWidth : 300"/>
-			<bind debug_info="common_elements.uss:473:8-dock.uss:1:1" name="transition" value="(rollOver &amp;&amp; !mouseDown) &amp;&amp; isEnabled; 0.15; {alpha: 0.8}; {alpha: 1}; {alpha: 0.8}; 2"/>
-			<bind debug_info="common_elements.uss:474:8-dock.uss:1:1" name="text" value="label"/>
+			<bind debug_info="common_elements.uss:496:8-dock.uss:1:1" name="style" value="'maxWidth'; _maxTfWidth ? _maxTfWidth : 300"/>
+			<bind debug_info="common_elements.uss:497:8-dock.uss:1:1" name="transition" value="(rollOver &amp;&amp; !mouseDown) &amp;&amp; isEnabled; 0.15; {alpha: 0.8}; {alpha: 1}; {alpha: 0.8}; 2"/>
+			<bind debug_info="common_elements.uss:498:8-dock.uss:1:1" name="text" value="label"/>
 		</block>
 	</block>
-	<block className="IconSlimClient" debug_info="common_elements.uss:478:1-dock.uss:1:1">
-		<bind debug_info="common_elements.uss:479:7-dock.uss:1:1" name="tooltip" value="'SimpleTooltip'; {tooltipText: _isEventLike ? 'IDS_ENTER_IN_FULL_VERSION_FOR_ANNOUNCE_SHIPS' : 'IDS_ENTER_IN_FULL_VERSION_FOR_SHIPS'}"/>
-		<block className="game_downloading" debug_info="common_elements.uss:480:5-dock.uss:1:1" type="native"/>
+	<block className="IconSlimClient" debug_info="common_elements.uss:502:1-dock.uss:1:1">
+		<bind debug_info="common_elements.uss:503:7-dock.uss:1:1" name="tooltip" value="'SimpleTooltip'; {tooltipText: _isEventLike ? 'IDS_ENTER_IN_FULL_VERSION_FOR_ANNOUNCE_SHIPS' : 'IDS_ENTER_IN_FULL_VERSION_FOR_SHIPS'}"/>
+		<block className="game_downloading" debug_info="common_elements.uss:504:5-dock.uss:1:1" type="native"/>
 	</block>
-	<block className="ShipTitleWithIconAndSilhouette" debug_info="common_elements.uss:495:1-dock.uss:1:1">
-		<bind debug_info="replaces.uss:73:7-common_elements.uss:496:1-dock.uss:1:1" name="primaryEntityDH" value="'shipEntity'; CC.ship; _shipID; 'evUpdate'"/>
-		<bind debug_info="replaces.uss:74:10-common_elements.uss:496:1-dock.uss:1:1" name="watchDH" value="'shipInfo'; ['shipEntity.ship.evUpdate', 'shipEntity.ship.evCurrentSkinChanged']; shipEntity.ship"/>
-		<bind debug_info="replaces.uss:75:10-common_elements.uss:496:1-dock.uss:1:1" name="watchDH" value="'shipInfo' + 'Slim'; ['shipEntity.slimClientComponent.evUpdate']; shipEntity.slimClientComponent"/>
-		<block debug_info="common_elements.uss:497:2-dock.uss:1:1">
-			<block debug_info="common_elements.uss:498:3-dock.uss:1:1">
-				<bind debug_info="common_elements.uss:499:9-dock.uss:1:1" name="instance" value="'ShipTitleWithIconAndLevel'; {_shipID : _shipID}"/>
+	<block className="ShipTitleWithIconAndSilhouette" debug_info="common_elements.uss:519:1-dock.uss:1:1">
+		<bind debug_info="replaces.uss:73:7-common_elements.uss:520:1-dock.uss:1:1" name="primaryEntityDH" value="'shipEntity'; CC.ship; _shipID; 'evUpdate'"/>
+		<bind debug_info="replaces.uss:74:10-common_elements.uss:520:1-dock.uss:1:1" name="watchDH" value="'shipInfo'; ['shipEntity.ship.evUpdate', 'shipEntity.ship.evCurrentSkinChanged']; shipEntity.ship"/>
+		<bind debug_info="replaces.uss:75:10-common_elements.uss:520:1-dock.uss:1:1" name="watchDH" value="'shipInfo' + 'Slim'; ['shipEntity.slimClientComponent.evUpdate']; shipEntity.slimClientComponent"/>
+		<block debug_info="common_elements.uss:521:2-dock.uss:1:1">
+			<block debug_info="common_elements.uss:522:3-dock.uss:1:1">
+				<bind debug_info="common_elements.uss:523:9-dock.uss:1:1" name="instance" value="'ShipTitleWithIconAndLevel'; {_shipID : _shipID}"/>
 			</block>
-			<block debug_info="common_elements.uss:501:3-dock.uss:1:1">
+			<block debug_info="common_elements.uss:525:3-dock.uss:1:1">
 				<style>
 					<width value="122px"/>
 					<height value="22px"/>
 					<marginLeft value="12px"/>
 					<marginTop value="-2px"/>
 				</style>
-				<bind debug_info="common_elements.uss:503:9-dock.uss:1:1" name="style" value="'backgroundImage'; 'url:' + shipInfo.pathTinyIcon"/>
+				<bind debug_info="common_elements.uss:527:9-dock.uss:1:1" name="style" value="'backgroundImage'; 'url:' + shipInfo.pathTinyIcon"/>
 			</block>
 			<style>
 				<flow value="horizontal"/>
 			</style>
 		</block>
 	</block>
-	<block className="ShipTitleWithIconAndLevel" debug_info="common_elements.uss:508:1-dock.uss:1:1">
-		<bind debug_info="replaces.uss:79:7-common_elements.uss:509:1-dock.uss:1:1" name="primaryEntityDH" value="'shipOwnEntity'; CC.ownShip; _shipID; 'evUpdate'"/>
-		<bind debug_info="replaces.uss:80:10-common_elements.uss:509:1-dock.uss:1:1" name="watchDH" value="'playerShipInfo'; ['shipOwnEntity.ownShip.evUpdate', 'shipOwnEntity.ownShip.evCrewChanged']; shipOwnEntity.ownShip"/>
-		<bind debug_info="replaces.uss:73:7-common_elements.uss:510:1-dock.uss:1:1" name="primaryEntityDH" value="'shipEntity'; CC.ship; _shipID; 'evUpdate'"/>
-		<bind debug_info="replaces.uss:74:10-common_elements.uss:510:1-dock.uss:1:1" name="watchDH" value="'shipInfo'; ['shipEntity.ship.evUpdate', 'shipEntity.ship.evCurrentSkinChanged']; shipEntity.ship"/>
-		<bind debug_info="replaces.uss:75:10-common_elements.uss:510:1-dock.uss:1:1" name="watchDH" value="'shipInfo' + 'Slim'; ['shipEntity.slimClientComponent.evUpdate']; shipEntity.slimClientComponent"/>
-		<bind debug_info="replaces.uss:84:7-common_elements.uss:511:1-dock.uss:1:1" name="watchDH" value="'upgradableShipInfo'; ['shipEntity.upgradableShipInfo.evUpdate']; shipEntity.upgradableShipInfo"/>
-		<block debug_info="common_elements.uss:513:2-dock.uss:1:1">
+	<block className="ShipTitleWithIconAndLevel" debug_info="common_elements.uss:532:1-dock.uss:1:1">
+		<bind debug_info="replaces.uss:79:7-common_elements.uss:533:1-dock.uss:1:1" name="primaryEntityDH" value="'shipOwnEntity'; CC.ownShip; _shipID; 'evUpdate'"/>
+		<bind debug_info="replaces.uss:80:10-common_elements.uss:533:1-dock.uss:1:1" name="watchDH" value="'playerShipInfo'; ['shipOwnEntity.ownShip.evUpdate', 'shipOwnEntity.ownShip.evCrewChanged']; shipOwnEntity.ownShip"/>
+		<bind debug_info="replaces.uss:73:7-common_elements.uss:534:1-dock.uss:1:1" name="primaryEntityDH" value="'shipEntity'; CC.ship; _shipID; 'evUpdate'"/>
+		<bind debug_info="replaces.uss:74:10-common_elements.uss:534:1-dock.uss:1:1" name="watchDH" value="'shipInfo'; ['shipEntity.ship.evUpdate', 'shipEntity.ship.evCurrentSkinChanged']; shipEntity.ship"/>
+		<bind debug_info="replaces.uss:75:10-common_elements.uss:534:1-dock.uss:1:1" name="watchDH" value="'shipInfo' + 'Slim'; ['shipEntity.slimClientComponent.evUpdate']; shipEntity.slimClientComponent"/>
+		<bind debug_info="replaces.uss:84:7-common_elements.uss:535:1-dock.uss:1:1" name="watchDH" value="'upgradableShipInfo'; ['shipEntity.upgradableShipInfo.evUpdate']; shipEntity.upgradableShipInfo"/>
+		<block debug_info="common_elements.uss:537:2-dock.uss:1:1">
 			<style>
 				<height value="27px"/>
 			</style>
-			<block className="icon_wreath" debug_info="common_elements.uss:515:6-dock.uss:1:1" type="native">
+			<block className="icon_wreath" debug_info="common_elements.uss:539:6-dock.uss:1:1" type="native">
 				<styleClass value="$MouseDisable"/>
 				<style>
 					<position value="absolute"/>
 					<top value="-1px"/>
 				</style>
-				<bind debug_info="common_elements.uss:518:9-dock.uss:1:1" name="visible" value="upgradableShipInfo.isElite || shipInfo.isPremium || shipInfo.uiSpecial"/>
-				<bind debug_info="common_elements.uss:519:9-dock.uss:1:1" name="gotoAndStop!" value="shipInfo.uiSpecial	? 'special' :
+				<bind debug_info="common_elements.uss:542:9-dock.uss:1:1" name="visible" value="upgradableShipInfo.isElite || shipInfo.isPremium || shipInfo.uiSpecial"/>
+				<bind debug_info="common_elements.uss:543:9-dock.uss:1:1" name="gotoAndStop!" value="shipInfo.uiSpecial	? 'special' :
 								shipInfo.isPremium 	? 'premium'
 													: 'elite'"/>
 			</block>
-			<block debug_info="common_elements.uss:523:3-dock.uss:1:1">
+			<block debug_info="common_elements.uss:547:3-dock.uss:1:1">
 				<style>
 					<marginLeft value="5px"/>
 					<marginTop value="7px"/>
 				</style>
-				<block className="icon_ship" debug_info="common_elements.uss:525:7-dock.uss:1:1" type="native">
+				<block className="icon_ship" debug_info="common_elements.uss:549:7-dock.uss:1:1" type="native">
 					<styleClass value="$MouseDisable"/>
-					<bind debug_info="common_elements.uss:527:10-dock.uss:1:1" name="gotoAndStop!" value="shipInfo.isPremium || shipInfo.uiSpecial 	? shipInfo.subtype + '_P'
+					<bind debug_info="common_elements.uss:551:10-dock.uss:1:1" name="gotoAndStop!" value="shipInfo.isPremium || shipInfo.uiSpecial 	? shipInfo.subtype + '_P'
 																				: shipInfo.subtype"/>
 				</block>
 			</block>
-			<block debug_info="common_elements.uss:531:3-dock.uss:1:1">
+			<block debug_info="common_elements.uss:555:3-dock.uss:1:1">
 				<style>
 					<marginLeft value="6px"/>
 					<marginTop value="-2px"/>
 				</style>
-				<block debug_info="common_elements.uss:533:4-dock.uss:1:1" type="text">
+				<block debug_info="common_elements.uss:557:4-dock.uss:1:1" type="text">
 					<styleClass value="$FontShipnameWhite"/>
-					<bind debug_info="common_elements.uss:535:10-dock.uss:1:1" name="class" value="shipInfo.isPremium || shipInfo.uiSpecial	? '$FontShipnameGolden'
+					<bind debug_info="common_elements.uss:559:10-dock.uss:1:1" name="class" value="shipInfo.isPremium || shipInfo.uiSpecial	? '$FontShipnameGolden'
 																		: '$FontShipnameWhite'"/>
-					<bind debug_info="common_elements.uss:537:10-dock.uss:1:1" name="text" value="shipInfo.levelRome + ' ' + toUpperCase(tr(shipInfo.nameIDS))"/>
+					<bind debug_info="common_elements.uss:561:10-dock.uss:1:1" name="text" value="shipInfo.levelRome + ' ' + toUpperCase(tr(shipInfo.nameIDS))"/>
 				</block>
 			</block>
 			<style>
@@ -1822,48 +1849,48 @@
 			</style>
 		</block>
 	</block>
-	<block className="CharCounter" debug_info="common_elements.uss:543:1-dock.uss:1:1">
-		<bind debug_info="common_elements.uss:544:7-dock.uss:1:1" name="transition" value="_string.length &gt; 0; 0.15; {alpha: 0, top:10}; {alpha: 1, top:0}; {alpha: 0, top:10}; 1; 0"/>
-		<bind debug_info="common_elements.uss:545:7-dock.uss:1:1" name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_CHARS_LEFT'}"/>
+	<block className="CharCounter" debug_info="common_elements.uss:567:1-dock.uss:1:1">
+		<bind debug_info="common_elements.uss:568:7-dock.uss:1:1" name="transition" value="_string.length &gt; 0; 0.15; {alpha: 0, top:10}; {alpha: 1, top:0}; {alpha: 0, top:10}; 1; 0"/>
+		<bind debug_info="common_elements.uss:569:7-dock.uss:1:1" name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_CHARS_LEFT'}"/>
 		<style>
 			<backgroundColor value="0x01000000"/>
 		</style>
-		<block debug_info="common_elements.uss:548:2-dock.uss:1:1" type="text">
+		<block debug_info="common_elements.uss:572:2-dock.uss:1:1" type="text">
 			<styleClass value="$TextDefault"/>
-			<bind debug_info="common_elements.uss:550:8-dock.uss:1:1" name="class" value="_string.length &gt; _maxChars ? '$FontColorUnready' : '$FontColorDefault'"/>
-			<bind debug_info="common_elements.uss:551:8-dock.uss:1:1" name="style" value="'alpha'; _string.length &gt; _maxChars ? 1 : 0.6"/>
-			<bind debug_info="common_elements.uss:553:8-dock.uss:1:1" name="text" value="_maxChars - _string.length"/>
+			<bind debug_info="common_elements.uss:574:8-dock.uss:1:1" name="class" value="_string.length &gt; _maxChars ? '$FontColorUnready' : '$FontColorDefault'"/>
+			<bind debug_info="common_elements.uss:575:8-dock.uss:1:1" name="style" value="'alpha'; _string.length &gt; _maxChars ? 1 : 0.6"/>
+			<bind debug_info="common_elements.uss:577:8-dock.uss:1:1" name="text" value="_maxChars - _string.length"/>
 		</block>
 	</block>
-	<block className="BusyIndicator" debug_info="common_elements.uss:557:1-dock.uss:1:1">
-		<bind debug_info="common_elements.uss:558:7-dock.uss:1:1" name="fade" value="_showBusyIndicator; 0.15; {alpha: 0}; {alpha: 1}; {alpha: 0}; 1; 0.3"/>
+	<block className="BusyIndicator" debug_info="common_elements.uss:581:1-dock.uss:1:1">
+		<bind debug_info="common_elements.uss:582:7-dock.uss:1:1" name="fade" value="_showBusyIndicator; 0.15; {alpha: 0}; {alpha: 1}; {alpha: 0}; 1; 0.3"/>
 		<style>
 			<flow value="horizontal"/>
 		</style>
-		<block debug_info="common_elements.uss:560:2-dock.uss:1:1">
-			<block className="indicator_busy_small" debug_info="common_elements.uss:561:6-dock.uss:1:1" type="native"/>
+		<block debug_info="common_elements.uss:584:2-dock.uss:1:1">
+			<block className="indicator_busy_small" debug_info="common_elements.uss:585:6-dock.uss:1:1" type="native"/>
 		</block>
-		<block debug_info="common_elements.uss:563:2-dock.uss:1:1" type="text">
-			<bind debug_info="common_elements.uss:564:8-dock.uss:1:1" name="visible" value="_label.length &gt; 0"/>
+		<block debug_info="common_elements.uss:587:2-dock.uss:1:1" type="text">
+			<bind debug_info="common_elements.uss:588:8-dock.uss:1:1" name="visible" value="_label.length &gt; 0"/>
 			<styleClass value="$TextDefaultTech"/>
-			<bind debug_info="common_elements.uss:566:8-dock.uss:1:1" name="class" value="'$Bold'"/>
+			<bind debug_info="common_elements.uss:590:8-dock.uss:1:1" name="class" value="'$Bold'"/>
 			<style>
 				<marginLeft value="6px"/>
 				<marginTop value="-2px"/>
 			</style>
-			<bind debug_info="common_elements.uss:568:8-dock.uss:1:1" name="text" value="toUpperCase(tr(_label))"/>
+			<bind debug_info="common_elements.uss:592:8-dock.uss:1:1" name="text" value="toUpperCase(tr(_label))"/>
 		</block>
 	</block>
-	<block className="FormationPlayerIcon" debug_info="common_elements.uss:572:1-dock.uss:1:1">
+	<block className="FormationPlayerIcon" debug_info="common_elements.uss:596:1-dock.uss:1:1">
 		<style>
 			<width value="15px"/>
 		</style>
-		<bind debug_info="common_elements.uss:574:7-dock.uss:1:1" name="watch" value="'postfix'; isOtherDivision ? '_other_division' : ''"/>
-		<block className="formation_player_status" debug_info="common_elements.uss:575:5-dock.uss:1:1" type="native">
+		<bind debug_info="common_elements.uss:598:7-dock.uss:1:1" name="watch" value="'postfix'; isOtherDivision ? '_other_division' : ''"/>
+		<block className="formation_player_status" debug_info="common_elements.uss:599:5-dock.uss:1:1" type="native">
 			<style>
 				<marginTop value="3px"/>
 			</style>
-			<bind debug_info="common_elements.uss:577:8-dock.uss:1:1" name="gotoAndStop!" value="_isEmptySlot					?	('empty_slot_' + _formationType) :
+			<bind debug_info="common_elements.uss:601:8-dock.uss:1:1" name="gotoAndStop!" value="_isEmptySlot					?	('empty_slot_' + _formationType) :
 							isInBattle						?	('player_in_battle_' + _formationType + postfix) :
 							_isWardog &amp;&amp; isReady			?	('player_ready_' + _formationType + '_merc') :
 							_isWardog &amp;&amp; !isReady			?	('player_not_ready_' + _formationType + '_merc') :
@@ -1882,86 +1909,86 @@
 		<selectable value="false"/>
 		<textColor value="0x9CBABA"/>
 	</css>
-	<block className="BackButton" debug_info="common_elements.uss:596:1-dock.uss:1:1">
+	<block className="BackButton" debug_info="common_elements.uss:620:1-dock.uss:1:1">
 		<style>
 			<height value="30px"/>
 		</style>
-		<block className="button_dock" debug_info="common_elements.uss:598:5-dock.uss:1:1" type="native">
-			<bind debug_info="common_elements.uss:599:8-dock.uss:1:1" name="tooltip" value="'SimpleTooltip'; {tooltipText: _text}"/>
+		<block className="button_dock" debug_info="common_elements.uss:622:5-dock.uss:1:1" type="native">
+			<bind debug_info="common_elements.uss:623:8-dock.uss:1:1" name="tooltip" value="'SimpleTooltip'; {tooltipText: _text}"/>
 			<styleClass value="$FullsizeAbsolute"/>
-			<bind debug_info="common_elements.uss:602:8-dock.uss:1:1" name="dispatch" value="'buttonClick'; _event	 ? _event  : null; _eventData	 ? _eventData : {}"/>
-			<bind debug_info="common_elements.uss:603:8-dock.uss:1:1" name="action" value="'buttonClick'; _action	 ? _action : null; _actionParams ? _actionParams : {}"/>
-			<bind debug_info="common_elements.uss:604:8-dock.uss:1:1" name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
+			<bind debug_info="common_elements.uss:626:8-dock.uss:1:1" name="dispatch" value="'buttonClick'; _event	 ? _event  : null; _eventData	 ? _eventData : {}"/>
+			<bind debug_info="common_elements.uss:627:8-dock.uss:1:1" name="action" value="'buttonClick'; _action	 ? _action : null; _actionParams ? _actionParams : {}"/>
+			<bind debug_info="common_elements.uss:628:8-dock.uss:1:1" name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
 			<params>
 				<param name="focusable" value="false"/>
 			</params>
 		</block>
-		<block debug_info="common_elements.uss:610:2-dock.uss:1:1">
+		<block debug_info="common_elements.uss:634:2-dock.uss:1:1">
 			<styleClass value="$MiddleVAligned"/>
 			<style>
 				<hitTest value="false"/>
 			</style>
-			<block className="icon_navigate" debug_info="common_elements.uss:614:6-dock.uss:1:1" type="native">
-				<bind debug_info="common_elements.uss:615:9-dock.uss:1:1" name="gotoAndStop!" value="'left'"/>
+			<block className="icon_navigate" debug_info="common_elements.uss:638:6-dock.uss:1:1" type="native">
+				<bind debug_info="common_elements.uss:639:9-dock.uss:1:1" name="gotoAndStop!" value="'left'"/>
 				<style>
 					<marginLeft value="6px"/>
 				</style>
 			</block>
-			<block debug_info="common_elements.uss:618:3-dock.uss:1:1">
-				<bind debug_info="common_elements.uss:619:9-dock.uss:1:1" name="name" value="_name ? _name : '' "/>
+			<block debug_info="common_elements.uss:642:3-dock.uss:1:1">
+				<bind debug_info="common_elements.uss:643:9-dock.uss:1:1" name="name" value="_name ? _name : '' "/>
 				<styleClass value="$MiddleVAligned"/>
 				<style>
 					<marginLeft value="2px"/>
 					<marginRight value="7px"/>
 				</style>
-				<block debug_info="common_elements.uss:622:4-dock.uss:1:1">
+				<block debug_info="common_elements.uss:646:4-dock.uss:1:1">
 					<style>
 						<marginTop value="-4px"/>
 					</style>
-					<block debug_info="common_elements.uss:624:5-dock.uss:1:1" type="text">
+					<block debug_info="common_elements.uss:648:5-dock.uss:1:1" type="text">
 						<styleClass value="$TextBackBtn"/>
-						<bind debug_info="common_elements.uss:626:11-dock.uss:1:1" name="class" value="'$FontColorAlmostBlack'"/>
+						<bind debug_info="common_elements.uss:650:11-dock.uss:1:1" name="class" value="'$FontColorAlmostBlack'"/>
 						<style>
 							<position value="absolute"/>
 							<alpha value="0.4"/>
 							<top value="1px"/>
 						</style>
-						<bind debug_info="common_elements.uss:628:11-dock.uss:1:1" name="text" value="_text"/>
+						<bind debug_info="common_elements.uss:652:11-dock.uss:1:1" name="text" value="_text"/>
 					</block>
-					<block debug_info="common_elements.uss:630:5-dock.uss:1:1" type="text">
+					<block debug_info="common_elements.uss:654:5-dock.uss:1:1" type="text">
 						<styleClass value="$TextBackBtn"/>
-						<bind debug_info="common_elements.uss:632:11-dock.uss:1:1" name="class" value="'$FontColorAlmostBlack'"/>
+						<bind debug_info="common_elements.uss:656:11-dock.uss:1:1" name="class" value="'$FontColorAlmostBlack'"/>
 						<style>
 							<position value="absolute"/>
 							<alpha value="0.2"/>
 							<top value="-1px"/>
 						</style>
-						<bind debug_info="common_elements.uss:634:11-dock.uss:1:1" name="text" value="_text"/>
+						<bind debug_info="common_elements.uss:658:11-dock.uss:1:1" name="text" value="_text"/>
 					</block>
-					<block debug_info="common_elements.uss:636:5-dock.uss:1:1" type="text">
+					<block debug_info="common_elements.uss:660:5-dock.uss:1:1" type="text">
 						<styleClass value="$TextBackBtn"/>
-						<bind debug_info="common_elements.uss:638:11-dock.uss:1:1" name="class" value="'$FontColorAlmostBlack'"/>
+						<bind debug_info="common_elements.uss:662:11-dock.uss:1:1" name="class" value="'$FontColorAlmostBlack'"/>
 						<style>
 							<position value="absolute"/>
 							<alpha value="0.2"/>
 							<left value="1px"/>
 						</style>
-						<bind debug_info="common_elements.uss:640:11-dock.uss:1:1" name="text" value="_text"/>
+						<bind debug_info="common_elements.uss:664:11-dock.uss:1:1" name="text" value="_text"/>
 					</block>
-					<block debug_info="common_elements.uss:642:5-dock.uss:1:1" type="text">
+					<block debug_info="common_elements.uss:666:5-dock.uss:1:1" type="text">
 						<styleClass value="$TextBackBtn"/>
-						<bind debug_info="common_elements.uss:644:11-dock.uss:1:1" name="class" value="'$FontColorAlmostBlack'"/>
+						<bind debug_info="common_elements.uss:668:11-dock.uss:1:1" name="class" value="'$FontColorAlmostBlack'"/>
 						<style>
 							<position value="absolute"/>
 							<alpha value="0.2"/>
 							<left value="-1px"/>
 						</style>
-						<bind debug_info="common_elements.uss:646:11-dock.uss:1:1" name="text" value="_text"/>
+						<bind debug_info="common_elements.uss:670:11-dock.uss:1:1" name="text" value="_text"/>
 					</block>
-					<block debug_info="common_elements.uss:648:5-dock.uss:1:1" type="text">
+					<block debug_info="common_elements.uss:672:5-dock.uss:1:1" type="text">
 						<styleClass value="$TextBackBtn"/>
-						<bind debug_info="common_elements.uss:650:11-dock.uss:1:1" name="class" value="'$FontColorBlueish'"/>
-						<bind debug_info="common_elements.uss:651:11-dock.uss:1:1" name="text" value="_text"/>
+						<bind debug_info="common_elements.uss:674:11-dock.uss:1:1" name="class" value="'$FontColorBlueish'"/>
+						<bind debug_info="common_elements.uss:675:11-dock.uss:1:1" name="text" value="_text"/>
 					</block>
 				</block>
 			</block>
@@ -1970,52 +1997,52 @@
 			</style>
 		</block>
 	</block>
-	<block className="ScoreRatioCounter" debug_info="common_elements.uss:658:1-dock.uss:1:1">
+	<block className="ScoreRatioCounter" debug_info="common_elements.uss:682:1-dock.uss:1:1">
 		<style>
 			<flow value="horizontal"/>
 		</style>
-		<block debug_info="common_elements.uss:662:2-dock.uss:1:1">
-			<bind debug_info="common_elements.uss:663:8-dock.uss:1:1" name="tooltip" value="'SimpleTooltip'; { tooltipText: _tooltipTextPlayerResult }"/>
-			<bind debug_info="common_elements.uss:664:8-dock.uss:1:1" name="style" value="'alpha'; (_playerPointsCounter == 0) ? 0.5 : 1"/>
-			<block debug_info="common_elements.uss:665:3-dock.uss:1:1" type="text">
-				<bind debug_info="common_elements.uss:666:9-dock.uss:1:1" name="class" value="'$TextHeaderWhiteBold'"/>
-				<bind debug_info="common_elements.uss:667:9-dock.uss:1:1" name="text" value="_playerPointsCounter"/>
+		<block debug_info="common_elements.uss:686:2-dock.uss:1:1">
+			<bind debug_info="common_elements.uss:687:8-dock.uss:1:1" name="tooltip" value="'SimpleTooltip'; { tooltipText: _tooltipTextPlayerResult }"/>
+			<bind debug_info="common_elements.uss:688:8-dock.uss:1:1" name="style" value="'alpha'; (_playerPointsCounter == 0) ? 0.5 : 1"/>
+			<block debug_info="common_elements.uss:689:3-dock.uss:1:1" type="text">
+				<bind debug_info="common_elements.uss:690:9-dock.uss:1:1" name="class" value="'$TextHeaderWhiteBold'"/>
+				<bind debug_info="common_elements.uss:691:9-dock.uss:1:1" name="text" value="_playerPointsCounter"/>
 			</block>
 		</block>
-		<block debug_info="common_elements.uss:672:2-dock.uss:1:1">
-			<bind debug_info="common_elements.uss:673:8-dock.uss:1:1" name="tooltip" value="'SimpleTooltip'; { tooltipText: _tooltipTextTotalResult }"/>
+		<block debug_info="common_elements.uss:696:2-dock.uss:1:1">
+			<bind debug_info="common_elements.uss:697:8-dock.uss:1:1" name="tooltip" value="'SimpleTooltip'; { tooltipText: _tooltipTextTotalResult }"/>
 			<style>
 				<alpha value="0.7"/>
 			</style>
-			<block debug_info="common_elements.uss:675:3-dock.uss:1:1" type="text">
+			<block debug_info="common_elements.uss:699:3-dock.uss:1:1" type="text">
 				<style>
 					<marginTop value="1px"/>
 				</style>
-				<bind debug_info="common_elements.uss:677:9-dock.uss:1:1" name="class" value="'$TextHeaderBold'"/>
-				<bind debug_info="common_elements.uss:678:9-dock.uss:1:1" name="text" value="'/'"/>
+				<bind debug_info="common_elements.uss:701:9-dock.uss:1:1" name="class" value="'$TextHeaderBold'"/>
+				<bind debug_info="common_elements.uss:702:9-dock.uss:1:1" name="text" value="'/'"/>
 			</block>
-			<block debug_info="common_elements.uss:680:3-dock.uss:1:1" type="text">
+			<block debug_info="common_elements.uss:704:3-dock.uss:1:1" type="text">
 				<style>
 					<marginTop value="2px"/>
 					<marginLeft value="-1px"/>
 				</style>
-				<bind debug_info="common_elements.uss:683:9-dock.uss:1:1" name="class" value="'$TextHeaderBold'"/>
-				<bind debug_info="common_elements.uss:684:9-dock.uss:1:1" name="text" value="_totalPointsCounter"/>
+				<bind debug_info="common_elements.uss:707:9-dock.uss:1:1" name="class" value="'$TextHeaderBold'"/>
+				<bind debug_info="common_elements.uss:708:9-dock.uss:1:1" name="text" value="_totalPointsCounter"/>
 			</block>
 			<style>
 				<flow value="horizontal"/>
 			</style>
 		</block>
 	</block>
-	<block className="PlayerNameAndClanTag" debug_info="common_elements.uss:694:1-dock.uss:1:1">
-		<bind debug_info="common_elements.uss:695:7-dock.uss:1:1" name="watch" value="'clanTagColor'; ('0xff' + _clanTagColor)"/>
-		<bind debug_info="common_elements.uss:696:7-dock.uss:1:1" name="watch" value="'haveClanTag'; _clanTag != null &amp;&amp;
+	<block className="PlayerNameAndClanTag" debug_info="common_elements.uss:718:1-dock.uss:1:1">
+		<bind debug_info="common_elements.uss:719:7-dock.uss:1:1" name="watch" value="'clanTagColor'; ('0xff' + _clanTagColor)"/>
+		<bind debug_info="common_elements.uss:720:7-dock.uss:1:1" name="watch" value="'haveClanTag'; _clanTag != null &amp;&amp;
 								_clanTag != ''"/>
-		<bind debug_info="common_elements.uss:699:7-dock.uss:1:1" name="watch" value="'isColoredClanTag'; (haveClanTag &amp;&amp; !_noClanTagColor &amp;&amp; _clanTagColor != null)"/>
-		<bind debug_info="common_elements.uss:701:7-dock.uss:1:1" name="watch" value="'playerName'; 	isColoredClanTag 	?	_playerName :
+		<bind debug_info="common_elements.uss:723:7-dock.uss:1:1" name="watch" value="'isColoredClanTag'; (haveClanTag &amp;&amp; !_noClanTagColor &amp;&amp; _clanTagColor != null)"/>
+		<bind debug_info="common_elements.uss:725:7-dock.uss:1:1" name="watch" value="'playerName'; 	isColoredClanTag 	?	_playerName :
 								haveClanTag			?	('[' + _clanTag + ']' + _playerName)
 													: _playerName"/>
-		<bind debug_info="common_elements.uss:705:7-dock.uss:1:1" name="watch" value="'fontColor'; 	_isSelf 	? 	_ttkStatus 			? '$FontColorTTK' :
+		<bind debug_info="common_elements.uss:729:7-dock.uss:1:1" name="watch" value="'fontColor'; 	_isSelf 	? 	_ttkStatus 			? '$FontColorTTK' :
 												_ctkStatus			? '$FontColorCompareNegative' :
 												_tkStatus 			? '$FontColorTeamkiller'
 																	: '$FontColorGolden':
@@ -2029,32 +2056,76 @@
 			<flow value="horizontal"/>
 			<width value="100%f"/>
 		</style>
+<<<<<<< .working
 		<block debug_info="common_elements.uss:717:2-dock.uss:1:1" type="text">
+||||||| .merge-left.r327934
+		<block debug_info="common_elements.uss:716:2-dock.uss:1:1" type="text">
+=======
+		<block debug_info="common_elements.uss:740:2-dock.uss:1:1" type="text">
+>>>>>>> .merge-right.r329013
 			<style>
 				<marginLeft value="3px"/>
 			</style>
+<<<<<<< .working
 			<bind debug_info="common_elements.uss:719:8-dock.uss:1:1" name="visible" value="isColoredClanTag == true"/>
+||||||| .merge-left.r327934
+			<bind debug_info="common_elements.uss:718:8-dock.uss:1:1" name="visible" value="isColoredClanTag == true"/>
+=======
+			<bind debug_info="common_elements.uss:742:8-dock.uss:1:1" name="visible" value="isColoredClanTag == true"/>
+>>>>>>> .merge-right.r329013
 			<style>
 				<multiline value="false"/>
 			</style>
 			<styleClass value="$TextDefaultNM"/>
+<<<<<<< .working
 			<bind debug_info="common_elements.uss:722:8-dock.uss:1:1" name="style" value="'fontSize'; _fontSize ? _fontSize : 15"/>
 			<bind debug_info="common_elements.uss:723:8-dock.uss:1:1" name="class" value="_isSelf ? '$Bold' : '$None'"/>
 			<bind debug_info="common_elements.uss:724:8-dock.uss:1:1" name="style" value="'textColor'; clanTagColor"/>
 			<bind debug_info="common_elements.uss:725:8-dock.uss:1:1" name="text" value="tr('[' + _clanTag + ']')"/>
+||||||| .merge-left.r327934
+			<bind debug_info="common_elements.uss:721:8-dock.uss:1:1" name="style" value="'fontSize'; _fontSize ? _fontSize : 15"/>
+			<bind debug_info="common_elements.uss:722:8-dock.uss:1:1" name="class" value="_isSelf ? '$Bold' : '$None'"/>
+			<bind debug_info="common_elements.uss:723:8-dock.uss:1:1" name="style" value="'textColor'; clanTagColor"/>
+			<bind debug_info="common_elements.uss:724:8-dock.uss:1:1" name="text" value="tr('[' + _clanTag + ']')"/>
+=======
+			<bind debug_info="common_elements.uss:745:8-dock.uss:1:1" name="style" value="'fontSize'; _fontSize ? _fontSize : 15"/>
+			<bind debug_info="common_elements.uss:746:8-dock.uss:1:1" name="class" value="_isSelf ? '$Bold' : '$None'"/>
+			<bind debug_info="common_elements.uss:747:8-dock.uss:1:1" name="style" value="'textColor'; clanTagColor"/>
+			<bind debug_info="common_elements.uss:748:8-dock.uss:1:1" name="text" value="tr('[' + _clanTag + ']')"/>
+>>>>>>> .merge-right.r329013
 		</block>
+<<<<<<< .working
 		<block debug_info="common_elements.uss:728:2-dock.uss:1:1" type="text">
+||||||| .merge-left.r327934
+		<block debug_info="common_elements.uss:727:2-dock.uss:1:1" type="text">
+=======
+		<block debug_info="common_elements.uss:751:2-dock.uss:1:1" type="text">
+>>>>>>> .merge-right.r329013
 			<style>
 				<marginLeft value="3px"/>
 				<multiline value="false"/>
 				<width value="100%f"/>
 			</style>
 			<styleClass value="$TextDefaultNM"/>
+<<<<<<< .working
 			<bind debug_info="common_elements.uss:731:8-dock.uss:1:1" name="style" value="'fontSize'; _fontSize ? _fontSize : 15"/>
 			<bind debug_info="common_elements.uss:733:8-dock.uss:1:1" name="class" value="_isSelf 	? '$Bold' : '$None'"/>
 			<bind debug_info="common_elements.uss:734:8-dock.uss:1:1" name="class" value="(_isDead &amp;&amp; !_isSelf ? '$FontDropShadowWhite' : '$None')"/>
 			<bind debug_info="common_elements.uss:735:8-dock.uss:1:1" name="class" value="fontColor"/>
 			<bind debug_info="common_elements.uss:737:8-dock.uss:1:1" name="text" value="playerName"/>
+||||||| .merge-left.r327934
+			<bind debug_info="common_elements.uss:730:8-dock.uss:1:1" name="style" value="'fontSize'; _fontSize ? _fontSize : 15"/>
+			<bind debug_info="common_elements.uss:732:8-dock.uss:1:1" name="class" value="_isSelf 	? '$Bold' : '$None'"/>
+			<bind debug_info="common_elements.uss:733:8-dock.uss:1:1" name="class" value="(_isDead &amp;&amp; !_isSelf ? '$FontDropShadowWhite' : '$None')"/>
+			<bind debug_info="common_elements.uss:734:8-dock.uss:1:1" name="class" value="fontColor"/>
+			<bind debug_info="common_elements.uss:736:8-dock.uss:1:1" name="text" value="playerName"/>
+=======
+			<bind debug_info="common_elements.uss:754:8-dock.uss:1:1" name="style" value="'fontSize'; _fontSize ? _fontSize : 15"/>
+			<bind debug_info="common_elements.uss:756:8-dock.uss:1:1" name="class" value="_isSelf 	? '$Bold' : '$None'"/>
+			<bind debug_info="common_elements.uss:757:8-dock.uss:1:1" name="class" value="(_isDead &amp;&amp; !_isSelf ? '$FontDropShadowWhite' : '$None')"/>
+			<bind debug_info="common_elements.uss:758:8-dock.uss:1:1" name="class" value="fontColor"/>
+			<bind debug_info="common_elements.uss:760:8-dock.uss:1:1" name="text" value="playerName"/>
+>>>>>>> .merge-right.r329013
 		</block>
 	</block>
 	<block className="CarouselFilters" debug_info="carousel_filters.uss:3:1-dock.uss:1:1">
@@ -2104,12 +2175,12 @@
 					<bind debug_info="carousel_filters.uss:856:7-dock.uss:1:1" name="watchDH" value="'typesCount' ; ['trainingRoomEntity.divisionRestrictions.evUpdate']; trainingRoomEntity.divisionRestrictions.typesCount"/>
 					<bind debug_info="carousel_filters.uss:858:7-dock.uss:1:1" name="primaryEntityDH" value="'defaultRestrictionsEntity'; CC.battleType; BattleTypes.TRAINING_BATTLE"/>
 					<bind debug_info="carousel_filters.uss:859:7-dock.uss:1:1" name="watchDH" value="'defaultTypesCount' ; ['defaultRestrictionsEntity.divisionRestrictions.evUpdate']; defaultRestrictionsEntity.divisionRestrictions.typesCount"/>
-					<bind debug_info="replaces.uss:663:7-carousel_filters.uss:861:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'idsfilters'+'ROOT'"/>
-					<bind debug_info="replaces.uss:664:7-carousel_filters.uss:861:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'idsfilters'+'ROOT'; 'idsfilters'; {'filter':$entity.shipFilterItem.type == 'shipId' &amp;&amp; isIn($entity.id, shipRestrictions)}; []"/>
-					<bind debug_info="replaces.uss:663:7-carousel_filters.uss:862:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'levelfilters'+'ROOT'"/>
-					<bind debug_info="replaces.uss:664:7-carousel_filters.uss:862:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'levelfilters'+'ROOT'; 'levelfilters'; {'filter':$entity.shipFilterItem.type == 'level' &amp;&amp; isIn($entity.id, shipRestrictions)}; []"/>
-					<bind debug_info="replaces.uss:663:7-carousel_filters.uss:863:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'nationfilters'+'ROOT'"/>
-					<bind debug_info="replaces.uss:664:7-carousel_filters.uss:863:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'nationfilters'+'ROOT'; 'nationfilters'; {'filter':$entity.shipFilterItem.type == 'nation' &amp;&amp; isIn($entity.id, shipRestrictions)}; []"/>
+					<bind debug_info="replaces.uss:662:7-carousel_filters.uss:861:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'idsfilters'+'ROOT'"/>
+					<bind debug_info="replaces.uss:663:7-carousel_filters.uss:861:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'idsfilters'+'ROOT'; 'idsfilters'; {'filter':$entity.shipFilterItem.type == 'shipId' &amp;&amp; isIn($entity.id, shipRestrictions)}; []"/>
+					<bind debug_info="replaces.uss:662:7-carousel_filters.uss:862:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'levelfilters'+'ROOT'"/>
+					<bind debug_info="replaces.uss:663:7-carousel_filters.uss:862:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'levelfilters'+'ROOT'; 'levelfilters'; {'filter':$entity.shipFilterItem.type == 'level' &amp;&amp; isIn($entity.id, shipRestrictions)}; []"/>
+					<bind debug_info="replaces.uss:662:7-carousel_filters.uss:863:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'nationfilters'+'ROOT'"/>
+					<bind debug_info="replaces.uss:663:7-carousel_filters.uss:863:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'nationfilters'+'ROOT'; 'nationfilters'; {'filter':$entity.shipFilterItem.type == 'nation' &amp;&amp; isIn($entity.id, shipRestrictions)}; []"/>
 					<bind debug_info="carousel_filters.uss:865:7-dock.uss:1:1" name="collectionFields" value="levelfilters; ['shipFilterItem.field']"/>
 					<bind debug_info="carousel_filters.uss:867:7-dock.uss:1:1" name="contains" value="typesCount; $item[1] == -1; 'isAnyShipTypeNotAllowed'"/>
 					<bind debug_info="carousel_filters.uss:869:7-dock.uss:1:1" name="watch" value="'isCarriersRestricted'; typesCount[ShipTypes.AircraftCarrier] &amp;&amp; typesCount[ShipTypes.AircraftCarrier][1] != defaultTypesCount[ShipTypes.AircraftCarrier][1]"/>
@@ -2122,7 +2193,7 @@
 												(levelfilters.length &gt; 0)		||
 												(nationfilters.length &gt; 0)		||
 												isShipFilterRestrictionsVisible"/>
-					<bind debug_info="carousel_filters.uss:881:7-dock.uss:1:1" name="watch" value="'isShipFilterRestrictionsVisible'; isAnyShipTypeRestricted &amp;&amp; isAnyShipTypeNotAllowed"/>
+					<bind debug_info="carousel_filters.uss:896:7-dock.uss:1:1" name="watch" value="'isShipFilterRestrictionsVisible'; isAnyShipTypeRestricted &amp;&amp; isAnyShipTypeNotAllowed"/>
 				</block>
 				<bind debug_info="carousel_filters.uss:47:9-dock.uss:1:1" name="watch" value="'pveFilterVisible'; selectedBattle.type == BattleTypes.PVE_BATTLE"/>
 				<bind debug_info="carousel_filters.uss:48:9-dock.uss:1:1" name="watch" value="'trainingFilterVisible'; trainingRoomEntity &amp;&amp; hasTrainingRoomRestrictions"/>
@@ -2152,8 +2223,8 @@
 		<bind debug_info="replaces.uss:61:7-carousel_filters.uss:67:1-dock.uss:1:1" name="transition" value="shipOverview.enabled; shipOverview.enabled ? 0.4 : 0.25; {alpha: 1}; {alpha: 0}; {alpha: 1}; 2; !(shipOverview.enabled) &amp;&amp; !(inPort) ? 0.15 : 0.5"/>
 		<bind debug_info="replaces.uss:62:7-carousel_filters.uss:67:1-dock.uss:1:1" name="style" value="'hitTest'; !(shipOverview.enabled)"/>
 		<bind debug_info="carousel_filters.uss:68:7-dock.uss:1:1" name="firstEntityDH" value="'panelEntity'; CC.filterPanelComponent"/>
-		<bind debug_info="replaces.uss:663:7-carousel_filters.uss:69:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'selectedFilters'+'ROOT'"/>
-		<bind debug_info="replaces.uss:664:7-carousel_filters.uss:69:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'selectedFilters'+'ROOT'; 'selectedFilters'; {'filter':isIn($entity.id, panelEntity.shipRestrictions.selectedFilters)}; []"/>
+		<bind debug_info="replaces.uss:662:7-carousel_filters.uss:69:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'selectedFilters'+'ROOT'"/>
+		<bind debug_info="replaces.uss:663:7-carousel_filters.uss:69:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'selectedFilters'+'ROOT'; 'selectedFilters'; {'filter':isIn($entity.id, panelEntity.shipRestrictions.selectedFilters)}; []"/>
 		<styleClass value="$VerticalInfotipBehaviourCenterUpper"/>
 		<bind debug_info="carousel_filters.uss:72:7-dock.uss:1:1" name="dispatch" value="'carouselRowsCountChanged'; 'Tooltip.Place'; {}; 2; 0.15"/>
 		<bind debug_info="carousel_filters.uss:73:7-dock.uss:1:1" name="dispatch" value="'carouselViewChanged'; 'Tooltip.Place'; {}; 2; 0.15"/>
@@ -2246,8 +2317,8 @@
 				</block>
 				<block debug_info="carousel_filters.uss:117:4-dock.uss:1:1">
 					<bind debug_info="carousel_filters.uss:118:10-dock.uss:1:1" name="visible" value="isSearchingShipByName"/>
-					<bind debug_info="replaces.uss:663:7-carousel_filters.uss:120:4-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'shipNameFilters'+'ROOT'"/>
-					<bind debug_info="replaces.uss:664:7-carousel_filters.uss:120:4-dock.uss:1:1" name="collectionDesign" value="'DES_'+'shipNameFilters'+'ROOT'; 'shipNameFilters'; {'filter':$entity.shipFilterItem.type == 'shipName'}; []"/>
+					<bind debug_info="replaces.uss:662:7-carousel_filters.uss:120:4-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'shipNameFilters'+'ROOT'"/>
+					<bind debug_info="replaces.uss:663:7-carousel_filters.uss:120:4-dock.uss:1:1" name="collectionDesign" value="'DES_'+'shipNameFilters'+'ROOT'; 'shipNameFilters'; {'filter':$entity.shipFilterItem.type == 'shipName'}; []"/>
 					<bind debug_info="carousel_filters.uss:121:10-dock.uss:1:1" name="firstEntityDH" value="'panelEntity'; CC.filterPanelComponent"/>
 					<bind debug_info="carousel_filters.uss:122:10-dock.uss:1:1" name="watchDH" value="'searchStr'; ['panelEntity.shipRestrictions.evUpdate']; panelEntity.shipRestrictions.selectedFiltersData[shipNameFilters[0].id]"/>
 					<style>
@@ -2467,14 +2538,21 @@
 			<bind debug_info="carousel_filters.uss:282:8-dock.uss:1:1" name="changeDispatch" value="_curItemIndex; 'carouselRowsCountChanged'"/>
 		</block>
 	</block>
-	<block className="CarouselAppliedFilterInfotip" debug_info="carousel_filters.uss:286:1-dock.uss:1:1">
-		<bind debug_info="replaces.uss:60:7-carousel_filters.uss:287:1-dock.uss:1:1" name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'shipOverview'"/>
-		<bind debug_info="replaces.uss:61:7-carousel_filters.uss:287:1-dock.uss:1:1" name="transition" value="shipOverview.enabled; shipOverview.enabled ? 0.4 : 0.25; {alpha: 1}; {alpha: 0}; {alpha: 1}; 2; !(shipOverview.enabled) &amp;&amp; !(inPort) ? 0.15 : 0.5"/>
-		<bind debug_info="replaces.uss:62:7-carousel_filters.uss:287:1-dock.uss:1:1" name="style" value="'hitTest'; !(shipOverview.enabled)"/>
-		<styleClass value="$VerticalInfotipBehaviourCenterUpper"/>
-		<bind debug_info="carousel_filters.uss:289:7-dock.uss:1:1" name="name" value="'CarouselAppliedFilterInfotip'"/>
-		<bind debug_info="carousel_filters.uss:290:7-dock.uss:1:1" name="firstEntityDH" value="'panelEntity'; CC.filterPanelComponent"/>
-		<block debug_info="carousel_filters.uss:292:2-dock.uss:1:1">
+	<block className="CarouselAppliedFilterInfotip" debug_info="carousel_filters.uss:295:1-dock.uss:1:1">
+		<bind debug_info="replaces.uss:60:7-carousel_filters.uss:296:1-dock.uss:1:1" name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'shipOverview'"/>
+		<bind debug_info="replaces.uss:61:7-carousel_filters.uss:296:1-dock.uss:1:1" name="transition" value="shipOverview.enabled; shipOverview.enabled ? 0.4 : 0.25; {alpha: 1}; {alpha: 0}; {alpha: 1}; 2; !(shipOverview.enabled) &amp;&amp; !(inPort) ? 0.15 : 0.5"/>
+		<bind debug_info="replaces.uss:62:7-carousel_filters.uss:296:1-dock.uss:1:1" name="style" value="'hitTest'; !(shipOverview.enabled)"/>
+		<bind debug_info="carousel_filters.uss:297:7-dock.uss:1:1" name="class" value="(_arrow == 'top') ? '$ReplaysInfotipFilter' : '$VerticalInfotipBehaviourCenterUpper'"/>
+		<bind debug_info="carousel_filters.uss:298:7-dock.uss:1:1" name="name" value="'CarouselAppliedFilterInfotip'"/>
+		<bind debug_info="carousel_filters.uss:299:7-dock.uss:1:1" name="firstEntityDH" value="'panelEntity'; CC.filterPanelComponent"/>
+		<block className="dock_panel_pin" debug_info="carousel_filters.uss:301:5-dock.uss:1:1" type="native">
+			<bind debug_info="carousel_filters.uss:302:8-dock.uss:1:1" name="visible" value="_arrow == 'top'"/>
+			<bind debug_info="carousel_filters.uss:303:8-dock.uss:1:1" name="gotoAndStop!" value="'up'"/>
+			<params>
+				<param name="name" value="pinTop"/>
+			</params>
+		</block>
+		<block debug_info="carousel_filters.uss:306:2-dock.uss:1:1">
 			<styleClass value="$FullsizeAbsolute"/>
 			<style>
 				<marginLeft value="8px"/>
@@ -2507,27 +2585,27 @@
 				</block>
 			</block>
 		</block>
-		<block className="dock_panel" debug_info="carousel_filters.uss:298:5-dock.uss:1:1" type="native">
+		<block className="dock_panel" debug_info="carousel_filters.uss:312:5-dock.uss:1:1" type="native">
 			<styleClass value="$FullsizeAbsolute"/>
 			<style>
 				<marginBottom value="-6px"/>
 				<marginLeft value="-6px"/>
 			</style>
 		</block>
-		<block debug_info="carousel_filters.uss:302:2-dock.uss:1:1">
+		<block debug_info="carousel_filters.uss:316:2-dock.uss:1:1">
 			<style>
 				<marginLeft value="9px"/>
 				<marginRight value="13px"/>
 				<marginTop value="10px"/>
 			</style>
-			<bind debug_info="carousel_filters.uss:304:8-dock.uss:1:1" name="instance" value="'FilterBlock'; {_title: _title, _filterType: _filterType, needDivider: false, _panelEntityId: panelEntity.id, _ident: 0}}"/>
+			<bind debug_info="carousel_filters.uss:318:8-dock.uss:1:1" name="instance" value="'FilterBlock'; {_title: _title, _filterType: _filterType, needDivider: false, _panelEntityId: panelEntity.id, _ident: 0}}"/>
 		</block>
-		<block className="dock_panel_pin" debug_info="carousel_filters.uss:306:5-dock.uss:1:1" type="native">
+		<block className="dock_panel_pin" debug_info="carousel_filters.uss:320:5-dock.uss:1:1" type="native">
+			<bind debug_info="carousel_filters.uss:321:8-dock.uss:1:1" name="style" value="'alpha'; _arrow != 'top' ? '0.5' : '0'"/>
 			<style>
 				<marginBottom value="3px"/>
-				<alpha value="0.5"/>
 			</style>
-			<bind debug_info="carousel_filters.uss:308:8-dock.uss:1:1" name="gotoAndStop!" value="'down'"/>
+			<bind debug_info="carousel_filters.uss:323:8-dock.uss:1:1" name="gotoAndStop!" value="'down'"/>
 			<params>
 				<param name="name" value="pinBottom"/>
 			</params>
@@ -2535,19 +2613,19 @@
 	</block>
 	<block className="CarouselAppliedFilterShipNameInfotip" debug_info="carousel_filters.uss:313:1-dock.uss:1:1">
 		<bind debug_info="carousel_filters.uss:314:7-dock.uss:1:1" name="firstEntityDH" value="'panelEntity'; CC.filterPanelComponent"/>
-		<bind debug_info="replaces.uss:663:7-carousel_filters.uss:315:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'shipNameFilters'+'ROOT'"/>
-		<bind debug_info="replaces.uss:664:7-carousel_filters.uss:315:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'shipNameFilters'+'ROOT'; 'shipNameFilters'; {'filter':$entity.shipFilterItem.type == 'shipName'}; []"/>
+		<bind debug_info="replaces.uss:662:7-carousel_filters.uss:315:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'shipNameFilters'+'ROOT'"/>
+		<bind debug_info="replaces.uss:663:7-carousel_filters.uss:315:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'shipNameFilters'+'ROOT'; 'shipNameFilters'; {'filter':$entity.shipFilterItem.type == 'shipName'}; []"/>
 		<bind debug_info="carousel_filters.uss:316:10-dock.uss:1:1" name="watchDH" value="'searchStr'; ['panelEntity.shipRestrictions.evUpdate']; panelEntity.shipRestrictions.selectedFiltersData[shipNameFilters[0].id]"/>
 		<bind debug_info="replaces.uss:60:7-carousel_filters.uss:319:1-dock.uss:1:1" name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'shipOverview'"/>
 		<bind debug_info="replaces.uss:61:7-carousel_filters.uss:319:1-dock.uss:1:1" name="transition" value="shipOverview.enabled; shipOverview.enabled ? 0.4 : 0.25; {alpha: 1}; {alpha: 0}; {alpha: 1}; 2; !(shipOverview.enabled) &amp;&amp; !(inPort) ? 0.15 : 0.5"/>
 		<bind debug_info="replaces.uss:62:7-carousel_filters.uss:319:1-dock.uss:1:1" name="style" value="'hitTest'; !(shipOverview.enabled)"/>
 		<styleClass value="$VerticalInfotipBehaviourCenterUpper"/>
-		<bind debug_info="carousel_filters.uss:321:7-dock.uss:1:1" name="name" value="'CarouselAppliedFilterShipNameInfotip'"/>
+		<bind debug_info="carousel_filters.uss:336:7-dock.uss:1:1" name="name" value="'CarouselAppliedFilterShipNameInfotip'"/>
 		<style>
 			<width value="305px"/>
 			<height value="65px"/>
 		</style>
-		<block debug_info="carousel_filters.uss:323:2-dock.uss:1:1">
+		<block debug_info="carousel_filters.uss:338:2-dock.uss:1:1">
 			<styleClass value="$FullsizeAbsolute"/>
 			<style>
 				<marginLeft value="8px"/>
@@ -2580,21 +2658,21 @@
 				</block>
 			</block>
 		</block>
-		<block className="dock_panel" debug_info="carousel_filters.uss:329:5-dock.uss:1:1" type="native">
+		<block className="dock_panel" debug_info="carousel_filters.uss:344:5-dock.uss:1:1" type="native">
 			<styleClass value="$FullsizeAbsolute"/>
 			<style>
 				<marginBottom value="-6px"/>
 				<marginLeft value="-6px"/>
 			</style>
 		</block>
-		<block debug_info="carousel_filters.uss:333:2-dock.uss:1:1">
+		<block debug_info="carousel_filters.uss:348:2-dock.uss:1:1">
 			<style>
 				<width value="284px"/>
 				<height value="40px"/>
 				<marginTop value="11px"/>
 				<right value="6px"/>
 			</style>
-			<bind debug_info="carousel_filters.uss:336:8-dock.uss:1:1" name="instance" value="'TextInputWithCancelCustom'; {	onEnterEvent: 'startShipSearch',
+			<bind debug_info="carousel_filters.uss:351:8-dock.uss:1:1" name="instance" value="'TextInputWithCancelCustom'; {	onEnterEvent: 'startShipSearch',
 													onCancelEvent: 'shipSearchCancelled',
 													onInputStrChangedEvent: 'inputStrChanged',													
 													_onEnterTooltipText: 'IDS_HINT_FIND',
@@ -2602,28 +2680,28 @@
 													_defaultInputValue: searchStr,
 													_maxChars: 20,
 													_tfWidth: '250px'}"/>
-			<bind debug_info="carousel_filters.uss:345:8-dock.uss:1:1" name="watch" value="'strForSearch'; inputStr"/>
-			<bind debug_info="carousel_filters.uss:347:8-dock.uss:1:1" name="catch" value="'TextInputWithCancel.inputStrChanged'"/>
-			<bind debug_info="carousel_filters.uss:348:8-dock.uss:1:1" name="changeDispatch" value="strForSearch; 'strForChanged'"/>
-			<bind debug_info="carousel_filters.uss:349:8-dock.uss:1:1" name="catch" value="'TextInputWithCancel.shipSearchCancelled'; {inputStr: ''}"/>
-			<bind debug_info="carousel_filters.uss:354:14-dock.uss:1:1" name="action" value="'strForChanged'; 'setFilterValue' ; {type: 'shipName', field: 'IDS_SHIP_NAME_FILTER', value: strForSearch, ident: 0}"/>
-			<bind debug_info="carousel_filters.uss:355:8-dock.uss:1:1" name="dispatch" value="'TextInputWithCancel.shipSearchCancelled'; 'Tooltip.Close'; {}; false; 0.1"/>
+			<bind debug_info="carousel_filters.uss:360:8-dock.uss:1:1" name="watch" value="'strForSearch'; inputStr"/>
+			<bind debug_info="carousel_filters.uss:362:8-dock.uss:1:1" name="catch" value="'TextInputWithCancel.inputStrChanged'"/>
+			<bind debug_info="carousel_filters.uss:363:8-dock.uss:1:1" name="changeDispatch" value="strForSearch; 'strForChanged'"/>
+			<bind debug_info="carousel_filters.uss:364:8-dock.uss:1:1" name="catch" value="'TextInputWithCancel.shipSearchCancelled'; {inputStr: ''}"/>
+			<bind debug_info="carousel_filters.uss:369:14-dock.uss:1:1" name="action" value="'strForChanged'; 'setFilterValue' ; {type: 'shipName', field: 'IDS_SHIP_NAME_FILTER', value: strForSearch, ident: 0}"/>
+			<bind debug_info="carousel_filters.uss:370:8-dock.uss:1:1" name="dispatch" value="'TextInputWithCancel.shipSearchCancelled'; 'Tooltip.Close'; {}; false; 0.1"/>
 		</block>
-		<block className="dock_panel_pin" debug_info="carousel_filters.uss:357:5-dock.uss:1:1" type="native">
+		<block className="dock_panel_pin" debug_info="carousel_filters.uss:372:5-dock.uss:1:1" type="native">
 			<style>
 				<position value="absolute"/>
 				<bottom value="3px"/>
 				<alpha value="0.5"/>
 			</style>
-			<bind debug_info="carousel_filters.uss:359:8-dock.uss:1:1" name="gotoAndStop!" value="'down'"/>
+			<bind debug_info="carousel_filters.uss:374:8-dock.uss:1:1" name="gotoAndStop!" value="'down'"/>
 			<params>
 				<param name="name" value="pinBottom"/>
 			</params>
 		</block>
 	</block>
 	<block className="FilterBlock" debug_info="carousel_filters.uss:364:1-dock.uss:1:1">
-		<bind debug_info="replaces.uss:663:7-carousel_filters.uss:365:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'filters'+'ROOT'"/>
-		<bind debug_info="replaces.uss:664:7-carousel_filters.uss:365:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'filters'+'ROOT'; 'filters'; {'filter':$entity.shipFilterItem.type == _filterType}; []"/>
+		<bind debug_info="replaces.uss:662:7-carousel_filters.uss:365:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'filters'+'ROOT'"/>
+		<bind debug_info="replaces.uss:663:7-carousel_filters.uss:365:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'filters'+'ROOT'; 'filters'; {'filter':$entity.shipFilterItem.type == _filterType}; []"/>
 		<block debug_info="carousel_filters.uss:367:2-dock.uss:1:1" type="text">
 			<style>
 				<marginTop value="5px"/>
@@ -2631,138 +2709,138 @@
 			</style>
 			<styleClass value="$MiddleAligned"/>
 			<styleClass value="$TextHeaderBold"/>
-			<bind debug_info="carousel_filters.uss:371:8-dock.uss:1:1" name="class" value="'$FontColorBlueish'"/>
-			<bind debug_info="carousel_filters.uss:372:8-dock.uss:1:1" name="text" value="_title"/>
+			<bind debug_info="carousel_filters.uss:386:8-dock.uss:1:1" name="class" value="'$FontColorBlueish'"/>
+			<bind debug_info="carousel_filters.uss:387:8-dock.uss:1:1" name="text" value="_title"/>
 		</block>
-		<block debug_info="carousel_filters.uss:374:2-dock.uss:1:1">
-			<bind debug_info="carousel_filters.uss:375:8-dock.uss:1:1" name="name" value="'FilterBlockValues'"/>
+		<block debug_info="carousel_filters.uss:389:2-dock.uss:1:1">
+			<bind debug_info="carousel_filters.uss:390:8-dock.uss:1:1" name="name" value="'FilterBlockValues'"/>
 			<style>
 				<flow value="vtile"/>
 				<height value="155px"/>
 				<marginLeft value="30px"/>
 				<marginRight value="6px"/>
 			</style>
-			<bind debug_info="carousel_filters.uss:377:8-dock.uss:1:1" name="repeat" value="filters; 'FilterItem'; {_panelEntityId: _panelEntityId, _ident: _ident, _tooltipPrefix: _tooltipPrefix}"/>
+			<bind debug_info="carousel_filters.uss:392:8-dock.uss:1:1" name="repeat" value="filters; 'FilterItem'; {_panelEntityId: _panelEntityId, _ident: _ident, _tooltipPrefix: _tooltipPrefix}"/>
 		</block>
-		<block debug_info="carousel_filters.uss:379:2-dock.uss:1:1">
-			<bind debug_info="carousel_filters.uss:380:8-dock.uss:1:1" name="visible" value="needDivider == true"/>
+		<block debug_info="carousel_filters.uss:394:2-dock.uss:1:1">
+			<bind debug_info="carousel_filters.uss:395:8-dock.uss:1:1" name="visible" value="needDivider == true"/>
 			<style>
 				<height value="100%"/>
 				<position value="absolute"/>
 			</style>
-			<block className="divider_v" debug_info="carousel_filters.uss:382:6-dock.uss:1:1" type="native">
+			<block className="divider_v" debug_info="carousel_filters.uss:397:6-dock.uss:1:1" type="native">
 				<style>
 					<height value="100%"/>
 				</style>
 			</block>
 		</block>
 	</block>
-	<block className="FilterItem" debug_info="carousel_filters.uss:388:1-dock.uss:1:1">
-		<bind debug_info="carousel_filters.uss:389:7-dock.uss:1:1" name="entityDH" value="'entity'; id"/>
-		<bind debug_info="carousel_filters.uss:390:7-dock.uss:1:1" name="entityDH" value="'panelEntity'; _panelEntityId"/>
-		<bind debug_info="carousel_filters.uss:391:10-dock.uss:1:1" name="watchDH" value="'_value'; ['panelEntity.shipRestrictions.evUpdate']; isIn(entity.id, panelEntity.shipRestrictions.selectedFilters)"/>
-		<bind debug_info="carousel_filters.uss:392:10-dock.uss:1:1" name="watchDH" value="'_filterType'; ['entity.shipFilterItem.evUpdate']; entity.shipFilterItem.type"/>
-		<bind debug_info="carousel_filters.uss:393:10-dock.uss:1:1" name="watchDH" value="'_field'; ['entity.shipFilterItem.evUpdate']; entity.shipFilterItem.field"/>
-		<bind debug_info="carousel_filters.uss:395:10-dock.uss:1:1" name="instance" value="(_filterType == 'level')	? 'ShipLevelCheckBox'	:
+	<block className="FilterItem" debug_info="carousel_filters.uss:403:1-dock.uss:1:1">
+		<bind debug_info="carousel_filters.uss:404:7-dock.uss:1:1" name="entityDH" value="'entity'; id"/>
+		<bind debug_info="carousel_filters.uss:405:7-dock.uss:1:1" name="entityDH" value="'panelEntity'; _panelEntityId"/>
+		<bind debug_info="carousel_filters.uss:406:10-dock.uss:1:1" name="watchDH" value="'_value'; ['panelEntity.shipRestrictions.evUpdate']; isIn(entity.id, panelEntity.shipRestrictions.selectedFilters)"/>
+		<bind debug_info="carousel_filters.uss:407:10-dock.uss:1:1" name="watchDH" value="'_filterType'; ['entity.shipFilterItem.evUpdate']; entity.shipFilterItem.type"/>
+		<bind debug_info="carousel_filters.uss:408:10-dock.uss:1:1" name="watchDH" value="'_field'; ['entity.shipFilterItem.evUpdate']; entity.shipFilterItem.field"/>
+		<bind debug_info="carousel_filters.uss:410:10-dock.uss:1:1" name="instance" value="(_filterType == 'level')	? 'ShipLevelCheckBox'	:
                     (_filterType == 'shipType')	? 'ShipClassCheckBox'	:
                     (_filterType == 'nation')	? (_field != 'Events' ? 'ShipNationCheckBox' : 'EmptyItem') :
                     (_filterType == 'special')	? 'ShipSpecialCheckBox'
                                           		: 'FilterCheckBox'; {_filterType: _filterType, value: _value, field: _field, _ident: _ident, _tooltipPrefix: _tooltipPrefix}"/>
 	</block>
-	<block className="FilterCheckBox" debug_info="carousel_filters.uss:402:1-dock.uss:1:1">
+	<block className="FilterCheckBox" debug_info="carousel_filters.uss:417:1-dock.uss:1:1">
 		<style>
 			<marginRight value="44px"/>
 			<marginBottom value="8px"/>
 		</style>
-		<bind debug_info="carousel_filters.uss:404:7-dock.uss:1:1" name="instance" value="'CheckBox'; {switchProperty: value, label: field, _maxTfWidth: 150}"/>
-		<bind debug_info="carousel_filters.uss:405:7-dock.uss:1:1" name="action" value="'left_click'; 'setFilterValue' ; {type: _filterType, field: field, value: !value, ident: _ident}"/>
-		<bind debug_info="carousel_filters.uss:406:7-dock.uss:1:1" name="clickSplit"/>
+		<bind debug_info="carousel_filters.uss:419:7-dock.uss:1:1" name="instance" value="'CheckBox'; {switchProperty: value, label: field, _maxTfWidth: 150}"/>
+		<bind debug_info="carousel_filters.uss:420:7-dock.uss:1:1" name="action" value="'left_click'; 'setFilterValue' ; {type: _filterType, field: field, value: !value, ident: _ident}"/>
+		<bind debug_info="carousel_filters.uss:421:7-dock.uss:1:1" name="clickSplit"/>
 	</block>
-	<block className="ShipLevelCheckBox" debug_info="carousel_filters.uss:409:1-dock.uss:1:1">
-		<bind debug_info="carousel_filters.uss:410:7-dock.uss:1:1" name="name" value="'CarouselCheckBox_' + _filterType + '_' + field"/>
+	<block className="ShipLevelCheckBox" debug_info="carousel_filters.uss:424:1-dock.uss:1:1">
+		<bind debug_info="carousel_filters.uss:425:7-dock.uss:1:1" name="name" value="'CarouselCheckBox_' + _filterType + '_' + field"/>
 		<style>
 			<marginBottom value="8px"/>
 			<width value="80px"/>
 		</style>
-		<bind debug_info="carousel_filters.uss:412:7-dock.uss:1:1" name="action" value="'left_click'; 'setFilterValue' ; {type: _filterType, field: field, value: !value, ident: _ident}"/>
-		<bind debug_info="carousel_filters.uss:413:7-dock.uss:1:1" name="clickSplit"/>
-		<bind debug_info="carousel_filters.uss:414:7-dock.uss:1:1" name="watch" value="'tooltipPrefix'; _tooltipPrefix ? _tooltipPrefix : 'IDS_'"/>
-		<bind debug_info="carousel_filters.uss:415:7-dock.uss:1:1" name="tooltip" value="'SimpleTooltip'; { tooltipText: subst(tooltipPrefix + 'HINT_CHECKBOX_FILTER_LEVEL', [], {level: field}) }"/>
-		<bind debug_info="carousel_filters.uss:416:7-dock.uss:1:1" name="instance" value="'CheckBox'; {switchProperty: !!(value), label: ShipLevels.RLEVELS[field], _maxTfWidth: 150}"/>
+		<bind debug_info="carousel_filters.uss:427:7-dock.uss:1:1" name="action" value="'left_click'; 'setFilterValue' ; {type: _filterType, field: field, value: !value, ident: _ident}"/>
+		<bind debug_info="carousel_filters.uss:428:7-dock.uss:1:1" name="clickSplit"/>
+		<bind debug_info="carousel_filters.uss:429:7-dock.uss:1:1" name="watch" value="'tooltipPrefix'; _tooltipPrefix ? _tooltipPrefix : 'IDS_'"/>
+		<bind debug_info="carousel_filters.uss:430:7-dock.uss:1:1" name="tooltip" value="'SimpleTooltip'; { tooltipText: subst(tooltipPrefix + 'HINT_CHECKBOX_FILTER_LEVEL', [], {level: field}) }"/>
+		<bind debug_info="carousel_filters.uss:431:7-dock.uss:1:1" name="instance" value="'CheckBox'; {switchProperty: !!(value), label: ShipLevels.RLEVELS[field], _maxTfWidth: 150}"/>
 	</block>
-	<block className="ShipClassCheckBox" debug_info="carousel_filters.uss:419:1-dock.uss:1:1">
-		<bind debug_info="carousel_filters.uss:420:7-dock.uss:1:1" name="name" value="'CarouselCheckBox_' + _filterType + '_' + field"/>
-		<bind debug_info="carousel_filters.uss:421:7-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
-		<bind debug_info="carousel_filters.uss:422:7-dock.uss:1:1" name="action" value="'left_click'; 'setFilterValue' ; {type: _filterType, field: field, value: !value, ident: _ident}"/>
-		<bind debug_info="carousel_filters.uss:423:7-dock.uss:1:1" name="clickSplit"/>
-		<bind debug_info="carousel_filters.uss:424:7-dock.uss:1:1" name="watch" value="'tooltipPrefix'; _tooltipPrefix ? _tooltipPrefix : 'IDS_'"/>
-		<bind debug_info="carousel_filters.uss:425:7-dock.uss:1:1" name="tooltip" value="'SimpleTooltip'; { tooltipText: tooltipPrefix + 'HINT_CHECKBOX_FILTER_CLASS_' + toUpperCase(field) }"/>
+	<block className="ShipClassCheckBox" debug_info="carousel_filters.uss:434:1-dock.uss:1:1">
+		<bind debug_info="carousel_filters.uss:435:7-dock.uss:1:1" name="name" value="'CarouselCheckBox_' + _filterType + '_' + field"/>
+		<bind debug_info="carousel_filters.uss:436:7-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
+		<bind debug_info="carousel_filters.uss:437:7-dock.uss:1:1" name="action" value="'left_click'; 'setFilterValue' ; {type: _filterType, field: field, value: !value, ident: _ident}"/>
+		<bind debug_info="carousel_filters.uss:438:7-dock.uss:1:1" name="clickSplit"/>
+		<bind debug_info="carousel_filters.uss:439:7-dock.uss:1:1" name="watch" value="'tooltipPrefix'; _tooltipPrefix ? _tooltipPrefix : 'IDS_'"/>
+		<bind debug_info="carousel_filters.uss:440:7-dock.uss:1:1" name="tooltip" value="'SimpleTooltip'; { tooltipText: tooltipPrefix + 'HINT_CHECKBOX_FILTER_CLASS_' + toUpperCase(field) }"/>
 		<style>
 			<marginBottom value="8px"/>
 			<width value="80px"/>
 			<height value="21px"/>
 			<flow value="horizontal"/>
 		</style>
-		<block className="checkbox_no_label" debug_info="carousel_filters.uss:428:5-dock.uss:1:1" type="native">
+		<block className="checkbox_no_label" debug_info="carousel_filters.uss:443:5-dock.uss:1:1" type="native">
 			<styleClass value="$FullsizeAbsolute"/>
-			<bind debug_info="carousel_filters.uss:430:8-dock.uss:1:1" name="selected" value="!!(value)"/>
+			<bind debug_info="carousel_filters.uss:445:8-dock.uss:1:1" name="selected" value="!!(value)"/>
 		</block>
-		<block debug_info="carousel_filters.uss:432:2-dock.uss:1:1">
+		<block debug_info="carousel_filters.uss:447:2-dock.uss:1:1">
 			<style>
 				<marginLeft value="27px"/>
 				<marginTop value="5px"/>
 				<hitTest value="false"/>
 			</style>
-			<bind debug_info="carousel_filters.uss:434:8-dock.uss:1:1" name="transition" value="rollOver &amp;&amp; !mouseDown; 0.15; {alpha: 0.8}; {alpha: 1}; {alpha: 0.8}; 2"/>
-			<block className="icon_ship" debug_info="carousel_filters.uss:436:6-dock.uss:1:1" type="native">
-				<bind debug_info="carousel_filters.uss:437:9-dock.uss:1:1" name="gotoAndStop!" value="field"/>
+			<bind debug_info="carousel_filters.uss:449:8-dock.uss:1:1" name="transition" value="rollOver &amp;&amp; !mouseDown; 0.15; {alpha: 0.8}; {alpha: 1}; {alpha: 0.8}; 2"/>
+			<block className="icon_ship" debug_info="carousel_filters.uss:451:6-dock.uss:1:1" type="native">
+				<bind debug_info="carousel_filters.uss:452:9-dock.uss:1:1" name="gotoAndStop!" value="field"/>
 			</block>
 		</block>
 	</block>
-	<block className="ShipNationCheckBox" debug_info="carousel_filters.uss:442:1-dock.uss:1:1">
-		<bind debug_info="carousel_filters.uss:443:7-dock.uss:1:1" name="name" value="'CarouselCheckBox_' + _filterType + '_' + field"/>
-		<bind debug_info="carousel_filters.uss:444:7-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
-		<bind debug_info="carousel_filters.uss:445:7-dock.uss:1:1" name="action" value="'left_click'; 'setFilterValue' ; {type: _filterType, field: field, value: !value, ident: _ident}"/>
-		<bind debug_info="carousel_filters.uss:446:7-dock.uss:1:1" name="watch" value="'tooltipPrefix'; _tooltipPrefix ? _tooltipPrefix : 'IDS_'"/>
-		<bind debug_info="carousel_filters.uss:447:7-dock.uss:1:1" name="tooltip" value="'SimpleTooltip'; {tooltipText: tr(tooltipPrefix + 'HINT_CHECKBOX_FILTER_NATION_') +  tr(toUpperCase(field))}"/>
-		<bind debug_info="carousel_filters.uss:448:7-dock.uss:1:1" name="clickSplit"/>
+	<block className="ShipNationCheckBox" debug_info="carousel_filters.uss:457:1-dock.uss:1:1">
+		<bind debug_info="carousel_filters.uss:458:7-dock.uss:1:1" name="name" value="'CarouselCheckBox_' + _filterType + '_' + field"/>
+		<bind debug_info="carousel_filters.uss:459:7-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
+		<bind debug_info="carousel_filters.uss:460:7-dock.uss:1:1" name="action" value="'left_click'; 'setFilterValue' ; {type: _filterType, field: field, value: !value, ident: _ident}"/>
+		<bind debug_info="carousel_filters.uss:461:7-dock.uss:1:1" name="watch" value="'tooltipPrefix'; _tooltipPrefix ? _tooltipPrefix : 'IDS_'"/>
+		<bind debug_info="carousel_filters.uss:462:7-dock.uss:1:1" name="tooltip" value="'SimpleTooltip'; {tooltipText: tr(tooltipPrefix + 'HINT_CHECKBOX_FILTER_NATION_') +  tr(toUpperCase(field))}"/>
+		<bind debug_info="carousel_filters.uss:463:7-dock.uss:1:1" name="clickSplit"/>
 		<style>
 			<marginBottom value="8px"/>
 			<width value="80px"/>
 			<flow value="horizontal"/>
 		</style>
-		<block className="checkbox_no_label" debug_info="carousel_filters.uss:452:5-dock.uss:1:1" type="native">
+		<block className="checkbox_no_label" debug_info="carousel_filters.uss:467:5-dock.uss:1:1" type="native">
 			<styleClass value="$FullsizeAbsolute"/>
-			<bind debug_info="carousel_filters.uss:454:8-dock.uss:1:1" name="selected" value="!!(value)"/>
+			<bind debug_info="carousel_filters.uss:469:8-dock.uss:1:1" name="selected" value="!!(value)"/>
 		</block>
-		<block debug_info="carousel_filters.uss:456:2-dock.uss:1:1">
+		<block debug_info="carousel_filters.uss:471:2-dock.uss:1:1">
 			<style>
 				<marginLeft value="27px"/>
 				<hitTest value="false"/>
 			</style>
-			<bind debug_info="carousel_filters.uss:458:8-dock.uss:1:1" name="transition" value="rollOver &amp;&amp; !mouseDown; 0.15; {alpha: 0.8}; {alpha: 1}; {alpha: 0.8}; 2"/>
-			<bind debug_info="carousel_filters.uss:459:8-dock.uss:1:1" name="instance" value="'NationFlagsTiny'; {shipCountry: field}"/>
+			<bind debug_info="carousel_filters.uss:473:8-dock.uss:1:1" name="transition" value="rollOver &amp;&amp; !mouseDown; 0.15; {alpha: 0.8}; {alpha: 1}; {alpha: 0.8}; 2"/>
+			<bind debug_info="carousel_filters.uss:474:8-dock.uss:1:1" name="instance" value="'NationFlagsTiny'; {shipCountry: field}"/>
 		</block>
 	</block>
-	<block className="ShipSpecialCheckBox" debug_info="carousel_filters.uss:463:1-dock.uss:1:1">
-		<bind debug_info="carousel_filters.uss:464:7-dock.uss:1:1" name="controller" value="lesta.dialogs.controllers.EntitySingletonController; field == 'IDS_RANKED_BATTLES' ? 'rankedBattlesSeason' : null"/>
-		<bind debug_info="carousel_filters.uss:465:7-dock.uss:1:1" name="collectionDH" value="CC.clubsCommon; 'clubsCommonCollection'"/>
-		<bind debug_info="carousel_filters.uss:466:7-dock.uss:1:1" name="entityDH" value="'clubsCommonEntity'; clubsCommonCollection[0].id"/>
-		<bind debug_info="carousel_filters.uss:467:7-dock.uss:1:1" name="watchDH" value="'clubBattlesSeasonId'; ['clubsCommonEntity.clubsCommon.evRulesChanged']; clubsCommonEntity.clubsCommon.seasonId"/>
-		<bind debug_info="carousel_filters.uss:468:7-dock.uss:1:1" name="watchDH" value="'clubBattlesSeasonStage'; ['clubsCommonEntity.clubsCommon.evRulesChanged']; clubsCommonEntity.clubsCommon.stage"/>
-		<bind debug_info="carousel_filters.uss:470:7-dock.uss:1:1" name="name" value="'CarouselCheckBox_' + _filterType + '_' + field"/>
-		<bind debug_info="carousel_filters.uss:472:7-dock.uss:1:1" name="feature" value="13; ''"/>
-		<bind debug_info="carousel_filters.uss:473:7-dock.uss:1:1" name="feature" value="16; ''"/>
-		<bind debug_info="carousel_filters.uss:474:7-dock.uss:1:1" name="feature" value="19; ''"/>
-		<bind debug_info="carousel_filters.uss:475:7-dock.uss:1:1" name="watch" value="'isVisible';	(field == 'IDS_RANKED_BATTLES'	&amp;&amp;	(feature_16 == 'locked' || rankedBattlesSeason.denyReason &amp; RBDeny.NO_SEASON))			? false :
+	<block className="ShipSpecialCheckBox" debug_info="carousel_filters.uss:478:1-dock.uss:1:1">
+		<bind debug_info="carousel_filters.uss:479:7-dock.uss:1:1" name="controller" value="lesta.dialogs.controllers.EntitySingletonController; field == 'IDS_RANKED_BATTLES' ? 'rankedBattlesSeason' : null"/>
+		<bind debug_info="carousel_filters.uss:480:7-dock.uss:1:1" name="collectionDH" value="CC.clubsCommon; 'clubsCommonCollection'"/>
+		<bind debug_info="carousel_filters.uss:481:7-dock.uss:1:1" name="entityDH" value="'clubsCommonEntity'; clubsCommonCollection[0].id"/>
+		<bind debug_info="carousel_filters.uss:482:7-dock.uss:1:1" name="watchDH" value="'clubBattlesSeasonId'; ['clubsCommonEntity.clubsCommon.evRulesChanged']; clubsCommonEntity.clubsCommon.seasonId"/>
+		<bind debug_info="carousel_filters.uss:483:7-dock.uss:1:1" name="watchDH" value="'clubBattlesSeasonStage'; ['clubsCommonEntity.clubsCommon.evRulesChanged']; clubsCommonEntity.clubsCommon.stage"/>
+		<bind debug_info="carousel_filters.uss:485:7-dock.uss:1:1" name="name" value="'CarouselCheckBox_' + _filterType + '_' + field"/>
+		<bind debug_info="carousel_filters.uss:487:7-dock.uss:1:1" name="feature" value="13; ''"/>
+		<bind debug_info="carousel_filters.uss:488:7-dock.uss:1:1" name="feature" value="16; ''"/>
+		<bind debug_info="carousel_filters.uss:489:7-dock.uss:1:1" name="feature" value="19; ''"/>
+		<bind debug_info="carousel_filters.uss:490:7-dock.uss:1:1" name="watch" value="'isVisible';	(field == 'IDS_RANKED_BATTLES'	&amp;&amp;	(feature_16 == 'locked' || rankedBattlesSeason.denyReason &amp; RBDeny.NO_SEASON))			? false :
 								(field == 'IDS_CLUB_BATTLES'	&amp;&amp;	(feature_19 == 'locked' || clubBattlesSeasonId &lt;= 0 || clubBattlesSeasonStage != 2))	? false :
 								((field == 'IDS_WITH_COMMANDER'	||	field == 'IDS_WITHOUT_COMMANDER') &amp;&amp; feature_13 == 'locked')							? false
 																																							: true"/>
-		<bind debug_info="carousel_filters.uss:479:7-dock.uss:1:1" name="visible" value="isVisible"/>
-		<bind debug_info="carousel_filters.uss:481:7-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
-		<bind debug_info="carousel_filters.uss:482:7-dock.uss:1:1" name="action" value="'left_click'; 'setFilterValue' ; {type: _filterType, field: field, value: !value, ident: _ident}"/>
-		<bind debug_info="carousel_filters.uss:483:7-dock.uss:1:1" name="clickSplit"/>
-		<bind debug_info="carousel_filters.uss:484:7-dock.uss:1:1" name="tooltip" value="'SimpleTooltip'; {tooltipText:	((field == 'IDS_SELECTED_BY_USER') 	? 'IDS_HINT_CHECKBOX_FILTER_SELECTED_BY_USER':
+		<bind debug_info="carousel_filters.uss:494:7-dock.uss:1:1" name="visible" value="isVisible"/>
+		<bind debug_info="carousel_filters.uss:496:7-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
+		<bind debug_info="carousel_filters.uss:497:7-dock.uss:1:1" name="action" value="'left_click'; 'setFilterValue' ; {type: _filterType, field: field, value: !value, ident: _ident}"/>
+		<bind debug_info="carousel_filters.uss:498:7-dock.uss:1:1" name="clickSplit"/>
+		<bind debug_info="carousel_filters.uss:499:7-dock.uss:1:1" name="tooltip" value="'SimpleTooltip'; {tooltipText:	((field == 'IDS_SELECTED_BY_USER') 	? 'IDS_HINT_CHECKBOX_FILTER_SELECTED_BY_USER':
 													(field == 'IDS_FILTER_PREMIUM') 	? 'IDS_HINT_CHECKBOX_FILTER_PREMIUM':
 													(field == 'IDS_WITH_COMMANDER') 	? 'IDS_HINT_CHECKBOX_FILTER_WITH_COMMANDER':
 													(field == 'IDS_WITHOUT_COMMANDER') 	? 'IDS_HINT_CHECKBOX_FILTER_WITHOUT_COMMANDER':
@@ -2778,18 +2856,18 @@
 			<height value="21px"/>
 			<flow value="horizontal"/>
 		</style>
-		<block className="checkbox_no_label" debug_info="carousel_filters.uss:496:5-dock.uss:1:1" type="native">
+		<block className="checkbox_no_label" debug_info="carousel_filters.uss:511:5-dock.uss:1:1" type="native">
 			<styleClass value="$FullsizeAbsolute"/>
-			<bind debug_info="carousel_filters.uss:498:9-dock.uss:1:1" name="selected" value="!!(value)"/>
+			<bind debug_info="carousel_filters.uss:513:9-dock.uss:1:1" name="selected" value="!!(value)"/>
 		</block>
-		<block debug_info="carousel_filters.uss:500:2-dock.uss:1:1">
-			<bind debug_info="carousel_filters.uss:501:8-dock.uss:1:1" name="transition" value="rollOver &amp;&amp; !mouseDown; 0.15; {alpha: 0.8}; {alpha: 1}; {alpha: 0.8}; 2"/>
+		<block debug_info="carousel_filters.uss:515:2-dock.uss:1:1">
+			<bind debug_info="carousel_filters.uss:516:8-dock.uss:1:1" name="transition" value="rollOver &amp;&amp; !mouseDown; 0.15; {alpha: 0.8}; {alpha: 1}; {alpha: 0.8}; 2"/>
 			<style>
 				<marginTop value="-2px"/>
 				<marginLeft value="27px"/>
 				<hitTest value="false"/>
 			</style>
-			<bind debug_info="carousel_filters.uss:503:8-dock.uss:1:1" name="child" value="field; {_isCheckBox: true}; {	IDS_SELECTED_BY_USER: 'PrimaryIcon',
+			<bind debug_info="carousel_filters.uss:518:8-dock.uss:1:1" name="child" value="field; {_isCheckBox: true}; {	IDS_SELECTED_BY_USER: 'PrimaryIcon',
 													IDS_FILTER_ELITE: 'EliteIcon',
 													IDS_FILTER_PREMIUM: 'PremiumIcon',
 													IDS_RANKED_BATTLES: 'RankedIcon',
@@ -2800,26 +2878,26 @@
 													IDS_WITHOUT_COMMANDER: 'WithoutCrewIcon'}"/>
 		</block>
 	</block>
-	<block className="AppliedBattleTypeFilter" debug_info="carousel_filters.uss:520:1-dock.uss:1:1">
-		<bind debug_info="carousel_filters.uss:521:7-dock.uss:1:1" name="firstEntityDH" value="'enterBattleEntity'; CC.enterBattle"/>
-		<bind debug_info="carousel_filters.uss:522:7-dock.uss:1:1" name="watchDH" value="'selectedBattle'; ['enterBattleEntity.enterBattle.evBattleTypesUpdated']; enterBattleEntity.enterBattle.selectedBattle"/>
-		<bind debug_info="carousel_filters.uss:523:7-dock.uss:1:1" name="primaryEntityDH" value="'selectedBattleTypeEntity'; CC.battleType; selectedBattle.type"/>
-		<bind debug_info="carousel_filters.uss:525:7-dock.uss:1:1" name="firstEntityDH" value="'pveStateEntity'; CC.pveState"/>
-		<bind debug_info="carousel_filters.uss:526:7-dock.uss:1:1" name="watchDH" value="'chosenOperationId'; ['pveStateEntity.pveState.evStateUpdated']; pveStateEntity.pveState.chosenOperation"/>
-		<bind debug_info="carousel_filters.uss:527:7-dock.uss:1:1" name="primaryEntityDH" value="'operationEntity'; CC.operation; chosenOperationId"/>
-		<bind debug_info="carousel_filters.uss:529:7-dock.uss:1:1" name="firstEntityDH" value="'trainingRoomEntity'; CC.trainingRoomWindowState"/>
-		<bind debug_info="carousel_filters.uss:530:7-dock.uss:1:1" name="primaryEntityDH" value="'defaultRestrictionsEntity'; CC.battleType; BattleTypes.TRAINING_BATTLE"/>
-		<bind debug_info="carousel_filters.uss:531:7-dock.uss:1:1" name="primaryEntityDH" value="'rankedRestrictionsEntity'; CC.shipRestrictions; 7"/>
-		<bind debug_info="carousel_filters.uss:533:7-dock.uss:1:1" name="watch" value="'restrictionsEntityId';	selectedBattle.type == BattleTypes.PVE_BATTLE 		? 	operationEntity.id :
+	<block className="AppliedBattleTypeFilter" debug_info="carousel_filters.uss:535:1-dock.uss:1:1">
+		<bind debug_info="carousel_filters.uss:536:7-dock.uss:1:1" name="firstEntityDH" value="'enterBattleEntity'; CC.enterBattle"/>
+		<bind debug_info="carousel_filters.uss:537:7-dock.uss:1:1" name="watchDH" value="'selectedBattle'; ['enterBattleEntity.enterBattle.evBattleTypesUpdated']; enterBattleEntity.enterBattle.selectedBattle"/>
+		<bind debug_info="carousel_filters.uss:538:7-dock.uss:1:1" name="primaryEntityDH" value="'selectedBattleTypeEntity'; CC.battleType; selectedBattle.type"/>
+		<bind debug_info="carousel_filters.uss:540:7-dock.uss:1:1" name="firstEntityDH" value="'pveStateEntity'; CC.pveState"/>
+		<bind debug_info="carousel_filters.uss:541:7-dock.uss:1:1" name="watchDH" value="'chosenOperationId'; ['pveStateEntity.pveState.evStateUpdated']; pveStateEntity.pveState.chosenOperation"/>
+		<bind debug_info="carousel_filters.uss:542:7-dock.uss:1:1" name="primaryEntityDH" value="'operationEntity'; CC.operation; chosenOperationId"/>
+		<bind debug_info="carousel_filters.uss:544:7-dock.uss:1:1" name="firstEntityDH" value="'trainingRoomEntity'; CC.trainingRoomWindowState"/>
+		<bind debug_info="carousel_filters.uss:545:7-dock.uss:1:1" name="primaryEntityDH" value="'defaultRestrictionsEntity'; CC.battleType; BattleTypes.TRAINING_BATTLE"/>
+		<bind debug_info="carousel_filters.uss:546:7-dock.uss:1:1" name="primaryEntityDH" value="'rankedRestrictionsEntity'; CC.shipRestrictions; 7"/>
+		<bind debug_info="carousel_filters.uss:548:7-dock.uss:1:1" name="watch" value="'restrictionsEntityId';	selectedBattle.type == BattleTypes.PVE_BATTLE 		? 	operationEntity.id :
 											selectedBattle.type == BattleTypes.TRAINING_BATTLE	?	trainingRoomEntity.id :
 											selectedBattle.type == BattleTypes.RANKED_BATTLE	?	rankedRestrictionsEntity.id
 																								:	selectedBattleTypeEntity.id"/>
-		<bind debug_info="carousel_filters.uss:538:7-dock.uss:1:1" name="watch" value="'filterIcons';	selectedBattle.type == BattleTypes.PVE_BATTLE 		? 	'pve' :
+		<bind debug_info="carousel_filters.uss:553:7-dock.uss:1:1" name="watch" value="'filterIcons';	selectedBattle.type == BattleTypes.PVE_BATTLE 		? 	'pve' :
 								selectedBattle.type == BattleTypes.TRAINING_BATTLE	?	'training_room':
 								selectedBattle.type == BattleTypes.RANKED_BATTLE	?	'rank':
 								selectedBattle.type == BattleTypes.EVENT_BATTLE		?	'event'
 																					:	'no_icon'"/>
-		<bind debug_info="carousel_filters.uss:544:7-dock.uss:1:1" name="watch" value="'filterText';	selectedBattle.type == BattleTypes.PVE_BATTLE		? tr('IDS_' + toUpperCase(operationEntity.operation.gpName) + '_NAME') :
+		<bind debug_info="carousel_filters.uss:559:7-dock.uss:1:1" name="watch" value="'filterText';	selectedBattle.type == BattleTypes.PVE_BATTLE		? tr('IDS_' + toUpperCase(operationEntity.operation.gpName) + '_NAME') :
 								selectedBattle.type == BattleTypes.TRAINING_BATTLE	? 'IDS_CUSTOM_ROOM' :
 								selectedBattle.type == BattleTypes.RANKED_BATTLE 	? 'IDS_RANKED_BATTLES' :
 								selectedBattle.type == BattleTypes.EVENT_BATTLE 	? 'IDS_EVENTBATTLE'
@@ -2828,32 +2906,32 @@
 			<height value="30px"/>
 			<flow value="horizontal"/>
 		</style>
-		<bind debug_info="carousel_filters.uss:551:7-dock.uss:1:1" name="appear" value="'addedToStage'; 0.15; 0; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 2"/>
-		<bind debug_info="carousel_filters.uss:553:7-dock.uss:1:1" name="tooltip" value="'SimpleTooltip'; {tooltipText: tr(toUpperCase('IDS_CAROUSEL_' + selectedBattle.type + '_FILTER'))}"/>
-		<block className="button_dock_bg" debug_info="carousel_filters.uss:555:5-dock.uss:1:1" type="native">
+		<bind debug_info="carousel_filters.uss:566:7-dock.uss:1:1" name="appear" value="'addedToStage'; 0.15; 0; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 2"/>
+		<bind debug_info="carousel_filters.uss:568:7-dock.uss:1:1" name="tooltip" value="'SimpleTooltip'; {tooltipText: tr(toUpperCase('IDS_CAROUSEL_' + selectedBattle.type + '_FILTER'))}"/>
+		<block className="button_dock_bg" debug_info="carousel_filters.uss:570:5-dock.uss:1:1" type="native">
 			<styleClass value="$FullsizeAbsolute"/>
-			<bind debug_info="carousel_filters.uss:557:8-dock.uss:1:1" name="gotoAndStop!" value="'down'"/>
+			<bind debug_info="carousel_filters.uss:572:8-dock.uss:1:1" name="gotoAndStop!" value="'down'"/>
 		</block>
-		<block className="icon_filters" debug_info="carousel_filters.uss:559:5-dock.uss:1:1" type="native">
+		<block className="icon_filters" debug_info="carousel_filters.uss:574:5-dock.uss:1:1" type="native">
 			<styleClass value="$MiddleVAligned"/>
 			<style>
 				<marginLeft value="4px"/>
 			</style>
-			<bind debug_info="carousel_filters.uss:562:8-dock.uss:1:1" name="gotoAndStop!" value="filterIcons"/>
+			<bind debug_info="carousel_filters.uss:577:8-dock.uss:1:1" name="gotoAndStop!" value="filterIcons"/>
 		</block>
-		<block debug_info="carousel_filters.uss:564:2-dock.uss:1:1" type="text">
+		<block debug_info="carousel_filters.uss:579:2-dock.uss:1:1" type="text">
 			<style>
 				<marginTop value="2px"/>
 			</style>
 			<styleClass value="$TextHeaderBigDefault"/>
-			<bind debug_info="carousel_filters.uss:567:8-dock.uss:1:1" name="text" value="filterText"/>
+			<bind debug_info="carousel_filters.uss:582:8-dock.uss:1:1" name="text" value="filterText"/>
 		</block>
-		<block debug_info="carousel_filters.uss:569:2-dock.uss:1:1">
+		<block debug_info="carousel_filters.uss:584:2-dock.uss:1:1">
 			<style>
 				<marginLeft value="16px"/>
 			</style>
 			<styleClass value="$MiddleVAligned"/>
-			<bind debug_info="carousel_filters.uss:573:8-dock.uss:1:1" name="instance" value="'ShipRestrictions'; 
+			<bind debug_info="carousel_filters.uss:588:8-dock.uss:1:1" name="instance" value="'ShipRestrictions'; 
 			selectedBattle.type == BattleTypes.TRAINING_BATTLE 	? {	_restrictionsEntityId: restrictionsEntityId, 
 																	_defaultRestrictionsEntityId: defaultRestrictionsEntity.id }
 																: { _restrictionsEntityId: restrictionsEntityId }"/>
@@ -2872,54 +2950,54 @@
 		<bind debug_info="carousel_filters.uss:592:7-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
 		<bind debug_info="carousel_filters.uss:594:7-dock.uss:1:1" name="entityDH" value="'panelEntity'; _panelEntityId"/>
 		<bind debug_info="carousel_filters.uss:595:7-dock.uss:1:1" name="watchDH" value="'selectedFilters'; ['panelEntity.shipRestrictions.evUpdate']; panelEntity.shipRestrictions.selectedFilters"/>
-		<bind debug_info="replaces.uss:663:7-carousel_filters.uss:596:4-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'selectedItems'+'ROOT'"/>
-		<bind debug_info="replaces.uss:664:7-carousel_filters.uss:596:4-dock.uss:1:1" name="collectionDesign" value="'DES_'+'selectedItems'+'ROOT'; 'selectedItems'; {'filter':isIn($entity.id, selectedFilters) &amp;&amp; ($entity.shipFilterItem.type == _filterType)}; []"/>
+		<bind debug_info="replaces.uss:662:7-carousel_filters.uss:596:4-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'selectedItems'+'ROOT'"/>
+		<bind debug_info="replaces.uss:663:7-carousel_filters.uss:596:4-dock.uss:1:1" name="collectionDesign" value="'DES_'+'selectedItems'+'ROOT'; 'selectedItems'; {'filter':isIn($entity.id, selectedFilters) &amp;&amp; ($entity.shipFilterItem.type == _filterType)}; []"/>
 		<bind debug_info="carousel_filters.uss:597:7-dock.uss:1:1" name="collectionFields" value="selectedItems; ['shipFilterItem.field']"/>
 		<bind debug_info="carousel_filters.uss:599:7-dock.uss:1:1" name="transition" value="(rollOver &amp;&amp; !mouseDown) || appliedFiltersInfotipSelected || shipNameFilterInfotipSelected; 0.15; {alpha: 0.7}; {alpha: 1}"/>
 		<bind debug_info="carousel_filters.uss:600:7-dock.uss:1:1" name="appear" value="'addedToStage'; 0.15; 0; {alpha: 0, top: 10}; {alpha: 0.7, top: 0}; 2"/>
 		<style>
 			<height value="30px"/>
 		</style>
-		<block className="button_dock_bg" debug_info="carousel_filters.uss:602:5-dock.uss:1:1" type="native">
-			<bind debug_info="carousel_filters.uss:603:8-dock.uss:1:1" name="gotoAndStop!" value="'down'"/>
-			<bind debug_info="carousel_filters.uss:604:8-dock.uss:1:1" name="transition" value="((rollOver &amp;&amp; !mouseDown) || (mouseDown)) || appliedFiltersInfotipSelected || shipNameFilterInfotipSelected; 0.15; {alpha: 0}; {alpha: 0.7}"/>
+		<block className="button_dock_bg" debug_info="carousel_filters.uss:617:5-dock.uss:1:1" type="native">
+			<bind debug_info="carousel_filters.uss:618:8-dock.uss:1:1" name="gotoAndStop!" value="'down'"/>
+			<bind debug_info="carousel_filters.uss:619:8-dock.uss:1:1" name="transition" value="((rollOver &amp;&amp; !mouseDown) || (mouseDown)) || appliedFiltersInfotipSelected || shipNameFilterInfotipSelected; 0.15; {alpha: 0}; {alpha: 0.7}"/>
 			<style>
 				<height value="100%"/>
 			</style>
-			<bind debug_info="carousel_filters.uss:606:8-dock.uss:1:1" name="tooltip" value="'CarouselAppliedFilterInfotip';	_filterType == 'level' 		? {_title: 'IDS_LEVEL', _filterType: _filterType} :
-														_filterType == 'shipType'	? {_title: 'IDS_CLASS', _filterType: _filterType} :
-														_filterType == 'nation' 	? {_title: 'IDS_NATION', _filterType: _filterType} :
-														_filterType == 'special'	? {_title: 'IDS_SPECIAL', _filterType: _filterType}
+			<bind debug_info="carousel_filters.uss:621:8-dock.uss:1:1" name="tooltip" value="'CarouselAppliedFilterInfotip';	_filterType == 'level' 		? {_title: 'IDS_LEVEL', _filterType: _filterType, _arrow: _arrow} :
+														_filterType == 'shipType'	? {_title: 'IDS_CLASS', _filterType: _filterType, _arrow: _arrow} :
+														_filterType == 'nation' 	? {_title: 'IDS_NATION', _filterType: _filterType, _arrow: _arrow} :
+														_filterType == 'special'	? {_title: 'IDS_SPECIAL', _filterType: _filterType, _arrow: _arrow}
 																					: null; TooltipBehaviour.verticalInfotip; null; 'appliedFiltersInfotipSelected'"/>
-			<bind debug_info="carousel_filters.uss:612:8-dock.uss:1:1" name="tooltip" value="'CarouselAppliedFilterShipNameInfotip'; (_filterType == 'shipName')	? {}
+			<bind debug_info="carousel_filters.uss:627:8-dock.uss:1:1" name="tooltip" value="'CarouselAppliedFilterShipNameInfotip'; (_filterType == 'shipName')	? {}
 																							: null;	 TooltipBehaviour.verticalInfotip; null; 'shipNameFIlterInfotipSelected'"/>
-			<bind debug_info="carousel_filters.uss:615:8-dock.uss:1:1" name="tooltip" value="'MouseInstructionTooltip'; (_filterType != 'shipName') ? { _mouseInstructions: [{_type: 'left', _instructionText: tr('IDS_CAROUSEL_APPLIED_FILTER_HINT_'+toUpperCase(_filterType))}], _maxWidth: 240 }
+			<bind debug_info="carousel_filters.uss:630:8-dock.uss:1:1" name="tooltip" value="'MouseInstructionTooltip'; (_filterType != 'shipName') ? { _mouseInstructions: [{_type: 'left', _instructionText: tr('IDS_CAROUSEL_APPLIED_FILTER_HINT_'+toUpperCase(_filterType))}], _maxWidth: 240 }
 																				: null"/>
-			<bind debug_info="carousel_filters.uss:618:8-dock.uss:1:1" name="changeDispatch" value="shipNameFilterInfotipSelected; 'shipNameFIlterInfotipSelectedChanged';{shipNameFilterInfotipSelected: shipNameFilterInfotipSelected}"/>
-			<block debug_info="carousel_filters.uss:620:3-dock.uss:1:1">
+			<bind debug_info="carousel_filters.uss:633:8-dock.uss:1:1" name="changeDispatch" value="shipNameFilterInfotipSelected; 'shipNameFIlterInfotipSelectedChanged';{shipNameFilterInfotipSelected: shipNameFilterInfotipSelected}"/>
+			<block debug_info="carousel_filters.uss:635:3-dock.uss:1:1">
 				<style>
 					<height value="100%"/>
 					<marginTop value="1px"/>
 				</style>
-				<bind debug_info="carousel_filters.uss:622:9-dock.uss:1:1" name="class" value="_disableReset ? '$TinyFilterMargins' : '$HugeFilterMargins'"/>
-				<block debug_info="carousel_filters.uss:623:4-dock.uss:1:1">
-					<bind debug_info="carousel_filters.uss:624:10-dock.uss:1:1" name="visible" value="_filterType == 'level'"/>
+				<bind debug_info="carousel_filters.uss:637:9-dock.uss:1:1" name="class" value="_disableReset ? '$TinyFilterMargins' : '$HugeFilterMargins'"/>
+				<block debug_info="carousel_filters.uss:638:4-dock.uss:1:1">
+					<bind debug_info="carousel_filters.uss:639:10-dock.uss:1:1" name="visible" value="_filterType == 'level'"/>
 					<styleClass value="$MiddleVAligned"/>
 					<style>
 						<hitTest value="false"/>
 					</style>
-					<bind debug_info="carousel_filters.uss:627:10-dock.uss:1:1" name="repeat" value="reduceAppliedValues(selectedItems_shipFilterItem_field); 'ShipLevelRome'"/>
+					<bind debug_info="carousel_filters.uss:642:10-dock.uss:1:1" name="repeat" value="reduceAppliedValues(selectedItems_shipFilterItem_field); 'ShipLevelRome'"/>
 					<style>
 						<flow value="horizontal"/>
 					</style>
 				</block>
-				<block debug_info="carousel_filters.uss:629:4-dock.uss:1:1">
-					<bind debug_info="carousel_filters.uss:630:10-dock.uss:1:1" name="visible" value="_filterType != 'level'"/>
+				<block debug_info="carousel_filters.uss:644:4-dock.uss:1:1">
+					<bind debug_info="carousel_filters.uss:645:10-dock.uss:1:1" name="visible" value="_filterType != 'level'"/>
 					<styleClass value="$MiddleVAligned"/>
 					<style>
 						<hitTest value="false"/>
 					</style>
-					<bind debug_info="carousel_filters.uss:633:10-dock.uss:1:1" name="repeat" value="selectedItems; (_filterType == 'shipName')	? 'CarouselSortingText'
+					<bind debug_info="carousel_filters.uss:648:10-dock.uss:1:1" name="repeat" value="selectedItems; (_filterType == 'shipName')	? 'CarouselSortingText'
 											:(_filterType == 'shipType')	? 'ShipTypeIcon'
 											:(_filterType == 'nation')		? 'TinyNationFlag'
 											:(_filterType == 'special')		? 'SpecialSortingIcon'
@@ -2928,12 +3006,12 @@
 						<flow value="horizontal"/>
 					</style>
 				</block>
-				<block debug_info="carousel_filters.uss:639:4-dock.uss:1:1">
+				<block debug_info="carousel_filters.uss:654:4-dock.uss:1:1">
 					<style>
 						<height value="100%"/>
 						<marginLeft value="0px"/>
 					</style>
-					<bind debug_info="carousel_filters.uss:641:10-dock.uss:1:1" name="visible" value="_needDivider == true"/>
+					<bind debug_info="carousel_filters.uss:656:10-dock.uss:1:1" name="visible" value="_needDivider == true"/>
 					<block className="VerticalDivider" debug_info="utils.uss:151:1-browser_window.uss:1:1">
 						<style>
 							<height value="100%"/>
@@ -2944,22 +3022,22 @@
 						</block>
 					</block>
 				</block>
-				<block debug_info="carousel_filters.uss:644:4-dock.uss:1:1">
-					<bind debug_info="carousel_filters.uss:645:10-dock.uss:1:1" name="visible" value="_disableReset != true"/>
+				<block debug_info="carousel_filters.uss:659:4-dock.uss:1:1">
+					<bind debug_info="carousel_filters.uss:660:10-dock.uss:1:1" name="visible" value="_disableReset != true"/>
 					<style>
 						<height value="100%"/>
 						<width value="12px"/>
 					</style>
-					<block debug_info="carousel_filters.uss:647:5-dock.uss:1:1">
-						<bind debug_info="carousel_filters.uss:648:11-dock.uss:1:1" name="transition" value="((rollOver &amp;&amp; !mouseDown) || mouseDown) || appliedFiltersInfotipSelected || shipNameFilterInfotipSelected; 0.15; {alpha: 0}; {alpha: 0.7}"/>
-						<bind debug_info="carousel_filters.uss:649:11-dock.uss:1:1" name="action" value="'click'; 'resetFilterType' ; {type: _filterType, ident: 0}"/>
+					<block debug_info="carousel_filters.uss:662:5-dock.uss:1:1">
+						<bind debug_info="carousel_filters.uss:663:11-dock.uss:1:1" name="transition" value="((rollOver &amp;&amp; !mouseDown) || mouseDown) || appliedFiltersInfotipSelected || shipNameFilterInfotipSelected; 0.15; {alpha: 0}; {alpha: 0.7}"/>
+						<bind debug_info="carousel_filters.uss:664:11-dock.uss:1:1" name="action" value="'click'; 'resetFilterType' ; {type: _filterType, ident: 0}"/>
 						<styleClass value="$MiddleVAligned"/>
-						<block className="button_close" debug_info="carousel_filters.uss:651:9-dock.uss:1:1" type="native">
+						<block className="button_close" debug_info="carousel_filters.uss:666:9-dock.uss:1:1" type="native">
 							<style>
 								<marginRight value="1px"/>
 							</style>
-							<bind debug_info="carousel_filters.uss:653:12-dock.uss:1:1" name="name" value="'CarouselFilterClose_' + _filterType"/>
-							<bind debug_info="carousel_filters.uss:654:12-dock.uss:1:1" name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_HINT_RESET_FILTER'}"/>
+							<bind debug_info="carousel_filters.uss:668:12-dock.uss:1:1" name="name" value="'CarouselFilterClose_' + _filterType"/>
+							<bind debug_info="carousel_filters.uss:669:12-dock.uss:1:1" name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_HINT_RESET_FILTER'}"/>
 						</block>
 					</block>
 				</block>
@@ -2969,43 +3047,43 @@
 			</block>
 		</block>
 	</block>
-	<block className="ResetAllFilters" debug_info="carousel_filters.uss:662:1-dock.uss:1:1">
-		<bind debug_info="carousel_filters.uss:663:7-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
+	<block className="ResetAllFilters" debug_info="carousel_filters.uss:677:1-dock.uss:1:1">
+		<bind debug_info="carousel_filters.uss:678:7-dock.uss:1:1" name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
 		<style>
 			<height value="30px"/>
 			<marginRight value="4px"/>
 		</style>
-		<bind debug_info="carousel_filters.uss:667:7-dock.uss:1:1" name="appear" value="'addedToStage'; 0.15; 0; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 2"/>
-		<bind debug_info="carousel_filters.uss:669:7-dock.uss:1:1" name="action" value="'click'; 'resetAllFilters'; {ident: 0}"/>
-		<bind debug_info="carousel_filters.uss:670:7-dock.uss:1:1" name="tooltip" value="'MouseInstructionTooltip'; { _mouseInstructions: [{_type: 'left', _instructionText: 'IDS_HINT_RESET_ALL_FILTERS'}], _maxWidth: 250}"/>
-		<bind debug_info="carousel_filters.uss:672:7-dock.uss:1:1" name="soundSet" value="'resetallfilters_item'"/>
-		<block className="button_dock_bg" debug_info="carousel_filters.uss:674:5-dock.uss:1:1" type="native">
-			<bind debug_info="carousel_filters.uss:675:8-dock.uss:1:1" name="gotoAndStop!" value="'down'"/>
+		<bind debug_info="carousel_filters.uss:682:7-dock.uss:1:1" name="appear" value="'addedToStage'; 0.15; 0; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 2"/>
+		<bind debug_info="carousel_filters.uss:684:7-dock.uss:1:1" name="action" value="'click'; 'resetAllFilters'; {ident: 0}"/>
+		<bind debug_info="carousel_filters.uss:685:7-dock.uss:1:1" name="tooltip" value="'MouseInstructionTooltip'; { _mouseInstructions: [{_type: 'left', _instructionText: 'IDS_HINT_RESET_ALL_FILTERS'}], _maxWidth: 250}"/>
+		<bind debug_info="carousel_filters.uss:687:7-dock.uss:1:1" name="soundSet" value="'resetallfilters_item'"/>
+		<block className="button_dock_bg" debug_info="carousel_filters.uss:689:5-dock.uss:1:1" type="native">
+			<bind debug_info="carousel_filters.uss:690:8-dock.uss:1:1" name="gotoAndStop!" value="'down'"/>
 			<style>
 				<height value="100%"/>
 			</style>
-			<bind debug_info="carousel_filters.uss:677:8-dock.uss:1:1" name="transition" value="((rollOver &amp;&amp; !mouseDown) || (mouseDown)); 0.15; {alpha: 0}; {alpha: 0.7}"/>
-			<block debug_info="carousel_filters.uss:678:3-dock.uss:1:1">
+			<bind debug_info="carousel_filters.uss:692:8-dock.uss:1:1" name="transition" value="((rollOver &amp;&amp; !mouseDown) || (mouseDown)); 0.15; {alpha: 0}; {alpha: 0.7}"/>
+			<block debug_info="carousel_filters.uss:693:3-dock.uss:1:1">
 				<style>
 					<height value="100%"/>
 					<marginLeft value="8px"/>
 					<marginRight value="8px"/>
 				</style>
-				<bind debug_info="carousel_filters.uss:680:9-dock.uss:1:1" name="transition" value="rollOver &amp;&amp; !mouseDown; 0.15; {alpha: 0.7}; {alpha: 1}"/>
-				<block debug_info="carousel_filters.uss:682:4-dock.uss:1:1" type="text">
+				<bind debug_info="carousel_filters.uss:695:9-dock.uss:1:1" name="transition" value="rollOver &amp;&amp; !mouseDown; 0.15; {alpha: 0.7}; {alpha: 1}"/>
+				<block debug_info="carousel_filters.uss:697:4-dock.uss:1:1" type="text">
 					<styleClass value="$MiddleVAligned"/>
 					<styleClass value="$TextHeaderBigDefault"/>
-					<bind debug_info="carousel_filters.uss:685:10-dock.uss:1:1" name="text" value="'IDS_RESET_ALL_FILTERS'"/>
+					<bind debug_info="carousel_filters.uss:700:10-dock.uss:1:1" name="text" value="'IDS_RESET_ALL_FILTERS'"/>
 				</block>
-				<block debug_info="carousel_filters.uss:688:4-dock.uss:1:1">
-					<bind debug_info="carousel_filters.uss:689:10-dock.uss:1:1" name="transition" value="((rollOver &amp;&amp; !mouseDown) || mouseDown); 0.15; {alpha: 0}; {alpha: 0.7}"/>
+				<block debug_info="carousel_filters.uss:703:4-dock.uss:1:1">
+					<bind debug_info="carousel_filters.uss:704:10-dock.uss:1:1" name="transition" value="((rollOver &amp;&amp; !mouseDown) || mouseDown); 0.15; {alpha: 0}; {alpha: 0.7}"/>
 					<style>
 						<marginLeft value="2px"/>
 						<marginRight value="1px"/>
 						<marginTop value="10px"/>
 						<hitTest value="false"/>
 					</style>
-					<block className="button_close" debug_info="carousel_filters.uss:691:8-dock.uss:1:1" type="native"/>
+					<block className="button_close" debug_info="carousel_filters.uss:706:8-dock.uss:1:1" type="native"/>
 				</block>
 				<style>
 					<flow value="horizontal"/>
@@ -3013,69 +3091,69 @@
 			</block>
 		</block>
 	</block>
-	<block className="ShipLevelRome" debug_info="carousel_filters.uss:697:1-dock.uss:1:1">
+	<block className="ShipLevelRome" debug_info="carousel_filters.uss:712:1-dock.uss:1:1">
 		<style>
 			<marginRight value="2px"/>
 		</style>
-		<block debug_info="carousel_filters.uss:702:2-dock.uss:1:1" type="text">
+		<block debug_info="carousel_filters.uss:717:2-dock.uss:1:1" type="text">
 			<styleClass value="$TextHeaderBigDefault"/>
-			<bind debug_info="carousel_filters.uss:704:8-dock.uss:1:1" name="text" value="ShipLevels.RLEVELS[$value]"/>
+			<bind debug_info="carousel_filters.uss:719:8-dock.uss:1:1" name="text" value="ShipLevels.RLEVELS[$value]"/>
 		</block>
 	</block>
 	<block className="CarouselSortingText" debug_info="carousel_filters.uss:708:1-dock.uss:1:1">
 		<bind debug_info="carousel_filters.uss:709:7-dock.uss:1:1" name="firstEntityDH" value="'panelEntity'; CC.filterPanelComponent"/>
-		<bind debug_info="replaces.uss:663:7-carousel_filters.uss:710:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'shipNameFilters'+'ROOT'"/>
-		<bind debug_info="replaces.uss:664:7-carousel_filters.uss:710:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'shipNameFilters'+'ROOT'; 'shipNameFilters'; {'filter':$entity.shipFilterItem.type == 'shipName'}; []"/>
+		<bind debug_info="replaces.uss:662:7-carousel_filters.uss:710:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'shipNameFilters'+'ROOT'"/>
+		<bind debug_info="replaces.uss:663:7-carousel_filters.uss:710:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'shipNameFilters'+'ROOT'; 'shipNameFilters'; {'filter':$entity.shipFilterItem.type == 'shipName'}; []"/>
 		<bind debug_info="carousel_filters.uss:711:7-dock.uss:1:1" name="watchDH" value="'searchStr'; ['panelEntity.shipRestrictions.evUpdate']; panelEntity.shipRestrictions.selectedFiltersData[shipNameFilters[0].id]"/>
 		<style>
 			<flow value="horizontal"/>
 		</style>
-		<block debug_info="carousel_filters.uss:713:2-dock.uss:1:1">
+		<block debug_info="carousel_filters.uss:728:2-dock.uss:1:1">
 			<style>
 				<hitTest value="false"/>
 				<marginTop value="2px"/>
 				<marginRight value="1px"/>
 			</style>
-			<block className="button_search" debug_info="carousel_filters.uss:715:6-dock.uss:1:1" type="native"/>
+			<block className="button_search" debug_info="carousel_filters.uss:730:6-dock.uss:1:1" type="native"/>
 		</block>
-		<block debug_info="carousel_filters.uss:717:2-dock.uss:1:1" type="text">
+		<block debug_info="carousel_filters.uss:732:2-dock.uss:1:1" type="text">
 			<style>
 				<marginRight value="4px"/>
 				<marginTop value="-1px"/>
 			</style>
 			<styleClass value="$TextHeaderBigDefault"/>
-			<bind debug_info="carousel_filters.uss:720:8-dock.uss:1:1" name="text" value="searchStr"/>
+			<bind debug_info="carousel_filters.uss:735:8-dock.uss:1:1" name="text" value="searchStr"/>
 		</block>
 	</block>
-	<block className="ShipTypeIcon" debug_info="carousel_filters.uss:724:1-dock.uss:1:1">
-		<bind debug_info="carousel_filters.uss:725:7-dock.uss:1:1" name="dataRefDH" value="'filterEntity'; '$dataRef.ref'"/>
-		<bind debug_info="carousel_filters.uss:726:7-dock.uss:1:1" name="watchDH" value="'_field'; ['filterEntity.shipFilterItem.evUpdate']; filterEntity.shipFilterItem.field"/>
-		<block debug_info="carousel_filters.uss:727:2-dock.uss:1:1">
+	<block className="ShipTypeIcon" debug_info="carousel_filters.uss:739:1-dock.uss:1:1">
+		<bind debug_info="carousel_filters.uss:740:7-dock.uss:1:1" name="dataRefDH" value="'filterEntity'; '$dataRef.ref'"/>
+		<bind debug_info="carousel_filters.uss:741:7-dock.uss:1:1" name="watchDH" value="'_field'; ['filterEntity.shipFilterItem.evUpdate']; filterEntity.shipFilterItem.field"/>
+		<block debug_info="carousel_filters.uss:742:2-dock.uss:1:1">
 			<style>
 				<marginRight value="4px"/>
 			</style>
-			<block className="icon_ship" debug_info="carousel_filters.uss:729:6-dock.uss:1:1" type="native">
-				<bind debug_info="carousel_filters.uss:730:9-dock.uss:1:1" name="gotoAndStop!" value="_field"/>
+			<block className="icon_ship" debug_info="carousel_filters.uss:744:6-dock.uss:1:1" type="native">
+				<bind debug_info="carousel_filters.uss:745:9-dock.uss:1:1" name="gotoAndStop!" value="_field"/>
 			</block>
 		</block>
 	</block>
-	<block className="TinyNationFlag" debug_info="carousel_filters.uss:735:1-dock.uss:1:1">
-		<bind debug_info="carousel_filters.uss:736:7-dock.uss:1:1" name="dataRefDH" value="'filterEntity'; '$dataRef.ref'"/>
-		<bind debug_info="carousel_filters.uss:737:7-dock.uss:1:1" name="watchDH" value="'_field'; ['filterEntity.shipFilterItem.evUpdate']; filterEntity.shipFilterItem.field"/>
-		<block debug_info="carousel_filters.uss:738:2-dock.uss:1:1">
+	<block className="TinyNationFlag" debug_info="carousel_filters.uss:750:1-dock.uss:1:1">
+		<bind debug_info="carousel_filters.uss:751:7-dock.uss:1:1" name="dataRefDH" value="'filterEntity'; '$dataRef.ref'"/>
+		<bind debug_info="carousel_filters.uss:752:7-dock.uss:1:1" name="watchDH" value="'_field'; ['filterEntity.shipFilterItem.evUpdate']; filterEntity.shipFilterItem.field"/>
+		<block debug_info="carousel_filters.uss:753:2-dock.uss:1:1">
 			<style>
 				<marginRight value="2px"/>
 			</style>
-			<bind debug_info="carousel_filters.uss:740:8-dock.uss:1:1" name="instance" value="'NationFlagsTiny'; {shipCountry: _field}"/>
+			<bind debug_info="carousel_filters.uss:755:8-dock.uss:1:1" name="instance" value="'NationFlagsTiny'; {shipCountry: _field}"/>
 		</block>
 	</block>
-	<block className="SpecialSortingIcon" debug_info="carousel_filters.uss:744:1-dock.uss:1:1">
-		<bind debug_info="carousel_filters.uss:745:7-dock.uss:1:1" name="dataRefDH" value="'filterEntity'; '$dataRef.ref'"/>
-		<bind debug_info="carousel_filters.uss:746:7-dock.uss:1:1" name="watchDH" value="'_field'; ['filterEntity.shipFilterItem.evUpdate']; filterEntity.shipFilterItem.field"/>
+	<block className="SpecialSortingIcon" debug_info="carousel_filters.uss:759:1-dock.uss:1:1">
+		<bind debug_info="carousel_filters.uss:760:7-dock.uss:1:1" name="dataRefDH" value="'filterEntity'; '$dataRef.ref'"/>
+		<bind debug_info="carousel_filters.uss:761:7-dock.uss:1:1" name="watchDH" value="'_field'; ['filterEntity.shipFilterItem.evUpdate']; filterEntity.shipFilterItem.field"/>
 		<style>
 			<marginLeft value="-2px"/>
 		</style>
-		<bind debug_info="carousel_filters.uss:748:7-dock.uss:1:1" name="child" value="_field; {}; {	IDS_SELECTED_BY_USER: 'PrimaryIcon',
+		<bind debug_info="carousel_filters.uss:763:7-dock.uss:1:1" name="child" value="_field; {}; {	IDS_SELECTED_BY_USER: 'PrimaryIcon',
 								IDS_FILTER_ELITE: 'EliteIcon',
 								IDS_FILTER_PREMIUM: 'PremiumIcon',
 								IDS_RANKED_BATTLES: 'RankedIcon',
@@ -3085,106 +3163,106 @@
 								IDS_WITH_COMMANDER: 'WithCrewIcon',
 								IDS_WITHOUT_COMMANDER: 'WithoutCrewIcon'}"/>
 	</block>
-	<block className="EliteIcon" debug_info="carousel_filters.uss:759:1-dock.uss:1:1">
-		<block className="icon_filters" debug_info="carousel_filters.uss:760:5-dock.uss:1:1" type="native">
-			<bind debug_info="carousel_filters.uss:761:8-dock.uss:1:1" name="gotoAndStop!" value="'elite'"/>
-		</block>
-	</block>
-	<block className="PrimaryIcon" debug_info="carousel_filters.uss:765:1-dock.uss:1:1">
-		<bind debug_info="carousel_filters.uss:766:7-dock.uss:1:1" name="style" value="'marginTop'; _isCheckBox ? '0px': '1px'"/>
-		<style>
-			<marginTop value="1px"/>
-		</style>
-		<block className="icon_filters" debug_info="carousel_filters.uss:768:5-dock.uss:1:1" type="native">
-			<bind debug_info="carousel_filters.uss:769:8-dock.uss:1:1" name="gotoAndStop!" value="'primary'"/>
-		</block>
-	</block>
-	<block className="WithCrewIcon" debug_info="carousel_filters.uss:773:1-dock.uss:1:1">
-		<bind debug_info="carousel_filters.uss:774:7-dock.uss:1:1" name="style" value="'marginTop'; _isCheckBox ? '1px': '2px'"/>
+	<block className="EliteIcon" debug_info="carousel_filters.uss:774:1-dock.uss:1:1">
 		<block className="icon_filters" debug_info="carousel_filters.uss:775:5-dock.uss:1:1" type="native">
-			<bind debug_info="carousel_filters.uss:776:8-dock.uss:1:1" name="gotoAndStop!" value="'withCrew'"/>
+			<bind debug_info="carousel_filters.uss:776:8-dock.uss:1:1" name="gotoAndStop!" value="'elite'"/>
 		</block>
 	</block>
-	<block className="WithoutCrewIcon" debug_info="carousel_filters.uss:780:1-dock.uss:1:1">
+	<block className="PrimaryIcon" debug_info="carousel_filters.uss:780:1-dock.uss:1:1">
 		<bind debug_info="carousel_filters.uss:781:7-dock.uss:1:1" name="style" value="'marginTop'; _isCheckBox ? '0px': '1px'"/>
-		<block className="icon_filters" debug_info="carousel_filters.uss:782:5-dock.uss:1:1" type="native">
-			<bind debug_info="carousel_filters.uss:783:8-dock.uss:1:1" name="gotoAndStop!" value="'withoutCrew'"/>
-		</block>
-	</block>
-	<block className="PremiumIcon" debug_info="carousel_filters.uss:787:1-dock.uss:1:1">
-		<block className="icon_filters" debug_info="carousel_filters.uss:788:5-dock.uss:1:1" type="native">
-			<bind debug_info="carousel_filters.uss:789:8-dock.uss:1:1" name="gotoAndStop!" value="'premium'"/>
-		</block>
-	</block>
-	<block className="ShareIcon" debug_info="carousel_filters.uss:793:1-dock.uss:1:1">
 		<style>
 			<marginTop value="1px"/>
 		</style>
-		<block className="icon_filters" debug_info="carousel_filters.uss:795:5-dock.uss:1:1" type="native">
-			<bind debug_info="carousel_filters.uss:796:8-dock.uss:1:1" name="gotoAndStop!" value="'share'"/>
+		<block className="icon_filters" debug_info="carousel_filters.uss:783:5-dock.uss:1:1" type="native">
+			<bind debug_info="carousel_filters.uss:784:8-dock.uss:1:1" name="gotoAndStop!" value="'primary'"/>
 		</block>
 	</block>
-	<block className="RankedIcon" debug_info="carousel_filters.uss:800:1-dock.uss:1:1">
-		<bind debug_info="carousel_filters.uss:801:7-dock.uss:1:1" name="style" value="'marginTop'; _isCheckBox ? '0px': '1px'"/>
-		<block className="icon_filters" debug_info="carousel_filters.uss:802:5-dock.uss:1:1" type="native">
-			<bind debug_info="carousel_filters.uss:803:8-dock.uss:1:1" name="gotoAndStop!" value="'rank'"/>
+	<block className="WithCrewIcon" debug_info="carousel_filters.uss:788:1-dock.uss:1:1">
+		<bind debug_info="carousel_filters.uss:789:7-dock.uss:1:1" name="style" value="'marginTop'; _isCheckBox ? '1px': '2px'"/>
+		<block className="icon_filters" debug_info="carousel_filters.uss:790:5-dock.uss:1:1" type="native">
+			<bind debug_info="carousel_filters.uss:791:8-dock.uss:1:1" name="gotoAndStop!" value="'withCrew'"/>
 		</block>
 	</block>
-	<block className="PVEIcon" debug_info="carousel_filters.uss:807:1-dock.uss:1:1">
-		<bind debug_info="carousel_filters.uss:808:7-dock.uss:1:1" name="style" value="'marginTop'; _isCheckBox ? '0px': '1px'"/>
-		<block className="icon_filters" debug_info="carousel_filters.uss:809:5-dock.uss:1:1" type="native">
-			<bind debug_info="carousel_filters.uss:810:8-dock.uss:1:1" name="gotoAndStop!" value="'pve'"/>
+	<block className="WithoutCrewIcon" debug_info="carousel_filters.uss:795:1-dock.uss:1:1">
+		<bind debug_info="carousel_filters.uss:796:7-dock.uss:1:1" name="style" value="'marginTop'; _isCheckBox ? '0px': '1px'"/>
+		<block className="icon_filters" debug_info="carousel_filters.uss:797:5-dock.uss:1:1" type="native">
+			<bind debug_info="carousel_filters.uss:798:8-dock.uss:1:1" name="gotoAndStop!" value="'withoutCrew'"/>
 		</block>
 	</block>
-	<block className="ClubIcon" debug_info="carousel_filters.uss:814:1-dock.uss:1:1">
-		<bind debug_info="carousel_filters.uss:815:7-dock.uss:1:1" name="style" value="'marginTop'; _isCheckBox ? '0px': '1px'"/>
+	<block className="PremiumIcon" debug_info="carousel_filters.uss:802:1-dock.uss:1:1">
+		<block className="icon_filters" debug_info="carousel_filters.uss:803:5-dock.uss:1:1" type="native">
+			<bind debug_info="carousel_filters.uss:804:8-dock.uss:1:1" name="gotoAndStop!" value="'premium'"/>
+		</block>
+	</block>
+	<block className="ShareIcon" debug_info="carousel_filters.uss:808:1-dock.uss:1:1">
 		<style>
 			<marginTop value="1px"/>
 		</style>
+		<block className="icon_filters" debug_info="carousel_filters.uss:810:5-dock.uss:1:1" type="native">
+			<bind debug_info="carousel_filters.uss:811:8-dock.uss:1:1" name="gotoAndStop!" value="'share'"/>
+		</block>
+	</block>
+	<block className="RankedIcon" debug_info="carousel_filters.uss:815:1-dock.uss:1:1">
+		<bind debug_info="carousel_filters.uss:816:7-dock.uss:1:1" name="style" value="'marginTop'; _isCheckBox ? '0px': '1px'"/>
 		<block className="icon_filters" debug_info="carousel_filters.uss:817:5-dock.uss:1:1" type="native">
-			<bind debug_info="carousel_filters.uss:818:8-dock.uss:1:1" name="gotoAndStop!" value="'club'"/>
+			<bind debug_info="carousel_filters.uss:818:8-dock.uss:1:1" name="gotoAndStop!" value="'rank'"/>
 		</block>
 	</block>
-	<block className="CarouselShipRowsListItemRenderer" debug_info="carousel_filters.uss:822:1-dock.uss:1:1">
+	<block className="PVEIcon" debug_info="carousel_filters.uss:822:1-dock.uss:1:1">
+		<bind debug_info="carousel_filters.uss:823:7-dock.uss:1:1" name="style" value="'marginTop'; _isCheckBox ? '0px': '1px'"/>
+		<block className="icon_filters" debug_info="carousel_filters.uss:824:5-dock.uss:1:1" type="native">
+			<bind debug_info="carousel_filters.uss:825:8-dock.uss:1:1" name="gotoAndStop!" value="'pve'"/>
+		</block>
+	</block>
+	<block className="ClubIcon" debug_info="carousel_filters.uss:829:1-dock.uss:1:1">
+		<bind debug_info="carousel_filters.uss:830:7-dock.uss:1:1" name="style" value="'marginTop'; _isCheckBox ? '0px': '1px'"/>
+		<style>
+			<marginTop value="1px"/>
+		</style>
+		<block className="icon_filters" debug_info="carousel_filters.uss:832:5-dock.uss:1:1" type="native">
+			<bind debug_info="carousel_filters.uss:833:8-dock.uss:1:1" name="gotoAndStop!" value="'club'"/>
+		</block>
+	</block>
+	<block className="CarouselShipRowsListItemRenderer" debug_info="carousel_filters.uss:837:1-dock.uss:1:1">
 		<styleClass value="$ContextMenuListItem"/>
-		<bind debug_info="carousel_filters.uss:824:7-dock.uss:1:1" name="var" value="{_toLowerCase: true}"/>
-		<bind debug_info="carousel_filters.uss:825:7-dock.uss:1:1" name="stageSize"/>
-		<bind debug_info="carousel_filters.uss:827:7-dock.uss:1:1" name="watch" value="'isFourRowsEnabled'; (stageHeight &gt; (720 + 160))"/>
-		<bind debug_info="carousel_filters.uss:828:7-dock.uss:1:1" name="watch" value="'isThreeRowsEnabled'; (stageHeight &gt; (720 + 88))"/>
-		<bind debug_info="carousel_filters.uss:830:7-dock.uss:1:1" name="watch" value="'isEnabled';	($index == 0)							? true :
+		<bind debug_info="carousel_filters.uss:839:7-dock.uss:1:1" name="var" value="{_toLowerCase: true}"/>
+		<bind debug_info="carousel_filters.uss:840:7-dock.uss:1:1" name="stageSize"/>
+		<bind debug_info="carousel_filters.uss:842:7-dock.uss:1:1" name="watch" value="'isFourRowsEnabled'; (stageHeight &gt; (720 + 160))"/>
+		<bind debug_info="carousel_filters.uss:843:7-dock.uss:1:1" name="watch" value="'isThreeRowsEnabled'; (stageHeight &gt; (720 + 88))"/>
+		<bind debug_info="carousel_filters.uss:845:7-dock.uss:1:1" name="watch" value="'isEnabled';	($index == 0)							? true :
 								(isThreeRowsEnabled &amp;&amp; ($index == 1))	? true :
 								(isFourRowsEnabled &amp;&amp; ($index == 2))	? true
 																		: false"/>
 		<style>
 			<backgroundColor value="0x01000000"/>
 		</style>
-		<bind debug_info="carousel_filters.uss:835:7-dock.uss:1:1" name="tooltip" value="'SimpleWarningTooltip'; isEnabled ? null : {_text: tr('IDS_NOT_ENABLED_ON_LOW_RESOLUTION')}"/>
-		<block debug_info="carousel_filters.uss:837:2-dock.uss:1:1">
+		<bind debug_info="carousel_filters.uss:850:7-dock.uss:1:1" name="tooltip" value="'SimpleWarningTooltip'; isEnabled ? null : {_text: tr('IDS_NOT_ENABLED_ON_LOW_RESOLUTION')}"/>
+		<block debug_info="carousel_filters.uss:852:2-dock.uss:1:1">
 			<styleClass value="$Fullsize"/>
-			<bind debug_info="carousel_filters.uss:839:8-dock.uss:1:1" name="style" value="'alpha'; isEnabled ? 1 : 0.5"/>
-			<bind debug_info="carousel_filters.uss:840:8-dock.uss:1:1" name="style" value="'hitTest'; isEnabled"/>
-			<block className="MenuItemWithSelection" debug_info="common_elements.uss:209:1-dock.uss:1:1">
+			<bind debug_info="carousel_filters.uss:854:8-dock.uss:1:1" name="style" value="'alpha'; isEnabled ? 1 : 0.5"/>
+			<bind debug_info="carousel_filters.uss:855:8-dock.uss:1:1" name="style" value="'hitTest'; isEnabled"/>
+			<block className="MenuItemWithSelection" debug_info="common_elements.uss:233:1-dock.uss:1:1">
 				<styleClass value="$Fullsize"/>
-				<bind debug_info="common_elements.uss:211:7-dock.uss:1:1" name="name" value="$value"/>
-				<block className="dock_submenu_item" debug_info="common_elements.uss:212:5-dock.uss:1:1" type="native">
+				<bind debug_info="common_elements.uss:235:7-dock.uss:1:1" name="name" value="$value"/>
+				<block className="dock_submenu_item" debug_info="common_elements.uss:236:5-dock.uss:1:1" type="native">
 					<styleClass value="$FullsizeAbsolute"/>
-					<bind debug_info="common_elements.uss:214:8-dock.uss:1:1" name="selected" value="(_curItemIndex == $index)"/>
+					<bind debug_info="common_elements.uss:238:8-dock.uss:1:1" name="selected" value="(_curItemIndex == $index)"/>
 				</block>
-				<block debug_info="common_elements.uss:216:2-dock.uss:1:1" type="text">
+				<block debug_info="common_elements.uss:240:2-dock.uss:1:1" type="text">
 					<styleClass value="$TextDefault"/>
 					<styleClass value="$MiddleVAligned"/>
 					<styleClass value="$ContextMenuListItemContent"/>
-					<bind debug_info="common_elements.uss:220:8-dock.uss:1:1" name="class" value="(_curItemIndex == $index) == true ? '$Bold' : '$None'"/>
-					<bind debug_info="common_elements.uss:221:8-dock.uss:1:1" name="text" value="(_toLowerCase ? toLowerCase(tr($value))
+					<bind debug_info="common_elements.uss:244:8-dock.uss:1:1" name="class" value="(_curItemIndex == $index) == true ? '$Bold' : '$None'"/>
+					<bind debug_info="common_elements.uss:245:8-dock.uss:1:1" name="text" value="(_toLowerCase ? toLowerCase(tr($value))
 											: (tr($value)))"/>
 				</block>
 			</block>
-			<bind debug_info="carousel_filters.uss:843:8-dock.uss:1:1" name="tooltip" value="'SimpleTooltip'; {tooltipText: 	($index == 0)	? tr('IDS_SHOW_TWO_ROWS_IN_CAROUSEL') :
+			<bind debug_info="carousel_filters.uss:858:8-dock.uss:1:1" name="tooltip" value="'SimpleTooltip'; {tooltipText: 	($index == 0)	? tr('IDS_SHOW_TWO_ROWS_IN_CAROUSEL') :
 														($index == 1)	? tr('IDS_SHOW_THREE_ROWS_IN_CAROUSEL') :
 														($index == 2)	? tr('IDS_SHOW_FOUR_ROWS_IN_CAROUSEL')
 																		: ''}"/>
-			<bind debug_info="carousel_filters.uss:848:8-dock.uss:1:1" name="dispatch" value="'click'; ('ItemChooserInnerEvent.' + _onItemSelectedEvent); {_curItemIndex: $index}"/>
-			<bind debug_info="carousel_filters.uss:849:8-dock.uss:1:1" name="dispatch" value="'click'; ('ItemChooserInnerEventDublicate.' + _onItemSelectedEvent)"/>
+			<bind debug_info="carousel_filters.uss:863:8-dock.uss:1:1" name="dispatch" value="'click'; ('ItemChooserInnerEvent.' + _onItemSelectedEvent); {_curItemIndex: $index}"/>
+			<bind debug_info="carousel_filters.uss:864:8-dock.uss:1:1" name="dispatch" value="'click'; ('ItemChooserInnerEventDublicate.' + _onItemSelectedEvent)"/>
 		</block>
 	</block>
 	<block className="HasTrainingRoomRestrictions" debug_info="carousel_filters.uss:853:1-dock.uss:1:1">
@@ -3193,12 +3271,12 @@
 		<bind debug_info="carousel_filters.uss:856:7-dock.uss:1:1" name="watchDH" value="'typesCount' ; ['trainingRoomEntity.divisionRestrictions.evUpdate']; trainingRoomEntity.divisionRestrictions.typesCount"/>
 		<bind debug_info="carousel_filters.uss:858:7-dock.uss:1:1" name="primaryEntityDH" value="'defaultRestrictionsEntity'; CC.battleType; BattleTypes.TRAINING_BATTLE"/>
 		<bind debug_info="carousel_filters.uss:859:7-dock.uss:1:1" name="watchDH" value="'defaultTypesCount' ; ['defaultRestrictionsEntity.divisionRestrictions.evUpdate']; defaultRestrictionsEntity.divisionRestrictions.typesCount"/>
-		<bind debug_info="replaces.uss:663:7-carousel_filters.uss:861:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'idsfilters'+'ROOT'"/>
-		<bind debug_info="replaces.uss:664:7-carousel_filters.uss:861:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'idsfilters'+'ROOT'; 'idsfilters'; {'filter':$entity.shipFilterItem.type == 'shipId' &amp;&amp; isIn($entity.id, shipRestrictions)}; []"/>
-		<bind debug_info="replaces.uss:663:7-carousel_filters.uss:862:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'levelfilters'+'ROOT'"/>
-		<bind debug_info="replaces.uss:664:7-carousel_filters.uss:862:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'levelfilters'+'ROOT'; 'levelfilters'; {'filter':$entity.shipFilterItem.type == 'level' &amp;&amp; isIn($entity.id, shipRestrictions)}; []"/>
-		<bind debug_info="replaces.uss:663:7-carousel_filters.uss:863:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'nationfilters'+'ROOT'"/>
-		<bind debug_info="replaces.uss:664:7-carousel_filters.uss:863:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'nationfilters'+'ROOT'; 'nationfilters'; {'filter':$entity.shipFilterItem.type == 'nation' &amp;&amp; isIn($entity.id, shipRestrictions)}; []"/>
+		<bind debug_info="replaces.uss:662:7-carousel_filters.uss:861:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'idsfilters'+'ROOT'"/>
+		<bind debug_info="replaces.uss:663:7-carousel_filters.uss:861:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'idsfilters'+'ROOT'; 'idsfilters'; {'filter':$entity.shipFilterItem.type == 'shipId' &amp;&amp; isIn($entity.id, shipRestrictions)}; []"/>
+		<bind debug_info="replaces.uss:662:7-carousel_filters.uss:862:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'levelfilters'+'ROOT'"/>
+		<bind debug_info="replaces.uss:663:7-carousel_filters.uss:862:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'levelfilters'+'ROOT'; 'levelfilters'; {'filter':$entity.shipFilterItem.type == 'level' &amp;&amp; isIn($entity.id, shipRestrictions)}; []"/>
+		<bind debug_info="replaces.uss:662:7-carousel_filters.uss:863:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'nationfilters'+'ROOT'"/>
+		<bind debug_info="replaces.uss:663:7-carousel_filters.uss:863:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'nationfilters'+'ROOT'; 'nationfilters'; {'filter':$entity.shipFilterItem.type == 'nation' &amp;&amp; isIn($entity.id, shipRestrictions)}; []"/>
 		<bind debug_info="carousel_filters.uss:865:7-dock.uss:1:1" name="collectionFields" value="levelfilters; ['shipFilterItem.field']"/>
 		<bind debug_info="carousel_filters.uss:867:7-dock.uss:1:1" name="contains" value="typesCount; $item[1] == -1; 'isAnyShipTypeNotAllowed'"/>
 		<bind debug_info="carousel_filters.uss:869:7-dock.uss:1:1" name="watch" value="'isCarriersRestricted'; typesCount[ShipTypes.AircraftCarrier] &amp;&amp; typesCount[ShipTypes.AircraftCarrier][1] != defaultTypesCount[ShipTypes.AircraftCarrier][1]"/>
@@ -3211,7 +3289,7 @@
 												(levelfilters.length &gt; 0)		||
 												(nationfilters.length &gt; 0)		||
 												isShipFilterRestrictionsVisible"/>
-		<bind debug_info="carousel_filters.uss:881:7-dock.uss:1:1" name="watch" value="'isShipFilterRestrictionsVisible'; isAnyShipTypeRestricted &amp;&amp; isAnyShipTypeNotAllowed"/>
+		<bind debug_info="carousel_filters.uss:896:7-dock.uss:1:1" name="watch" value="'isShipFilterRestrictionsVisible'; isAnyShipTypeRestricted &amp;&amp; isAnyShipTypeNotAllowed"/>
 	</block>
 	<css name="$TextMouseDisable">
 		<mouseChildren value="false"/>
@@ -3676,6 +3754,34 @@
 		fixedDirectionUp: true
 	}"/>
 	</css>
+	<css name="$ReplaysInfotip">
+		<userData value="{
+		appearDelay: 0.05,
+		appearDuration: 0.1,
+		appearOffset: 5.0,
+		disappearDelay: 0.0,
+		disappearDuration: 0.1,
+		disappearOffset: -10.0,
+
+		rightOffset: 300,
+		bottomOffset: 0,
+		isTipCenter: true
+	}"/>
+	</css>
+	<css name="$ReplaysInfotipFilter">
+		<userData value="{
+		appearDelay: 0.05,
+		appearDuration: 0.1,
+		appearOffset: 5.0,
+		disappearDelay: 0.0,
+		disappearDuration: 0.1,
+		disappearOffset: -10.0,
+
+		rightOffset: 0,
+		bottomOffset: 0,
+		isTipCenter: true
+	}"/>
+	</css>
 	<css name="$HorizontalInfotipBehaviour">
 		<userData value="{
 		appearDelay: 0.05,
@@ -3740,26 +3846,26 @@
 	<css name="$DefaultTooltipWidth">
 		<width value="300px"/>
 	</css>
-	<block className="EmptyLine" debug_info="tooltip.uss:194:1-dock.uss:1:1"/>
-	<block className="MouseInstructionTooltip" debug_info="tooltip.uss:270:1-dock.uss:1:1">
+	<block className="EmptyLine" debug_info="tooltip.uss:224:1-dock.uss:1:1"/>
+	<block className="MouseInstructionTooltip" debug_info="tooltip.uss:311:1-dock.uss:1:1">
 		<styleClass value="$DefaultTooltipBehaviour"/>
-		<block debug_info="tooltip.uss:273:2-dock.uss:1:1">
+		<block debug_info="tooltip.uss:314:2-dock.uss:1:1">
 			<styleClass value="$FullsizeAbsolute"/>
-			<bind debug_info="tooltip.uss:275:8-dock.uss:1:1" name="instance" value="'TooltipBackground'; {_isInBattle: _isInBattle}"/>
+			<bind debug_info="tooltip.uss:316:8-dock.uss:1:1" name="instance" value="'TooltipBackground'; {_isInBattle: _isInBattle}"/>
 		</block>
-		<block debug_info="tooltip.uss:278:2-dock.uss:1:1">
-			<bind debug_info="tooltip.uss:279:8-dock.uss:1:1" name="visible" value="_multiParagraphArray.length &gt; 0"/>
+		<block debug_info="tooltip.uss:319:2-dock.uss:1:1">
+			<bind debug_info="tooltip.uss:320:8-dock.uss:1:1" name="visible" value="_multiParagraphArray.length &gt; 0"/>
 			<styleClass value="$InfoBlockHorizontalIndentNoWidth"/>
 			<style>
 				<marginTop value="9px"/>
 			</style>
-			<bind debug_info="tooltip.uss:282:8-dock.uss:1:1" name="style" value="'marginBottom'; _marginBottomParagraphs 												? _marginBottomParagraphs :
+			<bind debug_info="tooltip.uss:323:8-dock.uss:1:1" name="style" value="'marginBottom'; _marginBottomParagraphs 												? _marginBottomParagraphs :
 									(_multiParagraphArray.length &gt; 0) &amp;&amp; (_mouseInstructions.length &gt; 0)	? '0px'
 																											: '5px'"/>
-			<bind debug_info="tooltip.uss:286:8-dock.uss:1:1" name="repeat" value="_multiParagraphArray; 'RepeatParagraphItem'; {_maxWidth: _maxWidth, _marginBottom: _marginBottom}"/>
+			<bind debug_info="tooltip.uss:327:8-dock.uss:1:1" name="repeat" value="_multiParagraphArray; 'RepeatParagraphItem'; {_maxWidth: _maxWidth, _marginBottom: _marginBottom}"/>
 		</block>
-		<block debug_info="tooltip.uss:288:2-dock.uss:1:1">
-			<bind debug_info="tooltip.uss:289:8-dock.uss:1:1" name="visible" value="(_multiParagraphArray.length &gt; 0) &amp;&amp; (_mouseInstructions.length &gt; 0)"/>
+		<block debug_info="tooltip.uss:330:2-dock.uss:1:1">
+			<bind debug_info="tooltip.uss:331:8-dock.uss:1:1" name="visible" value="_checkedLines.length &gt; 0"/>
 			<style>
 				<width value="100%"/>
 			</style>
@@ -3774,14 +3880,35 @@
 				</block>
 			</block>
 		</block>
-		<block debug_info="tooltip.uss:293:2-dock.uss:1:1">
-			<bind debug_info="tooltip.uss:294:8-dock.uss:1:1" name="visible" value="_mouseInstructions.length &gt; 0"/>
+		<block debug_info="tooltip.uss:335:2-dock.uss:1:1">
+			<bind debug_info="tooltip.uss:336:8-dock.uss:1:1" name="visible" value="_checkedLines.length &gt; 0"/>
 			<styleClass value="$InfoBlockIndentNoWidth"/>
-			<bind debug_info="tooltip.uss:296:8-dock.uss:1:1" name="repeat" value="_mouseInstructions; 'MouseInstructionRepeater'; {_maxWidth: _maxWidth, _lastIndex: _mouseInstructions.length - 1}"/>
+			<bind debug_info="tooltip.uss:339:8-dock.uss:1:1" name="repeat" value="_checkedLines; 'CheckedLineRepeater'; {_maxWidth: _maxWidth, _marginBottom: _marginBottom, _lastIndex: _checkedLines.length - 1}"/>
+		</block>
+		<block debug_info="tooltip.uss:342:2-dock.uss:1:1">
+			<bind debug_info="tooltip.uss:343:8-dock.uss:1:1" name="visible" value="(_multiParagraphArray.length &gt; 0) &amp;&amp; (_mouseInstructions.length &gt; 0)"/>
+			<style>
+				<width value="100%"/>
+			</style>
+			<block className="HorizontalDivider" debug_info="utils.uss:143:1-browser_window.uss:1:1">
+				<styleClass value="$PxHorizontalCorrection"/>
+				<style>
+					<width value="100%"/>
+					<height value="3px"/>
+				</style>
+				<block className="divider_h" debug_info="utils.uss:147:5-browser_window.uss:1:1" type="native">
+					<styleClass value="$Fullsize"/>
+				</block>
+			</block>
+		</block>
+		<block debug_info="tooltip.uss:347:2-dock.uss:1:1">
+			<bind debug_info="tooltip.uss:348:8-dock.uss:1:1" name="visible" value="_mouseInstructions.length &gt; 0"/>
+			<styleClass value="$InfoBlockIndentNoWidth"/>
+			<bind debug_info="tooltip.uss:350:8-dock.uss:1:1" name="repeat" value="_mouseInstructions; 'MouseInstructionRepeater'; {_maxWidth: _maxWidth, _lastIndex: _mouseInstructions.length - 1}"/>
 		</block>
 	</block>
-	<block className="SimpleTooltip" debug_info="tooltip.uss:302:1-dock.uss:1:1">
-		<block className="SimpleTooltipTemplate" debug_info="tooltip.uss:197:1-dock.uss:1:1">
+	<block className="SimpleTooltip" debug_info="tooltip.uss:356:1-dock.uss:1:1">
+		<block className="SimpleTooltipTemplate" debug_info="tooltip.uss:227:1-dock.uss:1:1">
 			<styleClass value="$DefaultTooltipBehaviour"/>
 			<block className="DeclareBlurLayer" debug_info="utils.uss:273:1-browser_window.uss:1:1">
 				<bind debug_info="utils.uss:274:7-browser_window.uss:1:1" name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -3813,30 +3940,36 @@
 					<styleClass value="$FullsizeAbsolute"/>
 				</block>
 			</block>
-			<bind debug_info="tooltip.uss:203:7-dock.uss:1:1" name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
-			<block className="contrast_panel" debug_info="tooltip.uss:204:5-dock.uss:1:1" type="native">
+			<bind debug_info="tooltip.uss:233:7-dock.uss:1:1" name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<block className="contrast_panel" debug_info="tooltip.uss:234:5-dock.uss:1:1" type="native">
 				<styleClass value="$FullsizeAbsolute"/>
-				<bind debug_info="tooltip.uss:206:8-dock.uss:1:1" name="visible" value="optionData.contrast"/>
+				<bind debug_info="tooltip.uss:236:8-dock.uss:1:1" name="visible" value="optionData.contrast"/>
 			</block>
-			<block className="hint_panel" debug_info="tooltip.uss:208:5-dock.uss:1:1" type="native">
+			<block className="hint_panel" debug_info="tooltip.uss:238:5-dock.uss:1:1" type="native">
 				<style>
 					<position value="absolute"/>
 				</style>
 				<styleClass value="$Fullsize"/>
 			</block>
-			<block debug_info="tooltip.uss:213:2-dock.uss:1:1" type="text">
+			<block debug_info="tooltip.uss:243:2-dock.uss:1:1" type="text">
 				<styleClass value="$InfoBlockIndentNoWidth"/>
 				<styleClass value="$TextHeaderBigDefault"/>
+<<<<<<< .working
 				<bind debug_info="tooltip.uss:216:8-dock.uss:1:1" name="style" value="'leading'; (tooltipText.length &gt; 30 ? 0 : -3)"/>
+||||||| .merge-left.r327934
+				<bind debug_info="tooltip.uss:216:8-dock.uss:1:1" name="style" value="'leading'; tooltipText.length &gt; 40 ? 0 : -3"/>
+=======
+				<bind debug_info="tooltip.uss:246:8-dock.uss:1:1" name="style" value="'leading'; tooltipText.length &gt; 40 ? 0 : -3"/>
+>>>>>>> .merge-right.r329013
 				<style>
 					<maxWidth value="300"/>
 				</style>
-				<bind debug_info="tooltip.uss:218:8-dock.uss:1:1" name="text" value="tooltipText"/>
+				<bind debug_info="tooltip.uss:248:8-dock.uss:1:1" name="text" value="tooltipText"/>
 			</block>
 		</block>
 	</block>
-	<block className="SubTextTooltip" debug_info="tooltip.uss:305:1-dock.uss:1:1">
-		<block className="SubTextTooltipTemplate" debug_info="tooltip.uss:240:1-dock.uss:1:1">
+	<block className="SubTextTooltip" debug_info="tooltip.uss:359:1-dock.uss:1:1">
+		<block className="SubTextTooltipTemplate" debug_info="tooltip.uss:270:1-dock.uss:1:1">
 			<styleClass value="$DefaultTooltipBehaviour"/>
 			<block className="DeclareBlurLayer" debug_info="utils.uss:273:1-browser_window.uss:1:1">
 				<bind debug_info="utils.uss:274:7-browser_window.uss:1:1" name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -3868,174 +4001,174 @@
 					<styleClass value="$FullsizeAbsolute"/>
 				</block>
 			</block>
-			<bind debug_info="tooltip.uss:246:7-dock.uss:1:1" name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
-			<block className="contrast_panel" debug_info="tooltip.uss:247:5-dock.uss:1:1" type="native">
+			<bind debug_info="tooltip.uss:276:7-dock.uss:1:1" name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<block className="contrast_panel" debug_info="tooltip.uss:277:5-dock.uss:1:1" type="native">
 				<styleClass value="$FullsizeAbsolute"/>
-				<bind debug_info="tooltip.uss:249:8-dock.uss:1:1" name="visible" value="optionData.contrast"/>
+				<bind debug_info="tooltip.uss:279:8-dock.uss:1:1" name="visible" value="optionData.contrast"/>
 			</block>
-			<block className="hint_panel" debug_info="tooltip.uss:251:5-dock.uss:1:1" type="native">
+			<block className="hint_panel" debug_info="tooltip.uss:281:5-dock.uss:1:1" type="native">
 				<styleClass value="$FullsizeAbsolute"/>
 			</block>
-			<block debug_info="tooltip.uss:255:2-dock.uss:1:1">
+			<block debug_info="tooltip.uss:285:2-dock.uss:1:1">
 				<styleClass value="$InfoBlockIndentNoWidth"/>
-				<block debug_info="tooltip.uss:257:3-dock.uss:1:1" type="text">
+				<block debug_info="tooltip.uss:287:3-dock.uss:1:1" type="text">
 					<styleClass value="$TextHeaderBold"/>
 					<style>
 						<leading value="-3"/>
 						<maxWidth value="260"/>
 					</style>
-					<bind debug_info="tooltip.uss:260:9-dock.uss:1:1" name="text" value="tooltipText"/>
+					<bind debug_info="tooltip.uss:290:9-dock.uss:1:1" name="text" value="tooltipText"/>
 				</block>
-				<block debug_info="tooltip.uss:262:3-dock.uss:1:1" type="text">
+				<block debug_info="tooltip.uss:292:3-dock.uss:1:1" type="text">
 					<styleClass value="$TextHeaderBigDefault"/>
 					<style>
 						<marginTop value="3px"/>
 						<leading value="-3"/>
 						<maxWidth value="260"/>
 					</style>
-					<bind debug_info="tooltip.uss:265:9-dock.uss:1:1" name="text" value="tooltipSubText"/>
+					<bind debug_info="tooltip.uss:295:9-dock.uss:1:1" name="text" value="tooltipSubText"/>
 				</block>
 			</block>
 		</block>
 	</block>
-	<block className="SimpleWarningTooltip" debug_info="tooltip.uss:308:1-dock.uss:1:1">
+	<block className="SimpleWarningTooltip" debug_info="tooltip.uss:362:1-dock.uss:1:1">
 		<styleClass value="$WarningTooltipBehaviour"/>
-		<block debug_info="tooltip.uss:310:2-dock.uss:1:1">
+		<block debug_info="tooltip.uss:364:2-dock.uss:1:1">
 			<styleClass value="$FullsizeAbsolute"/>
-			<bind debug_info="tooltip.uss:312:8-dock.uss:1:1" name="instance" value="'TooltipBackground'; {_isInBattle: _isInBattle}"/>
+			<bind debug_info="tooltip.uss:366:8-dock.uss:1:1" name="instance" value="'TooltipBackground'; {_isInBattle: _isInBattle}"/>
 		</block>
-		<block debug_info="tooltip.uss:314:2-dock.uss:1:1">
+		<block debug_info="tooltip.uss:368:2-dock.uss:1:1">
 			<styleClass value="$InfoBlockIndentNoWidth"/>
-			<block className="icon_warning_orange" debug_info="tooltip.uss:316:6-dock.uss:1:1" type="native">
+			<block className="icon_warning_orange" debug_info="tooltip.uss:370:6-dock.uss:1:1" type="native">
 				<style>
 					<marginTop value="5px"/>
 					<marginRight value="2px"/>
 				</style>
 			</block>
-			<block debug_info="tooltip.uss:319:3-dock.uss:1:1" type="text">
+			<block debug_info="tooltip.uss:373:3-dock.uss:1:1" type="text">
 				<styleClass value="$TextDefault"/>
-				<bind debug_info="tooltip.uss:321:9-dock.uss:1:1" name="class" value="'$FontColorUnready'"/>
+				<bind debug_info="tooltip.uss:375:9-dock.uss:1:1" name="class" value="'$FontColorUnready'"/>
 				<style>
 					<maxWidth value="240"/>
 					<leading value="-3"/>
 				</style>
-				<bind debug_info="tooltip.uss:323:9-dock.uss:1:1" name="text" value="_text"/>
+				<bind debug_info="tooltip.uss:377:9-dock.uss:1:1" name="text" value="_text"/>
 			</block>
 			<style>
 				<flow value="horizontal"/>
 			</style>
 		</block>
 	</block>
-	<block className="MultipleWarningsTooltip" debug_info="tooltip.uss:328:1-dock.uss:1:1">
+	<block className="MultipleWarningsTooltip" debug_info="tooltip.uss:382:1-dock.uss:1:1">
 		<styleClass value="$WarningTooltipBehaviour"/>
-		<block debug_info="tooltip.uss:330:2-dock.uss:1:1">
+		<block debug_info="tooltip.uss:384:2-dock.uss:1:1">
 			<styleClass value="$FullsizeAbsolute"/>
-			<bind debug_info="tooltip.uss:332:8-dock.uss:1:1" name="instance" value="'TooltipBackground'; {_isInBattle: _isInBattle}"/>
+			<bind debug_info="tooltip.uss:386:8-dock.uss:1:1" name="instance" value="'TooltipBackground'; {_isInBattle: _isInBattle}"/>
 		</block>
-		<block debug_info="tooltip.uss:334:2-dock.uss:1:1">
+		<block debug_info="tooltip.uss:388:2-dock.uss:1:1">
 			<styleClass value="$InfoBlockIndentNoWidth"/>
-			<block className="icon_warning_orange" debug_info="tooltip.uss:336:6-dock.uss:1:1" type="native">
+			<block className="icon_warning_orange" debug_info="tooltip.uss:390:6-dock.uss:1:1" type="native">
 				<style>
 					<marginTop value="5px"/>
 					<marginRight value="2px"/>
 				</style>
 			</block>
-			<block debug_info="tooltip.uss:339:3-dock.uss:1:1">
-				<bind debug_info="tooltip.uss:340:9-dock.uss:1:1" name="repeat" value="_warningsArr; 'SimpleWarningText'; {}"/>
+			<block debug_info="tooltip.uss:393:3-dock.uss:1:1">
+				<bind debug_info="tooltip.uss:394:9-dock.uss:1:1" name="repeat" value="_warningsArr; 'SimpleWarningText'; {}"/>
 			</block>
 			<style>
 				<flow value="horizontal"/>
 			</style>
 		</block>
 	</block>
-	<block className="SimpleWarningText" debug_info="tooltip.uss:345:1-dock.uss:1:1">
-		<block debug_info="tooltip.uss:346:2-dock.uss:1:1" type="text">
+	<block className="SimpleWarningText" debug_info="tooltip.uss:399:1-dock.uss:1:1">
+		<block debug_info="tooltip.uss:400:2-dock.uss:1:1" type="text">
 			<styleClass value="$TextDefault"/>
-			<bind debug_info="tooltip.uss:348:8-dock.uss:1:1" name="class" value="'$FontColorUnready'"/>
+			<bind debug_info="tooltip.uss:402:8-dock.uss:1:1" name="class" value="'$FontColorUnready'"/>
 			<style>
 				<maxWidth value="240"/>
 				<leading value="-3"/>
 			</style>
-			<bind debug_info="tooltip.uss:350:8-dock.uss:1:1" name="text" value="$value"/>
+			<bind debug_info="tooltip.uss:404:8-dock.uss:1:1" name="text" value="$value"/>
 		</block>
 	</block>
-	<block className="StartButtonWarningsTooltip" debug_info="tooltip.uss:354:1-dock.uss:1:1">
+	<block className="StartButtonWarningsTooltip" debug_info="tooltip.uss:408:1-dock.uss:1:1">
 		<styleClass value="$WarningTooltipBehaviour"/>
-		<block debug_info="tooltip.uss:356:2-dock.uss:1:1">
+		<block debug_info="tooltip.uss:410:2-dock.uss:1:1">
 			<styleClass value="$FullsizeAbsolute"/>
-			<bind debug_info="tooltip.uss:358:8-dock.uss:1:1" name="instance" value="'TooltipBackground'; {_isInBattle: _isInBattle}"/>
+			<bind debug_info="tooltip.uss:412:8-dock.uss:1:1" name="instance" value="'TooltipBackground'; {_isInBattle: _isInBattle}"/>
 		</block>
-		<block debug_info="tooltip.uss:360:2-dock.uss:1:1">
+		<block debug_info="tooltip.uss:414:2-dock.uss:1:1">
 			<styleClass value="$InfoBlockIndentNoWidth"/>
-			<block className="icon_warning_orange" debug_info="tooltip.uss:362:6-dock.uss:1:1" type="native">
+			<block className="icon_warning_orange" debug_info="tooltip.uss:416:6-dock.uss:1:1" type="native">
 				<style>
 					<marginTop value="5px"/>
 					<marginRight value="2px"/>
 				</style>
 			</block>
-			<block debug_info="tooltip.uss:365:3-dock.uss:1:1">
+			<block debug_info="tooltip.uss:419:3-dock.uss:1:1">
 				<params>
 					<param name="name" value="MultipleWarningsTooltip"/>
 				</params>
-				<bind debug_info="tooltip.uss:367:9-dock.uss:1:1" name="repeat" value="_warningsArr; 'StartButtonWarningText'; {}"/>
+				<bind debug_info="tooltip.uss:421:9-dock.uss:1:1" name="repeat" value="_warningsArr; 'StartButtonWarningText'; {}"/>
 			</block>
 			<style>
 				<flow value="horizontal"/>
 			</style>
 		</block>
 	</block>
-	<block className="StartButtonWarningText" debug_info="tooltip.uss:372:1-dock.uss:1:1">
-		<bind debug_info="tooltip.uss:374:7-dock.uss:1:1" name="firstEntityDH" value="'clanCurrentSeasonEntity'; CC.clanBattleSeason; 'current'"/>
-		<bind debug_info="tooltip.uss:376:7-dock.uss:1:1" name="watchDH" value="'cbs_primeTimeStartTime'; ['clanCurrentSeasonEntity.clanBattleSeason.evChanged']; clanCurrentSeasonEntity.clanBattleSeason.primeTimeStartTime"/>
-		<bind debug_info="tooltip.uss:377:7-dock.uss:1:1" name="watchDH" value="'cbs_primeTimeFinishTime'; ['clanCurrentSeasonEntity.clanBattleSeason.evChanged']; clanCurrentSeasonEntity.clanBattleSeason.primeTimeFinishTime"/>
-		<bind debug_info="tooltip.uss:379:7-dock.uss:1:1" name="countdown" value="cbs_primeTimeStartTime; 'startPrimeTimeText'; 'HIGHEST,WITH_DAYS'; 'timeoutEvent'"/>
-		<bind debug_info="tooltip.uss:380:7-dock.uss:1:1" name="countdown" value="cbs_primeTimeFinishTime; 'finishPrimeTimeText'; 'HIGHEST,WITH_DAYS'; 'timeoutEvent'"/>
-		<block debug_info="tooltip.uss:382:2-dock.uss:1:1" type="text">
+	<block className="StartButtonWarningText" debug_info="tooltip.uss:426:1-dock.uss:1:1">
+		<bind debug_info="tooltip.uss:428:7-dock.uss:1:1" name="firstEntityDH" value="'clanCurrentSeasonEntity'; CC.clanBattleSeason; 'current'"/>
+		<bind debug_info="tooltip.uss:430:7-dock.uss:1:1" name="watchDH" value="'cbs_primeTimeStartTime'; ['clanCurrentSeasonEntity.clanBattleSeason.evChanged']; clanCurrentSeasonEntity.clanBattleSeason.primeTimeStartTime"/>
+		<bind debug_info="tooltip.uss:431:7-dock.uss:1:1" name="watchDH" value="'cbs_primeTimeFinishTime'; ['clanCurrentSeasonEntity.clanBattleSeason.evChanged']; clanCurrentSeasonEntity.clanBattleSeason.primeTimeFinishTime"/>
+		<bind debug_info="tooltip.uss:433:7-dock.uss:1:1" name="countdown" value="cbs_primeTimeStartTime; 'startPrimeTimeText'; 'HIGHEST,WITH_DAYS'; 'timeoutEvent'"/>
+		<bind debug_info="tooltip.uss:434:7-dock.uss:1:1" name="countdown" value="cbs_primeTimeFinishTime; 'finishPrimeTimeText'; 'HIGHEST,WITH_DAYS'; 'timeoutEvent'"/>
+		<block debug_info="tooltip.uss:436:2-dock.uss:1:1" type="text">
 			<styleClass value="$TextDefault"/>
-			<bind debug_info="tooltip.uss:384:8-dock.uss:1:1" name="class" value="'$FontColorUnready'"/>
+			<bind debug_info="tooltip.uss:438:8-dock.uss:1:1" name="class" value="'$FontColorUnready'"/>
 			<style>
 				<maxWidth value="240"/>
 				<leading value="-3"/>
 			</style>
-			<bind debug_info="tooltip.uss:387:8-dock.uss:1:1" name="text" value="$value == 'IDS_CLAN_BATTLES_PRIMETIME_STARTS_IN'	?	subst('IDS_CLAN_BATTLES_PRIMETIME_STARTS_IN', [], {timeLeft: startPrimeTimeText}) 
+			<bind debug_info="tooltip.uss:441:8-dock.uss:1:1" name="text" value="$value == 'IDS_CLAN_BATTLES_PRIMETIME_STARTS_IN'	?	subst('IDS_CLAN_BATTLES_PRIMETIME_STARTS_IN', [], {timeLeft: startPrimeTimeText}) 
 																		:	$value"/>
 		</block>
 	</block>
-	<block className="TooltipBackground" debug_info="tooltip.uss:392:1-dock.uss:1:1">
+	<block className="TooltipBackground" debug_info="tooltip.uss:446:1-dock.uss:1:1">
 		<styleClass value="$FullsizeAbsolute"/>
-		<block debug_info="tooltip.uss:395:2-dock.uss:1:1">
+		<block debug_info="tooltip.uss:449:2-dock.uss:1:1">
 			<styleClass value="$FullsizeAbsolute"/>
-			<bind debug_info="tooltip.uss:398:8-dock.uss:1:1" name="instance" value="'DeclareBlurLayer'; _isInBattle ?  null : {}"/>
-			<bind debug_info="tooltip.uss:399:8-dock.uss:1:1" name="instance" value="'BlurMap'; _isInBattle ? null : {}"/>
+			<bind debug_info="tooltip.uss:452:8-dock.uss:1:1" name="instance" value="'DeclareBlurLayer'; _isInBattle ?  null : {}"/>
+			<bind debug_info="tooltip.uss:453:8-dock.uss:1:1" name="instance" value="'BlurMap'; _isInBattle ? null : {}"/>
 		</block>
-		<bind debug_info="tooltip.uss:402:7-dock.uss:1:1" name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
-		<block className="contrast_panel" debug_info="tooltip.uss:403:5-dock.uss:1:1" type="native">
+		<bind debug_info="tooltip.uss:456:7-dock.uss:1:1" name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<block className="contrast_panel" debug_info="tooltip.uss:457:5-dock.uss:1:1" type="native">
 			<styleClass value="$FullsizeAbsolute"/>
-			<bind debug_info="tooltip.uss:405:8-dock.uss:1:1" name="visible" value="(optionData.contrast == true || _isInBattle == true)"/>
+			<bind debug_info="tooltip.uss:459:8-dock.uss:1:1" name="visible" value="(optionData.contrast == true || _isInBattle == true)"/>
 		</block>
-		<block debug_info="tooltip.uss:408:2-dock.uss:1:1">
+		<block debug_info="tooltip.uss:462:2-dock.uss:1:1">
 			<styleClass value="$FullsizeAbsolute"/>
-			<bind debug_info="tooltip.uss:410:8-dock.uss:1:1" name="visible" value="!(_isInBattle)"/>
-			<block className="hint_panel" debug_info="tooltip.uss:412:6-dock.uss:1:1" type="native">
+			<bind debug_info="tooltip.uss:464:8-dock.uss:1:1" name="visible" value="!(_isInBattle)"/>
+			<block className="hint_panel" debug_info="tooltip.uss:466:6-dock.uss:1:1" type="native">
 				<styleClass value="$FullsizeAbsolute"/>
 			</block>
 		</block>
 	</block>
-	<block className="TimerTooltip" debug_info="tooltip.uss:418:1-dock.uss:1:1">
+	<block className="TimerTooltip" debug_info="tooltip.uss:472:1-dock.uss:1:1">
 		<styleClass value="$DefaultTooltipBehaviour"/>
-		<block debug_info="tooltip.uss:421:2-dock.uss:1:1">
+		<block debug_info="tooltip.uss:475:2-dock.uss:1:1">
 			<styleClass value="$FullsizeAbsolute"/>
-			<bind debug_info="tooltip.uss:423:8-dock.uss:1:1" name="instance" value="'TooltipBackground'; {_isInBattle: _isInBattle}"/>
+			<bind debug_info="tooltip.uss:477:8-dock.uss:1:1" name="instance" value="'TooltipBackground'; {_isInBattle: _isInBattle}"/>
 		</block>
-		<block debug_info="tooltip.uss:426:2-dock.uss:1:1" type="text">
+		<block debug_info="tooltip.uss:480:2-dock.uss:1:1" type="text">
 			<styleClass value="$InfoBlockIndentNoWidth"/>
 			<styleClass value="$TextHeader"/>
-			<bind debug_info="tooltip.uss:429:8-dock.uss:1:1" name="class" value="'$FontSizeHeader4'"/>
-			<bind debug_info="tooltip.uss:430:8-dock.uss:1:1" name="pureText" value="_text"/>
+			<bind debug_info="tooltip.uss:483:8-dock.uss:1:1" name="class" value="'$FontSizeHeader4'"/>
+			<bind debug_info="tooltip.uss:484:8-dock.uss:1:1" name="pureText" value="_text"/>
 		</block>
 	</block>
-	<block className="PlayerTooltipInvitationCountdown" debug_info="tooltip.uss:434:1-dock.uss:1:1">
-		<bind debug_info="tooltip.uss:435:7-dock.uss:1:1" name="countdown" value="_expirationTime; 'countdownText'; 'mm:ss'"/>
+	<block className="PlayerTooltipInvitationCountdown" debug_info="tooltip.uss:488:1-dock.uss:1:1">
+		<bind debug_info="tooltip.uss:489:7-dock.uss:1:1" name="countdown" value="_expirationTime; 'countdownText'; 'mm:ss'"/>
 		<style>
 			<width value="100%"/>
 		</style>
@@ -4049,7 +4182,7 @@
 				<styleClass value="$Fullsize"/>
 			</block>
 		</block>
-		<block debug_info="tooltip.uss:439:2-dock.uss:1:1">
+		<block debug_info="tooltip.uss:493:2-dock.uss:1:1">
 			<style>
 				<width value="100%"/>
 				<marginTop value="4px"/>
@@ -4057,35 +4190,35 @@
 				<marginRight value="4px"/>
 				<marginBottom value="3px"/>
 			</style>
-			<block debug_info="tooltip.uss:442:3-dock.uss:1:1">
+			<block debug_info="tooltip.uss:496:3-dock.uss:1:1">
 				<style>
 					<width value="100%"/>
 					<marginRight value="6px"/>
 				</style>
-				<block debug_info="tooltip.uss:444:4-dock.uss:1:1">
+				<block debug_info="tooltip.uss:498:4-dock.uss:1:1">
 					<style>
 						<marginLeft value="4px"/>
 					</style>
-					<bind debug_info="tooltip.uss:446:10-dock.uss:1:1" name="instance" value="'FormationPlayerIcon'; {_isEmptySlot: true, _formationType: _formationType}"/>
+					<bind debug_info="tooltip.uss:500:10-dock.uss:1:1" name="instance" value="'FormationPlayerIcon'; {_isEmptySlot: true, _formationType: _formationType}"/>
 				</block>
-				<block debug_info="tooltip.uss:449:4-dock.uss:1:1" type="text">
+				<block debug_info="tooltip.uss:503:4-dock.uss:1:1" type="text">
 					<style>
 						<marginLeft value="4px"/>
 						<maxWidth value="158"/>
 						<leading value="-3"/>
 					</style>
 					<styleClass value="$TextDefaultBold"/>
-					<bind debug_info="tooltip.uss:452:10-dock.uss:1:1" name="class" value="'$FontColorWhite'"/>
-					<bind debug_info="tooltip.uss:453:10-dock.uss:1:1" name="text" value="_text"/>
+					<bind debug_info="tooltip.uss:506:10-dock.uss:1:1" name="class" value="'$FontColorWhite'"/>
+					<bind debug_info="tooltip.uss:507:10-dock.uss:1:1" name="text" value="_text"/>
 				</block>
-				<block debug_info="tooltip.uss:455:4-dock.uss:1:1" type="text">
+				<block debug_info="tooltip.uss:509:4-dock.uss:1:1" type="text">
 					<style>
 						<top value="-4px"/>
 					</style>
 					<styleClass value="$TextHeaderBigDefault"/>
 					<styleClass value="$AlignRight"/>
-					<bind debug_info="tooltip.uss:459:10-dock.uss:1:1" name="class" value="'$FontSizeHeader6'"/>
-					<bind debug_info="tooltip.uss:460:10-dock.uss:1:1" name="pureText" value="'-' + countdownText"/>
+					<bind debug_info="tooltip.uss:513:10-dock.uss:1:1" name="class" value="'$FontSizeHeader6'"/>
+					<bind debug_info="tooltip.uss:514:10-dock.uss:1:1" name="pureText" value="'-' + countdownText"/>
 				</block>
 				<style>
 					<flow value="horizontal"/>
@@ -5138,7 +5271,7 @@
 		<bind debug_info="replaces.uss:62:7-item_chooser.uss:65:1-dock.uss:1:1" name="style" value="'hitTest'; !(shipOverview.enabled)"/>
 		<styleClass value="$DefaultMenuBehaviour"/>
 		<bind debug_info="item_chooser.uss:68:7-dock.uss:1:1" name="style" value="'width'; _dropDownWidth ? _dropDownWidth : '180px'"/>
-		<block className="MenuBg" debug_info="common_elements.uss:160:1-dock.uss:1:1">
+		<block className="MenuBg" debug_info="common_elements.uss:184:1-dock.uss:1:1">
 			<styleClass value="$FullsizeAbsolute"/>
 			<block className="DeclareBlurLayer" debug_info="utils.uss:273:1-browser_window.uss:1:1">
 				<bind debug_info="utils.uss:274:7-browser_window.uss:1:1" name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -5170,22 +5303,22 @@
 					<styleClass value="$FullsizeAbsolute"/>
 				</block>
 			</block>
-			<bind debug_info="common_elements.uss:166:7-dock.uss:1:1" name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
-			<block className="contrast_panel" debug_info="common_elements.uss:168:5-dock.uss:1:1" type="native">
-				<bind debug_info="common_elements.uss:169:8-dock.uss:1:1" name="visible" value="optionData.contrast &amp;&amp; !(true)"/>
+			<bind debug_info="common_elements.uss:190:7-dock.uss:1:1" name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<block className="contrast_panel" debug_info="common_elements.uss:192:5-dock.uss:1:1" type="native">
+				<bind debug_info="common_elements.uss:193:8-dock.uss:1:1" name="visible" value="optionData.contrast &amp;&amp; !(true)"/>
 				<styleClass value="$FullsizeAbsolute"/>
 			</block>
-			<block debug_info="common_elements.uss:173:2-dock.uss:1:1">
+			<block debug_info="common_elements.uss:197:2-dock.uss:1:1">
 				<styleClass value="$FullsizeAbsolute"/>
-				<bind debug_info="common_elements.uss:175:8-dock.uss:1:1" name="visible" value="!(true)"/>
-				<block className="hint_panel" debug_info="common_elements.uss:176:6-dock.uss:1:1" type="native">
+				<bind debug_info="common_elements.uss:199:8-dock.uss:1:1" name="visible" value="!(true)"/>
+				<block className="hint_panel" debug_info="common_elements.uss:200:6-dock.uss:1:1" type="native">
 					<styleClass value="$FullsizeAbsolute"/>
 				</block>
 			</block>
-			<block debug_info="common_elements.uss:181:2-dock.uss:1:1">
+			<block debug_info="common_elements.uss:205:2-dock.uss:1:1">
 				<styleClass value="$FullsizeAbsolute"/>
-				<bind debug_info="common_elements.uss:183:8-dock.uss:1:1" name="visible" value="true"/>
-				<block className="dock_panel" debug_info="common_elements.uss:184:6-dock.uss:1:1" type="native">
+				<bind debug_info="common_elements.uss:207:8-dock.uss:1:1" name="visible" value="true"/>
+				<block className="dock_panel" debug_info="common_elements.uss:208:6-dock.uss:1:1" type="native">
 					<styleClass value="$FullsizeAbsolute"/>
 					<style>
 						<marginBottom value="-19px"/>
@@ -5244,19 +5377,19 @@
 	<block className="LowerCaseTextListItemRenderer" debug_info="item_chooser.uss:108:1-dock.uss:1:1">
 		<styleClass value="$ContextMenuListItem"/>
 		<bind debug_info="item_chooser.uss:110:7-dock.uss:1:1" name="var" value="{_toLowerCase: true}"/>
-		<block className="MenuItemWithSelection" debug_info="common_elements.uss:209:1-dock.uss:1:1">
+		<block className="MenuItemWithSelection" debug_info="common_elements.uss:233:1-dock.uss:1:1">
 			<styleClass value="$Fullsize"/>
-			<bind debug_info="common_elements.uss:211:7-dock.uss:1:1" name="name" value="$value"/>
-			<block className="dock_submenu_item" debug_info="common_elements.uss:212:5-dock.uss:1:1" type="native">
+			<bind debug_info="common_elements.uss:235:7-dock.uss:1:1" name="name" value="$value"/>
+			<block className="dock_submenu_item" debug_info="common_elements.uss:236:5-dock.uss:1:1" type="native">
 				<styleClass value="$FullsizeAbsolute"/>
-				<bind debug_info="common_elements.uss:214:8-dock.uss:1:1" name="selected" value="(_curItemIndex == $index)"/>
+				<bind debug_info="common_elements.uss:238:8-dock.uss:1:1" name="selected" value="(_curItemIndex == $index)"/>
 			</block>
-			<block debug_info="common_elements.uss:216:2-dock.uss:1:1" type="text">
+			<block debug_info="common_elements.uss:240:2-dock.uss:1:1" type="text">
 				<styleClass value="$TextDefault"/>
 				<styleClass value="$MiddleVAligned"/>
 				<styleClass value="$ContextMenuListItemContent"/>
-				<bind debug_info="common_elements.uss:220:8-dock.uss:1:1" name="class" value="(_curItemIndex == $index) == true ? '$Bold' : '$None'"/>
-				<bind debug_info="common_elements.uss:221:8-dock.uss:1:1" name="text" value="(_toLowerCase ? toLowerCase(tr($value))
+				<bind debug_info="common_elements.uss:244:8-dock.uss:1:1" name="class" value="(_curItemIndex == $index) == true ? '$Bold' : '$None'"/>
+				<bind debug_info="common_elements.uss:245:8-dock.uss:1:1" name="text" value="(_toLowerCase ? toLowerCase(tr($value))
 											: (tr($value)))"/>
 			</block>
 		</block>
@@ -5279,19 +5412,19 @@
 	</block>
 	<block className="TextListItemRenderer" debug_info="item_chooser.uss:129:1-dock.uss:1:1">
 		<styleClass value="$ContextMenuListItem"/>
-		<block className="MenuItemWithSelection" debug_info="common_elements.uss:209:1-dock.uss:1:1">
+		<block className="MenuItemWithSelection" debug_info="common_elements.uss:233:1-dock.uss:1:1">
 			<styleClass value="$Fullsize"/>
-			<bind debug_info="common_elements.uss:211:7-dock.uss:1:1" name="name" value="$value"/>
-			<block className="dock_submenu_item" debug_info="common_elements.uss:212:5-dock.uss:1:1" type="native">
+			<bind debug_info="common_elements.uss:235:7-dock.uss:1:1" name="name" value="$value"/>
+			<block className="dock_submenu_item" debug_info="common_elements.uss:236:5-dock.uss:1:1" type="native">
 				<styleClass value="$FullsizeAbsolute"/>
-				<bind debug_info="common_elements.uss:214:8-dock.uss:1:1" name="selected" value="(_curItemIndex == $index)"/>
+				<bind debug_info="common_elements.uss:238:8-dock.uss:1:1" name="selected" value="(_curItemIndex == $index)"/>
 			</block>
-			<block debug_info="common_elements.uss:216:2-dock.uss:1:1" type="text">
+			<block debug_info="common_elements.uss:240:2-dock.uss:1:1" type="text">
 				<styleClass value="$TextDefault"/>
 				<styleClass value="$MiddleVAligned"/>
 				<styleClass value="$ContextMenuListItemContent"/>
-				<bind debug_info="common_elements.uss:220:8-dock.uss:1:1" name="class" value="(_curItemIndex == $index) == true ? '$Bold' : '$None'"/>
-				<bind debug_info="common_elements.uss:221:8-dock.uss:1:1" name="text" value="(_toLowerCase ? toLowerCase(tr($value))
+				<bind debug_info="common_elements.uss:244:8-dock.uss:1:1" name="class" value="(_curItemIndex == $index) == true ? '$Bold' : '$None'"/>
+				<bind debug_info="common_elements.uss:245:8-dock.uss:1:1" name="text" value="(_toLowerCase ? toLowerCase(tr($value))
 											: (tr($value)))"/>
 			</block>
 		</block>
@@ -5328,14 +5461,14 @@
 		<bind debug_info="pve_ship_restrictions.uss:13:7-dock.uss:1:1" name="entityDH" value="'defaultRestrictionsEntity'; _defaultRestrictionsEntityId"/>
 		<bind debug_info="pve_ship_restrictions.uss:14:7-dock.uss:1:1" name="watchDH" value="'defaultTypesCount' ; ['defaultRestrictionsEntity.divisionRestrictions.evUpdate']; defaultRestrictionsEntity.divisionRestrictions.typesCount"/>
 		<bind debug_info="pve_ship_restrictions.uss:16:7-dock.uss:1:1" name="watch" value="'isAllShipTypesAllowed'; 	shipTypefilters.length == 4"/>
-		<bind debug_info="replaces.uss:663:7-pve_ship_restrictions.uss:18:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'idsfilters'+'ROOT'"/>
-		<bind debug_info="replaces.uss:664:7-pve_ship_restrictions.uss:18:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'idsfilters'+'ROOT'; 'idsfilters'; {'filter':$entity.shipFilterItem.type == 'shipId' &amp;&amp; isIn($entity.id, shipRestrictions)}; []"/>
-		<bind debug_info="replaces.uss:663:7-pve_ship_restrictions.uss:19:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'shipTypefilters'+'ROOT'"/>
-		<bind debug_info="replaces.uss:664:7-pve_ship_restrictions.uss:19:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'shipTypefilters'+'ROOT'; 'shipTypefilters'; {'filter':$entity.shipFilterItem.type == 'shipType' &amp;&amp; isIn($entity.id, shipRestrictions)}; []"/>
-		<bind debug_info="replaces.uss:663:7-pve_ship_restrictions.uss:20:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'levelfilters'+'ROOT'"/>
-		<bind debug_info="replaces.uss:664:7-pve_ship_restrictions.uss:20:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'levelfilters'+'ROOT'; 'levelfilters'; {'filter':$entity.shipFilterItem.type == 'level' &amp;&amp; isIn($entity.id, shipRestrictions)}; []"/>
-		<bind debug_info="replaces.uss:663:7-pve_ship_restrictions.uss:21:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'nationfilters'+'ROOT'"/>
-		<bind debug_info="replaces.uss:664:7-pve_ship_restrictions.uss:21:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'nationfilters'+'ROOT'; 'nationfilters'; {'filter':$entity.shipFilterItem.type == 'nation' &amp;&amp; isIn($entity.id, shipRestrictions)}; []"/>
+		<bind debug_info="replaces.uss:662:7-pve_ship_restrictions.uss:18:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'idsfilters'+'ROOT'"/>
+		<bind debug_info="replaces.uss:663:7-pve_ship_restrictions.uss:18:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'idsfilters'+'ROOT'; 'idsfilters'; {'filter':$entity.shipFilterItem.type == 'shipId' &amp;&amp; isIn($entity.id, shipRestrictions)}; []"/>
+		<bind debug_info="replaces.uss:662:7-pve_ship_restrictions.uss:19:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'shipTypefilters'+'ROOT'"/>
+		<bind debug_info="replaces.uss:663:7-pve_ship_restrictions.uss:19:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'shipTypefilters'+'ROOT'; 'shipTypefilters'; {'filter':$entity.shipFilterItem.type == 'shipType' &amp;&amp; isIn($entity.id, shipRestrictions)}; []"/>
+		<bind debug_info="replaces.uss:662:7-pve_ship_restrictions.uss:20:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'levelfilters'+'ROOT'"/>
+		<bind debug_info="replaces.uss:663:7-pve_ship_restrictions.uss:20:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'levelfilters'+'ROOT'; 'levelfilters'; {'filter':$entity.shipFilterItem.type == 'level' &amp;&amp; isIn($entity.id, shipRestrictions)}; []"/>
+		<bind debug_info="replaces.uss:662:7-pve_ship_restrictions.uss:21:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'nationfilters'+'ROOT'"/>
+		<bind debug_info="replaces.uss:663:7-pve_ship_restrictions.uss:21:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'nationfilters'+'ROOT'; 'nationfilters'; {'filter':$entity.shipFilterItem.type == 'nation' &amp;&amp; isIn($entity.id, shipRestrictions)}; []"/>
 		<bind debug_info="pve_ship_restrictions.uss:23:7-dock.uss:1:1" name="collectionFields" value="levelfilters; ['shipFilterItem.field']"/>
 		<bind debug_info="pve_ship_restrictions.uss:25:7-dock.uss:1:1" name="contains" value="typesCount; $item[1] == -1; 'isAnyShipTypeNotAllowed'"/>
 		<bind debug_info="pve_ship_restrictions.uss:27:7-dock.uss:1:1" name="watch" value="'isCarriersRestricted'; typesCount[ShipTypes.AircraftCarrier] &amp;&amp; typesCount[ShipTypes.AircraftCarrier][1] != (defaultRestrictionsEntity ? defaultTypesCount[ShipTypes.AircraftCarrier][1] : 0)"/>
@@ -5503,8 +5636,8 @@
 			<flow value="horizontal"/>
 			<marginRight value="4px"/>
 		</style>
-		<bind debug_info="replaces.uss:663:7-pve_ship_restrictions.uss:135:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'typeFilter'+'ROOT'"/>
-		<bind debug_info="replaces.uss:664:7-pve_ship_restrictions.uss:135:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'typeFilter'+'ROOT'; 'typeFilter'; {'filter':$entity.shipFilterItem.type == 'shipType' &amp;&amp; $entity.shipFilterItem.field == _shipType}; []"/>
+		<bind debug_info="replaces.uss:662:7-pve_ship_restrictions.uss:135:1-dock.uss:1:1" name="collectionDH" value="CC.shipFilterItem; 'typeFilter'+'ROOT'"/>
+		<bind debug_info="replaces.uss:663:7-pve_ship_restrictions.uss:135:1-dock.uss:1:1" name="collectionDesign" value="'DES_'+'typeFilter'+'ROOT'; 'typeFilter'; {'filter':$entity.shipFilterItem.type == 'shipType' &amp;&amp; $entity.shipFilterItem.field == _shipType}; []"/>
 		<bind debug_info="pve_ship_restrictions.uss:138:7-dock.uss:1:1" name="style" value="'marginLeft'; (_shipType == ShipTypes.Destroyer) ? '-3px' : '0px'"/>
 		<block className="icon_ship" debug_info="pve_ship_restrictions.uss:140:5-dock.uss:1:1" type="native">
 			<style>
@@ -5553,6 +5686,16 @@
 			<bind debug_info="pve_ship_restrictions.uss:178:8-dock.uss:1:1" name="gotoAndStop!" value="filterEntity.shipFilterItem.field"/>
 		</block>
 	</block>
+	<css name="$Text13">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="13"/>
+		<marginText value="-3px|-3px|-6px|-5px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
 	<css name="$TextDefaultNM">
 		<fontFamily value="$WWSDefaultFont"/>
 		<mouseEnabled value="false"/>

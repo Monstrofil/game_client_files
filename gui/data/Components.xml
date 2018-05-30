@@ -152,12 +152,15 @@
 
 	<component name="AccountSelf">
 		<property	name="shouldRedirectOnCompletion"	type="Boolean"/>
+		<property	name="replaysAvailable"	type="Boolean"/>
 	</component>
 
 	<component name="AccountSimple">
 		<property	name="dbId"					type="Number"		pk="true"/>
 		<property	name="isSelfPlayer"			type="Boolean"/>
 		<property	name="autoUpdate"			type="Integer"		default="0"/>
+		<property	name="suspended"			type="Boolean"		default="false"/>
+		<event		name="evSuspendedChanged"	/>
 	</component>
 
 	<component name="IncompleteAccount">
@@ -212,6 +215,7 @@
 		<property	name="appType"				type="String"/>
 		<property	name="isFullClient"			type="Boolean"		default="true"/>
 		<property	name="isDevModeEnabled"		type="Boolean"		default="false"/>
+		<property	name="clientType"			type="Integer"/>
 		<property	name="realmName"			type="String"/>
 		<property	name="version"				type="String"/>
 		<property	name="revision"				type="String"/>
@@ -2589,6 +2593,9 @@
 		<property name="externalCredits"		type="Boolean"/>
 		<property name="freeXP"					type="Number"/>
 		<property name="eliteXP"				type="Number"/>
+		<property name="steel"					type="Number"/>
+		<property name="steelLooted"			type="Number"	default="-1"/>
+		<property name="coal"					type="Number"/>
 		<property name="useEliteXP"				type="Boolean"/>
 		<property name="premBefore"				type="Integer"/>
 		<property name="isPremium"				type="Boolean"/>
@@ -2604,6 +2611,8 @@
 		<event name="evChangedCredit"/>
 		<event name="evChangedFreeXP"/>
 		<event name="evChangedEliteXP"/>
+		<event name="evChangedSteel"/>
+		<event name="evChangedCoal"/>
 		<event name="evChangedPrem"/>
 		<event name="evChangedSlotsNum"/>
 		<event name="evChangedWalletStatus"/>
@@ -3088,4 +3097,31 @@
 		<property name="descriptionIDS" type="String"/>
 		<property name="nameIDS" type="String"/>
 	</component>
+	<component	name="ReplayMetadata"	>
+		<property	name="replayId"						type="String"		pk="true"/>
+		<property	name="mapName"						type="String"		/>
+		<property	name="gameType"						type="String"		/>
+		<property	name="gameMode"						type="String"		/>
+		<property	name="result"						type="Number"		/>
+		<property	name="shipId"						type="Number"		/>
+		<property	name="replayName"					type="String"		/>
+		<property	name="stats"						type="Dictionary"	/>
+		<property	name="dateTime"						type="Dictionary"	/>
+		<property	name="isFavourite"					type="Boolean"		/>
+		<property	name="isCompatible"					type="Boolean"		/>
+		<property	name="isLast"						type="Boolean"		/>
+		<property	name="isSaved"						type="Boolean"		/>
+		<property	name="isDeleted"					type="Boolean"		/>
+		<event 		name="evUpdate"/>
+	</component>
+
+	<component name="DownloadProgress">
+		<property name="status"		type="Integer"/>
+		<property name="unit"		type="String"/>
+		<property name="max"		type="Number"/>
+		<property name="value"		type="Number"/>
+		<event name="evUpdateStatus"/>
+		<event name="evUpdateState"/>
+	</component>
+
 </components>

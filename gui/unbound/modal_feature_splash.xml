@@ -727,6 +727,34 @@
 		fixedDirectionUp: true
 	}"/>
 	</css>
+	<css name="$ReplaysInfotip">
+		<userData value="{
+		appearDelay: 0.05,
+		appearDuration: 0.1,
+		appearOffset: 5.0,
+		disappearDelay: 0.0,
+		disappearDuration: 0.1,
+		disappearOffset: -10.0,
+
+		rightOffset: 300,
+		bottomOffset: 0,
+		isTipCenter: true
+	}"/>
+	</css>
+	<css name="$ReplaysInfotipFilter">
+		<userData value="{
+		appearDelay: 0.05,
+		appearDuration: 0.1,
+		appearOffset: 5.0,
+		disappearDelay: 0.0,
+		disappearDuration: 0.1,
+		disappearOffset: -10.0,
+
+		rightOffset: 0,
+		bottomOffset: 0,
+		isTipCenter: true
+	}"/>
+	</css>
 	<css name="$HorizontalInfotipBehaviour">
 		<userData value="{
 		appearDelay: 0.05,
@@ -808,6 +836,27 @@
 									(_multiParagraphArray.length &gt; 0) &amp;&amp; (_mouseInstructions.length &gt; 0)	? '0px'
 																											: '5px'"/>
 			<bind name="repeat" value="_multiParagraphArray; 'RepeatParagraphItem'; {_maxWidth: _maxWidth, _marginBottom: _marginBottom}"/>
+		</block>
+		<block>
+			<bind name="visible" value="_checkedLines.length &gt; 0"/>
+			<style>
+				<width value="100%"/>
+			</style>
+			<block className="HorizontalDivider">
+				<styleClass value="$PxHorizontalCorrection"/>
+				<style>
+					<width value="100%"/>
+					<height value="3px"/>
+				</style>
+				<block className="divider_h" type="native">
+					<styleClass value="$Fullsize"/>
+				</block>
+			</block>
+		</block>
+		<block>
+			<bind name="visible" value="_checkedLines.length &gt; 0"/>
+			<styleClass value="$InfoBlockIndentNoWidth"/>
+			<bind name="repeat" value="_checkedLines; 'CheckedLineRepeater'; {_maxWidth: _maxWidth, _marginBottom: _marginBottom, _lastIndex: _checkedLines.length - 1}"/>
 		</block>
 		<block>
 			<bind name="visible" value="(_multiParagraphArray.length &gt; 0) &amp;&amp; (_mouseInstructions.length &gt; 0)"/>
@@ -1514,8 +1563,8 @@
 				<marginTop value="8px"/>
 			</style>
 			<styleClass value="$MiddleAligned"/>
+			<bind name="firstEntityDH" value="'clanCurrentSeasonEntity'; CC.clanBattleSeason; 'current.active'"/>
 			<bind name="visible" value="type == BattleTypes.CLAN_BATTLE &amp;&amp; clanCurrentSeasonEntity"/>
-			<bind name="firstEntityDH" value="'clanCurrentSeasonEntity'; CC.clanBattleSeason; 'current'"/>
 			<bind name="instance" value="'ClanBattlePrimeTimeIndicator'; type == BattleTypes.CLAN_BATTLE &amp;&amp; clanCurrentSeasonEntity ? {} : null"/>
 		</block>
 	</block>
@@ -2703,6 +2752,33 @@
 		<bind name="instance" value="'MouseInstruction'; _type == 'warning' ? null : { _type: _type, _instructionText: _instructionText, _maxWidth: _maxWidth}"/>
 		<bind name="instance" value="'InstructionWarning'; _type == 'warning' ? {_instructionText: _instructionText, _maxWidth: _maxWidth} : null"/>
 	</block>
+	<block className="CheckedLine">
+		<style>
+			<flow value="horizontal"/>
+		</style>
+		<block className="icon_check" type="native">
+			<style>
+				<marginLeft value="2px"/>
+				<marginTop value="8px"/>
+			</style>
+			<bind name="visible" value="!_isCheckMarkHidden"/>
+		</block>
+		<block type="text">
+			<styleClass value="$TextHeaderBigDefault"/>
+			<style>
+				<width value="288px"/>
+				<marginTop value="-2px"/>
+				<multiline value="false"/>
+			</style>
+			<bind name="class" value="'$FontColorGolden'"/>
+			<bind name="style" value="'marginLeft'; _isCheckMarkHidden ? '0' : '5px'"/>
+			<bind name="text" value="_checkedLineText"/>
+		</block>
+	</block>
+	<block className="CheckedLineRepeater">
+		<bind name="style" value="'marginBottom'; $index != _lastIndex ? '6px' : '-2px'"/>
+		<bind name="instance" value="'CheckedLine'; { _isCheckMarkHidden: _isCheckMarkHidden, _checkedLineText: _checkedLineText, _maxWidth: _maxWidth}"/>
+	</block>
 	<block className="InstructionBigTech">
 		<style>
 			<flow value="horizontal"/>
@@ -2935,6 +3011,9 @@
 	</css>
 	<block className="WarningMessage">
 		<bind name="appear" value="'addedToStage'; 0.15; _delay; {alpha: 0, top: _startTop ? _startTop : 10}; {alpha: 1, top: 0}; 2"/>
+		<bind name="var" value="{errorStringsToShowSupportLinkFor: [
+		tr('IDS_ACCOUNT_ERROR_ALL_SPA_LOGIN_ALREADY_TAKEN')
+	]}"/>
 		<block type="text">
 			<bind name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 280"/>
 			<bind name="class" value="_highWarning ? '$WarningTextRed' : '$WarningTextOrange'"/>
@@ -2942,6 +3021,19 @@
 				<textAlign value="center"/>
 			</style>
 			<bind name="text" value="_text"/>
+		</block>
+		<block>
+			<bind name="visible" value="errorStringsToShowSupportLinkFor.indexOf(_text) &gt; -1"/>
+			<styleClass value="$MiddleAligned"/>
+			<style>
+				<marginTop value="6px"/>
+			</style>
+			<bind name="instance" value="'LinkText'; errorStringsToShowSupportLinkFor.indexOf(_text) &gt; -1 	? {
+																								_label: 'IDS_LINK_SUPPORT', 
+																								_urlIdent: URL.SUPPORT, 
+																								_tooltipText: 'IDS_LINK_SUPPORT_HINT', 
+																								_name: 'ButtonSupport'} 
+																							: null"/>
 		</block>
 	</block>
 	<block className="WrongTextInputNotification">
@@ -3482,6 +3574,16 @@
 			<bind name="text" value="playerName"/>
 		</block>
 	</block>
+	<css name="$Text13">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="13"/>
+		<marginText value="-3px|-3px|-6px|-5px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
 	<css name="$TextDefaultNM">
 		<fontFamily value="$WWSDefaultFont"/>
 		<mouseEnabled value="false"/>

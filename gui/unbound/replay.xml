@@ -748,6 +748,33 @@
 		<bind name="instance" value="'MouseInstruction'; _type == 'warning' ? null : { _type: _type, _instructionText: _instructionText, _maxWidth: _maxWidth}"/>
 		<bind name="instance" value="'InstructionWarning'; _type == 'warning' ? {_instructionText: _instructionText, _maxWidth: _maxWidth} : null"/>
 	</block>
+	<block className="CheckedLine">
+		<style>
+			<flow value="horizontal"/>
+		</style>
+		<block className="icon_check" type="native">
+			<style>
+				<marginLeft value="2px"/>
+				<marginTop value="8px"/>
+			</style>
+			<bind name="visible" value="!_isCheckMarkHidden"/>
+		</block>
+		<block type="text">
+			<styleClass value="$TextHeaderBigDefault"/>
+			<style>
+				<width value="288px"/>
+				<marginTop value="-2px"/>
+				<multiline value="false"/>
+			</style>
+			<bind name="class" value="'$FontColorGolden'"/>
+			<bind name="style" value="'marginLeft'; _isCheckMarkHidden ? '0' : '5px'"/>
+			<bind name="text" value="_checkedLineText"/>
+		</block>
+	</block>
+	<block className="CheckedLineRepeater">
+		<bind name="style" value="'marginBottom'; $index != _lastIndex ? '6px' : '-2px'"/>
+		<bind name="instance" value="'CheckedLine'; { _isCheckMarkHidden: _isCheckMarkHidden, _checkedLineText: _checkedLineText, _maxWidth: _maxWidth}"/>
+	</block>
 	<block className="InstructionBigTech">
 		<style>
 			<flow value="horizontal"/>
@@ -980,6 +1007,9 @@
 	</css>
 	<block className="WarningMessage">
 		<bind name="appear" value="'addedToStage'; 0.15; _delay; {alpha: 0, top: _startTop ? _startTop : 10}; {alpha: 1, top: 0}; 2"/>
+		<bind name="var" value="{errorStringsToShowSupportLinkFor: [
+		tr('IDS_ACCOUNT_ERROR_ALL_SPA_LOGIN_ALREADY_TAKEN')
+	]}"/>
 		<block type="text">
 			<bind name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 280"/>
 			<bind name="class" value="_highWarning ? '$WarningTextRed' : '$WarningTextOrange'"/>
@@ -987,6 +1017,19 @@
 				<textAlign value="center"/>
 			</style>
 			<bind name="text" value="_text"/>
+		</block>
+		<block>
+			<bind name="visible" value="errorStringsToShowSupportLinkFor.indexOf(_text) &gt; -1"/>
+			<styleClass value="$MiddleAligned"/>
+			<style>
+				<marginTop value="6px"/>
+			</style>
+			<bind name="instance" value="'LinkText'; errorStringsToShowSupportLinkFor.indexOf(_text) &gt; -1 	? {
+																								_label: 'IDS_LINK_SUPPORT', 
+																								_urlIdent: URL.SUPPORT, 
+																								_tooltipText: 'IDS_LINK_SUPPORT_HINT', 
+																								_name: 'ButtonSupport'} 
+																							: null"/>
 		</block>
 	</block>
 	<block className="WrongTextInputNotification">
