@@ -2290,11 +2290,11 @@
 		<bind name="watchDH" value="'enemyName'; ['killerEntity.accountName.evChanged']; killerEntity.accountName.name"/>
 		<block>
 			<style>
-				<width value="280px"/>
-				<height value="280px"/>
+				<width value="190px"/>
+				<height value="190px"/>
 				<position value="absolute"/>
-				<left value="-140px"/>
-				<top value="-280px"/>
+				<left value="-95px"/>
+				<top value="-230px"/>
 			</style>
 			<bind name="instance" value="'BattleKillerDogTag'; killerId != 0 ? {_killerId: killerId, _enemyName: enemyName} : null"/>
 		</block>
@@ -2305,15 +2305,16 @@
 		<bind name="appear" value="'addedToStage'; 1; 0.5; {alpha: 0}; {alpha: 1}"/>
 		<bind name="appear" value="'hideDogTagEv'; 1; 0.5; {alpha: 1}; {alpha: 0}"/>
 		<bind name="primaryEntityDH" value="'killerEntity'; CC.avatar; _killerId"/>
+		<bind name="watchDH" value="'playerDbId'; [] ; killerEntity.accountSimple.dbId "/>
 		<style>
-			<width value="280px"/>
-			<height value="280px"/>
+			<width value="190px"/>
+			<height value="190px"/>
 		</style>
-		<bind name="repeat" value="killerEntity.dogTagView.components; 'DogTagViewImageItemAvatar'"/>
+		<bind name="repeat" value="killerEntity.dogTagView.components; 'DogTagViewImageItemAvatar'; {_playerDbId : playerDbId}"/>
 		<block>
 			<styleClass value="$MiddleAlignedAbsolutely"/>
 			<style>
-				<top value="280px"/>
+				<top value="190px"/>
 			</style>
 			<block type="text">
 				<styleClass value="$TextDefaultBold21NM"/>
@@ -2329,14 +2330,38 @@
 		<bind name="watchDH" value="'enabled'; ['entity.dogTagComponent.evUpdate']; entity.dogTagComponent.enabled"/>
 		<bind name="watchDH" value="'iconPath'; ['entity.dogTagComponent.evUpdate']; entity.dogTagComponent.iconPath"/>
 		<style>
-			<width value="280px"/>
-			<height value="280px"/>
+			<width value="190px"/>
+			<height value="190px"/>
 			<backgroundStretchX value="true"/>
 			<backgroundStretchY value="true"/>
 			<position value="absolute"/>
 		</style>
-		<bind name="style" value="'backgroundImage'; 'url:../dogTags/big/' + iconPath"/>
+		<bind name="style" value="'backgroundImage'; 'url:../dogTags/medium/' + iconPath"/>
 		<bind name="name" value="'dogTagBattle_' + $index + '_' + entity.dogTagComponent.gpName"/>
+		<bind name="primaryEntityDH" value="'playerEntity'; CC.accountSimple; _playerDbId"/>
+		<bind name="watchDH" value="'clanId'; ['playerEntity.clanman.evClanIdChanged']; playerEntity.clanman.clanId"/>
+		<bind name="primaryEntityDH" value="'clanEntity'; CC.clan; clanId"/>
+		<bind name="watchDH" value="'clanTag'; ['clanEntity.clan.evTagChanged']; clanEntity.clan.tag"/>
+		<bind name="watchDH" value="'clanTagOffsetX';['entity.dogTagComponent.evUpdate']; entity.dogTagComponent.clanTagOffsetX"/>
+		<bind name="watchDH" value="'clanTagOffsetY';['entity.dogTagComponent.evUpdate']; entity.dogTagComponent.clanTagOffsetY"/>
+		<bind name="watchDH" value="'clanTagFont';['entity.dogTagComponent.evUpdate']; entity.dogTagComponent.clanTagFont"/>
+		<bind name="watchDH" value="'clanTagVisible';['entity.dogTagComponent.evUpdate']; entity.dogTagComponent.clanTagVisible"/>
+		<block>
+			<style>
+				<position value="absolute"/>
+			</style>
+			<bind name="style" value="'top'; clanTagOffsetY + '%'"/>
+			<bind name="style" value="'left'; clanTagOffsetX + '%'"/>
+			<block>
+				<style>
+					<position value="absolute"/>
+					<marginLeft value="-50%"/>
+					<marginTop value="-50%"/>
+				</style>
+				<bind name="visible" value="clanTagVisible"/>
+				<bind name="atlasText" value="clanTagVisible ?  (clanTag ? '[' + clanTag + ']' : '^') : '' ; '../fonts/medium/' + clanTagFont; 0"/>
+			</block>
+		</block>
 	</block>
 	<block className="ConfirmationModalWindow">
 		<style>

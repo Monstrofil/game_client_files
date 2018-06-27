@@ -109,7 +109,18 @@
 		<implementedBy>ShipConfig.converter</implementedBy>
 		<AllowNone> true </AllowNone>
 	</SHIP_CONFIG>
-	
+
+	<PLAYER_CLAN_INFO>
+		FIXED_DICT
+		<Properties>
+			<clanID><Type>DB_ID</Type></clanID>
+			<clanTag><Type>UNICODE_STRING</Type></clanTag>
+			<clanColor><Type>UINT32</Type></clanColor>
+		</Properties>
+		<implementedBy>PlayerClanInfo.converter</implementedBy>
+		<AllowNone> true </AllowNone>
+	</PLAYER_CLAN_INFO>
+
 	<DIVISION_SEEKER_DEF>
 		FIXED_DICT
 		<Properties>
@@ -120,9 +131,7 @@
 			<isAbuser><Type>BOOL</Type></isAbuser>
 			<regionID><Type>STRING</Type></regionID>
 			<comment><Type>STRING</Type></comment>
-			<clanID><Type>DB_ID</Type></clanID>
-			<clanTag><Type>UNICODE_STRING</Type></clanTag>
-			<clanColor><Type>UINT32</Type></clanColor>
+			<clanInfo><Type>PLAYER_CLAN_INFO</Type></clanInfo>
 			<dogTag><Type>ARRAY<of>GAMEPARAMS_ID</of></Type></dogTag>
 		</Properties>
 	</DIVISION_SEEKER_DEF>
@@ -154,13 +163,11 @@
 			<name><Type>STRING</Type></name>
 			<dogTag><Type>ARRAY<of>GAMEPARAMS_ID</of></Type></dogTag>
 			<shipConfig><Type>SHIP_CONFIG</Type></shipConfig>
-			<crewModifiersCompactParams><Type>CREW_MODIFIERS_COMPACT_PARAMS</Type></crewModifiersCompactParams>
+			<compactCrewModifiers><Type>CREW_MODIFIERS_COMPACT_PARAMS</Type></compactCrewModifiers>
 			<aiConf><Type>INT32</Type></aiConf>
 			<dbid><Type>DB_ID</Type></dbid>
-			<prebattleId><Type>DB_ID</Type></prebattleId>
-			<clanID><Type>DB_ID</Type></clanID>
-			<clanTag><Type>UNICODE_STRING</Type></clanTag>
-			<clanColor><Type>UINT32</Type></clanColor>
+			<preBattleId><Type>DB_ID</Type></preBattleId>
+			<clanInfo><Type>PLAYER_CLAN_INFO</Type></clanInfo>
 			<extraInfo><Type>PYTHON</Type></extraInfo>
 		</Properties>
 		<implementedBy>PlayerDef.converter</implementedBy>
@@ -228,12 +235,14 @@
 			<description><Type>UNICODE_STRING</Type></description>
 			<battleDef><Type>BATTLE_DEF</Type></battleDef>
 			<playersLimit><Type>INT8</Type></playersLimit>
-			<playerCount><Type>INT8</Type></playerCount>
+			<playersCount><Type>INT8</Type></playersCount>
 			<invitedCount><Type>INT8</Type></invitedCount>
 			<preBattleType><Type>INT8</Type></preBattleType>
-			<isPrivate><Type>BOOL</Type></isPrivate>
+			<isLocked><Type>BOOL</Type></isLocked>
 			<isInBattle><Type>BOOL</Type></isInBattle>
 			<selectedQueueType><Type>INT32</Type></selectedQueueType>
+			<nonClanMembersCount><Type>INT8</Type></nonClanMembersCount>
+			<clanSquadId><Type>INT8</Type></clanSquadId>
 			<extraInfo><Type>PYTHON</Type></extraInfo>
 		</Properties>
 		<AllowNone>true</AllowNone>
@@ -485,6 +494,7 @@
 			<normal>    <Type> VECTOR3      </Type> </normal> <!-- нормаль плоскости попадания -->
 			<entityId>  <Type> ENTITY_ID    </Type> </entityId> <!-- id entity -->
 			<matId>     <Type> INT32        </Type> </matId> <!-- id материала плоскости попадания-->
+			<isInside>  <Type> BOOL         </Type> </isInside> <!-- -->
 		</Properties>
 	</COLLISION_INFO_BASE>
 	
@@ -809,6 +819,13 @@
 			<paramsId><Type>UINT32</Type></paramsId>
 		</Properties>
 	</LOCAL_WEATHER_STATE>
+	<GLOBAL_WEATHER_STATE>
+		FIXED_DICT
+		<Properties>
+			<param><Type>GAMEPARAMS_ID</Type></param>
+			<time><Type>INT32</Type></time>
+		</Properties>
+	</GLOBAL_WEATHER_STATE>
 
 	<BATTLE_LOGIC_ENTITY_STATE>
 		FIXED_DICT

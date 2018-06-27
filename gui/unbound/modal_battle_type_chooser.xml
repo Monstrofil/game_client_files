@@ -1577,6 +1577,7 @@
 		<bind name="watchDH" value="'cbs_primeTimes'; ['clanCurrentSeasonEntity.clanBattleSeason.evChanged']; clanCurrentSeasonEntity.clanBattleSeason.primeTimes"/>
 		<bind name="watchDH" value="'cbs_primeTimesUI'; ['clanCurrentSeasonEntity.clanBattleSeason.evChanged']; clanCurrentSeasonEntity.clanBattleSeason.primeTimesUI"/>
 		<bind name="watchDH" value="'cbs_isPrimeTimeOn'; ['clanCurrentSeasonEntity.clanBattleSeason.evChanged']; clanCurrentSeasonEntity.clanBattleSeason.isPrimeTimeOn"/>
+		<bind name="watchDH" value="'cbs_activePrimeWeekDay'; ['clanCurrentSeasonEntity.clanBattleSeason.evChanged']; clanCurrentSeasonEntity.clanBattleSeason.activePrimeWeekDay"/>
 		<bind name="watchDH" value="'cbs_primeTimeStartTime'; ['clanCurrentSeasonEntity.clanBattleSeason.evChanged']; clanCurrentSeasonEntity.clanBattleSeason.primeTimeStartTime"/>
 		<bind name="watchDH" value="'cbs_primeTimeFinishTime'; ['clanCurrentSeasonEntity.clanBattleSeason.evChanged']; clanCurrentSeasonEntity.clanBattleSeason.primeTimeFinishTime"/>
 		<bind name="timeFormat" value="cbs_primeTimeStartTime; 'hh:mm'; 'localStartTime'; true"/>
@@ -1631,7 +1632,7 @@
 							<width value="100%"/>
 							<marginTop value="8px"/>
 						</style>
-						<bind name="repeat" value="cbs_primeTimesUI; 'DailyPrimeTimeElement'"/>
+						<bind name="repeat" value="cbs_primeTimesUI; 'DailyPrimeTimeElement'; {_activePrimeWeekDay: cbs_activePrimeWeekDay}"/>
 					</block>
 					<block type="text">
 						<style>
@@ -1710,8 +1711,7 @@
 		</block>
 	</block>
 	<block className="DailyPrimeTimeElement">
-		<bind name="serverTime" value="'serverTime';true"/>
-		<bind name="watch" value="'isToday'; serverTime_day == $index"/>
+		<bind name="watch" value="'isToday'; _activePrimeWeekDay == $index"/>
 		<bind name="watch" value="'havePrimeTimes'; dataArray &amp;&amp; dataArray.length &gt; 0"/>
 		<style>
 			<flow value="horizontal"/>

@@ -5924,8 +5924,8 @@
 			<block>
 				<style>
 					<width value="100%"/>
-					<marginTop value="8px"/>
-					<marginBottom value="8px"/>
+					<marginTop value="12px"/>
+					<marginBottom value="12px"/>
 				</style>
 				<bind name="instance" value="'SkillLearnStatus'; { _learned: skill.learned, _dependenciesLearned: skill.hasLearnedSkillOnPreviousTier, _cost: skill.tier, _deficit: (skill.tier - crew.freeSkillPoints) }"/>
 			</block>
@@ -6097,14 +6097,16 @@
 				<bind name="instance" value="'SkillAdaptationStatus'; skill.learned &amp;&amp; _penalty ? {_skillsEffectiveness: crew.skillsEffectiveness, _blockable: skill.blockable } : null"/>
 			</block>
 			<block>
-				<bind name="visible" value="!(_isLocked) &amp;&amp;
+				<bind name="visible" value="(!(_isLocked) &amp;&amp;
 							skill.learned != true &amp;&amp;
 							skill.hasLearnedSkillOnPreviousTier &amp;&amp;
 							(crew.freeSkillPoints - skill.tier &gt;= 0) &amp;&amp;
-							!(_noMouseInstructions)"/>
+							!(_noMouseInstructions))
+							|| isLocked || _isInFormation"/>
 				<style>
 					<width value="100%"/>
 					<marginLeft value="-16px"/>
+					<marginTop value="-1px"/>
 					<marginRight value="-16px"/>
 				</style>
 				<block className="HorizontalDivider">
@@ -6133,15 +6135,21 @@
 			</block>
 			<block>
 				<bind name="visible" value="_isLocked || _isInFormation"/>
-				<styleClass value="$InfoBlockIndent"/>
+				<style>
+					<width value="100%"/>
+					<marginLeft value="-1px"/>
+					<marginBottom value="12px"/>
+					<marginTop value="12px"/>
+				</style>
 				<block className="icon_module_state" type="native">
 					<bind name="gotoAndStop!" value="'action'"/>
 				</block>
 				<block type="text">
 					<styleClass value="$TextDefault"/>
 					<style>
-						<maxWidth value="270"/>
-						<marginTop value="-3px"/>
+						<width value="100%"/>
+						<marginLeft value="2px"/>
+						<marginTop value="-4px"/>
 					</style>
 					<bind name="class" value="'$FontColorUnready'"/>
 					<bind name="text" value="(_isInFormation ? tr('IDS_READY_TO_BATTLE_IN_' + toUpperCase(divisionEntranceData.divisionType)) : tr('IDS_IN_BATTLE')) + '. ' + tr('IDS_CANT_LEARN_SKILLS')"/>
@@ -10261,8 +10269,8 @@
 			<block type="text">
 				<styleClass value="$TextDefault"/>
 				<bind name="class" value="'$FontColorUnready'"/>
+				<bind name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 240"/>
 				<style>
-					<maxWidth value="240"/>
 					<leading value="-3"/>
 				</style>
 				<bind name="text" value="_text"/>
@@ -10902,7 +10910,7 @@
 				<width value="70px"/>
 				<height value="54px"/>
 			</style>
-			<bind name="gotoAndStop!" value="'personalTasks'"/>
+			<bind name="gotoAndStop!" value="'personalTasksBonus'"/>
 		</block>
 	</block>
 	<block className="GiftboxRewardExterior">
@@ -12957,11 +12965,9 @@
 		<block>
 			<style>
 				<width value="80px"/>
+				<height value="80px"/>
 			</style>
-			<block>
-				<styleClass value="$MiddleAligned"/>
-				<bind name="instance" value="'RewardSSEItem'; {rewardItem: rewardItem}"/>
-			</block>
+			<bind name="style" value="'backgroundImage'; 'url:../reward_icons/icon_reward_sse.png'"/>
 		</block>
 		<bind name="watch" value="'title'; sseCollection[0].titleText"/>
 		<bind name="watch" value="'description'; rewardItem.subtype == SSETypes.CHALLENGE ? 'IDS_PERSONAL_CHALLENGE' : 'IDS_PERSONAL_BATTLE_TASK'"/>
@@ -13005,11 +13011,42 @@
 														  _size == 'profile' 	? 'url:../dogTags/medium/' :
 														  _size == 'medium' 	? 'url:../dogTags/medium/' :
 														  _size == 'big' 		? 'url:../dogTags/big/'
-														  						: 'url:../dogTags/big/'}"/>
+														  						: 'url:../dogTags/big/'
+														  						, _playerDbId : _playerDbId,
+													_clanTagPaths: _size == 'small' 	? '../fonts/small/'  :
+																   _size == 'profile' 	? '../fonts/medium/' :
+																   _size == 'medium' 	? '../fonts/medium/' :
+																   _size == 'big' 		? '../fonts/big/'
+																				: '../fonts/big/'
+																				, _size: size}"/>
 	</block>
 	<block className="PlayerDogTagItem">
 		<bind name="entityDH" value="'dogTagEntity'; id"/>
 		<bind name="watchDH" value="'iconPath'; ['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.iconPath"/>
+		<bind name="primaryEntityDH" value="'playerEntity'; CC.accountSimple; _playerDbId"/>
+		<bind name="watchDH" value="'clanId'; ['playerEntity.clanman.evClanIdChanged']; playerEntity.clanman.clanId"/>
+		<bind name="primaryEntityDH" value="'clanEntity'; CC.clan; clanId"/>
+		<bind name="watchDH" value="'clanTag'; ['clanEntity.clan.evTagChanged']; clanEntity.clan.tag"/>
+		<bind name="watchDH" value="'clanTagOffsetX';['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.clanTagOffsetX"/>
+		<bind name="watchDH" value="'clanTagOffsetY';['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.clanTagOffsetY"/>
+		<bind name="watchDH" value="'clanTagFont';['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.clanTagFont"/>
+		<bind name="watchDH" value="'clanTagVisible';['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.clanTagVisible"/>
+		<block>
+			<style>
+				<position value="absolute"/>
+			</style>
+			<bind name="style" value="'top'; clanTagOffsetY + '%'"/>
+			<bind name="style" value="'left'; clanTagOffsetX + '%'"/>
+			<block>
+				<style>
+					<position value="absolute"/>
+					<marginLeft value="-50%"/>
+					<marginTop value="-50%"/>
+				</style>
+				<bind name="visible" value="clanTagVisible"/>
+				<bind name="atlasText" value="clanTagVisible ?  (clanTag ? '[' + clanTag + ']' : '^') : '' ; _clanTagPaths + clanTagFont; 0"/>
+			</block>
+		</block>
 		<styleClass value="$FullsizeAbsolute"/>
 		<style>
 			<backgroundStretchX value="true"/>
@@ -13021,6 +13058,33 @@
 	<block className="PlayerDogTagItemByPK">
 		<bind name="primaryEntityDH" value="'dogTagEntity'; CC.dogTagComponent; $value"/>
 		<bind name="watchDH" value="'iconPath'; ['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.iconPath"/>
+		<bind name="firstEntityDH" value="'selfPlayerEntity'; CC.accountSelf"/>
+		<bind name="watchDH" value="'selfPlayerDbId'; 		[]; selfPlayerEntity.accountSimple.dbId"/>
+		<bind name="watchDH" value="'selfPlayerName'; 		['selfPlayerEntity.accountName.evChanged']; selfPlayerEntity.accountName.name"/>
+		<bind name="watchDH" value="'selfPlayerNickName'; 	['selfPlayerEntity.accountName.evChanged']; selfPlayerEntity.accountName.nickName"/>
+		<bind name="watchDH" value="'clanId'; ['selfPlayerEntity.clanman.evClanIdChanged']; selfPlayerEntity.clanman.clanId"/>
+		<bind name="primaryEntityDH" value="'clanEntity'; CC.clan; clanId"/>
+		<bind name="watchDH" value="'clanTag'; ['clanEntity.clan.evTagChanged']; clanEntity.clan.tag"/>
+		<bind name="watchDH" value="'clanTagOffsetX';['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.clanTagOffsetX"/>
+		<bind name="watchDH" value="'clanTagOffsetY';['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.clanTagOffsetY"/>
+		<bind name="watchDH" value="'clanTagFont';['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.clanTagFont"/>
+		<bind name="watchDH" value="'clanTagVisible';['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.clanTagVisible"/>
+		<block>
+			<style>
+				<position value="absolute"/>
+			</style>
+			<bind name="style" value="'top'; clanTagOffsetY + '%'"/>
+			<bind name="style" value="'left'; clanTagOffsetX + '%'"/>
+			<block>
+				<style>
+					<position value="absolute"/>
+					<marginLeft value="-50%"/>
+					<marginTop value="-50%"/>
+				</style>
+				<bind name="visible" value="clanTagVisible"/>
+				<bind name="atlasText" value="clanTagVisible ?  (clanTag ? '[' + clanTag + ']' : '^') : '' ; _clanTagPaths + clanTagFont; 0"/>
+			</block>
+		</block>
 		<styleClass value="$FullsizeAbsolute"/>
 		<style>
 			<backgroundStretchX value="true"/>
@@ -13121,9 +13185,14 @@
 		<bind name="watchDH" value="'description'; ['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.description"/>
 		<bind name="watchDH" value="'quest'; ['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.quest"/>
 		<bind name="watchDH" value="'unique'; ['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.unique"/>
+		<bind name="watchDH" value="'clanTagOffsetX';['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.clanTagOffsetX"/>
+		<bind name="watchDH" value="'clanTagOffsetY';['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.clanTagOffsetY"/>
+		<bind name="watchDH" value="'clanTagFont';['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.clanTagFont"/>
+		<bind name="watchDH" value="'clanTagVisible';['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.clanTagVisible"/>
 		<block>
 			<styleClass value="$InfoBlockIndent"/>
-			<bind name="instance" value="'DogTagComponentTooltipHeader'; {_iconPath: iconPath, _categoryId: categoryId, _gpName: gpName, _unique: unique}"/>
+			<bind name="instance" value="'DogTagComponentTooltipHeader'; {_iconPath: iconPath, _categoryId: categoryId, _gpName: gpName, _unique: unique,
+				_clanTagOffsetX: clanTagOffsetX, _clanTagOffsetY: clanTagOffsetY, _clanTagFont: clanTagFont, _clanTagVisible: clanTagVisible}"/>
 		</block>
 		<block className="HorizontalDivider">
 			<styleClass value="$PxHorizontalCorrection"/>
@@ -13324,6 +13393,29 @@
 				<height value="80px"/>
 			</style>
 			<bind name="style" value="'backgroundImage'; 'url:../dogTags/small/' + _iconPath"/>
+			<bind name="firstEntityDH" value="'selfPlayerEntity'; CC.accountSelf"/>
+			<bind name="watchDH" value="'selfPlayerDbId'; 		[]; selfPlayerEntity.accountSimple.dbId"/>
+			<bind name="watchDH" value="'selfPlayerName'; 		['selfPlayerEntity.accountName.evChanged']; selfPlayerEntity.accountName.name"/>
+			<bind name="watchDH" value="'selfPlayerNickName'; 	['selfPlayerEntity.accountName.evChanged']; selfPlayerEntity.accountName.nickName"/>
+			<bind name="watchDH" value="'clanId'; ['selfPlayerEntity.clanman.evClanIdChanged']; selfPlayerEntity.clanman.clanId"/>
+			<bind name="primaryEntityDH" value="'clanEntity'; CC.clan; clanId"/>
+			<bind name="watchDH" value="'clanTag'; ['clanEntity.clan.evTagChanged']; clanEntity.clan.tag"/>
+			<block>
+				<style>
+					<position value="absolute"/>
+				</style>
+				<bind name="style" value="'top'; _clanTagOffsetY + '%'"/>
+				<bind name="style" value="'left'; _clanTagOffsetX + '%'"/>
+				<block>
+					<style>
+						<position value="absolute"/>
+						<marginLeft value="-50%"/>
+						<marginTop value="-50%"/>
+					</style>
+					<bind name="visible" value="clanTagVisible"/>
+					<bind name="atlasText" value="_clanTagVisible ? (clanTag ? '[' + clanTag + ']' : '^') : '' ; '../fonts/small/' + _clanTagFont; 0"/>
+				</block>
+			</block>
 		</block>
 		<block>
 			<style>

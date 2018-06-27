@@ -1,26 +1,31 @@
 
 <ui>
 	<block className="DogTagInHUDSpectator">
-		<bind name="firstEntityDH" value="'cameraEntity'; CC.camera"/>
-		<bind name="watchDH" value="'observedShipId';['cameraEntity.camera.evObservedShipChanged']; cameraEntity.camera.observedShipId"/>
-		<bind name="primaryEntityDH" value="'vehicleEntity'; CC.vehicle; observedShipId"/>
-		<bind name="var" value="{currentDogTag:[]}"/>
-		<bind name="catch" value="'changeCurrentDogTag'"/>
-		<bind name="dispatch" value="'vehicleEntity'+varChanged; vehicleEntity != null ? 'changeCurrentDogTag' : ''; {currentDogTag:vehicleEntity.dogTagView.components}; 0; 0"/>
-		<bind name="collectionDH" value="CC.avatar; 'selfAvatarCollection'+'ROOT'"/>
-		<bind name="collectionDesign" value="'DES_'+'selfAvatarCollection'+'ROOT'; 'selfAvatarCollection'; {'filter':$entity.relation.value == 0}; []"/>
-		<bind name="watch" value="'selfAvatarEntityId'; selfAvatarCollection[0].id"/>
-		<bind name="entityDH" value="'selfAvatarEntity'; selfAvatarEntityId"/>
-		<bind name="watchDH" value="'killerId'; ['selfAvatarEntity.health.evKillerIdChanged']; selfAvatarEntity.health.killerId"/>
-		<bind name="watchDH" value="'isDead'; ['selfAvatarEntity.health.evKilled']; !selfAvatarEntity.health.isAlive"/>
-		<bind name="watch" value="'isVisible'; isDead || (killerId != 0)"/>
-		<bind name="fade" value="isVisible; 0.2; {alpha: 0}; {alpha: 1}; {alpha: 0}; 1; 0.2"/>
 		<block>
 			<style>
+				<bottom value="30px"/>
+				<left value="30px"/>
 				<width value="190px"/>
 				<height value="190px"/>
 			</style>
-			<bind name="repeat" value=" (currentDogTag.length &gt; 0) ? currentDogTag : selfAvatarEntity.dogTagView.components; 'DogTagViewImageItemAvatarSpectator'"/>
+			<bind name="firstEntityDH" value="'cameraEntity'; CC.camera"/>
+			<bind name="watchDH" value="'observedShipId';['cameraEntity.camera.evObservedShipChanged']; cameraEntity.camera.observedShipId"/>
+			<bind name="primaryEntityDH" value="'vehicleEntity'; CC.vehicle; observedShipId"/>
+			<bind name="watchDH" value="'vehicleAvatarId'; []; vehicleEntity.accountSimple.dbId"/>
+			<bind name="var" value="{currentDogTag:[]}"/>
+			<bind name="catch" value="'changeCurrentDogTag'"/>
+			<bind name="dispatch" value="'vehicleEntity'+varChanged; vehicleEntity != null ? 'changeCurrentDogTag' : ''; {currentDogTag:vehicleEntity.dogTagView.components}; 0; 0"/>
+			<bind name="collectionDH" value="CC.avatar; 'selfAvatarCollection'+'ROOT'"/>
+			<bind name="collectionDesign" value="'DES_'+'selfAvatarCollection'+'ROOT'; 'selfAvatarCollection'; {'filter':$entity.relation.value == 0}; []"/>
+			<bind name="watch" value="'selfAvatarEntityId'; selfAvatarCollection[0].id"/>
+			<bind name="entityDH" value="'selfAvatarEntity'; selfAvatarEntityId"/>
+			<bind name="watchDH" value="'selfAvatarId'; []; selfAvatarEntity.accountSimple.dbId"/>
+			<bind name="watchDH" value="'killerId'; ['selfAvatarEntity.health.evKillerIdChanged']; selfAvatarEntity.health.killerId"/>
+			<bind name="watchDH" value="'isDead'; ['selfAvatarEntity.health.evKilled']; !selfAvatarEntity.health.isAlive"/>
+			<bind name="watch" value="'isVisible'; isDead || (killerId != 0)"/>
+			<bind name="fade" value="isVisible; 0.2; {alpha: 0}; {alpha: 1}; {alpha: 0}; 1; 0.2"/>
+			<bind name="repeat" value=" (currentDogTag.length &gt; 0) ? currentDogTag : selfAvatarEntity.dogTagView.components; 'DogTagViewImageItemAvatarSpectator';
+		{_playerDbId : ((currentDogTag.length &gt; 0) ? vehicleAvatarId : selfAvatarId)}"/>
 		</block>
 	</block>
 	<block className="DogTagViewImageItemAvatarSpectator">
@@ -34,5 +39,29 @@
 			<position value="absolute"/>
 		</style>
 		<bind name="style" value="'backgroundImage'; 'url:../dogTags/medium/' + iconPath"/>
+		<bind name="primaryEntityDH" value="'playerEntity'; CC.accountSimple; _playerDbId"/>
+		<bind name="watchDH" value="'clanId'; ['playerEntity.clanman.evClanIdChanged']; playerEntity.clanman ? playerEntity.clanman.clanId : 0"/>
+		<bind name="primaryEntityDH" value="'clanEntity'; CC.clan; clanId"/>
+		<bind name="watchDH" value="'clanTag'; ['clanEntity.clan.evTagChanged']; clanEntity.clan.tag"/>
+		<bind name="watchDH" value="'clanTagOffsetX';['entity.dogTagComponent.evUpdate']; entity.dogTagComponent.clanTagOffsetX"/>
+		<bind name="watchDH" value="'clanTagOffsetY';['entity.dogTagComponent.evUpdate']; entity.dogTagComponent.clanTagOffsetY"/>
+		<bind name="watchDH" value="'clanTagFont';['entity.dogTagComponent.evUpdate']; entity.dogTagComponent.clanTagFont"/>
+		<bind name="watchDH" value="'clanTagVisible';['entity.dogTagComponent.evUpdate']; entity.dogTagComponent.clanTagVisible"/>
+		<block>
+			<style>
+				<position value="absolute"/>
+			</style>
+			<bind name="style" value="'top'; clanTagOffsetY + '%'"/>
+			<bind name="style" value="'left'; clanTagOffsetX + '%'"/>
+			<block>
+				<style>
+					<position value="absolute"/>
+					<marginLeft value="-50%"/>
+					<marginTop value="-50%"/>
+				</style>
+				<bind name="visible" value="clanTagVisible"/>
+				<bind name="atlasText" value="clanTagVisible ?  (clanTag ? '[' + clanTag + ']' : '^') : '' ; '../fonts/medium/' + clanTagFont; 0"/>
+			</block>
+		</block>
 	</block>
 </ui>

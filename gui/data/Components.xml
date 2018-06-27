@@ -816,6 +816,7 @@
 		<property	name="primeTimes"			type="Array"		/>
 		<property	name="primeTimesUI"			type="Array"		/>
 		<property	name="isPrimeTimeOn"		type="Boolean"		/>
+		<property	name="activePrimeWeekDay"	type="Integer"		/>
 		<property	name="primeTimeStartTime"	type="Number"		/>
 		<property	name="primeTimeFinishTime"	type="Number"		/>
 		<event		name="evChanged"/>
@@ -829,14 +830,15 @@
 	</component>
 
 	<component	name="ClanTeam">
-		<property	name="id"					type="Integer"		pk="true"/>
+		<property	name="id"					type="Integer"		pk="true"/> <!-- BigWorld PreBattle id -->
+		<property	name="squadId"				type="Integer"		/> <!-- id of the selected clan squad (that is, selected clan comp with separate rating, league, etc.) -->
 		<property	name="teamIndex"			type="Integer"		/>
 		<property	name="playersCount"			type="Integer"		/>
 		<property	name="playersLimit"			type="Integer"		/>
 		<property	name="battleType"			type="String"		/>
 		<property	name="isClanBattleType"		type="Boolean"		/>
 		<property	name="isInBattle"			type="Boolean"		/>
-		<property	name="isPrivate"			type="Boolean"		/>
+		<property	name="isLocked"			type="Boolean"		/>
 		<property	name="ownerName"			type="String"		/>
 		<property	name="hasNonClanMembers"	type="Boolean"		/>
 		<event		name="evPlayersCountChanged"/>
@@ -844,14 +846,15 @@
 		<event		name="evBattleTypeChanged"/>
 		<event		name="evIsClanBattleTypeChanged"/>
 		<event		name="evIsInBattleChanged"/>
-		<event		name="evIsPrivateChanged"/>
+		<event		name="evIsLockedChanged"/>
 		<event		name="evOwnerNameChanged"/>
+		<event		name="evSquadIdChanged"/>
 		<event		name="evHasNonClanMembersChanged"/>
+		<event		name="evTeamIndexChanged"/>
 	</component>
-
-	<component	name="ClanBattleInfo">
-		<property	name="clanId"				type="Integer"	pk="true"/>
-		<property	name="isBanned"				type="Boolean"	/>
+	
+	<component	name="ClanSquadLadderInfo">
+		<property	name="squadId"					type="Integer"	pk="true"/>
 		<property	name="rating"				type="Integer"	/>
 		<property	name="divisionMinRating"	type="Integer"	/>
 		<property	name="divisionMaxRating"	type="Integer"	/>
@@ -862,8 +865,7 @@
 		<property	name="targetDivisionId"		type="Integer"	/>
 		<property	name="battleProgress"		type="Array"	/> <!-- [x,x,x,x,x] - 'victory', 'defeat', 'draw', 'unknown' -->
 
-		<event		name="evClanIdChanged"/>
-		<event		name="evIsBannedChanged"/>
+
 		<event		name="evRatingChanged"/>
 		<event		name="evRatingMinChanged"/>
 		<event		name="evRatingMaxChanged"/>
@@ -875,8 +877,17 @@
 		<event		name="evBattleProgressChanged"/>
 	</component>
 
+	<component	name="ClanLadderInfo">
+		<property	name="clanId"				type="Integer"	pk="true"/>
+		<property	name="isBanned"				type="Boolean"	/>
+		<property	name="leadingSquadId"		type="Integer"	/>
+
+		<event		name="evIsBannedChanged"/>
+	</component>
+
 	<component	name="ClanBattleResult">
 		<property	name="arenaUniqueID"			type="String"		pk="true"/>
+		<property	name="squadId"					type="Integer"/>
 		<property	name="battleResult"				type="String"	/>  <!-- see clans_constants.CLAN_BATTLE_PROGRESS -->
 		<property	name="fromDivisionMinRatingForDemotion"		type="Integer"	/>
 		<property	name="fromRating"				type="Integer"	/> <!-- нормализованный рейтинг клана внутри дивизии -->
@@ -1492,7 +1503,7 @@
 		<property	name="type"					type="Integer"		/>
 		<property	name="scale"				type="Number"		/>
 		<property	name="neutralProgress"		type="Number"		/>
-		<property	name="invaderRelation"		type="Integer"		/>
+		<property	name="invaderRelation"		type="Integer"		/> <!-- Who is capturing neutral point -->
 		<property	name="visible"				type="Boolean"		/>
 		<property	name="active"				type="Boolean"		/>
 		<property	name="bothInside"			type="Boolean"		/>
@@ -2007,6 +2018,11 @@
 		<property	name="role"					type="String"	/> <!-- @see  clans_constants.CLAN_ROLE-->
 		<event		name="evClanIdChanged"						/>
 		<event		name="evRoleChanged"					/>
+	</component>
+
+	<component name="ClanmanSupplyInfo">
+		<property	name="hasClanSquadModifier"	type="Boolean"/>
+		<event		name="evHasClanSquadModifierChanged" />
 	</component>
 
 	<component name="ClanInvitee">
@@ -2834,6 +2850,10 @@
 		<property name="unique" type="Boolean" />
 		<property name="data" type="Dictionary"/>
 		<property name="progress" type="Array"/>
+		<property name="clanTagVisible" type="Boolean"/>
+		<property name="clanTagOffsetX" type="Integer"/>
+		<property name="clanTagOffsetY" type="Integer"/>
+		<property name="clanTagFont" type="String"/>
 		<event name="evUpdate"/>
 	</component>
 

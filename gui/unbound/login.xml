@@ -1181,8 +1181,8 @@
 			<block type="text">
 				<styleClass value="$TextDefault"/>
 				<bind name="class" value="'$FontColorUnready'"/>
+				<bind name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 240"/>
 				<style>
-					<maxWidth value="240"/>
 					<leading value="-3"/>
 				</style>
 				<bind name="text" value="_text"/>
@@ -2027,7 +2027,7 @@
 	</block>
 	<block className="EULAConfirmation">
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'realmConstants'"/>
-		<bind name="var" value="{btnEnabled: (realmConstants.showEulaText == false || realmConstants.locale != 'ko')}"/>
+		<bind name="var" value="{btnEnabled: realmConstants.showEulaText == false}"/>
 		<bind name="catch" value="'ScrollTracker.scrollFinished'; {btnEnabled: true}"/>
 		<styleClass value="$Fullsize"/>
 		<block className="DeclareBlurLayer">
@@ -2061,7 +2061,10 @@
 			</block>
 		</block>
 		<block className="modal_panel" type="native">
-			<styleClass value="$FullsizeAbsolute"/>
+			<styleClass value="$Fullsize"/>
+			<style>
+				<position value="absolute"/>
+			</style>
 		</block>
 		<block>
 			<styleClass value="$MiddleAligned"/>
@@ -2075,20 +2078,67 @@
 				</style>
 				<bind name="appear" value="'startShow'; 0.15; 0.3; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0.3; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
-				<bind name="instance" value="'ModalWindowHeaderOptionalIcon'; {
-				_header: (realmConstants.currentRealm == 'NA' || realmConstants.currentRealm == 'ASIA')	? toUpperCase(tr('IDS_EULA_CHANGED_HEADER'))
-																										: toUpperCase(tr('IDS_EULA')),
-				_headerWidth: '700px', _showInnerCloseButton: $root.showCloseButton, _showIcon: false}"/>
+				<bind name="instance" value="'ModalWindowHeaderOptionalIcon'; { _header: 'IDS_EULA', _headerWidth: '700px', _showInnerCloseButton: $root.showCloseButton, _showIcon: false}"/>
 			</block>
-			<block>
+			<block className="LinkedEULA">
+				<bind name="visible" value="realmConstants.showEulaText == false"/>
+				<block>
+					<styleClass value="$InfoBlockHorizontalIndent"/>
+					<bind name="appear" value="'startShow'; 0.15; 0.45; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
+					<bind name="appear" value="'startHide'; 0.15; 0.45; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
+					<style>
+						<flow value="horizontal"/>
+						<marginTop value="6px"/>
+					</style>
+					<block type="text">
+						<styleClass value="$TextHeader"/>
+						<bind name="class" value="'$FontColorBlueish'"/>
+						<text value="IDS_PLEASE_READ"/>
+					</block>
+					<block>
+						<bind name="instance" value="'LinkText'; {_label: 'IDS_EULA', _urlIdent: URL.EULA, _tooltipText: 'IDS_EULA_TOOLTIP', _name: 'requestEULA', _large: true}"/>
+					</block>
+					<block type="text">
+						<styleClass value="$TextHeader"/>
+						<bind name="class" value="'$FontColorBlueish'"/>
+						<text value="IDS_BEFORE_CONTINUE"/>
+					</block>
+				</block>
+				<block>
+					<styleClass value="$InfoBlockHorizontalIndent"/>
+					<bind name="appear" value="'startShow'; 0.15; 0.6; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
+					<bind name="appear" value="'startHide'; 0.15; 0.6; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
+					<style>
+						<marginTop value="12px"/>
+					</style>
+					<block type="text">
+						<style>
+							<maxWidth value="700"/>
+						</style>
+						<styleClass value="$TextHeader"/>
+						<bind name="class" value="'$FontColorBlueish'"/>
+						<text value="IDS_EULA_TEXT"/>
+					</block>
+				</block>
+			</block>
+			<block className="FullTextEULA">
+				<bind name="visible" value="realmConstants.showEulaText == true"/>
+				<bind name="controller" value="lesta.dialogs.controllers.ScrollTrackerController"/>
+				<styleClass value="$DefaultScrollBar"/>
 				<style>
 					<width value="100%"/>
+					<height value="400px"/>
+					<overflow value="scroll"/>
+					<wheelScrollSpeed value="50"/>
 				</style>
-				<bind name="watch" value="'curEULA'; (realmConstants.currentRealm == 'NA' || realmConstants.currentRealm == 'ASIA')	? 'CUSTOM'
-																													: 'COMMON'"/>
-				<bind name="child" value="curEULA != null ? curEULA : 'COMMON'; {};	{	COMMON:	'CommonEULA',
-																		CUSTOM:	'CustomEULA',
-																	}"/>
+				<block type="text">
+					<styleClass value="$TextHeader"/>
+					<bind name="class" value="'$FontColorBlueish'"/>
+					<style>
+						<width value="100%"/>
+					</style>
+					<bind name="text" value="realmConstants.eulaText"/>
+				</block>
 			</block>
 			<block>
 				<styleClass value="$MiddleAligned"/>
@@ -2127,111 +2177,8 @@
 			</block>
 		</block>
 	</block>
-	<block className="CommonEULA">
-		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'realmConstants'"/>
-		<style>
-			<width value="100%"/>
-		</style>
-		<bind name="instance" value="'LinkedEULA'; {}"/>
-	</block>
-	<block className="CustomEULA">
-		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'realmConstants'"/>
-		<style>
-			<width value="100%"/>
-		</style>
-		<bind name="instance" value="'CustomLinkedEULA'; realmConstants.locale != 'ko'	? {} : null"/>
-		<bind name="instance" value="'FullTextEULA';		realmConstants.locale == 'ko' 	? {} : null"/>
-	</block>
-	<block className="CustomLinkedEULA">
-		<styleClass value="$InfoBlockHorizontalIndent"/>
-		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'realmConstants'"/>
-		<block type="text">
-			<bind name="appear" value="'startShow'; 0.15; 0.45; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
-			<bind name="appear" value="'startHide'; 0.15; 0.45; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
-			<style>
-				<width value="100%"/>
-				<marginTop value="6px"/>
-			</style>
-			<styleClass value="$TextHeader"/>
-			<bind name="class" value="'$FontColorBlueish'"/>
-			<text value="IDS_CUSTOM_EULA_1"/>
-		</block>
-		<block>
-			<bind name="appear" value="'startShow'; 0.15; 0.48; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
-			<bind name="appear" value="'startHide'; 0.15; 0.48; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
-			<bind name="instance" value="'LinkText'; {	_label: 'IDS_CUSTOM_EULA_LINK_1', _urlIdent: URL.EULA_AFTER_15_06_2018, _tooltipText: 'IDS_EULA_TOOLTIP',
-										_name: 'request_EULA_AFTER_15_06_2018', _large: true}"/>
-		</block>
-		<block type="text">
-			<bind name="visible" value="realmConstants.currentRealm == 'ASIA'"/>
-			<bind name="appear" value="'startShow'; 0.15; 0.50; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
-			<bind name="appear" value="'startHide'; 0.15; 0.50; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
-			<style>
-				<width value="100%"/>
-			</style>
-			<styleClass value="$TextHeader"/>
-			<bind name="class" value="'$FontColorBlueish'"/>
-			<text value="IDS_CUSTOM_EULA_2"/>
-		</block>
-		<block>
-			<bind name="visible" value="realmConstants.currentRealm == 'ASIA'"/>
-			<bind name="appear" value="'startShow'; 0.15; 0.53; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
-			<bind name="appear" value="'startHide'; 0.15; 0.53; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
-			<bind name="instance" value="'LinkText'; {	_label: 'IDS_CUSTOM_EULA_LINK_2', _urlIdent: URL.AU_NZ_EULA_AFTER_15_06_2018, _tooltipText: 'IDS_EULA_TOOLTIP',
-										_name: 'request_AU_NZ_EULA_AFTER_15_06_2018', _large: true}"/>
-		</block>
-		<block type="text">
-			<bind name="appear" value="'startShow'; 0.15; 0.58; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
-			<bind name="appear" value="'startHide'; 0.15; 0.58; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
-			<style>
-				<width value="100%"/>
-				<marginTop value="16px"/>
-			</style>
-			<styleClass value="$TextHeader"/>
-			<bind name="class" value="'$FontColorBlueish'"/>
-			<text value="IDS_CUSTOM_EULA_3"/>
-		</block>
-		<block>
-			<bind name="appear" value="'startShow'; 0.15; 0.6; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
-			<bind name="appear" value="'startHide'; 0.15; 0.6; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
-			<bind name="instance" value="'LinkText'; {_label: 'IDS_CUSTOM_EULA_LINK_3', _urlIdent: URL.EULA, _tooltipText: 'IDS_EULA_TOOLTIP', _name: 'requestEULA', _large: true}"/>
-		</block>
-		<block type="text">
-			<bind name="appear" value="'startShow'; 0.15; 0.63; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
-			<bind name="appear" value="'startHide'; 0.15; 0.63; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
-			<style>
-				<width value="100%"/>
-				<marginTop value="16px"/>
-			</style>
-			<styleClass value="$TextHeader"/>
-			<bind name="class" value="'$FontColorBlueish'"/>
-			<text value="IDS_CUSTOM_EULA_4"/>
-		</block>
-		<block type="text">
-			<bind name="appear" value="'startShow'; 0.15; 0.65; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
-			<bind name="appear" value="'startHide'; 0.15; 0.65; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
-			<style>
-				<width value="100%"/>
-				<marginTop value="16px"/>
-			</style>
-			<styleClass value="$TextHeader"/>
-			<bind name="class" value="'$FontColorBlueish'"/>
-			<text value="IDS_CUSTOM_EULA_5"/>
-		</block>
-		<block type="text">
-			<bind name="appear" value="'startShow'; 0.15; 0.68; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
-			<bind name="appear" value="'startHide'; 0.15; 0.68; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
-			<style>
-				<width value="100%"/>
-				<marginTop value="16px"/>
-			</style>
-			<styleClass value="$TextHeader"/>
-			<bind name="class" value="'$FontColorBlueish'"/>
-			<text value="IDS_CUSTOM_EULA_6"/>
-		</block>
-	</block>
 	<block className="FullTextEULA">
-		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'realmConstants'"/>
+		<bind name="visible" value="realmConstants.showEulaText == true"/>
 		<bind name="controller" value="lesta.dialogs.controllers.ScrollTrackerController"/>
 		<styleClass value="$DefaultScrollBar"/>
 		<style>
@@ -2241,18 +2188,16 @@
 			<wheelScrollSpeed value="50"/>
 		</style>
 		<block type="text">
+			<styleClass value="$TextHeader"/>
+			<bind name="class" value="'$FontColorBlueish'"/>
 			<style>
 				<width value="100%"/>
 			</style>
-			<styleClass value="$TextHeader"/>
-			<bind name="class" value="'$FontColorBlueish'"/>
 			<bind name="text" value="realmConstants.eulaText"/>
 		</block>
 	</block>
 	<block className="LinkedEULA">
-		<style>
-			<width value="100%"/>
-		</style>
+		<bind name="visible" value="realmConstants.showEulaText == false"/>
 		<block>
 			<styleClass value="$InfoBlockHorizontalIndent"/>
 			<bind name="appear" value="'startShow'; 0.15; 0.45; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>

@@ -2134,8 +2134,8 @@
 			<block type="text">
 				<styleClass value="$TextDefault"/>
 				<bind name="class" value="'$FontColorUnready'"/>
+				<bind name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 240"/>
 				<style>
-					<maxWidth value="240"/>
 					<leading value="-3"/>
 				</style>
 				<bind name="text" value="_text"/>
@@ -2876,6 +2876,7 @@
 		<bind name="action" value="'animateNewEv'; 'playGiftBoxSound'"/>
 		<bind name="dispatch" value="'animateGiftboxShowEv'; ((rewardsAmount != 0) &amp;&amp; (rewardsAmount != rewardsAmountNext)) ? 'animateAddEv' : null; null; 2; 4"/>
 		<bind name="dispatch" value="'animateAddEv'; 'animateGiftboxCounterEv'; null; 2; 0.7"/>
+		<bind name="appear" value="'animateAddEv'; 0.3; 0.2; {alpha: 0, top: 5}; {alpha: 1, top: 0}; 3"/>
 		<bind name="action" value="'animateAddEv'; 'playGiftBoxSound'"/>
 		<bind name="dispatch" value="'animateGiftboxShowEv'; ((rewardsAmount != 0) &amp;&amp; (rewardsAmount == rewardsAmountNext)) ? 'animateSimpleShowEv' : null; null; 0"/>
 		<bind name="appear" value="'animateSimpleShowEv'; 0.3; 0.2; {alpha: 0, top: 5}; {alpha: 1, top: 0}; 3"/>
@@ -2889,7 +2890,6 @@
 			<style>
 				<backgroundColor value="0x01000000"/>
 			</style>
-			<bind name="fade" value="!isHidden; 0.15; {alpha: 0, top: -10}; {alpha: 1, top: 0}"/>
 			<bind name="transition" value="(visibilityState == 2); 0.15; {alpha: 1}; {alpha: 0.6}"/>
 			<block className="quest_thumb_title" type="native">
 				<bind name="transition" value="rollOver &amp;&amp; !(mouseDown); 0.1; {alpha: 0.75}; {alpha: 1.0}"/>
@@ -2901,9 +2901,9 @@
 			</block>
 			<block type="text">
 				<styleClass value="$TextHeaderWhiteBold"/>
-				<styleClass value="$MiddleAligned"/>
 				<style>
 					<marginTop value="4px"/>
+					<marginLeft value="10px"/>
 				</style>
 				<bind name="text" value="toUpperCase(tr('IDS_GIFTS_FOR_HEROES'))"/>
 			</block>
@@ -3052,9 +3052,7 @@
 		disappearDuration: 0.1,
 		disappearOffset: -10.0,
 		tinyOffset: 0,
-		rightOffset: -67,
-		bottomOffset: 0,
-		isTipCenter: true
+		rightOffset: -67
 	}"/>
 	</css>
 	<block className="GiftboxInfotip">
@@ -3062,119 +3060,127 @@
 		<bind name="transition" value="shipOverview.enabled; shipOverview.enabled ? 0.4 : 0.25; {alpha: 1}; {alpha: 0}; {alpha: 1}; 2; !(shipOverview.enabled) &amp;&amp; !(inPort) ? 0.15 : 0.5"/>
 		<bind name="style" value="'hitTest'; !(shipOverview.enabled)"/>
 		<styleClass value="$GiftboxInfotipBehaviour"/>
-		<block className="MenuBg">
-			<styleClass value="$FullsizeAbsolute"/>
-			<block className="DeclareBlurLayer">
-				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
-				<bind name="visible" value="optionData.blurEnabled"/>
-				<block className="transparentPixel" type="native">
-					<bind name="blurLayer" value="0"/>
-				</block>
-				<style>
-					<position value="absolute"/>
-				</style>
-			</block>
-			<block className="BlurMap">
-				<bind name="visible" value="optionData.blurEnabled"/>
-				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
-				<style>
-					<hitTest value="false"/>
-				</style>
-				<styleClass value="$FullsizeAbsolute"/>
-				<block className="mc_blurmap_medium" type="native">
-					<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
-					<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-					<styleClass value="$FullsizeAbsolute"/>
-					<bind name="blurMap" value="0"/>
-				</block>
-				<block className="inner_panel" type="native">
-					<style>
-						<alpha value="0.5"/>
-					</style>
-					<styleClass value="$FullsizeAbsolute"/>
-				</block>
-			</block>
-			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
-			<block className="contrast_panel" type="native">
-				<bind name="visible" value="optionData.contrast &amp;&amp; !(true)"/>
-				<styleClass value="$FullsizeAbsolute"/>
-			</block>
-			<block>
-				<styleClass value="$FullsizeAbsolute"/>
-				<bind name="visible" value="!(true)"/>
-				<block className="hint_panel" type="native">
-					<styleClass value="$FullsizeAbsolute"/>
-				</block>
-			</block>
-			<block>
-				<styleClass value="$FullsizeAbsolute"/>
-				<bind name="visible" value="true"/>
-				<block className="dock_panel" type="native">
-					<styleClass value="$FullsizeAbsolute"/>
-					<style>
-						<marginBottom value="-19px"/>
-						<marginRight value="-14px"/>
-						<marginLeft value="-14px"/>
-						<marginTop value="-9px"/>
-					</style>
-				</block>
-			</block>
-		</block>
-		<block className="GiftboxRewardsContent">
-			<bind name="collectionDH" value="CC.rewardComponent; 'specialRewardsCollection'; 'special.sort'"/>
-			<bind name="collectionDH" value="CC.rewardComponent; 'regularRewardsCollection'; 'common.sort'"/>
-			<bind name="name" value="'GiftboxRewardsWindow'"/>
+		<style>
+			<width value="430px"/>
+		</style>
+		<block>
 			<style>
-				<width value="425px"/>
+				<width value="100%"/>
 			</style>
-			<block type="text">
-				<styleClass value="$InfoBlockHorizontalIndentNoWidth"/>
-				<style>
-					<marginTop value="18px"/>
-					<width value="100%"/>
-					<marginBottom value="2px"/>
-					<textAlign value="center"/>
-				</style>
-				<styleClass value="$TextHeaderBigDefaultTech"/>
-				<bind name="text" value="'IDS_GIFTS_EARNED_AVAILABLE_INFO'"/>
-			</block>
-			<block>
-				<styleClass value="$InfoBlockHorizontalIndentNoWidth"/>
-				<bind name="visible" value="regularRewardsCollection.length &gt; 0"/>
-				<style>
-					<flow value="htile"/>
-					<marginBottom value="12px"/>
-					<width value="425px"/>
-				</style>
-				<bind name="repeat" value="regularRewardsCollection; 'RewardItemEntity'"/>
-			</block>
-			<block>
-				<style>
-					<width value="100%"/>
-				</style>
-				<bind name="visible" value="regularRewardsCollection.length &gt; 0 &amp;&amp; specialRewardsCollection.length &gt; 0 "/>
-				<block className="HorizontalDivider">
-					<styleClass value="$PxHorizontalCorrection"/>
+			<block className="MenuBg">
+				<styleClass value="$FullsizeAbsolute"/>
+				<block className="DeclareBlurLayer">
+					<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+					<bind name="visible" value="optionData.blurEnabled"/>
+					<block className="transparentPixel" type="native">
+						<bind name="blurLayer" value="0"/>
+					</block>
 					<style>
-						<width value="100%"/>
-						<height value="3px"/>
+						<position value="absolute"/>
 					</style>
-					<block className="divider_h" type="native">
-						<styleClass value="$Fullsize"/>
+				</block>
+				<block className="BlurMap">
+					<bind name="visible" value="optionData.blurEnabled"/>
+					<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+					<style>
+						<hitTest value="false"/>
+					</style>
+					<styleClass value="$FullsizeAbsolute"/>
+					<block className="mc_blurmap_medium" type="native">
+						<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
+						<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
+						<styleClass value="$FullsizeAbsolute"/>
+						<bind name="blurMap" value="0"/>
+					</block>
+					<block className="inner_panel" type="native">
+						<style>
+							<alpha value="0.5"/>
+						</style>
+						<styleClass value="$FullsizeAbsolute"/>
+					</block>
+				</block>
+				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+				<block className="contrast_panel" type="native">
+					<bind name="visible" value="optionData.contrast &amp;&amp; !(true)"/>
+					<styleClass value="$FullsizeAbsolute"/>
+				</block>
+				<block>
+					<styleClass value="$FullsizeAbsolute"/>
+					<bind name="visible" value="!(true)"/>
+					<block className="hint_panel" type="native">
+						<styleClass value="$FullsizeAbsolute"/>
+					</block>
+				</block>
+				<block>
+					<styleClass value="$FullsizeAbsolute"/>
+					<bind name="visible" value="true"/>
+					<block className="dock_panel" type="native">
+						<styleClass value="$FullsizeAbsolute"/>
+						<style>
+							<marginBottom value="-19px"/>
+							<marginRight value="-14px"/>
+							<marginLeft value="-14px"/>
+							<marginTop value="-9px"/>
+						</style>
 					</block>
 				</block>
 			</block>
-			<block>
-				<styleClass value="$InfoBlockHorizontalIndentNoWidth"/>
-				<bind name="visible" value="specialRewardsCollection.length &gt; 0"/>
-				<style>
-					<flow value="htile"/>
-					<marginTop value="14px"/>
-					<marginBottom value="18px"/>
-					<width value="425px"/>
-				</style>
-				<bind name="repeat" value="specialRewardsCollection; 'RewardItemEntity'"/>
+			<block className="GiftBoxRewardsHeader">
+				<block type="text">
+					<styleClass value="$InfoBlockHorizontalIndentNoWidth"/>
+					<style>
+						<marginTop value="8px"/>
+						<marginLeft value="12px"/>
+						<marginBottom value="8px"/>
+					</style>
+					<styleClass value="$TextHeader"/>
+					<bind name="text" value="'IDS_GIFTS_EARNED_AVAILABLE_INFO'"/>
+				</block>
 			</block>
+			<block>
+				<styleClass value="$DefaultScrollBar"/>
+				<style>
+					<width value="100%"/>
+					<maxHeight value="620"/>
+					<overflow value="scroll"/>
+				</style>
+				<bind name="var" value="{sliceRewards: false}"/>
+				<block className="GiftboxRewardsContent">
+					<style>
+						<width value="430px"/>
+					</style>
+					<bind name="collectionDH" value="CC.rewardComponent; 'rewardsCollectionFull'; 'rewards.sorted'"/>
+					<bind name="slice" value="'rewardsCollection'; DES_rewardsCollectionFull; 0; 18"/>
+					<bind name="watch" value="'moreItemsCount'; rewardsCollectionFull.length - rewardsCollection.length"/>
+					<bind name="name" value="'GiftboxRewardsWindow'"/>
+					<block>
+						<styleClass value="$InfoBlockHorizontalIndentNoWidth"/>
+						<bind name="visible" value="rewardsCollectionFull.length &gt; 0"/>
+						<style>
+							<flow value="htile"/>
+							<marginTop value="14px"/>
+							<marginBottom value="18px"/>
+							<width value="410px"/>
+						</style>
+						<bind name="repeat" value="sliceRewards ? rewardsCollection : rewardsCollectionFull; 'RewardItemEntity'"/>
+					</block>
+					<block>
+						<bind name="visible" value="sliceRewards &amp;&amp; moreItemsCount &gt; 0"/>
+						<style>
+							<marginTop value="-13px"/>
+							<marginBottom value="6px"/>
+						</style>
+						<bind name="instance" value="'MoreRewardsText'; moreItemsCount &gt; 0 ? {_count: moreItemsCount} : null"/>
+					</block>
+				</block>
+			</block>
+		</block>
+		<block>
+			<style>
+				<height value="30px"/>
+				<width value="100%"/>
+				<hitTest value="false"/>
+			</style>
 		</block>
 	</block>
 	<block className="GiftboxTooltip">
@@ -3220,60 +3226,45 @@
 				<position value="absolute"/>
 			</style>
 		</block>
-		<block className="GiftboxRewardsContent">
-			<bind name="collectionDH" value="CC.rewardComponent; 'specialRewardsCollection'; 'special.sort'"/>
-			<bind name="collectionDH" value="CC.rewardComponent; 'regularRewardsCollection'; 'common.sort'"/>
-			<bind name="name" value="'GiftboxRewardsWindow'"/>
-			<style>
-				<width value="425px"/>
-			</style>
+		<block className="GiftBoxRewardsHeader">
 			<block type="text">
 				<styleClass value="$InfoBlockHorizontalIndentNoWidth"/>
 				<style>
-					<marginTop value="18px"/>
-					<width value="100%"/>
-					<marginBottom value="2px"/>
-					<textAlign value="center"/>
+					<marginTop value="8px"/>
+					<marginLeft value="12px"/>
+					<marginBottom value="8px"/>
 				</style>
-				<styleClass value="$TextHeaderBigDefaultTech"/>
+				<styleClass value="$TextHeader"/>
 				<bind name="text" value="'IDS_GIFTS_EARNED_AVAILABLE_INFO'"/>
 			</block>
+		</block>
+		<bind name="var" value="{sliceRewards: true}"/>
+		<block className="GiftboxRewardsContent">
+			<style>
+				<width value="430px"/>
+			</style>
+			<bind name="collectionDH" value="CC.rewardComponent; 'rewardsCollectionFull'; 'rewards.sorted'"/>
+			<bind name="slice" value="'rewardsCollection'; DES_rewardsCollectionFull; 0; 18"/>
+			<bind name="watch" value="'moreItemsCount'; rewardsCollectionFull.length - rewardsCollection.length"/>
+			<bind name="name" value="'GiftboxRewardsWindow'"/>
 			<block>
 				<styleClass value="$InfoBlockHorizontalIndentNoWidth"/>
-				<bind name="visible" value="regularRewardsCollection.length &gt; 0"/>
-				<style>
-					<flow value="htile"/>
-					<marginBottom value="12px"/>
-					<width value="425px"/>
-				</style>
-				<bind name="repeat" value="regularRewardsCollection; 'RewardItemEntity'"/>
-			</block>
-			<block>
-				<style>
-					<width value="100%"/>
-				</style>
-				<bind name="visible" value="regularRewardsCollection.length &gt; 0 &amp;&amp; specialRewardsCollection.length &gt; 0 "/>
-				<block className="HorizontalDivider">
-					<styleClass value="$PxHorizontalCorrection"/>
-					<style>
-						<width value="100%"/>
-						<height value="3px"/>
-					</style>
-					<block className="divider_h" type="native">
-						<styleClass value="$Fullsize"/>
-					</block>
-				</block>
-			</block>
-			<block>
-				<styleClass value="$InfoBlockHorizontalIndentNoWidth"/>
-				<bind name="visible" value="specialRewardsCollection.length &gt; 0"/>
+				<bind name="visible" value="rewardsCollectionFull.length &gt; 0"/>
 				<style>
 					<flow value="htile"/>
 					<marginTop value="14px"/>
 					<marginBottom value="18px"/>
-					<width value="425px"/>
+					<width value="410px"/>
 				</style>
-				<bind name="repeat" value="specialRewardsCollection; 'RewardItemEntity'"/>
+				<bind name="repeat" value="sliceRewards ? rewardsCollection : rewardsCollectionFull; 'RewardItemEntity'"/>
+			</block>
+			<block>
+				<bind name="visible" value="sliceRewards &amp;&amp; moreItemsCount &gt; 0"/>
+				<style>
+					<marginTop value="-13px"/>
+					<marginBottom value="6px"/>
+				</style>
+				<bind name="instance" value="'MoreRewardsText'; moreItemsCount &gt; 0 ? {_count: moreItemsCount} : null"/>
 			</block>
 		</block>
 		<block>
@@ -3296,60 +3287,53 @@
 			<bind name="instance" value="'MouseInstruction'; {_type: 'left', _instructionText: 'IDS_GIFTBOX_INSTRUCTION', _maxWidth: 425}"/>
 		</block>
 	</block>
-	<block className="GiftboxRewardsContent">
-		<bind name="collectionDH" value="CC.rewardComponent; 'specialRewardsCollection'; 'special.sort'"/>
-		<bind name="collectionDH" value="CC.rewardComponent; 'regularRewardsCollection'; 'common.sort'"/>
-		<bind name="name" value="'GiftboxRewardsWindow'"/>
-		<style>
-			<width value="425px"/>
-		</style>
+	<block className="GiftBoxRewardsHeader">
 		<block type="text">
 			<styleClass value="$InfoBlockHorizontalIndentNoWidth"/>
 			<style>
-				<marginTop value="18px"/>
-				<width value="100%"/>
-				<marginBottom value="2px"/>
-				<textAlign value="center"/>
+				<marginTop value="8px"/>
+				<marginLeft value="12px"/>
+				<marginBottom value="8px"/>
 			</style>
-			<styleClass value="$TextHeaderBigDefaultTech"/>
+			<styleClass value="$TextHeader"/>
 			<bind name="text" value="'IDS_GIFTS_EARNED_AVAILABLE_INFO'"/>
 		</block>
+	</block>
+	<block className="GiftboxRewardsContent">
+		<style>
+			<width value="430px"/>
+		</style>
+		<bind name="collectionDH" value="CC.rewardComponent; 'rewardsCollectionFull'; 'rewards.sorted'"/>
+		<bind name="slice" value="'rewardsCollection'; DES_rewardsCollectionFull; 0; 18"/>
+		<bind name="watch" value="'moreItemsCount'; rewardsCollectionFull.length - rewardsCollection.length"/>
+		<bind name="name" value="'GiftboxRewardsWindow'"/>
 		<block>
 			<styleClass value="$InfoBlockHorizontalIndentNoWidth"/>
-			<bind name="visible" value="regularRewardsCollection.length &gt; 0"/>
-			<style>
-				<flow value="htile"/>
-				<marginBottom value="12px"/>
-				<width value="425px"/>
-			</style>
-			<bind name="repeat" value="regularRewardsCollection; 'RewardItemEntity'"/>
-		</block>
-		<block>
-			<style>
-				<width value="100%"/>
-			</style>
-			<bind name="visible" value="regularRewardsCollection.length &gt; 0 &amp;&amp; specialRewardsCollection.length &gt; 0 "/>
-			<block className="HorizontalDivider">
-				<styleClass value="$PxHorizontalCorrection"/>
-				<style>
-					<width value="100%"/>
-					<height value="3px"/>
-				</style>
-				<block className="divider_h" type="native">
-					<styleClass value="$Fullsize"/>
-				</block>
-			</block>
-		</block>
-		<block>
-			<styleClass value="$InfoBlockHorizontalIndentNoWidth"/>
-			<bind name="visible" value="specialRewardsCollection.length &gt; 0"/>
+			<bind name="visible" value="rewardsCollectionFull.length &gt; 0"/>
 			<style>
 				<flow value="htile"/>
 				<marginTop value="14px"/>
 				<marginBottom value="18px"/>
-				<width value="425px"/>
+				<width value="410px"/>
 			</style>
-			<bind name="repeat" value="specialRewardsCollection; 'RewardItemEntity'"/>
+			<bind name="repeat" value="sliceRewards ? rewardsCollection : rewardsCollectionFull; 'RewardItemEntity'"/>
+		</block>
+		<block>
+			<bind name="visible" value="sliceRewards &amp;&amp; moreItemsCount &gt; 0"/>
+			<style>
+				<marginTop value="-13px"/>
+				<marginBottom value="6px"/>
+			</style>
+			<bind name="instance" value="'MoreRewardsText'; moreItemsCount &gt; 0 ? {_count: moreItemsCount} : null"/>
+		</block>
+	</block>
+	<block className="MoreRewardsText">
+		<block type="text">
+			<style>
+				<marginLeft value="12px"/>
+			</style>
+			<styleClass value="$TextDefault"/>
+			<bind name="text" value="subst('IDS_AND_MORE_REWARDS_COUNT', [], {count: _count}, _count)"/>
 		</block>
 	</block>
 	<block className="RewardItemEntity">
@@ -6990,19 +6974,28 @@
 		</block>
 	</block>
 	<block className="CamoColorPreview">
-		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
 		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
 		<bind name="entityDH" value="'colorSchemeEntity'; $value"/>
 		<bind name="watchDH" value="'operationsAccountLocked'; ['resourceEntity.accountResource.evOperationsLockChanged']; resourceEntity.accountResource.operationsLocked"/>
 		<style>
 			<marginRight value="15px"/>
+			<backgroundColor value="0x01FFFFFF"/>
 		</style>
 		<bind name="watch" value="'isInstalled'; 		!!(_exteriors[_exteriorId])"/>
 		<bind name="watch" value="'thisColorPicked'; 	(_pickedCamoColorScheme == $value)"/>
 		<bind name="watch" value="'allowClick'; 			(_pickedCamoColorScheme != $value)"/>
 		<bind name="watch" value="'thisColorPreviewed'; 	(_previewCamoColorScheme == $value)"/>
+		<bind name="firstEntityDH" value="'dockEntity'; CC.dockDataMarker"/>
+		<bind name="watchDH" value="'shipId'; ['dockEntity.shipSelection.evShipUpdate']; dockEntity.shipSelection.currentShipId"/>
+		<bind name="watchDH" value="'shipIdForModuleInset'; ['dockEntity.shipSelection.evShipViewUpdate']; dockEntity.shipSelection.currentShipIdForModuleInset"/>
+		<bind name="primaryEntityDH" value="'shipOwnEntity'; CC.ownShip; shipId; 'evUpdate'"/>
+		<bind name="watchDH" value="'playerShipInfo'; ['shipOwnEntity.ownShip.evUpdate', 'shipOwnEntity.ownShip.evCrewChanged']; shipOwnEntity.ownShip"/>
+		<bind name="tooltip" value="'SimpleWarningTooltip';	playerShipInfo.isInFormation	? {_text: tr('IDS_SET_UNREADY_DIVISION_FIRST_TO_OPERATE_CAMO'), _maxWidth: 280} :
+											playerShipInfo.isLocked			? {_text: tr('IDS_LEAVE_BATTLE_FIRST_TO_OPERATE_CAMOUFLAGE'), _maxWidth: 280}
+																			: null"/>
 		<block>
-			<bind name="style" value="'hitTest'; operationsAccountLocked ? false : true"/>
+			<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
+			<bind name="style" value="'hitTest'; operationsAccountLocked || playerShipInfo.isLocked ? false : true"/>
 			<bind name="action" value="'click'; isInstalled 	? allowClick	? 'changeCamouflageColor'
 															: null
 											: 'previewExterior'; 
@@ -7353,7 +7346,7 @@
 				<width value="70px"/>
 				<height value="54px"/>
 			</style>
-			<bind name="gotoAndStop!" value="'personalTasks'"/>
+			<bind name="gotoAndStop!" value="'personalTasksBonus'"/>
 		</block>
 	</block>
 	<block className="GiftboxRewardExterior">
@@ -9408,11 +9401,9 @@
 		<block>
 			<style>
 				<width value="80px"/>
+				<height value="80px"/>
 			</style>
-			<block>
-				<styleClass value="$MiddleAligned"/>
-				<bind name="instance" value="'RewardSSEItem'; {rewardItem: rewardItem}"/>
-			</block>
+			<bind name="style" value="'backgroundImage'; 'url:../reward_icons/icon_reward_sse.png'"/>
 		</block>
 		<bind name="watch" value="'title'; sseCollection[0].titleText"/>
 		<bind name="watch" value="'description'; rewardItem.subtype == SSETypes.CHALLENGE ? 'IDS_PERSONAL_CHALLENGE' : 'IDS_PERSONAL_BATTLE_TASK'"/>
@@ -12535,11 +12526,42 @@
 														  _size == 'profile' 	? 'url:../dogTags/medium/' :
 														  _size == 'medium' 	? 'url:../dogTags/medium/' :
 														  _size == 'big' 		? 'url:../dogTags/big/'
-														  						: 'url:../dogTags/big/'}"/>
+														  						: 'url:../dogTags/big/'
+														  						, _playerDbId : _playerDbId,
+													_clanTagPaths: _size == 'small' 	? '../fonts/small/'  :
+																   _size == 'profile' 	? '../fonts/medium/' :
+																   _size == 'medium' 	? '../fonts/medium/' :
+																   _size == 'big' 		? '../fonts/big/'
+																				: '../fonts/big/'
+																				, _size: size}"/>
 	</block>
 	<block className="PlayerDogTagItem">
 		<bind name="entityDH" value="'dogTagEntity'; id"/>
 		<bind name="watchDH" value="'iconPath'; ['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.iconPath"/>
+		<bind name="primaryEntityDH" value="'playerEntity'; CC.accountSimple; _playerDbId"/>
+		<bind name="watchDH" value="'clanId'; ['playerEntity.clanman.evClanIdChanged']; playerEntity.clanman.clanId"/>
+		<bind name="primaryEntityDH" value="'clanEntity'; CC.clan; clanId"/>
+		<bind name="watchDH" value="'clanTag'; ['clanEntity.clan.evTagChanged']; clanEntity.clan.tag"/>
+		<bind name="watchDH" value="'clanTagOffsetX';['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.clanTagOffsetX"/>
+		<bind name="watchDH" value="'clanTagOffsetY';['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.clanTagOffsetY"/>
+		<bind name="watchDH" value="'clanTagFont';['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.clanTagFont"/>
+		<bind name="watchDH" value="'clanTagVisible';['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.clanTagVisible"/>
+		<block>
+			<style>
+				<position value="absolute"/>
+			</style>
+			<bind name="style" value="'top'; clanTagOffsetY + '%'"/>
+			<bind name="style" value="'left'; clanTagOffsetX + '%'"/>
+			<block>
+				<style>
+					<position value="absolute"/>
+					<marginLeft value="-50%"/>
+					<marginTop value="-50%"/>
+				</style>
+				<bind name="visible" value="clanTagVisible"/>
+				<bind name="atlasText" value="clanTagVisible ?  (clanTag ? '[' + clanTag + ']' : '^') : '' ; _clanTagPaths + clanTagFont; 0"/>
+			</block>
+		</block>
 		<styleClass value="$FullsizeAbsolute"/>
 		<style>
 			<backgroundStretchX value="true"/>
@@ -12551,6 +12573,33 @@
 	<block className="PlayerDogTagItemByPK">
 		<bind name="primaryEntityDH" value="'dogTagEntity'; CC.dogTagComponent; $value"/>
 		<bind name="watchDH" value="'iconPath'; ['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.iconPath"/>
+		<bind name="firstEntityDH" value="'selfPlayerEntity'; CC.accountSelf"/>
+		<bind name="watchDH" value="'selfPlayerDbId'; 		[]; selfPlayerEntity.accountSimple.dbId"/>
+		<bind name="watchDH" value="'selfPlayerName'; 		['selfPlayerEntity.accountName.evChanged']; selfPlayerEntity.accountName.name"/>
+		<bind name="watchDH" value="'selfPlayerNickName'; 	['selfPlayerEntity.accountName.evChanged']; selfPlayerEntity.accountName.nickName"/>
+		<bind name="watchDH" value="'clanId'; ['selfPlayerEntity.clanman.evClanIdChanged']; selfPlayerEntity.clanman.clanId"/>
+		<bind name="primaryEntityDH" value="'clanEntity'; CC.clan; clanId"/>
+		<bind name="watchDH" value="'clanTag'; ['clanEntity.clan.evTagChanged']; clanEntity.clan.tag"/>
+		<bind name="watchDH" value="'clanTagOffsetX';['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.clanTagOffsetX"/>
+		<bind name="watchDH" value="'clanTagOffsetY';['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.clanTagOffsetY"/>
+		<bind name="watchDH" value="'clanTagFont';['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.clanTagFont"/>
+		<bind name="watchDH" value="'clanTagVisible';['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.clanTagVisible"/>
+		<block>
+			<style>
+				<position value="absolute"/>
+			</style>
+			<bind name="style" value="'top'; clanTagOffsetY + '%'"/>
+			<bind name="style" value="'left'; clanTagOffsetX + '%'"/>
+			<block>
+				<style>
+					<position value="absolute"/>
+					<marginLeft value="-50%"/>
+					<marginTop value="-50%"/>
+				</style>
+				<bind name="visible" value="clanTagVisible"/>
+				<bind name="atlasText" value="clanTagVisible ?  (clanTag ? '[' + clanTag + ']' : '^') : '' ; _clanTagPaths + clanTagFont; 0"/>
+			</block>
+		</block>
 		<styleClass value="$FullsizeAbsolute"/>
 		<style>
 			<backgroundStretchX value="true"/>
@@ -12651,9 +12700,14 @@
 		<bind name="watchDH" value="'description'; ['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.description"/>
 		<bind name="watchDH" value="'quest'; ['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.quest"/>
 		<bind name="watchDH" value="'unique'; ['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.unique"/>
+		<bind name="watchDH" value="'clanTagOffsetX';['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.clanTagOffsetX"/>
+		<bind name="watchDH" value="'clanTagOffsetY';['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.clanTagOffsetY"/>
+		<bind name="watchDH" value="'clanTagFont';['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.clanTagFont"/>
+		<bind name="watchDH" value="'clanTagVisible';['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.clanTagVisible"/>
 		<block>
 			<styleClass value="$InfoBlockIndent"/>
-			<bind name="instance" value="'DogTagComponentTooltipHeader'; {_iconPath: iconPath, _categoryId: categoryId, _gpName: gpName, _unique: unique}"/>
+			<bind name="instance" value="'DogTagComponentTooltipHeader'; {_iconPath: iconPath, _categoryId: categoryId, _gpName: gpName, _unique: unique,
+				_clanTagOffsetX: clanTagOffsetX, _clanTagOffsetY: clanTagOffsetY, _clanTagFont: clanTagFont, _clanTagVisible: clanTagVisible}"/>
 		</block>
 		<block className="HorizontalDivider">
 			<styleClass value="$PxHorizontalCorrection"/>
@@ -12854,6 +12908,29 @@
 				<height value="80px"/>
 			</style>
 			<bind name="style" value="'backgroundImage'; 'url:../dogTags/small/' + _iconPath"/>
+			<bind name="firstEntityDH" value="'selfPlayerEntity'; CC.accountSelf"/>
+			<bind name="watchDH" value="'selfPlayerDbId'; 		[]; selfPlayerEntity.accountSimple.dbId"/>
+			<bind name="watchDH" value="'selfPlayerName'; 		['selfPlayerEntity.accountName.evChanged']; selfPlayerEntity.accountName.name"/>
+			<bind name="watchDH" value="'selfPlayerNickName'; 	['selfPlayerEntity.accountName.evChanged']; selfPlayerEntity.accountName.nickName"/>
+			<bind name="watchDH" value="'clanId'; ['selfPlayerEntity.clanman.evClanIdChanged']; selfPlayerEntity.clanman.clanId"/>
+			<bind name="primaryEntityDH" value="'clanEntity'; CC.clan; clanId"/>
+			<bind name="watchDH" value="'clanTag'; ['clanEntity.clan.evTagChanged']; clanEntity.clan.tag"/>
+			<block>
+				<style>
+					<position value="absolute"/>
+				</style>
+				<bind name="style" value="'top'; _clanTagOffsetY + '%'"/>
+				<bind name="style" value="'left'; _clanTagOffsetX + '%'"/>
+				<block>
+					<style>
+						<position value="absolute"/>
+						<marginLeft value="-50%"/>
+						<marginTop value="-50%"/>
+					</style>
+					<bind name="visible" value="clanTagVisible"/>
+					<bind name="atlasText" value="_clanTagVisible ? (clanTag ? '[' + clanTag + ']' : '^') : '' ; '../fonts/small/' + _clanTagFont; 0"/>
+				</block>
+			</block>
 		</block>
 		<block>
 			<style>
@@ -15901,8 +15978,8 @@
 			<block>
 				<style>
 					<width value="100%"/>
-					<marginTop value="8px"/>
-					<marginBottom value="8px"/>
+					<marginTop value="12px"/>
+					<marginBottom value="12px"/>
 				</style>
 				<bind name="instance" value="'SkillLearnStatus'; { _learned: skill.learned, _dependenciesLearned: skill.hasLearnedSkillOnPreviousTier, _cost: skill.tier, _deficit: (skill.tier - crew.freeSkillPoints) }"/>
 			</block>
@@ -16074,14 +16151,16 @@
 				<bind name="instance" value="'SkillAdaptationStatus'; skill.learned &amp;&amp; _penalty ? {_skillsEffectiveness: crew.skillsEffectiveness, _blockable: skill.blockable } : null"/>
 			</block>
 			<block>
-				<bind name="visible" value="!(_isLocked) &amp;&amp;
+				<bind name="visible" value="(!(_isLocked) &amp;&amp;
 							skill.learned != true &amp;&amp;
 							skill.hasLearnedSkillOnPreviousTier &amp;&amp;
 							(crew.freeSkillPoints - skill.tier &gt;= 0) &amp;&amp;
-							!(_noMouseInstructions)"/>
+							!(_noMouseInstructions))
+							|| isLocked || _isInFormation"/>
 				<style>
 					<width value="100%"/>
 					<marginLeft value="-16px"/>
+					<marginTop value="-1px"/>
 					<marginRight value="-16px"/>
 				</style>
 				<block className="HorizontalDivider">
@@ -16110,15 +16189,21 @@
 			</block>
 			<block>
 				<bind name="visible" value="_isLocked || _isInFormation"/>
-				<styleClass value="$InfoBlockIndent"/>
+				<style>
+					<width value="100%"/>
+					<marginLeft value="-1px"/>
+					<marginBottom value="12px"/>
+					<marginTop value="12px"/>
+				</style>
 				<block className="icon_module_state" type="native">
 					<bind name="gotoAndStop!" value="'action'"/>
 				</block>
 				<block type="text">
 					<styleClass value="$TextDefault"/>
 					<style>
-						<maxWidth value="270"/>
-						<marginTop value="-3px"/>
+						<width value="100%"/>
+						<marginLeft value="2px"/>
+						<marginTop value="-4px"/>
 					</style>
 					<bind name="class" value="'$FontColorUnready'"/>
 					<bind name="text" value="(_isInFormation ? tr('IDS_READY_TO_BATTLE_IN_' + toUpperCase(divisionEntranceData.divisionType)) : tr('IDS_IN_BATTLE')) + '. ' + tr('IDS_CANT_LEARN_SKILLS')"/>
@@ -16838,6 +16923,7 @@
 				<bind name="instance" value="'SubAlbumFullyCollected'; {}"/>
 			</block>
 		</block>
+		<bind name="soundOn" value="'addedToStage'; 'collection_complete'; 'collection_soundset'"/>
 	</block>
 	<block className="SubAlbumFullyCollected">
 		<bind name="primaryEntityDH" value="'collectionCardEntity'; CC.collectionAlbum; $root.collectionID"/>

@@ -76,14 +76,6 @@
 	<directory>
 		<path>	particles	</path>
 		<directory>
-			<path>	animated	</path>
-			<rule>
-				<pattern>	.*(_foam\.).*	</pattern>
-				<lodMode>	0	</lodMode>
-				<format>	DXT1	</format>
-			</rule>
-		</directory>
-		<directory>
 			<path>	deform16f	</path>
 			<rule>
 				<pattern>	.*	</pattern>
@@ -97,6 +89,35 @@
 				<pattern>	.*	</pattern>
 				<lodMode>	0	</lodMode>
 				<format>	A8R8G8B8	</format>
+			</rule>
+		</directory>
+		<directory>
+			<path>	animated	</path>
+			<rule>
+				<pattern>	.*	</pattern>
+				<lodMode>	1	</lodMode>
+				<format>	DXT5	</format>
+				<streamable> true </streamable>
+			</rule>
+			<rule>
+				<pattern>	.*(_foam\.).*	</pattern>
+				<lodMode>	0	</lodMode>
+				<format>	DXT1	</format>
+				<streamable> false </streamable>
+			</rule>
+			<rule>
+				<pattern>	.*(Spray_6x6_b).*	</pattern>
+				<lodMode>	1	</lodMode>
+				<format>	DXT5	</format>
+				<streamable> false </streamable>
+			</rule>
+		</directory>
+		<directory>
+			<path>	textures	</path>
+			<rule>
+				<pattern>	.*	</pattern>
+				<lodMode>	1	</lodMode>
+				<format>	DXT5	</format>
 			</rule>
 		</directory>
 	</directory>

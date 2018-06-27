@@ -1192,6 +1192,27 @@
 			</block>
 		</block>
 	</block>
+	<block className="ClanInset">
+		<bind name="name" value="'ClansHomePage'"/>
+		<styleClass value="$Fullsize"/>
+		<bind name="firstEntityDH" value="'dockEntity'; CC.dockDataMarker"/>
+		<bind name="watchDH" value="'inset'; ['dockEntity.insetComponent.evUpdate']; dockEntity.insetComponent.inset"/>
+		<bind name="primaryEntityDH" value="'pageEntity'; CC.insetPage; LobbyConstants.CLAN"/>
+		<bind name="watchDH" value="'page'; ['pageEntity.insetPage.evUpdate']; pageEntity.insetPage.page"/>
+		<bind name="watchDH" value="'pageData'; ['pageEntity.dataComponent.evDataChanged']; pageEntity.dataComponent.data"/>
+		<bind name="changeDispatch" value="pageData; 'evPageDataChanged'"/>
+		<bind name="action" value="'addedToStage'; 'openClansWindow'; pageData"/>
+		<bind name="action" value="'evPageDataChanged'; 'navigateClansWindow' : ''; { 'urlParams': pageData}"/>
+		<bind name="action" value="'removedFromStage'; 'closeClansWindow'; {}"/>
+	</block>
+	<block className="LeadingClanSquadIcon">
+		<style>
+			<backgroundSize value="cover"/>
+		</style>
+		<bind name="style" value="'width'; _isBig ? '30px' : '18px'"/>
+		<bind name="style" value="'height'; _isBig ? '30px' : '18px'"/>
+		<bind name="style" value="'backgroundImage'; 'url:../service_kit/icons/icon_leading_squad_' + (_isGolden ? 'golden_' : 'white_') + (_isBig ? 'big' : 'small') + '.png'"/>
+	</block>
 	<css name="$TextMouseDisable">
 		<mouseChildren value="false"/>
 		<selectable value="false"/>
@@ -1637,6 +1658,11 @@
 		<bind name="watchDH" value="'toDivisionId'; []; clanBattleResultsEntity.clanBattleResult.toDivisionId"/>
 		<bind name="watchDH" value="'fromLeagueId'; []; clanBattleResultsEntity.clanBattleResult.fromLeagueId"/>
 		<bind name="watchDH" value="'toLeagueId'; []; clanBattleResultsEntity.clanBattleResult.toLeagueId"/>
+		<bind name="watchDH" value="'squadId'; []; clanBattleResultsEntity.clanBattleResult.squadId"/>
+		<bind name="primaryEntityDH" value="'clanLadderInfoEntity'; CC.clanLadderInfo; clanId"/>
+		<bind name="watchDH" value="'leadingSquadId'; []; clanLadderInfoEntity.clanLadderInfo.leadingSquadId"/>
+		<bind name="watch" value="'isLeading'; squadId == leadingSquadId"/>
+		<bind name="watchDH" value="'hasClanSquadModifier'; ['selfPlayerEntity.clanmanSupplyInfo.evHasClanSquadModifierChanged']; selfPlayerEntity.clanmanSupplyInfo.hasClanSquadModifier"/>
 		<bind name="watch" value="'receivedRating';  fromDivisionId &gt; toDivisionId 							? fromDivisionMaxRatingForPromotion - fromRating + toRating :
 									fromDivisionId &lt; toDivisionId 							? toDivisionMaxRatingForPromotion - toRating + fromRating :
 									fromDivisionId == toDivisionId &amp;&amp; toRating &gt; fromRating ? toRating - fromRating
@@ -1645,8 +1671,8 @@
 		<bind name="var" value="{'defaultRecievedRating': 0}"/>
 		<block>
 			<style>
-				<marginTop value="32px"/>
-				<marginBottom value="32px"/>
+				<marginTop value="24px"/>
+				<marginBottom value="24px"/>
 			</style>
 			<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 0 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
 			<bind name="appear" value="'startHide'; 0.15; 0 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
@@ -1710,8 +1736,8 @@
 		</block>
 		<block>
 			<style>
-				<marginTop value="32px"/>
-				<marginBottom value="32px"/>
+				<marginTop value="24px"/>
+				<marginBottom value="16px"/>
 				<alpha value="0"/>
 			</style>
 			<styleClass value="$MiddleAligned"/>
@@ -1722,23 +1748,52 @@
 					<alpha value="0.6"/>
 				</style>
 				<styleClass value="$TextDefaultBold30NM"/>
-				<bind name="text" value="	(fromLeagueId &lt; toLeagueId) &amp;&amp; isProgressFinished							?	subst('IDS_CLAN_BATTLE_DESCENDED_LEAGUE_VS_CLANTAG', [], {clanTag: clanTag} ) :
-							(fromLeagueId &gt; toLeagueId) &amp;&amp; isProgressFinished							?	subst('IDS_CLAN_BATTLE_RAISED_LEAGUE_VS_CLANTAG', [], {clanTag: clanTag} ) :
-							(fromLeagueId == toLeagueId) &amp;&amp; isProgressFinished &amp;&amp; stage == 'promotion'	?	subst('IDS_CLAN_PROMOTION_LOSE_BATTLE_FOR_LEAGUE_VS_CLANTAG', [], {clanTag: clanTag} ) :
-							(fromLeagueId == toLeagueId) &amp;&amp; isProgressFinished &amp;&amp; stage == 'demotion'	?	subst('IDS_CLAN_DEMOTION_WON_BATTLE_FOR_LEAGUE_VS_CLANTAG', [], {clanTag: clanTag} ) :
-							fromDivisionId &lt; toDivisionId												?	subst('IDS_CLAN_BATTLE_DESCENDED_DIVISION_VS_CLANTAG', [], {clanTag: clanTag} ) :
-							fromDivisionId &gt; toDivisionId												?	subst('IDS_CLAN_BATTLE_RAISED_DIVISION_VS_CLANTAG', [], {clanTag: clanTag} ) :
-							stage == 'promotion' &amp;&amp; !isProgressFinished									?	subst('IDS_CLAN_PROMOTION_BATTLE_FOR_LEAGUE_VS_CLANTAG', [], {clanTag: clanTag} ) :
-							stage == 'demotion' &amp;&amp;	!isProgressFinished									?	subst('IDS_CLAN_DEMOTION_BATTLE_FOR_LEAGUE_VS_CLANTAG', [], {clanTag: clanTag} ) :
-							fromRating &lt; toRating														?	subst('IDS_CLAN_BATTLE_RAISED_RATING_VS_CLANTAG', [], {clanTag: clanTag} ) :
-							fromRating == toRating														?	tr('IDS_CLAN_RATING_DID_NOT_CHANGED') :
+				<bind name="text" value="	(fromLeagueId &lt; toLeagueId) &amp;&amp; isProgressFinished							?	'IDS_CLAN_BATTLE_DESCENDED_LEAGUE' :
+							(fromLeagueId &gt; toLeagueId) &amp;&amp; isProgressFinished							?	'IDS_CLAN_BATTLE_RAISED_LEAGUE' :
+							(fromLeagueId == toLeagueId) &amp;&amp; isProgressFinished &amp;&amp; stage == 'promotion'	?	'IDS_CLAN_PROMOTION_LOSE_BATTLE_FOR_LEAGUE' :
+							(fromLeagueId == toLeagueId) &amp;&amp; isProgressFinished &amp;&amp; stage == 'demotion'	?	'IDS_CLAN_DEMOTION_WON_BATTLE_FOR_LEAGUE' :
+							fromDivisionId &lt; toDivisionId												?	'IDS_CLAN_BATTLE_DESCENDED_DIVISION' :
+							fromDivisionId &gt; toDivisionId												?	'IDS_CLAN_BATTLE_RAISED_DIVISION' :
+							stage == 'promotion' &amp;&amp; !isProgressFinished									?	'IDS_CLAN_PROMOTION_BATTLE_FOR_LEAGUE' :
+							stage == 'demotion' &amp;&amp;	!isProgressFinished									?	'IDS_CLAN_DEMOTION_BATTLE_FOR_LEAGUE' :
+							fromRating &lt; toRating														?	'IDS_CLAN_BATTLE_RAISED_RATING' :
+							fromRating == toRating														?	'IDS_CLAN_RATING_DID_NOT_CHANGED' :
 							(fromRating == 0 &amp;&amp; toRating == 0)											?	'[' + clanTag + ']'
-																										:	subst('IDS_CLAN_BATTLE_DESCENDED_RATING_VS_CLANTAG', [], {clanTag: clanTag} ) "/>
+																										:	'IDS_CLAN_BATTLE_DESCENDED_RATING'"/>
 			</block>
 		</block>
 		<block>
 			<style>
-				<marginTop value="720:30,1080:80ah"/>
+				<marginBottom value="16px"/>
+			</style>
+			<styleClass value="$MiddleAligned"/>
+			<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 1 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
+			<bind name="appear" value="'startHide'; 0.15; 1 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+			<block>
+				<block type="text">
+					<style>
+						<alpha value="0.6"/>
+					</style>
+					<styleClass value="$TextDefaultBold30NM"/>
+					<bind name="text" value="'['+clanTag+'] ' + (hasClanSquadModifier ? tr('IDS_CLAN_SQUAD_' + squadId) : '')"/>
+				</block>
+				<block>
+					<bind name="visible" value="hasClanSquadModifier &amp;&amp; isLeading"/>
+					<style>
+						<marginLeft value="12px"/>
+					</style>
+					<styleClass value="$MiddleVAligned"/>
+					<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_TOOLTIP_LEADING_CLAN_SQUAD'}"/>
+					<bind name="instance" value="'LeadingClanSquadIcon'; hasClanSquadModifier &amp;&amp; isLeading ? { _isBig: true } : null"/>
+				</block>
+				<style>
+					<flow value="horizontal"/>
+				</style>
+			</block>
+		</block>
+		<block>
+			<style>
+				<marginTop value="720:20,1080:80ah"/>
 				<width value="100%"/>
 				<alpha value="0"/>
 			</style>

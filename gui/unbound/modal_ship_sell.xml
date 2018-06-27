@@ -2965,8 +2965,8 @@
 			<block type="text">
 				<styleClass value="$TextDefault"/>
 				<bind name="class" value="'$FontColorUnready'"/>
+				<bind name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 240"/>
 				<style>
-					<maxWidth value="240"/>
 					<leading value="-3"/>
 				</style>
 				<bind name="text" value="_text"/>
@@ -4244,7 +4244,9 @@
 		<bind name="watch" value="'unmountBasePrice'; unmountPrice.prices[unmountPriceIndex].basePrice * $root.modList.length"/>
 		<bind name="watch" value="'unmountResource'; accountResource[unmountPrice.prices[unmountPriceIndex].currency]"/>
 		<bind name="watch" value="'unmountDeficit'; (unmountFinalPrice - unmountResource)"/>
-		<bind name="watch" value="'unmountPriceInfo'; {finalPrice: unmountFinalPrice, currency: unmountCurrency, basePrice: unmountBasePrice}"/>
+		<bind name="watch" value="'unmountDiscountTill'; unmountPrice.prices[unmountPriceIndex].till"/>
+		<bind name="watch" value="'unmountDiscountTimeLeft'; unmountPrice.prices[unmountPriceIndex].timeLeft"/>
+		<bind name="watch" value="'unmountPriceInfo'; {finalPrice: unmountFinalPrice, currency: unmountCurrency, basePrice: unmountBasePrice, till: unmountDiscountTill, timeLeft: unmountDiscountTimeLeft}"/>
 		<styleClass value="$ModalWindowDefaultWidth"/>
 		<block>
 			<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 0 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
