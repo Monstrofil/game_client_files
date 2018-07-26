@@ -33,7 +33,7 @@
     
      <element name="battleProgress" class="BattleProgressClip" url="battle_stats.swf"/>
      <element name="logEvent" class="EventLog" url="central_feedback.swf" autoPerfTestGroup="logs">
-      <properties itemRendererName="[MessageListItemRendererForVictoryPointLogs,MessageListItemRendererForVictoryPointKillsLog,MessageListItemRendererForTeamkillEvent,MessageListItemRendererForThirdParty]" antiSpam="true" blinkTimer="0" enabled="true" listItemRendererDethTime="3" listItemRendererLifeTime="12000" messageBufferLength="1" messageBufferOverflowDeathTime="1" scrollBarStep="1" scrollPosition="left" textDisplayFlow="bottom-up" tweenTime="0.3" tweenListItemRenderer="true" hasSubstitution="true" lineSpacing="0" width="600"/>
+      <properties itemRendererName="[MessageListItemRendererForVictoryPointLogs,MessageListItemRendererForVictoryPointKillsLog,MessageListItemRendererForTeamkillEvent,MessageListItemRendererForThirdParty,MessageListItemRendererWithStatus]" antiSpam="true" blinkTimer="0" enabled="true" listItemRendererDethTime="0.3" listItemRendererLifeTime="8000" messageBufferLength="1" messageBufferOverflowDeathTime="1" scrollBarStep="1" scrollPosition="left" textDisplayFlow="bottom-up" tweenTime="0.3" tweenListItemRenderer="true" hasSubstitution="true" lineSpacing="0" width="600"/>
     </element>
     <element name="deathList" class="DeathLog" url="central_feedback.swf" autoPerfTestGroup="logs">
       <properties itemRendererName="[MessageListItemRendererForEventLog]" antiSpam="true" blinkTimer="0" enabled="true" listItemRendererDethTime="0.3" listItemRendererLifeTime="10000" messageBufferLength="2" messageBufferOverflowDeathTime="1" scrollBarStep="1" scrollPosition="left" textDisplayFlow="bottom-up" tweenTime="0.3" tweenListItemRenderer="true"/>
@@ -68,6 +68,9 @@
     
     <element name="pingometer" class="Pingometer" url="battle_stats.swf" autoPerfTestGroup="header"/>
     <element name="helpHint" class="HelpHint" url="battle_stats.swf" autoPerfTestGroup="header"/>
+    <!--<element name="unboundHelpHint" class="lesta.libs.unbound.UnboundElement" url="battle_stats.swf">
+      <properties config='../unbound/help_hint.xml' rootElementId='HelpHint' hitTest = "false"/>
+    </element>-->
     <element name="battleTimer" class="BattleTimer" url="battle_stats.swf" autoPerfTestGroup="header"/>
     <element name="prebattleText" class="PrebattleText" url="battle_stats.swf" autoPerfTestGroup="header"/>
     <!-- <element name="quickCommandHelpPanel_h" class="QuickCommandHelpPanelHUD_h" url="quick_commands.swf"/> -->
@@ -100,6 +103,9 @@
      <properties hitTest = "true"/>
     </element>-->
   <element name="tacticalMapHelp" class="TacticalMapHelpClip" url="navpoints.swf" autoPerfTest="false"/>
+  <element name="unboundCombatLog" class="lesta.libs.unbound.UnboundElement" url="combat_log.swf">
+    <properties config='../unbound/combat_log.xml' rootElementId='CombatLogPanel' hitTest = "true"/>
+  </element>
   <element name="unboundEars" class="lesta.libs.unbound.UnboundElement" url="battle_stats.swf">
     <properties config='../unbound/team_structure.xml' rootElementId='TeamStructure' hitTest = "true"/>
   </element>
@@ -149,9 +155,6 @@
    <element name="carrierPanel" class="CarrierPanelClip" url="carrier_panel.swf" autoPerfTestGroup="weapons">
     <properties hitTest='true' />
   </element>
-    <element name="unboundCombatLog" class="lesta.libs.unbound.UnboundElement" url="combat_log.swf">
-      <properties config='../unbound/combat_log.xml' rootElementId='CombatLogPanel' hitTest = "true"/>
-    </element>
   <element name="unboundShipParamsTooltip" class="lesta.libs.unbound.UnboundElement" url="battle_stats.swf">
     <properties config='../unbound/ship_params_tooltip.xml' rootElementId='ShipParamsTooltip' hitTest = "true"/>
   </element>
@@ -184,7 +187,7 @@
     <controller class="lesta.dialogs.battle_window_controllers.CruiseController" clips="indicatorSpeed,indicatorAngle"/>
     <controller class="lesta.dialogs.battle_window_controllers.IndicatorsController" clips="logPlayerState,logPlayerAction,logEvent,indicatorGunsLocked,indicatorCollisionText,deathList,shipVisibilityIndicator,intuitionIndicator,atbaOffIndicator,weatherIndicator,smokeIndicator,repairIndicator,evacuationIndicator,toxicSmokeIndicator,localWeatherIndicator"/>
     <controller class="lesta.dialogs.battle_window_controllers.CompassController" clips="shipDollClip.shipDoll,compassClip.compass,gunRotatorClips,frustumClip,alarmClipCenter,alarmClipCompass,damageClip"/>
-    <controller class="lesta.dialogs.battle_window_controllers.HeaderController" clips="headerPlayersNum,pingometer,battleTimer,helpHint,prebattleText,captureBase,battleProgress,gameVersion,observedPlayerLabel,cameraText"/>
+	<controller class="lesta.dialogs.battle_window_controllers.HeaderController" clips="headerPlayersNum,pingometer,battleTimer,helpHint,prebattleText,captureBase,battleProgress,gameVersion,observedPlayerLabel,cameraText"/>
     <controller class="lesta.dialogs.battle_window_controllers.GunsStateController" clips="barReloadContainer,shipDollClip.shipDoll,gunRotatorClips"/>      
     <controller class="lesta.dialogs.battle_window_controllers.GunMarkersController" clips="!gunMarkerPlaceholder,gunMarkerPlaceholder.mainGunMarker,gunMarkerPlaceholder.torpedoGunMarker,gunMarkerPlaceholder.lockedIndicator"/>
     <controller name="crosshair" class="lesta.dialogs.battle_window_controllers.CrosshairController" clips="crosshairDefault,crosshairFPS,compassWithNose,crosshairLocked"/>
@@ -214,6 +217,7 @@
   <controller class="lesta.dialogs.battle_window_controllers.UnboundElementController" clips="unboundShipsList"/>
     <controller class="lesta.dialogs.battle_window_controllers.UnboundElementController" clips="unboundFogHornIndicator"/>
   <controller class="lesta.dialogs.battle_window_controllers.UnboundElementController" clips="unboundCombatLog"/>
+  <!--<controller class="lesta.dialogs.battle_window_controllers.UnboundElementController" clips="unboundHelpHint"/>-->
   <controller class="lesta.dialogs.battle_window_controllers.UnboundElementController" clips="unboundShipParamsTooltip"/>
   <controller class="lesta.dialogs.battle_window_controllers.StatsPanelController" clips="statsPanel"/>
   <controller class="lesta.dialogs.battle_window_controllers.QuickCommandsPanelController" clips="quickCommandsPanel"/>

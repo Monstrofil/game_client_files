@@ -642,8 +642,8 @@
 	<EFFECT_STATE>
 		FIXED_DICT
 		<Properties>
+			<id><Type>INT16</Type></id>
 			<name><Type>STRING</Type></name>
-			<effectName><Type>STRING</Type></effectName>
 			<position><Type>VECTOR3</Type></position>
 			<yaw><Type>FLOAT</Type></yaw>
 		</Properties>
@@ -799,17 +799,6 @@
 		</Properties>
 	</MINEFIELD_STATE>
 
-	<TIMER_STATE>
-		FIXED_DICT
-		<Properties>
-			<name><Type>STRING</Type></name>
-			<startTime><Type>UINT32</Type></startTime>
-			<time><Type>UINT16</Type></time>
-			<repeatTime><Type>UINT8</Type></repeatTime>
-			<repeatCount><Type>UINT8</Type></repeatCount>
-			<isPaused><Type>BOOL</Type></isPaused>
-		</Properties>
-	</TIMER_STATE>
 	<LOCAL_WEATHER_STATE>
 		FIXED_DICT
 		<Properties>
@@ -896,14 +885,31 @@
 			<screenplayMessage> <Type> SCREENPLAY_MESSAGE_STATE </Type> </screenplayMessage>
 			<tasks> <Type>ARRAY<of>TASKS_STATE</of></Type></tasks>
 			<minefields><Type>ARRAY<of>MINEFIELD_STATE</of></Type></minefields>
-			<timers> <Type>ARRAY<of>TIMER_STATE</of></Type></timers>
 			<entities><Type>ARRAY<of>BATTLE_LOGIC_ENTITY_STATE</of></Type></entities>
 			<effects><Type>ARRAY<of>EFFECT_STATE</of></Type></effects>
-			<!--<timers> <Type>TIMERS_STATE</Type> <AllowNone>true</AllowNone> </timers>-->
 			<!--<triggers> <Type>TRIGGERS_STATE</Type> <AllowNone>true</AllowNone> </triggers>-->
 			<!--<routes> <Type>ROUTES_STATE</Type> <AllowNone>true</AllowNone> </routes>-->
 		</Properties>
 	</BATTLE_LOGIC_STATE>
+
+
+    <INDIVIDUAL_TASK_STATE>
+        FIXED_DICT
+        <Properties>
+			<status><Type>UINT8</Type></status>
+            <paramsId> <Type>GAMEPARAMS_ID</Type> </paramsId>
+            <currentValues><Type>ARRAY<of>UINT8</of></Type></currentValues>
+            <attentionMarkers><Type>ARRAY<of>ATTENTION_MARKER_STATE</of></Type></attentionMarkers>
+        </Properties>
+    </INDIVIDUAL_TASK_STATE>
+
+
+    <PRIVATE_BATTLE_LOGIC_STATE>
+        FIXED_DICT
+        <Properties>
+            <individualTasks><Type> ARRAY <of> INDIVIDUAL_TASK_STATE </of> </Type></individualTasks>
+        </Properties>
+    </PRIVATE_BATTLE_LOGIC_STATE>
 
 	<EVALUATION_DEF>
 		FIXED_DICT
@@ -945,6 +951,13 @@
 		</Properties>
 	</BATTLE_LOGIC_DEBUG_TEXT>
 
+    <INDIVIDUAL_TASK_DEF>
+		FIXED_DICT
+		<Properties>
+            <entityId><Type>ENTITY_ID</Type></entityId>
+            <paramsId><Type>GAMEPARAMS_ID</Type></paramsId>
+        </Properties>
+    </INDIVIDUAL_TASK_DEF>
 
 	<SHIP_RESTRICTIONS>
 		FIXED_DICT
@@ -1059,4 +1072,13 @@
             <camoParamsId><Type>GAMEPARAMS_ID</Type> </camoParamsId>
         </Properties>
     </PREREQUISITE_SHIP>
+
+	<ENTITY_EFFECT_STATE>
+		FIXED_DICT
+		<Properties>
+			<id><Type>INT16</Type></id>
+			<name><Type>STRING</Type></name>
+			<node><Type>STRING</Type></node>
+		</Properties>
+	</ENTITY_EFFECT_STATE>
 </root>

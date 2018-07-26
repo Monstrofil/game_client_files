@@ -6,7 +6,7 @@
 			<flow value="horizontal"/>
 			<marginBottom value="16px"/>
 		</style>
-		<bind name="style" value="'paddingTop'; (_alignLeft == true) ? '-8px': '0px'"/>
+		<bind name="style" value="'paddingTop'; (_shrinkHeight == true) ? '-8px' : '0'"/>
 		<block type="text">
 			<styleClass value="$TextDefaultNM"/>
 			<style>
@@ -14,7 +14,6 @@
 				<alpha value="0.8"/>
 				<width value="100%"/>
 			</style>
-			<bind name="style" value="'width'; (_alignLeft == true) ? '100%f': '100%'"/>
 			<bind name="text" value="attributeIDS"/>
 		</block>
 		<block type="text">
@@ -47,19 +46,19 @@
 			<style>
 				<width value="100%"/>
 			</style>
-			<bind name="repeat" value="_attributesPositive; 'ParamsModifierItem'; {_alignLeft: _alignLeft}"/>
+			<bind name="repeat" value="_attributesPositive; 'ParamsModifierItem'; {_shrinkHeight: _shrinkHeight}"/>
 		</block>
 		<block>
 			<style>
 				<width value="100%"/>
 			</style>
-			<bind name="repeat" value="_attributesNegative; 'ParamsModifierItem'; {_alignLeft: _alignLeft}"/>
+			<bind name="repeat" value="_attributesNegative; 'ParamsModifierItem'; {_shrinkHeight: _shrinkHeight}"/>
 		</block>
 		<block>
 			<style>
 				<width value="100%"/>
 			</style>
-			<bind name="repeat" value="_attributesNeutral; 'ParamsModifierItem'; {_alignLeft: _alignLeft}"/>
+			<bind name="repeat" value="_attributesNeutral; 'ParamsModifierItem'; {_shrinkHeight: _shrinkHeight}"/>
 		</block>
 	</block>
 </ui>

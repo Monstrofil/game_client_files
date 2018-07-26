@@ -742,31 +742,36 @@
 				<bind name="input"/>
 				<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_CLOSE'}; 0"/>
 				<block>
+					<styleClass value="$MiddleVAligned"/>
 					<style>
 						<backgroundColor value="0x01000000"/>
 					</style>
+					<bind name="dispatch" value="'mouseOver'; 'overEscapeButton'"/>
+					<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
+					<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
+					<block>
+						<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
+						<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
+						<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
+						<style>
+							<alpha value="0.8"/>
+						</style>
+						<bind name="style" value="'alpha'; EscapeButtonOverAlpha"/>
+						<bind name="instance" value="'HotkeyWithText'; {_text: 'ESC'}"/>
+					</block>
 					<block>
 						<style>
-							<marginTop value="-3px"/>
+							<marginTop value="3px"/>
 						</style>
-						<block className="hotkey_holder_white_9slice" type="native">
-							<bind name="visible" value="true"/>
-							<block type="text">
-								<style>
-									<marginLeft value="3px"/>
-									<marginRight value="3px"/>
-									<marginTop value="-1px"/>
-									<marginBottom value="-1px"/>
-								</style>
-								<styleClass value="$BlackLabel"/>
-								<text value="ESC"/>
-							</block>
+						<block className="button_close" type="native">
+							<bind name="catch" value="'overEscapeButton'; {CrossButtonStates: 'over'}"/>
+							<bind name="catch" value="'upEscapeButton'; {CrossButtonStates: 'up'}"/>
+							<bind name="catch" value="'downEscapeButton'; {CrossButtonStates: 'down'}"/>
+							<params>
+								<param name="focusable" value="false"/>
+							</params>
+							<bind name="gotoAndPlay!" value="CrossButtonStates"/>
 						</block>
-					</block>
-					<block className="button_close" type="native">
-						<params>
-							<param name="focusable" value="false"/>
-						</params>
 					</block>
 					<style>
 						<flow value="horizontal"/>
@@ -804,31 +809,36 @@
 					<bind name="input"/>
 					<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_CLOSE'}; 0"/>
 					<block>
+						<styleClass value="$MiddleVAligned"/>
 						<style>
 							<backgroundColor value="0x01000000"/>
 						</style>
+						<bind name="dispatch" value="'mouseOver'; 'overEscapeButton'"/>
+						<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
+						<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
+						<block>
+							<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
+							<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
+							<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
+							<style>
+								<alpha value="0.8"/>
+							</style>
+							<bind name="style" value="'alpha'; EscapeButtonOverAlpha"/>
+							<bind name="instance" value="'HotkeyWithText'; {_text: 'ESC'}"/>
+						</block>
 						<block>
 							<style>
-								<marginTop value="-3px"/>
+								<marginTop value="3px"/>
 							</style>
-							<block className="hotkey_holder_white_9slice" type="native">
-								<bind name="visible" value="!_noHotkey"/>
-								<block type="text">
-									<style>
-										<marginLeft value="3px"/>
-										<marginRight value="3px"/>
-										<marginTop value="-1px"/>
-										<marginBottom value="-1px"/>
-									</style>
-									<styleClass value="$BlackLabel"/>
-									<text value="ESC"/>
-								</block>
+							<block className="button_close" type="native">
+								<bind name="catch" value="'overEscapeButton'; {CrossButtonStates: 'over'}"/>
+								<bind name="catch" value="'upEscapeButton'; {CrossButtonStates: 'up'}"/>
+								<bind name="catch" value="'downEscapeButton'; {CrossButtonStates: 'down'}"/>
+								<params>
+									<param name="focusable" value="false"/>
+								</params>
+								<bind name="gotoAndPlay!" value="CrossButtonStates"/>
 							</block>
-						</block>
-						<block className="button_close" type="native">
-							<params>
-								<param name="focusable" value="false"/>
-							</params>
 						</block>
 						<style>
 							<flow value="horizontal"/>
@@ -891,31 +901,36 @@
 				<bind name="input"/>
 				<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_CLOSE'}; 0"/>
 				<block>
+					<styleClass value="$MiddleVAligned"/>
 					<style>
 						<backgroundColor value="0x01000000"/>
 					</style>
+					<bind name="dispatch" value="'mouseOver'; 'overEscapeButton'"/>
+					<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
+					<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
+					<block>
+						<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
+						<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
+						<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
+						<style>
+							<alpha value="0.8"/>
+						</style>
+						<bind name="style" value="'alpha'; EscapeButtonOverAlpha"/>
+						<bind name="instance" value="'HotkeyWithText'; {_text: 'ESC'}"/>
+					</block>
 					<block>
 						<style>
-							<marginTop value="-3px"/>
+							<marginTop value="3px"/>
 						</style>
-						<block className="hotkey_holder_white_9slice" type="native">
-							<bind name="visible" value="true"/>
-							<block type="text">
-								<style>
-									<marginLeft value="3px"/>
-									<marginRight value="3px"/>
-									<marginTop value="-1px"/>
-									<marginBottom value="-1px"/>
-								</style>
-								<styleClass value="$BlackLabel"/>
-								<text value="ESC"/>
-							</block>
+						<block className="button_close" type="native">
+							<bind name="catch" value="'overEscapeButton'; {CrossButtonStates: 'over'}"/>
+							<bind name="catch" value="'upEscapeButton'; {CrossButtonStates: 'up'}"/>
+							<bind name="catch" value="'downEscapeButton'; {CrossButtonStates: 'down'}"/>
+							<params>
+								<param name="focusable" value="false"/>
+							</params>
+							<bind name="gotoAndPlay!" value="CrossButtonStates"/>
 						</block>
-					</block>
-					<block className="button_close" type="native">
-						<params>
-							<param name="focusable" value="false"/>
-						</params>
 					</block>
 					<style>
 						<flow value="horizontal"/>
@@ -1018,31 +1033,36 @@
 					<bind name="input"/>
 					<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_CLOSE'}; 0"/>
 					<block>
+						<styleClass value="$MiddleVAligned"/>
 						<style>
 							<backgroundColor value="0x01000000"/>
 						</style>
+						<bind name="dispatch" value="'mouseOver'; 'overEscapeButton'"/>
+						<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
+						<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
+						<block>
+							<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
+							<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
+							<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
+							<style>
+								<alpha value="0.8"/>
+							</style>
+							<bind name="style" value="'alpha'; EscapeButtonOverAlpha"/>
+							<bind name="instance" value="'HotkeyWithText'; {_text: 'ESC'}"/>
+						</block>
 						<block>
 							<style>
-								<marginTop value="-3px"/>
+								<marginTop value="3px"/>
 							</style>
-							<block className="hotkey_holder_white_9slice" type="native">
-								<bind name="visible" value="true"/>
-								<block type="text">
-									<style>
-										<marginLeft value="3px"/>
-										<marginRight value="3px"/>
-										<marginTop value="-1px"/>
-										<marginBottom value="-1px"/>
-									</style>
-									<styleClass value="$BlackLabel"/>
-									<text value="ESC"/>
-								</block>
+							<block className="button_close" type="native">
+								<bind name="catch" value="'overEscapeButton'; {CrossButtonStates: 'over'}"/>
+								<bind name="catch" value="'upEscapeButton'; {CrossButtonStates: 'up'}"/>
+								<bind name="catch" value="'downEscapeButton'; {CrossButtonStates: 'down'}"/>
+								<params>
+									<param name="focusable" value="false"/>
+								</params>
+								<bind name="gotoAndPlay!" value="CrossButtonStates"/>
 							</block>
-						</block>
-						<block className="button_close" type="native">
-							<params>
-								<param name="focusable" value="false"/>
-							</params>
 						</block>
 						<style>
 							<flow value="horizontal"/>
@@ -1107,31 +1127,36 @@
 					<bind name="input"/>
 					<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_CLOSE'}; 0"/>
 					<block>
+						<styleClass value="$MiddleVAligned"/>
 						<style>
 							<backgroundColor value="0x01000000"/>
 						</style>
+						<bind name="dispatch" value="'mouseOver'; 'overEscapeButton'"/>
+						<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
+						<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
+						<block>
+							<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
+							<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
+							<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
+							<style>
+								<alpha value="0.8"/>
+							</style>
+							<bind name="style" value="'alpha'; EscapeButtonOverAlpha"/>
+							<bind name="instance" value="'HotkeyWithText'; {_text: 'ESC'}"/>
+						</block>
 						<block>
 							<style>
-								<marginTop value="-3px"/>
+								<marginTop value="3px"/>
 							</style>
-							<block className="hotkey_holder_white_9slice" type="native">
-								<bind name="visible" value="true"/>
-								<block type="text">
-									<style>
-										<marginLeft value="3px"/>
-										<marginRight value="3px"/>
-										<marginTop value="-1px"/>
-										<marginBottom value="-1px"/>
-									</style>
-									<styleClass value="$BlackLabel"/>
-									<text value="ESC"/>
-								</block>
+							<block className="button_close" type="native">
+								<bind name="catch" value="'overEscapeButton'; {CrossButtonStates: 'over'}"/>
+								<bind name="catch" value="'upEscapeButton'; {CrossButtonStates: 'up'}"/>
+								<bind name="catch" value="'downEscapeButton'; {CrossButtonStates: 'down'}"/>
+								<params>
+									<param name="focusable" value="false"/>
+								</params>
+								<bind name="gotoAndPlay!" value="CrossButtonStates"/>
 							</block>
-						</block>
-						<block className="button_close" type="native">
-							<params>
-								<param name="focusable" value="false"/>
-							</params>
 						</block>
 						<style>
 							<flow value="horizontal"/>
@@ -1143,6 +1168,104 @@
 		<block>
 			<style>
 				<width value="100%"/>
+			</style>
+			<block className="HorizontalDivider">
+				<styleClass value="$PxHorizontalCorrection"/>
+				<style>
+					<width value="100%"/>
+					<height value="3px"/>
+				</style>
+				<block className="divider_h" type="native">
+					<styleClass value="$Fullsize"/>
+				</block>
+			</block>
+		</block>
+	</block>
+	<block className="ModalWindowHeaderFullSize">
+		<style>
+			<width value="100%"/>
+			<paddingRight value="1280:20,1920:46aw"/>
+			<paddingLeft value="1280:20,1920:46aw"/>
+			<paddingTop value="720:20,2160:100ah"/>
+		</style>
+		<block>
+			<bind name="visible" value="_hideBackButton != true"/>
+			<style>
+				<position value="absolute"/>
+				<marginTop value="-3px"/>
+			</style>
+			<bind name="instance" value="'BackButton'; { _text: _backButtonText,
+										_event: _event, _eventData: _eventData,
+										_action: _action, _actionParams: _actionParams,
+										_request: _request, _requestParams: _requestParams }"/>
+		</block>
+		<block>
+			<styleClass value="$MiddleAligned"/>
+			<block type="text">
+				<styleClass value="$TextDefaultBold21NM"/>
+				<bind name="text" value="toUpperCase(tr(_windowName))"/>
+			</block>
+		</block>
+		<block>
+			<bind name="visible" value="_hideCloseIcon != true"/>
+			<style>
+				<position value="absolute"/>
+				<right value="4"/>
+				<top value="2"/>
+			</style>
+			<block className="ModalWindowCloseIcon">
+				<style>
+					<position value="absolute"/>
+					<right value="0px"/>
+					<top value="0px"/>
+					<flow value="horizontal"/>
+				</style>
+				<bind name="name" value="'btn_cancel'"/>
+				<bind name="input"/>
+				<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_CLOSE'}; 0"/>
+				<block>
+					<styleClass value="$MiddleVAligned"/>
+					<style>
+						<backgroundColor value="0x01000000"/>
+					</style>
+					<bind name="dispatch" value="'mouseOver'; 'overEscapeButton'"/>
+					<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
+					<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
+					<block>
+						<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
+						<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
+						<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
+						<style>
+							<alpha value="0.8"/>
+						</style>
+						<bind name="style" value="'alpha'; EscapeButtonOverAlpha"/>
+						<bind name="instance" value="'HotkeyWithText'; {_text: 'ESC'}"/>
+					</block>
+					<block>
+						<style>
+							<marginTop value="3px"/>
+						</style>
+						<block className="button_close" type="native">
+							<bind name="catch" value="'overEscapeButton'; {CrossButtonStates: 'over'}"/>
+							<bind name="catch" value="'upEscapeButton'; {CrossButtonStates: 'up'}"/>
+							<bind name="catch" value="'downEscapeButton'; {CrossButtonStates: 'down'}"/>
+							<params>
+								<param name="focusable" value="false"/>
+							</params>
+							<bind name="gotoAndPlay!" value="CrossButtonStates"/>
+						</block>
+					</block>
+					<style>
+						<flow value="horizontal"/>
+					</style>
+				</block>
+			</block>
+		</block>
+		<block>
+			<bind name="visible" value="_hideDivider != true"/>
+			<style>
+				<width value="100%"/>
+				<marginTop value="720:12,1080:16ah"/>
 			</style>
 			<block className="HorizontalDivider">
 				<styleClass value="$PxHorizontalCorrection"/>
@@ -1509,9 +1632,61 @@
 			</block>
 		</block>
 	</block>
+	<block className="InfopanelButton">
+		<bind name="request" value="'buttonClick'; _request ? _request : null; _request ? _requestParams : null"/>
+		<block className="button_infopanel_no_label" type="native">
+			<bind name="name" value="_name"/>
+			<style>
+				<height value="40px"/>
+			</style>
+			<bind name="style" value="'width'; _width"/>
+			<bind name="dispatch" value="'mouseOver'; 'overInfopanelButton'; {InfopanelButtonOverAlpha: 1}"/>
+			<bind name="dispatch" value="'mouseOut'; 'upInfopanelButton'; {InfopanelButtonOverAlpha: 0.6}"/>
+			<bind name="dispatch" value="'mouseDown'; 'downInfopanelButton'; {InfopanelButtonOverAlpha: 0.3}"/>
+			<block>
+				<style>
+					<height value="100%"/>
+					<alpha value="0.5"/>
+					<mouseEnabled value="false"/>
+				</style>
+				<bind name="style" value="'alpha'; InfopanelButtonOverAlpha"/>
+				<bind name="catch" value="'downInfopanelButton'"/>
+				<bind name="catch" value="'upInfopanelButton'}"/>
+				<bind name="catch" value="'overInfopanelButton'"/>
+				<bind name="catch" value="'upInfopanelButton'"/>
+				<block>
+					<styleClass value="$MiddleVAligned"/>
+					<style>
+						<marginLeft value="8"/>
+						<backgroundStretchX value="true"/>
+						<backgroundStretchY value="true"/>
+						<mouseEnabled value="false"/>
+					</style>
+					<bind name="style" value="'width'; _iconWidth"/>
+					<bind name="style" value="'height'; _iconHeight"/>
+					<bind name="style" value="'backgroundImage'; _backgroundImage"/>
+				</block>
+				<block>
+					<style>
+						<marginTop value="14px"/>
+						<marginLeft value="8"/>
+						<mouseEnabled value="false"/>
+					</style>
+					<block type="text">
+						<styleClass value="$TextDefaultBoldNM"/>
+						<bind name="text" value="toUpperCase(tr(_label))"/>
+					</block>
+				</block>
+				<style>
+					<flow value="horizontal"/>
+				</style>
+			</block>
+		</block>
+		<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: _tooltipIDS}"/>
+	</block>
 	<block className="ModalWindowConvertGold">
 		<block className="ModalWindowContainer">
-			<styleClass value="$Fullsize"/>
+			<styleClass value="$FullsizeAbsolute"/>
 			<block className="DeclareBlurLayer">
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 				<bind name="visible" value="optionData.blurEnabled"/>
@@ -1537,8 +1712,8 @@
 				</block>
 			</block>
 			<block>
-				<bind name="appear" value="'startShow'; 0.3; 0.15; {alpha: 0}; {alpha: 1}"/>
-				<bind name="appear" value="'startHide'; 0.15; 0.45; {alpha: 1}; {alpha: 0}"/>
+				<bind name="appear" value="'startShow'; 0.3; 0.15; 	{alpha: 0}; {alpha: 1}"/>
+				<bind name="appear" value="'startHide'; 0.15; 0.45; 	{alpha: 1}; {alpha: 0}"/>
 				<styleClass value="$FullsizeAbsolute"/>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 				<block className="contrast_panel" type="native">

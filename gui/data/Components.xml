@@ -802,7 +802,7 @@
 
 	<component	name="ClanBattleSeason"	>
 		<property	name="id"					type="Number"		pk="true"/>
-		<property	name="mapId"				type="Integer"		/>
+		<property	name="mapId"				type="Integer"		/> <!-- mapId at which show clan winner -->
 		<property	name="winnerClanId"			type="Integer"		/>
 		<property	name="active"				type="Boolean"		/>
 		<property	name="isCurrent"			type="Boolean"		/>
@@ -946,7 +946,7 @@
 
 	<component	name="OwnSquadron"	>
 		<property	name="id"					type="Integer"		pk="true"/>
-
+		<property	name="planeTypeIndex"		type="Integer"		/> <!-- index for element with current planeType-->
 		<property	name="commandId"			type="Integer"		/>
 
 		<property	name="numInQueue"			type="Integer"		/>
@@ -1677,6 +1677,11 @@
 		<event		name="evChanged"	/>
 	</component>
 	
+	<component	name="AimPosition"	>
+		<property name="aimHeightPerc"			type="Number" 	/>
+		<property name="isValidPos"				type="Boolean" 	/>
+	</component>
+	
 	<component	name="CanHit">
 		<property	name="flags"				type="Integer"		default="255" /> <!-- Default value is correct, don't edit it! -->
 		
@@ -1775,11 +1780,13 @@
 
 	<!-- Battle Tasks & Tutorial -->
 	<component	name="Task"	>
-		<property	name="name"					type="String"		pk="true"/>
+		<property 	name="id"					type="String"		pk="true"/>
+		<property	name="name"					type="String"		/>
 		<property	name="category"				type="Integer"		/>
 		<property	name="status"				type="Integer"		/>
 		<property	name="text"					type="String"		/>
 		<property	name="progressType"			type="Integer"		/>
+		<property	name="isIndividual"			type="Boolean"		/>
 
 
 		<property	name="currentValue"			type="Number"		/>
@@ -2610,8 +2617,12 @@
 		<property name="freeXP"					type="Number"/>
 		<property name="eliteXP"				type="Number"/>
 		<property name="steel"					type="Number"/>
-		<property name="steelLooted"			type="Number"	default="-1"/>
 		<property name="coal"					type="Number"/>
+		<property name="molybdenum"				type="Number"/>
+		<property name="brass"					type="Number"/>
+		<property name="saltpeter"				type="Number"/>
+		<property name="eventum_1"				type="Number"/>
+		<property name="eventum_2"				type="Number"/>
 		<property name="useEliteXP"				type="Boolean"/>
 		<property name="premBefore"				type="Integer"/>
 		<property name="isPremium"				type="Boolean"/>
@@ -2629,6 +2640,11 @@
 		<event name="evChangedEliteXP"/>
 		<event name="evChangedSteel"/>
 		<event name="evChangedCoal"/>
+		<event name="evChangedMolybdenum"/>
+		<event name="evChangedBrass"/>
+		<event name="evChangedSaltpeter"/>
+		<event name="evChangedEventum_1"/>
+		<event name="evChangedEventum_2"/>
 		<event name="evChangedPrem"/>
 		<event name="evChangedSlotsNum"/>
 		<event name="evChangedWalletStatus"/>
@@ -3086,7 +3102,9 @@
 	<component name="BattleDamage">
 		<property name="ally" type="Integer"/>
 		<property name="enemy" type="Integer"/>
-
+		<property name="spot" type="Integer"/>
+		<property name="aggro" type="Integer"/>
+		
 		<event name="evChanged"/>
 	</component>
 
@@ -3142,6 +3160,92 @@
 		<property name="value"		type="Number"/>
 		<event name="evUpdateStatus"/>
 		<event name="evUpdateState"/>
+	</component>
+
+	<component name="ArcEvent">
+		<property name="state" type="Integer"/>
+		<property name="startTime" type="Integer"/>
+		<property name="finishTime" type="Integer"/>
+		<property name="sides" type="Array"/>
+		<property name="yesterdayWinnerSideId" type="Integer"/>
+		<property name="currentStageAt" type="Integer"/>
+		<property name="stageStopAt" type="Integer"/>
+		<property name="nextStageAt" type="Integer"/>
+		<event name="evChanged"/>
+	</component>
+	
+	<component name="ArcEventConfig">
+		<property name="endDayLoyalty" type="Integer"/>
+		<property name="staySideLoyalty" type="Integer"/>
+		<property name="winLootboxes" type="Integer"/>
+		<property name="top10Lootboxes" type="Integer"/>
+		<property name="top100Lootboxes" type="Integer"/>
+		<property name="top1000Lootboxes" type="Integer"/>
+		<property name="coopBattleScoringRules" type="Dictionary"/>
+		<property name="randomBattleScoringRules" type="Dictionary"/>
+	</component>
+	
+	<component name="ArcPreviousWinners">
+		<property name="arcDay" type="Integer" dafault="0"/>
+		<property name="winnerSideId" type="Integer"/>
+		<property name="dailyRewards" type="Array"/>
+		<event name="evChanged"/>
+	</component>
+
+	<component name="ArcEventSide">
+		<property name="id" type="Integer" pk="true"/>
+		<property name="sideDailyProgress" type="Integer"/>
+		<property name="sideModifierPerc" type="Integer"/>
+		<property name="sideVictoryDays" type="Integer"/>
+		<property name="myTotalProgress" type="Integer"/>
+		<property name="myDailyProgress" type="Integer"/>
+		<property name="myScreenProgress" type="Integer"/>
+		<property name="myVictoryDays" type="Integer"/>
+		
+		<event name="evProgressChanged"/>
+		<event name="evModifierChanged"/>
+		<event name="evChanged"/>
+	</component>
+
+	<component name="PlayerArcEventInfo">
+		<property name="sideId" type="Integer" default="-1"/>
+		<property name="hasLoyalty" type="Boolean"/>
+		<event name="evSideChanged"/>
+		<event name="evHasLoyaltyChanged"/>
+	</component>
+
+	<component name="ProgressWithRewards">
+		<property name="id" type="String" pk="true"/>
+		<property name="pointsArray" type="Array"/>
+		<property name="pointsCurrent" type="Integer"/>
+		<property name="pointsToNext" type="Integer"/>
+		<property name="activeIndex" type="Integer"/>
+		<property name="rewards" type="Array"/>
+		<event name="evChanged"/>
+	</component>
+	
+	<component name="ArcFinalStats">
+		<property name="individualTasks" type="Integer"/>
+		<property name="winBattles" type="Integer"/>
+		<property name="frags" type="Integer"/>
+		<property name="achievements" type="Integer"/>
+		<property name="lootboxes" type="Integer"/>
+		<property name="top10days" type="Integer"/>
+		<property name="top100days" type="Integer"/>
+		<property name="top1000days" type="Integer"/>
+		<property name="totalWinDays" type="Array"/>
+		<property name="days" type="Array"/>
+		<property name="winDays" type="Array"/>
+		<property name="battles" type="Array"/>
+		<property name="rewards" type="Array"/>
+		<property name="dailyRewards" type="Array"/>
+		<property name="sides" type="Array"/>
+		
+		<property name="loyaltyConfig" type="Array"/>
+		<property name="loyaltyRewardsSide0" type="Array"/>
+		<property name="loyaltyRewardsSide1" type="Array"/>
+		<property name="loyaltyActiveIndex" type="Array"/>
+		<property name="currentLoyalty" type="Array"/>
 	</component>
 
 </components>
