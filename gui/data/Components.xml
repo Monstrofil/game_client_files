@@ -1767,6 +1767,7 @@
 	<component	name="Stage"	>
 		<property	name="width"				type="Integer"		/>
 		<property	name="height"				type="Integer"		/>
+		<property	name="scale"				type="Number"		/>
 
 		<event		name="evStageSizeChanged"		/>
 	</component>
@@ -2065,8 +2066,17 @@
 
 	<component name="UserTask">
 		<property	name="flag"			type="Integer"				/>
-		<property 	name="pecularities" type="Array"				/>
 		<event		name="evFlagChanged"							/>
+	</component>
+	
+	<!-- Additional content "eyes" -->
+	<component name="PeculiarityEye">
+		<property	name="name"			type="String"		pk="true"/>
+		<property	name="category"		type="String"				/>
+		<property	name="ids"			type="String"				/>
+		<property	name="value"		type="Integer"				/>
+		<property	name="enabled"		type="Boolean"				/>
+		<event		name="evEnabledChanged"							/>
 	</component>
 
 	<!-- Voice Chat -->

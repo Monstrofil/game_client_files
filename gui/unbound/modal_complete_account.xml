@@ -1784,7 +1784,7 @@
 					</block>
 				</block>
 				<block>
-					<bind name="visible" value="(loginScreenState == 1) &amp;&amp; realmConstants.externalLogin.twitch"/>
+					<bind name="visible" value="(loginScreenState == 1) &amp;&amp; realmConstants.externalLogin.length &gt; 0"/>
 					<bind name="style" value="'marginTop'; lazyLoginEnabled ? 64 : 16"/>
 					<styleClass value="$MiddleAligned"/>
 					<block className="BlurMapCustomPxOutbound">
@@ -1807,32 +1807,13 @@
 					</block>
 					<block type="text">
 						<style>
-							<marginRight value="8px"/>
 							<marginTop value="5px"/>
+							<marginRight value="4"/>
 						</style>
 						<styleClass value="$TextDefaultNM"/>
 						<bind name="text" value="'IDS_LOGIN_SCREEN_FAST_LOGIN'"/>
 					</block>
-					<block>
-						<bind name="controller" value="lesta.unbound.controls.UbInteractiveController; null; 'twich_button_'"/>
-						<style>
-							<width value="24px"/>
-							<height value="24px"/>
-						</style>
-						<bind name="style" value="'backgroundImage'; 'url:../service_kit/icons/twich_login_btn.png'"/>
-						<bind name="request" value="'click'; 'showWaitingAuthorization'; {hostId: curHostIndex, external: 'twitch', rememberMe: saveCredentials}"/>
-						<bind name="action" value="'click'; 'showErrorMessage'; {header: '', message: ''}"/>
-						<bind name="tooltip" value="'MouseInstructionTooltip'; 	{	_multiParagraphArray:	[{_paragraphText: 'IDS_EXTERNAL_LOGIN_TOOLTIP'}],
-																	_mouseInstructions:		[{_type: 'left', _instructionText: 'IDS_LOGIN_WITH_TWITCH_MOUSE_INSTRUCTION'}],
-																	_maxWidth: 270}"/>
-						<block>
-							<styleClass value="$FullsizeAbsolute"/>
-							<style>
-								<backgroundColor value="0xffffffff"/>
-							</style>
-							<bind name="transition" value="twich_button_rollOver; 0.1; {alpha: 0}; {alpha: 0.17}"/>
-						</block>
-					</block>
+					<bind name="repeat" value="realmConstants.externalLogin; 'ExternalLoginButton'; {_curHostIndex: curHostIndex, _saveCredentials: saveCredentials}"/>
 					<style>
 						<flow value="horizontal"/>
 					</style>
@@ -1981,6 +1962,28 @@
 			<style>
 				<position value="absolute"/>
 			</style>
+		</block>
+	</block>
+	<block className="ExternalLoginButton">
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController;"/>
+		<style>
+			<width value="24px"/>
+			<height value="24px"/>
+			<marginRight value="3px"/>
+			<marginLeft value="3px"/>
+		</style>
+		<bind name="style" value="'backgroundImage'; 'url:../service_kit/icons/' + $value + '_login_btn.png'"/>
+		<bind name="request" value="'click'; 'showWaitingAuthorization'; {hostId: _curHostIndex, external: $value, rememberMe: _saveCredentials}"/>
+		<bind name="action" value="'click'; 'showErrorMessage'; {header: '', message: ''}"/>
+		<bind name="tooltip" value="'MouseInstructionTooltip'; 	{	_multiParagraphArray:	[{_paragraphText: 'IDS_EXTERNAL_LOGIN_TOOLTIP'}],
+													_mouseInstructions:		[{_type: 'left', _instructionText: 'IDS_LOGIN_WITH_' + tr(toUpperCase($value)) + '_MOUSE_INSTRUCTION'}],
+													_maxWidth: 270}"/>
+		<block>
+			<styleClass value="$FullsizeAbsolute"/>
+			<style>
+				<backgroundColor value="0xffffffff"/>
+			</style>
+			<bind name="transition" value="rollOver; 0.1; {alpha: 0}; {alpha: 0.17}"/>
 		</block>
 	</block>
 	<block className="HostChooser">

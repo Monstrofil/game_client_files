@@ -1727,6 +1727,14 @@
 			<block className="modal_panel" type="native">
 				<styleClass value="$FullsizeAbsolute"/>
 			</block>
+			<block>
+				<bind name="visible" value="($root.url == 'clansInGame')"/>
+				<styleClass value="$FullsizeAbsolute"/>
+				<style>
+					<backgroundSize value="cover"/>
+				</style>
+				<bind name="style" value="'backgroundImage'; 'url:../bg/browser_bg.jpg'"/>
+			</block>
 		</block>
 		<block>
 			<bind name="var" value="{paddingTop: $root.paddingTop}"/>
@@ -1734,7 +1742,15 @@
 			<bind name="style" value="'paddingTop'; paddingTop"/>
 			<bind name="appear" value="'startShow'; 0.15; 0.3; {alpha: 0}; {alpha: 1}"/>
 			<bind name="appear" value="'startHide'; 0.15; 0.3; {alpha: 1}; {alpha: 0}"/>
-			<styleClass value="$Fullsize"/>
+			<style>
+				<width value="1px"/>
+				<height value="1px"/>
+			</style>
+			<bind name="stageSize"/>
+			<bind name="style" value="'width';	($root.url == 'clansInGame' &amp;&amp; (stageWidth * uiScale) &gt; 1920)	? 1920 / uiScale : stageWidth"/>
+			<bind name="style" value="'height';	($root.url == 'clansInGame' &amp;&amp; (stageHeight * uiScale) &gt; 1080)	? 1080 / uiScale : stageHeight"/>
+			<styleClass value="$MiddleAligned"/>
+			<styleClass value="$MiddleVAligned"/>
 			<block>
 				<bind name="visible" value="!hideHeader"/>
 				<bind name="appear" value="'startShow'; 0.15; 0.15; {alpha: 0, top: 5}; {alpha: 1, top: 0}"/>
@@ -1777,6 +1793,9 @@
 						<block className="lesta.controls.BitmapEx" type="native">
 							<params>
 								<param name="name" value="browser_target_texture"/>
+							</params>
+							<params>
+								<param name="smoothing" value="false"/>
 							</params>
 							<styleClass value="$Fullsize"/>
 							<bind name="event" value="'browser.onInitializationComplete'; registerMouseHandlers; 'browser_target'; 'browser_target_texture'"/>
@@ -1831,6 +1850,9 @@
 			<block className="lesta.controls.BitmapEx" type="native">
 				<params>
 					<param name="name" value="browser_target_texture"/>
+				</params>
+				<params>
+					<param name="smoothing" value="false"/>
 				</params>
 				<styleClass value="$Fullsize"/>
 				<bind name="event" value="'browser.onInitializationComplete'; registerMouseHandlers; 'browser_target'; 'browser_target_texture'"/>

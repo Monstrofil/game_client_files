@@ -97,21 +97,21 @@
 				<pattern>	.*	</pattern>
 				<lodMode>	1	</lodMode>
 				<format>	DXT5	</format>
-				<streamable> true </streamable>
+				<streamingStrategy> 1 </streamingStrategy>
 				<numLQMips>	10	</numLQMips>
 			</rule>
 			<rule>
 				<pattern>	.*(_foam\.).*	</pattern>
 				<lodMode>	0	</lodMode>
 				<format>	DXT1	</format>
-				<streamable> false </streamable>
+				<streamingStrategy> 0 </streamingStrategy>
 				<numLQMips>	0	</numLQMips>
 			</rule>
 			<rule>
 				<pattern>	.*(Spray_6x6_b).*	</pattern>
 				<lodMode>	1	</lodMode>
 				<format>	DXT5	</format>
-				<streamable> false </streamable>
+				<streamingStrategy> 0 </streamingStrategy>
 				<numLQMips>	10	</numLQMips>
 			</rule>
 		</directory>
@@ -177,6 +177,46 @@
 		    <lodMode> 0 </lodMode>
 		</rule>
 	</directory>
+		
+	<!-- Battle space and Dock streaming rules -->
+	<directory>
+		<path>	content/location	</path>
+		<rule>
+			<pattern>	.*	</pattern>
+			<streamingStrategy> 2 </streamingStrategy>
+		</rule>
+	</directory>
+	<directory>
+		<path>	content/ports	</path>
+		<rule>
+			<pattern>	.*	</pattern>
+			<streamingStrategy> 2 </streamingStrategy>
+		</rule>
+	</directory>	
+	<directory>
+		<path>	content/location/speedtree	</path>
+		<rule>
+			<pattern>	.*	</pattern>
+			<streamingStrategy> 0 </streamingStrategy>
+		</rule>
+	</directory>	
+	
+	<!-- Ships and Stuff streaming rules -->
+	<directory>
+		<path>	content/gameplay	</path>
+		<rule>
+			<pattern>	.*	</pattern>
+			<streamingStrategy> 2 </streamingStrategy>
+		</rule>
+	</directory>	
+	<directory>
+		<path>	content/gameplay/common	</path>
+		<rule>
+			<pattern>	.*	</pattern>
+			<streamingStrategy> 0 </streamingStrategy>
+		</rule>
+	</directory>	
+	
 	<directory>
 		<path>	content/location/skybox/textures	</path>
 		<rule>
@@ -184,6 +224,7 @@
 		    <lodMode> 0 </lodMode>
 	        <mipCount>	1	</mipCount>
 	        <format> A8R8G8B8 </format>
+			<streamingStrategy> 0 </streamingStrategy>			
 		</rule>
 	</directory>
 	<directory>
@@ -192,6 +233,7 @@
 			<pattern>	.*	</pattern>
 	        <lodMode> 0 </lodMode>
 	        <format> A8R8G8B8 </format>
+			<streamingStrategy> 0 </streamingStrategy>			
 		</rule>
 	</directory>
 	<directory>

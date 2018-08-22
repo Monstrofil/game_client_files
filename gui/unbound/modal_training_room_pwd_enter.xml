@@ -5807,7 +5807,8 @@
 				<params>
 					<param name="name" value="peculiarityFilter"/>
 				</params>
-				<bind name="tooltip" value="'CarouselFiltersContentInfotip'; {}; TooltipBehaviour.verticalInfotipSwitch"/>
+				<bind name="selected" value="contentFiltersInfotipIsVIsible"/>
+				<bind name="tooltip" value="'PeculiarityFiltersContent'; {}; TooltipBehaviour.verticalInfotipSwitchUp; null; 'contentFiltersInfotipIsVIsible'"/>
 				<bind name="tooltip" value="'MouseInstructionTooltip'; { _mouseInstructions: [{_type: 'left', _instructionText: 'IDS_TOOLTIP_CAROUSEL_FILTERS_SPECIAL'}], _maxWidth: 240 }"/>
 			</block>
 		</block>
@@ -6957,160 +6958,6 @@
 			<bind name="instance" value="'CRDeficitNano';	(_priceInfo.currency == 'credits')	?	{ _creditsDeficit: _deficit } : null"/>
 		</block>
 	</block>
-	<block className="CarouselFiltersContentInfotip">
-		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'shipOverview'"/>
-		<bind name="transition" value="shipOverview.enabled; shipOverview.enabled ? 0.4 : 0.25; {alpha: 1}; {alpha: 0}; {alpha: 1}; 2; !(shipOverview.enabled) &amp;&amp; !(inPort) ? 0.15 : 0.5"/>
-		<bind name="style" value="'hitTest'; !(shipOverview.enabled)"/>
-		<bind name="firstEntityDH" value="'userTaskEntity'; CC.userTask"/>
-		<bind name="watchDH" value="'pecularities'; ['userTaskEntity.userTask.evFlagChanged']; userTaskEntity.userTask.pecularities"/>
-		<styleClass value="$VerticalInfotipBehaviourCenterUpper"/>
-		<style>
-			<width value="326px"/>
-		</style>
-		<block>
-			<styleClass value="$FullsizeAbsolute"/>
-			<block>
-				<styleClass value="$FullsizeAbsolute"/>
-				<style>
-					<marginLeft value="8px"/>
-					<marginRight value="13px"/>
-					<marginTop value="9px"/>
-					<marginBottom value="11px"/>
-				</style>
-				<block className="DeclareBlurLayer">
-					<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
-					<bind name="visible" value="optionData.blurEnabled"/>
-					<block className="transparentPixel" type="native">
-						<bind name="blurLayer" value="0"/>
-					</block>
-					<style>
-						<position value="absolute"/>
-					</style>
-				</block>
-				<block className="BlurMapCustom">
-					<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
-					<styleClass value="$FullsizeAbsolute"/>
-					<style>
-						<hitTest value="false"/>
-					</style>
-					<bind name="visible" value="optionData.blurEnabled"/>
-					<block className="mc_blurmap3" type="native">
-						<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
-						<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-						<styleClass value="$Fullsize"/>
-						<bind name="blurMap" value="0"/>
-					</block>
-				</block>
-			</block>
-			<block className="dock_panel" type="native">
-				<params>
-					<param name="name" value="carouselFiltersContentInfotipPanel"/>
-				</params>
-				<styleClass value="$FullsizeAbsolute"/>
-				<style>
-					<marginBottom value="-6px"/>
-					<marginLeft value="-6px"/>
-					<position value="absolute"/>
-				</style>
-			</block>
-		</block>
-		<block type="text">
-			<style>
-				<top value="12px"/>
-				<left value="20px"/>
-				<marginBottom value="16px"/>
-			</style>
-			<styleClass value="$TextHeaderBold"/>
-			<bind name="class" value="'$FontColorBlueish'"/>
-			<bind name="text" value="'IDS_ADDITIONAL_CONTENT'"/>
-		</block>
-		<block>
-			<style>
-				<width value="100%"/>
-				<marginLeft value="7px"/>
-				<marginRight value="13px"/>
-			</style>
-			<block className="HorizontalDivider">
-				<styleClass value="$PxHorizontalCorrection"/>
-				<style>
-					<width value="100%"/>
-					<height value="3px"/>
-				</style>
-				<block className="divider_h" type="native">
-					<styleClass value="$Fullsize"/>
-				</block>
-			</block>
-		</block>
-		<block>
-			<style>
-				<width value="100%"/>
-			</style>
-			<block className="inner_panel" type="native">
-				<style>
-					<marginRight value="14px"/>
-					<marginLeft value="8px"/>
-					<marginBottom value="12px"/>
-				</style>
-				<styleClass value="$FullsizeAbsolute"/>
-			</block>
-			<block>
-				<style>
-					<width value="100%"/>
-					<marginLeft value="20px"/>
-					<marginTop value="20px"/>
-					<marginBottom value="24px"/>
-				</style>
-				<bind name="repeat" value="pecularities; 'PeculiarityFilterItem'"/>
-			</block>
-		</block>
-		<block className="dock_panel_pin" type="native">
-			<style>
-				<position value="absolute"/>
-				<right value="23px"/>
-				<bottom value="2px"/>
-				<alpha value="0.5"/>
-			</style>
-			<bind name="gotoAndStop!" value="'down'"/>
-		</block>
-	</block>
-	<block className="PeculiarityFilterItem">
-		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
-		<bind name="watchDH" value="'operationsAccountLocked';	['resourceEntity.accountResource.evOperationsLockChanged'];	resourceEntity.accountResource.operationsLocked"/>
-		<style>
-			<width value="100%"/>
-			<marginBottom value="8px"/>
-			<flow value="horizontal"/>
-		</style>
-		<block type="text">
-			<style>
-				<width value="220px"/>
-				<marginTop value="-3px"/>
-			</style>
-			<styleClass value="$TextHeaderBigDefault"/>
-			<bind name="text" value="tr(ids)"/>
-		</block>
-		<block className="checkbox_no_label" type="native">
-			<bind name="visible" value="checkbox == true"/>
-			<bind name="clickSplit"/>
-			<bind name="name" value="'CarouselCheckBox_pecularity_' + ids"/>
-			<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: tr(ids + '_SHOW_SHIP_TOOLTIP')}"/>
-			<bind name="action" value="'left_click'; 'ServerUIDataUSS.hideFromCarousel'; { pecId: value }"/>
-			<bind name="selected" value="checkbox_enabled"/>
-			<bind name="enabled" value="!operationsAccountLocked"/>
-		</block>
-		<block className="icon_eye_visible" type="native">
-			<style>
-				<right value="30px"/>
-				<position value="absolute"/>
-			</style>
-			<bind name="clickSplit"/>
-			<bind name="name" value="'CarouselCheckBoxEye_pecularity_' + ids"/>
-			<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: enabled ? tr(ids + '_TAKE_OFF_SKIN_TOOLTIP') : tr(ids + '_SET_SKIN_TOOLTIP')}"/>
-			<bind name="action" value="'left_click'; 'ServerUIDataUSS.setPecularity'; { pecId: value }"/>
-			<bind name="selected" value="enabled"/>
-			<bind name="enabled" value="!operationsAccountLocked"/>
-		</block>
-	</block>
 	<block className="DockButtonCostMedium">
 		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
 		<bind name="watchDH" value="'accountResource';	['resourceEntity.accountResource.evChangedGold, resourceEntity.accountResource.credits']; resourceEntity.accountResource"/>
@@ -7321,6 +7168,193 @@
 			</style>
 			<styleClass value="$TextDefault17NM"/>
 			<bind name="text" value="tooltipText"/>
+		</block>
+	</block>
+	<block className="PeculiarityFiltersContent">
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'shipOverview'"/>
+		<bind name="transition" value="shipOverview.enabled; shipOverview.enabled ? 0.4 : 0.25; {alpha: 1}; {alpha: 0}; {alpha: 1}; 2; !(shipOverview.enabled) &amp;&amp; !(inPort) ? 0.15 : 0.5"/>
+		<bind name="style" value="'hitTest'; !(shipOverview.enabled)"/>
+		<styleClass value="$DefaultMenuBehaviour"/>
+		<style>
+			<width value="300px"/>
+		</style>
+		<block className="DeclareBlurLayer">
+			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<bind name="visible" value="optionData.blurEnabled"/>
+			<block className="transparentPixel" type="native">
+				<bind name="blurLayer" value="0"/>
+			</block>
+			<style>
+				<position value="absolute"/>
+			</style>
+		</block>
+		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
+			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<style>
+				<hitTest value="false"/>
+			</style>
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
+				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
+				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
+				<styleClass value="$FullsizeAbsolute"/>
+				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
+			</block>
+		</block>
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<block className="contrast_panel" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<bind name="visible" value="optionData.contrast"/>
+		</block>
+		<block className="hint_panel" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+		</block>
+		<block>
+			<styleClass value="$InfoBlockIndent"/>
+			<block type="text">
+				<styleClass value="$TextDefaultBold17NM"/>
+				<bind name="text" value="'IDS_ADDITIONAL_CONTENT'"/>
+			</block>
+		</block>
+		<block className="HorizontalDivider">
+			<styleClass value="$PxHorizontalCorrection"/>
+			<style>
+				<width value="100%"/>
+				<height value="3px"/>
+			</style>
+			<block className="divider_h" type="native">
+				<styleClass value="$Fullsize"/>
+			</block>
+		</block>
+		<bind name="watch" value="'categoryArray'; [{category: 'event'}, {category: 'historical'}, {category: 'author'}]"/>
+		<bind name="repeat" value="categoryArray; 'PeculiarityFiltersCategory'; {}"/>
+	</block>
+	<block className="PeculiarityFiltersCategory">
+		<bind name="tooltip" value="'PeculiarityFiltersCategorySubMenu'; {_category: category}; TooltipBehaviour.contextSubmenuNoClickHide"/>
+		<style>
+			<width value="100%"/>
+		</style>
+		<block className="dock_submenu_item" type="native">
+			<styleClass value="$ContextMenuListItem"/>
+			<block>
+				<style>
+					<hitTest value="false"/>
+				</style>
+				<styleClass value="$InfoBlockIndent"/>
+				<styleClass value="$MiddleVAligned"/>
+				<block type="text">
+					<styleClass value="$TextDefaultNM"/>
+					<bind name="text" value="'IDS_SHIP_FILTER_' + toUpperCase(category)"/>
+				</block>
+			</block>
+			<block className="button_expand_h" type="native">
+				<style>
+					<position value="absolute"/>
+					<right value="12px"/>
+					<hitTest value="false"/>
+				</style>
+				<styleClass value="$MiddleVAligned"/>
+			</block>
+		</block>
+	</block>
+	<block className="PeculiarityFiltersCategorySubMenu">
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'shipOverview'"/>
+		<bind name="transition" value="shipOverview.enabled; shipOverview.enabled ? 0.4 : 0.25; {alpha: 1}; {alpha: 0}; {alpha: 1}; 2; !(shipOverview.enabled) &amp;&amp; !(inPort) ? 0.15 : 0.5"/>
+		<bind name="style" value="'hitTest'; !(shipOverview.enabled)"/>
+		<styleClass value="$LeftSubMenuBehaviour"/>
+		<style>
+			<width value="300px"/>
+		</style>
+		<block className="DeclareBlurLayer">
+			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<bind name="visible" value="optionData.blurEnabled"/>
+			<block className="transparentPixel" type="native">
+				<bind name="blurLayer" value="0"/>
+			</block>
+			<style>
+				<position value="absolute"/>
+			</style>
+		</block>
+		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
+			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<style>
+				<hitTest value="false"/>
+			</style>
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
+				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
+				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
+				<styleClass value="$FullsizeAbsolute"/>
+				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
+			</block>
+		</block>
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<block className="contrast_panel" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<bind name="visible" value="optionData.contrast"/>
+		</block>
+		<block className="hint_panel" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+		</block>
+		<bind name="collectionDH" value="CC.peculiarityEye; 'peculiaritiesEyeCategoryTypes'+'ROOT'"/>
+		<bind name="collectionDesign" value="'DES_'+'peculiaritiesEyeCategoryTypes'+'ROOT'; 'peculiaritiesEyeCategoryTypes'; {'filter': $entity.peculiarityEye.category == _category}; []"/>
+		<bind name="repeat" value="peculiaritiesEyeCategoryTypes; 'PeculiarityFilterItem'; {}"/>
+	</block>
+	<block className="PeculiarityFilterItem">
+		<bind name="entityDH" value="'peculiarityEyeEntity'; id"/>
+		<bind name="watchDH" value="'ids'; []; peculiarityEyeEntity.peculiarityEye.ids"/>
+		<bind name="watchDH" value="'value'; []; peculiarityEyeEntity.peculiarityEye.value"/>
+		<bind name="watchDH" value="'enabled'; ['peculiarityEyeEntity.peculiarityEye.evEnabledChanged']; peculiarityEyeEntity.peculiarityEye.enabled"/>
+		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
+		<bind name="watchDH" value="'operationsAccountLocked'; ['resourceEntity.accountResource.evOperationsLockChanged']; resourceEntity.accountResource.operationsLocked"/>
+		<bind name="clickSplit"/>
+		<style>
+			<width value="300px"/>
+		</style>
+		<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: enabled ? tr(ids + '_TAKE_OFF_SKIN_TOOLTIP') : tr(ids + '_SET_SKIN_TOOLTIP')}"/>
+		<bind name="action" value="'left_click'; 'ServerUIDataUSS.setPecularity'; { pecId: value }"/>
+		<bind name="name" value="'CarouselCheckBoxEye_pecularity_' + ids"/>
+		<block className="dock_submenu_item" type="native">
+			<style>
+				<width value="100%"/>
+			</style>
+			<block>
+				<style>
+					<hitTest value="false"/>
+				</style>
+				<styleClass value="$InfoBlockIndent"/>
+				<block type="text">
+					<style>
+						<maxWidth value="250"/>
+					</style>
+					<styleClass value="$TextDefaultNM"/>
+					<bind name="text" value="ids"/>
+				</block>
+			</block>
+			<block className="icon_eye_visible" type="native">
+				<styleClass value="$MiddleVAligned"/>
+				<style>
+					<position value="absolute"/>
+					<right value="12px"/>
+					<hitTest value="false"/>
+				</style>
+				<bind name="enabled" value="!operationsAccountLocked"/>
+				<bind name="selected" value="enabled"/>
+			</block>
 		</block>
 	</block>
 	<css name="$TextMouseDisable">

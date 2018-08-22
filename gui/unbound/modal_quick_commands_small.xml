@@ -5746,9 +5746,10 @@
 		</block>
 		<block>
 			<bind name="appear" value="'startShow'; 0.1; 0; {alpha: 0}; {alpha: 1}"/>
+			<bind name="firstEntityDH" value="'stageEntity'; CC.stage"/>
 			<bind name="firstEntityDH" value="'mouseEntity'; CC.mouse"/>
-			<bind name="watchDH" value="'mouseX'; ['mouseEntity.mouse.evActiveChanged']; mouseEntity.mouse.x"/>
-			<bind name="watchDH" value="'mouseY'; ['mouseEntity.mouse.evActiveChanged']; mouseEntity.mouse.y"/>
+			<bind name="watchDH" value="'mouseX'; ['mouseEntity.mouse.evActiveChanged']; mouseEntity.mouse.x / stageEntity.stage.scale"/>
+			<bind name="watchDH" value="'mouseY'; ['mouseEntity.mouse.evActiveChanged']; mouseEntity.mouse.y / stageEntity.stage.scale"/>
 			<bind name="style" value="'left';	mouseX &lt; (stageHeight * 0.17)						? (stageHeight * 0.17) :
 								(mouseX &gt; (stageWidth - (stageHeight * 0.17))		? stageWidth - (stageHeight * 0.17)
 																								: mouseX)"/>
