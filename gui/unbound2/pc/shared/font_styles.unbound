@@ -1,0 +1,216 @@
+###font_styles.uss
+
+# Colors
+(def constant C_LIGHT_GREY 0xFFEEEEEE)
+
+
+### Utils
+(def css $TextMouseDisable ()
+#TODO_UB disabled as style has no such props
+#	(mouseEnabled = false)
+#	(mouseChildren = false)
+#	(selectable = false)
+)
+
+(def css $MouseEnable ()
+#TODO_UB disabled as style has no such props
+#	(mouseEnabled = true)
+#	(mouseChildren = true)
+#	(hitTest = true)
+)
+
+
+
+### Families
+
+(def css $FontFamilyDefault ()
+	(fontFamily = '$WWSDefaultFont')
+	(extends $FontDropShadowFilter1)
+)
+
+(def css $FontFamilyDefaultBold ()
+	(fontFamily = '$WWSDefaultFontBold')
+	(extends $FontDropShadowFilter1)
+)
+
+(def css $Bold ()
+	(fontFamily = '$WWSDefaultFontBold')
+)
+
+### Colors
+
+(def css $FontColorDefault ()
+	(textColor = 0xEEEEEE)) # Light Grey
+
+(def css $FontColorGrey ()
+	(textColor = 0xDDDDDD)) # grey
+
+(def css $FontColorStrongGrey ()
+	(textColor = 0x636363)) # Strong grey
+
+(def css $FontColorWhite ()
+	(textColor = 0xFFFFFF)) # White
+
+(def css $FontColorBlueish ()
+	(textColor = 0x9CBABA)) # Light blueish grey
+
+(def css $FontColorStrongBlueish ()
+	(textColor = 0x758b8b)) # Strong blueish grey
+
+(def css $FontColorDarkBlueish ()
+	(textColor = 0x2B393A)) # Dark blueish grey (for light bg)
+
+(def css $FontColorSpecialButton ()
+	(textColor = 0xFFE8D3)) # Light orange (fight button)
+
+(def css $FontColorTurquoise ()
+	(textColor = 0x00cccc))	# Turquoise
+
+(def css $FontColorBuoyancy ()
+	(textColor = 0x13C9F7)) # blue (Buoyancy)
+
+(def css $FontColorHealth ()
+	(textColor = 0x4ce8aa)) # green (Health)
+
+(def css $FontColorGolden ()
+	(textColor = 0xFFCC66)) # Yellow (player, choosed modules)
+
+(def css $FontColorGold ()
+	(textColor = 0xFFCC66)) # Gold (money)
+
+(def css $FontColorFreeExp ()
+	(textColor = 0xCCFF99)) # light green (free exp)
+
+(def css $FontColorExp ()
+	(textColor = 0xEEEEEE)) # light blue 0xb8dcff (exp)
+
+(def css $FontColorUnready ()
+	(textColor = 0xFF9933)) # orange (repair)
+
+(def css $FontColorAlmostBlack ()
+	(textColor = 0x08222a)) # Almost Black092732
+
+(def css $FontColorTeamkiller ()
+	(textColor = 0xFF96CA))
+
+(def css $FontColorTTK ()
+	(textColor = 0xc8751c))
+
+(def css $FontColorParty ()
+	(textColor = 0x00cccc)) #(textColor = 0xff5533)
+
+#Default Button Colors
+(def css $FontColorDefaultButtonUp ()
+	(textColor = 0xc7e2e2))
+
+# Compare Colors
+#Green
+(def css $FontColorComparePositive ()
+	(textColor = 0x4CE8AA))
+#Red
+(def css $FontColorCompareNegative ()
+	(textColor = 0xFF6600))
+
+(def css $FontColorMercenaries ()
+	(textColor = 0x4ce8aa))
+
+### Sizes
+
+(def css $FontSizeThumbelina ()
+	(fontSize = 7))
+
+(def css $FontSizeNano ()
+	(fontSize = 11))
+
+(def css $FontSizeSmall ()
+	(fontSize = 13))
+
+(def css $FontSizeDefault ()
+	(fontSize = 15))
+
+(def css $FontSizeLarge ()
+	(fontSize = 17))
+
+(def css $FontSizeHeader6 ()
+	(fontSize = 19))
+
+(def css $FontSizeHeader5 ()
+	(fontSize = 21))
+
+(def css $FontSizeHeader4 ()
+	(fontSize = 23))
+
+(def css $FontSizeHeader3 ()
+	(fontSize = 25))
+
+(def css $FontSizeHeader2 ()
+	(fontSize = 30))
+
+(def css $FontSizeHeader1 ()
+	(fontSize = 36))
+
+(def css $FontAccentSize2 ()
+	(fontSize = 50))
+
+(def css $FontAccentSize1 ()
+	(fontSize = 60))
+
+(def css $LetterSpacingSmall ()
+	(letterSpacing = 0.8))
+	
+#### Special Effects
+(def css $InvertedTextEffect ()
+	(extends $FontColorAlmostBlack)
+	(extends $FontDropShadowWhite))
+
+
+
+#### Glow Filters
+#(def css $FontGlowFilter1 ()
+#	(glowFilter "0x08222a 0.3 0.8 0.8 10.0 2")) #122833 - prev color
+
+(def css $FontGlowFilterBright ()
+	#(glowFilter "0xffffff 0.6 10.0 4.0 1.5 2")
+	#(dropShadowFilter "1 90 0xffffff 0.3 5.0 3.0 0.9 2") #TODO_UB
+)
+
+(def css $BlockGlowFilterBright ()
+	#(glowFilter "0xffffff 0.6 10.0 6.0 0.35 2")
+	#(dropShadowFilter "1 90 0xffffff 0.3 4.0 3.0 0.2 2") #TODO_UB
+)
+
+(def css $GlowDisabler ()
+	#(glowFilter "0x000000 0.0 0.0 0.0 0.0 0")
+	#(dropShadowFilter "0 0 0x000000 0 0 0 0 0") #TODO_UB
+)
+
+(def css $DropShadowDisabler ()
+	#(dropShadowFilter "0 0 0x000000 0 0 0 0 0") #TODO_UB
+)
+
+#GlowFilter(color:uint = 0xFF0000, alpha:Number = 1.0, blurX:Number = 6.0, blurY:Number = 6.0, strength:Number = 2, quality:int = 1, inner:Boolean = false, knockout:Boolean = false)
+
+
+#### Dropshadow Filters
+(def css $FontDropShadowFilter1 () 
+	#(dropShadowFilter "1 90 0x08222a 0.5 2.0 2.0 1.0 2") #TODO_UB
+	)
+
+(def css $FontDropShadowFilterStrong () 
+	#(dropShadowFilter "1 90 0x08222a 0.8 3 3 1.5") #TODO_UB
+	)
+
+(def css $FontDropShadowWhite () 
+	#(dropShadowFilter "0 90 0xffffff 1.0 3.0 3.0 0.3") #TODO_UB
+	)
+
+(def css $BlockDropShadowFilter1 () 
+	#(dropShadowFilter "5 110 0x000000 0.6 6 6 0.6") #TODO_UB
+	)
+
+(def css $BlockDropShadowFilter2 () 
+	#(dropShadowFilter "3 110 0x000000 0.6 6 6 0.6") #TODO_UB
+	)
+
+#DropShadowFilter(distance:Number = 4.0, angle:Number = 45, color:uint = 0, alpha:Number = 1.0, blurX:Number = 4.0, blurY:Number = 4.0, strength:Number = 1.0, quality:int = 1, inner:Boolean = false, knockout:Boolean = false, hideObject:Boolean = false)
+

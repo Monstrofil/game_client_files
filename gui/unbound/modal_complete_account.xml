@@ -136,6 +136,13 @@
 			<styleClass value="$Fullsize"/>
 		</block>
 	</block>
+	<css name="$ModernizationAndConsumScrollBar">
+		<wheelScrollSpeed value="15"/>
+		<scrollbarController value="lesta.unbound.style.UbScrollingControllerModern"/>
+		<scrollArea value="ModernScrollArea"/>
+		<scrollbar value="ModernScrollBarSimple"/>
+		<scrollbarTrackMode value="scrollToCursor"/>
+	</css>
 	<block className="VerticalDivider">
 		<style>
 			<height value="100%"/>
@@ -750,6 +757,7 @@
 					<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 					<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 					<block>
+						<bind name="soundSet" value="'default_button'"/>
 						<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 						<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 						<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -817,6 +825,7 @@
 						<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 						<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 						<block>
+							<bind name="soundSet" value="'default_button'"/>
 							<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 							<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 							<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -909,6 +918,7 @@
 					<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 					<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 					<block>
+						<bind name="soundSet" value="'default_button'"/>
 						<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 						<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 						<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -1041,6 +1051,7 @@
 						<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 						<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 						<block>
+							<bind name="soundSet" value="'default_button'"/>
 							<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 							<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 							<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -1135,6 +1146,7 @@
 						<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 						<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 						<block>
+							<bind name="soundSet" value="'default_button'"/>
 							<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 							<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 							<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -1232,6 +1244,7 @@
 					<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 					<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 					<block>
+						<bind name="soundSet" value="'default_button'"/>
 						<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 						<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 						<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -1279,7 +1292,7 @@
 			</block>
 		</block>
 	</block>
-	<css name="$Text13">
+	<css name="$TextDefault13NM">
 		<fontFamily value="$WWSDefaultFont"/>
 		<mouseEnabled value="false"/>
 		<mouseChildren value="false"/>
@@ -1578,19 +1591,23 @@
 			<bind name="watchDH" value="'isNicknameInvalid'; ['steamLoginEntity.steamLoginData.evUpdate']; steamLoginEntity.steamLoginData.isNicknameInvalid"/>
 			<bind name="watchDH" value="'platformLoginDenied'; ['steamLoginEntity.steamLoginData.evUpdate']; steamLoginEntity.steamLoginData.loginDenied"/>
 			<bind name="watch" value="'isProcessing'; isSteamIdConnected || isGettingBoundAccountInfo"/>
-			<bind name="watch" value="'steamLoginScreenState'; isExternalPlatformClient ? 	platformLoginDenied	? 9 :
+			<bind name="watch" value="'steamLoginScreenState'; isExternalPlatformClient ? 	platformLoginDenied	? 10 :
 																			needToReconnect		? 5 :
 																isProcessing							? 4 :
 																isSteamHostChosen						? 7 :
 																!isSteamHostChosen						? 6
 																										: 4
 															: null"/>
+			<bind name="watchDH" value="'isDMM'; ['loginEntity.loginData.evUpdate']; loginEntity.loginData.isDMM"/>
+			<bind name="watchDH" value="'hasDMMMarker'; ['loginEntity.loginData.evUpdate']; loginEntity.loginData.hasDMMMarker"/>
+			<bind name="watch" value="'dmmLoginScreenState'; isDMM || hasDMMMarker ?	9 : null"/>
 			<bind name="watchDH" value="'isWGCLogined'; ['loginEntity.loginData.evUpdate']; loginEntity.loginData.isWGC"/>
 			<bind name="watch" value="'wgcLoginScreenState'; isWGCLogined ?		needToReconnect							? 5 :
 																autoLogin								? 4
 																										: null
 															: null"/>
-			<bind name="watch" value="'loginScreenState';	(isExternalCredentialsSaved &amp;&amp; !!savedExternalLogin)	? 8 :
+			<bind name="watch" value="'loginScreenState';	dmmLoginScreenState                                     ? dmmLoginScreenState :
+											(isExternalCredentialsSaved &amp;&amp; !!savedExternalLogin)	? 8 :
 											steamLoginScreenState									? steamLoginScreenState :
 											wgcLoginScreenState										? wgcLoginScreenState :
 											(lazyLoginEnabled != true)								? 1 :
@@ -1604,7 +1621,8 @@
 											loginScreenState == 4 ||
 											loginScreenState == 5||
 											loginScreenState == 8 || 
-											loginScreenState == 9"/>
+											loginScreenState == 9 || 
+											loginScreenState == 10"/>
 			<bind name="watch" value="'showHostChooser'; (!isSpecialLoginState &amp;&amp; !isExternalPlatformClient) || (loginScreenState == 8)"/>
 			<bind name="watch" value="'defaultFocus'; (savedPermanentLogin &amp;&amp; savedPermanentPassword)	? 'loginBtn' :
 									 (savedPermanentLogin) 								? 'passwordInput'
@@ -1704,6 +1722,7 @@
 										'SteamChooseRealmContent';
 										'SteamNewNicknameContent';
 										'SavedExternalLoginContent';
+										'ExternalOnlyLoginButtonContent';	
 										'SteamLoginDenied'"/>
 				</block>
 			</block>
@@ -2145,6 +2164,52 @@
 					<styleClass value="$TextDefaultBold"/>
 					<bind name="text" value="'IDS_CHANGE_ACCOUNT_ON_LOGIN_BUTTON'"/>
 				</block>
+			</block>
+		</block>
+	</block>
+	<block className="ExternalOnlyLoginButtonContent">
+		<style>
+			<width value="200px"/>
+		</style>
+		<block>
+			<style>
+				<position value="absolute"/>
+				<bottom value="51px"/>
+			</style>
+			<styleClass value="$MiddleAligned"/>
+			<bind name="instance" value="'ServerMessage'; loginMessage.length &gt; 0	? {	_messageHighlight: loginMessageHighlight, _headerText: loginMessageHeader,
+                                                                        _messageText: loginMessage}
+                                                                    : null"/>
+		</block>
+		<block className="button_special_no_label" type="native">
+			<bind name="appear" value="'addedToStage'; 0.15; 0 + 2*0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
+			<style>
+				<width value="100%"/>
+				<height value="51px"/>
+				<marginTop value="24px"/>
+			</style>
+			<bind name="soundSet" value="'hard_button'"/>
+			<bind name="request" value="'click'; 'doLoginDMM'; {	}"/>
+			<bind name="focus" value="3; (defaultFocus == 'loginBtn')"/>
+			<params>
+				<param name="name" value="connectBtn"/>
+			</params>
+			<block type="text">
+				<styleClass value="$MiddleVAligned"/>
+				<style>
+					<hitTest value="false"/>
+					<width value="100%"/>
+					<position value="absolute"/>
+					<textAlign value="center"/>
+					<multiline value="true"/>
+					<leading value="-4"/>
+					<marginLeft value="6px"/>
+					<marginRight value="6px"/>
+				</style>
+				<styleClass value="$TextAccentBold"/>
+				<bind name="class" value="'$FontColorSpecialButton'"/>
+				<bind name="class" value="'$FontDropShadowFilter1'"/>
+				<bind name="text" value="toUpperCase(tr('IDS_LOGIN_BUTTON'))"/>
 			</block>
 		</block>
 	</block>
@@ -4603,45 +4668,82 @@
 			</block>
 		</block>
 	</block>
+	<block className="ResizableButtonDock">
+		<style>
+			<width value="100%f"/>
+		</style>
+		<bind name="watch" value="'enabled'; _enabled != false"/>
+		<bind name="name" value="_name"/>
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController; null; 'resizableButtonDock_'"/>
+		<bind name="clickSplit"/>
+		<bind name="request" value="'left_click'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
+		<bind name="action" value="'left_click'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
+		<bind name="transition" value="resizableButtonDock_rollOver &amp;&amp; !(resizableButtonDock_mouseDown) &amp;&amp; enabled; 0.1; {alpha: 0.65}; {alpha: 1}; {alpha: 0.65}"/>
+		<bind name="soundOn" value="'left_click'; 'press'; 'default_button'"/>
+		<block>
+			<styleClass value="$FullsizeAbsolute"/>
+			<style>
+				<marginLeft value="-10px"/>
+				<marginRight value="-10px"/>
+				<marginBottom value="-9px"/>
+				<marginTop value="-10px"/>
+			</style>
+			<bind name="style" value="'hitTest'; enabled"/>
+			<block className="button_dock_bg" type="native">
+				<styleClass value="$Fullsize"/>
+				<bind name="gotoAndStop!" value="'down'"/>
+			</block>
+		</block>
+		<block type="text">
+			<style>
+				<hitTest value="false"/>
+				<mouseEnabled value="false"/>
+				<mouseChildren value="false"/>
+			</style>
+			<bind name="style" value="'alpha'; enabled ? 1 : 0.65"/>
+			<styleClass value="$TextDefaultBoldNM"/>
+			<bind name="class" value="'$FontColorBlueish'"/>
+			<bind name="text" value="_label"/>
+		</block>
+	</block>
 	<block className="InfopanelButton">
 		<bind name="request" value="'buttonClick'; _request ? _request : null; _request ? _requestParams : null"/>
+		<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: _tooltipIDS}"/>
+		<bind name="name" value="_name"/>
+		<bind name="dispatch" value="'mouseOver'; 'overInfopanelButton'; {InfopanelButtonOverAlpha: 1}"/>
+		<bind name="dispatch" value="'mouseOut'; 'upInfopanelButton'; {InfopanelButtonOverAlpha: 0.6}"/>
+		<bind name="dispatch" value="'mouseDown'; 'downInfopanelButton'; {InfopanelButtonOverAlpha: 0.3}"/>
+		<bind name="style" value="'alpha'; InfopanelButtonOverAlpha"/>
+		<bind name="catch" value="'downInfopanelButton'"/>
+		<bind name="catch" value="'upInfopanelButton'}"/>
+		<bind name="catch" value="'overInfopanelButton'"/>
 		<block className="button_infopanel_no_label" type="native">
-			<bind name="name" value="_name"/>
+			<bind name="style" value="'width'; _width"/>
 			<style>
 				<height value="40px"/>
 			</style>
-			<bind name="style" value="'width'; _width"/>
-			<bind name="dispatch" value="'mouseOver'; 'overInfopanelButton'; {InfopanelButtonOverAlpha: 1}"/>
-			<bind name="dispatch" value="'mouseOut'; 'upInfopanelButton'; {InfopanelButtonOverAlpha: 0.6}"/>
-			<bind name="dispatch" value="'mouseDown'; 'downInfopanelButton'; {InfopanelButtonOverAlpha: 0.3}"/>
 			<block>
 				<style>
+					<width value="100%"/>
 					<height value="100%"/>
-					<alpha value="0.5"/>
-					<mouseEnabled value="false"/>
+					<hitTest value="false"/>
 				</style>
-				<bind name="style" value="'alpha'; InfopanelButtonOverAlpha"/>
-				<bind name="catch" value="'downInfopanelButton'"/>
-				<bind name="catch" value="'upInfopanelButton'}"/>
-				<bind name="catch" value="'overInfopanelButton'"/>
-				<bind name="catch" value="'upInfopanelButton'"/>
 				<block>
 					<styleClass value="$MiddleVAligned"/>
 					<style>
 						<marginLeft value="8"/>
 						<backgroundStretchX value="true"/>
 						<backgroundStretchY value="true"/>
-						<mouseEnabled value="false"/>
 					</style>
 					<bind name="style" value="'width'; _iconWidth"/>
 					<bind name="style" value="'height'; _iconHeight"/>
 					<bind name="style" value="'backgroundImage'; _backgroundImage"/>
 				</block>
 				<block>
+					<styleClass value="$MiddleAligned"/>
+					<styleClass value="$MiddleVAligned"/>
 					<style>
-						<marginTop value="14px"/>
-						<marginLeft value="8"/>
-						<mouseEnabled value="false"/>
+						<position value="absolute"/>
 					</style>
 					<block type="text">
 						<styleClass value="$TextDefaultBoldNM"/>
@@ -4653,7 +4755,6 @@
 				</style>
 			</block>
 		</block>
-		<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: _tooltipIDS}"/>
 	</block>
 	<block className="LegalInfo">
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'realmConstants'"/>
@@ -5092,12 +5193,28 @@
 		<block className="icon_warning_orange" type="native"/>
 		<block type="text">
 			<style>
-				<marginTop value="-5px"/>
+				<marginTop value="-4px"/>
 				<marginLeft value="4px"/>
 			</style>
 			<bind name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 180"/>
-			<bind name="style" value="'leading'; _leading ? _leading : 0"/>
 			<styleClass value="$WarningTextOrange"/>
+			<bind name="style" value="'leading'; _leading ? _leading : -3"/>
+			<bind name="text" value="_instructionText"/>
+		</block>
+	</block>
+	<block className="InstructionRestricion">
+		<style>
+			<flow value="horizontal"/>
+		</style>
+		<block className="icon_restrict_red" type="native"/>
+		<block type="text">
+			<style>
+				<marginTop value="-3px"/>
+				<marginLeft value="4px"/>
+			</style>
+			<bind name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 180"/>
+			<styleClass value="$WarningTextRed"/>
+			<bind name="style" value="'leading'; _leading ? _leading : -3"/>
 			<bind name="text" value="_instructionText"/>
 		</block>
 	</block>
@@ -5113,9 +5230,9 @@
 		</block>
 		<block type="text">
 			<styleClass value="$TextHeaderBigDefault"/>
-			<bind name="style" value="'marginLeft'; (_type=='no_icon') ? '0px' : '4px'"/>
-			<bind name="style" value="'leading'; _leading ? _leading : 0"/>
 			<bind name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 180"/>
+			<bind name="style" value="'leading'; _leading ? _leading : 0"/>
+			<bind name="style" value="'marginLeft'; (_type=='no_icon') ? '0px' : '4px'"/>
 			<style>
 				<marginTop value="-2px"/>
 			</style>
@@ -5124,8 +5241,11 @@
 	</block>
 	<block className="MouseInstructionRepeater">
 		<bind name="style" value="'marginBottom'; $index != _lastIndex ? '6px' : '0px'"/>
-		<bind name="instance" value="'MouseInstruction'; _type == 'warning' ? null : { _type: _type, _instructionText: _instructionText, _maxWidth: _maxWidth}"/>
-		<bind name="instance" value="'InstructionWarning'; _type == 'warning' ? {_instructionText: _instructionText, _maxWidth: _maxWidth} : null"/>
+		<bind name="instance" value="'MouseInstruction'; _type == 'warning' || _type == 'restriction'	? null
+																						: { _type: _type, _instructionText: _instructionText,
+																							_maxWidth: _maxWidth, _leading: _leading}"/>
+		<bind name="instance" value="'InstructionWarning'; _type == 'warning' ? {_instructionText: _instructionText, _maxWidth: _maxWidth, _leading: _leading} : null"/>
+		<bind name="instance" value="'InstructionRestricion'; _type == 'restriction' ? {_instructionText: _instructionText, _maxWidth: _maxWidth, _leading: _leading} : null"/>
 	</block>
 	<block className="CheckedLine">
 		<style>
@@ -6173,6 +6293,61 @@
 			<bind name="rotation" value="-2"/>
 			<bind name="gotoAndStop!" value="_issued	? 'issued' : 'not_issued'"/>
 			<innerBind elementName="item.item" name="text" value="'IDS_ISSUED_STAMP'"/>
+		</block>
+	</block>
+	<block className="ColorTransformPicker">
+		<bind name="instance" value="'ColorTransformSlider'; {_maximum : 1, _minimum: 0, _step: 0.01, _value:1, _name:'redMultiplier'}"/>
+		<bind name="instance" value="'ColorTransformSlider'; {_maximum : 1, _minimum: 0, _step: 0.01, _value:1, _name:'greenMultiplier'}"/>
+		<bind name="instance" value="'ColorTransformSlider'; {_maximum : 1, _minimum: 0, _step: 0.01, _value:1, _name:'blueMultiplier'}"/>
+		<bind name="instance" value="'ColorTransformSlider'; {_maximum : 1, _minimum: 0, _step: 0.01, _value:1, _name:'alphaMultiplier'}"/>
+		<bind name="instance" value="'ColorTransformSlider'; {_maximum : 255, _minimum: -255, _step: 1, _value:0, _name:'redOffset'}"/>
+		<bind name="instance" value="'ColorTransformSlider'; {_maximum : 255, _minimum: -255, _step: 1, _value:0, _name:'greenOffset'}"/>
+		<bind name="instance" value="'ColorTransformSlider'; {_maximum : 255, _minimum: -255, _step: 1, _value:0, _name:'blueOffset'}"/>
+		<bind name="instance" value="'ColorTransformSlider'; {_maximum : 255, _minimum: -255, _step: 1, _value:0, _name:'alphaOffset'}"/>
+	</block>
+	<block className="ColorTransformSlider">
+		<style>
+			<marginTop value="20px"/>
+		</style>
+		<block>
+			<bind name="dispatch" value="'value'+varChanged; 'colorTransformChanged'; [_name, value]"/>
+			<block>
+				<style>
+					<maxHeight value="500"/>
+					<overflow value="scroll"/>
+					<backgroundColor value="0x80000000"/>
+				</style>
+				<styleClass value="$DefaultScrollBar"/>
+				<block type="text">
+					<styleClass value="$TextDefault"/>
+					<style>
+						<textColor value="0xffffffff"/>
+						<maxWidth value="600"/>
+						<marginBottom value="3px"/>
+					</style>
+					<bind name="text" value="'_name: ' + (_name)"/>
+				</block>
+			</block>
+			<block>
+				<style>
+					<maxHeight value="500"/>
+					<overflow value="scroll"/>
+					<backgroundColor value="0x80000000"/>
+				</style>
+				<styleClass value="$DefaultScrollBar"/>
+				<block type="text">
+					<styleClass value="$TextDefault"/>
+					<style>
+						<textColor value="0xffffffff"/>
+						<maxWidth value="600"/>
+						<marginBottom value="3px"/>
+					</style>
+					<bind name="text" value="'value: ' + (value)"/>
+				</block>
+			</block>
+			<block>
+				<bind name="mc" value="'slider_default'; ['valueChange']; ['value']; {maximum:_maximum, minimum:_minimum, step:_step, value:_value}"/>
+			</block>
 		</block>
 	</block>
 	<css name="$MarginsBig">
@@ -7431,6 +7606,7 @@
 			</style>
 		</block>
 		<block>
+			<bind name="visible" value="title != null"/>
 			<style>
 				<width value="100%"/>
 				<marginTop value="-2px"/>
@@ -7441,7 +7617,9 @@
 	<block className="PlayerSummary">
 		<bind name="var" value="{curSeasonIndex: 0}"/>
 		<bind name="catch" value="'curSeasonIndexChanged'"/>
+		<bind name="catch" value="'currentSeasonIdChanged'"/>
 		<bind name="collectionDH" value="CC.rankedSeasonHistory; 'statDataEntities'; 'statToShow'"/>
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'rankedBattlesSeason'"/>
 		<bind name="entityDH" value="'statDataEntity'; statDataEntities[0].id"/>
 		<bind name="watchDH" value="'statData'; ['statDataEntity.dataComponent.evDataChanged']; statDataEntity.dataComponent.data"/>
 		<bind name="watchDH" value="'shipsList'; ['statDataEntity.dataComponent.evDataChanged']; statDataEntity.dataComponent.data.shipsList"/>
@@ -7498,22 +7676,20 @@
 			<bind name="appear" value="'addedToStage'; 0.15; 0; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
 			<style>
 				<position value="absolute"/>
-				<width value="230px"/>
-				<marginTop value="-40px"/>
-				<right value="1280:10,1920:20aw"/>
+				<width value="240px"/>
+				<right value="1280:5,1920:40aw"/>
+				<marginTop value="-33px"/>
 			</style>
 			<block>
-				<styleClass value="$MiddleAligned"/>
 				<style>
-					<width value="230px"/>
+					<width value="100%"/>
 				</style>
 				<block>
 					<style>
 						<height value="30px"/>
-						<top value="-3px"/>
 					</style>
 					<styleClass value="$MiddleAligned"/>
-					<bind name="instance" value="'RankedSeasonDropdown'; battleType == BattleTypes.RANKED_BATTLE ? {statData: statData, _curSeasonIndex: curSeasonIndex}: null"/>
+					<bind name="instance" value="'RankedSeasonDropdown'; (battleType == BattleTypes.RANKED_BATTLE) ? {statData: statData, _curSeasonIndex: curSeasonIndex, currentSeasonId: currentSeasonId}: null"/>
 				</block>
 				<block>
 					<styleClass value="$MiddleAligned"/>
@@ -7524,7 +7700,7 @@
 						<block className="icon_battletypes_big" type="native">
 							<bind name="transition" value="statData.vehicleId != 0; 0.15; {alpha: 1}; {alpha: 0.7}"/>
 							<styleClass value="$MiddleAligned"/>
-							<bind name="gotoAndStop!" value="battleType"/>
+							<bind name="gotoAndStop!" value="(currentSeasonId &gt; 100) ? 'RankedBattle_junior' : battleType"/>
 						</block>
 						<block className="battle_type_overlay_big" type="native">
 							<bind name="visible" value="statData.vehicleId != 0"/>
@@ -7663,6 +7839,7 @@
 		<bind name="catch" value="'ItemChooserInnerEvent.historySeasonChanged'"/>
 		<bind name="action" value="'_curItemIndex' + varChanged; 'rankedSeasonChanged'; {seasonId: statData.seasonList[_curItemIndex].id}"/>
 		<bind name="dispatch" value="'_curItemIndex' + varChanged; 'curSeasonIndexChanged'; {curSeasonIndex: _curItemIndex}; false"/>
+		<bind name="dispatch" value="'_curItemIndex' + varChanged; 'currentSeasonIdChanged'; {currentSeasonId: statData.seasonList[_curItemIndex].id}"/>
 		<bind name="appear" value="'addedToStage'; 0.15; 0; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
 		<block>
 			<bind name="instance" value="'ItemChooser'; {	_items: statData.seasonList, curIndex: _curItemIndex,
@@ -9036,7 +9213,7 @@
 					<hitTest value="false"/>
 				</style>
 				<bind name="visible" value="optionData.blurEnabled"/>
-				<block className="mc_blurmap3" type="native">
+				<block className="mc_blurmap5" type="native">
 					<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 					<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
 					<styleClass value="$Fullsize"/>

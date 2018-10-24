@@ -1,0 +1,120 @@
+(def element nullLayout() layout=true)
+
+(def macro VAR_RELATION (entity:expression)
+	(var relation:str = "entity.relation.value == 0	? 'own'		:
+						(entity.relation.value == 1 ? 'ally'	:
+						(entity.relation.value == 2 ? 'enemy'	: 'neutral'))" (event "entity.relation.evChanged"))
+)
+
+(def macro SHIP_CLASS_STR (shipComponent:expression)
+	(var shipClass:str =    "(shipComponent.subtype == SHIP_TYPE.CRUISER) 	? tr('IDS_CRUISER') :
+	                        (shipComponent.subtype == SHIP_TYPE.AIR_CARRIER)	? tr('IDS_AIRCARRIER') :
+	                        (shipComponent.subtype == SHIP_TYPE.BATTLESHIP) ? tr('IDS_BATTLESHIP') : 
+	                        (shipComponent.subtype == SHIP_TYPE.AUXILIARY) 	? tr('IDS_AUXILIARY')
+	                                                            : tr('IDS_DESTROYER')"
+    )			
+)
+
+(def macro trace(expr:expression)
+	(block
+		(style 
+			(backgroundColor = "0x50000000")
+		)
+		(tf
+			(class $TextDefault)
+			(autoSize='left')
+			(bind text "expr")
+		)
+	)
+)
+
+(def macro DRAW_RECT (x:expression = 0, y:expression = 0, w:expression = 0, h:expression = 0, c:expression = 0xFFFFFF, a:expression = 1)
+	(.graphics
+		(beginFill "c" "a")
+		(drawRect "x" "y" "w" "h")
+		(endFill)
+	)
+)
+
+(def macro DRAW_GRADIENT_RECT ( w:expression = 0, h:expression = 0, 
+	type:expression = "'linear'", colors:expression = "[0xffffff,0x0]", alphas:expression="[1,1]", ratios:expression="[0,255]" )
+	(.graphics
+		(beginGradientFill "type" "colors" "alphas" "ratios")
+		(drawRect 0 0 "w" "h")
+		(endFill)
+	)
+)
+
+(def macro BLUR_LAYER()
+	(rendererString = blurLayer)
+)
+
+(def macro BLUR_MAP()
+	(rendererString = blurMeBaby)
+)
+
+(def macro MASK()
+	(mc 'maskPixel'
+		(style
+			(position = "absolute")
+			(width = 100%)
+			(height = 100%)
+		)
+		(isMask = true)
+	)
+)
+
+(def macro FAIR_SCALE (scale:expression)
+    (scaleX = "scale")
+    (scaleY = "scale")
+    (style
+        (ubScaleX = "scale")
+        (ubScaleY = "scale")
+    )
+)
+
+(def macro HIDE_UI_CMD ()
+	(scope
+        (var cmdEntity:gfx = "$datahub.getPrimaryEntity(CC.commandMappingCommandName, 'CMD_HIDE_INTERFACE')")
+		(var hudVisible:bool = "true")
+		(bind hudVisible "!hudVisible" init=false (event "cmdEntity.commandMappingCommand.evCall"))
+	)
+
+	(bind visible "hudVisible")
+)
+
+(def macro MOUSE_OVER_SCOPE ()
+	(scope
+		(var isMouseOver:bool = false)
+	    (event evMouseOver)
+	    (event evMouseOut)
+	    (bind isMouseOver true on='evMouseOver' init=false )
+	    (bind isMouseOver false on='evMouseOut' init=false )
+    )
+)
+
+(def macro MOUSE_LMB_EXTERNAL_CALL (externalMethod:str, methodArgs:expression)
+	(bindcall externalCall "$event.buttonIdx == 0 ? externalMethod : ''" "methodArgs" init=false watch=false on='click')
+)
+
+
+(def macro PULL_SHIP (shipId:expression)
+    (scope
+        (var shipEntity:gfx = "$datahub.getPrimaryEntity(CC.ship, shipId)")
+        (var shipComponent:gfx = "shipEntity.ship" (event "shipEntity.ship.evUpdate") (event "shipEntity.ship.evCurrentSkinChanged"))
+        (var shipComponentSlim:gfx = "shipEntity.slimClientComponent" (event "shipEntity.slimClientComponent.evUpdate"))
+    )
+)
+
+(def macro PULL_SHIP_PLAYER (shipId:expression)
+    (scope
+        (var playerShipEntity:gfx = "$datahub.getPrimaryEntity(CC.ownShip, shipId)")
+        (var playerShipComponent:gfx = "playerShipEntity.ownShip" (event "playerShipEntity.ownShip.evUpdate") (event "playerShipEntity.ownShip.evCrewChanged"))
+    )
+)
+
+(def macro PULL_USI (entity:expression)
+    (scope
+        (var upgradableShipInfo:gfx = "entity.upgradableShipInfo" (event "entity.upgradableShipInfo.evUpdate"))
+    )
+)

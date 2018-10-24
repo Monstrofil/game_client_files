@@ -481,6 +481,13 @@
 			<styleClass value="$Fullsize"/>
 		</block>
 	</block>
+	<css name="$ModernizationAndConsumScrollBar">
+		<wheelScrollSpeed value="15"/>
+		<scrollbarController value="lesta.unbound.style.UbScrollingControllerModern"/>
+		<scrollArea value="ModernScrollArea"/>
+		<scrollbar value="ModernScrollBarSimple"/>
+		<scrollbarTrackMode value="scrollToCursor"/>
+	</css>
 	<block className="VerticalDivider">
 		<style>
 			<height value="100%"/>
@@ -750,6 +757,7 @@
 					<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 					<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 					<block>
+						<bind name="soundSet" value="'default_button'"/>
 						<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 						<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 						<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -817,6 +825,7 @@
 						<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 						<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 						<block>
+							<bind name="soundSet" value="'default_button'"/>
 							<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 							<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 							<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -909,6 +918,7 @@
 					<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 					<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 					<block>
+						<bind name="soundSet" value="'default_button'"/>
 						<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 						<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 						<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -1041,6 +1051,7 @@
 						<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 						<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 						<block>
+							<bind name="soundSet" value="'default_button'"/>
 							<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 							<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 							<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -1135,6 +1146,7 @@
 						<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 						<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 						<block>
+							<bind name="soundSet" value="'default_button'"/>
 							<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 							<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 							<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -1232,6 +1244,7 @@
 					<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 					<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 					<block>
+						<bind name="soundSet" value="'default_button'"/>
 						<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 						<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 						<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -1513,6 +1526,9 @@
 		<bind name="controller" value="lesta.dialogs.dock.controllers.ControllerQuests"/>
 		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
 		<bind name="watchDH" value="'operationsAccountLocked';	['resourceEntity.accountResource.evOperationsLockChanged'];	resourceEntity.accountResource.operationsLocked"/>
+		<bind name="primaryEntityDH" value="'taskEntity'; CC.sseCore; taskId"/>
+		<bind name="watchDH" value="'currentProgress';	['taskEntity.sseTask.evChanged'];	taskEntity.sseTask.conditionSet[0].currentProgress"/>
+		<bind name="watchDH" value="'maxProgress';	['taskEntity.progress.evChanged'];	taskEntity.sseTask.conditionSet[0].maxProgress"/>
 		<bind name="name" value="'QuestsLargeItem_' + sseId"/>
 		<style>
 			<width value="1px"/>
@@ -1629,23 +1645,35 @@
 					<styleClass value="$FullsizeAbsolute"/>
 				</block>
 				<block>
+					<bind name="watch" value="'milestoneProgress'; _isMilestone ? (currentProgress/maxProgress) : 0"/>
 					<style>
 						<width value="100%"/>
 					</style>
 					<bind name="instance" value="'QuestHeaderWithProgress'; {_isQuestHasLimitedAmount: isQuestHasLimitedAmount, _isDoneForToday: isDoneForToday,
 															_numberOfQuestsGeneral: activeStepInfo.limit, titleText: titleText, 
-															progress: (_doneThisBattle ? 1 : progress), inOneBattle: inOneBattle, peculiarity: peculiarity, isPrivate: isPrivate, type: type}"/>
+															progress: _isMilestone == true ? milestoneProgress : (_doneThisBattle ? 1 : progress), 
+															inOneBattle: inOneBattle, peculiarity: peculiarity, isPrivate: isPrivate, type: type}"/>
 				</block>
 				<block type="text">
 					<style>
 						<marginLeft value="11px"/>
 					</style>
-					<bind name="visible" value="isPrivate"/>
+					<bind name="visible" value="isPrivate &amp;&amp; _isMilestone != true"/>
 					<styleClass value="$TextHeaderBigDefaultBold"/>
 					<bind name="class" value="'$FontColorGold'"/>
 					<bind name="text" value="(type == SSETypes.CHALLENGE ? 'IDS_PERSONAL_CHALLENGE' : 'IDS_PERSONAL_BATTLE_TASK')"/>
 				</block>
+				<block type="text">
+					<style>
+						<marginLeft value="11px"/>
+					</style>
+					<bind name="visible" value="_isMilestone == true"/>
+					<styleClass value="$TextHeaderBigDefaultBold"/>
+					<bind name="class" value="'$FontColorGold'"/>
+					<bind name="text" value="_epicName"/>
+				</block>
 				<block>
+					<bind name="visible" value="_isMilestone != true"/>
 					<style>
 						<position value="absolute"/>
 						<top value="4px"/>
@@ -1674,7 +1702,7 @@
 						<bottom value="-2px"/>
 						<marginLeft value="11px"/>
 					</style>
-					<bind name="visible" value="isChallenge"/>
+					<bind name="visible" value="isChallenge &amp;&amp; _isMilestone == true"/>
 					<bind name="tooltip" value="'SimpleTooltip'; { tooltipText: 'IDS_HINT_CHALLENGE_LIFETIME'}"/>
 					<block type="text">
 						<styleClass value="$TextHeaderHugeWhite"/>
@@ -1750,9 +1778,18 @@
 					<style>
 						<width value="100%"/>
 					</style>
-					<bind name="visible" value="activeStepInfo.technoIds != '' || activeStepInfo.linkedTasks.length &gt; 0"/>
+					<bind name="visible" value="(activeStepInfo.technoIds != '' &amp;&amp; _isMilestone != true) || (activeStepInfo.linkedTasks.length &gt; 0 &amp;&amp; _isMilestone == true)"/>
 					<styleClass value="$QuestBlockVMargins"/>
 					<bind name="instance" value="'QuestRestrictionsAndLinkedTasks'; {_restrictionsIds: activeStepInfo.technoIds, _linkedTasks: activeStepInfo.linkedTasks}"/>
+				</block>
+				<block>
+					<bind name="visible" value="_isMilestone == true"/>
+					<style>
+						<width value="100%"/>
+					</style>
+					<styleClass value="$QuestBlockVMargins"/>
+					<bind name="instance" value="'MilestoneRestrictions'; {_technoids: _technoids, _addcondIds: _addcondIds, _precondIds: _precondIds,
+												_aftercondIds: _aftercondIds, _conditionSet: _conditionSet, _currentProgress: currentProgress, _maxProgress: maxProgress}"/>
 				</block>
 				<block>
 					<style>
@@ -1774,6 +1811,7 @@
 					<position value="absolute"/>
 					<bottom value="-35px"/>
 				</style>
+				<bind name="visible" value="_isMilestone != true"/>
 				<block>
 					<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'rankedBattlesSeason'"/>
 					<bind name="fade" value="$index == currentSelectedIndex &amp;&amp; inQuestWindow &amp;&amp; !(isDoneForToday); 0.2; {alpha: 0, top: 15}; {alpha: 1, top: 0}"/>
@@ -1995,10 +2033,103 @@
 			</block>
 		</block>
 	</block>
+	<block className="MilestoneRestrictions">
+		<style>
+			<width value="100%"/>
+		</style>
+		<block>
+			<bind name="visible" value="_conditionSet != '' || _conditionSet != null"/>
+			<style>
+				<width value="100%"/>
+			</style>
+			<block type="text">
+				<styleClass value="$SSEDescTextNormal"/>
+				<style>
+					<width value="100%"/>
+					<marginTop value="-2px"/>
+				</style>
+				<bind name="text" value="_conditionSet[0].ids"/>
+			</block>
+		</block>
+		<block>
+			<bind name="visible" value="_currentProgress &gt; 0"/>
+			<style>
+				<width value="100%"/>
+				<marginBottom value="3px"/>
+			</style>
+			<block className="indicator_progress_bar" type="native">
+				<style>
+					<width value="100%"/>
+				</style>
+				<bind name="value" value="(_currentProgress / _maxProgress)*10"/>
+			</block>
+		</block>
+		<block type="text">
+			<styleClass value="$SSEDescTextSubheaderSecondary"/>
+			<text value="IDS_QUEST_START_CONDITIONS"/>
+		</block>
+		<block>
+			<bind name="visible" value="_technoids != '' || _technoids != null"/>
+			<style>
+				<width value="100%"/>
+			</style>
+			<block type="text">
+				<styleClass value="$SSEDescTextNormal"/>
+				<style>
+					<width value="100%"/>
+					<marginTop value="-2px"/>
+				</style>
+				<bind name="text" value="_technoids"/>
+			</block>
+		</block>
+		<block>
+			<bind name="visible" value="_addcondIds != '' || _addcondIds != null"/>
+			<style>
+				<width value="100%"/>
+			</style>
+			<block type="text">
+				<styleClass value="$SSEDescTextNormal"/>
+				<style>
+					<width value="100%"/>
+					<marginTop value="-2px"/>
+				</style>
+				<bind name="text" value="_addcondIds"/>
+			</block>
+		</block>
+		<block>
+			<bind name="visible" value="_precondIds != '' || _precondIds != null"/>
+			<style>
+				<width value="100%"/>
+			</style>
+			<block type="text">
+				<styleClass value="$SSEDescTextNormal"/>
+				<style>
+					<width value="100%"/>
+					<marginTop value="-2px"/>
+				</style>
+				<bind name="text" value="_precondIds"/>
+			</block>
+		</block>
+		<block>
+			<bind name="visible" value="_aftercondIds != '' || _aftercondIds != null"/>
+			<style>
+				<width value="100%"/>
+			</style>
+			<block type="text">
+				<styleClass value="$SSEDescTextNormal"/>
+				<style>
+					<width value="100%"/>
+					<marginTop value="-2px"/>
+				</style>
+				<bind name="text" value="_aftercondIds"/>
+			</block>
+		</block>
+	</block>
 	<block className="QuestRestrictionsAndLinkedTasks">
 		<style>
 			<width value="100%"/>
 		</style>
+		<bind name="visible" value="_restrictionsIds != ''"/>
 		<block type="text">
 			<styleClass value="$SSEDescTextSubheaderSecondary"/>
 			<text value="IDS_QUEST_START_CONDITIONS"/>
@@ -2128,7 +2259,8 @@
 				<marginBottom value="4px"/>
 				<marginTop value="4px"/>
 			</style>
-			<bind name="style" value="'marginLeft';  peculiarity != 'default' ? '38px'
+			<bind name="style" value="'marginLeft';  peculiarity == null ? '10px' 
+									: peculiarity != 'default' ? '38px'
 									: ((_isQuestHasLimitedAmount) &amp;&amp; (_numberOfQuestsGeneral &gt; 99)) ? '62px'
 									: ((_isQuestHasLimitedAmount) &amp;&amp; (_numberOfQuestsGeneral &gt; 9))	? '52px'
 									: (_isQuestHasLimitedAmount) 									? '42px'
@@ -2204,7 +2336,7 @@
 	</block>
 	<block className="PostBattleSSEQuestTooltip">
 		<bind name="controller" value="lesta.dialogs.controllers.CollectionController; 'SSECompleted'; 'sseId'; _id; 'questItems'"/>
-		<bind name="instance" value="'QuestsLargeItem'; questItems[0] != null ? {
+		<bind name="instance" value="'QuestsLargeItem';	questItems[0] != null ? {
 											backgroundURL: questItems[0].backgroundURL,
 											titleText: questItems[0].titleText,
 											progress: questItems[0].progress,
@@ -2218,7 +2350,23 @@
 											_doneThisBattle: _doneThisBattle,
 											isPrivate: questItems[0].isPrivate,
 											_itemWidth: _type == SSETypes.CHALLENGE ? 416 : 346
-											} : null"/>
+										}	:
+										_isMilestone == true ? {
+											type: _type,
+											taskId: _id,
+											_epicName: _epicName,
+											titleText: _titleText,
+											startDate: _startTime,
+											stopDate: _stopTime,
+											backgroundURL: _backgroundURL,
+											_technoids: _technoids,
+											_addcondIds: _addcondIds,
+											_precondIds: _precondIds,
+											_aftercondIds: _aftercondIds,
+											_conditionSet: _conditionSet,
+											_itemWidth: _type == SSETypes.CHALLENGE ? 416 : 346, 
+											_isMilestone: _isMilestone
+										} : null"/>
 	</block>
 	<block className="SSETaskTooltip">
 		<bind name="controller" value="lesta.dialogs.controllers.CollectionController; 	_isPrivate 	? 'privateTasksAndChallenges' 
@@ -2334,6 +2482,49 @@
 			<block>
 				<styleClass value="$MiddleAligned"/>
 				<bind name="instance" value="'EmptyStatusParagraph'; {_text : 'IDS_WE_ARE_WORKING_ON_THIS', _maxWidth: (_maxWidth ? _maxWidth : '280'), _sizeClass: _isBig ? '$FontSizeHeader5' : '$FontSizeLarge'}"/>
+			</block>
+		</block>
+	</block>
+	<block className="DockTabLockedPlug">
+		<bind name="appear" value="'addedToStage'; 0.15; 0; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
+		<style>
+			<width value="500px"/>
+			<minHeight value="32"/>
+		</style>
+		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
+			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<style>
+				<hitTest value="false"/>
+			</style>
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
+				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
+				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
+				<styleClass value="$FullsizeAbsolute"/>
+				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
+			</block>
+		</block>
+		<block>
+			<styleClass value="$MiddleAligned"/>
+			<style>
+				<marginTop value="16px"/>
+				<marginBottom value="16px"/>
+			</style>
+			<block type="text">
+				<styleClass value="$TextDefaultBold17NM"/>
+				<style>
+					<textAlign value="center"/>
+					<maxWidth value="480"/>
+				</style>
+				<bind name="class" value="'$FontColorUnready'"/>
+				<bind name="text" value="toUpperCase(tr(_text))"/>
 			</block>
 		</block>
 	</block>
@@ -2690,45 +2881,82 @@
 			</block>
 		</block>
 	</block>
+	<block className="ResizableButtonDock">
+		<style>
+			<width value="100%f"/>
+		</style>
+		<bind name="watch" value="'enabled'; _enabled != false"/>
+		<bind name="name" value="_name"/>
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController; null; 'resizableButtonDock_'"/>
+		<bind name="clickSplit"/>
+		<bind name="request" value="'left_click'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
+		<bind name="action" value="'left_click'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
+		<bind name="transition" value="resizableButtonDock_rollOver &amp;&amp; !(resizableButtonDock_mouseDown) &amp;&amp; enabled; 0.1; {alpha: 0.65}; {alpha: 1}; {alpha: 0.65}"/>
+		<bind name="soundOn" value="'left_click'; 'press'; 'default_button'"/>
+		<block>
+			<styleClass value="$FullsizeAbsolute"/>
+			<style>
+				<marginLeft value="-10px"/>
+				<marginRight value="-10px"/>
+				<marginBottom value="-9px"/>
+				<marginTop value="-10px"/>
+			</style>
+			<bind name="style" value="'hitTest'; enabled"/>
+			<block className="button_dock_bg" type="native">
+				<styleClass value="$Fullsize"/>
+				<bind name="gotoAndStop!" value="'down'"/>
+			</block>
+		</block>
+		<block type="text">
+			<style>
+				<hitTest value="false"/>
+				<mouseEnabled value="false"/>
+				<mouseChildren value="false"/>
+			</style>
+			<bind name="style" value="'alpha'; enabled ? 1 : 0.65"/>
+			<styleClass value="$TextDefaultBoldNM"/>
+			<bind name="class" value="'$FontColorBlueish'"/>
+			<bind name="text" value="_label"/>
+		</block>
+	</block>
 	<block className="InfopanelButton">
 		<bind name="request" value="'buttonClick'; _request ? _request : null; _request ? _requestParams : null"/>
+		<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: _tooltipIDS}"/>
+		<bind name="name" value="_name"/>
+		<bind name="dispatch" value="'mouseOver'; 'overInfopanelButton'; {InfopanelButtonOverAlpha: 1}"/>
+		<bind name="dispatch" value="'mouseOut'; 'upInfopanelButton'; {InfopanelButtonOverAlpha: 0.6}"/>
+		<bind name="dispatch" value="'mouseDown'; 'downInfopanelButton'; {InfopanelButtonOverAlpha: 0.3}"/>
+		<bind name="style" value="'alpha'; InfopanelButtonOverAlpha"/>
+		<bind name="catch" value="'downInfopanelButton'"/>
+		<bind name="catch" value="'upInfopanelButton'}"/>
+		<bind name="catch" value="'overInfopanelButton'"/>
 		<block className="button_infopanel_no_label" type="native">
-			<bind name="name" value="_name"/>
+			<bind name="style" value="'width'; _width"/>
 			<style>
 				<height value="40px"/>
 			</style>
-			<bind name="style" value="'width'; _width"/>
-			<bind name="dispatch" value="'mouseOver'; 'overInfopanelButton'; {InfopanelButtonOverAlpha: 1}"/>
-			<bind name="dispatch" value="'mouseOut'; 'upInfopanelButton'; {InfopanelButtonOverAlpha: 0.6}"/>
-			<bind name="dispatch" value="'mouseDown'; 'downInfopanelButton'; {InfopanelButtonOverAlpha: 0.3}"/>
 			<block>
 				<style>
+					<width value="100%"/>
 					<height value="100%"/>
-					<alpha value="0.5"/>
-					<mouseEnabled value="false"/>
+					<hitTest value="false"/>
 				</style>
-				<bind name="style" value="'alpha'; InfopanelButtonOverAlpha"/>
-				<bind name="catch" value="'downInfopanelButton'"/>
-				<bind name="catch" value="'upInfopanelButton'}"/>
-				<bind name="catch" value="'overInfopanelButton'"/>
-				<bind name="catch" value="'upInfopanelButton'"/>
 				<block>
 					<styleClass value="$MiddleVAligned"/>
 					<style>
 						<marginLeft value="8"/>
 						<backgroundStretchX value="true"/>
 						<backgroundStretchY value="true"/>
-						<mouseEnabled value="false"/>
 					</style>
 					<bind name="style" value="'width'; _iconWidth"/>
 					<bind name="style" value="'height'; _iconHeight"/>
 					<bind name="style" value="'backgroundImage'; _backgroundImage"/>
 				</block>
 				<block>
+					<styleClass value="$MiddleAligned"/>
+					<styleClass value="$MiddleVAligned"/>
 					<style>
-						<marginTop value="14px"/>
-						<marginLeft value="8"/>
-						<mouseEnabled value="false"/>
+						<position value="absolute"/>
 					</style>
 					<block type="text">
 						<styleClass value="$TextDefaultBoldNM"/>
@@ -2740,7 +2968,6 @@
 				</style>
 			</block>
 		</block>
-		<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: _tooltipIDS}"/>
 	</block>
 	<block className="QuestWindow">
 		<bind name="controller" value="lesta.dialogs.controllers.CollectionController; 'challenges'; 'isActive'; true; 'challengesCollection'"/>
@@ -3482,9 +3709,12 @@
 		<bind name="entityDH" value="'userPrefsEntity'; userPrefsCollection[0].id"/>
 		<bind name="watchDH" value="'userPrefs'; ['userPrefsEntity.userPrefs.evUserPrefsChanged']; userPrefsEntity.userPrefs.userPrefs"/>
 		<bind name="watch" value="'isSmallCarouselView'; (userPrefs.isSmallCarouselView == null) ? false : userPrefs.isSmallCarouselView"/>
-		<bind name="instance" value="'ShipCarousel'; {	_addShipSlotsBuyBlocks: false,
+		<bind name="watch" value="'isFilteredShipsHided'; (userPrefs.isFilteredShipsHided == null) ? false : userPrefs.isFilteredShipsHided"/>
+		<bind name="instance" value="'ShipCarousel'; {	_fixedCarouselRows: _fixedCarouselRows,
+										_addShipSlotsBuyBlocks: false,
 										_shipFilterId: CC.mainShipFilter,
 										_scrollToStart: false,
-										isSmallCarouselView: isSmallCarouselView}"/>
+										isSmallCarouselView: isSmallCarouselView,
+										_isFilteredShipsHided: isFilteredShipsHided}"/>
 	</block>
 </ui>

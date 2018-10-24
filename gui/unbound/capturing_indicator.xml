@@ -1,0 +1,35 @@
+
+<ui>
+	<block className="CapturingIndicator">
+		<bind name="collectionDH" value="CC.avatar; 'selfAvatarCollection'+'ROOT'"/>
+		<bind name="collectionDesign" value="'DES_'+'selfAvatarCollection'+'ROOT'; 'selfAvatarCollection'; {'filter':$entity.relation.value == 0}; []"/>
+		<bind name="watch" value="'selfAvatarEntityId'; selfAvatarCollection[0].id"/>
+		<bind name="collectionDH" value="CC.state; 'avatarStatesRoot'; 'byEntity.' + selfAvatarEntityId"/>
+		<bind name="collectionDesign" value="DES_avatarStatesRoot; 'avatarStates'; {'filter': $entity.state.type == EntityState.CAPTURING_LOCKED}"/>
+		<block>
+			<bind name="name" value="'size'"/>
+			<bind name="instance" value="'DropItemZoneLockIndicator'; avatarStates.length &gt; 0 ? {} : null"/>
+		</block>
+	</block>
+	<block className="DropItemZoneLockIndicator">
+		<style>
+			<height value="27px"/>
+			<flow value="horizontal"/>
+			<align value="middle"/>
+		</style>
+		<block>
+			<style>
+				<width value="27px"/>
+				<height value="27px"/>
+				<backgroundImage value="symbol:icon_personal_lock_enemy_ship"/>
+			</style>
+		</block>
+		<block type="text">
+			<style>
+				<marginLeft value="12px"/>
+			</style>
+			<styleClass value="$TextDefaultBold17NM"/>
+			<bind name="text" value="'IDS_SHIP_MODIFIER_CAPTURING_INDICATOR'"/>
+		</block>
+	</block>
+</ui>

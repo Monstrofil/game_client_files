@@ -136,6 +136,13 @@
 			<styleClass value="$Fullsize"/>
 		</block>
 	</block>
+	<css name="$ModernizationAndConsumScrollBar">
+		<wheelScrollSpeed value="15"/>
+		<scrollbarController value="lesta.unbound.style.UbScrollingControllerModern"/>
+		<scrollArea value="ModernScrollArea"/>
+		<scrollbar value="ModernScrollBarSimple"/>
+		<scrollbarTrackMode value="scrollToCursor"/>
+	</css>
 	<block className="VerticalDivider">
 		<style>
 			<height value="100%"/>
@@ -750,6 +757,7 @@
 					<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 					<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 					<block>
+						<bind name="soundSet" value="'default_button'"/>
 						<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 						<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 						<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -817,6 +825,7 @@
 						<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 						<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 						<block>
+							<bind name="soundSet" value="'default_button'"/>
 							<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 							<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 							<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -909,6 +918,7 @@
 					<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 					<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 					<block>
+						<bind name="soundSet" value="'default_button'"/>
 						<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 						<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 						<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -1041,6 +1051,7 @@
 						<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 						<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 						<block>
+							<bind name="soundSet" value="'default_button'"/>
 							<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 							<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 							<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -1135,6 +1146,7 @@
 						<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 						<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 						<block>
+							<bind name="soundSet" value="'default_button'"/>
 							<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 							<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 							<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -1232,6 +1244,7 @@
 					<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 					<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 					<block>
+						<bind name="soundSet" value="'default_button'"/>
 						<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 						<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 						<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -1288,6 +1301,10 @@
 		<height value="40px"/>
 	</css>
 	<block className="SkillHeader">
+		<bind name="primaryEntityDH" value="'crewSkillEntity'; CC.crewSkill; skillId; 'evUpdate'"/>
+		<bind name="watchDH" value="'crewSkill'; ['crewSkillEntity.crewSkill.evUpdate']; crewSkillEntity.crewSkill"/>
+		<bind name="primaryEntityDH" value="'skillEntity'; CC.skill; crewSkill.skillId"/>
+		<bind name="watchDH" value="'skill'; []; skillEntity.skill"/>
 		<style>
 			<width value="100%"/>
 			<flow value="horizontal"/>
@@ -1299,7 +1316,7 @@
 				<width value="60px"/>
 				<height value="60px"/>
 			</style>
-			<bind name="style" value="'backgroundImage'; 'url:../crew_commander/skills/big/icon_perk_' + skill.name + (_penalty ? '_penalty.png' : '.png')"/>
+			<bind name="style" value="'backgroundImage'; 'url:../crew_commander/skills/big/icon_perk_' + skill.name + '.png')"/>
 		</block>
 		<block>
 			<style>
@@ -1313,9 +1330,9 @@
 					<leading value="-3"/>
 				</style>
 				<styleClass value="$TextDefaultBold19NM"/>
-				<bind name="class" value="_penalty &amp;&amp; skill.learned 	? '$FontColorUnready' :
-						!_penalty &amp;&amp; skill.learned 	? '$FontColorGolden'
-													: '$None'"/>
+				<bind name="class" value="_penalty &amp;&amp; crewSkill.learned 	? '$FontColorUnready' :
+						!_penalty &amp;&amp; crewSkill.learned 	? '$FontColorGolden'
+														: '$None'"/>
 				<bind name="text" value="'IDS_SKILL_' + toUpperCase(skill.name)"/>
 			</block>
 			<block type="text">
@@ -1325,9 +1342,9 @@
 					<marginTop value="12px"/>
 				</style>
 				<styleClass value="$TextDefaultNM"/>
-				<bind name="class" value="_penalty &amp;&amp; skill.learned 	? '$FontColorUnready' :
-						!_penalty &amp;&amp; skill.learned 	? '$FontColorGolden'
-													: '$None'"/>
+				<bind name="class" value="_penalty &amp;&amp; crewSkill.learned 	? '$FontColorUnready' :
+						!_penalty &amp;&amp; crewSkill.learned 	? '$FontColorGolden'
+														: '$None'"/>
 				<bind name="watch" value="'category'; (	(skill.column == 0 || skill.column == 1)	?  	'IDS_SKILL_CAT_NAME_ENDURANCE' :
 										(skill.column == 2 || skill.column == 3)	?	'IDS_SKILL_CAT_NAME_ATTACK' :
 										(skill.column == 4 || skill.column == 5)	?	'IDS_SKILL_CAT_NAME_SUPPORT' :
@@ -1347,26 +1364,80 @@
 		<bind name="style" value="'backgroundImage'; 'url:../service_kit/item_types/icon_modernization_special.png')"/>
 	</block>
 	<block className="CrewSkillItemSmall">
-		<bind name="primaryEntityDH" value="'skillEntity'; CC.crewSkill; _skillIDs[$index]; 'evUpdate'"/>
-		<bind name="watchDH" value="'skill'; ['skillEntity.crewSkill.evUpdate']; skillEntity.crewSkill"/>
+		<bind name="primaryEntityDH" value="'crewSkillEntity'; CC.crewSkill; _skillIDs[$index]; 'evUpdate'"/>
+		<bind name="watchDH" value="'crewSkill'; ['crewSkillEntity.crewSkill.evUpdate']; crewSkillEntity.crewSkill"/>
+		<bind name="primaryEntityDH" value="'skillEntity'; CC.skill; crewSkill.skillId"/>
+		<bind name="watchDH" value="'skill'; []; skillEntity.skill"/>
+		<bind name="watchDH" value="'isUseless'; ['skillEntity.attributes.evUsefulChanged']; !(skillEntity.attributes.useful)"/>
 		<style>
 			<marginLeft value="5px"/>
-			<width value="35px"/>
-			<height value="35px"/>
 		</style>
-		<bind name="style" value="'backgroundImage'; 'url:../crew_commander/skills/small/icon_perk_small_' + skill.name + (_penalty ? '_penalty.png' : '.png')"/>
+		<block>
+			<style>
+				<width value="35px"/>
+				<height value="35px"/>
+			</style>
+			<bind name="style" value="'alpha'; isUseless ? 0.2 : 1"/>
+			<bind name="style" value="'backgroundImage'; 'url:../crew_commander/skills/small/icon_perk_small_' + skill.name + (_penalty ? '_penalty.png' : '.png')"/>
+		</block>
+		<block>
+			<style>
+				<position value="absolute"/>
+			</style>
+			<bind name="scaleX" value="0.7"/>
+			<bind name="scaleY" value="0.7"/>
+			<bind name="style" value="'alpha'; isUseless ? 0.2 : 1"/>
+			<bind name="instance" value="'CrewSkillEpicIcon'; skill.isEpic ? {} : null"/>
+		</block>
+		<block>
+			<bind name="visible" value="isUseless"/>
+			<style>
+				<hitTest value="false"/>
+				<position value="absolute"/>
+				<width value="35px"/>
+				<height value="35px"/>
+				<alpha value="1.2"/>
+			</style>
+			<bind name="style" value="'backgroundImage'; 'url:../service_kit/icons/icon_useless.png'"/>
+		</block>
 	</block>
 	<block className="CrewSkillItem">
-		<bind name="primaryEntityDH" value="'skillEntity'; CC.crewSkill; $value; 'evUpdate'"/>
-		<bind name="watchDH" value="'skill'; ['skillEntity.crewSkill.evUpdate']; skillEntity.crewSkill"/>
+		<bind name="primaryEntityDH" value="'crewSkillEntity'; CC.crewSkill; $value; 'evUpdate'"/>
+		<bind name="watchDH" value="'crewSkill'; ['crewSkillEntity.crewSkill.evUpdate']; crewSkillEntity.crewSkill"/>
+		<bind name="primaryEntityDH" value="'skillEntity'; CC.skill; crewSkill.skillId"/>
+		<bind name="watchDH" value="'skill'; []; skillEntity.skill"/>
+		<bind name="watchDH" value="'isUseless'; ['skillEntity.attributes.evUsefulChanged']; !(skillEntity.attributes.useful)"/>
 		<style>
-			<marginRight value="6px"/>
-			<marginBottom value="4px"/>
-			<width value="60px"/>
-			<height value="60px"/>
+			<marginRight value="5px"/>
+			<marginLeft value="5px"/>
+			<marginBottom value="5px"/>
+			<marginTop value="5px"/>
 		</style>
-		<bind name="instance" value="'CrewSkillEpicIcon'; skill.isEpic ? {} : null"/>
-		<bind name="style" value="'backgroundImage'; 'url:../crew_commander/skills/big/icon_perk_' + skill.name + (_penalty ? '_penalty.png' : '.png')"/>
+		<block>
+			<style>
+				<width value="60px"/>
+				<height value="60px"/>
+			</style>
+			<bind name="style" value="'alpha'; isUseless ? 0.2 : 1"/>
+			<bind name="style" value="'backgroundImage'; 'url:../crew_commander/skills/big/icon_perk_' + skill.name + (_penalty ? '_penalty.png' : '.png')"/>
+		</block>
+		<block>
+			<style>
+				<position value="absolute"/>
+			</style>
+			<bind name="style" value="'alpha'; isUseless ? 0.2 : 1"/>
+			<bind name="instance" value="'CrewSkillEpicIcon'; skill.isEpic ? {} : null"/>
+		</block>
+		<block>
+			<bind name="visible" value="isUseless"/>
+			<style>
+				<hitTest value="false"/>
+				<position value="absolute"/>
+				<width value="60px"/>
+				<height value="60px"/>
+			</style>
+			<bind name="style" value="'backgroundImage'; 'url:../service_kit/icons/icon_useless_big.png'"/>
+		</block>
 	</block>
 	<block className="CrewFileSkillItem">
 		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
@@ -1375,37 +1446,58 @@
 		<bind name="watchDH" value="'crew'+'Retraining'; ['crewEntity.crew.evRetrainingUpdated']; crewEntity.retraining"/>
 		<bind name="primaryEntityDH" value="'shipOwnEntity'; CC.ownShip; crew.shipID; 'evUpdate'"/>
 		<bind name="watchDH" value="'playerShipInfo'; ['shipOwnEntity.ownShip.evUpdate', 'shipOwnEntity.ownShip.evCrewChanged']; shipOwnEntity.ownShip"/>
-		<bind name="primaryEntityDH" value="'skillEntity'; CC.crewSkill; $value; 'evUpdate'"/>
-		<bind name="watchDH" value="'skill'; ['skillEntity.crewSkill.evUpdate']; skillEntity.crewSkill"/>
+		<bind name="primaryEntityDH" value="'crewSkillEntity'; CC.crewSkill; $value; 'evUpdate'"/>
+		<bind name="watchDH" value="'crewSkill'; ['crewSkillEntity.crewSkill.evUpdate']; crewSkillEntity.crewSkill"/>
+		<bind name="primaryEntityDH" value="'skillEntity'; CC.skill; crewSkill.skillId"/>
+		<bind name="watchDH" value="'skill'; []; skillEntity.skill"/>
+		<bind name="watchDH" value="'isUseless'; ['skillEntity.attributes.evUsefulChanged']; !(skillEntity.attributes.useful)"/>
 		<style>
 			<position value="absolute"/>
 			<backgroundColor value="0x01000000"/>
 		</style>
 		<bind name="left" value="((skill.column * 60) + (skill.column * _iconHorizontalPadding) + ((skill.column - skill.column % 2)/2 * _iconHorizontalPadding * _groupPaddingCoeff))"/>
 		<bind name="top" value="((skill.tier - 1) * (60 + _iconVerticalPadding)))"/>
+		<bind name="watch" value="'isAvailableToLearn'; (crew.freeSkillPoints &gt;= skill.tier &amp;&amp; crewSkill.hasLearnedSkillOnPreviousTier &amp;&amp; !(playerShipInfo.isLocked) &amp;&amp; !(crewSkill.learned))"/>
 		<block>
-			<bind name="name" value="'IconSkill_' + skill.name"/>
-			<bind name="tooltip" value="'SkillTooltip'; {_id: $value, _crewId: _crewId}"/>
-			<bind name="transition" value="(skill.learned || (skill.canBeLearned &amp;&amp; rollOver)) &amp;&amp; !(playerShipInfo.isLocked); 0.15; {alpha: 0.6}; {alpha: 1.0}; {alpha: 0.6}; 2"/>
+			<bind name="transition" value="	(crewSkill.learned || (crewSkill.canBeLearned &amp;&amp; rollOver)) &amp;&amp;
+							!(playerShipInfo.isLocked); 0.1; {alpha: 0.6}; {alpha: 1.0}; {alpha: 0.6}; 2"/>
+			<block>
+				<bind name="name" value="'IconSkill_' + skill.name"/>
+				<bind name="tooltip" value="'SkillTooltip'; {_id: $value, _crewId: _crewId}"/>
+				<style>
+					<width value="60px"/>
+					<height value="60px"/>
+				</style>
+				<bind name="style" value="'alpha'; isUseless ? 0.2 : 1"/>
+				<bind name="instance" value="'CrewSkillEpicIcon'; skill.isEpic ? {} : null"/>
+				<bind name="style" value="'backgroundImage'; ('url:../crew_commander/skills/big/icon_perk_' + skill.name +
+											((crew.skillsEffectiveness &lt; 1) &amp;&amp; crewSkill.learned 	?	'_penalty.png' :
+											crewSkill.hasLearnedSkillOnPreviousTier					?	'.png'
+																									: 	'_inactive.png'))"/>
+				<bind name="soundOn" value="'click'; 'press'; 'crew_skill_item'"/>
+				<bind name="request" value="'click'; isAvailableToLearn ? 'learnSkill' : ''; {crewID: _crewId, skillType:skill.skillType, skillID:crewSkill.id}"/>
+			</block>
+		</block>
+		<block>
+			<bind name="visible" value="isUseless"/>
 			<style>
+				<hitTest value="false"/>
+				<position value="absolute"/>
 				<width value="60px"/>
 				<height value="60px"/>
 			</style>
-			<bind name="instance" value="'CrewSkillEpicIcon'; skill.isEpic ? {} : null"/>
-			<bind name="style" value="'backgroundImage'; ('url:../crew_commander/skills/big/icon_perk_' + skill.name +
-										((crew.skillsEffectiveness &lt; 1) &amp;&amp; skill.learned 	?	'_penalty.png' :
-										skill.hasLearnedSkillOnPreviousTier					?	'.png'
-																							: 	'_inactive.png'))"/>
-			<bind name="soundOn" value="'click'; 'press'; 'crew_skill_item'"/>
-			<bind name="request" value="'click'; crew.freeSkillPoints &gt;= skill.tier &amp;&amp; skill.hasLearnedSkillOnPreviousTier &amp;&amp; !(playerShipInfo.isLocked) &amp;&amp; !(skill.learned) ? 'learnSkill' : ''; {crewID: _crewId, skillType:skill.skillType, skillID:skill.id}"/>
+			<bind name="style" value="'backgroundImage';	crewSkill.learned												? 'url:../service_kit/icons/icon_useless_big.png' :
+										crewSkill.hasLearnedSkillOnPreviousTier &amp;&amp; !(crewSkill.learned)	? 'url:../service_kit/icons/icon_useless_inactive_big.png'
+																										: 'url:../service_kit/icons/icon_useless_locked_big.png'"/>
 		</block>
 		<block className="icon_check" type="native">
-			<bind name="visible" value="skill.learned"/>
 			<style>
 				<position value="absolute"/>
-				<top value="-3px"/>
-				<right value="-3px"/>
+				<hitTest value="false"/>
+				<right value="-10px"/>
+				<top value="-9px"/>
 			</style>
+			<bind name="visible" value="crewSkill.learned"/>
 		</block>
 	</block>
 	<block className="CrewSkillPointBadge">
@@ -1781,45 +1873,82 @@
 			</block>
 		</block>
 	</block>
+	<block className="ResizableButtonDock">
+		<style>
+			<width value="100%f"/>
+		</style>
+		<bind name="watch" value="'enabled'; _enabled != false"/>
+		<bind name="name" value="_name"/>
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController; null; 'resizableButtonDock_'"/>
+		<bind name="clickSplit"/>
+		<bind name="request" value="'left_click'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
+		<bind name="action" value="'left_click'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
+		<bind name="transition" value="resizableButtonDock_rollOver &amp;&amp; !(resizableButtonDock_mouseDown) &amp;&amp; enabled; 0.1; {alpha: 0.65}; {alpha: 1}; {alpha: 0.65}"/>
+		<bind name="soundOn" value="'left_click'; 'press'; 'default_button'"/>
+		<block>
+			<styleClass value="$FullsizeAbsolute"/>
+			<style>
+				<marginLeft value="-10px"/>
+				<marginRight value="-10px"/>
+				<marginBottom value="-9px"/>
+				<marginTop value="-10px"/>
+			</style>
+			<bind name="style" value="'hitTest'; enabled"/>
+			<block className="button_dock_bg" type="native">
+				<styleClass value="$Fullsize"/>
+				<bind name="gotoAndStop!" value="'down'"/>
+			</block>
+		</block>
+		<block type="text">
+			<style>
+				<hitTest value="false"/>
+				<mouseEnabled value="false"/>
+				<mouseChildren value="false"/>
+			</style>
+			<bind name="style" value="'alpha'; enabled ? 1 : 0.65"/>
+			<styleClass value="$TextDefaultBoldNM"/>
+			<bind name="class" value="'$FontColorBlueish'"/>
+			<bind name="text" value="_label"/>
+		</block>
+	</block>
 	<block className="InfopanelButton">
 		<bind name="request" value="'buttonClick'; _request ? _request : null; _request ? _requestParams : null"/>
+		<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: _tooltipIDS}"/>
+		<bind name="name" value="_name"/>
+		<bind name="dispatch" value="'mouseOver'; 'overInfopanelButton'; {InfopanelButtonOverAlpha: 1}"/>
+		<bind name="dispatch" value="'mouseOut'; 'upInfopanelButton'; {InfopanelButtonOverAlpha: 0.6}"/>
+		<bind name="dispatch" value="'mouseDown'; 'downInfopanelButton'; {InfopanelButtonOverAlpha: 0.3}"/>
+		<bind name="style" value="'alpha'; InfopanelButtonOverAlpha"/>
+		<bind name="catch" value="'downInfopanelButton'"/>
+		<bind name="catch" value="'upInfopanelButton'}"/>
+		<bind name="catch" value="'overInfopanelButton'"/>
 		<block className="button_infopanel_no_label" type="native">
-			<bind name="name" value="_name"/>
+			<bind name="style" value="'width'; _width"/>
 			<style>
 				<height value="40px"/>
 			</style>
-			<bind name="style" value="'width'; _width"/>
-			<bind name="dispatch" value="'mouseOver'; 'overInfopanelButton'; {InfopanelButtonOverAlpha: 1}"/>
-			<bind name="dispatch" value="'mouseOut'; 'upInfopanelButton'; {InfopanelButtonOverAlpha: 0.6}"/>
-			<bind name="dispatch" value="'mouseDown'; 'downInfopanelButton'; {InfopanelButtonOverAlpha: 0.3}"/>
 			<block>
 				<style>
+					<width value="100%"/>
 					<height value="100%"/>
-					<alpha value="0.5"/>
-					<mouseEnabled value="false"/>
+					<hitTest value="false"/>
 				</style>
-				<bind name="style" value="'alpha'; InfopanelButtonOverAlpha"/>
-				<bind name="catch" value="'downInfopanelButton'"/>
-				<bind name="catch" value="'upInfopanelButton'}"/>
-				<bind name="catch" value="'overInfopanelButton'"/>
-				<bind name="catch" value="'upInfopanelButton'"/>
 				<block>
 					<styleClass value="$MiddleVAligned"/>
 					<style>
 						<marginLeft value="8"/>
 						<backgroundStretchX value="true"/>
 						<backgroundStretchY value="true"/>
-						<mouseEnabled value="false"/>
 					</style>
 					<bind name="style" value="'width'; _iconWidth"/>
 					<bind name="style" value="'height'; _iconHeight"/>
 					<bind name="style" value="'backgroundImage'; _backgroundImage"/>
 				</block>
 				<block>
+					<styleClass value="$MiddleAligned"/>
+					<styleClass value="$MiddleVAligned"/>
 					<style>
-						<marginTop value="14px"/>
-						<marginLeft value="8"/>
-						<mouseEnabled value="false"/>
+						<position value="absolute"/>
 					</style>
 					<block type="text">
 						<styleClass value="$TextDefaultBoldNM"/>
@@ -1831,7 +1960,6 @@
 				</style>
 			</block>
 		</block>
-		<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: _tooltipIDS}"/>
 	</block>
 	<block className="ModalWindowLearnSkill">
 		<block className="ModalWindowContainer">
@@ -1853,7 +1981,7 @@
 					<hitTest value="false"/>
 				</style>
 				<bind name="visible" value="optionData.blurEnabled"/>
-				<block className="mc_blurmap3" type="native">
+				<block className="mc_blurmap5" type="native">
 					<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 					<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
 					<styleClass value="$Fullsize"/>
@@ -1881,13 +2009,16 @@
 		</block>
 	</block>
 	<block className="ModalWindowLearnSkillContent">
-		<bind name="primaryEntityDH" value="'skillEntity'; CC.crewSkill; $root.skillID; 'evUpdate'"/>
-		<bind name="watchDH" value="'skill'; ['skillEntity.crewSkill.evUpdate']; skillEntity.crewSkill"/>
+		<bind name="primaryEntityDH" value="'crewSkillEntity'; CC.crewSkill; $root.skillID; 'evUpdate'"/>
+		<bind name="watchDH" value="'crewSkill'; ['crewSkillEntity.crewSkill.evUpdate']; crewSkillEntity.crewSkill"/>
+		<bind name="primaryEntityDH" value="'skillEntity'; CC.skill; crewSkill.skillId"/>
+		<bind name="watchDH" value="'skill'; []; skillEntity.skill"/>
 		<bind name="primaryEntityDH" value="'crewEntity'; CC.crew; $root.crewID"/>
 		<bind name="watchDH" value="'crew'; ['crewEntity.crew.evBasketChanged', 'crewEntity.crew.evLevelUp', 'crewEntity.crew.evExpChanged', 'crewEntity.crew.evShipChanged', 'crewEntity.crew.evSkillsChanged', 'crewEntity.crew.evResetCostChanged', 'crewEntity.crew.evAdaptationUpdated', 'crewEntity.crew.evChanged', 'crewEntity.crew.evRecentnessUpdated']; crewEntity.crew"/>
 		<bind name="watchDH" value="'crew'+'Retraining'; ['crewEntity.crew.evRetrainingUpdated']; crewEntity.retraining"/>
 		<bind name="primaryEntityDH" value="'shipOwnEntity'; CC.ownShip; crew.shipID; 'evUpdate'"/>
 		<bind name="watchDH" value="'playerShipInfo'; ['shipOwnEntity.ownShip.evUpdate', 'shipOwnEntity.ownShip.evCrewChanged']; shipOwnEntity.ownShip"/>
+		<bind name="watchDH" value="'isUseless'; ['skillEntity.attributes.evUsefulChanged']; !(skillEntity.attributes.useful)"/>
 		<bind name="action" value="'addedToStage'; 'getShipWithUpgrade'; {id: $root.skillID, shipId: crew.shipID, type : 'crew'}"/>
 		<bind name="primaryEntityDH" value="'compareItemEntity'; CC.compareItem; 'crew_' + $root.skillID"/>
 		<bind name="watchDH" value="'crewCompare'; ['compareItemEntity.compareItem.evUpdate']; compareItemEntity.dataComponent.data"/>
@@ -1942,6 +2073,7 @@
 							<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 							<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 							<block>
+								<bind name="soundSet" value="'default_button'"/>
 								<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 								<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 								<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -1998,7 +2130,7 @@
 				<backgroundColor value="0x01000000"/>
 			</style>
 			<bind name="tooltip" value="'SkillTooltip'; {_id: $root.skillID, _crewId: $root.crewID, _noMouseInstructions: true}"/>
-			<bind name="instance" value="'SkillHeader'; {skill: skill, _penalty: false}"/>
+			<bind name="instance" value="'SkillHeader'; {skillId: crewSkill.id, _penalty: false}"/>
 		</block>
 		<block>
 			<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 2 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
@@ -2014,6 +2146,42 @@
 				</style>
 				<block className="divider_h" type="native">
 					<styleClass value="$Fullsize"/>
+				</block>
+			</block>
+		</block>
+		<block>
+			<style>
+				<width value="100%"/>
+			</style>
+			<bind name="visible" value="isUseless"/>
+			<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 3 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
+			<bind name="appear" value="'startHide'; 0.15; 3 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+			<block>
+				<style>
+					<width value="100%"/>
+					<marginBottom value="6px"/>
+					<marginTop value="12px"/>
+					<marginLeft value="12px"/>
+					<marginRight value="12px"/>
+				</style>
+				<bind name="instance" value="'MouseInstructionRepeater'; isUseless	?	{	_type: 'restriction',
+																			_instructionText: 'IDS_WARNING_USELESS_PERK',
+																			_maxWidth: 260}
+																	:	null"/>
+			</block>
+			<block>
+				<style>
+					<width value="100%"/>
+				</style>
+				<block className="HorizontalDivider">
+					<styleClass value="$PxHorizontalCorrection"/>
+					<style>
+						<width value="100%"/>
+						<height value="3px"/>
+					</style>
+					<block className="divider_h" type="native">
+						<styleClass value="$Fullsize"/>
+					</block>
 				</block>
 			</block>
 		</block>

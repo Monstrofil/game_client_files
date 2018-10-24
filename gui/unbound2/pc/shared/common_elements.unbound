@@ -1,0 +1,66 @@
+(def element InvertableTextLine () layout=true
+	(scope
+		(var _name:str = '')
+		(var _width:number = 0)
+		(var _invert:bool = false)
+		(var _normalClass:str = '$FontFamilyDefault')
+		(var _invertedClass:str = '$FontFamilyDefault')
+		(var _letterSpacing:number = 0)
+		(var _text:str = '')
+	)
+	
+	(tf
+		(bind name "_name")
+		(bind class "_invert ? _normalClass : _invertedClass")
+		(style
+			(position = "absolute") (top = 1px)
+			(bind multiline "_width ? false : true")
+			(bind letterSpacing "_letterSpacing ? _letterSpacing : 0")
+		)
+		(alpha = 0.35)
+		(bind width "_width ? _width : 'auto'")
+		(bind text "_text")
+	)
+	(tf
+		(bind class "_invert ? _normalClass : _invertedClass")
+		(style
+			(position = "absolute") (top = -1px)
+            (bind multiline "_width ? false : true")
+            (bind letterSpacing "_letterSpacing ? _letterSpacing : 0")
+        )
+        (alpha = 0.1) 
+		(bind width "_width ? _width : 0")
+		(bind text "_text")
+	)
+	(tf
+		(bind class "_invert ? _normalClass : _invertedClass")
+		(style
+			(position = "absolute") (left = 1px)
+            (bind multiline "_width ? false : true")
+            (bind letterSpacing "_letterSpacing ? _letterSpacing : 0")
+        )
+        (alpha = 0.2) 
+		(bind width "_width ? _width : 0")
+		(bind text "_text")
+	)
+	(tf
+		(bind class "_invert ? _normalClass : _invertedClass")
+		(style
+			(position = "absolute") (left = -1px)
+            (bind multiline "_width ? false : true")
+            (bind letterSpacing "_letterSpacing ? _letterSpacing : 0")
+        )
+        (alpha = 0.2)
+		(bind width "_width ? _width : 0")
+		(bind text "_text")
+	)
+	(tf
+		(bind class "_invert ? _invertedClass : _normalClass")
+		(style
+            (bind multiline "_width ? false : true")
+            (bind letterSpacing "_letterSpacing ? _letterSpacing : 0")
+        )
+		(bind width "_width ? _width : 0")
+		(bind text "_text")
+	)
+)

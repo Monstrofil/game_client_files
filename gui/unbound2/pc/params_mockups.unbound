@@ -1,0 +1,609 @@
+
+(def css $TextParams ()
+	(extends $TextDefault)
+	#(alpha 0.95)
+)
+
+(def css $TextParams_measure ()
+	(extends $TextDefault)
+	#(alpha 0.7)
+)
+
+(def css $TextParams_tight_left ()
+	(extends $TextParams)
+	#(alpha 0.55)
+	(marginLeft = -1px)
+)
+
+(def css $TextParams_tight_right ()
+	(extends $TextParams)
+	#(alpha 0.55)
+	(marginRight = -3px)
+)
+
+(def css $TextParams_slash ()
+	(extends $TextParams)
+	(marginRight = -2px)
+	(marginLeft = -2px)
+)
+
+(def css $TextParams_x ()
+	(extends $TextSecondary)
+	(marginLeft = -2px)
+	(marginRight = -2px)
+	(bottom = 2px)
+)
+
+(def css $TextParams_hyphen ()
+	(extends $TextParams)
+	(marginLeft = -2px)
+	(marginRight = -2px)
+)
+
+# MetaStat Bar Colors
+#1 - Red
+#(def css $BarColor1 ()
+#	(backgroundColor 0xFFD93D00))
+#2 - Orange
+#(def css $BarColor2 ()
+#	(backgroundColor 0xFFF17319))
+#3 - Yellow
+#(def css $BarColor3 ()
+#	(backgroundColor 0xFFFFA531))
+#4 - Shitty
+#(def css $BarColor4 ()
+#	(backgroundColor 0xFFE2B83D))
+#5 - Greeny
+#(def css $BarColor5 ()
+#	(backgroundColor 0xFF8DBB44))
+# White
+#(def css $BarColorCompare ()
+#	(backgroundColor 0xFFFFFFFF))
+# Red Compare
+#(def css $BarColorComparePositive ()
+#	(backgroundColor 0xFF6EF713))
+# WGreen Compare
+#(def css $BarColorCompareNegative ()
+#	(backgroundColor 0xFFFF3600))
+
+
+# _width, _hasDiff, _currentValue, _diffValue, _isGood
+(def element StatValueBar () layout=true
+	(scope
+		(var _hasDiff:bool = false)
+		(var _currentValue:number = 1)
+		(var _diffValue:number = 20)
+		(var _isPositiveDiff:bool = false)
+	)
+	
+	(style
+		(flow = "Flow.HORIZONTAL")
+		#(backgroundColor = 0x44000000)
+		(width = 100%)
+		(position = "absolute")
+		#(bottom = 0)
+		(height = 100%)
+	)
+	#(macro trace "Flow.HORIZONTAL")
+	
+	#(bind transition "rollOver || _expand; 0.15; {height: 3}; {height: 25}; {height: 3}; 2; 0.2")
+	
+	(block
+		(style
+			#(backgroundColor = 0xFFFF0000)
+			(bind width "1% * (_currentValue + (_hasDiff ? (_isPositiveDiff ? _diffValue : 0  ) : 0 ) )")	
+			(height = 100%)
+		)
+			
+		(mc bar_color
+			(class $Fullsize)
+#			(bind transition "rollOver || _expand; 0.35; {alpha: 0.8}; {alpha: 0.6}; {alpha: 0.8}; 2")
+			(bindcall gotoAndStop "_isPositiveDiff ? 'BarColorGreen' : 'BarColorWhite'" init=true)
+			#(bindcall gotoAndStop "_hasDiff || _diffValue == 0 ? 'BarColorWhite' : 'BarColorGreen'" init=true)
+		)
+	)
+	
+	#TODO Negative Bar - disable if not needed, not width=0 !
+#	(block
+#		(style (height 100%) (width 3px))
+#		(bind width "(_width * (_isGood ? _diffValue : -_diffValue)) / 100")
+#		(mc bar_color_compare
+#			(class $Fullsize)
+#			(bind gotoAndStop! "_isGood ? 'BarComparePositive' : 'BarCompareNegative'")
+#			#(bind gotoAndStop! "_invert ? (_isGood ? 'BarCompareNegative' : 'BarComparePositive')
+#			#							: (_isGood ? 'BarComparePositive' : 'BarCompareNegative')")
+#		)
+#	)
+	#)
+)
+#
+#(element StatValueCompareBar ()
+#
+#	(class $Fullsize)
+#	(bind class "_isGood ? '$BarColorComparePositive' : '$BarColorCompareNegative'")
+#	(bind scaleX "_diffValue")
+#)
+#
+#(element CompareElement ()
+#
+#	(hblock
+#		#(tf (class $TextSecondarySmall) (text "("))
+#		(tf
+#			(bind class "isGood ? '$FontColorComparePositive' : '$FontColorCompareNegative'")
+#			(bind class "$parent.$parent.$parent.$parent.meta ? '$TextDefaultBold' : '$TextParams'")
+#			(style (alpha 0.9))
+#			#(bind text "!diff ? '-' : (bothExists ? ($parent.$parent.$parent.$parent.meta ? textValue : textValue) : '-')")
+#			(bind text "textValue")
+#		)
+#		#(tf (class $TextSecondarySmall) (text ")"))
+#	)
+#)
+#
+
+#sync: Dictionaries.py -> MockUps
+(def constant ParamMockupNames   [
+                                'DefaultMockup', 
+                                'ListAmmoMockup', 
+                                'DiffColorsMockup', 
+                                'PlaneTypesMockup', 
+                                'GunsAndTubesMockup', 
+                                'RangeMockup', 
+                                'ListValuesMockup', 
+                                'ListValuesInvMockup',
+                                'GunInfoMockup'
+							]
+)
+
+(def element ParamElement(valueEntityID:number) layout=true
+	(scope
+        (var entity:gfx = "$datahub.getEntity(valueEntityID)")
+        (var shipParamItemData:gfx = "entity.shipParamItemData")
+    )
+	
+	(controller $Instance 
+		(bind renderer "ParamMockupNames[shipParamItemData.mockupClass]")
+		(args shipParamItemData = "shipParamItemData")
+	)
+)
+
+
+#
+## MOCKUPS
+#
+## значение ед1[/ значение ед2[/ значение ед3]] ед
+##
+## {	count
+##	measure
+##	items = [{ 	value
+##				textValue
+##				measure
+##				isLast
+##			}
+##			{ 	value
+##				textValue
+##				measure
+##				isLast
+##			}
+##	 		{ 	value
+##				textValue
+##				measure
+##				isLast
+##			}]
+##}
+##
+#
+(def element DefaultMockupItem (textValue:str, meta:bool=true, hasDiff:bool=false) layout=true
+#	(bind watch "'id'; $parent.id")
+	(style 
+		(flow = "Flow.HORIZONTAL")
+	)
+	#(macro trace "_currentValue")
+	
+	(tf
+		(bind class "meta ? '$TextMetaHeader' : '$TextParams'")
+		#(name "field0")
+		#(bind name "'param_content_' + $parent.id")
+		(bind text "meta ? ((textValue != '0' || hasDiff) ? textValue : '') : textValue")
+	)
+	
+#	(tf
+#		(bind class "$parent.$parent.$parent.meta ? '$TextMetaHeader' : '$TextParams'")
+#		(name "field0")
+#		(bind name "'param_content_' + $parent.id")
+#		(bind text "$parent.$parent.$parent.meta ? ((textValue != '0' || $parent.$parent.hasDiff) ? textValue : '') : textValue")
+#	)
+#	(block
+		#(bind visible "measure;value != null") # ????
+#		(tf
+#			(class $TextParams_measure)
+#			(bind pluralText "measure;value") #TODO_UB2 plural text
+#			(alpha = 0.7)
+#		)
+#	)
+#	(block
+#		(bind visible "!isLast")
+#		(tf
+#			(bind class "!isLast ? '$TextParams_slash' : '$TextParams'")
+#			(bind text "!isLast ? '/' : ''")
+#		)
+#	)
+)
+
+#(element DefaultCompareItem ()
+#	(bind watch "'id'; $parent.id")
+#	(style (flow horizontal))
+#	(block (bind instance "'CompareElement'; diffData"))
+#	(tf 
+#		(bind class "!isLast ? '$TextParams_slash' : '$TextParams'")
+#		(bind text "!isLast ? '/' : ''")
+#		(bind name "'param_content_' + $parent.id")
+#	)
+#)
+#
+(def element DefaultMockup (shipParamItemData:gfx) layout=true
+	
+    (style
+        (flow = "Flow.HORIZONTAL")
+    )
+	
+	#(macro trace "shipParamItemData")
+	#(macro trace "shipParamItemData.textValues")
+	
+#	(bind watch "'id'; $parent.id")
+#	(tf
+#		(bind class "$parent.hasDiff ? '$TextParams_tight_right' : '$TextParams'")
+#		(bind text "$parent.hasDiff ? '(' : ''")
+#	)
+#	# watch added to fix WWSD-94027
+#	(bind watch "'item0'; $parent.data.items[0]")
+#	(bind watch "'item1'; $parent.data.items[1]")
+#	(bind watch "'item2'; $parent.data.items[2]")
+#	(block
+#		(bind instance "'DefaultCompareItem'; $parent.hasDiff ? item0 : null"))
+#	(block
+#		(bind instance "'DefaultCompareItem'; $parent.hasDiff ? item1 : null"))
+#	(block
+#		(bind instance "'DefaultCompareItem'; $parent.hasDiff ? item2 : null"))
+#	(tf
+#		(class $TextParams_tight_left)
+#		(bind text "$parent.hasDiff ? ')' : ''")
+#	)
+	#$parent.data.items[0]
+	(element DefaultMockupItem textValue="shipParamItemData.currentValue")
+#	(block 
+#		(bind instance "'DefaultMockupItem'; $parent.data.items[1]")
+#	)
+#	(block 
+#		(bind instance "'DefaultMockupItem'; $parent.data.items[2]")
+#	)
+#	(block
+#		(bind visible "$parent.data.measure != ''")
+#		(tf
+#			(style (textAlign right))
+#			(class $TextParams_measure) 
+#			(bind text "$parent.data.measure")
+#		)
+#	)
+)
+#
+## num*num (measureunit)
+#(element AmmoMockup ()
+#
+#	(style (flow horizontal))
+#	(bind name "'item' + $index")
+#	(tf 
+#		(class $TextParams) 
+#		(name "field0") 
+#		(bind text "dataArray[0] * dataArray[2]")
+#		(bind name "'param_content_' + $parent.id")
+#	)
+#	(tf 
+#		(class $TextParams_x) 
+#		(text "x")
+#	)
+#	(tf 
+#		(class $TextParams)
+#	 	(name "field1") 
+#	 	(bind text "dataArray[1]")
+#	 	(bind name "'param_content_' + $parent.id")
+#	 )
+#	(tf 
+#		(class $TextParams_measure) 
+#		(bind text "$parent.$parent.measureIDS"))
+#	(tf 
+#		(class $TextParams) 
+#		(bind text "$index < ($parent.$parent.values.length - 1) ? ',' : ''")
+#	)
+#)
+#
+## repeat of AmmoMockup elements
+#(element ListAmmoMockup ()
+#
+#	#(class $TableCellTextValue)
+#	(style (flow horizontal))
+#	(bind repeat "$parent.values; 'AmmoMockup'")
+#)
+#
+## coloured num/num for byouance/health
+#(element DiffColorsMockup ()
+#
+#	(style (flow horizontal))
+#	(hblock
+#		(tf 
+#			(bind class "$parent.hasDiff ? '$TextParams_tight_right' : '$TextParams'") 
+#			(bind text "$parent.hasDiff ? '(' : ''")
+#		)
+#		(block (bind instance "'CompareElement'; ($parent.diffData.length > 0 && $parent.diffData[0].diff) ? $parent.diffData[0] : null"))
+#		(tf 
+#			(class $TextParams_tight_left) 
+#			(bind text "$parent.hasDiff ? ')' : ''")
+#		)
+#	)
+#
+#	(bind watch "'textvalue'; $parent.values[0]")
+#	(tf (class $TextParams)
+#		#(bind class "'$FontColorHealth'")
+#		(name "field1")
+#		(bind text "format(textvalue, -1)")
+#		(bind name "'param_content_h_' + $parent.id")
+#	)
+#)
+#
+#(element PlaneTypeMockup ()
+#
+#	(style (flow horizontal) (marginLeft 2px))
+#	(bind name "'planeType' + type")
+#	(mc icon_airplane_type (bind gotoAndStop! "type")
+#		(hblock
+#			(style (position absolute))
+#			(class $MiddleAligned)
+#			(tf 
+#				(bind class "$parent.hasDiff ? '$TextParams_tight_right' : '$TextParams'") 
+#				(bind text "$parent.$parent.hasDiff ? '(' : ''")
+#			)
+#			(block 
+#				(bind instance "'CompareElement'; diffData")
+#			)
+#			(tf 
+#				(class $TextParams_tight_left) 
+#				(bind text "$parent.$parent.hasDiff ? ')' : ''")
+#			)
+#		)
+#	)
+#	(tf 
+#		(class $TextParams) 
+#		(name "count") 
+#		(bind text "count")
+#		(bind name "'param_content_' + $parent.id ")
+#	)
+#)
+#
+## plane-types mpckup
+#(element PlaneTypesMockup ()
+#
+#	#(class $TableCellTextValue)
+#	(style (flow horizontal))
+#	(bind repeat "$parent.data.list; 'PlaneTypeMockup'")
+#)
+#
+## x 10 (2)
+#
+#(element GunsAndTubesMockup ()
+#
+#	#(class $TableCellTextValue)
+#	(style (flow horizontal))
+#	(tf 
+#		(class $TextParams_x) 
+#		(text "x")
+#	)
+#	(tf 
+#		(class $TextParams) 
+#		(name "field0") 
+#		(bind text "$parent.values[0]")
+#		(bind name "'param_content_1_' + $parent.id")
+#
+#	)
+#	(tf 
+#		(class $TextParams_tight_right) 
+#		(text "(")
+#	)
+#	(tf 
+#		(class $TextParams) 
+#		(style 
+#			(marginLeft 1px) 
+#			(marginRight -1px)
+#		) 
+#		(name "field1") 
+#		(bind text "$parent.values[1]")
+#		(bind name "'param_content_2_' + $parent.id")
+#	)
+#	(tf 
+#		(class $TextParams_tight_left) 
+#		(text ")")
+#	)
+#
+#	(block 
+#		(bind instance "'GunsAndTubesCompareElement'; diffData[0]")
+#	)
+#	(tf 
+#		(bind class "$parent.hasDiff ? '$TextParams_tight_right' : '$TextParams'") 
+#		(bind text "$parent.$parent.hasDiff ? '(' : ''")
+#	)
+#	(block 
+#		(bind instance "'GunsAndTubesCompareElement'; diffData[1]")
+#	)
+#	(tf 
+#		(class $TextParams_tight_left) 
+#		(bind text "$parent.$parent.hasDiff ? ')' : ''")
+#	)
+#)
+#
+#(element GunsAndTubesCompareElement ()
+#
+#	(style (flow horizontal))
+#	(tf
+#		(class $TextParams)
+#		(bind class "isGood ? '$FontColorComparePositive' : '$FontColorCompareNegative'")
+#		(bind text "textValue")
+#		(bind name "'param_content_' + $parent.id")
+#	)
+#)
+#
+## mockup for data like
+## num - num measure
+#(element RangeMockup ()
+#
+#	#(class $TableCellTextValue)
+#	(style (flow horizontal))
+#	(tf 
+#		(class $TextParams) 
+#		(name "field0") 
+#		(bind text "$parent.values[0]")
+#		(bind name "'param_content_min_' + $parent.id")
+#	)
+#
+#	(block 
+#		(bind instance "'CompareElement'; ($parent.diffData.length > 0 && $parent.diffData[0].diff) ? $parent.diffData[0] : null")
+#	)
+#
+#	(tf 
+#		(bind class "$parent.values[0] != $parent.values[1] ? '$TextParams_hyphen' : '$TextParams'")
+#		(bind text "$parent.values[0] != $parent.values[1] ? '-' : '' ")
+#	)
+#	(tf 
+#		(class $TextParams) 
+#		(name "field1") 
+#		(bind text "$parent.values[0] != $parent.values[1] ? $parent.values[1] : '' ")
+#		(bind name "'param_content_max_' + $parent.id")
+#	)
+#
+#	(block 
+#		(bind instance "'CompareElement'; ($parent.diffData.length > 1 && $parent.diffData[1].diff && $parent.values[0] != $parent.values[1]) ? $parent.diffData[1] : null")
+#	)
+#	(tf 
+#		(class $TextParams_measure) 
+#		(bind text "$parent.measureIDS")
+#	)
+#)
+#
+## num measureunit
+#
+#(element ListValuesItemMockup ()
+#
+#	(style (flow horizontal))
+#	(bind name "'item' + $index")
+#	(tf 
+#		(class $TextParams) 
+#		#(name "'field0'") 
+#		(bind text "textValue")
+#		(bind name "'param_content_' + $parent.id")
+#	)
+#	(tf 
+#		(class $TextParams_measure) 
+#		(bind text "measure"))
+#	(tf 
+#		(class $TextParams_slash) 
+#		(bind text "!isLast ? '/' : ''")
+#	)
+#)
+#
+#(element CompareListValuesItem ()
+#
+#	(style (flow horizontal))
+#	(block 
+#		(bind instance "'CompareElement'; diffData")
+#	)
+#	(tf 
+#		(class $TextParams_slash) 
+#		(bind text "!isLast && diffData != null ? '/' : ''")
+#
+#	)
+#)
+#
+## num measure / num measure / num measure
+##{ list = [	{	value
+##				textValue
+##				measure
+##				isLast},
+##			{...},
+##			...
+##			]
+#(element ListValuesMockup ()
+#
+#	(style (flow horizontal))
+#
+#	(tf 
+#		(bind class "$parent.hasDiff ? '$TextParams_tight_right' : '$TextParams'") 
+#		(bind text "$parent.hasDiff ? '(' : ''")
+#	)
+#	(hblock 
+#		(bind repeat "$parent.data.list; 'CompareListValuesItem'")
+#		)
+#	(tf 
+#		(class $TextParams_tight_left) 
+#		(bind text "$parent.hasDiff ? ')' : ''")
+#	)
+#
+#	(hblock 
+#		(bind repeat "$parent.data.list; 'ListValuesItemMockup'")
+#	)
+#)
+#
+#(element ListValuesInvMockup ()
+#
+#	(style (flow horizontal))
+#	(hblock 
+#		(style (marginLeft 0px)) 
+#		(bind repeat "$parent.data.list; 'ListValuesItemMockup'"))
+#
+#	(tf 
+#		(style (marginLeft 2px)) 
+#		(bind class "$parent.hasDiff ? '$TextParams_tight_right' : '$TextParams'") 
+#		(bind text "$parent.hasDiff ? '(' : ''")
+#	)
+#	(hblock 
+#		(bind repeat "$parent.data.list; 'CompareListValuesItem'")
+#	)
+#	(tf 
+#		(class $TextParams_tight_left) 
+#		(bind text "$parent.hasDiff ? ')' : ''")
+#	)
+#)
+#
+#(element GunTypeMockup()
+#
+#	(block
+#		(tf 
+#			(class $TextParams) 
+#			(bind text "$parent.data.items[0].textValue"))
+#			(bind name "'param_content_' + $parent.id")
+#	)
+#)
+#
+#(element GunInfoMockup()
+#
+#	(style (flow horizontal))
+#	
+#	(tf 
+#		(class $TextParams) 
+#		(bind text "$parent.data.items[0].textValue"))
+#		(bind name "'param_content_' + $parent.id")
+#	(tf 
+#		(class $TextParams_x) 
+#		(bind text "'x'"))
+#	(tf 
+#		(class $TextParams) 
+#		(bind text "$parent.data.items[1].textValue"))
+#		(bind name "'param_content_' + $parent.id")
+#	(tf 
+#		(class $TextParams) 
+#		(bind text "''"))
+#	(tf 
+#		(class $TextParams) 
+#		(bind text "$parent.data.items[2].textValue"))
+#		(bind name "'param_content_' + $parent.id")
+#	(tf 
+#		(class $TextParams_measure) 
+#		(bind text "$parent.data.measure")
+#	)
+#)

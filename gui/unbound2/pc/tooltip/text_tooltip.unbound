@@ -1,0 +1,61 @@
+
+(def element TextTooltip() layout=true
+	(scope
+		(var stageEntity:gfx = "$datahub.getSingleEntity(CC.stage)")
+		(var stageWidth:number = "stageEntity.stage.width" (event "stageEntity.stage.evStageSizeChanged"))
+		(var stageHeight:number = "stageEntity.stage.height" (event "stageEntity.stage.evStageSizeChanged"))
+		
+		(var posX:number = 0px)
+		(var posY:number = 0px)
+        		
+		#(var fl:number = 42.8)	
+		(var tooltipText:str = '')
+#		
+#		(var testArgOne:number = 0)
+#		(var testArgTwo:str = '')
+#		(var testArg3:array = [])
+#		
+#		(var events:array = ['evClickEvent', 'evRightClickEvent'])
+#		
+#		(event evClickEvent)
+#		(event evTestEvent)
+#        (event evRightClickEvent)
+#		
+#		(bind txtStr "'leftBtnClick'" init=false (event "evTestEvent") )
+#		#(bind txtStr "'testEvent'" init=false (event "evTestEvent") )
+#		(bind txtStr "'rightBtnClick'" init=false (event "evRightClickEvent") )
+	)
+	
+#	(dispatch evTestEvent init=false on='click')
+	#(macro trace "$scope" 0)
+	(style
+		(bind width "100")
+		(bind height "20")
+		(backgroundColor = 0x2200FF00)
+		(position = "absolute")
+		#(bind top "-350")
+		#(bind left "350")
+	)
+	#(x = 20)
+	#(y = 20)
+	
+#	(controller $Animation
+#        (bindcall play  duration="2.0" 
+#                        from="{alpha: 0.1, height:300}"
+#                        to= "{alpha: 1.0, height:500}"
+#                        killAll="true" 
+#                        repeatCount = 0
+#                        (bind enabled "testArgOne > 13")
+#        )
+#    )
+	
+	(block
+		(style
+			(position = "absolute")
+			#(bottom = 100%)
+		)
+	    (tf
+	        (bind text "tooltipText")
+	    )
+    )
+)

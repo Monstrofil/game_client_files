@@ -1,0 +1,330 @@
+(def css $Fullsize ()
+	(width = 100%)
+	(height = 100%))
+
+(def css $FullsizeAbsolute ()
+	(width = 100%)
+	(height = 100%)
+	(position = "absolute"))
+
+(def css $FullWidth ()
+	(width = 100%))
+
+(def css $MiddleAligned ()
+	(left = 50%)
+	(marginLeft = -50%))
+	
+(def css $MiddleAlignedAbsolutely ()
+	(extends $MiddleAligned)
+	(position = "absolute"))
+
+(def css $MiddleVAligned ()
+	(top = 50%)
+	(marginTop = -50%))
+	
+(def css $EyeLevelVAligned ()
+	#(top "720:360,2160:900ah")
+	(marginTop = -50%))
+
+(def css $MiddleVAlignedAbsolutely ()
+	(extends $MiddleVAligned)
+	(position = "absolute"))
+
+(def css $MiddleVHAbsolutely ()
+	(position = "absolute")
+	(left = 50%)
+	(top = 50%)
+	(marginTop = -50%)
+	(marginLeft = -50%)
+)
+
+(def css $AlignRight ()
+	(position = "absolute")
+	(right = 0))
+
+	
+(def css $Quad ()
+#	(width = _size)
+#	(height = _size)
+)
+
+(def css $MouseDisable ()
+#	(mouseEnabled false)
+#	(mouseChildren false)
+#	(hitTest false)
+)
+
+(def css $InfoLineBoundaries ()
+	(marginBottom = 6px)
+	(marginTop = 6px))
+
+(def css $InfoBlockHorizontalIndent ()
+	(width = 100%)
+	(paddingLeft = 12px)
+	(paddingRight = 12px)
+)
+(def css $InfoBlockIndent ()
+	(extends $InfoBlockHorizontalIndent)
+	(paddingTop = 9px)
+	(paddingBottom = 9px)
+)
+
+(def css $InfoBlockHorizontalIndentNoWidth ()
+	(marginLeft = 12px)
+	(marginRight = 12px)
+)
+
+(def css $DockPanelMargins ()
+	(marginLeft = 13px)
+	(marginRight = 13px)
+	
+)
+(def css $InfoBlockIndentNoWidth ()
+	(extends $InfoBlockHorizontalIndentNoWidth)
+	(marginTop = 9px)
+	(marginBottom = 9px)
+)
+
+(def css $ShipTechStats ()
+	(width = 312px)
+	(height = 100%)
+	(position = "absolute")
+	(top = 32px)
+	(right = 10px)
+)
+
+(def css $TextInputEnterButton ()
+	(position = "absolute")
+	(top = 50%)
+	(marginTop = -11px)
+	(width = 52px)
+	(height = 25px)
+	(right = 2px)
+)
+
+(def css $TextAreaEnterButton ()
+	(position = "absolute")
+	(bottom = 0px)
+	(width = 52px)
+	(height = 25px)
+	(right = 2px)
+)
+
+(def css $DefaultScrollBar ()
+#	(scrollbar "ModernScrollBar")
+#	(scrollbarController "lesta.unbound.style.UbScrollingControllerModern")
+#	(scrollArea "ModernScrollArea")
+#	(scrollbarTrackMode "scrollToCursor")
+#	(wheelScrollSpeed 15)
+)
+
+(def css $None ())
+
+(def css $PxHorizontalCorrection ()
+	(paddingLeft = 1px)
+	(paddingRight = 1px)
+)
+
+(def css $CustomIndent ()
+#	(marginLeft = _px)
+#	(marginRight = _px)
+#	(marginTop = _px)
+#	(marginBottom = _px)
+)
+
+(def css $PxIndent ()
+#	(extends $CustomIndent "1px")
+)
+
+(def css $BottomMenu ()	
+	(height = 30px)
+	(position = "absolute")
+	(bottom = 0px)
+	(width = 100%)
+)
+
+(def element HorizontalDivider () layout=true
+	#
+	(class $PxHorizontalCorrection)
+	(style 
+		(width = 100%) 
+		(height = 3px)
+	)
+	(mc divider_h
+			(class $Fullsize))
+)
+
+(def element VerticalDivider () layout=true
+	(style (height = 100%) (width = 3px))
+	(mc divider_v
+			(class $Fullsize))
+)
+
+(def element TableDivider () layout=true
+	(style
+		(backgroundImage = "'symbol:dotted_line'")
+		#(backgroundRepeatX = true)
+		(width = 100%)
+		(height = 1px)
+		(alpha = 0.1)
+	)
+)
+
+(def element Underline() layout=true
+#	(bind style "'backgroundColor'; (rollOver && !mouseDown) ? '0xFFFFFFFF' : '0x00856933'")
+#	(bind transition "(rollOver && !mouseDown) == true; 0.3; {scaleX : 0, alpha : 0}; {scaleX : 1, alpha :1}")
+#	(style
+#		(backgroundColor 0xFFFFFFFF)
+#		(position absolute)
+#		(height 1px)
+#		(width 100%)
+#		(bottom 0px)
+#		(marginLeft 2px)
+#		(marginRight 2px)
+#	)
+)
+
+#Default Blur map: use for any case, except come special cases
+(def element BlurMap () layout=true
+#	(bind visible "optionData.blurEnabled")
+#
+#	(bind controller "lesta.dialogs.controllers.EntitySingletonController; 'optionData'")
+#	(style (hitTest false))
+#	(class $FullsizeAbsolute)
+#	(mc mc_blurmap_medium
+#		(bind appear "'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}")
+#		(bind appear "'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}")
+#		(class $FullsizeAbsolute)
+#		(bind blurMap "0")
+#	)
+#	(mc inner_panel
+#		(style (alpha 0.5))
+#		(class $FullsizeAbsolute)
+#	)
+)
+
+(def element BlurMapLow () layout=true
+#	(bind visible "optionData.blurEnabled")
+#
+#	(bind controller "lesta.dialogs.controllers.EntitySingletonController; 'optionData'")
+#	(style (hitTest false))
+#	(class $FullsizeAbsolute)
+#	(mc mc_blurmap5
+#		(bind appear "'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}")
+#		(bind appear "'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}")
+#		(class $FullsizeAbsolute)
+#		(bind blurMap "0")
+#	)
+#	(mc inner_panel
+#		(style (alpha 0.2))
+#		(class $FullsizeAbsolute)
+#	)
+)
+
+(def element BlurMapNotifications () layout=true
+#	(bind controller "lesta.dialogs.controllers.EntitySingletonController; 'optionData'")
+#	(bind visible "optionData.blurEnabled")
+#	(style (position absolute) (width 100%) (height 100%))
+#	(mc mc_blurmap5_feather
+#		(bind fade "_start; 0.3; {alpha: 0, top: 10}; {alpha: 1, top:0 }; {alpha: 0, top: -20}; 1; 0.15")
+#		(style (width 100%) (height 100%))
+#		(bind blurMap "0")
+#	)
+)
+
+#Pass blurmap class name (mc swf lib) to "_map" to use any kind of blurmap for special cases.
+(def element BlurMapCustom (_map:str) layout=true
+#	(bind controller "lesta.dialogs.controllers.EntitySingletonController; 'optionData'")
+#	(class $FullsizeAbsolute)
+#	(style (hitTest false))
+#	(bind visible "optionData.blurEnabled")
+#	(mc _map
+#		(bind appear "'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}")
+#		(bind appear "'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}")
+#		(class $Fullsize)
+#		(bind blurMap "0")
+#	)
+)
+
+#Pass blurmap class name (mc swf lib) to "_map" to use any kind of blurmap for special cases.
+(def element BlurMapCustomOutbound (_map:str) layout=true
+#	(bind controller "lesta.dialogs.controllers.EntitySingletonController; 'optionData'")
+#	(style (position absolute) (width 100%) (height 100%) (hitTest false))
+#	(bind visible "optionData.blurEnabled")
+#	(mc _map
+#		(bind appear "'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}")
+#		(bind appear "'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}")
+#		(style (width 110%) (height 110%) (left -5%) (top -5%))
+#		(bind blurMap "0")
+#	)
+)
+(def element BlurMapCustomPxOutbound (_map:str, _hOut:number, _vOut:number) layout=true
+#	(bind controller "lesta.dialogs.controllers.EntitySingletonController; 'optionData'")
+#	(style (hitTest false))
+#	(class $FullsizeAbsolute)
+#	(bind style (template "'marginLeft'; -%s" _hOut))
+#	(bind style (template "'marginRight'; -%s" _hOut))
+#	(bind style (template "'marginTop'; -%s" _vOut))
+#	(bind style (template "'marginBottom'; -%s" _vOut))
+#
+#	(bind visible "optionData.blurEnabled")
+#	(mc _map
+#		(bind appear "'addedToStage'; 0.15; 0; {alpha: 0}; {alpha: 0.7}")
+#		(bind appear "'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}")
+#		(class $Fullsize)
+#		(bind blurMap "0")
+#	)
+)
+
+(def element DeclareBlurLayer () layout=true
+#	(bind controller "lesta.dialogs.controllers.EntitySingletonController; 'optionData'")
+#	(bind visible "optionData.blurEnabled")
+#	(mc transparentPixel
+#		(bind blurLayer "0")
+#	)
+#	(style (position absolute))
+)
+
+(def css $ContextMenuListItem () layout=true
+#	(width 100%)
+#	(height 29px)
+)
+
+(def css $ContextMenuListItemContent () layout=true
+#	(width 198px)
+#	(marginLeft 6px)
+#	(marginRight 6px)
+)
+
+(def css $ContextMenuDimentions () layout=true
+#	(width 210px)
+)
+
+(def element DropShadow () layout=true
+#	(class $FullsizeAbsolute)
+#	(class $MouseDisable)
+#	(mc drop_shadow
+#		(class $Fullsize)
+#		(style (position absolute) (marginTop -2px) (marginRight -6px) (marginBottom -10px) (marginLeft -6px))
+#	)
+)
+
+(def element EmptyItem() layout=true
+	#Hack for childBinding crash on later subtype update and default element
+#	(bind visible "false")
+)
+
+# few things to make repetitive layout prettier
+#(define isListEmpty (items)
+#	(eq (car items) none))
+
+#(define map (items proc)
+#	(if (not (isListEmpty items))
+#		(cons (proc (car items)) (map (cdr items) proc))
+#		(list)))
+
+
+### Dotted Line Element of Detailed Statistic
+(def element DottedLine () layout=true
+#	(style (backgroundImage "symbol:dotted_line") (backgroundRepeatX true) (width 100%) (height 1px) (alpha 0.5))
+)	

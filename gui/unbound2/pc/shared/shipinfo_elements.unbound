@@ -1,0 +1,852 @@
+(def css $TextShipLineNormal()
+    (fontFamily = '$WWSDefaultFontBold')
+    (extends $FontColorWhite)
+    (extends $FontSizeDefault)
+    (extends $TextMouseDisable)
+    )
+(def css $TextShipLinePremium()
+    (extends $TextShipLineNormal)
+    (extends $FontColorGolden)
+    )
+(def css $TextShipLineBlack()
+    (extends $TextShipLineNormal)
+    (extends $FontColorAlmostBlack)
+    )
+(def css $TextMetaHeader()
+    (extends $TextDefaultBold)
+    (extends $FontColorWhite)
+    )
+(def css $TextMetaInfo()
+    (extends $TextDefault)
+    (extends $FontColorDefault)
+    )
+(def css $ShipParamTitleWidth()
+    (width = "160px")
+    )
+(def css $ShipParamOnePieceTitleWidth()
+    (maxWidth = "160")
+    )
+(def css $TextShipLinePremiumAccentBold()
+    (extends $TextShipLineBoldAccent)
+    (extends $FontColorGolden)
+    )
+(def css $TextShipLineBoldAccent()
+    (fontFamily = '$WWSDefaultFontBold')
+    (extends $FontColorDefault)
+    (extends $FontSizeHeader3)
+    (extends $TextMouseDisable)
+    )
+(def css $TextShipLinePremiumBold()
+    (extends $TextShipLineBold)
+    (extends $FontColorGolden)
+    )
+(def css $TextShipLineBold()
+    (fontFamily = '$WWSDefaultFontBold')
+    (extends $FontColorDefault)
+    (extends $FontSizeDefault)
+    (extends $TextMouseDisable)
+    )
+(def css $TextShipLineBlackAccentBold()
+    (extends $TextShipLineBoldAccent)
+    (extends $FontColorAlmostBlack)
+    )
+(def css $TextShipLineBlackBold()
+    (extends $TextShipLineBold)
+    (extends $FontColorAlmostBlack)
+    )
+### text size 21 ###
+(def css $TextShipHeaderNameGolden21()
+    (fontFamily = '$WWSDefaultFontBold')
+    (extends $FontColorWhite)
+    (extends $FontSizeHeader5)
+    (extends $TextMouseDisable)
+    (extends $FontColorGolden)
+    )
+(def css $TextShipHeaderNameNormal21()
+    (fontFamily = '$WWSDefaultFontBold')
+    (extends $FontColorWhite)
+    (extends $FontSizeHeader5)
+    (extends $TextMouseDisable)
+    )
+(def css $TextShipHeaderNameBlack21()
+    (extends $TextShipHeaderNameNormal21)
+    (extends $FontColorAlmostBlack)
+    )
+    
+(def element ShipLineItem()
+#    (macro PULL_SHIP_PLAYER _shipId shipOwnEntity playerShipInfo)
+#    (macro PULL_SHIP _shipId shipEntity shipInfo)
+#    (macro PULL_USI shipEntity)
+#    (var notInvertable:unknown = "(playerShipInfo != null) || _notInvertable")
+#    # we need to ignore the 'isOwned' flag for the Replays screen
+#    (style 
+#        (flow = "horizontal")
+#    )
+#    (block 
+#        #(bind style "'marginTop';  _large  ?  '7px'  :  '1px'")
+#        (mc icon_wreath
+#            (style 
+#                (position = "absolute")
+#                (left = "-5px")
+#                (top = "-8px")
+#            )
+#            (bind visible "upgradableShipInfo.isElite || shipInfo.isPremium || shipInfo.uiSpecial")
+#            #(bind gotoAndStop! "shipInfo.uiSpecial  ?  'special'  :  shipInfo.isPremium  ?  'premium'  :  'elite'")
+#        )
+#        (mc icon_ship
+#            #(bind gotoAndStop! "shipInfo.subtype  +  (!notInvertable  ?  '_U'  :  (shipInfo.isPremium  ||  shipInfo.uiSpecial  ?  '_P'  :  ''))")
+#        )
+#    )
+#    (block 
+#        (style 
+#            (marginTop = "-5px")
+#            (marginLeft = "3px")
+#        )
+#        (controller $Instance renderer='InvertableTextLine'
+#        	(args _text =  shipInfo.levelRome +   + toUpperCase(tr(shipInfo.nameIDS))
+#        		_invert =  !notInvertable
+#        		_normalClass =  (shipInfo.isPremium || shipInfo.uiSpecial ? (_large ? $TextShipLinePremiumAccentBold  =  $TextShipLinePremiumBold) 
+#        																										 =  (_large ? $TextShipLineBoldAccent  =  $TextShipLineBold))
+#        		_invertedClass =  (_large ? $TextShipLineBlackAccentBold =  $TextShipLineBlackBold)
+#        		_width =  _width ? _width  =  110px
+#        		_letterSpacing =  0.8)
+#        )
+#    )
+)
+
+(def element ShipInfoTabHeader () layout=true
+	(scope
+			(var _shipId:number = 0)
+			(var _isNotMyShip:bool = false)
+			(var _inSideCompare:bool = false)
+			(var _fromCrew:bool = false)
+	)
+	
+	(macro PULL_SHIP "_shipId")
+	(macro PULL_SHIP_PLAYER "_shipId")
+	(macro PULL_USI "playerShipEntity")
+		
+	(scope
+		(var isOwned:bool = "playerShipEntity.hasComponent(CC.ownShip)")
+        (macro SHIP_CLASS_STR "shipComponent")     
+	)
+
+	### FLAG ###
+	(element NationFlagsBig
+		(scope
+			(bind shipCountry "shipComponent.flagName")
+		)
+		(style
+			(position = "absolute")
+			(width = 100%)
+			(height = 184)
+			#(backgroundColor = 0x88FF0000)
+		)
+		(alpha = 0.5)
+	)
+	
+	(block
+		(style
+			#(backgroundColor = 0x880000FF)
+			(marginTop = 12px) (marginBottom = 12px)
+		)
+		(class $InfoBlockHorizontalIndent)
+		
+		(hblock
+			(style (height = 25))
+			
+			(block
+				(mc icon_wreath
+                    (bind visible "(upgradableShipInfo.isElite || shipComponent.isPremium || shipComponent.uiSpecial) && !_isNotMyShip")
+                    (bindcall gotoAndStop "shipComponent.uiSpecial	? 'special' :
+                                           shipComponent.isPremium 	? 'premium'
+                                           : 'elite'"
+                    )
+                )
+                
+                (mc icon_ship
+                    (style
+                        (hcenter = "0")
+                        (vcenter = "-1")
+                        (position = "absolute")
+                    )
+                
+                    (bindcall gotoAndStop "_fromCrew 	? (isOwned ? ((shipComponent.isPremium || shipComponent.uiSpecial) ? shipComponent.subtype + '_P' : shipComponent.subtype) : shipComponent.subtype + '_U')
+                                                    : _inSideCompare && _isNotMyShip ? shipComponent.subtype
+                                                    : ((shipComponent.isPremium || shipComponent.uiSpecial) ? shipComponent.subtype + '_P' : shipComponent.subtype)"
+                    )
+                )				
+			)
+
+			### SHIP FIRST LINE ###
+			(block
+#				(bind tooltip "'SimpleTooltip'; {tooltipText: 'IDS_HINT_SHIP_LEVEL'}; 0")
+				#(class $MiddleVAligned)
+				
+				(element InvertableTextLine
+					(scope
+						(bind _text "shipComponent ? (shipComponent.levelRome) + ' ' + toUpper(tr(shipComponent.nameIDS + '_FULL')) : ''")
+						(bind _invert "_fromCrew ? !isOwned : false")
+						(bind _normalClass "(shipComponent.isPremium || shipComponent.uiSpecial) && !_isNotMyShip ? '$TextShipHeaderNameGolden21' : '$TextShipHeaderNameNormal21'")
+						(bind _invertedClass "'$TextShipHeaderNameBlack21'")
+					)
+				)
+			)
+		)
+		
+		### SECOND LINE ###
+	    (block
+	        (alpha = 0.8)
+            (style
+                (backgroundColor = 0x880F00FF)
+            )
+	        
+			(element InvertableTextLine
+                (scope
+                    (bind _text "subst('IDS_SHIP_LEVEL', [], {_shipClass: shipClass, _shipLevel: shipComponent.levelRome})")
+                    (bind _invert "_fromCrew ? !isOwned : false")
+                    (bind _normalClass "shipComponent.isPremium && !_isNotMyShip ? '$TextShipLinePremium' : '$TextShipLineNormal'")
+                    (bind _invertedClass "'$TextShipLineBlack'")
+                )
+            )
+	    )
+	)
+)
+
+(def element TitleDefaultMockup()
+#    (style 
+#        (flow = "horizontal")
+#        (width = "100%")
+#    )
+#    (tf 
+#        #(class $MiddleVAligned)
+#        #(class $ShipParamOnePieceTitleWidth)
+#        (style 
+#            (leading = "-4")
+#            (maxWidth = "184")
+#            (marginRight = "9px")
+#        )
+#        (bind class "meta ? '$TextMetaHeader' : '$TextMetaInfo'")
+#        #(bind style "'alpha';  meta  ?  1  :  0.7")
+#        (bind text "tr(nameIDS) + ' ' + (title.data.items ? tr(title.data.items[0].textValue) : '')")
+#        #(bind text "tr(nameIDS) + ' ' + 'Test title with some random length, pretty long'")
+#    )
+)
+(def element TitleVertMockup()
+#    (style 
+#        (width = "100%")
+#    )
+#    (tf 
+#        (class $TextMetaInfo)
+#        (style 
+#            (leading = "-4")
+#            (width = "184px")
+#            (marginRight = "9px")
+#        )
+#        #(bind style "'alpha';  meta  ?  1  :  0.7")
+#        (bind text "nameIDS")
+#    )
+#    (tf 
+#        (style 
+#            (leading = "-4")
+#            (maxWidth = "184")
+#            (marginRight = "9px")
+#        )
+#        (class $TextMetaInfo)
+#        (style 
+#            (alpha = "0.7")
+#            (marginTop = "-7px")
+#        )
+#        (bind text "title.data.items[0].textValue")
+#    )
+)
+### Ship stats row
+(def element ShipInfoTabRow()
+#    (scope
+#        (event click)
+#        (event dockDefaultValues.armourVisibility && !(excursionOff) ? null : onParamRowClicked)
+#    )
+#    #(bind controller "lesta.dialogs.controllers.EntitySingletonController;  'dockDefaultValues';  'dockInitData,dockUpdateData'")
+#    (bind controller "lesta.unbound.controls.UbInteractiveController")
+#    (var id:unknown = "id")
+#    (bind name "'param_' + id")
+#    #disabling excursion when armour is ON
+#    (dispatch dockDefaultValues.armourVisibility && !(excursionOff) ? null : onParamRowClicked args= index dir="EventDirection.UP" on='click')
+#    #hint is modified when armour display is ON
+#    #(bind feature "'20'; ''")
+#    #(bind action "'click';  (id  ==  'armour')  &&  (_armourOff  !=  true)  ?  (dockDefaultValues.armourVisibility  ?  'hideArmour'  :  'showArmour')  :  null")
+#    (controller $Animation
+#    	(bindcall play duration=0.15 delay=0 from={alpha: 0, ubScaleY: 0.0} to={alpha: 1, ubScaleY: 1.0} reverse="!empty && (state && isRoot || (!(parent.empty) && parent.state.active))" updateBeforeDisable=true (bind enabled "!empty && (state && isRoot || (!(parent.empty) && parent.state.active))"))
+#    )
+#    (style 
+#        (width = "100%")
+#    )
+#    (block 
+#        (style 
+#            (width = "100%")
+#        )
+#        #(bind tooltip "'ShipParamTooltip';{  id:  id,  meta:  meta,  secondLevel:  secondLevel,  tooltipIDS:  tooltipIDS,  nameIDS:  nameIDS,  _hasExcursion:  (!excursionOff  &&  !(dockDefaultValues.armourVisibility)),  _isArmour:  id  ==  'armour',  _armourOff:  _armourOff,  _torpedoId:  aviations.params.ammoNameRaw,  _deepWaterTorpedoBombers:  deepWaterTorpedoBombers  }")
+#        (mc inner_panel
+#            (class $Fullsize)
+#            (class $PxHorizontalCorrection)
+#            (class $MouseDisable)
+#            (style 
+#                (position = "absolute")
+#            )
+#            (bind visible "!(isRoot)")
+#        )
+#        (mc dock_submenu_item
+#            (class $Fullsize)
+#            (class $PxHorizontalCorrection)
+#            (style 
+#                (position = "absolute")
+#            )
+#            #(bind style "'alpha';  (!(isRoot)  &&  !(excursionOff)  &&  !(dockDefaultValues.armourVisibility))  ||  ((id  ==  'armour')  &&  (_armourOff  !=  true))  ?  1  :  0")
+#            (bind selected "state.selected")
+#        )
+#        (block 
+#            (class $Fullsize)
+#            (class $MouseDisable)
+#            (style 
+#                (position = "absolute")
+#                (left = "1px")
+#            )
+#            (controller $Instance renderer='StatValueBar'
+#            	(args meta ? _width =  310
+#            		_hasDiff =  root.hasDiff
+#            		_currentValue =  root.values[0]
+#            		_diffValue =  root.diffData[0].value
+#            		_isGood =  root.diffData[0].isGood
+#            		_expand =  state.active
+#            		_invert =  ident == visibility
+#            		rollOver =  rollOver
+#            		viewParams =  viewParams  =  null)
+#            )
+#        )
+#        (block 
+#            (style 
+#                (width = "100%")
+#                (position = "absolute")
+#                (bottom = "-1px")
+#            )
+#            (class $MouseDisable)
+#            (bind visible "meta")
+#            (element HorizontalDivider)
+#        )
+#        (hblock 
+#            (class $MouseDisable)
+#            (style 
+#                (width = "100%")
+#                (marginRight = "12px")
+#            )
+#            #(class $MiddleVAligned)
+#            #style binding for proper indets in lists
+#            #elements second level stats in tooltip
+#            #(bind style "'marginLeft';  secondLevelTooltip  ?  '12px'  :  'L()px'")
+#            #first element in stat-list
+#            #(bind style "'marginTop';  (viewParams.list[$index  -  1].meta  ||  viewParams.list[$index  -  1]  ==  null)  &&  !(meta)  ?  '5px'  :  '1px'")
+#            #last element in stat-list
+#            #(bind style "'marginBottom';  viewParams.list[$index  +  1].meta  ||  viewParams.list[$index  +  1]  ==  null  ?  '8px'  :  '3px'")
+#            (block 
+#                (style 
+#                    (width = "100%")
+#                )
+#                (controller $Instance renderer='TitleDefaultMockup'
+#                	(args (title == null || titleMockup == 0) ?  meta =  meta
+#                		isRoot =  isRoot
+#                		nameIDS =  nameIDS
+#                		title =  title   =  null)
+#                )
+#                (controller $Instance renderer='TitleVertMockup'
+#                	(args (title != null && titleMockup == 1) ?  meta =  meta
+#                		isRoot =  isRoot
+#                		nameIDS =  nameIDS
+#                		title =  title   =  null)
+#                )
+#            )
+#            (block 
+#                (hblock 
+#                    (style 
+#                        (right = "0")
+#                        (position = "absolute")
+#                    )
+#                    (hblock 
+#                        (bind visible "secondLevel.hasDiff ? true : false")
+#                        (tf 
+#                            (class $TextParams)
+#                            (style 
+#                                (marginTop = "-1px")
+#                                (alpha = "0.55")
+#                            )
+#                            (text "(")
+#                        )
+#                        (mc icon_warning_orange
+#                            (class $MiddleVAligned)
+#                            (style 
+#                                (marginLeft = "-2px")
+#                                (marginRight = "-2px")
+#                            )
+#                        )
+#                        (tf 
+#                            (class $TextParams_tight_left)
+#                            (style 
+#                                (marginTop = "-1")
+#                            )
+#                            (text ")")
+#                        )
+#                    )
+#                    (controller $Instance renderer='ParamElement'
+#                    	(args value)
+#                    )
+#                )
+#            )
+#            (block 
+#                (controller $Animation
+#                	(bindcall play duration=0.3 delay=0 from={alpha: 0} to={alpha: 1} reverse="!(isRoot) && !(excursionOff) && !(dockDefaultValues.armourVisibility)" updateBeforeDisable=true (bind enabled "!(isRoot) && !(excursionOff) && !(dockDefaultValues.armourVisibility)"))
+#                )
+#                (style 
+#                    (position = "absolute")
+#                    (left = "-22px")
+#                    (top = "7px")
+#                )
+#                (mc icon_camera_off
+#                    (style 
+#                        (position = "absolute")
+#                    )
+#                    (controller $Animation
+#                    	(bindcall play duration=0.3 delay=0 from={alpha: 0} to={alpha: 1} reverse="!(state.selected)" updateBeforeDisable=true (bind enabled "!(state.selected)"))
+#                    )
+#                )
+#                (mc icon_camera_on
+#                    (style 
+#                        (position = "absolute")
+#                    )
+#                    (controller $Animation
+#                    	(bindcall play duration=0.3 delay=0 from={alpha: 0} to={alpha: 1} reverse="state.selected" updateBeforeDisable=true (bind enabled "state.selected"))
+#                    )
+#                )
+#            )
+#            (block 
+#                (bind visible "((id == 'armour') && (_armourOff != true))")
+#                (style 
+#                    (position = "absolute")
+#                    (left = "-22px")
+#                    (top = "6px")
+#                )
+#                (mc button_armour_switcher_small
+#                    (bind selected "dockDefaultValues.armourVisibility")
+#                )
+#            )
+#        )
+#    )
+#    ### TORPEDO ONLY HACK ###
+#    (block 
+#        (bind controller "lesta.dialogs.dock.controllers.ControllerModernizations")
+#        #(bind controller "lesta.dialogs.controllers.CollectionController;  'weaponsInfo';  deepWaterTorpedoRow  ?  torpedoSlotsList[0].itemsInSlot[0].id  :  null;  'torpedoes'")
+#        #(bind controller "lesta.dialogs.controllers.CollectionController;  'weaponsInfo';  deepWaterBomberRow  ?  planesSlotsList[2].itemsInSlot[0].id  :  null;  'aviations'")
+#        (var deepWaterTorpedoRow:unknown = "(parent.nameIDS == 'IDS_SHIP_PARAM_TORPEDY') && (id == 'listTorpedoes0')")
+#        (var deepWaterBomberRow:unknown = "(parent.nameIDS == 'IDS_SHIP_PARAM_AVIATION') && (id == 'tbomber_squadrons')")
+#        (var deepWaterTorpedoes:unknown = "(parent.nameIDS == 'IDS_SHIP_PARAM_TORPEDY') && (id == 'listTorpedoes0') && (torpedoes.params.torpedoes.isDeepWater == true)")
+#        (var deepWaterTorpedoBombers:unknown = "(parent.nameIDS == 'IDS_SHIP_PARAM_AVIATION') && (id == 'tbomber_squadrons') && (aviations.params.torpedoIsDeepWater == true)")
+#        (bind visible "deepWaterTorpedoes == true")
+#        (style 
+#            (width = "100%")
+#        )
+#        (mc inner_panel
+#            (class $Fullsize)
+#            (class $MouseDisable)
+#            (class $PxHorizontalCorrection)
+#            (style 
+#                (position = "absolute")
+#            )
+#            (bind visible "!(isRoot)")
+#        )
+#        (block 
+#            (style 
+#                (width = "100%")
+#                (marginLeft = "L")
+#                (marginRight = "12px")
+#                (marginTop = "1px")
+#                (marginBottom = "3px")
+#            )
+#            (controller $Instance renderer='TorpedoAffectedShipsParamRow'
+#            	(args (deepWaterTorpedoes == true) ?  _torpedoId =  torpedoes.params.torpedoes.ammoName
+#            		_isTooltip =  true   =  null)
+#            )
+#        )
+#    )
+#    (mc button_expand
+#        (bind selected "state.active")
+#        (bind visible "expandable")
+#        (style 
+#            (position = "absolute")
+#            (height = "24px")
+#            (width = "100%")
+#            (marginLeft = "S")
+#        )
+#    )
+)
+(def element ShipDescription() layout=true
+	(scope
+		(var _shipNameIDS:str = '') 
+        (var _needShowProjectYear:bool = false) 
+        (var _isPaperShip:bool = false)
+        (var _peculiarity:str = '')
+	)
+	
+	(style
+		#(width = 100%)
+		#(height = 42)
+		#(backgroundColor = 0xFFFF0000)
+	)
+	
+    (class $InfoBlockIndent)
+    (block 
+        (bind visible "_peculiarity == 'default' && _needShowProjectYear")
+        (style 
+            (width = "100%")
+            (marginTop = "-3px")
+        )
+        (hblock 
+            (tf 
+                (class $TextSecondary)
+                (bind text "(_isPaperShip ? tr('IDS_PROJECT_YEAR') : tr('IDS_RELEASE_YEAR')) + tr('IDS_COLON')")
+            )
+            (tf 
+                (class $TextSecondaryBold)
+                (bind text "_shipNameIDS + '_YEAR'")
+            )
+        )
+        (hblock 
+            (class $AlignRight)
+            (bind visible "_isPaperShip != true")
+            (tf 
+                (class $TextSecondary)
+                (bind text "tr('IDS_SHIPS_IN_SERIES') + tr('IDS_COLON')")
+            )
+            (tf 
+                (class $TextSecondaryBold)
+                (bind text "_shipNameIDS + '_NUMBER'")
+            )
+        )
+    )
+    (tf 
+        #(bind style "'marginTop';  (_peculiarity  ==  'default')  ?  '3px'  :  '-2px'")
+        (class $TextSecondaryBold)
+        (style 
+            (width = "100%")
+            (bind marginTop "(_peculiarity  ==  'default')  ?  3  :  -2")
+        )
+        (bind text "_shipNameIDS + '_DESCR'")
+    )
+)
+(def element ShipParamsList() layout=true
+#    (bind controller "lesta.dialogs.dock.controllers.ControllerParams")
+#    (style 
+#        (width = "100%")
+#    )
+#    #(bind repeat "viewParams.list;  'ShipInfoTabRow';  {secondLevelTooltip:  secondLevelTooltip,  viewParams:  viewParams,  _excursionOff:  _excursionOff}")
+)
+(def element ShipParamsListView() layout=true#    (style 
+#        (width = "100%")
+#    )
+#    (block 
+#        (class $Fullsize)
+#        (style 
+#            (position = "absolute")
+#        )
+#        (controller $Animation
+#        	(bindcall play duration=0.45 delay=0.0 from={alpha: 1.0} to={alpha: 0.0}  (event 'hideParams'))
+#        )
+#        (controller $Animation
+#        	(bindcall play duration=0.3 delay=0.10 from={alpha: 0.0} to={alpha: 1.0}  (event 'showParams'))
+#        )
+#        (mc stat_panel
+#            (class $FullsizeAbsolute)
+#        )
+#    )
+#    (block 
+#        (style 
+#            (width = "100%")
+#        )
+#        (controller $Animation
+#        	(bindcall play duration=0.45 delay=0.0 from={alpha: 1.0, top: 0} to={alpha: 0.0, top: -10}  (event 'hideParams'))
+#        )
+#        (controller $Animation
+#        	(bindcall play duration=0.3 delay=0.10 from={alpha: 0.0, top: 10} to={alpha: 1.0, top: 0}  (event 'showParams'))
+#        )
+#        #(bind repeat "viewParams.list;  'ShipInfoTabRow';  {secondLevelTooltip:  secondLevelTooltip,  viewParams:  viewParams,  _armourOff:  _armourOff}")
+#    )
+)
+(def element ShipSilhouetteRightAligned() layout=true
+#    (macro PULL_SHIP _shipID shipEntity shipInfo)
+#    (style 
+#        (width = "122px")
+#        (height = "22px")
+#    )
+#    #(bind style "'right';  (shipInfo.subtype  ==  ShipTypes.Destroyer)  ?  '-26px'  :  (shipInfo.subtype  ==  ShipTypes.Cruiser)  ?  '-12px'  :  '0px'")
+#    #(bind style "'backgroundImage';  'url:'  +  shipInfo.pathTinyIcon")
+)
+(def element ShipPanel() layout=true
+#    (macro PULL_SHIP_PLAYER shipId shipOwnEntity playerShipInfo)
+#    (macro PULL_COMPARE_DATA testShipParams 'testShipParams')
+#    (macro PULL_SHIP shipId shipEntity shipInfo)
+#    (macro PULL_CREW playerShipInfo.crewId crewEntity crew)
+#    (macro PULL_USI shipEntity)
+#    (macro USER_PREF_DATA )
+#    #(bind controller "lesta.dialogs.dock.controllers.ControllerParams;  450.0;  shipId;  'fullShipParams';  playerShipInfo  !=  null  ?  playerShipInfo.params  :  shipInfo.params;  testShipParams;  1;  0;  null;  0;  1;  1;  excursionOff")
+#    #(bind controller "lesta.dialogs.controllers.CollectionController;  'pricesAll';  PriceInfoSet.OP_EXPLORE  +  shipId;  'shipExplorePrice'")
+#    #(bind controller "lesta.dialogs.controllers.CollectionController;  'pricesAll';  PriceInfoSet.OP_BUY  +  shipId;  'shipBuyPrice'")
+#    (var isOwned:unknown = "playerShipInfo != null")
+#    (var showPanel:unknown = "_crewInset != 1 && ((isOwned && (_dockInset == LobbyConstants.DOCK)) || _dockInset == LobbyConstants.SHIP_MODULES || _dockInset == LobbyConstants.SHIP_EXTERIOR)")
+#    (var carouselRows:unknown = "(userPrefs.curRowCountIndex == null) ? 0 : userPrefs.curRowCountIndex")
+#    (var isSmallCarouselView:unknown = "(userPrefs.isSmallCarouselView == null) ? false : userPrefs.isSmallCarouselView")
+#    (var excursionOff:unknown = "(testShipParams != null || (isOwned && playerShipInfo.isLocked) || !(shipInfoSlim.isDownloaded))")
+#    (controller $Animation
+#    	(bindcall play duration=showPanel ? 0.3 : 0 delay=0 from={alpha: 0, top: 10} to={alpha: 1, top: 0} reverse="showPanel" updateBeforeDisable=true (bind enabled "showPanel"))
+#    )
+#    (controller $Animation
+#    	(bindcall play duration=0.3 delay=0.2 from={alpha: 0, top: 5} to={alpha: 1, top: 0}  on='addedToStage')
+#    )
+#    #(bind updateAllStates! "showPanel")
+#    (name = panelShipStats)
+#    (class $ShipTechStats)
+#    (style 
+#        (top = "92px")
+#    )
+#    #(bind style "'marginBottom';  isSmallCarouselView  ?  (carouselRows  ==  1)  ?  '353px'  :  (carouselRows  ==  2)  ?  '416px'  :  '290px'  :  '290px'")
+#    (block 
+#        (style 
+#            (height = "100%f")
+#            (width = "100%")
+#        )
+#        (element BlurMap)
+#        (mc notification_panel
+#            (class $FullsizeAbsolute)
+#            (bind visible "optionData.contrast")
+#        )
+#        (block 
+#            (style 
+#                (width = "100%")
+#            )
+#            (mc stat_panel
+#                (class $FullsizeAbsolute)
+#            )
+#            (block 
+#                (style 
+#                    (width = "100%")
+#                )
+#                (controller $Instance renderer='ShipInfoTabHeader'
+#                	(args shipId =  shipId)
+#                )
+#            )
+#            # ship preview
+#            (block 
+#                (bind visible "!isOwned")
+#                (class $MiddleAligned)
+#                (style 
+#                    (marginTop = "-40px")
+#                    (marginBottom = "-20px")
+#                    (width = "214px")
+#                    (height = "126px")
+#                )
+#                #(bind style "'backgroundImage';  'url:'  +  shipInfo.pathPreview")
+#            )
+#            # research & currentXP
+#            (block 
+#                #(bind visible "!shipInfo.isEventLike")
+#                #(bind style "'marginTop';  isOwned  ?  '-15px'  :  '0px'")
+#                (style 
+#                    (width = "100%")
+#                )
+#                (element ShipResearchBlock)
+#                (element HorizontalDivider)
+#            )
+#            ## Crew&Armour
+#            #(bind feature "13;  ''")
+#            (block 
+#                (style 
+#                    (width = "100%")
+#                )
+#                (controller $Instance renderer='ShipInfoCrewBlock'
+#                	(args isOwned && (feature_13 != locked) ? _crewId =  playerShipInfo.crewId	 =  null)
+#                )
+#            )
+#            (block 
+#                (bind visible "crew.isUnique == true")
+#                (style 
+#                    (position = "absolute")
+#                    (right = "0px")
+#                )
+#                (controller $Instance renderer='UniqueCrewIcon'
+#                	(args )
+#                )
+#            )
+#            (block 
+#                (style 
+#                    (width = "100%")
+#                    (height = "31px")
+#                )
+#                (controller $Instance renderer='ArmourDisplaySwitcher'
+#                	(args )
+#                )
+#            )
+#            (block 
+#                (style 
+#                    (width = "100%")
+#                )
+#                (controller $Instance renderer='ShipInfoArmourBlock'
+#                	(args shipId =  shipId)
+#                )
+#            )
+#            (block 
+#                (style 
+#                    (position = "absolute")
+#                    (bottom = "0")
+#                    (width = "100%")
+#                )
+#                (element HorizontalDivider)
+#            )
+#        )
+#        # ship stats
+#        (var showStats:unknown = "!(shipInfo.isEventLike) || isOwned)")
+#        (var showLabelComingSoon:unknown = "shipInfo.isEventLike && (shipInfo.group != 'event')")
+#        (block 
+#            (style 
+#                (height = "100%f")
+#                (width = "100%")
+#                (overflow = "scroll")
+#            )
+#            (class $DefaultScrollBar)
+#            (controller $Instance renderer='ShipParamsListView'
+#            	(args showStats ?  viewParams =  viewParams   =  null)
+#            )
+#        )
+#        (block 
+#            (bind visible "showLabelComingSoon")
+#            (style 
+#                (width = "100%")
+#            )
+#            (controller $Instance renderer='LabelComingSoon'
+#            	(args _showTestSampleLabel =  showStats)
+#            )
+#        )
+#    )
+)
+(def element LabelComingSoon() layout=true
+#    (block 
+#        (style 
+#            (width = "100%")
+#            (height = "80px")
+#        )
+#        (mc icon_issued
+#            (style 
+#                (marginLeft = "150px")
+#                (marginTop = "40px")
+#            )
+#            (bind rotation "-3")
+#            (innerBind item.item text "_showTestSampleLabel ? toUpperCase(tr('IDS_TEST_SAMPLE')) : toUpperCase(tr('IDS_UNAVAILABLE_TO_DISPLAY_SOON')) : ")
+#            #(bind gotoAndPlay! "'issued'")
+#        )
+#    )
+)
+(def element ShipResearchBlock() layout=true
+#    (scope
+#        #(var accountGold:unknown = "resourceEntity.accountResource.gold" (event "resourceEntity.accountResource.evChangedGold"))
+#    )
+#    #(bind firstEntityDH "'resourceEntity';  CC.accountResource")
+#    #(bind controller "lesta.dialogs.controllers.EntitySingletonController;  'realmConstants'")
+#    (class $InfoBlockIndent)
+#    # Research cost
+#    (block 
+#        (class $MiddleAligned)
+#        (controller $Instance renderer='PriceTagWithLabel'
+#        	(args isOwned ? null
+#        														 =  (!(upgradableShipInfo.isExplored) && !(upgradableShipInfo.dependencyResearched)) || (!(upgradableShipInfo.isExplored) && upgradableShipInfo.expDeficit > 0)?  priceInfo =   finalPrice =  upgradableShipInfo.totalCostXP
+#        		currency =  exp
+#        		_label =  IDS_RESEARCH_COST
+#        		_medium  =  true
+#        														 =  upgradableShipInfo.isExplored && upgradableShipInfo.creditsDeficit > 0 && !(shipInfo.isPremium) ?  priceInfo =  shipBuyPrice.prices[0]
+#        		_label =  IDS_PURCHASE_COST
+#        		_medium  =  true
+#        														 =  upgradableShipInfo.isExplored && shipInfo.isPremium && (accountGold - shipBuyPrice.prices[0].finalPrice < 0) ? priceInfo =  shipBuyPrice.prices[0]
+#        		_label =  IDS_PURCHASE_COST
+#        		_medium  =  true 
+#        														 =  null)
+#        )
+#    )
+#    # Button
+#    (macro LAZY )
+#    (block 
+#        (style 
+#            (width = "220px")
+#        )
+#        (class $MiddleAligned)
+#        #This time the lazy implementation is not very cool. Probably we should completely rewrite this place. Beware the Missoury hack going on somewhere in a parallel!
+#        #(bind action "'click';  (isLazyLogin  &&  (shipInfo.level  >  realmConstants.lazyAccountMaxShipTier))  ?  'forceCreateAccount'  :  null")
+#        #look out → there are modified actions →→→ 
+#        (controller $Instance renderer='DefaultButtonCostMedium'
+#        	(args isOwned ? null
+#        													 =  !(upgradableShipInfo.dependencyResearched || upgradableShipInfo.isExplored) ? null
+#        													 =  !(upgradableShipInfo.isExplored) && (upgradableShipInfo.expDeficit <= 0) && ((shipInfo.group == upgradeable) || (shipInfo.group == upgradeableExclusive)) ?  _label =  toUpperCase(tr(IDS_DO_RESEARCH))
+#        		priceInfo =  (upgradableShipInfo.totalCostXP == shipExplorePrice.prices[0].finalPrice ? shipExplorePrice.prices[0]  =   finalPrice =  upgradableShipInfo.totalCostXP
+#        		currency =  exp )
+#        		_action =  (isLazyLogin && (shipInfo.level > realmConstants.lazyAccountMaxShipTier)) ? null  =  researchShip
+#        		_actionParams =   shipId =  shipInfo.id
+#        		_enabled =  ( upgradableShipInfo.dependencyResearched && (upgradableShipInfo.expDeficit <= 0))
+#        		_showDiscountTag = true
+#        		_name =  ButtonShipResearch 
+#        													 =  (upgradableShipInfo.isExplored) && (upgradableShipInfo.creditsDeficit <= 0) && !(shipInfo.isPremium) ?  _label =  toUpperCase(tr(IDS_DO_PURCHASE))
+#        		priceInfo =  shipBuyPrice.prices[0]
+#        		_action =  (isLazyLogin && (shipInfo.level > realmConstants.lazyAccountMaxShipTier)) ? null  =  purchaseShip
+#        		_actionParams =   shipId =  shipInfo.id
+#        		_enabled =  (upgradableShipInfo.creditsDeficit <= 0)
+#        		_showDiscountTag = true
+#        		_name =  ButtonShipPurchase 
+#        													 =  upgradableShipInfo.isExplored && shipInfo.isPremium  && (accountGold - shipBuyPrice.prices[0].finalPrice >= 0) ?  _label =  toUpperCase(tr(IDS_DO_PURCHASE))
+#        		priceInfo =  shipBuyPrice.prices[0]
+#        		_action =  (isLazyLogin && (shipInfo.level > realmConstants.lazyAccountMaxShipTier)) ? null  =  purchaseShip
+#        		_actionParams =   shipId =  shipInfo.id
+#        		_enabled =  ((accountGold - shipBuyPrice.prices[0].finalPrice) >= 0)
+#        		_showDiscountTag = true
+#        		_name =  ButtonShipPurchase 
+#        													 =  null)
+#        )
+#    )
+#    (block 
+#        (class $MiddleAligned)
+#        (controller $Instance renderer='StatusLineWithIcon'
+#        	(args upgradableShipInfo.dependencyResearched || upgradableShipInfo.isExplored 	? null
+#        																												 =   _text =  IDS_RESEARCH_PREVIOUS_SHIPS
+#        		_positive =  false)
+#        )
+#    )
+#    (block 
+#        (class $MiddleAligned)
+#        (controller $Instance renderer='PriceDeficit'
+#        	(args isOwned 	? null
+#        													 =  !(upgradableShipInfo.dependencyResearched) ? null
+#        													 =  !(upgradableShipInfo.isExplored) && upgradableShipInfo.expDeficit > 0 ?  priceInfo =   finalPrice =  upgradableShipInfo.totalCostXP
+#        		currency =  exp
+#        		_deficit =  upgradableShipInfo.expDeficit
+#        		_tooltipText =  IDS_TOOLTIP_NO_XP
+#        													 =  upgradableShipInfo.isExplored && upgradableShipInfo.creditsDeficit > 0 && !(shipInfo.isPremium) ?  priceInfo =  shipBuyPrice.prices[0]
+#        		_label =  IDS_PURCHASE_COST
+#        		_deficit =  upgradableShipInfo.creditsDeficit
+#        		_tooltipText =  IDS_TOOLTIP_NO_CREDITS
+#        													 =  upgradableShipInfo.isExplored && shipInfo.isPremium && (accountGold - shipBuyPrice.prices[0].finalPrice)  < 0 ? priceInfo =  shipBuyPrice.prices[0]
+#        		_label =  IDS_PURCHASE_COST
+#        		_deficit =  -(accountGold - shipBuyPrice.prices[0].finalPrice)
+#        		_tooltipText =  IDS_TOOLTIP_NO_GOLD 
+#        													 =  null)
+#        )
+#    )
+#    # Ship experience
+#    (block 
+#        #(bind tooltip "'SimpleTooltip';  {tooltipText:  'IDS_HINT_SHIP_EXPERIENCE_USAGE'};  0")
+#        (controller $Instance renderer='CurrentXPLarge'
+#        	(args isOwned ?  _exp =  playerShipInfo.exp
+#        		_label =  IDS_SHIP_EXPERIENCE  =  null)
+#        )
+#    )
+)

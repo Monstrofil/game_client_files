@@ -1,0 +1,39 @@
+(def element NationFlagsBig () layout=true
+	(scope
+		(var shipCountry:str = '')
+	)
+	(style
+		(bind backgroundImage "'url:../nation_flags/big/flag_' + shipCountry + '.png'" init=false)
+        (backgroundSize = "fill")
+        (width = 694)
+        (height = 426)
+	)
+	(alpha = 1)
+)
+
+(def element NationFlagsSmall () layout=true
+	(scope
+        (var shipCountry:str = '')
+    )
+	(style
+		(bind backgroundImage "'url:../nation_flags/small/flag_' + shipCountry + '.png'" init=false)
+        (backgroundSize = "fill")
+        (width = 117)
+        (height = 72)
+	)
+	(alpha = 1)
+)
+
+(def element NationFlagsTiny () layout=true
+	(scope
+        (var shipCountry:str = '')
+    )
+	(style
+		(bind backgroundImage "'url:../nation_flags/tiny/flag_' + shipCountry + '.png'" init=false)
+        (backgroundSize = "fill")
+        (position = "absolute")
+        (width = 33)
+        (height = 21)
+	)
+	(alpha = 1)
+)

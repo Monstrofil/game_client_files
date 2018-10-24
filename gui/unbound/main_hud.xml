@@ -4158,14 +4158,14 @@
 				<style>
 					<left value="-36px"/>
 				</style>
-				<bind name="collectionRepeatDH" value="CC.avatar; 'BattleShipListRenderer'; 'team.ally.sortedDead'; {_isAllyTeam: true, _isEnemyTeam: false}"/>
+				<bind name="collectionRepeatDH" value="CC.avatar; 'BattleShipListRenderer'; 'team.ally.sortedLeftTeam'; {_isAllyTeam: true, _isEnemyTeam: false}"/>
 			</block>
 			<block>
 				<bind name="visible" value="gameInfo.gameModeId != GameMode.PVE"/>
 				<style>
 					<left value="12px"/>
 				</style>
-				<bind name="collectionRepeatDH" value="CC.avatar; 'BattleShipListRenderer'; 'team.enemy.sortedDead'; {_isAllyTeam: false, _isEnemyTeam: true}"/>
+				<bind name="collectionRepeatDH" value="CC.avatar; 'BattleShipListRenderer'; 'team.enemy.sortedRightTeam'; {_isAllyTeam: false, _isEnemyTeam: true}"/>
 			</block>
 			<style>
 				<flow value="horizontal"/>
@@ -5356,18 +5356,23 @@
 		<bind name="watchDH" value="'chosenDifficulty';	['']; pveStateEntity.pveState.chosenDifficulty"/>
 		<bind name="primaryEntityDH" value="'operationEntity'; CC.operation; chosenOperationId"/>
 		<bind name="watchDH" value="'operationType';	['operationEntity.operation.evStatusChanged']; operationEntity.operation.type"/>
+		<bind name="watchDH" value="'operationIsHard'; []; operationEntity.operation.isHard"/>
 		<bind name="watch" value="'isChosenOperationOfTheWeek'; ((chosenOperationId == activeOperationId) &amp;&amp; (chosenDifficulty == 'normal'))"/>
 		<styleClass value="$HUDFullsizeAbsolute"/>
 		<block className="BattleMode">
+			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'rankedBattlesSeason'"/>
 			<style>
 				<position value="absolute"/>
 				<flow value="horizontal"/>
 				<paddingTop value="40px"/>
 				<paddingLeft value="-12px"/>
 			</style>
+			<bind name="watch" value="'pveDifficultyPostfix'; operationIsHard ? '_hard' : ''"/>
+			<bind name="watch" value="'pveIconLabel'; (operationType == 'event' ? 'PVEBattle_event' : 'PVEBattle') + pveDifficultyPostfix"/>
 			<block className="icon_battletypes" type="native">
-				<bind name="gotoAndStop!" value="(battleType == BattleTypes.PVE_BATTLE) &amp;&amp; (operationType == 'event')	? 'PVEBattle_event' 
-																												: battleType"/>
+				<bind name="gotoAndStop!" value="(battleType == BattleTypes.RANKED_BATTLE) &amp;&amp; (rankedBattlesSeason.isJuniorSeason == true)	? 'RankedBattle_junior':
+							(battleType == BattleTypes.PVE_BATTLE) 	&amp;&amp; (operationType == 'event')		? pveIconLabel 
+																														: battleType"/>
 			</block>
 			<block>
 				<style>
@@ -5391,7 +5396,7 @@
 						<marginTop value="-12px"/>
 					</style>
 					<bind name="text" value="(gameInfo.gameModeId == GameMode.PVE	?	toUpperCase(tr('IDS_PVE_BATTLE_WITH_DOT')) + ' ' +	(isChosenOperationOfTheWeek == true ? toUpperCase(tr('IDS_OPERATION_OF_THE_WEEK_OPERATION_TITLE')) :
-																											(chosenDifficulty == 'normal'	? toUpperCase(tr('IDS_OPERATION_NORMAL_DIFFICULTY_TITLE'))
+																											(!(operationIsHard)								? toUpperCase(tr('IDS_OPERATION_NORMAL_DIFFICULTY_TITLE'))
 																																							: toUpperCase(tr('IDS_OPERATION_HARD_DIFFICULTY_TITLE'))))
 																:	toUpperCase(tr('IDS_'+ gameInfo.gameMode + '_TITLE')))"/>
 				</block>
@@ -5408,14 +5413,14 @@
 				<style>
 					<width value="450px"/>
 				</style>
-				<bind name="collectionRepeatDH" value="CC.avatar; 'PlayersListRenderer'; 'team.ally.sortedDead'; {_selfPlayer: selfPlayer, _isDynamicDivisionsEnabled: isDynamicDivisionsEnabled}"/>
+				<bind name="collectionRepeatDH" value="CC.avatar; 'PlayersListRenderer'; 'team.ally.sortedLeftTeam'; {_selfPlayer: selfPlayer, _isDynamicDivisionsEnabled: isDynamicDivisionsEnabled}"/>
 			</block>
 			<block>
 				<style>
 					<marginLeft value="-30px"/>
 					<width value="450px"/>
 				</style>
-				<bind name="collectionRepeatDH" value="CC.avatar; 'PlayersListRenderer'; 'team.enemy.sortedDead'; {_selfPlayer: selfPlayer}"/>
+				<bind name="collectionRepeatDH" value="CC.avatar; 'PlayersListRenderer'; 'team.enemy.sortedRIghtTeam'; {_selfPlayer: selfPlayer}"/>
 			</block>
 		</block>
 		<block className="ChargePointsContainer">
@@ -5513,15 +5518,19 @@
 		</block>
 	</block>
 	<block className="BattleMode">
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'rankedBattlesSeason'"/>
 		<style>
 			<position value="absolute"/>
 			<flow value="horizontal"/>
 			<paddingTop value="40px"/>
 			<paddingLeft value="-12px"/>
 		</style>
+		<bind name="watch" value="'pveDifficultyPostfix'; operationIsHard ? '_hard' : ''"/>
+		<bind name="watch" value="'pveIconLabel'; (operationType == 'event' ? 'PVEBattle_event' : 'PVEBattle') + pveDifficultyPostfix"/>
 		<block className="icon_battletypes" type="native">
-			<bind name="gotoAndStop!" value="(battleType == BattleTypes.PVE_BATTLE) &amp;&amp; (operationType == 'event')	? 'PVEBattle_event' 
-																												: battleType"/>
+			<bind name="gotoAndStop!" value="(battleType == BattleTypes.RANKED_BATTLE) &amp;&amp; (rankedBattlesSeason.isJuniorSeason == true)	? 'RankedBattle_junior':
+							(battleType == BattleTypes.PVE_BATTLE) 	&amp;&amp; (operationType == 'event')		? pveIconLabel 
+																														: battleType"/>
 		</block>
 		<block>
 			<style>
@@ -5545,7 +5554,7 @@
 					<marginTop value="-12px"/>
 				</style>
 				<bind name="text" value="(gameInfo.gameModeId == GameMode.PVE	?	toUpperCase(tr('IDS_PVE_BATTLE_WITH_DOT')) + ' ' +	(isChosenOperationOfTheWeek == true ? toUpperCase(tr('IDS_OPERATION_OF_THE_WEEK_OPERATION_TITLE')) :
-																											(chosenDifficulty == 'normal'	? toUpperCase(tr('IDS_OPERATION_NORMAL_DIFFICULTY_TITLE'))
+																											(!(operationIsHard)								? toUpperCase(tr('IDS_OPERATION_NORMAL_DIFFICULTY_TITLE'))
 																																							: toUpperCase(tr('IDS_OPERATION_HARD_DIFFICULTY_TITLE'))))
 																:	toUpperCase(tr('IDS_'+ gameInfo.gameMode + '_TITLE')))"/>
 			</block>
@@ -5562,14 +5571,14 @@
 			<style>
 				<width value="450px"/>
 			</style>
-			<bind name="collectionRepeatDH" value="CC.avatar; 'PlayersListRenderer'; 'team.ally.sortedDead'; {_selfPlayer: selfPlayer, _isDynamicDivisionsEnabled: isDynamicDivisionsEnabled}"/>
+			<bind name="collectionRepeatDH" value="CC.avatar; 'PlayersListRenderer'; 'team.ally.sortedLeftTeam'; {_selfPlayer: selfPlayer, _isDynamicDivisionsEnabled: isDynamicDivisionsEnabled}"/>
 		</block>
 		<block>
 			<style>
 				<marginLeft value="-30px"/>
 				<width value="450px"/>
 			</style>
-			<bind name="collectionRepeatDH" value="CC.avatar; 'PlayersListRenderer'; 'team.enemy.sortedDead'; {_selfPlayer: selfPlayer}"/>
+			<bind name="collectionRepeatDH" value="CC.avatar; 'PlayersListRenderer'; 'team.enemy.sortedRIghtTeam'; {_selfPlayer: selfPlayer}"/>
 		</block>
 	</block>
 	<block className="PlayersListRenderer">

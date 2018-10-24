@@ -136,6 +136,13 @@
 			<styleClass value="$Fullsize"/>
 		</block>
 	</block>
+	<css name="$ModernizationAndConsumScrollBar">
+		<wheelScrollSpeed value="15"/>
+		<scrollbarController value="lesta.unbound.style.UbScrollingControllerModern"/>
+		<scrollArea value="ModernScrollArea"/>
+		<scrollbar value="ModernScrollBarSimple"/>
+		<scrollbarTrackMode value="scrollToCursor"/>
+	</css>
 	<block className="VerticalDivider">
 		<style>
 			<height value="100%"/>
@@ -750,6 +757,7 @@
 					<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 					<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 					<block>
+						<bind name="soundSet" value="'default_button'"/>
 						<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 						<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 						<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -817,6 +825,7 @@
 						<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 						<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 						<block>
+							<bind name="soundSet" value="'default_button'"/>
 							<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 							<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 							<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -909,6 +918,7 @@
 					<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 					<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 					<block>
+						<bind name="soundSet" value="'default_button'"/>
 						<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 						<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 						<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -1041,6 +1051,7 @@
 						<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 						<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 						<block>
+							<bind name="soundSet" value="'default_button'"/>
 							<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 							<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 							<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -1135,6 +1146,7 @@
 						<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 						<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 						<block>
+							<bind name="soundSet" value="'default_button'"/>
 							<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 							<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 							<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -1232,6 +1244,7 @@
 					<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 					<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 					<block>
+						<bind name="soundSet" value="'default_button'"/>
 						<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 						<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 						<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -1288,7 +1301,7 @@
 				<width value="27px"/>
 				<height value="27px"/>
 			</style>
-			<bind name="style" value="'backgroundImage'; 'url:' + '../ranks/icons/icon_rank_small_' + (_rankId - 1) + '.png'"/>
+			<bind name="style" value="'backgroundImage'; 'url:' + '../ranks/icons/icon_rank_small_' + _rankId + '.png'"/>
 		</block>
 		<block type="text">
 			<style>
@@ -1297,18 +1310,18 @@
 			</style>
 			<styleClass value="$TextSecondaryBold"/>
 			<bind name="class" value="'$FontSizeNano'"/>
-			<bind name="text" value="_rankId &gt; 1 ? _rankId - 1 : ''"/>
+			<bind name="text" value="_rankId "/>
 		</block>
 	</block>
 	<block className="RankStars">
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'rankedBattlesStats'"/>
 		<bind name="controller" value="lesta.dialogs.controllers.CollectionController; 'rankedBattlesRanks';  _rankId; 'rankInfo'"/>
 		<bind name="tooltip" value="'RankStarTooltip'; !(rankInfo.starLossPlace == 0 &amp;&amp; rankInfo.starEarnPlace == 0) ? {_rankId: _rankId} : null"/>
-		<bind name="style" value="'width'; _noWidth ? 'auto' : '100%'"/>
 		<style>
 			<flow value="htile"/>
 			<align value="center"/>
 		</style>
+		<bind name="style" value="'width'; _noWidth ? 'auto' : '100%'"/>
 		<bind name="repeat" value="rankInfo.starsToNext; (_size ? 'RankStarIconSmall' : 'RankStarIcon'); {_starState: (rankedBattlesStats.rank &lt; rankInfo.id)	? 'earned'
 																																				: (rankedBattlesStats.rank &gt; rankInfo.id)	? 'not_earned'
 																																															: 'unknown', _size: _size}"/>
@@ -1334,7 +1347,7 @@
 				<marginRight value="5px"/>
 			</style>
 			<bind name="gotoAndStop!" value="(_starState != 'unknown')	? _starState
-														: ( $index + 1 &lt;= rankedBattlesStats.stars)	|| (rankedBattlesStats.rank == 2) ? 'earned'
+														: ( $index + 1 &lt;= rankedBattlesStats.stars)	? 'earned'
 																									: 'not_earned'"/>
 		</block>
 	</block>
@@ -1350,7 +1363,7 @@
 			<bind name="style" value="'width'; _size == 'small' ? '27px' : 'auto'"/>
 			<bind name="style" value="'height'; _size == 'small' ? '27px' : 'auto'"/>
 			<bind name="gotoAndStop!" value="(_starState != 'unknown')	? _starState
-														: ( $index + 1 &lt;= rankedBattlesStats.stars)	|| (rankedBattlesStats.rank == 2) ? 'earned'
+														: ( $index + 1 &lt;= rankedBattlesStats.stars)	? 'earned'
 																									: 'not_earned'"/>
 		</block>
 	</block>
@@ -1508,10 +1521,15 @@
 	</block>
 	<block className="PlayerRankIcon">
 		<bind name="controller" value="lesta.dialogs.controllers.CollectionController; 'rankedBattlesRanks';  _rankId; 'rankInfo'"/>
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'rankedBattlesSeason'"/>
 		<block className="icons_rank_outer" type="native">
-			<bind name="gotoAndStop!" value="rankInfo.id &lt;= 2 ? 'top'
-											: rankInfo.leagueId == 1 ? 'big' 
-											: rankInfo.leagueId == 2 ? 'medium' : 'small'"/>
+			<bind name="gotoAndStop!" value="rankedBattlesSeason.isJuniorSeason == true 	? rankInfo.id == 1 			? 'top' 
+																		: rankInfo.leagueId == 1 	? 'big'
+																									: 'small' 
+																		: rankInfo.id == 1 			? 'top'
+																		: rankInfo.leagueId == 1 	? 'big' 
+																		: rankInfo.leagueId == 2 	? 'medium' 
+																		: 'small'"/>
 			<bind name="style" value="'width'; _small ? '70px' : '98px'"/>
 			<bind name="style" value="'height'; _small ? '70px' : '98px'"/>
 			<block>
@@ -1519,20 +1537,26 @@
 				<bind name="style" value="'width'; _small ? '27px' : '35px'"/>
 				<bind name="style" value="'height'; _small ? '27px' : '35px'"/>
 				<bind name="style" value="'top'; _small ? '23px' : '32px'"/>
-				<bind name="style" value="'backgroundImage';  _small ? 'url:' + '../ranks/icons/icon_rank_small_' + (rankInfo.id - 1) + '.png' : 'url:' + '../ranks/icons/icon_rank_big_' + (rankInfo.id - 1) + '.png'"/>
+				<bind name="style" value="'backgroundImage';  _small ? 'url:' + '../ranks/icons/icon_rank_small_' + (rankInfo.id) + '.png' 
+													: 'url:' + '../ranks/icons/icon_rank_big_' + (rankInfo.id) + '.png'"/>
 			</block>
 		</block>
 	</block>
 	<block className="PlayerRankIconBig">
 		<bind name="controller" value="lesta.dialogs.controllers.CollectionController; 'rankedBattlesRanks';  _rankId; 'rankInfo'"/>
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'rankedBattlesSeason'"/>
 		<block className="icons_rank_outer_big" type="native">
 			<style>
 				<width value="146px"/>
 				<height value="146px"/>
 			</style>
-			<bind name="gotoAndStop!" value="rankInfo.id &lt;= 2 ? 'top'
-											: rankInfo.leagueId == 1 ? 'big' 
-											: rankInfo.leagueId == 2 ? 'medium' : 'small'"/>
+			<bind name="gotoAndStop!" value="rankedBattlesSeason.isJuniorSeason == true 	? rankInfo.id == 1 			? 'top' 
+																		: rankInfo.leagueId == 1 	? 'big'
+																									: 'small' 
+																		: rankInfo.id == 1 			? 'top'
+																		: rankInfo.leagueId == 1 	? 'big' 
+																		: rankInfo.leagueId == 2 	? 'medium' 
+																		: 'small'"/>
 			<block>
 				<styleClass value="$MiddleAlignedAbsolutely"/>
 				<style>
@@ -1540,7 +1564,7 @@
 					<width value="54px"/>
 					<height value="54px"/>
 				</style>
-				<bind name="style" value="'backgroundImage'; 'url:' + '../ranks/icons/icon_rank_big_' + (rankInfo.id - 1) + '.png'"/>
+				<bind name="style" value="'backgroundImage'; 'url:' + '../ranks/icons/icon_rank_big_' + (rankInfo.id) + '.png'"/>
 			</block>
 		</block>
 	</block>
@@ -1897,45 +1921,82 @@
 			</block>
 		</block>
 	</block>
+	<block className="ResizableButtonDock">
+		<style>
+			<width value="100%f"/>
+		</style>
+		<bind name="watch" value="'enabled'; _enabled != false"/>
+		<bind name="name" value="_name"/>
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController; null; 'resizableButtonDock_'"/>
+		<bind name="clickSplit"/>
+		<bind name="request" value="'left_click'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
+		<bind name="action" value="'left_click'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
+		<bind name="transition" value="resizableButtonDock_rollOver &amp;&amp; !(resizableButtonDock_mouseDown) &amp;&amp; enabled; 0.1; {alpha: 0.65}; {alpha: 1}; {alpha: 0.65}"/>
+		<bind name="soundOn" value="'left_click'; 'press'; 'default_button'"/>
+		<block>
+			<styleClass value="$FullsizeAbsolute"/>
+			<style>
+				<marginLeft value="-10px"/>
+				<marginRight value="-10px"/>
+				<marginBottom value="-9px"/>
+				<marginTop value="-10px"/>
+			</style>
+			<bind name="style" value="'hitTest'; enabled"/>
+			<block className="button_dock_bg" type="native">
+				<styleClass value="$Fullsize"/>
+				<bind name="gotoAndStop!" value="'down'"/>
+			</block>
+		</block>
+		<block type="text">
+			<style>
+				<hitTest value="false"/>
+				<mouseEnabled value="false"/>
+				<mouseChildren value="false"/>
+			</style>
+			<bind name="style" value="'alpha'; enabled ? 1 : 0.65"/>
+			<styleClass value="$TextDefaultBoldNM"/>
+			<bind name="class" value="'$FontColorBlueish'"/>
+			<bind name="text" value="_label"/>
+		</block>
+	</block>
 	<block className="InfopanelButton">
 		<bind name="request" value="'buttonClick'; _request ? _request : null; _request ? _requestParams : null"/>
+		<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: _tooltipIDS}"/>
+		<bind name="name" value="_name"/>
+		<bind name="dispatch" value="'mouseOver'; 'overInfopanelButton'; {InfopanelButtonOverAlpha: 1}"/>
+		<bind name="dispatch" value="'mouseOut'; 'upInfopanelButton'; {InfopanelButtonOverAlpha: 0.6}"/>
+		<bind name="dispatch" value="'mouseDown'; 'downInfopanelButton'; {InfopanelButtonOverAlpha: 0.3}"/>
+		<bind name="style" value="'alpha'; InfopanelButtonOverAlpha"/>
+		<bind name="catch" value="'downInfopanelButton'"/>
+		<bind name="catch" value="'upInfopanelButton'}"/>
+		<bind name="catch" value="'overInfopanelButton'"/>
 		<block className="button_infopanel_no_label" type="native">
-			<bind name="name" value="_name"/>
+			<bind name="style" value="'width'; _width"/>
 			<style>
 				<height value="40px"/>
 			</style>
-			<bind name="style" value="'width'; _width"/>
-			<bind name="dispatch" value="'mouseOver'; 'overInfopanelButton'; {InfopanelButtonOverAlpha: 1}"/>
-			<bind name="dispatch" value="'mouseOut'; 'upInfopanelButton'; {InfopanelButtonOverAlpha: 0.6}"/>
-			<bind name="dispatch" value="'mouseDown'; 'downInfopanelButton'; {InfopanelButtonOverAlpha: 0.3}"/>
 			<block>
 				<style>
+					<width value="100%"/>
 					<height value="100%"/>
-					<alpha value="0.5"/>
-					<mouseEnabled value="false"/>
+					<hitTest value="false"/>
 				</style>
-				<bind name="style" value="'alpha'; InfopanelButtonOverAlpha"/>
-				<bind name="catch" value="'downInfopanelButton'"/>
-				<bind name="catch" value="'upInfopanelButton'}"/>
-				<bind name="catch" value="'overInfopanelButton'"/>
-				<bind name="catch" value="'upInfopanelButton'"/>
 				<block>
 					<styleClass value="$MiddleVAligned"/>
 					<style>
 						<marginLeft value="8"/>
 						<backgroundStretchX value="true"/>
 						<backgroundStretchY value="true"/>
-						<mouseEnabled value="false"/>
 					</style>
 					<bind name="style" value="'width'; _iconWidth"/>
 					<bind name="style" value="'height'; _iconHeight"/>
 					<bind name="style" value="'backgroundImage'; _backgroundImage"/>
 				</block>
 				<block>
+					<styleClass value="$MiddleAligned"/>
+					<styleClass value="$MiddleVAligned"/>
 					<style>
-						<marginTop value="14px"/>
-						<marginLeft value="8"/>
-						<mouseEnabled value="false"/>
+						<position value="absolute"/>
 					</style>
 					<block type="text">
 						<styleClass value="$TextDefaultBoldNM"/>
@@ -1947,7 +2008,6 @@
 				</style>
 			</block>
 		</block>
-		<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: _tooltipIDS}"/>
 	</block>
 	<block className="ModalWindowSeasonResults">
 		<bind name="controller" value="lesta.unbound.core.UbController"/>
@@ -1971,7 +2031,7 @@
 					<hitTest value="false"/>
 				</style>
 				<bind name="visible" value="optionData.blurEnabled"/>
-				<block className="mc_blurmap3" type="native">
+				<block className="mc_blurmap5" type="native">
 					<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 					<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
 					<styleClass value="$Fullsize"/>
@@ -2049,7 +2109,7 @@
 						<params>
 							<param name="name" value="SeasonFinalRank"/>
 						</params>
-						<bind name="text" value="$root.stats.rank - 1"/>
+						<bind name="text" value="$root.stats.rank"/>
 					</block>
 				</block>
 			</block>

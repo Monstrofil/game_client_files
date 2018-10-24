@@ -136,6 +136,13 @@
 			<styleClass value="$Fullsize"/>
 		</block>
 	</block>
+	<css name="$ModernizationAndConsumScrollBar">
+		<wheelScrollSpeed value="15"/>
+		<scrollbarController value="lesta.unbound.style.UbScrollingControllerModern"/>
+		<scrollArea value="ModernScrollArea"/>
+		<scrollbar value="ModernScrollBarSimple"/>
+		<scrollbarTrackMode value="scrollToCursor"/>
+	</css>
 	<block className="VerticalDivider">
 		<style>
 			<height value="100%"/>
@@ -750,6 +757,7 @@
 					<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 					<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 					<block>
+						<bind name="soundSet" value="'default_button'"/>
 						<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 						<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 						<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -817,6 +825,7 @@
 						<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 						<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 						<block>
+							<bind name="soundSet" value="'default_button'"/>
 							<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 							<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 							<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -909,6 +918,7 @@
 					<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 					<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 					<block>
+						<bind name="soundSet" value="'default_button'"/>
 						<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 						<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 						<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -1041,6 +1051,7 @@
 						<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 						<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 						<block>
+							<bind name="soundSet" value="'default_button'"/>
 							<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 							<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 							<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -1135,6 +1146,7 @@
 						<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 						<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 						<block>
+							<bind name="soundSet" value="'default_button'"/>
 							<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 							<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 							<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -1232,6 +1244,7 @@
 					<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
 					<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
 					<block>
+						<bind name="soundSet" value="'default_button'"/>
 						<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
 						<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
 						<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
@@ -1377,12 +1390,28 @@
 		<block className="icon_warning_orange" type="native"/>
 		<block type="text">
 			<style>
-				<marginTop value="-5px"/>
+				<marginTop value="-4px"/>
 				<marginLeft value="4px"/>
 			</style>
 			<bind name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 180"/>
-			<bind name="style" value="'leading'; _leading ? _leading : 0"/>
 			<styleClass value="$WarningTextOrange"/>
+			<bind name="style" value="'leading'; _leading ? _leading : -3"/>
+			<bind name="text" value="_instructionText"/>
+		</block>
+	</block>
+	<block className="InstructionRestricion">
+		<style>
+			<flow value="horizontal"/>
+		</style>
+		<block className="icon_restrict_red" type="native"/>
+		<block type="text">
+			<style>
+				<marginTop value="-3px"/>
+				<marginLeft value="4px"/>
+			</style>
+			<bind name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 180"/>
+			<styleClass value="$WarningTextRed"/>
+			<bind name="style" value="'leading'; _leading ? _leading : -3"/>
 			<bind name="text" value="_instructionText"/>
 		</block>
 	</block>
@@ -1398,9 +1427,9 @@
 		</block>
 		<block type="text">
 			<styleClass value="$TextHeaderBigDefault"/>
-			<bind name="style" value="'marginLeft'; (_type=='no_icon') ? '0px' : '4px'"/>
-			<bind name="style" value="'leading'; _leading ? _leading : 0"/>
 			<bind name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 180"/>
+			<bind name="style" value="'leading'; _leading ? _leading : 0"/>
+			<bind name="style" value="'marginLeft'; (_type=='no_icon') ? '0px' : '4px'"/>
 			<style>
 				<marginTop value="-2px"/>
 			</style>
@@ -1409,8 +1438,11 @@
 	</block>
 	<block className="MouseInstructionRepeater">
 		<bind name="style" value="'marginBottom'; $index != _lastIndex ? '6px' : '0px'"/>
-		<bind name="instance" value="'MouseInstruction'; _type == 'warning' ? null : { _type: _type, _instructionText: _instructionText, _maxWidth: _maxWidth}"/>
-		<bind name="instance" value="'InstructionWarning'; _type == 'warning' ? {_instructionText: _instructionText, _maxWidth: _maxWidth} : null"/>
+		<bind name="instance" value="'MouseInstruction'; _type == 'warning' || _type == 'restriction'	? null
+																						: { _type: _type, _instructionText: _instructionText,
+																							_maxWidth: _maxWidth, _leading: _leading}"/>
+		<bind name="instance" value="'InstructionWarning'; _type == 'warning' ? {_instructionText: _instructionText, _maxWidth: _maxWidth, _leading: _leading} : null"/>
+		<bind name="instance" value="'InstructionRestricion'; _type == 'restriction' ? {_instructionText: _instructionText, _maxWidth: _maxWidth, _leading: _leading} : null"/>
 	</block>
 	<block className="CheckedLine">
 		<style>
@@ -2458,6 +2490,61 @@
 			<bind name="rotation" value="-2"/>
 			<bind name="gotoAndStop!" value="_issued	? 'issued' : 'not_issued'"/>
 			<innerBind elementName="item.item" name="text" value="'IDS_ISSUED_STAMP'"/>
+		</block>
+	</block>
+	<block className="ColorTransformPicker">
+		<bind name="instance" value="'ColorTransformSlider'; {_maximum : 1, _minimum: 0, _step: 0.01, _value:1, _name:'redMultiplier'}"/>
+		<bind name="instance" value="'ColorTransformSlider'; {_maximum : 1, _minimum: 0, _step: 0.01, _value:1, _name:'greenMultiplier'}"/>
+		<bind name="instance" value="'ColorTransformSlider'; {_maximum : 1, _minimum: 0, _step: 0.01, _value:1, _name:'blueMultiplier'}"/>
+		<bind name="instance" value="'ColorTransformSlider'; {_maximum : 1, _minimum: 0, _step: 0.01, _value:1, _name:'alphaMultiplier'}"/>
+		<bind name="instance" value="'ColorTransformSlider'; {_maximum : 255, _minimum: -255, _step: 1, _value:0, _name:'redOffset'}"/>
+		<bind name="instance" value="'ColorTransformSlider'; {_maximum : 255, _minimum: -255, _step: 1, _value:0, _name:'greenOffset'}"/>
+		<bind name="instance" value="'ColorTransformSlider'; {_maximum : 255, _minimum: -255, _step: 1, _value:0, _name:'blueOffset'}"/>
+		<bind name="instance" value="'ColorTransformSlider'; {_maximum : 255, _minimum: -255, _step: 1, _value:0, _name:'alphaOffset'}"/>
+	</block>
+	<block className="ColorTransformSlider">
+		<style>
+			<marginTop value="20px"/>
+		</style>
+		<block>
+			<bind name="dispatch" value="'value'+varChanged; 'colorTransformChanged'; [_name, value]"/>
+			<block>
+				<style>
+					<maxHeight value="500"/>
+					<overflow value="scroll"/>
+					<backgroundColor value="0x80000000"/>
+				</style>
+				<styleClass value="$DefaultScrollBar"/>
+				<block type="text">
+					<styleClass value="$TextDefault"/>
+					<style>
+						<textColor value="0xffffffff"/>
+						<maxWidth value="600"/>
+						<marginBottom value="3px"/>
+					</style>
+					<bind name="text" value="'_name: ' + (_name)"/>
+				</block>
+			</block>
+			<block>
+				<style>
+					<maxHeight value="500"/>
+					<overflow value="scroll"/>
+					<backgroundColor value="0x80000000"/>
+				</style>
+				<styleClass value="$DefaultScrollBar"/>
+				<block type="text">
+					<styleClass value="$TextDefault"/>
+					<style>
+						<textColor value="0xffffffff"/>
+						<maxWidth value="600"/>
+						<marginBottom value="3px"/>
+					</style>
+					<bind name="text" value="'value: ' + (value)"/>
+				</block>
+			</block>
+			<block>
+				<bind name="mc" value="'slider_default'; ['valueChange']; ['value']; {maximum:_maximum, minimum:_minimum, step:_step, value:_value}"/>
+			</block>
 		</block>
 	</block>
 	<css name="$MarginsBig">
@@ -3720,45 +3807,82 @@
 			</block>
 		</block>
 	</block>
+	<block className="ResizableButtonDock">
+		<style>
+			<width value="100%f"/>
+		</style>
+		<bind name="watch" value="'enabled'; _enabled != false"/>
+		<bind name="name" value="_name"/>
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController; null; 'resizableButtonDock_'"/>
+		<bind name="clickSplit"/>
+		<bind name="request" value="'left_click'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
+		<bind name="action" value="'left_click'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
+		<bind name="transition" value="resizableButtonDock_rollOver &amp;&amp; !(resizableButtonDock_mouseDown) &amp;&amp; enabled; 0.1; {alpha: 0.65}; {alpha: 1}; {alpha: 0.65}"/>
+		<bind name="soundOn" value="'left_click'; 'press'; 'default_button'"/>
+		<block>
+			<styleClass value="$FullsizeAbsolute"/>
+			<style>
+				<marginLeft value="-10px"/>
+				<marginRight value="-10px"/>
+				<marginBottom value="-9px"/>
+				<marginTop value="-10px"/>
+			</style>
+			<bind name="style" value="'hitTest'; enabled"/>
+			<block className="button_dock_bg" type="native">
+				<styleClass value="$Fullsize"/>
+				<bind name="gotoAndStop!" value="'down'"/>
+			</block>
+		</block>
+		<block type="text">
+			<style>
+				<hitTest value="false"/>
+				<mouseEnabled value="false"/>
+				<mouseChildren value="false"/>
+			</style>
+			<bind name="style" value="'alpha'; enabled ? 1 : 0.65"/>
+			<styleClass value="$TextDefaultBoldNM"/>
+			<bind name="class" value="'$FontColorBlueish'"/>
+			<bind name="text" value="_label"/>
+		</block>
+	</block>
 	<block className="InfopanelButton">
 		<bind name="request" value="'buttonClick'; _request ? _request : null; _request ? _requestParams : null"/>
+		<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: _tooltipIDS}"/>
+		<bind name="name" value="_name"/>
+		<bind name="dispatch" value="'mouseOver'; 'overInfopanelButton'; {InfopanelButtonOverAlpha: 1}"/>
+		<bind name="dispatch" value="'mouseOut'; 'upInfopanelButton'; {InfopanelButtonOverAlpha: 0.6}"/>
+		<bind name="dispatch" value="'mouseDown'; 'downInfopanelButton'; {InfopanelButtonOverAlpha: 0.3}"/>
+		<bind name="style" value="'alpha'; InfopanelButtonOverAlpha"/>
+		<bind name="catch" value="'downInfopanelButton'"/>
+		<bind name="catch" value="'upInfopanelButton'}"/>
+		<bind name="catch" value="'overInfopanelButton'"/>
 		<block className="button_infopanel_no_label" type="native">
-			<bind name="name" value="_name"/>
+			<bind name="style" value="'width'; _width"/>
 			<style>
 				<height value="40px"/>
 			</style>
-			<bind name="style" value="'width'; _width"/>
-			<bind name="dispatch" value="'mouseOver'; 'overInfopanelButton'; {InfopanelButtonOverAlpha: 1}"/>
-			<bind name="dispatch" value="'mouseOut'; 'upInfopanelButton'; {InfopanelButtonOverAlpha: 0.6}"/>
-			<bind name="dispatch" value="'mouseDown'; 'downInfopanelButton'; {InfopanelButtonOverAlpha: 0.3}"/>
 			<block>
 				<style>
+					<width value="100%"/>
 					<height value="100%"/>
-					<alpha value="0.5"/>
-					<mouseEnabled value="false"/>
+					<hitTest value="false"/>
 				</style>
-				<bind name="style" value="'alpha'; InfopanelButtonOverAlpha"/>
-				<bind name="catch" value="'downInfopanelButton'"/>
-				<bind name="catch" value="'upInfopanelButton'}"/>
-				<bind name="catch" value="'overInfopanelButton'"/>
-				<bind name="catch" value="'upInfopanelButton'"/>
 				<block>
 					<styleClass value="$MiddleVAligned"/>
 					<style>
 						<marginLeft value="8"/>
 						<backgroundStretchX value="true"/>
 						<backgroundStretchY value="true"/>
-						<mouseEnabled value="false"/>
 					</style>
 					<bind name="style" value="'width'; _iconWidth"/>
 					<bind name="style" value="'height'; _iconHeight"/>
 					<bind name="style" value="'backgroundImage'; _backgroundImage"/>
 				</block>
 				<block>
+					<styleClass value="$MiddleAligned"/>
+					<styleClass value="$MiddleVAligned"/>
 					<style>
-						<marginTop value="14px"/>
-						<marginLeft value="8"/>
-						<mouseEnabled value="false"/>
+						<position value="absolute"/>
 					</style>
 					<block type="text">
 						<styleClass value="$TextDefaultBoldNM"/>
@@ -3770,7 +3894,6 @@
 				</style>
 			</block>
 		</block>
-		<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: _tooltipIDS}"/>
 	</block>
 	<block className="LootboxesBanner">
 		<params>
@@ -4121,6 +4244,7 @@
 			</style>
 		</block>
 		<block>
+			<bind name="visible" value="title != null"/>
 			<style>
 				<width value="100%"/>
 				<marginTop value="-2px"/>
@@ -4131,7 +4255,9 @@
 	<block className="PlayerSummary">
 		<bind name="var" value="{curSeasonIndex: 0}"/>
 		<bind name="catch" value="'curSeasonIndexChanged'"/>
+		<bind name="catch" value="'currentSeasonIdChanged'"/>
 		<bind name="collectionDH" value="CC.rankedSeasonHistory; 'statDataEntities'; 'statToShow'"/>
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'rankedBattlesSeason'"/>
 		<bind name="entityDH" value="'statDataEntity'; statDataEntities[0].id"/>
 		<bind name="watchDH" value="'statData'; ['statDataEntity.dataComponent.evDataChanged']; statDataEntity.dataComponent.data"/>
 		<bind name="watchDH" value="'shipsList'; ['statDataEntity.dataComponent.evDataChanged']; statDataEntity.dataComponent.data.shipsList"/>
@@ -4188,22 +4314,20 @@
 			<bind name="appear" value="'addedToStage'; 0.15; 0; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
 			<style>
 				<position value="absolute"/>
-				<width value="230px"/>
-				<marginTop value="-40px"/>
-				<right value="1280:10,1920:20aw"/>
+				<width value="240px"/>
+				<right value="1280:5,1920:40aw"/>
+				<marginTop value="-33px"/>
 			</style>
 			<block>
-				<styleClass value="$MiddleAligned"/>
 				<style>
-					<width value="230px"/>
+					<width value="100%"/>
 				</style>
 				<block>
 					<style>
 						<height value="30px"/>
-						<top value="-3px"/>
 					</style>
 					<styleClass value="$MiddleAligned"/>
-					<bind name="instance" value="'RankedSeasonDropdown'; battleType == BattleTypes.RANKED_BATTLE ? {statData: statData, _curSeasonIndex: curSeasonIndex}: null"/>
+					<bind name="instance" value="'RankedSeasonDropdown'; (battleType == BattleTypes.RANKED_BATTLE) ? {statData: statData, _curSeasonIndex: curSeasonIndex, currentSeasonId: currentSeasonId}: null"/>
 				</block>
 				<block>
 					<styleClass value="$MiddleAligned"/>
@@ -4214,7 +4338,7 @@
 						<block className="icon_battletypes_big" type="native">
 							<bind name="transition" value="statData.vehicleId != 0; 0.15; {alpha: 1}; {alpha: 0.7}"/>
 							<styleClass value="$MiddleAligned"/>
-							<bind name="gotoAndStop!" value="battleType"/>
+							<bind name="gotoAndStop!" value="(currentSeasonId &gt; 100) ? 'RankedBattle_junior' : battleType"/>
 						</block>
 						<block className="battle_type_overlay_big" type="native">
 							<bind name="visible" value="statData.vehicleId != 0"/>
@@ -4353,6 +4477,7 @@
 		<bind name="catch" value="'ItemChooserInnerEvent.historySeasonChanged'"/>
 		<bind name="action" value="'_curItemIndex' + varChanged; 'rankedSeasonChanged'; {seasonId: statData.seasonList[_curItemIndex].id}"/>
 		<bind name="dispatch" value="'_curItemIndex' + varChanged; 'curSeasonIndexChanged'; {curSeasonIndex: _curItemIndex}; false"/>
+		<bind name="dispatch" value="'_curItemIndex' + varChanged; 'currentSeasonIdChanged'; {currentSeasonId: statData.seasonList[_curItemIndex].id}"/>
 		<bind name="appear" value="'addedToStage'; 0.15; 0; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
 		<block>
 			<bind name="instance" value="'ItemChooser'; {	_items: statData.seasonList, curIndex: _curItemIndex,
@@ -5709,9 +5834,6 @@
 	<block className="ModalWindowArcEventResult">
 		<bind name="primaryEntityDH" value="'battleResultsDH'; CC.battleResultsComponent; $root.arenaId"/>
 		<bind name="watchDH" value="'arcDetails'; []; battleResultsDH.dataComponent.data.privateData.arc_details"/>
-		<bind name="watchDH" value="'individualTasks'; []; battleResultsDH.dataComponent.data.privateData.individual_tasks"/>
-		<bind name="watchDH" value="'individualTasksStatus'; []; battleResultsDH.dataComponent.data.privateData.individual_tasks[0].status"/>
-		<bind name="watchDH" value="'individualTaskName'; []; battleResultsDH.dataComponent.data.privateData.individual_tasks[0].taskName"/>
 		<bind name="firstEntityDH" value="'selfPlayerEntity'; CC.accountSelf"/>
 		<bind name="watchDH" value="'accountdbid'; []; selfPlayerEntity.accountSimple.dbId"/>
 		<bind name="watchDH" value="'playerTeamId'; []; battleResultsDH.dataComponent.data.privateData.team_id"/>
@@ -5720,8 +5842,6 @@
 		<bind name="watch" value="'isLooser'; winnerTeamId &gt; -1 &amp;&amp; playerTeamId != winnerTeamId"/>
 		<bind name="watch" value="'isWinner'; winnerTeamId &gt; -1 &amp;&amp; playerTeamId == winnerTeamId"/>
 		<bind name="watch" value="'isDrawer'; winnerTeamId == -1"/>
-		<bind name="watch" value="'havePersonalTask'; individualTasks != false"/>
-		<bind name="watch" value="'donePersonal'; (individualTasksStatus == 2) ? true : false"/>
 		<bind name="watch" value="'winnerLine'; {	done: 				isWinner, 
 									taskText: 			'IDS_TOTAL_TASK_FOR_BATTLE_WIN', 
 									description: 		'IDS_TOTAL_TASK_FOR_BATTLE_WIN_DESCRIPTION',
@@ -5737,14 +5857,23 @@
 									taskDoneCount: 		arcDetails.fragPoints[0],
 									taskPointsPerOne: 	arcDetails.fragPoints[1]
 								}"/>
-		<bind name="watch" value="'achievLine'; { 	done: 				arcDetails.achievPoints[0] &gt; 0,
-									taskText: 			'IDS_TOTAL_TASK_FOR_BATTLE_ACHIEVEMENT', 
-									description: 		'IDS_TOTAL_TASK_FOR_BATTLE_ACHIEVEMENT_DESCRIPTION',
-									taskTextPerOne: 	'IDS_TOTAL_TASK_FOR_BATTLE_ACHIEVEMENT_PER_ONE', 
+		<bind name="watch" value="'epicAchievLine'; { done: 				arcDetails.heroicAchievPoints[0] &gt; 0,
+									taskText: 			'IDS_TOTAL_TASK_FOR_BATTLE_EPIC_ACHIEVEMENT', 
+									description: 		'IDS_TOTAL_TASK_FOR_BATTLE_EPIC_ACHIEVEMENT_DESCRIPTION',
+									taskTextPerOne: 	'IDS_TOTAL_TASK_FOR_BATTLE_EPIC_ACHIEVEMENT_PER_ONE', 
 									taskType: 			'IDS_TOTAL_TASK_FOR_BATTLE_TYPE',
-									taskPoints: 		arcDetails.achievPoints[0] * arcDetails.achievPoints[1],
-									taskDoneCount: 		arcDetails.achievPoints[0],
-									taskPointsPerOne: 	arcDetails.achievPoints[1]
+									taskPoints: 		arcDetails.heroicAchievPoints[0] * arcDetails.heroicAchievPoints[1],
+									taskDoneCount: 		arcDetails.heroicAchievPoints[0],
+									taskPointsPerOne: 	arcDetails.heroicAchievPoints[1]
+								}"/>
+		<bind name="watch" value="'otherAchievLine'; { 	done: 				arcDetails.otherAchievPoints[0] &gt; 0,
+									taskText: 			'IDS_TOTAL_TASK_FOR_OTHER_BATTLE_ACHIEVEMENT', 
+									description: 		'IDS_TOTAL_TASK_FOR_OTHER_BATTLE_ACHIEVEMENT_DESCRIPTION',
+									taskTextPerOne: 	'IDS_TOTAL_TASK_FOR_OTHER_BATTLE_ACHIEVEMENT_PER_ONE', 
+									taskType: 			'IDS_TOTAL_TASK_FOR_BATTLE_TYPE',
+									taskPoints: 		arcDetails.otherAchievPoints[0] * arcDetails.otherAchievPoints[1],
+									taskDoneCount: 		arcDetails.otherAchievPoints[0],
+									taskPointsPerOne: 	arcDetails.otherAchievPoints[1]
 								}"/>
 		<bind name="watch" value="'PVELine'; 	{ 	done: 				arcDetails.pveStarPoints[0] &gt; 0,
 									taskText: 			'IDS_TOTAL_TASK_FOR_BATTLE_STAR',
@@ -5756,9 +5885,10 @@
 									taskPointsPerOne: 	arcDetails.pveStarPoints[1]
 								}"/>
 		<bind name="watch" value="'PVEArray'; [PVELine]"/>
-		<bind name="watch" value="'PBSArray';  [ (battleType == BattleTypes.RANDOM_BATTLE) || (battleType == BattleTypes.COOPERATIVE_BATTLE) || (battleType == BattleTypes.CLAN_BATTLE) ? winnerLine : null,
-								(battleType == BattleTypes.RANDOM_BATTLE) || (battleType == BattleTypes.COOPERATIVE_BATTLE) ? fragsLine : null,
-								(battleType == BattleTypes.RANDOM_BATTLE) 	? achievLine : null]"/>
+		<bind name="watch" value="'PBSArray';  [ (battleType == BattleTypes.RANDOM_BATTLE) || (battleType == BattleTypes.COOPERATIVE_BATTLE) || (battleType == BattleTypes.CLAN_BATTLE) || (battleType == BattleTypes.EVENT_BATTLE) ? winnerLine : null,
+								(battleType == BattleTypes.RANDOM_BATTLE) || (battleType == BattleTypes.COOPERATIVE_BATTLE) || (battleType == BattleTypes.EVENT_BATTLE) ? fragsLine : null,
+								(battleType == BattleTypes.RANDOM_BATTLE) || (battleType == BattleTypes.COOPERATIVE_BATTLE) || (battleType == BattleTypes.EVENT_BATTLE) ? otherAchievLine : null,
+								(battleType == BattleTypes.RANDOM_BATTLE) || (battleType == BattleTypes.EVENT_BATTLE) ? epicAchievLine : null]"/>
 		<styleClass value="$FullsizeAbsolute"/>
 		<block className="DeclareBlurLayer">
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
@@ -5777,7 +5907,7 @@
 				<hitTest value="false"/>
 			</style>
 			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="mc_blurmap3" type="native">
+			<block className="mc_blurmap5" type="native">
 				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
 				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
 				<styleClass value="$Fullsize"/>
@@ -5827,8 +5957,7 @@
 						<height value="634px"/>
 						<alpha value="0.5"/>
 					</style>
-					<bind name="style" value="'backgroundImage'; arcDetails.side_id == 0 	? 'url:../events/american_event/postbattle/bg_ava_sharks.png'
-																			: 'url:../events/american_event/postbattle/bg_ava_eagles.png'"/>
+					<bind name="style" value="'backgroundImage'; 'url:../events/british_event/reskin/bg_milestone_postbattle.png'"/>
 				</block>
 			</block>
 			<block>
@@ -5852,7 +5981,7 @@
 			<block>
 				<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 4 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
 				<bind name="appear" value="'startHide'; 0.15; 4 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
-				<bind name="tooltip" value="'AvaBattlePointsTooltip'; {}"/>
+				<bind name="tooltip" value="'EventBattlePointsTooltip'; {}"/>
 				<style>
 					<marginTop value="10sh"/>
 					<backgroundColor value="0x01000000"/>
@@ -5880,39 +6009,11 @@
 				</block>
 			</block>
 			<block>
-				<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 5 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
-				<bind name="appear" value="'startHide'; 0.15; 5 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
-				<bind name="visible" value="havePersonalTask == true"/>
+				<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 6 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
+				<bind name="appear" value="'startHide'; 0.15; 6 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
 				<style>
 					<width value="100%"/>
 					<marginTop value="5sh"/>
-				</style>
-				<block className="HorizontalDivider">
-					<styleClass value="$PxHorizontalCorrection"/>
-					<style>
-						<width value="100%"/>
-						<height value="3px"/>
-					</style>
-					<block className="divider_h" type="native">
-						<styleClass value="$Fullsize"/>
-					</block>
-				</block>
-				<block>
-					<styleClass value="$MiddleAligned"/>
-					<bind name="instance" value="'AvaBattleTaskWithScore'; {	isPersonalBattleTask: true,
-															done: donePersonal,
-															isWinner: isWinner,
-															taskText: ('IDS_BATTLE_TASK_TEXT_' + toUpperCase(individualTaskName)),
-															taskPoints: arcDetails.indTaskPoints[0] * arcDetails.indTaskPoints[1],
-															taskType: 'IDS_PERSONAL_TASK_FOR_BATTLE_TYPE'}"/>
-				</block>
-			</block>
-			<block>
-				<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 6 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
-				<bind name="appear" value="'startHide'; 0.15; 6 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
-				<bind name="style" value="'marginTop'; havePersonalTask ? '0px' : '5sh'"/>
-				<style>
-					<width value="100%"/>
 				</style>
 				<block>
 					<style>
@@ -5943,7 +6044,7 @@
 						<position value="absolute"/>
 						<marginTop value="12"/>
 					</style>
-					<bind name="repeat" value="PBSArray; 'AvaBattleTaskWithScore'; (battleType != BattleTypes.PVE_BATTLE) ? {} : null"/>
+					<bind name="repeat" value="PBSArray; 'EventBattleTaskWithScore'; (battleType != BattleTypes.PVE_BATTLE) ? {} : null"/>
 				</block>
 				<block>
 					<bind name="visible" value="battleType == BattleTypes.PVE_BATTLE"/>
@@ -5952,47 +6053,52 @@
 						<position value="absolute"/>
 						<marginTop value="12"/>
 					</style>
-					<bind name="repeat" value="PVEArray; 'AvaBattleTaskWithScorePVE'; (battleType == BattleTypes.PVE_BATTLE) ?  {} : null"/>
+					<bind name="repeat" value="PVEArray; 'EventBattleTaskWithScorePVE'; (battleType == BattleTypes.PVE_BATTLE) ?  {} : null"/>
 				</block>
 			</block>
 		</block>
 		<block>
 			<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 7 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
 			<bind name="appear" value="'startHide'; 0.15; 7 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
-			<styleClass value="$MiddleAligned"/>
 			<style>
 				<position value="absolute"/>
-				<width value="129px"/>
+				<width value="100%"/>
 				<bottom value="720:10,2160:200ah"/>
 			</style>
-			<block className="DefaultButtonModal">
-				<styleClass value="$InfoLineBoundaries"/>
+			<block>
+				<styleClass value="$MiddleAligned"/>
 				<style>
-					<width value="100%"/>
+					<width value="129px"/>
 				</style>
-				<bind name="name" value="'Modal_window_action_Button' + 'IDS_CLOSE_UPPER_CASE'"/>
-				<block className="button_default" type="native">
+				<block className="DefaultButtonModal">
+					<styleClass value="$InfoLineBoundaries"/>
 					<style>
 						<width value="100%"/>
 					</style>
-					<bind name="label" value="'IDS_CLOSE_UPPER_CASE'"/>
-					<params>
-						<param name="name" value="btn_cancel"/>
-					</params>
-					<bind name="input"/>
-					<bind name="focus" value="0;true"/>
+					<bind name="name" value="'Modal_window_action_Button' + 'IDS_CLOSE_UPPER_CASE'"/>
+					<block className="button_default" type="native">
+						<style>
+							<width value="100%"/>
+						</style>
+						<bind name="label" value="'IDS_CLOSE_UPPER_CASE'"/>
+						<params>
+							<param name="name" value="btn_cancel"/>
+						</params>
+						<bind name="input"/>
+						<bind name="focus" value="0;true"/>
+					</block>
 				</block>
 			</block>
 		</block>
 	</block>
-	<block className="AvaBattleTaskWithScore">
-		<bind name="style" value="'marginTop'; isPersonalBattleTask ? 32 : 12"/>
-		<bind name="style" value="'marginBottom'; isPersonalBattleTask ? 32 : 12"/>
+	<block className="EventBattleTaskWithScore">
 		<style>
 			<width value="500px"/>
 			<flow value="horizontal"/>
+			<marginTop value="12"/>
+			<marginBottom value="12"/>
 		</style>
-		<bind name="tooltip" value="'AvaBattleTaskTooltip'; {_taskText: 			taskText, 
+		<bind name="tooltip" value="'EventBattleTaskTooltip'; {_taskText: 		taskText, 
 											_taskTextPerOne: 	taskTextPerOne,
 											_taskPoints: 		taskPoints,
 											_taskPointsPerOne: 	taskPointsPerOne,
@@ -6004,7 +6110,7 @@
 				<position value="absolute"/>
 				<top value="2"/>
 			</style>
-			<bind name="style" value="'alpha'; (isPersonalBattleTask == true) || (done == true) ? 1 : 0"/>
+			<bind name="style" value="'alpha'; done == true ? 1 : 0"/>
 			<block className="icon_task_status" type="native">
 				<bind name="gotoAndStop!" value="done == true ? 'success' : 'fail'"/>
 			</block>
@@ -6028,12 +6134,12 @@
 			<bind name="text" value="format(taskPoints)"/>
 		</block>
 	</block>
-	<block className="AvaBattleTaskWithScorePVE">
+	<block className="EventBattleTaskWithScorePVE">
 		<style>
 			<width value="500px"/>
 			<flow value="horizontal"/>
 		</style>
-		<bind name="tooltip" value="'AvaBattleTaskTooltip'; {_taskText: 			taskText, 
+		<bind name="tooltip" value="'EventBattleTaskTooltip'; {_taskText: 		taskText, 
 											_taskTextPerOne: 	taskTextPerOne,
 											_taskPoints: 		taskPoints,
 											_taskPointsPerOne: 	taskPointsPerOne,
@@ -6041,7 +6147,7 @@
 											_taskDoneCount:		taskDoneCount,
 											_description:		description}"/>
 		<block>
-			<bind name="repeat" value="5; 'AvaBattleTaskWithScorePVEStar'; {_length: taskDoneCount}"/>
+			<bind name="repeat" value="5; 'EventBattleTaskWithScorePVEStar'; {_length: taskDoneCount}"/>
 			<style>
 				<flow value="horizontal"/>
 			</style>
@@ -6059,7 +6165,7 @@
 			</block>
 		</block>
 	</block>
-	<block className="AvaBattleTaskWithScorePVEStar">
+	<block className="EventBattleTaskWithScorePVEStar">
 		<style>
 			<marginLeft value="10px"/>
 		</style>
@@ -6067,7 +6173,7 @@
 			<bind name="gotoAndStop!" value="($index + 1) &lt;= _length ? 1 : 2"/>
 		</block>
 	</block>
-	<block className="AvaBattleTaskTooltip">
+	<block className="EventBattleTaskTooltip">
 		<style>
 			<width value="360px"/>
 			<hitTest value="false"/>
@@ -6277,7 +6383,7 @@
 			</style>
 		</block>
 	</block>
-	<block className="AvaBattlePointsTooltip">
+	<block className="EventBattlePointsTooltip">
 		<style>
 			<width value="360px"/>
 			<hitTest value="false"/>

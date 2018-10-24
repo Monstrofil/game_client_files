@@ -23,18 +23,22 @@
 		ARRAY<of>UINT32</of>
 	</ATBA_TARGETS>
 	
-	<VISIBILITY>
+	<VISIBILITY_BY_TEAM>
 		ARRAY<of>TEAM_ID</of>
-	</VISIBILITY>
+	</VISIBILITY_BY_TEAM>
+
+	<VISIBILITY_DISTANCES>
+		FIXED_DICT
+		<Properties>
+			<byShip><Type>FLOAT</Type></byShip>
+			<byPlane><Type>FLOAT</Type></byPlane>
+			<bySmoke><Type>FLOAT</Type></bySmoke>
+		</Properties>
+	</VISIBILITY_DISTANCES>
 
 	<VISIBILITY_BY_CLIENTS>
 		ARRAY<of>AVATAR_ID</of>
 	</VISIBILITY_BY_CLIENTS>
-
-
-	<PLAYER_VISIBILITY>
-		ARRAY<of>ENTITY_ID</of>
-	</PLAYER_VISIBILITY>
 
 	<VISION>
 		ARRAY<of>ENTITY_ID</of>
@@ -50,7 +54,7 @@
 			<planeID><Type>PLANE_ID</Type></planeID>
 			<paramsID><Type>GAMEPARAMS_ID</Type></paramsID>
 			<position><Type>VECTOR3</Type></position>
-			<visibility><Type>VISIBILITY</Type></visibility>
+			<visibility><Type>VISIBILITY_BY_TEAM</Type></visibility>
 			<visibilityByClients><Type>VISIBILITY_BY_CLIENTS</Type></visibilityByClients>
 			<numPlanes><Type>UINT8</Type></numPlanes>
 			<speed><Type>FLOAT</Type></speed>
@@ -96,6 +100,7 @@
 			<regionID><Type>STRING</Type></regionID>
 			<sseInfo><Type>STRING</Type></sseInfo>
 			<pveInfo><Type>UINT64</Type></pveInfo>
+			<realms><Type>ARRAY<of>STRING</of></Type></realms>
 		</Properties>
 		<implementedBy>BattleDef.converter</implementedBy>
 	</BATTLE_DEF>
@@ -169,6 +174,7 @@
 			<preBattleId><Type>DB_ID</Type></preBattleId>
 			<clanInfo><Type>PLAYER_CLAN_INFO</Type></clanInfo>
 			<extraInfo><Type>PYTHON</Type></extraInfo>
+			<realm><Type>STRING</Type><AllowNone> true </AllowNone></realm>
 		</Properties>
 		<implementedBy>PlayerDef.converter</implementedBy>
 		<AllowNone> true </AllowNone>
@@ -333,6 +339,19 @@
 				<skinID>       <Type>	GAMEPARAMS_ID	</Type>	</skinID>
 		</Properties>
 	</TORPEDOSHOT>
+
+	<DEPTHCHARGESHOT>
+		FIXED_DICT
+		<Properties>
+				<paramsID>     <Type>	GAMEPARAMS_ID	</Type> </paramsID>
+				<pos>          <Type>	VECTOR3	</Type> </pos>
+				<dir>          <Type>	VECTOR3	</Type>	</dir>
+				<ownerID>      <Type>	PLAYER_ID	</Type>	</ownerID>
+				<salvoID>      <Type>	INT32	</Type>	</salvoID>
+				<shotID>       <Type>	UINT16	</Type>	</shotID>
+				<serverTimeLeft>       <Type>	FLOAT	</Type>	</serverTimeLeft>
+		</Properties>
+	</DEPTHCHARGESHOT>
 	
 	<SHOTKILL>
 		FIXED_DICT
@@ -619,6 +638,8 @@
 			<name><Type>STRING</Type></name>
 			<radius><Type>FLOAT</Type></radius>
 			<state><Type>UINT8</Type></state>
+			<team0State><Type>UINT8</Type></team0State>
+			<team1State><Type>UINT8</Type></team1State>
 			<type><Type>UINT8</Type></type>
 			<ownerId><Type>ENTITY_ID</Type></ownerId>
 			<position><Type>VECTOR2</Type></position>
@@ -799,6 +820,7 @@
 		</Properties>
 	</MINEFIELD_STATE>
 
+
 	<LOCAL_WEATHER_STATE>
 		FIXED_DICT
 		<Properties>
@@ -808,11 +830,33 @@
 			<paramsId><Type>UINT32</Type></paramsId>
 		</Properties>
 	</LOCAL_WEATHER_STATE>
+
+	<GLOBAL_WEATHER_ITEM>
+		FIXED_DICT
+		<Properties>
+			<fromParam><Type>GAMEPARAMS_ID</Type></fromParam>
+			<toParam><Type>GAMEPARAMS_ID</Type></toParam>
+			<startTime><Type>INT16</Type></startTime>
+			<endTime><Type>INT16</Type></endTime>
+		</Properties>
+		<AllowNone>true</AllowNone>
+	</GLOBAL_WEATHER_ITEM>
+
+	<GLOBAL_WEATHER_NOTIFICATION>
+		FIXED_DICT
+		<Properties>
+			<param><Type>GAMEPARAMS_ID</Type></param>
+			<time><Type>INT16</Type></time>
+		</Properties>
+		<AllowNone>true</AllowNone>
+	</GLOBAL_WEATHER_NOTIFICATION>
+
 	<GLOBAL_WEATHER_STATE>
 		FIXED_DICT
 		<Properties>
 			<param><Type>GAMEPARAMS_ID</Type></param>
-			<time><Type>INT32</Type></time>
+			<item><Type>GLOBAL_WEATHER_ITEM</Type></item>
+			<notification><Type>GLOBAL_WEATHER_NOTIFICATION</Type></notification>
 		</Properties>
 	</GLOBAL_WEATHER_STATE>
 
@@ -847,25 +891,30 @@
 			<maxShipVisionDistance><Type> FLOAT </Type></maxShipVisionDistance>
 			<maxPlaneVisionDistance><Type> FLOAT </Type></maxPlaneVisionDistance>
 			<bad><Type> FLOAT </Type></bad>
+			<transparency><Type> FLOAT </Type></transparency>
 		</Properties>
 		<implementedBy>WeatherParamsDef.converter</implementedBy>
 	</WEATHER_LOGIC_PARAMS>
 
-	<ENTITY_WEATHER_STATE>
-		FIXED_DICT
-		<Properties>
-			<id><Type>ENTITY_ID</Type></id>
-			<params><Type>WEATHER_LOGIC_PARAMS</Type></params>
-		</Properties>
-	</ENTITY_WEATHER_STATE>
-
 	<WEATHER_STATE>
 		FIXED_DICT
 		<Properties>
-			<globalWeatherId><Type>ENTITY_ID</Type></globalWeatherId>
+			<mainWeather><Type>GAMEPARAMS_ID</Type></mainWeather>
+			<globalWeather><Type>GLOBAL_WEATHER_STATE</Type></globalWeather>
 			<localWeather> <Type>ARRAY<of>LOCAL_WEATHER_STATE</of></Type></localWeather>
 		</Properties>
 	</WEATHER_STATE>
+
+	<DROP_ITEM_STATE>
+		FIXED_DICT
+		<Properties>
+			<id><Type>INT8</Type></id>
+			<zone><Type>STRING</Type></zone>
+			<paramsId><Type>GAMEPARAMS_ID</Type></paramsId>
+			<startTime><Type>INT16</Type></startTime>
+			<endTime><Type>INT16</Type></endTime>
+		</Properties>
+	</DROP_ITEM_STATE>
 	
 	<BATTLE_LOGIC_STATE>
 		FIXED_DICT
@@ -887,6 +936,7 @@
 			<minefields><Type>ARRAY<of>MINEFIELD_STATE</of></Type></minefields>
 			<entities><Type>ARRAY<of>BATTLE_LOGIC_ENTITY_STATE</of></Type></entities>
 			<effects><Type>ARRAY<of>EFFECT_STATE</of></Type></effects>
+			<drop><Type>ARRAY<of>DROP_ITEM_STATE</of></Type></drop>
 			<!--<triggers> <Type>TRIGGERS_STATE</Type> <AllowNone>true</AllowNone> </triggers>-->
 			<!--<routes> <Type>ROUTES_STATE</Type> <AllowNone>true</AllowNone> </routes>-->
 		</Properties>
@@ -903,11 +953,23 @@
         </Properties>
     </INDIVIDUAL_TASK_STATE>
 
+	<MODIFIER_STATE>
+		FIXED_DICT
+		<Properties>
+			<paramsId><Type>GAMEPARAMS_ID</Type></paramsId>
+			<level><Type>INT8</Type></level>
+			<startTime><Type>INT16</Type></startTime>
+			<endTime><Type>INT16</Type></endTime>
+		</Properties>
+		<implementedBy>ModifierDef.converter</implementedBy>
+	</MODIFIER_STATE>
+
 
     <PRIVATE_BATTLE_LOGIC_STATE>
         FIXED_DICT
         <Properties>
             <individualTasks><Type> ARRAY <of> INDIVIDUAL_TASK_STATE </of> </Type></individualTasks>
+	        <modifiers><Type> ARRAY <of> MODIFIER_STATE </of> </Type></modifiers>
         </Properties>
     </PRIVATE_BATTLE_LOGIC_STATE>
 
@@ -1018,14 +1080,6 @@
 		TUPLE<of>INT32</of><size>2</size>
 	</COUNTDOWN_INFO>
 
-	<BATTLE_LOGIC_UI_INFO>
-		FIXED_DICT
-		<Properties>
-			<localWeatherParamsId><Type>GAMEPARAMS_ID</Type> </localWeatherParamsId>
-		</Properties>
-		<AllowNone>true</AllowNone>
-	</BATTLE_LOGIC_UI_INFO>
-
 	<REPLAY_METADATA_STATS>
 		FIXED_DICT
 		<Properties>
@@ -1047,7 +1101,7 @@
 			<result><Type>INT8</Type></result>
 			<shipId><Type>SHIP_ID</Type></shipId>
 			<stats><Type>REPLAY_METADATA_STATS</Type></stats>
-			<dateTime><Type>STRING</Type></dateTime>
+			<dateTime><Type>UINT32</Type></dateTime>
 			<version><Type>STRING</Type></version>
 			<networkInterface><Type>STRING</Type></networkInterface>
 		</Properties>
@@ -1081,4 +1135,24 @@
 			<node><Type>STRING</Type></node>
 		</Properties>
 	</ENTITY_EFFECT_STATE>
+
+	<LINKAGE_INFO>
+		FIXED_DICT
+		<Properties>
+			<mailBox><Type>MAILBOX</Type></mailBox>
+			<realm><Type>STRING</Type></realm>
+			<clusterKey><Type>STRING</Type></clusterKey>
+			<gameBranch><Type>STRING</Type></gameBranch>
+		</Properties>
+		<AllowNone> true </AllowNone>
+	</LINKAGE_INFO>
+
+	<LINKAGE_FRAGMENTS>
+		FIXED_DICT
+		<Properties>
+			<serviceName><Type>STRING</Type></serviceName>
+			<mailBoxes><Type>ARRAY<of>MAILBOX</of></Type></mailBoxes>
+		</Properties>
+		<AllowNone> true </AllowNone>
+	</LINKAGE_FRAGMENTS>
 </root>
