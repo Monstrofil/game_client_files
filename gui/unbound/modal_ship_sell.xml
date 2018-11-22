@@ -7159,12 +7159,15 @@
 	</css>
 	<block className="ItemChooser">
 		<bind name="watch" value="'_curItemIndex'; curIndex"/>
+		<bind name="watch" value="'_direction'; curDirection"/>
 		<bind name="watch" value="'isEnabled'; _disabled != true"/>
 		<bind name="name" value="_name"/>
-		<bind name="var" value="{_lastItemIndex: curIndex,
-				_direction: false}"/>
+		<bind name="var" value="{_lastItemIndex: curIndex}"/>
 		<bind name="style" value="'width'; _width ? _width : 'auto'"/>
 		<bind name="catch" value="('ItemChooserInnerEvent.' + onItemSelectedEvent)"/>
+		<block type="text">
+			<bind name="name" value="_items[curIndex]"/>
+		</block>
 		<bind name="catch" value="('ItemChooserInnerEventDublicate.' + onItemSelectedEvent); {	_direction: (_curItemIndex==_lastItemIndex) ? !_direction : false,
 																			_lastItemIndex: _curItemIndex}"/>
 		<bind name="dispatch" value="('ItemChooserInnerEventDublicate.' + onItemSelectedEvent); ('ItemChooser.'+onItemSelectedEvent); {_curItemIndex: _curItemIndex, _direction: _direction}; false; 0.001"/>

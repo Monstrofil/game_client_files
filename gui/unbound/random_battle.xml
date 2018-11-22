@@ -7641,12 +7641,15 @@
 	</css>
 	<block className="ItemChooser">
 		<bind name="watch" value="'_curItemIndex'; curIndex"/>
+		<bind name="watch" value="'_direction'; curDirection"/>
 		<bind name="watch" value="'isEnabled'; _disabled != true"/>
 		<bind name="name" value="_name"/>
-		<bind name="var" value="{_lastItemIndex: curIndex,
-				_direction: false}"/>
+		<bind name="var" value="{_lastItemIndex: curIndex}"/>
 		<bind name="style" value="'width'; _width ? _width : 'auto'"/>
 		<bind name="catch" value="('ItemChooserInnerEvent.' + onItemSelectedEvent)"/>
+		<block type="text">
+			<bind name="name" value="_items[curIndex]"/>
+		</block>
 		<bind name="catch" value="('ItemChooserInnerEventDublicate.' + onItemSelectedEvent); {	_direction: (_curItemIndex==_lastItemIndex) ? !_direction : false,
 																			_lastItemIndex: _curItemIndex}"/>
 		<bind name="dispatch" value="('ItemChooserInnerEventDublicate.' + onItemSelectedEvent); ('ItemChooser.'+onItemSelectedEvent); {_curItemIndex: _curItemIndex, _direction: _direction}; false; 0.001"/>
@@ -8328,7 +8331,7 @@
 																										(!(operationIsHard)						? tr('IDS_OPERATION_NORMAL_DIFFICULTY_TITLE') 
 																																				: tr('IDS_OPERATION_HARD_DIFFICULTY_TITLE'))) 
 															: queueTypeIdent == 'CLAN_BATTLE'	? tr('IDS_CLAN_BATTLE_LOADING_TITLE')
-															: queueTypeIdent == 'EVENT_BATTLE'	? 'IDS_EVENTBATTLE_LOADING_DESCRIPTION'
+															: queueTypeIdent == 'EVENT_BATTLE'	? ' '
 																								: 'IDS_RANDOMBATTLE_DESCRIPTION'"/>
 					<bind name="name" value="'random_battle_description'"/>
 				</block>

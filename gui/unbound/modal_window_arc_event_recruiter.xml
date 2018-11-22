@@ -3739,7 +3739,7 @@
 				<width value="100%"/>
 				<flow value="htile"/>
 				<align value="center"/>
-				<marginTop value="6px"/>
+				<marginTop value="10px"/>
 			</style>
 			<bind name="repeat" value="playerShipInfo.signalsAll[_groupName]; 'ExteriorItem'; {shipId: _shipId}"/>
 		</block>
@@ -4503,7 +4503,7 @@
 		<bind name="watchDH" value="'pickedIndex'; 	[]; pickedColorSchemeEntity.colorScheme.index"/>
 		<bind name="watchDH" value="'previewIndex'; 	[]; previewColorSchemeEntity.colorScheme.index"/>
 		<bind name="entityDH" value="'camouflageEntity'; camouflageEntityId"/>
-		<bind name="entityDH" value="'shipCamoRestrictionEntity'; shipEntity.ownShip.camouflgeAvailables[0]"/>
+		<bind name="entityDH" value="'shipCamoRestrictionEntity'; shipEntity.ownShip.camouflgeAvailables[shipEntity.ship.country]"/>
 		<bind name="watchDH" value="'camoColorSchemes'; 			['shipEntity.ownShip.evUpdate']; camouflageEntity.camouflage.camoColorSchemes"/>
 		<bind name="watchDH" value="'pickedCamoColorScheme'; 	['shipEntity.ownShip.evUpdate']; camouflageEntity.camouflage.pickedCamoColorScheme"/>
 		<bind name="watchDH" value="'previewCamoColorScheme'; 	['shipEntity.ownShip.evUpdate']; camouflageEntity.camouflage.previewCamoColorScheme"/>
@@ -4950,10 +4950,10 @@
 				<bind name="watch" value="'itemTakeAway'; 			!!(_exteriors[_exteriorId])"/>
 				<bind name="watch" value="'installedAndInStorage'; 	(_storageItemCount + _installedItemCount)"/>
 				<bind name="watch" value="'enoughResources'; 		(curCurrencyResource &gt;= prices[_selectedPriceIndex].finalPrice)"/>
-				<bind name="name" value=" buyAndInstall	? 'ButtonBuyAndInstall' :
-						 itemInstalled	? 'ButtonInstall' :
-						 itemTakeAway 	? 'ButtonTakeAway'
-										: ''"/>
+				<bind name="name" value="buyAndInstall ? _isPermoflagePurchased ? 'ButtonInstall' : 'ButtonBuyAndInstall' :
+                                        itemInstalled                            ? 'ButtonInstall' :
+                                        itemTakeAway                             ? 'ButtonTakeAway'
+                                                                                 : ''"/>
 				<bind name="instance" value="'DefaultButtonCostMedium'; 	  buyAndInstall		? { _label: _isPermoflagePurchased ? toUpperCase(tr('IDS_INSTALL')) : toUpperCase(tr('IDS_DO_PURCHASE_AND_INSTALL')) , priceInfo: _isPermoflagePurchased ? null : prices[_selectedPriceIndex],
 																				_request: (_isPermoflage &amp;&amp; !_isPermoflagePurchased) || (_isCamouflage &amp;&amp; _storageItemCount == 0) || (_canBuy &amp;&amp; !_isPermoflagePurchased) ? 'buyAndInstallExteriorModal' : null,
 																				_requestParams: { _previewIndex: previewIndex, _camouflageEntityId : camouflageEntityId, shipName: shipInfo.fullName, _shipId: shipInfo.id, exteriorName: _exteriorName, useGold: prices[_selectedPriceIndex].currency == 'gold', _exteriorId: _exteriorId, _selectedPriceIndex: _selectedPriceIndex, _isPermoflagePurchased: _isPermoflagePurchased, _isPermoflage : _isPermoflage},
@@ -5033,7 +5033,7 @@
 		<bind name="watch" value="'_isPermoflagePurchased'; !!(playerShipInfo.permoflagePurchased[_exteriorId])"/>
 		<bind name="watch" value="'_installedItemCount'; !!(playerShipInfo.exteriors[_exteriorId]) ? 1 : 0"/>
 		<bind name="entityDH" value="'camouflageEntity'; camouflageEntityId"/>
-		<bind name="entityDH" value="'shipCamoRestrictionEntity'; shipOwnEntity.ownShip.camouflgeAvailables[0]"/>
+		<bind name="entityDH" value="'shipCamoRestrictionEntity'; shipOwnEntity.ownShip.camouflgeAvailables[shipOwnEntity.ship.country]"/>
 		<bind name="watchDH" value="'camoColorSchemes'; 			['shipOwnEntity.ownShip.evUpdate']; camouflageEntity.camouflage.camoColorSchemes"/>
 		<bind name="watchDH" value="'pickedCamoColorScheme'; 	['shipOwnEntity.ownShip.evUpdate']; camouflageEntity.camouflage.pickedCamoColorScheme"/>
 		<styleClass value="$DefaultTooltipBehaviour"/>
@@ -5661,6 +5661,7 @@
 				<style>
 					<position value="absolute"/>
 				</style>
+				<bind name="name" value="_amount"/>
 				<styleClass value="$TextHeaderBigWhite"/>
 				<bind name="class" value="'$Bold'"/>
 				<bind name="class" value="	(_amount &lt; 5) ? '$None'  :
@@ -6180,7 +6181,7 @@
 		<bind name="primaryEntityDH" value="'exteriorEntity'; CC.exteriorConfig; id"/>
 		<bind name="watchDH" value="'exteriorConfig'; []; exteriorEntity.exteriorConfig"/>
 		<bind name="watchDH" value="'attributes'; ['exteriorEntity.attributes.evChanged']; exteriorEntity.attributes"/>
-		<bind name="entityDH" value="'shipEnsignRestrictionEntity'; shipEntity.ownShip.ensignAvailables"/>
+		<bind name="entityDH" value="'shipEnsignRestrictionEntity'; shipEntity.ownShip.ensignAvailables[shipEntity.ship.country]"/>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'shipOverview'"/>
 		<bind name="transition" value="shipOverview.enabled; shipOverview.enabled ? 0.4 : 0.25; {alpha: 1}; {alpha: 0}; {alpha: 1}; 2; !(shipOverview.enabled) &amp;&amp; !(inPort) ? 0.15 : 0.5"/>
 		<bind name="style" value="'hitTest'; !(shipOverview.enabled)"/>
@@ -6463,7 +6464,7 @@
 		<bind name="primaryEntityDH" value="'exteriorEntity'; CC.exteriorConfig; id"/>
 		<bind name="watchDH" value="'exteriorConfig'; []; exteriorEntity.exteriorConfig"/>
 		<bind name="watchDH" value="'attributes'; ['exteriorEntity.attributes.evChanged']; exteriorEntity.attributes"/>
-		<bind name="entityDH" value="'shipEnsignRestrictionEntity'; shipEntity.ownShip.ensignAvailables"/>
+		<bind name="entityDH" value="'shipEnsignRestrictionEntity'; shipEntity.ownShip.ensignAvailables[shipEntity.ship.country]"/>
 		<styleClass value="$DefaultTooltipBehaviour"/>
 		<styleClass value="$MouseDisable"/>
 		<block className="DeclareBlurLayer">
@@ -13250,7 +13251,7 @@
 	</block>
 	<block className="PlayerDogTag">
 		<bind name="primaryEntityDH" value="'playerEntity'; CC.accountSimple; _playerDbId"/>
-		<bind name="watchDH" value="'dogTagList';['playerEntity.dogTagView.evUpdate']; playerEntity.dogTagView.components"/>
+		<bind name="watchDH" value="'dogTagList';['playerEntity.dogTagView.evComponentsChanged']; playerEntity.dogTagView.components"/>
 		<bind name="collectionDH" value="CC.dogTagComponent; 'dogtagview'+'ROOT'"/>
 		<bind name="collectionDesign" value="'DES_'+'dogtagview'+'ROOT'; 'dogtagview'; {'filter': dogTagList.length &amp;&amp; ((dogTagList.indexOf(toLowerCase($entity.dogTagComponent.id)) &gt; -1)), 'sort':['dogTagComponent.categoryId']}; []"/>
 		<bind name="watch" value="'size';	_size == 'big' 				? 512 : 
@@ -13716,7 +13717,7 @@
 	</block>
 	<block className="PlayerStereotype">
 		<bind name="primaryEntityDH" value="'playerEntity'; CC.accountSimple; _playerDbId"/>
-		<bind name="watchDH" value="'dogTagList';['playerEntity.dogTagView.evUpdate']; playerEntity.dogTagView.components"/>
+		<bind name="watchDH" value="'dogTagList';['playerEntity.dogTagView.evComponentsChanged']; playerEntity.dogTagView.components"/>
 		<bind name="collectionDH" value="CC.dogTagComponent; 'dogtagview'+'ROOT'"/>
 		<bind name="collectionDesign" value="'DES_'+'dogtagview'+'ROOT'; 'dogtagview'; {'filter':(dogTagList.indexOf(toLowerCase($entity.dogTagComponent.id)) &gt; -1), 'sort':['dogTagComponent.categoryId']}; []"/>
 		<bind name="watchDH" value="'isSelf';			[]; playerEntity.accountSimple.isSelfPlayer"/>
@@ -18752,8 +18753,12 @@
 					<marginBottom value="6px"/>
 				</style>
 				<bind name="visible" value="restrictionVisible == true"/>
-				<bind name="instance" value="'MouseInstructionRepeater'; restrictionVisible	?	{	_type: 'restriction',
-																					_instructionText:	targetPlayerShipInfo.isLocked 	? 'IDS_READY_TO_BATTLE_DENY_REASON_SHIP_IS_IN_BATTLE' :
+				<bind name="firstEntityDH" value="'selfPlayerEntity'; CC.accountSelf"/>
+				<bind name="watchDH" value="'isSelfPlayerReady'; ['selfPlayerEntity.preBattlePlayerSimple.evStateChanged']; selfPlayerEntity.preBattlePlayerSimple.isReady"/>
+				<bind name="instance" value="'MouseInstructionRepeater';	restrictionVisible	?	{	_type: isSelfPlayerReady	?	'warning'
+																												:	'restriction',
+																					_instructionText:	isSelfPlayerReady				? 'IDS_NOT_READY_TO_BATTLE_IN_FORMATION_INFO_HINT_ASSIGN_CREW_TO_THIS_SHIP' :
+																										targetPlayerShipInfo.isLocked 	? 'IDS_READY_TO_BATTLE_DENY_REASON_SHIP_IS_IN_BATTLE' :
 																										playerShipInfo.isLocked			? 'IDS_IN_BATTLE'
 																																		: 'IDS_BARRACK_IS_FULL',
 																					_maxWidth: 270}
@@ -19827,12 +19832,15 @@
 	</css>
 	<block className="ItemChooser">
 		<bind name="watch" value="'_curItemIndex'; curIndex"/>
+		<bind name="watch" value="'_direction'; curDirection"/>
 		<bind name="watch" value="'isEnabled'; _disabled != true"/>
 		<bind name="name" value="_name"/>
-		<bind name="var" value="{_lastItemIndex: curIndex,
-				_direction: false}"/>
+		<bind name="var" value="{_lastItemIndex: curIndex}"/>
 		<bind name="style" value="'width'; _width ? _width : 'auto'"/>
 		<bind name="catch" value="('ItemChooserInnerEvent.' + onItemSelectedEvent)"/>
+		<block type="text">
+			<bind name="name" value="_items[curIndex]"/>
+		</block>
 		<bind name="catch" value="('ItemChooserInnerEventDublicate.' + onItemSelectedEvent); {	_direction: (_curItemIndex==_lastItemIndex) ? !_direction : false,
 																			_lastItemIndex: _curItemIndex}"/>
 		<bind name="dispatch" value="('ItemChooserInnerEventDublicate.' + onItemSelectedEvent); ('ItemChooser.'+onItemSelectedEvent); {_curItemIndex: _curItemIndex, _direction: _direction}; false; 0.001"/>

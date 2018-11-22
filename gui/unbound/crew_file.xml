@@ -6179,8 +6179,12 @@
 					<marginBottom value="6px"/>
 				</style>
 				<bind name="visible" value="restrictionVisible == true"/>
-				<bind name="instance" value="'MouseInstructionRepeater'; restrictionVisible	?	{	_type: 'restriction',
-																					_instructionText:	targetPlayerShipInfo.isLocked 	? 'IDS_READY_TO_BATTLE_DENY_REASON_SHIP_IS_IN_BATTLE' :
+				<bind name="firstEntityDH" value="'selfPlayerEntity'; CC.accountSelf"/>
+				<bind name="watchDH" value="'isSelfPlayerReady'; ['selfPlayerEntity.preBattlePlayerSimple.evStateChanged']; selfPlayerEntity.preBattlePlayerSimple.isReady"/>
+				<bind name="instance" value="'MouseInstructionRepeater';	restrictionVisible	?	{	_type: isSelfPlayerReady	?	'warning'
+																												:	'restriction',
+																					_instructionText:	isSelfPlayerReady				? 'IDS_NOT_READY_TO_BATTLE_IN_FORMATION_INFO_HINT_ASSIGN_CREW_TO_THIS_SHIP' :
+																										targetPlayerShipInfo.isLocked 	? 'IDS_READY_TO_BATTLE_DENY_REASON_SHIP_IS_IN_BATTLE' :
 																										playerShipInfo.isLocked			? 'IDS_IN_BATTLE'
 																																		: 'IDS_BARRACK_IS_FULL',
 																					_maxWidth: 270}
@@ -12247,7 +12251,7 @@
 	</block>
 	<block className="PlayerDogTag">
 		<bind name="primaryEntityDH" value="'playerEntity'; CC.accountSimple; _playerDbId"/>
-		<bind name="watchDH" value="'dogTagList';['playerEntity.dogTagView.evUpdate']; playerEntity.dogTagView.components"/>
+		<bind name="watchDH" value="'dogTagList';['playerEntity.dogTagView.evComponentsChanged']; playerEntity.dogTagView.components"/>
 		<bind name="collectionDH" value="CC.dogTagComponent; 'dogtagview'+'ROOT'"/>
 		<bind name="collectionDesign" value="'DES_'+'dogtagview'+'ROOT'; 'dogtagview'; {'filter': dogTagList.length &amp;&amp; ((dogTagList.indexOf(toLowerCase($entity.dogTagComponent.id)) &gt; -1)), 'sort':['dogTagComponent.categoryId']}; []"/>
 		<bind name="watch" value="'size';	_size == 'big' 				? 512 : 
@@ -12713,7 +12717,7 @@
 	</block>
 	<block className="PlayerStereotype">
 		<bind name="primaryEntityDH" value="'playerEntity'; CC.accountSimple; _playerDbId"/>
-		<bind name="watchDH" value="'dogTagList';['playerEntity.dogTagView.evUpdate']; playerEntity.dogTagView.components"/>
+		<bind name="watchDH" value="'dogTagList';['playerEntity.dogTagView.evComponentsChanged']; playerEntity.dogTagView.components"/>
 		<bind name="collectionDH" value="CC.dogTagComponent; 'dogtagview'+'ROOT'"/>
 		<bind name="collectionDesign" value="'DES_'+'dogtagview'+'ROOT'; 'dogtagview'; {'filter':(dogTagList.indexOf(toLowerCase($entity.dogTagComponent.id)) &gt; -1), 'sort':['dogTagComponent.categoryId']}; []"/>
 		<bind name="watchDH" value="'isSelf';			[]; playerEntity.accountSimple.isSelfPlayer"/>
@@ -15282,12 +15286,15 @@
 	</css>
 	<block className="ItemChooser">
 		<bind name="watch" value="'_curItemIndex'; curIndex"/>
+		<bind name="watch" value="'_direction'; curDirection"/>
 		<bind name="watch" value="'isEnabled'; _disabled != true"/>
 		<bind name="name" value="_name"/>
-		<bind name="var" value="{_lastItemIndex: curIndex,
-				_direction: false}"/>
+		<bind name="var" value="{_lastItemIndex: curIndex}"/>
 		<bind name="style" value="'width'; _width ? _width : 'auto'"/>
 		<bind name="catch" value="('ItemChooserInnerEvent.' + onItemSelectedEvent)"/>
+		<block type="text">
+			<bind name="name" value="_items[curIndex]"/>
+		</block>
 		<bind name="catch" value="('ItemChooserInnerEventDublicate.' + onItemSelectedEvent); {	_direction: (_curItemIndex==_lastItemIndex) ? !_direction : false,
 																			_lastItemIndex: _curItemIndex}"/>
 		<bind name="dispatch" value="('ItemChooserInnerEventDublicate.' + onItemSelectedEvent); ('ItemChooser.'+onItemSelectedEvent); {_curItemIndex: _curItemIndex, _direction: _direction}; false; 0.001"/>

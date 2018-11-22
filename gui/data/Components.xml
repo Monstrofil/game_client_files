@@ -2374,8 +2374,8 @@
 		<property	name="sigInstalled"			type="Integer"		/>
 		<property	name="ensignLimit"			type="Integer"		/>
 		<property	name="ensignInstalled"		type="Integer"		/>		
-		<property	name="ensignAvailables"		type="Array"		/>		
-		<property	name="camouflgeAvailables"	type="Array"		/>		
+		<property	name="ensignAvailables"		type="Dictionary"	/>	<!-- nation: entityId -->	
+		<property	name="camouflgeAvailables"	type="Dictionary"	/>	<!-- nation: entityId -->	
 		<property	name="canEquipCamouflage"	type="Boolean"		/>
 		<property	name="camInstalled"			type="Integer"		/>
 		<property	name="currentCamouflage"	type="Entity"		/>
@@ -2939,7 +2939,7 @@
 
 	<component name="DogTagView">
 		<property name="components" type="Array" />
-		<event name="evUpdate"/>
+		<event name="evComponentsChanged"/>
 	</component>
 
 	<component	name="WebBrowserIMEInputWidget"	>

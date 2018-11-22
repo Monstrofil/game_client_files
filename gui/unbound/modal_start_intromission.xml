@@ -2682,7 +2682,7 @@
 				<style>
 					<maxWidth value="240"/>
 				</style>
-				<styleClass value="$TextDefault"/>
+				<styleClass value="$TextHeaderBigDefault"/>
 				<bind name="text" value="_description"/>
 			</block>
 		</block>
@@ -13662,6 +13662,20 @@
 																										: 'UNKNOWN_DENY_REASON',
 												_maxWidth: 215}"/>
 		</block>
+		<block className="HorizontalDivider">
+			<styleClass value="$PxHorizontalCorrection"/>
+			<style>
+				<width value="100%"/>
+				<height value="3px"/>
+			</style>
+			<block className="divider_h" type="native">
+				<styleClass value="$Fullsize"/>
+			</block>
+		</block>
+		<block>
+			<styleClass value="$InfoBlockIndentNoWidth"/>
+			<bind name="instance" value="'MouseInstruction'; { _type: 'left', _instructionText: 'IDS_CHOOSE_DIVISION_HINT', _maxWidth: 220 }"/>
+		</block>
 	</block>
 	<block className="SimpleListGroupHeader">
 		<style>
@@ -14865,7 +14879,8 @@
 						<bind name="watch" value="'trainingFilterVisible'; trainingRoomEntity &amp;&amp; hasTrainingRoomRestrictions"/>
 						<bind name="watch" value="'rankedFilterVisible'; selectedBattle.type == BattleTypes.RANKED_BATTLE"/>
 						<bind name="watch" value="'eventFilterVisible'; selectedBattle.type == BattleTypes.EVENT_BATTLE"/>
-						<bind name="watch" value="'battleTypeFilterVisible'; pveFilterVisible || trainingFilterVisible || rankedFilterVisible || eventFilterVisible"/>
+						<bind name="watch" value="'clanFilterVisible'; selectedBattle.type == BattleTypes.CLAN_BATTLE"/>
+						<bind name="watch" value="'battleTypeFilterVisible'; pveFilterVisible || trainingFilterVisible || rankedFilterVisible || eventFilterVisible || clanFilterVisible"/>
 						<bind name="instance" value="'AppliedBattleTypeFilter'; battleTypeFilterVisible ? {}	: null"/>
 					</block>
 					<block>
@@ -15691,7 +15706,7 @@
 	</block>
 	<block className="PlayerDogTag">
 		<bind name="primaryEntityDH" value="'playerEntity'; CC.accountSimple; _playerDbId"/>
-		<bind name="watchDH" value="'dogTagList';['playerEntity.dogTagView.evUpdate']; playerEntity.dogTagView.components"/>
+		<bind name="watchDH" value="'dogTagList';['playerEntity.dogTagView.evComponentsChanged']; playerEntity.dogTagView.components"/>
 		<bind name="collectionDH" value="CC.dogTagComponent; 'dogtagview'+'ROOT'"/>
 		<bind name="collectionDesign" value="'DES_'+'dogtagview'+'ROOT'; 'dogtagview'; {'filter': dogTagList.length &amp;&amp; ((dogTagList.indexOf(toLowerCase($entity.dogTagComponent.id)) &gt; -1)), 'sort':['dogTagComponent.categoryId']}; []"/>
 		<bind name="watch" value="'size';	_size == 'big' 				? 512 : 
@@ -16157,7 +16172,7 @@
 	</block>
 	<block className="PlayerStereotype">
 		<bind name="primaryEntityDH" value="'playerEntity'; CC.accountSimple; _playerDbId"/>
-		<bind name="watchDH" value="'dogTagList';['playerEntity.dogTagView.evUpdate']; playerEntity.dogTagView.components"/>
+		<bind name="watchDH" value="'dogTagList';['playerEntity.dogTagView.evComponentsChanged']; playerEntity.dogTagView.components"/>
 		<bind name="collectionDH" value="CC.dogTagComponent; 'dogtagview'+'ROOT'"/>
 		<bind name="collectionDesign" value="'DES_'+'dogtagview'+'ROOT'; 'dogtagview'; {'filter':(dogTagList.indexOf(toLowerCase($entity.dogTagComponent.id)) &gt; -1), 'sort':['dogTagComponent.categoryId']}; []"/>
 		<bind name="watchDH" value="'isSelf';			[]; playerEntity.accountSimple.isSelfPlayer"/>
@@ -19410,7 +19425,8 @@
 						<bind name="watch" value="'trainingFilterVisible'; trainingRoomEntity &amp;&amp; hasTrainingRoomRestrictions"/>
 						<bind name="watch" value="'rankedFilterVisible'; selectedBattle.type == BattleTypes.RANKED_BATTLE"/>
 						<bind name="watch" value="'eventFilterVisible'; selectedBattle.type == BattleTypes.EVENT_BATTLE"/>
-						<bind name="watch" value="'battleTypeFilterVisible'; pveFilterVisible || trainingFilterVisible || rankedFilterVisible || eventFilterVisible"/>
+						<bind name="watch" value="'clanFilterVisible'; selectedBattle.type == BattleTypes.CLAN_BATTLE"/>
+						<bind name="watch" value="'battleTypeFilterVisible'; pveFilterVisible || trainingFilterVisible || rankedFilterVisible || eventFilterVisible || clanFilterVisible"/>
 						<bind name="instance" value="'AppliedBattleTypeFilter'; battleTypeFilterVisible ? {}	: null"/>
 					</block>
 					<block>
@@ -21181,7 +21197,7 @@
 	<block className="DogTagInHUDContent">
 		<styleClass value="$Fullsize"/>
 		<bind name="firstEntityDH" value="'selfPlayerEntity'; CC.accountSelf"/>
-		<bind name="watchDH" value="'dogTagList';['entityAccount.dogTagView.evUpdate']; entityAccount.dogTagView.components"/>
+		<bind name="watchDH" value="'dogTagList';['entityAccount.dogTagView.evComponentsChanged']; entityAccount.dogTagView.components"/>
 		<bind name="collectionDH" value="CC.dogTagComponent; 'dogtagview'+'ROOT'"/>
 		<bind name="collectionDesign" value="'DES_'+'dogtagview'+'ROOT'; 'dogtagview'; {'filter':(dogTagList.indexOf(toLowerCase($entity.dogTagComponent.id)) &gt; -1), 'sort':['dogTagComponent.categoryId']}; []"/>
 		<bind name="collectionDH" value="CC.avatar; 'selfAvatarCollection'+'ROOT'"/>
@@ -21888,7 +21904,7 @@
 	</block>
 	<block className="ModalWindowShowDogTagContent">
 		<bind name="primaryEntityDH" value="'userEntity'; CC.accountSimple; $root.userId"/>
-		<bind name="watchDH" value="'dogTagList';['userEntity.dogTagView.evUpdate']; userEntity.dogTagView.components"/>
+		<bind name="watchDH" value="'dogTagList';['userEntity.dogTagView.evComponentsChanged']; userEntity.dogTagView.components"/>
 		<style>
 			<width value="1184px"/>
 		</style>
@@ -22335,12 +22351,15 @@
 	</css>
 	<block className="ItemChooser">
 		<bind name="watch" value="'_curItemIndex'; curIndex"/>
+		<bind name="watch" value="'_direction'; curDirection"/>
 		<bind name="watch" value="'isEnabled'; _disabled != true"/>
 		<bind name="name" value="_name"/>
-		<bind name="var" value="{_lastItemIndex: curIndex,
-				_direction: false}"/>
+		<bind name="var" value="{_lastItemIndex: curIndex}"/>
 		<bind name="style" value="'width'; _width ? _width : 'auto'"/>
 		<bind name="catch" value="('ItemChooserInnerEvent.' + onItemSelectedEvent)"/>
+		<block type="text">
+			<bind name="name" value="_items[curIndex]"/>
+		</block>
 		<bind name="catch" value="('ItemChooserInnerEventDublicate.' + onItemSelectedEvent); {	_direction: (_curItemIndex==_lastItemIndex) ? !_direction : false,
 																			_lastItemIndex: _curItemIndex}"/>
 		<bind name="dispatch" value="('ItemChooserInnerEventDublicate.' + onItemSelectedEvent); ('ItemChooser.'+onItemSelectedEvent); {_curItemIndex: _curItemIndex, _direction: _direction}; false; 0.001"/>
@@ -23690,7 +23709,8 @@
 				<bind name="watch" value="'trainingFilterVisible'; trainingRoomEntity &amp;&amp; hasTrainingRoomRestrictions"/>
 				<bind name="watch" value="'rankedFilterVisible'; selectedBattle.type == BattleTypes.RANKED_BATTLE"/>
 				<bind name="watch" value="'eventFilterVisible'; selectedBattle.type == BattleTypes.EVENT_BATTLE"/>
-				<bind name="watch" value="'battleTypeFilterVisible'; pveFilterVisible || trainingFilterVisible || rankedFilterVisible || eventFilterVisible"/>
+				<bind name="watch" value="'clanFilterVisible'; selectedBattle.type == BattleTypes.CLAN_BATTLE"/>
+				<bind name="watch" value="'battleTypeFilterVisible'; pveFilterVisible || trainingFilterVisible || rankedFilterVisible || eventFilterVisible || clanFilterVisible"/>
 				<bind name="instance" value="'AppliedBattleTypeFilter'; battleTypeFilterVisible ? {}	: null"/>
 			</block>
 			<block>
@@ -23945,16 +23965,18 @@
 							<bind name="collectionDH" value="CC.userPrefs; 'userPrefsCollection'"/>
 							<bind name="entityDH" value="'userPrefsEntity'; userPrefsCollection[0].id"/>
 							<bind name="watchDH" value="'userPrefs'; ['userPrefsEntity.userPrefs.evUserPrefsChanged']; userPrefsEntity.userPrefs.userPrefs"/>
-							<bind name="watch" value="'_curItemIndex';	(userPrefs.shipCarouselSortIndex == null) ? 0 : userPrefs.shipCarouselSortIndex"/>
+							<bind name="watch" value="'_curItemIndex';	(userPrefs.shipCarouselSortIndex == null) 	? 0 		: userPrefs.shipCarouselSortIndex"/>
+							<bind name="watch" value="'_direction';		(userPrefs.shipCarouselSortReverse == null) ? false 	: userPrefs.shipCarouselSortReverse"/>
 							<bind name="action" value="'shipSortChanged'; 'setUserPref' ; {value: _curItemIndex, name: 'shipCarouselSortIndex'}"/>
 							<bind name="catch" value="'ItemChooser.shipsSortSelected'"/>
 							<bind name="watchDH" value="'shipSorter'; ['panelEntity.filterPanelComponent.evUpdate']; panelEntity.filterPanelComponent.sortFields"/>
-							<bind name="instance" value="'ItemChooser'; {	_items: [shipSorter[0].ids, shipSorter[1].ids, shipSorter[2].ids, shipSorter[3].ids], curIndex: _curItemIndex,
+							<bind name="instance" value="'ItemChooser'; {	_items: [shipSorter[0].ids, shipSorter[1].ids, shipSorter[2].ids, shipSorter[3].ids], curIndex: _curItemIndex, curDirection: _direction,
 															_choosedItemRenderer: 'BluishTextChoosedItemRenderer', _listItemRenderer: 'TextListItemRenderer',
 															onItemSelectedEvent: 'shipsSortSelected', _itemChooserTooltipText: 'IDS_HINT_SHIP_CAROUSEL_SORT'}"/>
 							<bind name="changeDispatch" value="_curItemIndex; 'shipSortChanged'"/>
 							<bind name="changeDispatch" value="_direction; 'shipSortChanged'"/>
 							<bind name="action" value="'shipSortChanged'; 'setSortOrder'; {sortPriority: shipSorter[_curItemIndex].field, reverse: _direction}"/>
+							<bind name="action" value="'shipSortChanged'; 'setUserPref' ; {value: _direction, name: 'shipCarouselSortReverse'}"/>
 						</block>
 						<style>
 							<flow value="horizontal"/>
@@ -24412,19 +24434,23 @@
 		<bind name="primaryEntityDH" value="'rankedRestrictionsEntity'; CC.shipRestrictions; 7"/>
 		<bind name="watch" value="'pveDifficultyPostfix'; operationIsHard ? '_hard' : ''"/>
 		<bind name="watch" value="'pveIconLabel'; (operationType == 'event' ? 'PVEBattle_event' : 'PVEBattle') + pveDifficultyPostfix"/>
+		<bind name="firstEntityDH" value="'currentSeasonEntity'; CC.clanBattleSeason; 'current'"/>
 		<bind name="watch" value="'restrictionsEntityId';	selectedBattle.type == BattleTypes.PVE_BATTLE 		? 	operationEntity.id :
 											selectedBattle.type == BattleTypes.TRAINING_BATTLE	?	trainingRoomEntity.id :
-											selectedBattle.type == BattleTypes.RANKED_BATTLE	?	rankedRestrictionsEntity.id
+											selectedBattle.type == BattleTypes.RANKED_BATTLE	?	rankedRestrictionsEntity.id :
+											selectedBattle.type == BattleTypes.CLAN_BATTLE		?	currentSeasonEntity.id
 																								:	selectedBattleTypeEntity.id"/>
 		<bind name="watch" value="'filterIcons';	selectedBattle.type == BattleTypes.PVE_BATTLE 		? 	pveIconLabel :
 								selectedBattle.type == BattleTypes.TRAINING_BATTLE	?	'training_room':
 								selectedBattle.type == BattleTypes.RANKED_BATTLE	?	(rankedBattlesSeason.isJuniorSeason == true) 	? 'rank_junior' 
 																																		: 'rank' :
-								selectedBattle.type == BattleTypes.EVENT_BATTLE		?	'event'
+								selectedBattle.type == BattleTypes.EVENT_BATTLE		?	'event' :
+								selectedBattle.type == BattleTypes.CLAN_BATTLE		?	'club'
 																					:	'no_icon'"/>
 		<bind name="watch" value="'filterText';	selectedBattle.type == BattleTypes.PVE_BATTLE		? tr('IDS_' + toUpperCase(operationEntity.operation.gpName) + '_NAME') :
 								selectedBattle.type == BattleTypes.TRAINING_BATTLE	? 'IDS_CUSTOM_ROOM' :
 								selectedBattle.type == BattleTypes.RANKED_BATTLE 	? 'IDS_RANKED_BATTLES' :
+								selectedBattle.type == BattleTypes.CLAN_BATTLE 		? 'IDS_CLANBATTLE' :
 								selectedBattle.type == BattleTypes.EVENT_BATTLE 	? 'IDS_EVENTBATTLE'
 																					: 'UNKNOWN_BATTLE_TYPE'"/>
 		<style>
@@ -24432,7 +24458,7 @@
 			<flow value="horizontal"/>
 		</style>
 		<bind name="appear" value="'addedToStage'; 0.15; 0; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 2"/>
-		<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: tr(toUpperCase('IDS_CAROUSEL_' + selectedBattle.type + '_FILTER'))}"/>
+		<bind name="tooltip" value="'SimpleTooltip'; selectedBattle.type != BattleTypes.CLAN_BATTLE ? {tooltipText: tr(toUpperCase('IDS_CAROUSEL_' + selectedBattle.type + '_FILTER'))} : null"/>
 		<block className="button_dock_bg" type="native">
 			<styleClass value="$FullsizeAbsolute"/>
 			<bind name="gotoAndStop!" value="'down'"/>

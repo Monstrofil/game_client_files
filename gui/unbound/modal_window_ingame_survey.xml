@@ -2620,7 +2620,8 @@
 				<bind name="watch" value="'trainingFilterVisible'; trainingRoomEntity &amp;&amp; hasTrainingRoomRestrictions"/>
 				<bind name="watch" value="'rankedFilterVisible'; selectedBattle.type == BattleTypes.RANKED_BATTLE"/>
 				<bind name="watch" value="'eventFilterVisible'; selectedBattle.type == BattleTypes.EVENT_BATTLE"/>
-				<bind name="watch" value="'battleTypeFilterVisible'; pveFilterVisible || trainingFilterVisible || rankedFilterVisible || eventFilterVisible"/>
+				<bind name="watch" value="'clanFilterVisible'; selectedBattle.type == BattleTypes.CLAN_BATTLE"/>
+				<bind name="watch" value="'battleTypeFilterVisible'; pveFilterVisible || trainingFilterVisible || rankedFilterVisible || eventFilterVisible || clanFilterVisible"/>
 				<bind name="instance" value="'AppliedBattleTypeFilter'; battleTypeFilterVisible ? {}	: null"/>
 			</block>
 			<block>
@@ -2875,16 +2876,18 @@
 							<bind name="collectionDH" value="CC.userPrefs; 'userPrefsCollection'"/>
 							<bind name="entityDH" value="'userPrefsEntity'; userPrefsCollection[0].id"/>
 							<bind name="watchDH" value="'userPrefs'; ['userPrefsEntity.userPrefs.evUserPrefsChanged']; userPrefsEntity.userPrefs.userPrefs"/>
-							<bind name="watch" value="'_curItemIndex';	(userPrefs.shipCarouselSortIndex == null) ? 0 : userPrefs.shipCarouselSortIndex"/>
+							<bind name="watch" value="'_curItemIndex';	(userPrefs.shipCarouselSortIndex == null) 	? 0 		: userPrefs.shipCarouselSortIndex"/>
+							<bind name="watch" value="'_direction';		(userPrefs.shipCarouselSortReverse == null) ? false 	: userPrefs.shipCarouselSortReverse"/>
 							<bind name="action" value="'shipSortChanged'; 'setUserPref' ; {value: _curItemIndex, name: 'shipCarouselSortIndex'}"/>
 							<bind name="catch" value="'ItemChooser.shipsSortSelected'"/>
 							<bind name="watchDH" value="'shipSorter'; ['panelEntity.filterPanelComponent.evUpdate']; panelEntity.filterPanelComponent.sortFields"/>
-							<bind name="instance" value="'ItemChooser'; {	_items: [shipSorter[0].ids, shipSorter[1].ids, shipSorter[2].ids, shipSorter[3].ids], curIndex: _curItemIndex,
+							<bind name="instance" value="'ItemChooser'; {	_items: [shipSorter[0].ids, shipSorter[1].ids, shipSorter[2].ids, shipSorter[3].ids], curIndex: _curItemIndex, curDirection: _direction,
 															_choosedItemRenderer: 'BluishTextChoosedItemRenderer', _listItemRenderer: 'TextListItemRenderer',
 															onItemSelectedEvent: 'shipsSortSelected', _itemChooserTooltipText: 'IDS_HINT_SHIP_CAROUSEL_SORT'}"/>
 							<bind name="changeDispatch" value="_curItemIndex; 'shipSortChanged'"/>
 							<bind name="changeDispatch" value="_direction; 'shipSortChanged'"/>
 							<bind name="action" value="'shipSortChanged'; 'setSortOrder'; {sortPriority: shipSorter[_curItemIndex].field, reverse: _direction}"/>
+							<bind name="action" value="'shipSortChanged'; 'setUserPref' ; {value: _direction, name: 'shipCarouselSortReverse'}"/>
 						</block>
 						<style>
 							<flow value="horizontal"/>
@@ -3342,19 +3345,23 @@
 		<bind name="primaryEntityDH" value="'rankedRestrictionsEntity'; CC.shipRestrictions; 7"/>
 		<bind name="watch" value="'pveDifficultyPostfix'; operationIsHard ? '_hard' : ''"/>
 		<bind name="watch" value="'pveIconLabel'; (operationType == 'event' ? 'PVEBattle_event' : 'PVEBattle') + pveDifficultyPostfix"/>
+		<bind name="firstEntityDH" value="'currentSeasonEntity'; CC.clanBattleSeason; 'current'"/>
 		<bind name="watch" value="'restrictionsEntityId';	selectedBattle.type == BattleTypes.PVE_BATTLE 		? 	operationEntity.id :
 											selectedBattle.type == BattleTypes.TRAINING_BATTLE	?	trainingRoomEntity.id :
-											selectedBattle.type == BattleTypes.RANKED_BATTLE	?	rankedRestrictionsEntity.id
+											selectedBattle.type == BattleTypes.RANKED_BATTLE	?	rankedRestrictionsEntity.id :
+											selectedBattle.type == BattleTypes.CLAN_BATTLE		?	currentSeasonEntity.id
 																								:	selectedBattleTypeEntity.id"/>
 		<bind name="watch" value="'filterIcons';	selectedBattle.type == BattleTypes.PVE_BATTLE 		? 	pveIconLabel :
 								selectedBattle.type == BattleTypes.TRAINING_BATTLE	?	'training_room':
 								selectedBattle.type == BattleTypes.RANKED_BATTLE	?	(rankedBattlesSeason.isJuniorSeason == true) 	? 'rank_junior' 
 																																		: 'rank' :
-								selectedBattle.type == BattleTypes.EVENT_BATTLE		?	'event'
+								selectedBattle.type == BattleTypes.EVENT_BATTLE		?	'event' :
+								selectedBattle.type == BattleTypes.CLAN_BATTLE		?	'club'
 																					:	'no_icon'"/>
 		<bind name="watch" value="'filterText';	selectedBattle.type == BattleTypes.PVE_BATTLE		? tr('IDS_' + toUpperCase(operationEntity.operation.gpName) + '_NAME') :
 								selectedBattle.type == BattleTypes.TRAINING_BATTLE	? 'IDS_CUSTOM_ROOM' :
 								selectedBattle.type == BattleTypes.RANKED_BATTLE 	? 'IDS_RANKED_BATTLES' :
+								selectedBattle.type == BattleTypes.CLAN_BATTLE 		? 'IDS_CLANBATTLE' :
 								selectedBattle.type == BattleTypes.EVENT_BATTLE 	? 'IDS_EVENTBATTLE'
 																					: 'UNKNOWN_BATTLE_TYPE'"/>
 		<style>
@@ -3362,7 +3369,7 @@
 			<flow value="horizontal"/>
 		</style>
 		<bind name="appear" value="'addedToStage'; 0.15; 0; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 2"/>
-		<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: tr(toUpperCase('IDS_CAROUSEL_' + selectedBattle.type + '_FILTER'))}"/>
+		<bind name="tooltip" value="'SimpleTooltip'; selectedBattle.type != BattleTypes.CLAN_BATTLE ? {tooltipText: tr(toUpperCase('IDS_CAROUSEL_' + selectedBattle.type + '_FILTER'))} : null"/>
 		<block className="button_dock_bg" type="native">
 			<styleClass value="$FullsizeAbsolute"/>
 			<bind name="gotoAndStop!" value="'down'"/>
@@ -6666,12 +6673,15 @@
 	</css>
 	<block className="ItemChooser">
 		<bind name="watch" value="'_curItemIndex'; curIndex"/>
+		<bind name="watch" value="'_direction'; curDirection"/>
 		<bind name="watch" value="'isEnabled'; _disabled != true"/>
 		<bind name="name" value="_name"/>
-		<bind name="var" value="{_lastItemIndex: curIndex,
-				_direction: false}"/>
+		<bind name="var" value="{_lastItemIndex: curIndex}"/>
 		<bind name="style" value="'width'; _width ? _width : 'auto'"/>
 		<bind name="catch" value="('ItemChooserInnerEvent.' + onItemSelectedEvent)"/>
+		<block type="text">
+			<bind name="name" value="_items[curIndex]"/>
+		</block>
 		<bind name="catch" value="('ItemChooserInnerEventDublicate.' + onItemSelectedEvent); {	_direction: (_curItemIndex==_lastItemIndex) ? !_direction : false,
 																			_lastItemIndex: _curItemIndex}"/>
 		<bind name="dispatch" value="('ItemChooserInnerEventDublicate.' + onItemSelectedEvent); ('ItemChooser.'+onItemSelectedEvent); {_curItemIndex: _curItemIndex, _direction: _direction}; false; 0.001"/>

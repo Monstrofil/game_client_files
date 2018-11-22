@@ -1526,7 +1526,7 @@
 				</block>
 			</block>
 		</block>
-		<bind name="repeat" value="primeTimesPerDay; 'DailyPrimeTimesStr'; {_day: entityDay.day.weekDay, _isToday: isToday, 
+		<bind name="repeat" value="primeTimesPerDay; 'DailyPrimeTimesStr'; {_day: entityDay.day.weekDay, _currentDay: _currentDay,
 		_selectedPrimeTimeId: _selectedPrimeTimeId, _disableUpcoming: _disableUpcoming, _hasClanPermissions: _hasClanPermissions}"/>
 		<block type="text">
 			<bind name="visible" value="!(havePrimeTimes)"/>
@@ -1563,14 +1563,15 @@
 		<bind name="countdown" value="primeTimeFinishTime; 'formattedPrimeTimeTillEnd'; 'HIGHEST'"/>
 		<bind name="watch" value="'isCurrent'; (primeTimeStartTime &lt; serverTime) &amp;&amp; (serverTime &lt; primeTimeFinishTime)"/>
 		<bind name="watch" value="'isUpcoming';  serverTime &lt; primeTimeStartTime"/>
-		<bind name="watch" value="'canBeChoosed'; (isCurrent &amp;&amp; !(primeTimeIsChosen)) || (isUpcoming &amp;&amp; !(_disableUpcoming)) &amp;&amp; _isToday"/>
+		<bind name="watch" value="'isToday'; entityPrimeTime.clanBattlePrimeTime.day == _currentDay"/>
+		<bind name="watch" value="'canBeChoosed'; (( !(primeTimeIsChosen)) || (isUpcoming &amp;&amp; !(_disableUpcoming))) &amp;&amp; isToday"/>
 		<bind name="dispatch" value="'click'; (_hasClanPermissions &amp;&amp; canBeChoosed) ? 'evSelectPrimeTimeChanged' : ''; {selectedPrimeTimeId: entityPrimeTime.clanBattlePrimeTime.id}"/>
 		<block className="dock_submenu_item" type="native">
 			<bind name="name" value="'primeRimeItem_' + $index"/>
 			<styleClass value="$FullsizeAbsolute"/>
 			<bind name="selected" value="entityPrimeTime.clanBattlePrimeTime.id == _selectedPrimeTimeId"/>
 		</block>
-		<bind name="watch" value="'textAlpha'; canBeChoosed || primeTimeIsChosen ? 1 : 0.4"/>
+		<bind name="watch" value="'textAlpha'; isToday &amp;&amp; (canBeChoosed || primeTimeIsChosen) ? 1 : 0.4"/>
 		<bind name="watch" value="'boldClass'; primeTimeIsChosen ? '$Bold' : '$None'"/>
 		<block>
 			<style>
@@ -1601,9 +1602,29 @@
 					<width value="280px"/>
 				</style>
 				<bind name="style" value="'alpha'; textAlpha"/>
-				<bind name="instance" value="'PrimeTimeTillTimeInfo'; {_entityId: entityPrimeTime.id, _showNearest: !(_isToday)}"/>
+				<bind name="instance" value="'PrimeTimeTillTimeInfo'; {_entityId: entityPrimeTime.id, _showNearest: !(isToday)}"/>
 			</block>
 			<bind name="firstEntityDH" value="'clientBuildInfoEntity'; CC.clientBuildInfo"/>
+			<block>
+				<bind name="visible" value="toUpperCase(clientBuildInfoEntity.clientBuildInfo.realmName) != toUpperCase(primeTimeRealm)"/>
+				<style>
+					<width value="100%"/>
+					<align value="middle"/>
+					<paddingRight value="48px"/>
+				</style>
+				<block className="icon_warning_orange" type="native"/>
+				<block type="text">
+					<style>
+						<marginLeft value="4px"/>
+					</style>
+					<styleClass value="$TextDefault17NM"/>
+					<bind name="class" value="'$FontColorUnready'"/>
+					<bind name="text" value="'IDS_PRIME_TIME_HIGH_PING_WARNING'"/>
+				</block>
+				<style>
+					<flow value="horizontal"/>
+				</style>
+			</block>
 			<style>
 				<flow value="horizontal"/>
 			</style>
@@ -1656,6 +1677,7 @@
 			</block>
 			<block type="text">
 				<style>
+					<width value="110px"/>
 					<marginLeft value="8px"/>
 				</style>
 				<bind name="class" value="textClass"/>
@@ -1677,6 +1699,7 @@
 			</block>
 			<block type="text">
 				<style>
+					<width value="110px"/>
 					<marginLeft value="8px"/>
 				</style>
 				<bind name="class" value="textClass"/>
@@ -2312,6 +2335,8 @@
 		<bind name="serverTime" value="'serverTime'"/>
 		<bind name="watch" value="'isSelectedPrimeActive'; (selectedPrimeTimeStartTime &lt;= serverTime) &amp;&amp; (serverTime &lt; selectedPrimeTimeFinishTime)"/>
 		<bind name="var" value="{selectedPrimeTimeId: chosenPrimeTimeEntity.clanBattlePrimeTime.id}"/>
+		<bind name="firstEntityDH" value="'currentDayEntity'; CC.day; 'today'"/>
+		<bind name="watchDH" value="'currentDay'; 	['currentDayEntity.day.evUpdate']; currentDayEntity.day.weekDay"/>
 		<block>
 			<style>
 				<width value="100%"/>
@@ -2331,7 +2356,7 @@
 				<style>
 					<width value="100%"/>
 				</style>
-				<bind name="collectionRepeatDH" value="CC.day; 'ClanBattlePrimeTimeItem'; 'today'; {_selectedPrimeTimeId: selectedPrimeTimeId, _disableUpcoming: true, _hasClanPermissions: hasClanPermissions}"/>
+				<bind name="collectionRepeatDH" value="CC.day; 'ClanBattlePrimeTimeItem'; 'today'; {_selectedPrimeTimeId: selectedPrimeTimeId, _disableUpcoming: true, _hasClanPermissions: hasClanPermissions, _currentDay: currentDay}"/>
 			</block>
 		</block>
 		<block>

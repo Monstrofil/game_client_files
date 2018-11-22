@@ -6451,7 +6451,7 @@
 				<style>
 					<marginTop value="9px"/>
 				</style>
-				<bind name="instance" value="'PointsCharge';  {_battleModeInfo: battleModeInfo, _gameInfo: gameInfo}"/>
+				<bind name="instance" value="'PointsCharge'; gameInfo.battleType == BattleTypes.EVENT_BATTLE ? null : {_battleModeInfo: battleModeInfo, _gameInfo: gameInfo}"/>
 			</block>
 			<block>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'rankedBattlesSeason'"/>
@@ -7262,7 +7262,7 @@
 	</block>
 	<block className="PlayerDogTag">
 		<bind name="primaryEntityDH" value="'playerEntity'; CC.accountSimple; _playerDbId"/>
-		<bind name="watchDH" value="'dogTagList';['playerEntity.dogTagView.evUpdate']; playerEntity.dogTagView.components"/>
+		<bind name="watchDH" value="'dogTagList';['playerEntity.dogTagView.evComponentsChanged']; playerEntity.dogTagView.components"/>
 		<bind name="collectionDH" value="CC.dogTagComponent; 'dogtagview'+'ROOT'"/>
 		<bind name="collectionDesign" value="'DES_'+'dogtagview'+'ROOT'; 'dogtagview'; {'filter': dogTagList.length &amp;&amp; ((dogTagList.indexOf(toLowerCase($entity.dogTagComponent.id)) &gt; -1)), 'sort':['dogTagComponent.categoryId']}; []"/>
 		<bind name="watch" value="'size';	_size == 'big' 				? 512 : 
@@ -7728,7 +7728,7 @@
 	</block>
 	<block className="PlayerStereotype">
 		<bind name="primaryEntityDH" value="'playerEntity'; CC.accountSimple; _playerDbId"/>
-		<bind name="watchDH" value="'dogTagList';['playerEntity.dogTagView.evUpdate']; playerEntity.dogTagView.components"/>
+		<bind name="watchDH" value="'dogTagList';['playerEntity.dogTagView.evComponentsChanged']; playerEntity.dogTagView.components"/>
 		<bind name="collectionDH" value="CC.dogTagComponent; 'dogtagview'+'ROOT'"/>
 		<bind name="collectionDesign" value="'DES_'+'dogtagview'+'ROOT'; 'dogtagview'; {'filter':(dogTagList.indexOf(toLowerCase($entity.dogTagComponent.id)) &gt; -1), 'sort':['dogTagComponent.categoryId']}; []"/>
 		<bind name="watchDH" value="'isSelf';			[]; playerEntity.accountSimple.isSelfPlayer"/>
@@ -8436,28 +8436,30 @@
 				<marginTop value="14px"/>
 				<marginBottom value="24px"/>
 			</style>
-			<block type="text">
-				<styleClass value="$TextDefaultBold23NM"/>
-				<style>
-					<width value="100%"/>
-					<marginBottom value="12px"/>
-				</style>
-				<bind name="text" value="tr('IDS_CHARGING_POINTS')"/>
-			</block>
 			<block>
-				<style>
-					<marginTop value="9px"/>
-				</style>
-				<bind name="instance" value="'PointsCharge';  {_battleModeInfo: _battleModeInfo, _gameInfo: _gameInfo}"/>
+				<bind name="visible" value="_gameInfo.battleType != BattleTypes.EVENT_BATTLE"/>
+				<block type="text">
+					<styleClass value="$TextDefaultBold23NM"/>
+					<style>
+						<width value="100%"/>
+						<marginBottom value="12px"/>
+					</style>
+					<bind name="text" value="tr('IDS_CHARGING_POINTS')"/>
+				</block>
+				<block>
+					<style>
+						<marginTop value="9px"/>
+					</style>
+					<bind name="instance" value="'PointsCharge'; _gameInfo.battleType == BattleTypes.EVENT_BATTLE ? null : {_battleModeInfo: _battleModeInfo, _gameInfo: _gameInfo}"/>
+				</block>
 			</block>
 		</block>
 		<block>
 			<style>
 				<width value="100%"/>
-				<marginTop value="9px"/>
 			</style>
 			<bind name="visible" value="_gameInfo.battleType == BattleTypes.EVENT_BATTLE"/>
-			<bind name="instance" value="'PowerupsDescription'; _gameInfo.battleType == BattleTypes.EVENT_BATTLE ? {} : null"/>
+			<bind name="instance" value="'EventBattleDescription'; _gameInfo.battleType == BattleTypes.EVENT_BATTLE ? {} : null"/>
 		</block>
 		<bind name="firstEntityDH" value="'localWeatherEntity'; CC.localWeather"/>
 		<block>
@@ -8465,16 +8467,6 @@
 				<width value="100%"/>
 			</style>
 			<bind name="instance" value="'LocalWeatherDescription'; localWeatherEntity ? {} : null"/>
-		</block>
-		<block type="text">
-			<bind name="visible" value="_gameInfo.battleType == BattleTypes.EVENT_BATTLE"/>
-			<style>
-				<width value="100%"/>
-				<marginTop value="8px"/>
-				<leading value="-3"/>
-			</style>
-			<styleClass value="$TextDefault19NM"/>
-			<bind name="substitute" value="'KEYS'; 6; null; tr('IDS_POWERUPS_CHECK_PARAMS_TIP'); '_bg'"/>
 		</block>
 		<block>
 			<bind name="visible" value="_gameInfo.gameModeId == GameMode.FORTS"/>
@@ -8507,14 +8499,14 @@
 			</block>
 		</block>
 	</block>
-	<block className="PowerupsDescription">
+	<block className="EventBattleDescription">
 		<style>
 			<width value="100%"/>
 			<marginBottom value="12px"/>
 		</style>
 		<block type="text">
 			<styleClass value="$TextDefaultBold23NM"/>
-			<bind name="text" value="tr('IDS_EVENTBATTLE_LOADING_POWERUPS_HEADER')"/>
+			<bind name="text" value="tr('IDS_EVENTBATTLE_LOADING_DESCRIPTION_HEADER')"/>
 		</block>
 		<block type="text">
 			<style>
@@ -8522,14 +8514,14 @@
 				<marginTop value="12px"/>
 			</style>
 			<styleClass value="$TextDefault19NM"/>
-			<bind name="text" value="'IDS_EVENTBATTLE_LOADING_POWERUPS_DESCRIPTION'"/>
+			<bind name="text" value="'IDS_EVENTBATTLE_LOADING_DESCRIPTION_TEXT'"/>
 		</block>
 		<block>
 			<style>
 				<width value="100%"/>
 				<marginTop value="12px"/>
 			</style>
-			<bind name="repeat" value="3; 'ListWithBulletsElement'; {_marginBottom: '12px', _bulletType: '-', _textClass: '$TextDefault19NM', _text: ('IDS_EVENTBATTLE_LOADING_POWERUPS_BULLET_'), _bulletIndex: true}"/>
+			<bind name="repeat" value="3; 'ListWithBulletsElement'; {_marginBottom: '12px', _textClass: '$TextDefault19NM', _text: ('IDS_EVENTBATTLE_LOADING_DESCRIPTION_TEXT_BULLET_'), _bulletIndex: true}"/>
 		</block>
 	</block>
 	<block className="TeamBattlePage">
@@ -8707,7 +8699,7 @@
 			</style>
 			<block type="text">
 				<styleClass value="$TextDefaultBold21NM"/>
-				<bind name="text" value="allyClanTag + ' ' + tr('IDS_REALM_' + toUpperCase(allyRealm))"/>
+				<bind name="text" value="'[' + allyClanTag + ']'"/>
 			</block>
 		</block>
 		<block type="text">
@@ -8726,7 +8718,7 @@
 			</style>
 			<block type="text">
 				<styleClass value="$TextDefaultBold21NM"/>
-				<bind name="text" value="tr('IDS_REALM_' + toUpperCase(enemyRealm)) + ' ' + enemyClanTag"/>
+				<bind name="text" value="'[' + enemyClanTag + ']'"/>
 			</block>
 		</block>
 	</block>
@@ -9814,7 +9806,7 @@
 		<bind name="watchDH" value="'accountLevel'; ['entityAccount.accountLevel.evLevelChanged']; entityAccount.accountLevel.level"/>
 		<bind name="watchDH" value="'groupIdsOfAccount'; ['entityAccount.elementInGroups.evGroupsChanged']; entityAccount.elementInGroups.groupIds"/>
 		<bind name="watchDH" value="'isIgnored';['entityAccount.contact.evIsIgnoredChanged']; !!entityAccount.contact.isIgnored"/>
-		<bind name="watchDH" value="'dogTagList';['entityAccount.dogTagView.evUpdate']; entityAccount.dogTagView.components"/>
+		<bind name="watchDH" value="'dogTagList';['entityAccount.dogTagView.evComponentsChanged']; entityAccount.dogTagView.components"/>
 		<bind name="collectionDH" value="CC.dogTagComponent; 'dogtagview'+'ROOT'"/>
 		<bind name="collectionDesign" value="'DES_'+'dogtagview'+'ROOT'; 'dogtagview'; {'filter':(dogTagList.indexOf(toLowerCase($entity.dogTagComponent.id)) &gt; -1), 'sort':['dogTagComponent.categoryId']}; []"/>
 		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
@@ -15479,7 +15471,7 @@
 			</style>
 			<bind name="firstEntityDH" value="'localWeatherEntity'; CC.localWeather"/>
 			<bind name="instance" value="'LocalWeatherDescription'; localWeatherEntity ? {} : null"/>
-			<bind name="instance" value="'PowerupsDescription'; gameInfo.battleType == BattleTypes.EVENT_BATTLE ? {} : null"/>
+			<bind name="instance" value="'EventBattleDescription'; gameInfo.battleType == BattleTypes.EVENT_BATTLE ? {} : null"/>
 		</block>
 	</block>
 	<block className="PVEBattleGoal">
@@ -18436,12 +18428,15 @@
 	</css>
 	<block className="ItemChooser">
 		<bind name="watch" value="'_curItemIndex'; curIndex"/>
+		<bind name="watch" value="'_direction'; curDirection"/>
 		<bind name="watch" value="'isEnabled'; _disabled != true"/>
 		<bind name="name" value="_name"/>
-		<bind name="var" value="{_lastItemIndex: curIndex,
-				_direction: false}"/>
+		<bind name="var" value="{_lastItemIndex: curIndex}"/>
 		<bind name="style" value="'width'; _width ? _width : 'auto'"/>
 		<bind name="catch" value="('ItemChooserInnerEvent.' + onItemSelectedEvent)"/>
+		<block type="text">
+			<bind name="name" value="_items[curIndex]"/>
+		</block>
 		<bind name="catch" value="('ItemChooserInnerEventDublicate.' + onItemSelectedEvent); {	_direction: (_curItemIndex==_lastItemIndex) ? !_direction : false,
 																			_lastItemIndex: _curItemIndex}"/>
 		<bind name="dispatch" value="('ItemChooserInnerEventDublicate.' + onItemSelectedEvent); ('ItemChooser.'+onItemSelectedEvent); {_curItemIndex: _curItemIndex, _direction: _direction}; false; 0.001"/>
@@ -19357,28 +19352,30 @@
 				<marginTop value="14px"/>
 				<marginBottom value="24px"/>
 			</style>
-			<block type="text">
-				<styleClass value="$TextDefaultBold23NM"/>
-				<style>
-					<width value="100%"/>
-					<marginBottom value="12px"/>
-				</style>
-				<bind name="text" value="tr('IDS_CHARGING_POINTS')"/>
-			</block>
 			<block>
-				<style>
-					<marginTop value="9px"/>
-				</style>
-				<bind name="instance" value="'PointsCharge';  {_battleModeInfo: _battleModeInfo, _gameInfo: _gameInfo}"/>
+				<bind name="visible" value="_gameInfo.battleType != BattleTypes.EVENT_BATTLE"/>
+				<block type="text">
+					<styleClass value="$TextDefaultBold23NM"/>
+					<style>
+						<width value="100%"/>
+						<marginBottom value="12px"/>
+					</style>
+					<bind name="text" value="tr('IDS_CHARGING_POINTS')"/>
+				</block>
+				<block>
+					<style>
+						<marginTop value="9px"/>
+					</style>
+					<bind name="instance" value="'PointsCharge'; _gameInfo.battleType == BattleTypes.EVENT_BATTLE ? null : {_battleModeInfo: _battleModeInfo, _gameInfo: _gameInfo}"/>
+				</block>
 			</block>
 		</block>
 		<block>
 			<style>
 				<width value="100%"/>
-				<marginTop value="9px"/>
 			</style>
 			<bind name="visible" value="_gameInfo.battleType == BattleTypes.EVENT_BATTLE"/>
-			<bind name="instance" value="'PowerupsDescription'; _gameInfo.battleType == BattleTypes.EVENT_BATTLE ? {} : null"/>
+			<bind name="instance" value="'EventBattleDescription'; _gameInfo.battleType == BattleTypes.EVENT_BATTLE ? {} : null"/>
 		</block>
 		<bind name="firstEntityDH" value="'localWeatherEntity'; CC.localWeather"/>
 		<block>
@@ -19386,16 +19383,6 @@
 				<width value="100%"/>
 			</style>
 			<bind name="instance" value="'LocalWeatherDescription'; localWeatherEntity ? {} : null"/>
-		</block>
-		<block type="text">
-			<bind name="visible" value="_gameInfo.battleType == BattleTypes.EVENT_BATTLE"/>
-			<style>
-				<width value="100%"/>
-				<marginTop value="8px"/>
-				<leading value="-3"/>
-			</style>
-			<styleClass value="$TextDefault19NM"/>
-			<bind name="substitute" value="'KEYS'; 6; null; tr('IDS_POWERUPS_CHECK_PARAMS_TIP'); '_bg'"/>
 		</block>
 		<block>
 			<bind name="visible" value="_gameInfo.gameModeId == GameMode.FORTS"/>
@@ -19428,14 +19415,14 @@
 			</block>
 		</block>
 	</block>
-	<block className="PowerupsDescription">
+	<block className="EventBattleDescription">
 		<style>
 			<width value="100%"/>
 			<marginBottom value="12px"/>
 		</style>
 		<block type="text">
 			<styleClass value="$TextDefaultBold23NM"/>
-			<bind name="text" value="tr('IDS_EVENTBATTLE_LOADING_POWERUPS_HEADER')"/>
+			<bind name="text" value="tr('IDS_EVENTBATTLE_LOADING_DESCRIPTION_HEADER')"/>
 		</block>
 		<block type="text">
 			<style>
@@ -19443,14 +19430,14 @@
 				<marginTop value="12px"/>
 			</style>
 			<styleClass value="$TextDefault19NM"/>
-			<bind name="text" value="'IDS_EVENTBATTLE_LOADING_POWERUPS_DESCRIPTION'"/>
+			<bind name="text" value="'IDS_EVENTBATTLE_LOADING_DESCRIPTION_TEXT'"/>
 		</block>
 		<block>
 			<style>
 				<width value="100%"/>
 				<marginTop value="12px"/>
 			</style>
-			<bind name="repeat" value="3; 'ListWithBulletsElement'; {_marginBottom: '12px', _bulletType: '-', _textClass: '$TextDefault19NM', _text: ('IDS_EVENTBATTLE_LOADING_POWERUPS_BULLET_'), _bulletIndex: true}"/>
+			<bind name="repeat" value="3; 'ListWithBulletsElement'; {_marginBottom: '12px', _textClass: '$TextDefault19NM', _text: ('IDS_EVENTBATTLE_LOADING_DESCRIPTION_TEXT_BULLET_'), _bulletIndex: true}"/>
 		</block>
 	</block>
 	<block className="TeamBattlePage">
@@ -19628,7 +19615,7 @@
 			</style>
 			<block type="text">
 				<styleClass value="$TextDefaultBold21NM"/>
-				<bind name="text" value="allyClanTag + ' ' + tr('IDS_REALM_' + toUpperCase(allyRealm))"/>
+				<bind name="text" value="'[' + allyClanTag + ']'"/>
 			</block>
 		</block>
 		<block type="text">
@@ -19647,7 +19634,7 @@
 			</style>
 			<block type="text">
 				<styleClass value="$TextDefaultBold21NM"/>
-				<bind name="text" value="tr('IDS_REALM_' + toUpperCase(enemyRealm)) + ' ' + enemyClanTag"/>
+				<bind name="text" value="'[' + enemyClanTag + ']'"/>
 			</block>
 		</block>
 	</block>

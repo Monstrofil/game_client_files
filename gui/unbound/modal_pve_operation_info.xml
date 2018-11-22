@@ -4032,6 +4032,7 @@
 		<bind name="watch" value="'isBright'; (selected || rollOver) &amp;&amp; isSelectableBattleType"/>
 		<block>
 			<bind name="controller" value="lesta.unbound.controls.UbInteractiveController; null; 'battleType_'"/>
+			<bind name="name" value="'isSelectable_' + isSelectableBattleType"/>
 			<styleClass value="$FullsizeAbsolute"/>
 			<style>
 				<backgroundColor value="0x01000000"/>
@@ -4063,7 +4064,8 @@
 				<block>
 					<bind name="style" value="'width'; _isSmallView ? '170px' : '280px'"/>
 					<bind name="style" value="'height'; _isSmallView ? '170px' : '280px'"/>
-					<bind name="instance" value="'SelectedBattleTypeAnimation'; selected ? {} : null"/>
+					<bind name="instance" value="'SelectedBattleTypeAnimation'; type != BattleTypes.EVENT_BATTLE &amp;&amp; selected ? {} : null"/>
+					<bind name="instance" value="'SelectedBattleEventTypeAnimation'; type == BattleTypes.EVENT_BATTLE &amp;&amp; selected ? {} : null"/>
 					<styleClass value="$MiddleAlignedAbsolutely"/>
 					<styleClass value="$MiddleVAligned"/>
 				</block>
@@ -4143,7 +4145,7 @@
 				<marginTop value="24px"/>
 			</style>
 			<styleClass value="$MiddleAligned"/>
-			<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_INSTRUCTION_TOOLTIP_GO_TO_OPERATION_CHOOSER'}"/>
+			<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_INSTRUCTION_TOOLTIP_GO_TO_PRIME_CHOOSER'}"/>
 			<bind name="instance" value="'ResizableButtonDock'; isClanStuffVisible ? {
 			_label: toUpperCase(tr('IDS_SCHEDULLE')),
 			_request: 'showClanBattlesSchedule',
@@ -4370,14 +4372,6 @@
 	</block>
 	<block className="SelectedBattleTypeAnimation">
 		<styleClass value="$Fullsize"/>
-		<block className="lesta.controls.video.VideoResourcePlayer" type="native">
-			<styleClass value="$Fullsize"/>
-			<params>
-				<param name="keepAspectRatio" value="false"/>
-			</params>
-			<bind name="volume" value="0"/>
-			<bind name="play!" value="'./gui/video/selected_battle_type.usm'"/>
-		</block>
 	</block>
 	<css name="$DefaultTooltipBehaviour">
 		<userData value="{
@@ -6918,7 +6912,7 @@
 				</block>
 			</block>
 		</block>
-		<bind name="repeat" value="primeTimesPerDay; 'DailyPrimeTimesStr'; {_day: entityDay.day.weekDay, _isToday: isToday, 
+		<bind name="repeat" value="primeTimesPerDay; 'DailyPrimeTimesStr'; {_day: entityDay.day.weekDay, _currentDay: _currentDay,
 		_selectedPrimeTimeId: _selectedPrimeTimeId, _disableUpcoming: _disableUpcoming, _hasClanPermissions: _hasClanPermissions}"/>
 		<block type="text">
 			<bind name="visible" value="!(havePrimeTimes)"/>
@@ -6955,14 +6949,15 @@
 		<bind name="countdown" value="primeTimeFinishTime; 'formattedPrimeTimeTillEnd'; 'HIGHEST'"/>
 		<bind name="watch" value="'isCurrent'; (primeTimeStartTime &lt; serverTime) &amp;&amp; (serverTime &lt; primeTimeFinishTime)"/>
 		<bind name="watch" value="'isUpcoming';  serverTime &lt; primeTimeStartTime"/>
-		<bind name="watch" value="'canBeChoosed'; (isCurrent &amp;&amp; !(primeTimeIsChosen)) || (isUpcoming &amp;&amp; !(_disableUpcoming)) &amp;&amp; _isToday"/>
+		<bind name="watch" value="'isToday'; entityPrimeTime.clanBattlePrimeTime.day == _currentDay"/>
+		<bind name="watch" value="'canBeChoosed'; (( !(primeTimeIsChosen)) || (isUpcoming &amp;&amp; !(_disableUpcoming))) &amp;&amp; isToday"/>
 		<bind name="dispatch" value="'click'; (_hasClanPermissions &amp;&amp; canBeChoosed) ? 'evSelectPrimeTimeChanged' : ''; {selectedPrimeTimeId: entityPrimeTime.clanBattlePrimeTime.id}"/>
 		<block className="dock_submenu_item" type="native">
 			<bind name="name" value="'primeRimeItem_' + $index"/>
 			<styleClass value="$FullsizeAbsolute"/>
 			<bind name="selected" value="entityPrimeTime.clanBattlePrimeTime.id == _selectedPrimeTimeId"/>
 		</block>
-		<bind name="watch" value="'textAlpha'; canBeChoosed || primeTimeIsChosen ? 1 : 0.4"/>
+		<bind name="watch" value="'textAlpha'; isToday &amp;&amp; (canBeChoosed || primeTimeIsChosen) ? 1 : 0.4"/>
 		<bind name="watch" value="'boldClass'; primeTimeIsChosen ? '$Bold' : '$None'"/>
 		<block>
 			<style>
@@ -6993,9 +6988,29 @@
 					<width value="280px"/>
 				</style>
 				<bind name="style" value="'alpha'; textAlpha"/>
-				<bind name="instance" value="'PrimeTimeTillTimeInfo'; {_entityId: entityPrimeTime.id, _showNearest: !(_isToday)}"/>
+				<bind name="instance" value="'PrimeTimeTillTimeInfo'; {_entityId: entityPrimeTime.id, _showNearest: !(isToday)}"/>
 			</block>
 			<bind name="firstEntityDH" value="'clientBuildInfoEntity'; CC.clientBuildInfo"/>
+			<block>
+				<bind name="visible" value="toUpperCase(clientBuildInfoEntity.clientBuildInfo.realmName) != toUpperCase(primeTimeRealm)"/>
+				<style>
+					<width value="100%"/>
+					<align value="middle"/>
+					<paddingRight value="48px"/>
+				</style>
+				<block className="icon_warning_orange" type="native"/>
+				<block type="text">
+					<style>
+						<marginLeft value="4px"/>
+					</style>
+					<styleClass value="$TextDefault17NM"/>
+					<bind name="class" value="'$FontColorUnready'"/>
+					<bind name="text" value="'IDS_PRIME_TIME_HIGH_PING_WARNING'"/>
+				</block>
+				<style>
+					<flow value="horizontal"/>
+				</style>
+			</block>
 			<style>
 				<flow value="horizontal"/>
 			</style>
@@ -7048,6 +7063,7 @@
 			</block>
 			<block type="text">
 				<style>
+					<width value="110px"/>
 					<marginLeft value="8px"/>
 				</style>
 				<bind name="class" value="textClass"/>
@@ -7069,6 +7085,7 @@
 			</block>
 			<block type="text">
 				<style>
+					<width value="110px"/>
 					<marginLeft value="8px"/>
 				</style>
 				<bind name="class" value="textClass"/>
@@ -8817,12 +8834,15 @@
 	</css>
 	<block className="ItemChooser">
 		<bind name="watch" value="'_curItemIndex'; curIndex"/>
+		<bind name="watch" value="'_direction'; curDirection"/>
 		<bind name="watch" value="'isEnabled'; _disabled != true"/>
 		<bind name="name" value="_name"/>
-		<bind name="var" value="{_lastItemIndex: curIndex,
-				_direction: false}"/>
+		<bind name="var" value="{_lastItemIndex: curIndex}"/>
 		<bind name="style" value="'width'; _width ? _width : 'auto'"/>
 		<bind name="catch" value="('ItemChooserInnerEvent.' + onItemSelectedEvent)"/>
+		<block type="text">
+			<bind name="name" value="_items[curIndex]"/>
+		</block>
 		<bind name="catch" value="('ItemChooserInnerEventDublicate.' + onItemSelectedEvent); {	_direction: (_curItemIndex==_lastItemIndex) ? !_direction : false,
 																			_lastItemIndex: _curItemIndex}"/>
 		<bind name="dispatch" value="('ItemChooserInnerEventDublicate.' + onItemSelectedEvent); ('ItemChooser.'+onItemSelectedEvent); {_curItemIndex: _curItemIndex, _direction: _direction}; false; 0.001"/>
@@ -9400,10 +9420,8 @@
 		<bind name="collectionDH" value="CC.userPrefs; 'userPrefsCollection'"/>
 		<bind name="entityDH" value="'userPrefsEntity'; userPrefsCollection[0].id"/>
 		<bind name="watchDH" value="'userPrefs'; ['userPrefsEntity.userPrefs.evUserPrefsChanged']; userPrefsEntity.userPrefs.userPrefs"/>
-		<bind name="watch" value="'_subHeader'; (pveOperationStatus == 3 &amp;&amp;
-								userPrefs.uiPVEOperationsDifficulty == 'normal'	? 'IDS_OPERATION_OF_THE_WEEK_OPERATION_STATUS' : 
-								operationIsHard													? 'IDS_OPERATION_HARD_DIFFICULTY_STATUS'
-																								: 'IDS_OPERATION_NORMAL_DIFFICULTY_STATUS')"/>
+		<bind name="watch" value="'_subHeader'; 	operationIsHard		? 'IDS_OPERATION_HARD_DIFFICULTY_STATUS'
+													: 'IDS_OPERATION_NORMAL_DIFFICULTY_STATUS')"/>
 		<block>
 			<style>
 				<marginBottom value="8px"/>
@@ -9411,7 +9429,8 @@
 			<styleClass value="$MiddleAligned"/>
 			<block type="text">
 				<styleClass value="$TextDefaultBold21NM"/>
-				<bind name="text" value="toUpperCase(tr('IDS_PVE_OPERATION_INFO_WINDOW_HEADER'))"/>
+				<bind name="text" value="pveOperationStatus == 3 ? toUpperCase(tr('IDS_OPERATION_OF_THE_WEEK_OPERATION_STATUS')) 
+																			: toUpperCase(tr('IDS_PVE_OPERATION_INFO_WINDOW_HEADER'))"/>
 			</block>
 		</block>
 		<block>

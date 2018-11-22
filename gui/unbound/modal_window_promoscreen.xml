@@ -5695,12 +5695,15 @@
 	</css>
 	<block className="ItemChooser">
 		<bind name="watch" value="'_curItemIndex'; curIndex"/>
+		<bind name="watch" value="'_direction'; curDirection"/>
 		<bind name="watch" value="'isEnabled'; _disabled != true"/>
 		<bind name="name" value="_name"/>
-		<bind name="var" value="{_lastItemIndex: curIndex,
-				_direction: false}"/>
+		<bind name="var" value="{_lastItemIndex: curIndex}"/>
 		<bind name="style" value="'width'; _width ? _width : 'auto'"/>
 		<bind name="catch" value="('ItemChooserInnerEvent.' + onItemSelectedEvent)"/>
+		<block type="text">
+			<bind name="name" value="_items[curIndex]"/>
+		</block>
 		<bind name="catch" value="('ItemChooserInnerEventDublicate.' + onItemSelectedEvent); {	_direction: (_curItemIndex==_lastItemIndex) ? !_direction : false,
 																			_lastItemIndex: _curItemIndex}"/>
 		<bind name="dispatch" value="('ItemChooserInnerEventDublicate.' + onItemSelectedEvent); ('ItemChooser.'+onItemSelectedEvent); {_curItemIndex: _curItemIndex, _direction: _direction}; false; 0.001"/>
@@ -6002,11 +6005,11 @@
 		</block>
 	</block>
 	<block className="ModalWindowPromoscreen">
-		<styleClass value="$Fullsize"/>
-		<bind name="stageSize"/>
 		<bind name="primaryEntityDH" value="'imageEntity'; CC.byteArrayData; $root.imageId"/>
 		<bind name="watchDH" value="'imageData'; ['imageEntity.byteArrayData.evChanged']; imageEntity.byteArrayData.data"/>
 		<bind name="var" value="{windowAppearLag: 0.5}"/>
+		<styleClass value="$Fullsize"/>
+		<bind name="stageSize"/>
 		<block>
 			<bind name="appear" value="'startShow'; 0.25; 0.4; {alpha: 0}; {alpha: 1}"/>
 			<bind name="appear" value="'startHide'; 0.25; 0.4; {alpha: 1}; {alpha: 0}"/>
@@ -6029,13 +6032,13 @@
 		<block>
 			<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 2 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
 			<bind name="appear" value="'startHide'; 0.15; 2 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
-			<styleClass value="$FullsizeAbsolute"/>
 			<style>
 				<paddingRight value="1280:20,1920:46aw"/>
 				<paddingLeft value="1280:20,1920:46aw"/>
 				<paddingBottom value="1280:20,1920:46aw"/>
 				<paddingTop value="1280:20,1920:46aw"/>
 			</style>
+			<styleClass value="$FullsizeAbsolute"/>
 			<block>
 				<style>
 					<width value="100%"/>
@@ -6266,14 +6269,15 @@
 		</block>
 		<block>
 			<bind name="visible" value="(detailsLink != null) || (isIngameUrl != null)"/>
+			<bind name="watch" value="'labelText'; ((buttonText == null) || (buttonText == '')) ? 'IDS_TO_PORTAL' : buttonText"/>
 			<styleClass value="$MiddleAligned"/>
 			<block className="button_default" type="native">
+				<bind name="request" value="'click'; 'gotoUrlByPRMP'; {url: detailsLink, isIngameUrl: isIngameUrl, authorization: false}"/>
 				<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_TO_WEB_TOOLTIP'}"/>
 				<style>
 					<marginTop value="16px"/>
 				</style>
-				<bind name="label" value="'IDS_TO_PORTAL'"/>
-				<bind name="request" value="'click'; 'gotoUrlByPRMP'; {url: detailsLink, isIngameUrl: isIngameUrl, authorization: false}"/>
+				<bind name="label" value="toUpperCase(tr(labelText))"/>
 				<block type="text">
 					<style>
 						<marginLeft value="38px"/>
@@ -6283,16 +6287,7 @@
 						<alpha value="0"/>
 					</style>
 					<styleClass value="$TextDefaultBoldNM"/>
-					<bind name="text" value="'IDS_TO_PORTAL'"/>
-				</block>
-				<block>
-					<style>
-						<position value="absolute"/>
-						<top value="7px"/>
-						<right value="7px"/>
-						<hitTest value="false"/>
-					</style>
-					<block className="icon_out_grey" type="native"/>
+					<bind name="text" value="toUpperCase(tr(labelText))"/>
 				</block>
 			</block>
 		</block>
