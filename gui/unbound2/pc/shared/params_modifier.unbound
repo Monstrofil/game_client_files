@@ -1,0 +1,104 @@
+(def element ParamsModifierItem(_shrinkHeight: bool) layout=true
+	(scope
+		(var _dataItem: dict = {})
+	)
+
+	(style 
+		(width = "100%")
+		(flow = "Flow.HORIZONTAL")
+		(marginBottom = "M")
+		(bind marginTop "(_shrinkHeight == true) ? -S : 0")
+	)
+	#attributeIDS
+	(tf 
+		(class $TextDefaultNM)
+		(style 
+			(leading = "-3")
+			(width = "100%")
+		)
+		(alpha = "0.8")
+		(bind text "_dataItem.attributeIDS")
+	)
+	#measuredValue
+	(tf 
+		(style 
+			(marginLeft = "SXS - 3") # Because TextDefaultNM doesn't work as it should
+		)
+		(class $TextDefaultNM)
+		(bind class "_dataItem.category == 'positive' ? '$FontColorComparePositive' : 
+			_dataItem.category == 'negative' ? '$FontColorCompareNegative' : '$FontColorDefault'")
+		(bind text "_dataItem.measuredValue")
+	)
+	#measure
+	(tf 
+		(style # Because TextDefaultNM doesn't work as it should
+			(marginLeft = "1")
+			(marginRight = "-9")
+		)
+		(bind alpha "_dataItem.category == 'positive' ? 0.65 : 0.8")
+		(class $TextDefaultNM)
+		(bind class "_dataItem.category == 'positive' ? '$FontColorComparePositive' : 
+			_dataItem.category == 'negative' ? '$FontColorCompareNegative' : '$FontColorDefault'")
+		(bind text "_dataItem.measure")
+	)
+)
+
+(def element ParamsModifierList(_shrinkHeight: bool) layout=true
+	(scope
+		(var _attributesPositive: array = [])
+		(var _attributesNegative: array = [])
+		(var _attributesNeutral: array = [])
+	)
+
+	(style 
+		(width = "100%")
+	)
+	(block 
+		(style 
+			(width = "100%")
+		)
+		(controller $Repeat renderer='ParamsModifierItem'
+			(bind count "_attributesPositive.length")
+			(args 
+				_shrinkHeight = "_shrinkHeight"
+			)
+			(exprs
+				(scope
+					(bind _dataItem "_attributesPositive[$index]")
+				)
+			)
+		)
+	)
+	(block 
+		(style 
+			(width = "100%")
+		)
+		(controller $Repeat renderer='ParamsModifierItem'
+			(bind count "_attributesNegative.length")
+			(args 
+				_shrinkHeight = "_shrinkHeight"
+			)
+			(exprs
+				(scope
+					(bind _dataItem "_attributesNegative[$index]")
+				)
+			)
+		)
+	)
+	(block 
+		(style 
+			(width = "100%")
+		)
+		(controller $Repeat renderer='ParamsModifierItem'
+			(bind count "_attributesNeutral.length")
+			(args 
+				_shrinkHeight = "_shrinkHeight"
+			)
+			(exprs
+				(scope
+					(bind _dataItem "_attributesNeutral[$index]")
+				)
+			)
+		)
+	)
+)

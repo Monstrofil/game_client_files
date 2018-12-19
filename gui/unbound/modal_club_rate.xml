@@ -810,7 +810,7 @@
 					<style>
 						<position value="absolute"/>
 						<right value="-50px"/>
-						<top value="9px"/>
+						<top value="11px"/>
 						<flow value="horizontal"/>
 					</style>
 					<bind name="name" value="'btn_cancel'"/>
@@ -2193,17 +2193,8 @@
 	<css name="$FontDropShadowFilter1">
 		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
 	</css>
-	<css name="$FontDropShadowFilterStrong">
-		<dropShadowFilter value="1 90 0x08222a 0.8 3 3 1.5"/>
-	</css>
 	<css name="$FontDropShadowWhite">
 		<dropShadowFilter value="0 90 0xffffff 1.0 3.0 3.0 0.3"/>
-	</css>
-	<css name="$BlockDropShadowFilter1">
-		<dropShadowFilter value="5 110 0x000000 0.6 6 6 0.6"/>
-	</css>
-	<css name="$BlockDropShadowFilter2">
-		<dropShadowFilter value="3 110 0x000000 0.6 6 6 0.6"/>
 	</css>
 	<block className="DefaultButton">
 		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
@@ -2306,6 +2297,24 @@
 					<flow value="horizontal"/>
 				</style>
 			</block>
+		</block>
+	</block>
+	<block className="ButtonCostSpecial">
+		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
+		<bind name="watchDH" value="'operationsAccountLocked';	['resourceEntity.accountResource.evOperationsLockChanged'];	resourceEntity.accountResource.operationsLocked"/>
+		<style>
+			<width value="130px"/>
+		</style>
+		<block className="button_default_always_hover" type="native">
+			<style>
+				<width value="100%"/>
+			</style>
+			<bind name="enabled" value="(_enabled &amp;&amp; !(operationsAccountLocked))"/>
+			<bind name="event" value="'buttonClick'; _method ? _method : null"/>
+			<bind name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
+			<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
+			<bind name="input"/>
+			<bind name="label" value="_label"/>
 		</block>
 	</block>
 	<block className="DefaultButtonCostSmall">

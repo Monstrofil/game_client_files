@@ -1,0 +1,54 @@
+(def css $TextFpsMessageStyle()
+	(extends $FontFamilyDefault)
+	(extends $FontDropShadowWhite2)
+	(extends $FontSizeSmall)
+	(extends $FontColorFPS)
+	(extends $TextMouseDisable)
+)
+
+(def css $TextFpsValueStyle()
+	(extends $FontFamilyDefaultBold)
+	(extends $FontDropShadowWhite2)
+	(extends $FontSizeSmall)
+	(extends $FontColorFPS)
+	(extends $TextMouseDisable)
+)
+
+(def element FpsPanel() layout=true
+	(scope      
+		(var battleInfo:gfx = "$datahub.getSingleComponent(CC.pingLagInfo)")
+		(var timer:gfx = "$datahub.getSingleComponent(CC.timer)")
+		(var fps:number = "battleInfo.fps" (event "timer.evInfrequent"))
+		(var ping:number = "battleInfo.ping" (event "timer.evInfrequent"))
+	)
+
+	(style
+		(position = "absolute")
+		(flow = "Flow.HORIZONTAL")
+		(paddingTop = 2)
+		(paddingLeft = 3)
+	)
+	
+	(tf	
+		(class $TextFpsValueStyle)
+		(bind text "fps")
+		(style
+			(bind minWidth "floor(fps/10) ? 18 : 12")
+		)
+	)
+	(tf	
+		(class $TextFpsMessageStyle)
+		(text = 'FPS   Ping:')
+	)
+	(tf	
+		(class $TextFpsValueStyle)
+		(style
+			(bind minWidth "floor(ping/100) ? 24 : 18")
+		)
+		(bind text "ping")
+	)
+	(tf	
+		(class $TextFpsMessageStyle)
+		(text = 'ms')
+	)
+)

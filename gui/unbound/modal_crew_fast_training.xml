@@ -810,7 +810,7 @@
 					<style>
 						<position value="absolute"/>
 						<right value="-50px"/>
-						<top value="9px"/>
+						<top value="11px"/>
 						<flow value="horizontal"/>
 					</style>
 					<bind name="name" value="'btn_cancel'"/>
@@ -1533,20 +1533,24 @@
 												_text: (_isNextPriceInARow ? (tr('IDS_AND') + ' ') : '') + format(priceInfo.finalPrice, -1) + (priceInfo.currency == 'money' ? ' ' + tr(priceInfo.currencyIds) : ''), 
 												_invert: _deficit &gt; 0, 
 												_normalClass:
-															_large		?	(priceInfo.currency == 'gold' ? '$TextPriceLargeGold' : priceInfo.currency == 'freexp' ? '$TextPriceLargeFreeExp' : '$TextPriceLarge')
-															: _medium 	? 	(priceInfo.currency == 'gold' ? '$TextPriceMediumGold' : priceInfo.currency == 'freexp' ? '$TextPriceMediumFreeExp' : '$TextPriceMedium')
+															_customClass	?	_customClass
+															: _large		?	(priceInfo.currency == 'gold' ? '$TextPriceLargeGold' : priceInfo.currency == 'freexp' ? '$TextPriceLargeFreeExp' : '$TextPriceLarge')
+															: _medium 		? 	(priceInfo.currency == 'gold' ? '$TextPriceMediumGold' : priceInfo.currency == 'freexp' ? '$TextPriceMediumFreeExp' : '$TextPriceMedium')
 															: _small		?	(priceInfo.currency == 'gold' ? '$TextPriceSmallGold' : priceInfo.currency == 'freexp' ? '$TextPriceSmallFreeExp' : '$TextPriceSmall')
 															: (priceInfo.currency == 'gold' ? '$TextPriceDefaultGold' : priceInfo.currency == 'freexp' ? '$TextPriceDefaultFreeExp' :'$TextPriceDefault'), 
 												_invertedClass:
-															_large		?	'$TextPriceLargeDeficit'
-															: _medium	?	'$TextPriceMediumDeficit'
-															: _small	?	'$TextPriceSmallDeficit'
+															_customClass	?	_customClass
+															:_large			?	'$TextPriceLargeDeficit'
+															: _medium		?	'$TextPriceMediumDeficit'
+															: _small		?	'$TextPriceSmallDeficit'
 															: '$TextPriceDefaultDeficit' }"/>
 		</block>
 		<block>
 			<bind name="visible" value="!_duplicateCurrency"/>
 			<styleClass value="$MiddleVAligned"/>
-			<bind name="instance" value="'Currency'; (priceInfo.currency != 'money') ? { _currency: priceInfo.currency, _large: _large, _medium: _medium } : null"/>
+			<bind name="instance" value="'Currency'; (priceInfo.currency == 'money')		? null : 
+									(priceInfo.currency == 'accPoints')	? null 
+																		: { _currency: priceInfo.currency, _large: _large, _medium: _medium }"/>
 		</block>
 		<block>
 			<bind name="visible" value="_duplicateCurrency == true"/>
@@ -1675,20 +1679,24 @@
 												_text: (_isNextPriceInARow ? (tr('IDS_AND') + ' ') : '') + format(priceInfo.finalPrice, -1) + (priceInfo.currency == 'money' ? ' ' + tr(priceInfo.currencyIds) : ''), 
 												_invert: _deficit &gt; 0, 
 												_normalClass:
-															_large		?	(priceInfo.currency == 'gold' ? '$TextPriceLargeGold' : priceInfo.currency == 'freexp' ? '$TextPriceLargeFreeExp' : '$TextPriceLarge')
-															: _medium 	? 	(priceInfo.currency == 'gold' ? '$TextPriceMediumGold' : priceInfo.currency == 'freexp' ? '$TextPriceMediumFreeExp' : '$TextPriceMedium')
+															_customClass	?	_customClass
+															: _large		?	(priceInfo.currency == 'gold' ? '$TextPriceLargeGold' : priceInfo.currency == 'freexp' ? '$TextPriceLargeFreeExp' : '$TextPriceLarge')
+															: _medium 		? 	(priceInfo.currency == 'gold' ? '$TextPriceMediumGold' : priceInfo.currency == 'freexp' ? '$TextPriceMediumFreeExp' : '$TextPriceMedium')
 															: _small		?	(priceInfo.currency == 'gold' ? '$TextPriceSmallGold' : priceInfo.currency == 'freexp' ? '$TextPriceSmallFreeExp' : '$TextPriceSmall')
 															: (priceInfo.currency == 'gold' ? '$TextPriceDefaultGold' : priceInfo.currency == 'freexp' ? '$TextPriceDefaultFreeExp' :'$TextPriceDefault'), 
 												_invertedClass:
-															_large		?	'$TextPriceLargeDeficit'
-															: _medium	?	'$TextPriceMediumDeficit'
-															: _small	?	'$TextPriceSmallDeficit'
+															_customClass	?	_customClass
+															:_large			?	'$TextPriceLargeDeficit'
+															: _medium		?	'$TextPriceMediumDeficit'
+															: _small		?	'$TextPriceSmallDeficit'
 															: '$TextPriceDefaultDeficit' }"/>
 			</block>
 			<block>
 				<bind name="visible" value="!_duplicateCurrency"/>
 				<styleClass value="$MiddleVAligned"/>
-				<bind name="instance" value="'Currency'; (priceInfo.currency != 'money') ? { _currency: priceInfo.currency, _large: _large, _medium: _medium } : null"/>
+				<bind name="instance" value="'Currency'; (priceInfo.currency == 'money')		? null : 
+									(priceInfo.currency == 'accPoints')	? null 
+																		: { _currency: priceInfo.currency, _large: _large, _medium: _medium }"/>
 			</block>
 			<block>
 				<bind name="visible" value="_duplicateCurrency == true"/>
@@ -1889,7 +1897,7 @@
 			</style>
 			<block type="text">
 				<styleClass value="$TextDefault"/>
-				<bind name="class" value="	_large ? '$FontSizeHeader3':
+				<bind name="class" value="	_large ? '$FontSizeHeader6':
 							_medium ? '$FontSizeLarge' :
 							_small ? '$FontSizeSmall' : '$None'"/>
 				<bind name="class" value="_techText ? '$FontColorBlueish' : '$None'"/>
@@ -2161,17 +2169,8 @@
 	<css name="$FontDropShadowFilter1">
 		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
 	</css>
-	<css name="$FontDropShadowFilterStrong">
-		<dropShadowFilter value="1 90 0x08222a 0.8 3 3 1.5"/>
-	</css>
 	<css name="$FontDropShadowWhite">
 		<dropShadowFilter value="0 90 0xffffff 1.0 3.0 3.0 0.3"/>
-	</css>
-	<css name="$BlockDropShadowFilter1">
-		<dropShadowFilter value="5 110 0x000000 0.6 6 6 0.6"/>
-	</css>
-	<css name="$BlockDropShadowFilter2">
-		<dropShadowFilter value="3 110 0x000000 0.6 6 6 0.6"/>
 	</css>
 	<block className="DefaultButton">
 		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
@@ -2274,6 +2273,24 @@
 					<flow value="horizontal"/>
 				</style>
 			</block>
+		</block>
+	</block>
+	<block className="ButtonCostSpecial">
+		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
+		<bind name="watchDH" value="'operationsAccountLocked';	['resourceEntity.accountResource.evOperationsLockChanged'];	resourceEntity.accountResource.operationsLocked"/>
+		<style>
+			<width value="130px"/>
+		</style>
+		<block className="button_default_always_hover" type="native">
+			<style>
+				<width value="100%"/>
+			</style>
+			<bind name="enabled" value="(_enabled &amp;&amp; !(operationsAccountLocked))"/>
+			<bind name="event" value="'buttonClick'; _method ? _method : null"/>
+			<bind name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
+			<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
+			<bind name="input"/>
+			<bind name="label" value="_label"/>
 		</block>
 	</block>
 	<block className="DefaultButtonCostSmall">
@@ -2567,6 +2584,23 @@
 			</style>
 			<bind name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 180"/>
 			<styleClass value="$WarningTextRed"/>
+			<bind name="style" value="'leading'; _leading ? _leading : -3"/>
+			<bind name="text" value="_instructionText"/>
+		</block>
+	</block>
+	<block className="InstructionIsOwned">
+		<style>
+			<flow value="horizontal"/>
+		</style>
+		<block className="icon_check" type="native"/>
+		<block type="text">
+			<styleClass value="$TextDefaultNM"/>
+			<bind name="class" value="'$FontColorGolden'"/>
+			<style>
+				<marginTop value="2px"/>
+				<marginLeft value="8px"/>
+			</style>
+			<bind name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 180"/>
 			<bind name="style" value="'leading'; _leading ? _leading : -3"/>
 			<bind name="text" value="_instructionText"/>
 		</block>
@@ -2934,7 +2968,7 @@
 				<top value="7"/>
 				<position value="absolute"/>
 			</style>
-			<bind name="dispatch" value="'buttonClick'; 'hideWrongMessageEv'"/>
+			<bind name="dispatch" value="'buttonClick'; 'hideWrongMessageEv'; {}"/>
 		</block>
 		<block>
 			<styleClass value="$MiddleAligned"/>
@@ -3074,6 +3108,21 @@
 		<bind name="class" value="_middleAligned ? '$MiddleAligned' : ''"/>
 		<block type="text">
 			<styleClass value="$TextHeaderBigDefault"/>
+			<bind name="class" value="_class"/>
+			<bind name="style" value="'leading'; _leading ? _leading : 0"/>
+			<bind name="style" value="'textAlign'; _textAlign ? _textAlign : 'left'"/>
+			<bind name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 300"/>
+			<bind name="text" value="(_toUpperCase ? toUpperCase(tr(_paragraphText)) : _paragraphText)"/>
+			<bind name="substitute" value="	_substitute.mapName ? _substitute.mapName : '';
+							_substitute.imageOffset ? _substitute.imageOffset : 0;
+							_substitute.map ? _substitute.map : {}"/>
+		</block>
+	</block>
+	<block className="RepeatParagraphItemNM">
+		<bind name="style" value="'marginBottom'; _marginBottom ? _marginBottom : '16px'"/>
+		<bind name="class" value="_middleAligned ? '$MiddleAligned' : ''"/>
+		<block type="text">
+			<styleClass value="$TextDefaultNM"/>
 			<bind name="class" value="_class"/>
 			<bind name="style" value="'leading'; _leading ? _leading : 0"/>
 			<bind name="style" value="'textAlign'; _textAlign ? _textAlign : 'left'"/>
@@ -4135,6 +4184,7 @@
 			<width value="100%"/>
 		</style>
 		<block>
+			<bind name="visible" value="(_isHideFlag != true)"/>
 			<style>
 				<position value="absolute"/>
 			</style>
@@ -4638,17 +4688,7 @@
 					<bind name="instance" value="'ShipInfoTabHeader'; { shipId: shipId }"/>
 				</block>
 				<block>
-					<bind name="visible" value="!isOwned"/>
-					<styleClass value="$MiddleAligned"/>
-					<style>
-						<marginTop value="-40px"/>
-						<marginBottom value="-20px"/>
-						<width value="214px"/>
-						<height value="126px"/>
-					</style>
-					<bind name="style" value="'backgroundImage'; 'url:' + shipInfo.pathPreview"/>
-				</block>
-				<block>
+					<bind name="visible" value="isOwned"/>
 					<bind name="style" value="'marginTop'; isOwned ? '-15px' : '0px'"/>
 					<style>
 						<width value="100%"/>
@@ -4658,47 +4698,8 @@
 						<bind name="watchDH" value="'accountGold';	['resourceEntity.accountResource.evChangedGold'];	resourceEntity.accountResource.gold"/>
 						<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'realmConstants'"/>
 						<styleClass value="$InfoBlockIndent"/>
-						<block>
-							<styleClass value="$MiddleAligned"/>
-							<bind name="instance" value="'PriceTagWithLabel'; isOwned ? null
-														: (!(upgradableShipInfo.isExplored) &amp;&amp; !(upgradableShipInfo.dependencyResearched)) || (!(upgradableShipInfo.isExplored) &amp;&amp; upgradableShipInfo.expDeficit &gt; 0)? { priceInfo: { finalPrice: upgradableShipInfo.totalCostXP, currency: 'exp' }, _label: 'IDS_RESEARCH_COST', _medium : true}
-														: upgradableShipInfo.isExplored &amp;&amp; upgradableShipInfo.creditsDeficit &gt; 0 &amp;&amp; !(shipInfo.isPremium) ? { priceInfo: shipBuyPrice.prices[0], _label: 'IDS_PURCHASE_COST', _medium : true}
-														: upgradableShipInfo.isExplored &amp;&amp; shipInfo.isPremium &amp;&amp; (accountGold - shipBuyPrice.prices[0].finalPrice &lt; 0) ? {priceInfo: shipBuyPrice.prices[0], _label: 'IDS_PURCHASE_COST', _medium : true }
-														: null"/>
-						</block>
-						<bind name="firstEntityDH" value="'loginEntity'; CC.loginData"/>
-						<bind name="watchDH" value="'isLazyLogin'; ['loginEntity.loginData.evUpdate']; (loginEntity.loginData.currentLoginType == 'DEMO')"/>
-						<block>
-							<style>
-								<width value="220px"/>
-							</style>
-							<styleClass value="$MiddleAligned"/>
-							<bind name="action" value="'click'; (isLazyLogin &amp;&amp; (shipInfo.level &gt; realmConstants.lazyAccountMaxShipTier)) ? 'forceCreateAccount' : null"/>
-							<bind name="instance" value="'DefaultButtonCostMedium'; isOwned ? null
-													: !(upgradableShipInfo.dependencyResearched || upgradableShipInfo.isExplored) ? null
-													: !(upgradableShipInfo.isExplored) &amp;&amp; (upgradableShipInfo.expDeficit &lt;= 0) &amp;&amp; ((shipInfo.group == 'upgradeable') || (shipInfo.group == 'upgradeableExclusive')) ? { _label: toUpperCase(tr('IDS_DO_RESEARCH')), priceInfo: (upgradableShipInfo.totalCostXP == shipExplorePrice.prices[0].finalPrice ? shipExplorePrice.prices[0] : { finalPrice: upgradableShipInfo.totalCostXP, currency: 'exp' }), _action: (isLazyLogin &amp;&amp; (shipInfo.level &gt; realmConstants.lazyAccountMaxShipTier)) ? null : 'researchShip', _actionParams: { shipId: shipInfo.id}, _enabled: ( upgradableShipInfo.dependencyResearched &amp;&amp; (upgradableShipInfo.expDeficit &lt;= 0)), _showDiscountTag:true, _name: 'ButtonShipResearch' }
-													: (upgradableShipInfo.isExplored) &amp;&amp; (upgradableShipInfo.creditsDeficit &lt;= 0) &amp;&amp; !(shipInfo.isPremium) ? { _label: toUpperCase(tr('IDS_DO_PURCHASE')), priceInfo: shipBuyPrice.prices[0], _action: (isLazyLogin &amp;&amp; (shipInfo.level &gt; realmConstants.lazyAccountMaxShipTier)) ? null : 'purchaseShip', _actionParams: { shipId: shipInfo.id}, _enabled: (upgradableShipInfo.creditsDeficit &lt;= 0), _showDiscountTag:true, _name: 'ButtonShipPurchase' }
-													: upgradableShipInfo.isExplored &amp;&amp; shipInfo.isPremium  &amp;&amp; (accountGold - shipBuyPrice.prices[0].finalPrice &gt;= 0) ? { _label: toUpperCase(tr('IDS_DO_PURCHASE')), priceInfo: shipBuyPrice.prices[0], _action: (isLazyLogin &amp;&amp; (shipInfo.level &gt; realmConstants.lazyAccountMaxShipTier)) ? null : 'purchaseShip', _actionParams: { shipId: shipInfo.id}, _enabled: ((accountGold - shipBuyPrice.prices[0].finalPrice) &gt;= 0), _showDiscountTag:true, _name: 'ButtonShipPurchase' }
-													: null "/>
-						</block>
-						<block>
-							<styleClass value="$MiddleAligned"/>
-							<bind name="instance" value="'StatusLineWithIcon'; upgradableShipInfo.dependencyResearched || upgradableShipInfo.isExplored 	? null
-																												: { _text: 'IDS_RESEARCH_PREVIOUS_SHIPS', _positive: false} "/>
-						</block>
-						<block>
-							<styleClass value="$MiddleAligned"/>
-							<bind name="instance" value="'PriceDeficit'; isOwned 	? null
-													: !(upgradableShipInfo.dependencyResearched) ? null
-													: !(upgradableShipInfo.isExplored) &amp;&amp; upgradableShipInfo.expDeficit &gt; 0 ? { priceInfo: { finalPrice: upgradableShipInfo.totalCostXP, currency: 'exp' }, _deficit: upgradableShipInfo.expDeficit,  _tooltipText: 'IDS_TOOLTIP_NO_XP'}
-													: upgradableShipInfo.isExplored &amp;&amp; upgradableShipInfo.creditsDeficit &gt; 0 &amp;&amp; !(shipInfo.isPremium) ? { priceInfo: shipBuyPrice.prices[0], _label: 'IDS_PURCHASE_COST', _deficit: upgradableShipInfo.creditsDeficit, _tooltipText: 'IDS_TOOLTIP_NO_CREDITS'}
-													: upgradableShipInfo.isExplored &amp;&amp; shipInfo.isPremium &amp;&amp; (accountGold - shipBuyPrice.prices[0].finalPrice)  &lt; 0 ? {priceInfo: shipBuyPrice.prices[0], _label: 'IDS_PURCHASE_COST', _deficit: -(accountGold - shipBuyPrice.prices[0].finalPrice), _tooltipText: 'IDS_TOOLTIP_NO_GOLD' }
-													: null"/>
-						</block>
-						<block>
-							<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_HINT_SHIP_EXPERIENCE_USAGE'}; 0"/>
-							<bind name="instance" value="'CurrentXPLarge'; isOwned ? { _exp: playerShipInfo.exp, _label: 'IDS_SHIP_EXPERIENCE'} : null "/>
-						</block>
+						<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_HINT_SHIP_EXPERIENCE_USAGE'}; 0"/>
+						<bind name="instance" value="'CurrentXPLarge'; isOwned ? { _exp: playerShipInfo.exp, _label: 'IDS_SHIP_EXPERIENCE'} : null "/>
 					</block>
 					<block className="HorizontalDivider">
 						<styleClass value="$PxHorizontalCorrection"/>
@@ -4801,47 +4802,8 @@
 		<bind name="watchDH" value="'accountGold';	['resourceEntity.accountResource.evChangedGold'];	resourceEntity.accountResource.gold"/>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'realmConstants'"/>
 		<styleClass value="$InfoBlockIndent"/>
-		<block>
-			<styleClass value="$MiddleAligned"/>
-			<bind name="instance" value="'PriceTagWithLabel'; isOwned ? null
-														: (!(upgradableShipInfo.isExplored) &amp;&amp; !(upgradableShipInfo.dependencyResearched)) || (!(upgradableShipInfo.isExplored) &amp;&amp; upgradableShipInfo.expDeficit &gt; 0)? { priceInfo: { finalPrice: upgradableShipInfo.totalCostXP, currency: 'exp' }, _label: 'IDS_RESEARCH_COST', _medium : true}
-														: upgradableShipInfo.isExplored &amp;&amp; upgradableShipInfo.creditsDeficit &gt; 0 &amp;&amp; !(shipInfo.isPremium) ? { priceInfo: shipBuyPrice.prices[0], _label: 'IDS_PURCHASE_COST', _medium : true}
-														: upgradableShipInfo.isExplored &amp;&amp; shipInfo.isPremium &amp;&amp; (accountGold - shipBuyPrice.prices[0].finalPrice &lt; 0) ? {priceInfo: shipBuyPrice.prices[0], _label: 'IDS_PURCHASE_COST', _medium : true }
-														: null"/>
-		</block>
-		<bind name="firstEntityDH" value="'loginEntity'; CC.loginData"/>
-		<bind name="watchDH" value="'isLazyLogin'; ['loginEntity.loginData.evUpdate']; (loginEntity.loginData.currentLoginType == 'DEMO')"/>
-		<block>
-			<style>
-				<width value="220px"/>
-			</style>
-			<styleClass value="$MiddleAligned"/>
-			<bind name="action" value="'click'; (isLazyLogin &amp;&amp; (shipInfo.level &gt; realmConstants.lazyAccountMaxShipTier)) ? 'forceCreateAccount' : null"/>
-			<bind name="instance" value="'DefaultButtonCostMedium'; isOwned ? null
-													: !(upgradableShipInfo.dependencyResearched || upgradableShipInfo.isExplored) ? null
-													: !(upgradableShipInfo.isExplored) &amp;&amp; (upgradableShipInfo.expDeficit &lt;= 0) &amp;&amp; ((shipInfo.group == 'upgradeable') || (shipInfo.group == 'upgradeableExclusive')) ? { _label: toUpperCase(tr('IDS_DO_RESEARCH')), priceInfo: (upgradableShipInfo.totalCostXP == shipExplorePrice.prices[0].finalPrice ? shipExplorePrice.prices[0] : { finalPrice: upgradableShipInfo.totalCostXP, currency: 'exp' }), _action: (isLazyLogin &amp;&amp; (shipInfo.level &gt; realmConstants.lazyAccountMaxShipTier)) ? null : 'researchShip', _actionParams: { shipId: shipInfo.id}, _enabled: ( upgradableShipInfo.dependencyResearched &amp;&amp; (upgradableShipInfo.expDeficit &lt;= 0)), _showDiscountTag:true, _name: 'ButtonShipResearch' }
-													: (upgradableShipInfo.isExplored) &amp;&amp; (upgradableShipInfo.creditsDeficit &lt;= 0) &amp;&amp; !(shipInfo.isPremium) ? { _label: toUpperCase(tr('IDS_DO_PURCHASE')), priceInfo: shipBuyPrice.prices[0], _action: (isLazyLogin &amp;&amp; (shipInfo.level &gt; realmConstants.lazyAccountMaxShipTier)) ? null : 'purchaseShip', _actionParams: { shipId: shipInfo.id}, _enabled: (upgradableShipInfo.creditsDeficit &lt;= 0), _showDiscountTag:true, _name: 'ButtonShipPurchase' }
-													: upgradableShipInfo.isExplored &amp;&amp; shipInfo.isPremium  &amp;&amp; (accountGold - shipBuyPrice.prices[0].finalPrice &gt;= 0) ? { _label: toUpperCase(tr('IDS_DO_PURCHASE')), priceInfo: shipBuyPrice.prices[0], _action: (isLazyLogin &amp;&amp; (shipInfo.level &gt; realmConstants.lazyAccountMaxShipTier)) ? null : 'purchaseShip', _actionParams: { shipId: shipInfo.id}, _enabled: ((accountGold - shipBuyPrice.prices[0].finalPrice) &gt;= 0), _showDiscountTag:true, _name: 'ButtonShipPurchase' }
-													: null "/>
-		</block>
-		<block>
-			<styleClass value="$MiddleAligned"/>
-			<bind name="instance" value="'StatusLineWithIcon'; upgradableShipInfo.dependencyResearched || upgradableShipInfo.isExplored 	? null
-																												: { _text: 'IDS_RESEARCH_PREVIOUS_SHIPS', _positive: false} "/>
-		</block>
-		<block>
-			<styleClass value="$MiddleAligned"/>
-			<bind name="instance" value="'PriceDeficit'; isOwned 	? null
-													: !(upgradableShipInfo.dependencyResearched) ? null
-													: !(upgradableShipInfo.isExplored) &amp;&amp; upgradableShipInfo.expDeficit &gt; 0 ? { priceInfo: { finalPrice: upgradableShipInfo.totalCostXP, currency: 'exp' }, _deficit: upgradableShipInfo.expDeficit,  _tooltipText: 'IDS_TOOLTIP_NO_XP'}
-													: upgradableShipInfo.isExplored &amp;&amp; upgradableShipInfo.creditsDeficit &gt; 0 &amp;&amp; !(shipInfo.isPremium) ? { priceInfo: shipBuyPrice.prices[0], _label: 'IDS_PURCHASE_COST', _deficit: upgradableShipInfo.creditsDeficit, _tooltipText: 'IDS_TOOLTIP_NO_CREDITS'}
-													: upgradableShipInfo.isExplored &amp;&amp; shipInfo.isPremium &amp;&amp; (accountGold - shipBuyPrice.prices[0].finalPrice)  &lt; 0 ? {priceInfo: shipBuyPrice.prices[0], _label: 'IDS_PURCHASE_COST', _deficit: -(accountGold - shipBuyPrice.prices[0].finalPrice), _tooltipText: 'IDS_TOOLTIP_NO_GOLD' }
-													: null"/>
-		</block>
-		<block>
-			<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_HINT_SHIP_EXPERIENCE_USAGE'}; 0"/>
-			<bind name="instance" value="'CurrentXPLarge'; isOwned ? { _exp: playerShipInfo.exp, _label: 'IDS_SHIP_EXPERIENCE'} : null "/>
-		</block>
+		<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_HINT_SHIP_EXPERIENCE_USAGE'}; 0"/>
+		<bind name="instance" value="'CurrentXPLarge'; isOwned ? { _exp: playerShipInfo.exp, _label: 'IDS_SHIP_EXPERIENCE'} : null "/>
 	</block>
 	<css name="$CrewPortraitSizeSmall">
 		<width value="82px"/>
@@ -10420,7 +10382,7 @@
 		<block>
 			<block className="icon_warning_orange" type="native">
 				<bind name="style" value="'top'; _small 	? '4'
-										: _large ? '7' : '6'"/>
+										: _large ? '7' : '4'"/>
 				<style>
 					<marginRight value="2px"/>
 				</style>
@@ -10679,23 +10641,25 @@
 		<block>
 			<bind name="visible" value="!_eventShips"/>
 			<style>
-				<right value="6px"/>
 				<position value="absolute"/>
-				<marginTop value="2px"/>
+				<right value="6px"/>
 			</style>
 			<block>
 				<bind name="visible" value="!!defaultButtonCostSmallData"/>
 				<bind name="name" value="'ButtonShipResearchOrPurchaseSmall'"/>
+				<bind name="tooltip" value="'ShipTooltipWithPrice'; { shipId: _shipId }; 0"/>
 				<style>
-					<right value="0px"/>
+					<position value="absolute"/>
+					<right value="-3px"/>
+					<marginTop value="-2px"/>
 				</style>
 				<bind name="action" value="'click'; (isLazyLogin &amp;&amp; (shipInfo.level &gt; realmConstants.lazyAccountMaxShipTier)) ? 'forceCreateAccount' : null"/>
-				<bind name="instance" value="'DefaultButtonCostSmall'; !!defaultButtonCostSmallData ? defaultButtonCostSmallData : null"/>
+				<bind name="instance" value="'ButtonCostSpecial'; !!defaultButtonCostSmallData ? defaultButtonCostSmallData : null"/>
 			</block>
 			<block>
 				<bind name="visible" value="!defaultButtonCostSmallData"/>
 				<style>
-					<marginTop value="-8px"/>
+					<marginTop value="-6px"/>
 				</style>
 				<block>
 					<bind name="visible" value="!!priceTagWithLabelData"/>
@@ -10857,6 +10821,9 @@
 				<marginBottom value="3px"/>
 			</style>
 			<block>
+				<style>
+					<width value="100%"/>
+				</style>
 				<bind name="instance" value="'PriceTagWithLabel'; 	_type[1] == 'research' ? { priceInfo: _priceInfo, _label: 'IDS_RESEARCH_COST', _techText:true, _showDiscountTag:true}
 													: _type[1] == 'purchase' ? { priceInfo:_priceInfo, _label: 'IDS_PURCHASE_COST', _techText:true, _showDiscountTag:true}
 													: null"/>
@@ -11972,6 +11939,68 @@
 					<flow value="horizontal"/>
 				</style>
 			</block>
+		</block>
+	</block>
+	<block className="TooltipHeaderWithIcon">
+		<style>
+			<width value="100%"/>
+			<flow value="horizontal"/>
+			<margin value="16px"/>
+		</style>
+		<block>
+			<bind name="visible" value="_iconPath"/>
+			<style>
+				<width value="80px"/>
+				<height value="80px"/>
+			</style>
+			<bind name="style" value="'backgroundImage'; _iconPath"/>
+		</block>
+		<block>
+			<style>
+				<width value="100%"/>
+				<marginLeft value="16px"/>
+			</style>
+			<block type="text">
+				<styleClass value="$TextDefaultBold17NM"/>
+				<bind name="class" value="_headerClass ? _headerClass : '$None'"/>
+				<style>
+					<width value="100%"/>
+					<leading value="-5"/>
+					<marginTop value="2px"/>
+				</style>
+				<bind name="text" value="_headerText"/>
+			</block>
+			<block type="text">
+				<bind name="visible" value="_subheaderText"/>
+				<styleClass value="$TextDefault17NM"/>
+				<bind name="class" value="_subheaderClass ? _subheaderClass : '$None'"/>
+				<style>
+					<width value="100%"/>
+					<leading value="-3"/>
+					<marginTop value="16px"/>
+				</style>
+				<bind name="text" value="_subheaderText"/>
+			</block>
+		</block>
+	</block>
+	<block className="TooltipContentTextBlock">
+		<style>
+			<width value="100%"/>
+		</style>
+		<block className="inner_panel" type="native">
+			<bind name="visible" value="_withBackground == true"/>
+			<styleClass value="$FullsizeAbsolute"/>
+			<styleClass value="$PxHorizontalCorrection"/>
+			<style>
+				<marginTop value="1px"/>
+			</style>
+		</block>
+		<block>
+			<style>
+				<width value="100%"/>
+				<margin value="16px"/>
+			</style>
+			<bind name="repeat" value="_multiParagraphArray; 'RepeatParagraphItemNM'; {_maxWidth: _maxWidth, _marginBottom: _marginBottom, _leading: (_leading ? _leading : -3)}"/>
 		</block>
 	</block>
 	<block className="CrewSuperAbilitySlot">
@@ -13516,6 +13545,7 @@
 																											clanResource: 'RewardResources',
 																											barCapacity: 'RewardResourceBarCapacity',
 																											premium: 'RewardResourcePremium',
+																											wows_premium: 'RewardResourceWOWSPremium',
 																											slots: 'RewardResourceSlot',
 																											expCoeff: 'RewardResourcesCoeff',
 																											freexpCoeff: 'RewardResourcesCoeff',
@@ -13767,7 +13797,6 @@
 		</style>
 		<bind name="style" value="'backgroundImage'; ('url:../reward_icons/icon_reward_' + _rewardItem.subtype + '.png')"/>
 		<bind name="watch" value="'currency'; 	(_rewardItem.subtype == 'crewPoints')	?	'exp' :
-		 						(_rewardItem.subtype == 'accPoints')	?	'exp' :
 		 						(_rewardItem.subtype == 'clanResource')	?	'clan_resource' :
 		 																	_rewardItem.subtype"/>
 		<block>
@@ -13850,6 +13879,24 @@
 		</block>
 	</block>
 	<block className="RewardResourcePremium">
+		<style>
+			<width value="80px"/>
+			<height value="80px"/>
+		</style>
+		<bind name="style" value="'backgroundImage'; ('url:../reward_icons/icon_reward_' + _rewardItem.subtype + '.png')"/>
+		<block>
+			<styleClass value="$MiddleAlignedAbsolutely"/>
+			<style>
+				<bottom value="-6"/>
+			</style>
+			<block type="text">
+				<styleClass value="$TextHeaderBold"/>
+				<bind name="class" value="'$FontColorGold'"/>
+				<bind name="text" value="_rewardItem.params.text"/>
+			</block>
+		</block>
+	</block>
+	<block className="RewardResourceWOWSPremium">
 		<style>
 			<width value="80px"/>
 			<height value="80px"/>
@@ -15727,7 +15774,8 @@
 						<width value="30px"/>
 					</style>
 					<styleClass value="$TextSecondary"/>
-					<bind name="text" value="format(value, -1)"/>
+					<bind name="style" value="'fontSize'; maxValue &gt; 999 ? 11 : 13"/>
+					<bind name="text" value="value"/>
 				</block>
 			</block>
 			<block>

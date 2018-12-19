@@ -499,17 +499,8 @@
 	<css name="$FontDropShadowFilter1">
 		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
 	</css>
-	<css name="$FontDropShadowFilterStrong">
-		<dropShadowFilter value="1 90 0x08222a 0.8 3 3 1.5"/>
-	</css>
 	<css name="$FontDropShadowWhite">
 		<dropShadowFilter value="0 90 0xffffff 1.0 3.0 3.0 0.3"/>
-	</css>
-	<css name="$BlockDropShadowFilter1">
-		<dropShadowFilter value="5 110 0x000000 0.6 6 6 0.6"/>
-	</css>
-	<css name="$BlockDropShadowFilter2">
-		<dropShadowFilter value="3 110 0x000000 0.6 6 6 0.6"/>
 	</css>
 	<css name="$Fullsize">
 		<width value="100%"/>
@@ -913,6 +904,23 @@
 			<bind name="text" value="_instructionText"/>
 		</block>
 	</block>
+	<block className="InstructionIsOwned">
+		<style>
+			<flow value="horizontal"/>
+		</style>
+		<block className="icon_check" type="native"/>
+		<block type="text">
+			<styleClass value="$TextDefaultNM"/>
+			<bind name="class" value="'$FontColorGolden'"/>
+			<style>
+				<marginTop value="2px"/>
+				<marginLeft value="8px"/>
+			</style>
+			<bind name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 180"/>
+			<bind name="style" value="'leading'; _leading ? _leading : -3"/>
+			<bind name="text" value="_instructionText"/>
+		</block>
+	</block>
 	<block className="MouseInstruction">
 		<style>
 			<flow value="horizontal"/>
@@ -1276,7 +1284,7 @@
 				<top value="7"/>
 				<position value="absolute"/>
 			</style>
-			<bind name="dispatch" value="'buttonClick'; 'hideWrongMessageEv'"/>
+			<bind name="dispatch" value="'buttonClick'; 'hideWrongMessageEv'; {}"/>
 		</block>
 		<block>
 			<styleClass value="$MiddleAligned"/>
@@ -1416,6 +1424,21 @@
 		<bind name="class" value="_middleAligned ? '$MiddleAligned' : ''"/>
 		<block type="text">
 			<styleClass value="$TextHeaderBigDefault"/>
+			<bind name="class" value="_class"/>
+			<bind name="style" value="'leading'; _leading ? _leading : 0"/>
+			<bind name="style" value="'textAlign'; _textAlign ? _textAlign : 'left'"/>
+			<bind name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 300"/>
+			<bind name="text" value="(_toUpperCase ? toUpperCase(tr(_paragraphText)) : _paragraphText)"/>
+			<bind name="substitute" value="	_substitute.mapName ? _substitute.mapName : '';
+							_substitute.imageOffset ? _substitute.imageOffset : 0;
+							_substitute.map ? _substitute.map : {}"/>
+		</block>
+	</block>
+	<block className="RepeatParagraphItemNM">
+		<bind name="style" value="'marginBottom'; _marginBottom ? _marginBottom : '16px'"/>
+		<bind name="class" value="_middleAligned ? '$MiddleAligned' : ''"/>
+		<block type="text">
+			<styleClass value="$TextDefaultNM"/>
 			<bind name="class" value="_class"/>
 			<bind name="style" value="'leading'; _leading ? _leading : 0"/>
 			<bind name="style" value="'textAlign'; _textAlign ? _textAlign : 'left'"/>
@@ -2624,6 +2647,68 @@
 			</block>
 		</block>
 	</block>
+	<block className="TooltipHeaderWithIcon">
+		<style>
+			<width value="100%"/>
+			<flow value="horizontal"/>
+			<margin value="16px"/>
+		</style>
+		<block>
+			<bind name="visible" value="_iconPath"/>
+			<style>
+				<width value="80px"/>
+				<height value="80px"/>
+			</style>
+			<bind name="style" value="'backgroundImage'; _iconPath"/>
+		</block>
+		<block>
+			<style>
+				<width value="100%"/>
+				<marginLeft value="16px"/>
+			</style>
+			<block type="text">
+				<styleClass value="$TextDefaultBold17NM"/>
+				<bind name="class" value="_headerClass ? _headerClass : '$None'"/>
+				<style>
+					<width value="100%"/>
+					<leading value="-5"/>
+					<marginTop value="2px"/>
+				</style>
+				<bind name="text" value="_headerText"/>
+			</block>
+			<block type="text">
+				<bind name="visible" value="_subheaderText"/>
+				<styleClass value="$TextDefault17NM"/>
+				<bind name="class" value="_subheaderClass ? _subheaderClass : '$None'"/>
+				<style>
+					<width value="100%"/>
+					<leading value="-3"/>
+					<marginTop value="16px"/>
+				</style>
+				<bind name="text" value="_subheaderText"/>
+			</block>
+		</block>
+	</block>
+	<block className="TooltipContentTextBlock">
+		<style>
+			<width value="100%"/>
+		</style>
+		<block className="inner_panel" type="native">
+			<bind name="visible" value="_withBackground == true"/>
+			<styleClass value="$FullsizeAbsolute"/>
+			<styleClass value="$PxHorizontalCorrection"/>
+			<style>
+				<marginTop value="1px"/>
+			</style>
+		</block>
+		<block>
+			<style>
+				<width value="100%"/>
+				<margin value="16px"/>
+			</style>
+			<bind name="repeat" value="_multiParagraphArray; 'RepeatParagraphItemNM'; {_maxWidth: _maxWidth, _marginBottom: _marginBottom, _leading: (_leading ? _leading : -3)}"/>
+		</block>
+	</block>
 	<css name="$ConfirmationWindowWidth">
 		<width value="472px"/>
 	</css>
@@ -2810,7 +2895,7 @@
 					<style>
 						<position value="absolute"/>
 						<right value="-50px"/>
-						<top value="9px"/>
+						<top value="11px"/>
 						<flow value="horizontal"/>
 					</style>
 					<bind name="name" value="'btn_cancel'"/>
@@ -4790,6 +4875,24 @@
 			</block>
 		</block>
 	</block>
+	<block className="ButtonCostSpecial">
+		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
+		<bind name="watchDH" value="'operationsAccountLocked';	['resourceEntity.accountResource.evOperationsLockChanged'];	resourceEntity.accountResource.operationsLocked"/>
+		<style>
+			<width value="130px"/>
+		</style>
+		<block className="button_default_always_hover" type="native">
+			<style>
+				<width value="100%"/>
+			</style>
+			<bind name="enabled" value="(_enabled &amp;&amp; !(operationsAccountLocked))"/>
+			<bind name="event" value="'buttonClick'; _method ? _method : null"/>
+			<bind name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
+			<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
+			<bind name="input"/>
+			<bind name="label" value="_label"/>
+		</block>
+	</block>
 	<block className="DefaultButtonCostSmall">
 		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
 		<bind name="watchDH" value="'operationsAccountLocked';	['resourceEntity.accountResource.evOperationsLockChanged'];	resourceEntity.accountResource.operationsLocked"/>
@@ -6029,16 +6132,19 @@
 						_isNaval: !!navalFlag,
 						_navalFlagName: $value }; 
 					TooltipBehaviour.infotip; null; 'isFlagInfotipVisible'"/>
-		<bind name="tooltip" value="'FlagTooltip'; 
+		<bind name="popup" value="'FlagTooltipUB2'; 
 					{	_installed: installed || (currentNavalFlag == $value),
-						 id: id,
-						 name: flagName,
-						 shipId: shipId,
-						 canUse: canUse,
-						 isRankSeasonTemp: isRankSeasonTemp,
-						 isLeague: isLeague,
-						 _iconPath: (navalFlag ? navalFlag.iconPath : exteriorConfig.iconPath),
-						 _isNaval: !!navalFlag }"/>
+						_id: navalFlag ? 0 : id,
+						_name: flagName,
+						_shipId: shipId,
+						_canUse: navalFlag ? false : canUse,
+						_isRankSeasonTemp: navalFlag ? false : isRankSeasonTemp,
+						_isLeague: navalFlag ? false :isLeague,
+						_iconPath: (navalFlag ? navalFlag.iconPath : exteriorConfig.iconPath),
+						_isNaval: !!navalFlag };
+
+					1;{type:'lesta.unbound.bindings.popup.MousePopupSpacingComponent',params:{mouseOffsetTop:5,mouseOffsetBottom:10,mouseOffsetLeft:5,mouseOffsetRight:10,screenOffsetBottom:10,screenOffsetTop:10}};{reason:{mouseOver:{action:'show',params:{duration:0.1,startProps:{alpha:0,x:0,y:5},finishProps:{alpha:1,x:0,y:0},delay:0.5}},mouseOut:{action:'hide',params:{duration:0.05,startProps:{alpha:1,x:0,y:0},finishProps:{alpha:0,x:0,y:-5}}},removedFromStage:{action:'hide',params:{duration:0.05,startProps:{alpha:1,x:0,y:0},finishProps:{alpha:0,x:0,y:-5}}},popup_opened:{action:'hideByPriority',params:{duration:0.05,startProps:{alpha:1,x:0,y:0},finishProps:{alpha:0,x:0,y:-5}}}},reasonScope:{onLostTop:{action:'hide',params:{duration:0.1,startProps:{alpha:1,x:0,y:0},finishProps:{alpha:0,x:0,y:-5}}}}}
+					"/>
 		<bind name="soundOn" value="'click'; 'press'; 'exterior_item'"/>
 		<block>
 			<style>
@@ -6705,17 +6811,42 @@
 					</block>
 				</block>
 			</block>
+			<block type="text">
+				<style>
+					<width value="100%"/>
+					<alpha value="0.9"/>
+					<marginLeft value="12px"/>
+					<marginRight value="12px"/>
+					<marginTop value="15px"/>
+					<marginBottom value="11px"/>
+					<leading value="-3"/>
+				</style>
+				<styleClass value="$TextDefaultNM"/>
+				<bind name="text" value="'IDS_' + toUpperCase(exteriorConfig.name) + '_DESCRIPTION'"/>
+			</block>
+			<block>
+				<style>
+					<width value="100%"/>
+				</style>
+				<block className="HorizontalDivider">
+					<styleClass value="$PxHorizontalCorrection"/>
+					<style>
+						<width value="100%"/>
+						<height value="3px"/>
+					</style>
+					<block className="divider_h" type="native">
+						<styleClass value="$Fullsize"/>
+					</block>
+				</block>
+			</block>
 			<block>
 				<bind name="visible" value="((attributes.positive.length + attributes.negative.length + attributes.neutral.length) &gt; 0)"/>
 				<style>
 					<width value="100%"/>
 				</style>
 				<block className="inner_panel" type="native">
-					<styleClass value="$Fullsize"/>
+					<styleClass value="$FullsizeAbsolute"/>
 					<styleClass value="$PxHorizontalCorrection"/>
-					<style>
-						<position value="absolute"/>
-					</style>
 				</block>
 				<block>
 					<style>
@@ -7245,6 +7376,34 @@
 					</block>
 				</block>
 			</block>
+			<block type="text">
+				<style>
+					<width value="100%"/>
+					<alpha value="0.9"/>
+					<marginLeft value="12px"/>
+					<marginRight value="12px"/>
+					<marginTop value="15px"/>
+					<marginBottom value="11px"/>
+					<leading value="-2"/>
+				</style>
+				<styleClass value="$TextDefaultNM"/>
+				<bind name="text" value="'IDS_' + toUpperCase(exteriorConfig.name) + '_DESCRIPTION'"/>
+			</block>
+			<block>
+				<style>
+					<width value="100%"/>
+				</style>
+				<block className="HorizontalDivider">
+					<styleClass value="$PxHorizontalCorrection"/>
+					<style>
+						<width value="100%"/>
+						<height value="3px"/>
+					</style>
+					<block className="divider_h" type="native">
+						<styleClass value="$Fullsize"/>
+					</block>
+				</block>
+			</block>
 			<block>
 				<bind name="visible" value="((attributes.positive.length + attributes.negative.length + attributes.neutral.length) &gt; 0)"/>
 				<style>
@@ -7389,7 +7548,6 @@
 			</block>
 			<block>
 				<style>
-					<marginTop value="3px"/>
 					<marginLeft value="3px"/>
 				</style>
 				<block type="text">
@@ -7398,17 +7556,20 @@
 					<bind name="style" value="'maxWidth'; (exteriorConfig.type == ExteriorTypes.FLAGS) ? '208' : '190'"/>
 					<style>
 						<marginBottom value="5px"/>
+						<leading value="-3"/>
 					</style>
 					<bind name="text" value="_isPermoflage 	? subst('IDS_EXTERIOR_NAME_WITH_SHIP', [], {exteriorName: tr('IDS_' + toUpperCase(exteriorConfig.name)), shipName: tr(shipInfo.nameIDS + '_FULL')})
 											: tr('IDS_' + toUpperCase(exteriorConfig.name))})"/>
 				</block>
+				<bind name="watch" value="'exteriorTypeIDS'; exteriorConfig.isPermanent	? 'IDS_EXTARIOR_CAT_NAME_PERMOFLAGE'
+																		: toUpperCase('IDS_EXTARIOR_CAT_NAME_' + exteriorConfig.type)"/>
 				<block type="text">
 					<bind name="style" value="'maxWidth'; (exteriorConfig.type == ExteriorTypes.FLAGS) ? '202' : '190'"/>
 					<style>
-						<marginTop value="-9px"/>
+						<marginTop value="-7px"/>
 					</style>
 					<styleClass value="$TextDefault"/>
-					<bind name="text" value="'IDS_' + toUpperCase(exteriorConfig.name) + '_DESCRIPTION'"/>
+					<bind name="text" value="exteriorTypeIDS"/>
 				</block>
 			</block>
 			<style>
@@ -8549,6 +8710,62 @@
 				<styleClass value="$InfoBlockIndent"/>
 				<bind name="instance" value="'MouseInstruction'; {_type: 'left', _instructionText: 'IDS_INSTRUCTION_INSTALL_ENSIGN', _maxWidth: 270}"/>
 			</block>
+		</block>
+	</block>
+	<block className="FlagTooltipUB2">
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<styleClass value="$DefaultTooltipBehaviour"/>
+		<block className="DeclareBlurLayer">
+			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<bind name="visible" value="optionData.blurEnabled"/>
+			<block className="transparentPixel" type="native">
+				<bind name="blurLayer" value="0"/>
+			</block>
+			<style>
+				<position value="absolute"/>
+			</style>
+		</block>
+		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
+			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<style>
+				<hitTest value="false"/>
+			</style>
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
+				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
+				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
+				<styleClass value="$FullsizeAbsolute"/>
+				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
+			</block>
+		</block>
+		<bind name="mouseEnabled" value="false"/>
+		<bind name="mouseChildren" value="false"/>
+		<style>
+			<hitTest value="false"/>
+		</style>
+		<block className="FlagTooltipUB2" type="ublock">
+			<params>
+				<param name="name" value="flag_tooltip_ub2"/>
+			</params>
+			<bind name="build!" value="$ubPlayerProxy"/>
+			<bind name="externalArgs" value="{
+						_installed: _installed,
+						_id: _id,
+						_name: _name,
+						_shipId: _shipId,
+						_canUse: _canUse,
+						_isRankSeasonTemp: _isRankSeasonTemp,
+						_isLeague: _isLeague,
+						_iconPath: _iconPath,
+						_isNaval: _isNaval,
+						_optionData: optionData}"/>
 		</block>
 	</block>
 	<block className="FlagTooltipHeader">
@@ -10035,6 +10252,7 @@
 																											clanResource: 'RewardResources',
 																											barCapacity: 'RewardResourceBarCapacity',
 																											premium: 'RewardResourcePremium',
+																											wows_premium: 'RewardResourceWOWSPremium',
 																											slots: 'RewardResourceSlot',
 																											expCoeff: 'RewardResourcesCoeff',
 																											freexpCoeff: 'RewardResourcesCoeff',
@@ -10286,7 +10504,6 @@
 		</style>
 		<bind name="style" value="'backgroundImage'; ('url:../reward_icons/icon_reward_' + _rewardItem.subtype + '.png')"/>
 		<bind name="watch" value="'currency'; 	(_rewardItem.subtype == 'crewPoints')	?	'exp' :
-		 						(_rewardItem.subtype == 'accPoints')	?	'exp' :
 		 						(_rewardItem.subtype == 'clanResource')	?	'clan_resource' :
 		 																	_rewardItem.subtype"/>
 		<block>
@@ -10369,6 +10586,24 @@
 		</block>
 	</block>
 	<block className="RewardResourcePremium">
+		<style>
+			<width value="80px"/>
+			<height value="80px"/>
+		</style>
+		<bind name="style" value="'backgroundImage'; ('url:../reward_icons/icon_reward_' + _rewardItem.subtype + '.png')"/>
+		<block>
+			<styleClass value="$MiddleAlignedAbsolutely"/>
+			<style>
+				<bottom value="-6"/>
+			</style>
+			<block type="text">
+				<styleClass value="$TextHeaderBold"/>
+				<bind name="class" value="'$FontColorGold'"/>
+				<bind name="text" value="_rewardItem.params.text"/>
+			</block>
+		</block>
+	</block>
+	<block className="RewardResourceWOWSPremium">
 		<style>
 			<width value="80px"/>
 			<height value="80px"/>
@@ -12307,7 +12542,8 @@
 						<width value="30px"/>
 					</style>
 					<styleClass value="$TextSecondary"/>
-					<bind name="text" value="format(value, -1)"/>
+					<bind name="style" value="'fontSize'; maxValue &gt; 999 ? 11 : 13"/>
+					<bind name="text" value="value"/>
 				</block>
 			</block>
 			<block>
@@ -12812,20 +13048,24 @@
 												_text: (_isNextPriceInARow ? (tr('IDS_AND') + ' ') : '') + format(priceInfo.finalPrice, -1) + (priceInfo.currency == 'money' ? ' ' + tr(priceInfo.currencyIds) : ''), 
 												_invert: _deficit &gt; 0, 
 												_normalClass:
-															_large		?	(priceInfo.currency == 'gold' ? '$TextPriceLargeGold' : priceInfo.currency == 'freexp' ? '$TextPriceLargeFreeExp' : '$TextPriceLarge')
-															: _medium 	? 	(priceInfo.currency == 'gold' ? '$TextPriceMediumGold' : priceInfo.currency == 'freexp' ? '$TextPriceMediumFreeExp' : '$TextPriceMedium')
+															_customClass	?	_customClass
+															: _large		?	(priceInfo.currency == 'gold' ? '$TextPriceLargeGold' : priceInfo.currency == 'freexp' ? '$TextPriceLargeFreeExp' : '$TextPriceLarge')
+															: _medium 		? 	(priceInfo.currency == 'gold' ? '$TextPriceMediumGold' : priceInfo.currency == 'freexp' ? '$TextPriceMediumFreeExp' : '$TextPriceMedium')
 															: _small		?	(priceInfo.currency == 'gold' ? '$TextPriceSmallGold' : priceInfo.currency == 'freexp' ? '$TextPriceSmallFreeExp' : '$TextPriceSmall')
 															: (priceInfo.currency == 'gold' ? '$TextPriceDefaultGold' : priceInfo.currency == 'freexp' ? '$TextPriceDefaultFreeExp' :'$TextPriceDefault'), 
 												_invertedClass:
-															_large		?	'$TextPriceLargeDeficit'
-															: _medium	?	'$TextPriceMediumDeficit'
-															: _small	?	'$TextPriceSmallDeficit'
+															_customClass	?	_customClass
+															:_large			?	'$TextPriceLargeDeficit'
+															: _medium		?	'$TextPriceMediumDeficit'
+															: _small		?	'$TextPriceSmallDeficit'
 															: '$TextPriceDefaultDeficit' }"/>
 		</block>
 		<block>
 			<bind name="visible" value="!_duplicateCurrency"/>
 			<styleClass value="$MiddleVAligned"/>
-			<bind name="instance" value="'Currency'; (priceInfo.currency != 'money') ? { _currency: priceInfo.currency, _large: _large, _medium: _medium } : null"/>
+			<bind name="instance" value="'Currency'; (priceInfo.currency == 'money')		? null : 
+									(priceInfo.currency == 'accPoints')	? null 
+																		: { _currency: priceInfo.currency, _large: _large, _medium: _medium }"/>
 		</block>
 		<block>
 			<bind name="visible" value="_duplicateCurrency == true"/>
@@ -12954,20 +13194,24 @@
 												_text: (_isNextPriceInARow ? (tr('IDS_AND') + ' ') : '') + format(priceInfo.finalPrice, -1) + (priceInfo.currency == 'money' ? ' ' + tr(priceInfo.currencyIds) : ''), 
 												_invert: _deficit &gt; 0, 
 												_normalClass:
-															_large		?	(priceInfo.currency == 'gold' ? '$TextPriceLargeGold' : priceInfo.currency == 'freexp' ? '$TextPriceLargeFreeExp' : '$TextPriceLarge')
-															: _medium 	? 	(priceInfo.currency == 'gold' ? '$TextPriceMediumGold' : priceInfo.currency == 'freexp' ? '$TextPriceMediumFreeExp' : '$TextPriceMedium')
+															_customClass	?	_customClass
+															: _large		?	(priceInfo.currency == 'gold' ? '$TextPriceLargeGold' : priceInfo.currency == 'freexp' ? '$TextPriceLargeFreeExp' : '$TextPriceLarge')
+															: _medium 		? 	(priceInfo.currency == 'gold' ? '$TextPriceMediumGold' : priceInfo.currency == 'freexp' ? '$TextPriceMediumFreeExp' : '$TextPriceMedium')
 															: _small		?	(priceInfo.currency == 'gold' ? '$TextPriceSmallGold' : priceInfo.currency == 'freexp' ? '$TextPriceSmallFreeExp' : '$TextPriceSmall')
 															: (priceInfo.currency == 'gold' ? '$TextPriceDefaultGold' : priceInfo.currency == 'freexp' ? '$TextPriceDefaultFreeExp' :'$TextPriceDefault'), 
 												_invertedClass:
-															_large		?	'$TextPriceLargeDeficit'
-															: _medium	?	'$TextPriceMediumDeficit'
-															: _small	?	'$TextPriceSmallDeficit'
+															_customClass	?	_customClass
+															:_large			?	'$TextPriceLargeDeficit'
+															: _medium		?	'$TextPriceMediumDeficit'
+															: _small		?	'$TextPriceSmallDeficit'
 															: '$TextPriceDefaultDeficit' }"/>
 			</block>
 			<block>
 				<bind name="visible" value="!_duplicateCurrency"/>
 				<styleClass value="$MiddleVAligned"/>
-				<bind name="instance" value="'Currency'; (priceInfo.currency != 'money') ? { _currency: priceInfo.currency, _large: _large, _medium: _medium } : null"/>
+				<bind name="instance" value="'Currency'; (priceInfo.currency == 'money')		? null : 
+									(priceInfo.currency == 'accPoints')	? null 
+																		: { _currency: priceInfo.currency, _large: _large, _medium: _medium }"/>
 			</block>
 			<block>
 				<bind name="visible" value="_duplicateCurrency == true"/>
@@ -13168,7 +13412,7 @@
 			</style>
 			<block type="text">
 				<styleClass value="$TextDefault"/>
-				<bind name="class" value="	_large ? '$FontSizeHeader3':
+				<bind name="class" value="	_large ? '$FontSizeHeader6':
 							_medium ? '$FontSizeLarge' :
 							_small ? '$FontSizeSmall' : '$None'"/>
 				<bind name="class" value="_techText ? '$FontColorBlueish' : '$None'"/>
@@ -16871,7 +17115,7 @@
 		<block>
 			<block className="icon_warning_orange" type="native">
 				<bind name="style" value="'top'; _small 	? '4'
-										: _large ? '7' : '6'"/>
+										: _large ? '7' : '4'"/>
 				<style>
 					<marginRight value="2px"/>
 				</style>
@@ -17130,23 +17374,25 @@
 		<block>
 			<bind name="visible" value="!_eventShips"/>
 			<style>
-				<right value="6px"/>
 				<position value="absolute"/>
-				<marginTop value="2px"/>
+				<right value="6px"/>
 			</style>
 			<block>
 				<bind name="visible" value="!!defaultButtonCostSmallData"/>
 				<bind name="name" value="'ButtonShipResearchOrPurchaseSmall'"/>
+				<bind name="tooltip" value="'ShipTooltipWithPrice'; { shipId: _shipId }; 0"/>
 				<style>
-					<right value="0px"/>
+					<position value="absolute"/>
+					<right value="-3px"/>
+					<marginTop value="-2px"/>
 				</style>
 				<bind name="action" value="'click'; (isLazyLogin &amp;&amp; (shipInfo.level &gt; realmConstants.lazyAccountMaxShipTier)) ? 'forceCreateAccount' : null"/>
-				<bind name="instance" value="'DefaultButtonCostSmall'; !!defaultButtonCostSmallData ? defaultButtonCostSmallData : null"/>
+				<bind name="instance" value="'ButtonCostSpecial'; !!defaultButtonCostSmallData ? defaultButtonCostSmallData : null"/>
 			</block>
 			<block>
 				<bind name="visible" value="!defaultButtonCostSmallData"/>
 				<style>
-					<marginTop value="-8px"/>
+					<marginTop value="-6px"/>
 				</style>
 				<block>
 					<bind name="visible" value="!!priceTagWithLabelData"/>
@@ -17308,6 +17554,9 @@
 				<marginBottom value="3px"/>
 			</style>
 			<block>
+				<style>
+					<width value="100%"/>
+				</style>
 				<bind name="instance" value="'PriceTagWithLabel'; 	_type[1] == 'research' ? { priceInfo: _priceInfo, _label: 'IDS_RESEARCH_COST', _techText:true, _showDiscountTag:true}
 													: _type[1] == 'purchase' ? { priceInfo:_priceInfo, _label: 'IDS_PURCHASE_COST', _techText:true, _showDiscountTag:true}
 													: null"/>

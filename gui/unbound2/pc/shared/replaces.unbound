@@ -18,7 +18,7 @@
 (def macro trace(expr:expression)
 	(block
 		(style 
-			(backgroundColor = "0x50000000")
+			(backgroundColor = "0xFF000000")
 		)
 		(tf
 			(class $TextDefault)
@@ -117,4 +117,11 @@
     (scope
         (var upgradableShipInfo:gfx = "entity.upgradableShipInfo" (event "entity.upgradableShipInfo.evUpdate"))
     )
+)
+
+(def macro PULL_EXTERIOR (exteriorId:expression)
+	(scope
+		(var exteriorEntity:gfx = "$datahub.getPrimaryEntity(CC.exteriorConfig, exteriorId)")
+		(var exteriorConfig:gfx = "exteriorEntity.exteriorConfig")
+	)
 )

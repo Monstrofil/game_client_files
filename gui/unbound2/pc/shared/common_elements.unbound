@@ -1,3 +1,213 @@
+#(def element DropdownInfotip()
+#    (macro HIDE_UI_ON_SHIPOVERVIEW )
+#    (style 
+#        (width = "1px")
+#    )
+#    #(bind style "'width';  _width  ?  _width  :  '100px'")
+#    (block 
+#        (class $Fullsize)
+#        (style 
+#            (position = "absolute")
+#        )
+#        (element DeclareBlurLayer)
+#        (element BlurMap)
+#    )
+#    (mc dock_panel
+#        (class $Fullsize)
+#        (style 
+#            (position = "absolute")
+#            (marginTop = "-9px")
+#            (marginRight = "-14px")
+#            (marginBottom = "-19px")
+#            (marginLeft = "-14px")
+#        )
+#    )
+#    (block 
+#        (style 
+#            (width = "100%")
+#        )
+#        (controller $Instance renderer=_dropdownContentElement
+#        	(args _menuScope =  _menuScope)
+#        )
+#    )
+#)
+#(def element InstructionParagraph()
+#    (style 
+#        (width = "100%")
+#    )
+#    (tf 
+#        (class $TextDefault)
+#        (style 
+#            (width = "100%")
+#            (alpha = "0.9")
+#        )
+#        #(bind style "'maxWidth';  _maxWidth  ?  _maxWidth  :  220")
+#        (bind text "_text")
+#    )
+#)
+#(def element InstructionMultiParagraph()
+#    (style 
+#        (flow = "horizontal")
+#        (width = "100%")
+#    )
+#    (mc icon_instruction
+#        #(bind gotoAndStop! "_type")
+#    )
+#    (block 
+#        (style 
+#            (width = "100%")
+#            (marginTop = "-3px")
+#        )
+#        #(bind repeat "_instructionArray;  'InstructionParagraph'")
+#    )
+#)
+
+(def element InstructionWarning() layout=true
+    (scope
+        (var _instructionText:str = '')
+        (var _maxWidth:number = 0)
+        (var _leading:number = 0)
+    )
+    (style 
+        (flow = "Flow.HORIZONTAL")
+    )
+    (mc icon_warning_orange)
+    (tf 
+        (style 
+            (marginTop = -5px)
+            (marginLeft = "XS")
+            (bind maxWidth "_maxWidth  ?  _maxWidth  :  180")
+            (bind leading "_leading")
+        )
+        (class $WarningTextOrange)
+        (bind text "_instructionText")
+    )
+)
+
+(def element MouseInstruction(_type: str, _instructionText: str, _maxWidth: number, _leading: number) layout=true
+	(style
+		(flow = "Flow.HORIZONTAL")
+	)
+	(block
+		(bind visible "_type != 'no_icon'")
+		(mc icon_mouse
+			(bindcall gotoAndStop "_type" init=true)
+		)
+	)
+	(tf 
+		(class $TextHeaderBigDefault)
+		(style
+			(bind marginLeft "(_type == 'no_icon') ? 0px : 4px")
+			(bind leading "_leading")
+			(bind maxWidth "_maxWidth")
+		)
+		(style 
+			(marginTop = "-2px")
+		)
+		(bind text "_instructionText")
+	)
+)
+
+
+(def element MouseInstructionRepeater(_type:str, _instructionText:str, _maxWidth:number, _lastIndex:number) layout=true
+    (style
+        (bind marginBottom "$index != _lastIndex  ?  6 : 0")
+    )
+    
+    (controller $Instance renderer='MouseInstruction'
+        (args 
+            _type = "_type" 
+            _instructionText = "_instructionText"
+            _maxWidth = "_maxWidth"
+            _leading = 0
+        )
+        (bind enabled "!(_type == 'warning')")
+    )
+    
+    (controller $Instance renderer='InstructionWarning'
+        (exprs 
+            (scope
+                (bind _instructionText "_instructionText")
+                (bind _maxWidth "_maxWidth")
+            )
+        )
+        (bind enabled "_type == 'warning'")
+    )
+)
+
+##
+## A coloured line of text with a check mark to the left of it.
+##
+#(def element CheckedLine()
+#    (style 
+#        (flow = "horizontal")
+#    )
+#    (mc icon_check
+#        (style 
+#            (marginLeft = "2px")
+#            (marginTop = "8px")
+#        )
+#        (bind visible "!_isCheckMarkHidden")
+#    )
+#    (tf 
+#        (class $TextHeaderBigDefault)
+#        (style 
+#            (width = "288px")
+#            (marginTop = "-2px")
+#            (multiline = "false")
+#        )
+#        (bind class "'$FontColorGolden'")
+#        #(bind style "'marginLeft';  _isCheckMarkHidden  ?  '0'  :  '5px'")
+#        (bind text "_checkedLineText")
+#    )
+#)
+#(def element CheckedLineRepeater()
+#    #(bind style "'marginBottom';  $index  !=  _lastIndex  ?  '6px'  :  '-2px'")
+#    (controller $Instance renderer='CheckedLine'
+#    	(args _isCheckMarkHidden =  _isCheckMarkHidden
+#    		_checkedLineText =  _checkedLineText
+#    		_maxWidth =  _maxWidth)
+#    )
+#)
+#(def element InstructionBigTech()
+#    (style 
+#        (flow = "horizontal")
+#    )
+#    #(mc icon_hint_info_blue
+#    #	(bind gotoAndStop! "_type"))
+#    (tf 
+#        (class $TextHeaderBigDefault)
+#        (bind class "'$FontColorBlueish'")
+#        #(bind style "'leading';  _leading  ?  _leading  :  0")
+#        (style 
+#            (textAlign = "center")
+#        )
+#        # (top -5px) (marginLeft 3px))
+#        #(bind style "'maxWidth';  _maxWidth  ?  _maxWidth  :  500")
+#        (bind text "_instructionText")
+#    )
+#)
+#(def element DockTopMenuLinkText()
+#    (bind controller "lesta.unbound.controls.UbInteractiveController")
+#    (tf 
+#        (class $TextDockNano)
+#        (bind class "rollOver && !(mouseDown) ? '$FontColorDefault' : '$None'")
+#        (bind text "_label")
+#    )
+#)
+#(def element EmptyStatusParagraph()
+#    (tf 
+#        (class $TextHeaderBigDefault)
+#        (bind class "_sizeClass ? _sizeClass : '$FontSizeLarge'")
+#        (bind class "'$FontColorBlueish'")
+#        (style 
+#            (textAlign = "center")
+#        )
+#        #(bind style "'maxWidth';  _maxWidth  ?  _maxWidth  :  250")
+#        (bind text "_text")
+#    )
+#)
+
 (def element InvertableTextLine () layout=true
 	(scope
 		(var _name:str = '')
@@ -64,3 +274,734 @@
 		(bind text "_text")
 	)
 )
+#
+#### Dropdown menu elements
+#(def element MenuBg(dropDown:unknown)
+#    (class $FullsizeAbsolute)
+#    (element DeclareBlurLayer)
+#    (element BlurMap)
+#    #(bind controller "lesta.dialogs.controllers.EntitySingletonController;  'optionData'")
+#    (mc contrast_panel
+#        (bind visible "optionData.contrast && !(%s)")
+#        (class $FullsizeAbsolute)
+#    )
+#    (block 
+#        (class $FullsizeAbsolute)
+#        (bind visible "!(%s)")
+#        (mc hint_panel
+#            (class $FullsizeAbsolute)
+#        )
+#    )
+#    (block 
+#        (class $FullsizeAbsolute)
+#        (bind visible "%s")
+#        (mc dock_panel
+#            (class $FullsizeAbsolute)
+#            (style 
+#                (marginBottom = "-19px")
+#                (marginRight = "-14px")
+#                (marginLeft = "-14px")
+#                (marginTop = "-9px")
+#            )
+#        )
+#    )
+#)
+#(def element MenuItem(_titleIds:unknown)
+#    (class $Fullsize)
+#    (mc dock_submenu_item
+#        (class $FullsizeAbsolute)
+#    )
+#    (tf 
+#        (class $TextDefault)
+#        (class $MiddleVAligned)
+#        (class $ContextMenuListItemContent)
+#        (bind text "_titleIds")
+#    )
+#)
+#(def element MenuItemWithSelection(_titleIds:unknown, _isSelected:unknown)
+#    (class $Fullsize)
+#    (bind name "_titleIds")
+#    (mc dock_submenu_item
+#        (class $FullsizeAbsolute)
+#        (bind selected "%s")
+#    )
+#    (tf 
+#        (class $TextDefault)
+#        (class $MiddleVAligned)
+#        (class $ContextMenuListItemContent)
+#        (bind class "%s == true ? '$Bold' : '$None'")
+#        (bind text "(_toLowerCase ? toLowerCase(tr(%s))
+#        											: (tr(%s)))")
+#    )
+#)
+#(def element MenuItemWithAction(_titleIds:unknown, _action:unknown, _actionData:unknown)
+#    (class $Fullsize)
+#    (mc dock_submenu_item
+#        (class $FullsizeAbsolute)
+#    )
+#    (tf 
+#        (class $TextDefault)
+#        (class $MiddleVAligned)
+#        (class $ContextMenuListItemContent)
+#        (bind text "_titleIds")
+#    )
+#    #(bind action "'click';  %s;  %s")
+#)
+#(def element MenuItemWithRequest(_titleIds:unknown, _request:unknown, _requestData:unknown)
+#    (class $Fullsize)
+#    (mc dock_submenu_item
+#        (class $FullsizeAbsolute)
+#    )
+#    (tf 
+#        (class $TextDefault)
+#        (class $MiddleVAligned)
+#        (class $ContextMenuListItemContent)
+#        (bind text "_titleIds")
+#    )
+#    #(bind request "'click';  %s;  %s")
+#)
+#(def element ResizeFrame()
+#    (class $FullsizeAbsolute)
+#    #top bar
+#    (block 
+#        (bind visible "!(restrict.up)")
+#        #(bind controller "lesta.unbound.controls.UbInteractiveController;  'HANGAR_DRAGGING_UP'")
+#        (style 
+#            (position = "absolute")
+#            (width = "100%")
+#            (height = "6px")
+#            (top = "-3px")
+#            (backgroundColor = "0x01ff0000")
+#        )
+#        (name = grip_top)
+#    )
+#    #bottom bar
+#    (block 
+#        (bind visible "!(restrict.down)")
+#        #(bind controller "lesta.unbound.controls.UbInteractiveController;  'HANGAR_DRAGGING_DOWN'")
+#        (style 
+#            (position = "absolute")
+#            (width = "100%")
+#            (height = "6px")
+#            (bottom = "-3px")
+#            (backgroundColor = "0x01ff0000")
+#        )
+#        (name = grip_bottom)
+#    )
+#    #left bar
+#    (block 
+#        (bind visible "!(restrict.left)")
+#        #(bind controller "lesta.unbound.controls.UbInteractiveController;  'HANGAR_DRAGGING_LEFT'")
+#        (style 
+#            (position = "absolute")
+#            (width = "6px")
+#            (height = "100%")
+#            (left = "-3px")
+#            (backgroundColor = "0x01ff0000")
+#        )
+#        (name = grip_left)
+#    )
+#    #right bar
+#    (block 
+#        (bind visible "!(restrict.right)")
+#        #(bind controller "lesta.unbound.controls.UbInteractiveController;  'HANGAR_DRAGGING_RIGHT'")
+#        (style 
+#            (position = "absolute")
+#            (width = "6px")
+#            (height = "100%")
+#            (right = "-3px")
+#            (backgroundColor = "0x01ff0000")
+#        )
+#        (name = grip_right)
+#    )
+#    #diagonal grips
+#    #top left
+#    (block 
+#        (bind visible "!(restrict.up || restrict.left)")
+#        #(bind controller "lesta.unbound.controls.UbInteractiveController;  'HANGAR_DRAGGING_UP_LEFT'")
+#        (style 
+#            (position = "absolute")
+#            (width = "12px")
+#            (height = "12px")
+#            (top = "-5px")
+#            (left = "-5px")
+#            (backgroundColor = "0x0100ff00")
+#        )
+#        (name = grip_top_left)
+#    )
+#    #top right
+#    (block 
+#        (bind visible "!(restrict.up || restrict.right)")
+#        #(bind controller "lesta.unbound.controls.UbInteractiveController;  'HANGAR_DRAGGING_UP_RIGHT'")
+#        (style 
+#            (position = "absolute")
+#            (width = "12px")
+#            (height = "12px")
+#            (top = "-5px")
+#            (right = "-5px")
+#            (backgroundColor = "0x0100ff00")
+#        )
+#        (name = grip_top_right)
+#    )
+#    #bottom left
+#    (block 
+#        (bind visible "!(restrict.down || restrict.left)")
+#        #(bind controller "lesta.unbound.controls.UbInteractiveController;  'HANGAR_DRAGGING_DOWN_LEFT'")
+#        (style 
+#            (position = "absolute")
+#            (width = "12px")
+#            (height = "12px")
+#            (bottom = "-5px")
+#            (left = "-5px")
+#            (backgroundColor = "0x0100ff00")
+#        )
+#        (name = grip_bottom_left)
+#    )
+#    #bottom right
+#    (block 
+#        (bind visible "!(restrict.down || restrict.right)")
+#        #(bind controller "lesta.unbound.controls.UbInteractiveController;  'HANGAR_DRAGGING_DOWN_RIGHT'")
+#        (style 
+#            (position = "absolute")
+#            (width = "12px")
+#            (height = "12px")
+#            (bottom = "-5px")
+#            (right = "-5px")
+#            (backgroundColor = "0x0100ff00")
+#        )
+#        (name = grip_bottom_right)
+#    )
+#)
+#(def css $WarningTextRed()
+#    (extends $TextDefault)
+#    (extends $FontColorCompareNegative)
+#    )
+(def css $WarningTextOrange()
+    (extends $TextDefault)
+    (extends $FontColorUnready)
+)
+#(def element WarningMessage()
+#    (scope
+#        #(var errorStringsToShowSupportLinkFor:unknown = None)
+#    )
+#    #(style (flow horizontal))
+#    (controller $Animation
+#    	(bindcall play duration=0.15 delay=_delay from={alpha: 0, top: _startTop ? _startTop : 10} to={alpha: 1, top: 0} easing="Easing.quint_in" on='addedToStage')
+#    )
+#    # Exceptions, which we show a link to Support Center for. Add them here:
+#    #(block
+#    #	(style (marginTop 3px))
+#    #	(bind visible "!(_highWarning)")
+#    #	(mc icon_warning_orange)
+#    #)
+#    #(block
+#    #	(style (marginTop 3px))
+#    #	(bind visible "_highWarning")
+#    #	(mc icon_warning_red)
+#    #)
+#    (tf 
+#        #(bind style "'maxWidth';  _maxWidth  ?  _maxWidth  :  280")
+#        (bind class "_highWarning ? '$WarningTextRed' : '$WarningTextOrange'")
+#        (style 
+#            (textAlign = "center")
+#        )
+#        (bind text "_text")
+#    )
+#    (block 
+#        (bind visible "errorStringsToShowSupportLinkFor.indexOf(_text) > -1")
+#        (class $MiddleAligned)
+#        (style 
+#            (marginTop = "6px")
+#        )
+#        (controller $Instance renderer='LinkText'
+#        	(args errorStringsToShowSupportLinkFor.indexOf(_text) > -1 	? 
+#        																								_label =  IDS_LINK_SUPPORT
+#        		_urlIdent =  URL.SUPPORT
+#        		_tooltipText =  IDS_LINK_SUPPORT_HINT
+#        		_name =  ButtonSupport 
+#        																							 =  null)
+#        )
+#    )
+#)
+#(def element WrongTextInputNotification()
+#    (scope
+#        (event buttonClick)
+#        (event hideWrongMessageEv)
+#        (event click)
+#        (event hideWrongMessageEv)
+#    )
+#    (controller $Animation
+#    	(bindcall play duration=0.15 delay=0 from={alpha: 0, top: _startTop ? _startTop : 10} to={alpha: 1, top: 0} easing="Easing.quint_in" on='addedToStage')
+#    )
+#    (style 
+#        (width = "100%")
+#        (marginRight = "-1px")
+#        (marginLeft = "-1px")
+#    )
+#    (block 
+#        (class $Fullsize)
+#        (style 
+#            (position = "absolute")
+#            (marginTop = "1px")
+#            (marginBottom = "0px")
+#        )
+#        (element DeclareBlurLayer)
+#        (element BlurMapCustom "mc_blurmap3")
+#    )
+#    (mc notification_panel
+#        (class $FullsizeAbsolute)
+#    )
+#    (mc button_close
+#        (bind visible "_showCloseBtn == true")
+#        (style 
+#            (right = "8")
+#            (top = "7")
+#            (position = "absolute")
+#        )
+#        (dispatch hideWrongMessageEv args= {} dir="EventDirection.UP" on='buttonClick')
+#    )
+#    (block 
+#        (class $MiddleAligned)
+#        (style 
+#            (marginTop = "8px")
+#            (marginBottom = "7px")
+#        )
+#        (controller $Instance renderer='WarningMessage'
+#        	(args true	?  _delay =  0.07
+#        		_startTop =  _startTop
+#        		_messageHiglight =  _messageHiglight
+#        		_maxWidth =  _maxWidth
+#        		_text =  _text
+#        												 =  null)
+#        )
+#    )
+#    (dispatch hideWrongMessageEv args= {} dir="EventDirection.UP" on='click')
+#)
+#(def element MultiParagraphHelpTooltip()
+#    (class $DefaultTooltipBehaviour)
+#    (style 
+#        (width = "330px")
+#    )
+#    #(bind style "'width';  _width  ?  _width  :  '330px'")
+#    (element DeclareBlurLayer)
+#    (element BlurMap)
+#    (element GUIContrast)
+#    (mc hint_panel
+#        (class $Fullsize)
+#        (style 
+#            (position = "absolute")
+#        )
+#    )
+#    (hblock 
+#        (class $InfoBlockIndent)
+#        (var iconType:unknown = "_iconType ? _iconType : 'question'")
+#        (mc icon_question_mark
+#            (bind visible "iconType == 'question'")
+#            (style 
+#                (marginRight = "6px")
+#                (marginTop = "4px")
+#            )
+#        )
+#        (mc icon_info_big
+#            (bind visible "iconType == 'info'")
+#            (style 
+#                (marginRight = "6px")
+#                (marginTop = "4px")
+#            )
+#        )
+#        (mc mc_icon_ship
+#            (bind visible "iconType == 'ship' && _shipType != 'premiumShip'")
+#            (style 
+#                (marginRight = "6px")
+#                (marginTop = "10px")
+#            )
+#            #(bind style "'marginLeft';  _shipType  ==  'Destroyer'  ?  '-2px'  :  '2px'")
+#            #(bind gotoAndStop! "_shipType")
+#        )
+#        (tf 
+#            (style 
+#                (top = "1px")
+#            )
+#            #(bind style "'maxWidth';  _width  ?  _width  -  60  :  270")
+#            (class $TextHeaderWhiteBold)
+#            (bind class "_shipType == 'premiumShip' ? '$FontColorGolden' : '$FontColorWhite'")
+#            (bind text "_tooltipHeader")
+#        )
+#    )
+#    (element HorizontalDivider)
+#    (block 
+#        (style 
+#            (width = "100%")
+#        )
+#        (mc inner_panel
+#            (class $Fullsize)
+#            (class $PxHorizontalCorrection)
+#            (style 
+#                (position = "absolute")
+#            )
+#        )
+#        (block 
+#            (style 
+#                (marginLeft = "12px")
+#                (marginRight = "12px")
+#                (marginTop = "9px")
+#                (marginBottom = "3px")
+#                (width = "100%")
+#            )
+#            #(bind repeat "_multiParagraphArray;  'RepeatParagraphItem';  {_maxWidth:  _width  -  24}")
+#        )
+#    )
+#)
+#(def element RepeatParagraphItem()
+#    #(bind style "'marginBottom';  _marginBottom  ?  _marginBottom  :  '6px'")
+#    (bind class "_middleAligned ? '$MiddleAligned' : ''")
+#    (tf 
+#        (class $TextHeaderBigDefault)
+#        (bind class "_class")
+#        #(bind style "'leading';  _leading  ?  _leading  :  0")
+#        #(bind style "'textAlign';  _textAlign  ?  _textAlign  :  'left'")
+#        #(bind style "'maxWidth';  _maxWidth  ?  _maxWidth  :  300")
+#        (bind text "(_toUpperCase ? toUpperCase(tr(_paragraphText)) : _paragraphText)")
+#        #(bind substitute "_substitute.mapName  ?  _substitute.mapName  :  '';  _substitute.imageOffset  ?  _substitute.imageOffset  :  0;  _substitute.map  ?  _substitute.map  :  {}")
+#    )
+#)
+#(def element GUIContrast()
+#    #(bind controller "lesta.dialogs.controllers.EntitySingletonController;  'optionData'")
+#    (class $FullsizeAbsolute)
+#    (mc contrast_panel
+#        (class $FullsizeAbsolute)
+#        (bind visible "optionData.contrast")
+#    )
+#)
+#(def element CheckBox()
+#    (bind controller "lesta.unbound.controls.UbInteractiveController")
+#    (var isEnabled:unknown = "_disabled != true")
+#    (mc checkbox_no_label
+#        (class $FullsizeAbsolute)
+#        (bind enabled "isEnabled")
+#        (bind selected "switchProperty")
+#    )
+#    (tf 
+#        (class $TextHeaderBigDefault)
+#        (style 
+#            (marginLeft = "23px")
+#            (marginTop = "-3px")
+#            (hitTest = "false")
+#        )
+#        #(bind style "'maxWidth';  _maxTfWidth  ?  _maxTfWidth  :  300")
+#        (rollOver && !mouseDown) && isEnabled; 0.15; {alpha: 0.8}; {alpha: 1}; {alpha: 0.8}; 2
+#        (bind text "label")
+#    )
+#)
+#(def element IconSlimClient()
+#    #(bind tooltip "'SimpleTooltip';  {tooltipText:  _isEventLike  ?  'IDS_ENTER_IN_FULL_VERSION_FOR_ANNOUNCE_SHIPS'  :  'IDS_ENTER_IN_FULL_VERSION_FOR_SHIPS'}")
+#    (mc game_downloading
+#    )
+#)
+#(def element BannerButton(_input:unknown, _label:unknown, _icon_clip:unknown)
+#    (mc button_infopanel
+#        (name = _input)
+#        (bind input "None")
+#        (bind label "%s")
+#    )
+#    (mc _icon_clip
+#        (class $MiddleVAligned)
+#        (style 
+#            (position = "absolute")
+#            (left = "8px")
+#            (hitTest = "false")
+#        )
+#    )
+#)
+#(def element ShipTitleWithIconAndSilhouette()
+#    (macro PULL_SHIP _shipID shipEntity shipInfo)
+#    (hblock 
+#        (block 
+#            (controller $Instance renderer='ShipTitleWithIconAndLevel'
+#            	(args _shipID  =  _shipID)
+#            )
+#        )
+#        (block 
+#            (style 
+#                (width = "122px")
+#                (height = "22px")
+#                (marginLeft = "12px")
+#                (marginTop = "-2px")
+#            )
+#            #(bind style "'backgroundImage';  'url:'  +  shipInfo.pathTinyIcon")
+#        )
+#    )
+#)
+#(def element ShipTitleWithIconAndLevel()
+#    (macro PULL_SHIP_PLAYER _shipID shipOwnEntity playerShipInfo)
+#    (macro PULL_SHIP _shipID shipEntity shipInfo)
+#    (macro PULL_USI shipEntity)
+#    (hblock 
+#        (style 
+#            (height = "27px")
+#        )
+#        (mc icon_wreath
+#            (class $MouseDisable)
+#            (style 
+#                (position = "absolute")
+#                (top = "-1px")
+#            )
+#            (bind visible "upgradableShipInfo.isElite || shipInfo.isPremium || shipInfo.uiSpecial")
+#            #(bind gotoAndStop! "shipInfo.uiSpecial  ?  'special'  :  shipInfo.isPremium  ?  'premium'  :  'elite'")
+#        )
+#        (block 
+#            (style 
+#                (marginLeft = "5px")
+#                (marginTop = "7px")
+#            )
+#            (mc icon_ship
+#                (class $MouseDisable)
+#                #(bind gotoAndStop! "shipInfo.isPremium  ||  shipInfo.uiSpecial  ?  shipInfo.subtype  +  '_P'  :  shipInfo.subtype")
+#            )
+#        )
+#        (block 
+#            (style 
+#                (marginLeft = "6px")
+#                (marginTop = "-2px")
+#            )
+#            (tf 
+#                (class $FontShipnameWhite)
+#                (bind class "shipInfo.isPremium || shipInfo.uiSpecial	? '$FontShipnameGolden'
+#                																		: '$FontShipnameWhite'")
+#                (bind text "shipInfo.levelRome + ' ' + toUpperCase(tr(shipInfo.nameIDS))")
+#            )
+#        )
+#    )
+#)
+#(def element CharCounter()
+#    _string.length > 0; 0.15; {alpha: 0, top:10}; {alpha: 1, top:0}; {alpha: 0, top:10}; 1; 0
+#    #(bind tooltip "'SimpleTooltip';  {tooltipText:  'IDS_CHARS_LEFT'}")
+#    (style 
+#        (backgroundColor = "0x01000000")
+#    )
+#    (tf 
+#        (class $TextDefault)
+#        (bind class "_string.length > _maxChars ? '$FontColorUnready' : '$FontColorDefault'")
+#        #(bind style "'alpha';  _string.length  >  _maxChars  ?  1  :  0.6")
+#        (bind text "_maxChars - _string.length")
+#    )
+#)
+#(def element BusyIndicator()
+#    (controller $Animation
+#    	(bindcall play duration=0.15 delay=0 from={alpha: 0} to={alpha: 1} reverse="_showBusyIndicator" updateBeforeDisable=true (bind enabled "_showBusyIndicator"))
+#    )
+#    (style 
+#        (flow = "horizontal")
+#    )
+#    (block 
+#        (mc indicator_busy_small
+#        )
+#    )
+#    (tf 
+#        (bind visible "_label.length > 0")
+#        (class $TextDefaultTech)
+#        (bind class "'$Bold'")
+#        (style 
+#            (marginLeft = "6px")
+#            (marginTop = "-2px")
+#        )
+#        (bind text "toUpperCase(tr(_label))")
+#    )
+#)
+#(def element FormationPlayerIcon()
+#    (style 
+#        (width = "15px")
+#    )
+#    (var postfix:unknown = "isOtherDivision ? '_other_division' : ''")
+#    (mc formation_player_status
+#        (style 
+#            (marginTop = "3px")
+#        )
+#        #(bind gotoAndStop! "_isEmptySlot  ?  ('empty_slot_'  +  _formationType)  :  isInBattle  ?  ('player_in_battle_'  +  _formationType  +  postfix)  :  _isWardog  &&  isReady  ?  ('player_ready_'  +  _formationType  +  '_merc')  :  _isWardog  &&  !isReady  ?  ('player_not_ready_'  +  _formationType  +  '_merc')  :  isCommander  &&  isReady  ?  ('commander_'  +  _formationType  +  postfix)  :  isCommander  &&  !isReady  ?  ('commander_not_ready_'  +_formationType  +  postfix)  :  !isCommander  &&  isReady  ?  ('player_ready_'  +  _formationType  +  postfix)  :  !isCommander  &&  !isReady  ?  ('player_not_ready_'  +  _formationType  +  postfix)  :  'empty_slot_division'")
+#    )
+#)
+#(def css $TextBackBtn()
+#    (fontFamily = "$WWSDefaultFontBold")
+#    (extends $FontSizeLarge)
+#    (extends $FontColorBlueish)
+#    (extends $TextMouseDisable)
+#    )
+#(def element BackButton()
+#    (scope
+#        (event buttonClick)
+#        (event _event	 ? _event  : null)
+#    )
+#    (style 
+#        (height = "30px")
+#    )
+#    (mc button_dock
+#        #(bind tooltip "'SimpleTooltip';  {tooltipText:  _text}")
+#        (class $FullsizeAbsolute)
+#        (dispatch _event	 ? _event  : null args= _eventData	 ? _eventData : {} dir="EventDirection.UP" on='buttonClick')
+#        #(bind action "'buttonClick';  _action  ?  _action  :  null;  _actionParams  ?  _actionParams  :  {}")
+#        #(bind request "'buttonClick';  _request  ?  _request  :  null;  _requestParams  ?  _requestParams  :  {}")
+#    )
+#    (hblock 
+#        (class $MiddleVAligned)
+#        (style 
+#            (hitTest = "false")
+#        )
+#        (mc icon_navigate
+#            #(bind gotoAndStop! "'left'")
+#            (style 
+#                (marginLeft = "6px")
+#            )
+#        )
+#        (block 
+#            (bind name "_name ? _name : '' ")
+#            (class $MiddleVAligned)
+#            (style 
+#                (marginLeft = "2px")
+#                (marginRight = "7px")
+#            )
+#            (block 
+#                (style 
+#                    (marginTop = "-4px")
+#                )
+#                (tf 
+#                    (class $TextBackBtn)
+#                    (bind class "'$FontColorAlmostBlack'")
+#                    (style 
+#                        (position = "absolute")
+#                        (alpha = "0.4")
+#                        (top = "1px")
+#                    )
+#                    (bind text "_text")
+#                )
+#                (tf 
+#                    (class $TextBackBtn)
+#                    (bind class "'$FontColorAlmostBlack'")
+#                    (style 
+#                        (position = "absolute")
+#                        (alpha = "0.2")
+#                        (top = "-1px")
+#                    )
+#                    (bind text "_text")
+#                )
+#                (tf 
+#                    (class $TextBackBtn)
+#                    (bind class "'$FontColorAlmostBlack'")
+#                    (style 
+#                        (position = "absolute")
+#                        (alpha = "0.2")
+#                        (left = "1px")
+#                    )
+#                    (bind text "_text")
+#                )
+#                (tf 
+#                    (class $TextBackBtn)
+#                    (bind class "'$FontColorAlmostBlack'")
+#                    (style 
+#                        (position = "absolute")
+#                        (alpha = "0.2")
+#                        (left = "-1px")
+#                    )
+#                    (bind text "_text")
+#                )
+#                (tf 
+#                    (class $TextBackBtn)
+#                    (bind class "'$FontColorBlueish'")
+#                    (bind text "_text")
+#                )
+#            )
+#        )
+#    )
+#)
+#(def element ScoreRatioCounter()
+#    (style 
+#        (flow = "horizontal")
+#    )
+#    ### BEFORE / ###
+#    (block 
+#        #(bind tooltip "'SimpleTooltip';  {  tooltipText:  _tooltipTextPlayerResult  }")
+#        #(bind style "'alpha';  (_playerPointsCounter  ==  0)  ?  0.5  :  1")
+#        (tf 
+#            (bind class "'$TextHeaderWhiteBold'")
+#            (bind text "_playerPointsCounter")
+#        )
+#    )
+#    ### AFTER / ###
+#    (hblock 
+#        #(bind tooltip "'SimpleTooltip';  {  tooltipText:  _tooltipTextTotalResult  }")
+#        (style 
+#            (alpha = "0.7")
+#        )
+#        (tf 
+#            (style 
+#                (marginTop = "1px")
+#            )
+#            (bind class "'$TextHeaderBold'")
+#            (bind text "'/'")
+#        )
+#        (tf 
+#            #(style (marginLeft -1px))
+#            (style 
+#                (marginTop = "2px")
+#                (marginLeft = "-1px")
+#            )
+#            (bind class "'$TextHeaderBold'")
+#            (bind text "_totalPointsCounter")
+#        )
+#    )
+#)
+##(bind instance "'PlayerNameAndClanTag'; { 	_blockWidth: , _blockHeight: , _right: , _playerNameMaxWidth: , 
+##											_isAlive: , _isSelf: , _isReady: , _isBattleStats: , _textClass: ,
+##											_ttkStatus: , _tkStatus: , _isInSameDivision: ,
+##											_playerName: , _clanTag: , _color: }")
+#(def element PlayerNameAndClanTag()
+#    (var clanTagColor:unknown = "('0xff' + _clanTagColor)")
+#    (var haveClanTag:unknown = "_clanTag != null &&
+#    								_clanTag != ''")
+#    (var isColoredClanTag:unknown = "(haveClanTag && !_noClanTagColor && _clanTagColor != null)")
+#    (var playerName:unknown = "isColoredClanTag 	?	_playerName :
+#    								haveClanTag			?	('[' + _clanTag + ']' + _playerName)
+#    													: _playerName")
+#    (var fontColor:unknown = "_isSelf 	? 	_ttkStatus 			? '$FontColorTTK' :
+#    												_ctkStatus			? '$FontColorCompareNegative' :
+#    												_tkStatus 			? '$FontColorTeamkiller'
+#    																	: '$FontColorGolden':
+#    								!_isDead 	?  	_ttkStatus 			? '$FontColorTTK' :
+#    												_isInSameDivision 	? '$FontColorGolden' :
+#    												_tkStatus 			? '$FontColorTeamkiller'												
+#    																	: '$FontColorWhite'
+#    											: '$FontColorAlmostBlack'")
+#    (style 
+#        (hitTest = "false")
+#        (flow = "horizontal")
+#        (width = "100%f")
+#    )
+#    # clanTag
+#    (tf 
+#        (style 
+#            (marginLeft = "3px")
+#        )
+#        (bind visible "isColoredClanTag == true")
+#        (style 
+#            (multiline = "false")
+#        )
+#        (class $TextDefaultNM)
+#        #(bind style "'fontSize';  _fontSize  ?  _fontSize  :  15")
+#        (bind class "_isSelf ? '$Bold' : '$None'")
+#        #(bind style "'textColor';  clanTagColor")
+#        (bind text "tr('[' + _clanTag + ']')")
+#    )
+#    # playerName
+#    (tf 
+#        (style 
+#            (marginLeft = "3px")
+#            (multiline = "false")
+#            (width = "100%f")
+#        )
+#        (class $TextDefaultNM)
+#        #(bind style "'fontSize';  _fontSize  ?  _fontSize  :  15")
+#        (bind class "_isSelf 	? '$Bold' : '$None'")
+#        (bind class "(_isDead && !_isSelf ? '$FontDropShadowWhite' : '$None')")
+#        (bind class "fontColor")
+#        (bind text "playerName")
+#    )
+#)

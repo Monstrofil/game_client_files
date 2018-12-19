@@ -72,7 +72,10 @@
 		<element name="gunRotatorClips" class="GunRotationsClip" url="ship_doll.swf" autoPerfTestGroup="shipDoll"/>
 		<element name="headerPlayersNum" class="HeaderPlayerNum" url="battle_stats.swf" autoPerfTestGroup="header"/>
 
-		<element name="pingometer" class="Pingometer" url="battle_stats.swf" autoPerfTestGroup="header"/>
+		<element name="fpsPanel" class="lesta.unbound2.UbElement" elementName="FpsPanel" url="battle_stats.swf">
+			<properties hitTest = "false"/>
+		</element>
+
 		<element name="helpHint" class="HelpHint" url="battle_stats.swf" autoPerfTestGroup="header"/>
 		<element name="battleTimer" class="BattleTimer" url="battle_stats.swf" autoPerfTestGroup="header"/>
 		<element name="prebattleText" class="PrebattleText" url="battle_stats.swf" autoPerfTestGroup="header"/>
@@ -170,7 +173,7 @@
 		<controller class="lesta.dialogs.battle_window_controllers.CruiseController" clips="indicatorSpeed,indicatorAngle,indicatorDepth"/>
 		<controller class="lesta.dialogs.battle_window_controllers.IndicatorsController" clips="logPlayerState,logPlayerAction,logEvent,indicatorGunsLocked,indicatorCollisionText,deathList,shipVisibilityIndicator,intuitionIndicator,atbaOffIndicator,weatherIndicator,smokeIndicator,repairIndicator,evacuationIndicator,dangerousStateIndicator,localWeatherIndicator"/>
 		<controller class="lesta.dialogs.battle_window_controllers.CompassController" clips="shipDollClip.shipDoll,compassClip.compass,gunRotatorClips,frustumClip,alarmClipCenter,alarmClipCompass,damageClip"/>
-		<controller class="lesta.dialogs.battle_window_controllers.HeaderController" clips="headerPlayersNum,pingometer,battleTimer,helpHint,prebattleText,captureBase,battleProgress,gameVersion,observedPlayerLabel,cameraText"/>
+		<controller class="lesta.dialogs.battle_window_controllers.HeaderController" clips="headerPlayersNum,battleTimer,helpHint,prebattleText,captureBase,battleProgress,gameVersion,observedPlayerLabel,cameraText"/>
 		<controller class="lesta.dialogs.battle_window_controllers.GunsStateController" clips="barReloadContainer,shipDollClip.shipDoll,gunRotatorClips"/>      
 		<controller class="lesta.dialogs.battle_window_controllers.GunMarkersController" clips="!gunMarkerPlaceholder,gunMarkerPlaceholder.mainGunMarker,gunMarkerPlaceholder.torpedoGunMarker,gunMarkerPlaceholder.lockedIndicator"/>
 		<controller name="crosshair" class="lesta.dialogs.battle_window_controllers.CrosshairController" clips="crosshairDefault,crosshairFPS,compassWithNose,crosshairLocked"/>

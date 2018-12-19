@@ -80,11 +80,8 @@
 		(flow = "Flow.HORIZONTAL")
 		#(backgroundColor = 0x44000000)
 		(width = 100%)
-		(position = "absolute")
-		#(bottom = 0)
 		(height = 100%)
 	)
-	#(macro trace "Flow.HORIZONTAL")
 	
 	#(bind transition "rollOver || _expand; 0.15; {height: 3}; {height: 25}; {height: 3}; 2; 0.2")
 	
@@ -98,8 +95,8 @@
 		(mc bar_color
 			(class $Fullsize)
 #			(bind transition "rollOver || _expand; 0.35; {alpha: 0.8}; {alpha: 0.6}; {alpha: 0.8}; 2")
+			(alpha = 0.8)
 			(bindcall gotoAndStop "_isPositiveDiff ? 'BarColorGreen' : 'BarColorWhite'" init=true)
-			#(bindcall gotoAndStop "_hasDiff || _diffValue == 0 ? 'BarColorWhite' : 'BarColorGreen'" init=true)
 		)
 	)
 	
@@ -154,15 +151,28 @@
 							]
 )
 
-(def element ParamElement(valueEntityID:number) layout=true
+(def element ParamElement(_valueEntityID:number) layout=true
 	(scope
+		(var valueEntityID:number = "_valueEntityID")
         (var entity:gfx = "$datahub.getEntity(valueEntityID)")
         (var shipParamItemData:gfx = "entity.shipParamItemData")
     )
 	
+#	(tf
+#        (class $FontColorWhite)
+#        (class $FontDropShadowFilterStrong)
+#        #(bind text "shipParamItemData.currentValue" (event "shipParamItemData.evChanged"))
+#        (bind text "entity.id")
+#    )
+	
 	(controller $Instance 
 		(bind renderer "ParamMockupNames[shipParamItemData.mockupClass]")
-		(args shipParamItemData = "shipParamItemData")
+		(args _shipParamItemData = "shipParamItemData")
+		(exprs
+            (scope
+                (bind shipParamItemData "shipParamItemData")
+            )	
+        )
 	)
 )
 
@@ -192,11 +202,15 @@
 ##}
 ##
 #
-(def element DefaultMockupItem (textValue:str, meta:bool=true, hasDiff:bool=false) layout=true
+(def element DefaultMockupItem (_textValue:str, meta:bool=true, hasDiff:bool=false) layout=true
 #	(bind watch "'id'; $parent.id")
 	(style 
 		(flow = "Flow.HORIZONTAL")
 	)
+	(scope
+		(var textValue:str = "_textValue")
+	)
+	
 	#(macro trace "_currentValue")
 	
 	(tf
@@ -240,11 +254,15 @@
 #	)
 #)
 #
-(def element DefaultMockup (shipParamItemData:gfx) layout=true
+(def element DefaultMockup (_shipParamItemData:gfx) layout=true
 	
     (style
         (flow = "Flow.HORIZONTAL")
     )
+	
+	(scope
+		(var shipParamItemData:gfx = "_shipParamItemData")
+	)
 	
 	#(macro trace "shipParamItemData")
 	#(macro trace "shipParamItemData.textValues")
@@ -269,7 +287,11 @@
 #		(bind text "$parent.hasDiff ? ')' : ''")
 #	)
 	#$parent.data.items[0]
-	(element DefaultMockupItem textValue="shipParamItemData.currentValue")
+	(element DefaultMockupItem _textValue="shipParamItemData.currentValue"
+		(scope
+			(bind textValue "shipParamItemData.currentValue" (event "shipParamItemData.evChanged") (bindcall event "shipParamItemData.evChanged"))
+		)
+	)
 #	(block 
 #		(bind instance "'DefaultMockupItem'; $parent.data.items[1]")
 #	)

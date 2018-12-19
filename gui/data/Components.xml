@@ -909,6 +909,17 @@
 		<event		name="evIsBannedChanged"/>
 	</component>
 
+	<component	name="ClanWarsInfo">
+		<property	name="playerId"				type="Number"	pk="true"/>
+		<property	name="clanParticipate"		type="Boolean"	/>
+		<property	name="playerParticipate"	type="Boolean"	/>
+		<property	name="warEnabled"			type="Boolean"	/>
+		<property	name="attemptsLeft"			type="Integer"	/>
+		<property	name="stage"				type="String"	/>
+
+		<event		name="evChanged"/>
+	</component>
+
 	<component	name="ClanBattleResult">
 		<property	name="arenaUniqueID"			type="String"		pk="true"/>
 		<property	name="squadId"					type="Integer"/>
@@ -2398,6 +2409,7 @@
 		<property	name="autorechargeExteriorSummPriceConsumed"	type="Integer"/>
 		<property	name="autorechargeAbilityEstimatePriceConsumed"	type="Integer"/>
 		<property	name="autorechargeAbilitySummPriceConsumed"	type="Integer"/>
+		<property	name="bonusTags"			type="Array"/> <!-- массив entity.id сущностей с компонентом ComponentClass.bonusTag -->
 		<property	name="crewId"				type="Number"	default="-1"/>
 		<property	name="params"				type="Dictionary"	/>
 		<property	name="sellable"				type="Boolean"		/>
@@ -2413,6 +2425,12 @@
 		<property	name="previewCamoColorScheme"	type="Number"/>
 	</component>
 
+	<component name="BonusTag">
+		<property	name="type"			type="String"/>
+		<property	name="rewards"		type="Array"/> <!-- массив entity.id сущностей с компонентом ComponentClass.rewardSource -->
+		<property	name="finishTime"	type="Integer"/>
+	</component>
+	
 	<component name="ColorScheme">
 		<property name="name"    	type="String"  pk="true" />
 		<property name="index"   	type="Integer"/>
@@ -2679,8 +2697,11 @@
 		<property name="eventum_2"				type="Number"/>
 		<property name="useEliteXP"				type="Boolean"/>
 		<property name="premBefore"				type="Integer"/>
+		<property name="wowsPremBefore"			type="Integer"/>
 		<property name="isPremium"				type="Boolean"/>
+		<property name="activePremiumType"		type="Integer"/>
 		<property name="premiumTimeStr"			type="String"/>
+		<property name="wowsPremiumTimeStr"		type="String"/>
 		<property name="slotsNum"				type="Integer"/>
 		<property name="walletStatus"			type="Boolean"/>
 		<property name="isSyncedWithWallet"		type="Boolean"/>
@@ -3408,6 +3429,7 @@
 		<property name="eventBattleScoringRules" type="Dictionary"/>	
 		<property name="coopBattleScoringRules" type="Dictionary"/>
 		<property name="rankBattleWinPoints" type="Integer"/>
+		<property name="clanBattleWinPoints" type="Integer"/>
 		<property name="pveBattlePointsForStar" type="Integer"/>	
 		<property name="rewardsForTop5" type="Array"/>
 		<property name="rewardsForTop10" type="Array"/>
@@ -3501,6 +3523,68 @@
 		<property name="hasActiveStages"	type="Boolean" default="false"/>
 		<event	  name="evHasActiveStagesChanged"/>
 		<event	  name="evStagesActivated"/>
+	</component>
+
+	<!-- ship params for UI -->
+
+	<component name="ShipParamsView">
+		<property name="shipId"	type="Number" pk="true"/>
+		<property name="viewType" type="String" pk="true"/> <!-- Dictionaries.py::MAP_LIST_PARAMS -->
+		<property name="paramsRendererData" type="Array"/> <!-- EntityID.ShipParamRendererData -->
+		<event	  name="evParamsRendererDataChanged"/>
+	</component>
+
+	<component name="ShipParamRendererData">
+		<property name="shipId"	type="Number"/>
+		<property name="ident" type="String"/>
+		<property name="nameIDS" type="String"/>
+		<!--<property name="index" type="interger"/>-->
+		<!--<property name="rootIndex" type="interger"/>-->
+		<!--<property name="rootEntityID" type="Integer"/>--> <!-- EntityID.ShipParamItemData -->
+		<property name="titleEntityID" type="Integer"/> <!-- EntityID.ShipParamItemData -->
+		<property name="valueEntityID" type="Integer"/> <!-- EntityID.ShipParamItemData -->
+
+		<!--<property name="empty" type="Boolean" default="false"/>-->
+		<property name="meta" type="Boolean" default="false"/>
+		<!-- <property name="children" type="Array"/> --> <!-- EntityID.ShipParamRendererData -->
+		<!--<property name="excursionObjectType" type="Array"/>-->
+		<!--<property name="excursionOff" type="Boolean" default="false"/>-->
+		<!--<property name="expandable" type="Boolean" default="false"/>-->
+		<!--<property name="secondLevelEntityID" type="Integer"/> -->  <!-- EntityID.ShipParamRendererData -->
+
+		<!--<property name="isRoot" type="Boolean" default="false"/>-->
+		<event	name="evChanged"/>
+	</component>
+
+	<component name="ShipParamItemData">
+		<!--<property name="nameIDS" type="String"/>-->
+		<!--<property name="measureIDS" type="String"/>-->
+		<property name="currentValue" type="Number"/>
+		
+		<!--<property name="values" type="Array"/>-->
+		<property name="mockupClass" type="Integer"/>
+		<property name="textValues"	type="Array"/>
+		<!--<property name="measures" type="Array"/>-->
+		<!--<property name="diffData" type="Array"/>-->
+		<!--<property name="hasDiff" type="Boolean" default="false"/>-->
+		<event	name="evChanged"/>
+	</component>
+	
+	<component name="ShipParamRendererState">
+		<property name="active" type="Boolean"/>
+		<property name="selected" type="Boolean"/>
+	</component>
+	
+	<component name="PremiumItem">
+		<property name="id"	type="String" pk="true"/>
+		<property name="duration"	type="Number"/>
+		<property name="gold"	type="Number"/>
+		<property name="isLocked"	type="Boolean"/>
+		<property name="isSelected"	type="Boolean"/>
+		<property name="type"	type="Integer"/>
+		<property name="cashbackDays"	type="Integer"/>
+		<property name="cashbackGold"	type="Integer"/>
+		<event	  name="evChanged"/>
 	</component>
 
 </components>

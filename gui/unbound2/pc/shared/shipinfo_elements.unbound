@@ -130,25 +130,49 @@
 		(var isOwned:bool = "playerShipEntity.hasComponent(CC.ownShip)")
         (macro SHIP_CLASS_STR "shipComponent")     
 	)
-
-	### FLAG ###
-	(element NationFlagsBig
-		(scope
-			(bind shipCountry "shipComponent.flagName")
-		)
+	
+	(block
 		(style
 			(position = "absolute")
 			(width = 100%)
 			(height = 184)
-			#(backgroundColor = 0x88FF0000)
+			(align = "center")
+			#(backgroundColor = 0x880F0F0F)
 		)
-		(alpha = 0.5)
+	
+		### FLAG ###
+		(element NationFlagsBig
+			(scope
+				(bind shipCountry "shipComponent.flagName")
+			)
+			(style
+				(position = "absolute")
+				(width = 300)
+				(height = 184)
+				#(backgroundColor = 0x88FF0000)
+			)
+			(alpha = 0.5)
+		)	
+		
+		### SHIP PREVIEW ###
+        (block 
+            (style
+                (width = 214px) 
+                (height = 126px) 
+                (marginTop = 32px) 
+                (bind backgroundImage "'url:' + shipComponent.pathPreview")
+                #(backgroundSize = "cover")
+                #(backgroundColor = 0x880F0F0F)
+            )
+        )
+		
 	)
 	
+	### SHIP ICON ###
 	(block
 		(style
 			#(backgroundColor = 0x880000FF)
-			(marginTop = 12px) (marginBottom = 12px)
+			(marginTop = 7px) (marginBottom = 8px)
 		)
 		(class $InfoBlockHorizontalIndent)
 		
@@ -156,7 +180,19 @@
 			(style (height = 25))
 			
 			(block
+				
+				(style
+					(width = 29)
+					(height = 29)
+				)
+				
 				(mc icon_wreath
+					(style
+                        (hcenter = 0)
+                        (vcenter = 1)
+                        (position = "absolute")
+                    )
+				
                     (bind visible "(upgradableShipInfo.isElite || shipComponent.isPremium || shipComponent.uiSpecial) && !_isNotMyShip")
                     (bindcall gotoAndStop "shipComponent.uiSpecial	? 'special' :
                                            shipComponent.isPremium 	? 'premium'
@@ -166,8 +202,8 @@
                 
                 (mc icon_ship
                     (style
-                        (hcenter = "0")
-                        (vcenter = "-1")
+                        (hcenter = 0)
+                        (vcenter = 0)
                         (position = "absolute")
                     )
                 
@@ -198,7 +234,7 @@
 	    (block
 	        (alpha = 0.8)
             (style
-                (backgroundColor = 0x880F00FF)
+                #(backgroundColor = 0x880F00FF)
             )
 	        
 			(element InvertableTextLine
@@ -734,21 +770,47 @@
 #    )
 )
 (def element LabelComingSoon() layout=true
-#    (block 
-#        (style 
-#            (width = "100%")
-#            (height = "80px")
-#        )
-#        (mc icon_issued
-#            (style 
-#                (marginLeft = "150px")
-#                (marginTop = "40px")
-#            )
-#            (bind rotation "-3")
-#            (innerBind item.item text "_showTestSampleLabel ? toUpperCase(tr('IDS_TEST_SAMPLE')) : toUpperCase(tr('IDS_UNAVAILABLE_TO_DISPLAY_SOON')) : ")
-#            #(bind gotoAndPlay! "'issued'")
-#        )
-#    )
+    (scope
+        (var _showTestSampleLabel:bool = false)
+    )
+    (style 
+        (width = 100%)
+        (height = 80px)
+        #(backgroundColor = 0xFF00FF00)
+        (align = "middle|center")
+    )
+    
+    (block
+		(style
+			(width = 100%)
+			#(backgroundColor = 0xFFFF00FF)
+			(align = "center")
+		)
+	    (rotation = -6)
+	    (pivotX = "TOOLTIP_SHIP_MAX_WIDTH/2")
+	    (pivotY = "80/2")
+	              
+		(block
+			(style
+				(backgroundImage = 'symbol:coming_soon_frame')
+				(backgroundSize = "fill")
+				#(backgroundColor = 0xFFFF0000)
+			)
+			(tf
+				(class $TextAccentBold)
+				(class $FontColorWhite)
+				(style
+				   (marginTop = 2px)
+				   (marginBottom = 2px)
+				   (marginLeft = 10px)
+				   (marginRight = 10)
+				)
+				
+				(bind text "_showTestSampleLabel ? toUpper(tr('IDS_TEST_SAMPLE')) : toUpper(tr('IDS_UNAVAILABLE_TO_DISPLAY_SOON'))")					
+			)
+		)
+	
+	)
 )
 (def element ShipResearchBlock() layout=true
 #    (scope

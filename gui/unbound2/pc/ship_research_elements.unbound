@@ -1,1125 +1,1132 @@
 ### Header for tree branches
-#(def element BranchTypeLabel()
-#    (style 
-#        (position = "absolute")
-#        (width = "1px")
-#        (flow = "horizontal")
-#    )
-#    (bind left "x * $parent.blockWidth")
-#    (bind width "$parent.blocHalfWidth * 2")
-#    (class $MiddleVAligned)
-#    (hblock 
-#        (style 
-#            (width = "100%f")
-#            (backgroundColor = "0x01000000")
-#        )
-#        (class $MiddleAligned)
-#        (var shipType:unknown = "nameIDS == 'IDS_DESTROYER'	? 'Destroyer' :
-#        									nameIDS == 'IDS_CARRIER'	? 'AirCarrier' :
-#        									nameIDS == 'IDS_CRUISER'	? 'Cruiser' :
-#        									nameIDS == 'IDS_BATTLESHIP'	? 'BattleShip'
-#        																: 'premiumShip'")
-#        (var shipDescriptionText:unknown = "nameIDS != 'IDS_PREMIUM' 	?	[{_paragraphText: (nameIDS + '_DESCRIPTION'), _leading: -2}] 
-#        																		: 	
-#        																			[{_paragraphText: (nameIDS + '_DESCRIPTION'), _leading: -2},																			
-#        																			{_paragraphText: 'IDS_PREMIUM_SHIP_DESCRIPTION_2', _leading: -2},
-#        																			{_paragraphText: 'IDS_PREMIUM_SHIP_DESCRIPTION_3', _leading: -2},
-#        																			{_paragraphText: 'IDS_PREMIUM_SHIP_DESCRIPTION_4', _leading: -2},
-#        																			{_paragraphText: 'IDS_PREMIUM_SHIP_DESCRIPTION_5', _leading: -2}]")
-#        (var brunchTitle:unknown = "(nameIDS + 'S')")
-#        #(bind tooltip "'MultiParagraphHelpTooltip';  {_tooltipHeader:  brunchTitle,  _multiParagraphArray:  shipDescriptionText,  _iconType:  'ship',  _shipType:  shipType}")
-#        (mc mc_icon_ship
-#            (bind visible "shipType != 'premiumShip'")
-#            (style 
-#                (marginRight = "S")
-#            )
-#            (class $MiddleVAligned)
-#            #(bind gotoAndStop! "shipType")
-#        )
-#        (tf 
-#            (class $TextDefaultBoldNM)
-#            (bind class "(nameIDS == 'IDS_PREMIUM' ? '$FontColorGolden' : '$None')")
-#            (bind text "brunchTitle")
-#        )
-#    )
+#(def element BranchTypeLabel() layout=true
+#	(style 
+#		(position = "absolute")
+#		(width = "1px")
+#		(flow = "horizontal")
+#	)
+#	(bind left "x * $parent.blockWidth")
+#	(bind width "$parent.blocHalfWidth * 2")
+#	(class $MiddleVAligned)
+#	(hblock 
+#		(style 
+#			(width = "100%f")
+#			(backgroundColor = "0x01000000")
+#		)
+#		(class $MiddleAligned)
+#		(var shipType:unknown = "nameIDS == 'IDS_DESTROYER'	? 'Destroyer' :
+#											nameIDS == 'IDS_CARRIER'	? 'AirCarrier' :
+#											nameIDS == 'IDS_CRUISER'	? 'Cruiser' :
+#											nameIDS == 'IDS_BATTLESHIP'	? 'BattleShip'
+#																		: 'premiumShip'")
+#		(var shipDescriptionText:unknown = "nameIDS != 'IDS_PREMIUM' 	?	[{_paragraphText: (nameIDS + '_DESCRIPTION'), _leading: -2}] 
+#																				: 	
+#																					[{_paragraphText: (nameIDS + '_DESCRIPTION'), _leading: -2},																			
+#																					{_paragraphText: 'IDS_PREMIUM_SHIP_DESCRIPTION_2', _leading: -2},
+#																					{_paragraphText: 'IDS_PREMIUM_SHIP_DESCRIPTION_3', _leading: -2},
+#																					{_paragraphText: 'IDS_PREMIUM_SHIP_DESCRIPTION_4', _leading: -2},
+#																					{_paragraphText: 'IDS_PREMIUM_SHIP_DESCRIPTION_5', _leading: -2}]")
+#		(var brunchTitle:unknown = "(nameIDS + 'S')")
+#		#(bind tooltip "'MultiParagraphHelpTooltip';  {_tooltipHeader:  brunchTitle,  _multiParagraphArray:  shipDescriptionText,  _iconType:  'ship',  _shipType:  shipType}")
+#		(mc mc_icon_ship
+#			(bind visible "shipType != 'premiumShip'")
+#			(style 
+#				(marginRight = "S")
+#			)
+#			(class $MiddleVAligned)
+#			#(bind gotoAndStop! "shipType")
+#		)
+#		(tf 
+#			(class $TextDefaultBoldNM)
+#			(bind class "(nameIDS == 'IDS_PREMIUM' ? '$FontColorGolden' : '$None')")
+#			(bind text "brunchTitle")
+#		)
+#	)
 #)
-#(def element BranchTypeLabelDark()
-#    (style 
-#        (position = "absolute")
-#        (width = "1px")
-#    )
-#    (bind left "x * $parent.blockWidth")
-#    (bind width "$parent.blocHalfWidth * 2")
-#    (class $MiddleVAligned)
-#    (block 
-#        (class $MiddleAligned)
-#        (tf 
-#            (class $TextSecondary)
-#            #(class $TextSecondaryNoFilter)
-#            (style 
-#                (position = "absolute")
-#                (maxWidth = "110")
-#                (textAlign = "center")
-#                (alpha = "0.35")
-#                (top = "1px")
-#            )
-#            (bind text "nameIDS")
-#        )
-#        (tf 
-#            (class $TextSecondary)
-#            #(class $TextSecondaryNoFilter)
-#            (style 
-#                (position = "absolute")
-#                (maxWidth = "110")
-#                (textAlign = "center")
-#                (alpha = "0.1")
-#                (top = "-1px")
-#            )
-#            (bind text "nameIDS")
-#        )
-#        (tf 
-#            (class $TextSecondary)
-#            #(class $TextSecondaryNoFilter)
-#            (style 
-#                (position = "absolute")
-#                (maxWidth = "110")
-#                (textAlign = "center")
-#                (alpha = "0.15")
-#                (left = "1px")
-#            )
-#            (bind text "nameIDS")
-#        )
-#        (tf 
-#            (class $TextSecondary)
-#            #(class $TextSecondaryNoFilter)
-#            (style 
-#                (position = "absolute")
-#                (maxWidth = "110")
-#                (textAlign = "center")
-#                (alpha = "0.15")
-#                (left = "-1px")
-#            )
-#            (bind text "nameIDS")
-#        )
-#        (tf 
-#            (class $TextSecondary)
-#            #(class $TextSecondaryNoFilter)
-#            #(bind class "'$FontColorAlmostBlack'")
-#            #(class $FontGlowFilterBright)
-#            (style 
-#                (maxWidth = "110")
-#                (textAlign = "center")
-#            )
-#            (bind text "nameIDS")
-#        )
-#        (tf 
-#            (class $TextSecondary)
-#            #(class $TextSecondaryNoFilter)
-#            #(bind class "'$FontColorAlmostBlack'")
-#            (style 
-#                (position = "absolute")
-#                (maxWidth = "110")
-#                (textAlign = "center")
-#            )
-#            (bind text "nameIDS")
-#        )
-#    )
+#(def element BranchTypeLabelDark() layout=true
+#	(style 
+#		(position = "absolute")
+#		(width = "1px")
+#	)
+#	(bind left "x * $parent.blockWidth")
+#	(bind width "$parent.blocHalfWidth * 2")
+#	(class $MiddleVAligned)
+#	(block 
+#		(class $MiddleAligned)
+#		(tf 
+#			(class $TextSecondary)
+#			#(class $TextSecondaryNoFilter)
+#			(style 
+#				(position = "absolute")
+#				(maxWidth = "110")
+#				(textAlign = "center")
+#				(alpha = "0.35")
+#				(top = "1px")
+#			)
+#			(bind text "nameIDS")
+#		)
+#		(tf 
+#			(class $TextSecondary)
+#			#(class $TextSecondaryNoFilter)
+#			(style 
+#				(position = "absolute")
+#				(maxWidth = "110")
+#				(textAlign = "center")
+#				(alpha = "0.1")
+#				(top = "-1px")
+#			)
+#			(bind text "nameIDS")
+#		)
+#		(tf 
+#			(class $TextSecondary)
+#			#(class $TextSecondaryNoFilter)
+#			(style 
+#				(position = "absolute")
+#				(maxWidth = "110")
+#				(textAlign = "center")
+#				(alpha = "0.15")
+#				(left = "1px")
+#			)
+#			(bind text "nameIDS")
+#		)
+#		(tf 
+#			(class $TextSecondary)
+#			#(class $TextSecondaryNoFilter)
+#			(style 
+#				(position = "absolute")
+#				(maxWidth = "110")
+#				(textAlign = "center")
+#				(alpha = "0.15")
+#				(left = "-1px")
+#			)
+#			(bind text "nameIDS")
+#		)
+#		(tf 
+#			(class $TextSecondary)
+#			#(class $TextSecondaryNoFilter)
+#			#(bind class "'$FontColorAlmostBlack'")
+#			#(class $FontGlowFilterBright)
+#			(style 
+#				(maxWidth = "110")
+#				(textAlign = "center")
+#			)
+#			(bind text "nameIDS")
+#		)
+#		(tf 
+#			(class $TextSecondary)
+#			#(class $TextSecondaryNoFilter)
+#			#(bind class "'$FontColorAlmostBlack'")
+#			(style 
+#				(position = "absolute")
+#				(maxWidth = "110")
+#				(textAlign = "center")
+#			)
+#			(bind text "nameIDS")
+#		)
+#	)
 #)
-#(def element CurrentFreeXP()
-#    (class $InfoLineBoundaries)
-#    (style 
-#        (flow = "horizontal")
-#    )
-#    (name = upgrade_tree_CurrentFreeXP)
-#    (tf 
-#        (class $TextHeaderBigDefault)
-#        (bind class "'$FontColorBlueish'")
-#        (class $MiddleVAligned)
-#        (bind text "_label")
-#    )
-#    (tf 
-#        (class $TextDefaultBold)
-#        (class $MiddleVAligned)
-#        (bind class "'$FontSizeLarge'")
-#        (bind class "'$FontColorFreeExp'")
-#        (bind text "format(_freeXP, -1)")
-#    )
-#    (mc icon_exp_free
-#        (style 
-#            (marginBottom = "-2px")
-#        )
-#        (class $MiddleVAligned)
-#    )
+#(def element CurrentFreeXP() layout=true
+#	(class $InfoLineBoundaries)
+#	(style 
+#		(flow = "horizontal")
+#	)
+#	(name = upgrade_tree_CurrentFreeXP)
+#	(tf 
+#		(class $TextHeaderBigDefault)
+#		(bind class "'$FontColorBlueish'")
+#		(class $MiddleVAligned)
+#		(bind text "_label")
+#	)
+#	(tf 
+#		(class $TextDefaultBold)
+#		(class $MiddleVAligned)
+#		(bind class "'$FontSizeLarge'")
+#		(bind class "'$FontColorFreeExp'")
+#		(bind text "format(_freeXP, -1)")
+#	)
+#	(mc icon_exp_free
+#		(style 
+#			(marginBottom = "-2px")
+#		)
+#		(class $MiddleVAligned)
+#	)
 #)
-#(def element CurrentXP()
-#    (class $InfoLineBoundaries)
-#    (style 
-#        (flow = "horizontal")
-#    )
-#    (name = upgrade_tree_CurrentShipXP)
-#    (tf 
-#        (class $TextHeaderBigDefault)
-#        (class $MiddleVAligned)
-#        (bind class "_light ? '$None' : '$FontColorBlueish'")
-#        (bind class "_light ? '$None' : '$Bold'")
-#        (bind text "_label")
-#    )
-#    (tf 
-#        (class $TextDefaultBold)
-#        (class $MiddleVAligned)
-#        (bind class "'$FontSizeLarge'")
-#        (bind class "'$FontColorExp'")
-#        (bind text "format(_exp, -1)")
-#    )
-#    (mc icon_exp
-#        (style 
-#            (marginBottom = "-2px")
-#        )
-#        (class $MiddleVAligned)
-#    )
+#(def element CurrentXP() layout=true
+#	(class $InfoLineBoundaries)
+#	(style 
+#		(flow = "horizontal")
+#	)
+#	(name = upgrade_tree_CurrentShipXP)
+#	(tf 
+#		(class $TextHeaderBigDefault)
+#		(class $MiddleVAligned)
+#		(bind class "_light ? '$None' : '$FontColorBlueish'")
+#		(bind class "_light ? '$None' : '$Bold'")
+#		(bind text "_label")
+#	)
+#	(tf 
+#		(class $TextDefaultBold)
+#		(class $MiddleVAligned)
+#		(bind class "'$FontSizeLarge'")
+#		(bind class "'$FontColorExp'")
+#		(bind text "format(_exp, -1)")
+#	)
+#	(mc icon_exp
+#		(style 
+#			(marginBottom = "-2px")
+#		)
+#		(class $MiddleVAligned)
+#	)
 #)
 
-(def element CurrentXPLarge()
-    (class $InfoLineBoundaries)
-    (style 
-        (marginBottom = -6px)
-    )
-    (name = upgrade_tree_CurrentShipXP)
-    (hblock 
-        (tf 
-            (class $MiddleVAligned)
-            (class $TextLargeHeaderBold)
-            (bind class "'$FontColorExp'")
-            (bind text "format(_exp, -1)")
-        )
-        (mc icon_exp
-            (class $MiddleVAligned)
-        )
-    )
-    (tf 
-        (style 
-            (marginTop = "2px")
-            (alpha = "0.8")
-        )
-        (class $TextDefaultWhite)
-        (bind text "_label")
-    )
+(def element CurrentXPLarge() layout=true
+	(scope
+		(var _exp:number = 0)
+		(var _label:str = '')
+	)
+
+	#(class $InfoLineBoundaries)
+#	(style 
+#		(marginBottom = -6px)
+#	)
+	(name = upgrade_tree_CurrentShipXP)
+	(hblock
+		(style
+			(align = "middle")
+		)
+	  
+		(tf 
+			(class $TextLargeHeaderBold)
+			(class $FontColorExp)
+			(bind text "formatSeparator(_exp)")
+		)
+		(mc icon_exp)
+	)
+	
+	(tf 
+		(style 
+			(marginTop = -6px)
+		)
+		(alpha = 0.8)
+		(class $TextDefaultWhite)
+		(bind text "_label")
+	)
 )
 
-#(def element StatusLineBig()
-#    (hblock 
-#        (tf 
-#            (style 
-#                (maxWidth = "300")
-#                (textAlign = "center")
-#            )
-#            (class $TextHeader)
-#            (class $MiddleVAligned)
-#            (bind class "_positive ? '$FontColorComparePositive' : '$FontColorUnready'")
-#            (bind text "_text")
-#        )
-#    )
+#(def element StatusLineBig() layout=true
+#	(hblock 
+#		(tf 
+#			(style 
+#				(maxWidth = "300")
+#				(textAlign = "center")
+#			)
+#			(class $TextHeader)
+#			(class $MiddleVAligned)
+#			(bind class "_positive ? '$FontColorComparePositive' : '$FontColorUnready'")
+#			(bind text "_text")
+#		)
+#	)
 #)
-#(def element StatusLineMedium()
-#    (tf 
-#        (style 
-#            (maxWidth = "300")
-#            (textAlign = "center")
-#        )
-#        (class $TextHeaderBigDefault)
-#        (bind class "'$FontColorUnready'")
-#        (bind text "_text")
-#    )
+#(def element StatusLineMedium() layout=true
+#	(tf 
+#		(style 
+#			(maxWidth = "300")
+#			(textAlign = "center")
+#		)
+#		(class $TextHeaderBigDefault)
+#		(bind class "'$FontColorUnready'")
+#		(bind text "_text")
+#	)
 #)
-#(def element StatusLineWithIcon()
-#    (hblock 
-#        (mc icon_warning_orange
-#            #(bind style "'top';  _small  ?  '4'  :  _large  ?  '7'  :  '6'")
-#            (style 
-#                (marginRight = "2px")
-#            )
-#        )
-#        (tf 
-#            #(bind style "'maxWidth';  _maxWidth  ?  _maxWidth  :  264")
-#            (bind class "_large ? '$TextHeaderBigDefault' 
-#            								:_small ? '$TextSecondary' : '$TextDefault'")
-#            (bind class "_positive ? '$FontColorComparePositive' : '$FontColorUnready'")
-#            (bind class "_bold ? '$Bold' : '$None'")
-#            (bind text "_text")
-#        )
-#    )
+#(def element StatusLineWithIcon() layout=true
+#	(hblock 
+#		(mc icon_warning_orange
+#			#(bind style "'top';  _small  ?  '4'  :  _large  ?  '7'  :  '6'")
+#			(style 
+#				(marginRight = "2px")
+#			)
+#		)
+#		(tf 
+#			#(bind style "'maxWidth';  _maxWidth  ?  _maxWidth  :  264")
+#			(bind class "_large ? '$TextHeaderBigDefault' 
+#											:_small ? '$TextSecondary' : '$TextDefault'")
+#			(bind class "_positive ? '$FontColorComparePositive' : '$FontColorUnready'")
+#			(bind class "_bold ? '$Bold' : '$None'")
+#			(bind text "_text")
+#		)
+#	)
 #)
-#(def element ModuleStatus()
-#    (style 
-#        (flow = "horizontal")
-#    )
-#    #Status Icon
-#    (block 
-#        (class $MiddleVAligned)
-#        #(_count.toPurchase > 0) || ((_count.Available == 0) && (_count.toPurchase <= 1))
-#        (controller $Instance renderer='ModuleStatusIcon'
-#        	(args _count.Installed > 0																			?  _state =  installed   = 
-#        											!(_isExplored) && !(_isStock)																	?  _state =  action   = 
-#        											(_count.Available > 0) && (_count.toPurchase > 0)											 	?  _state =  not_enough   = 
-#        											_count.toPurchase > 0 || (_unableToInstallIncompatibles.length > 0 && _count.toPurchase == 0)	?  _state =  action   = 
-#        											!(_unableToInstallIncompatibles)																?  _state =  explored 			
-#        																																			 =  null)
-#        )
-#    )
-#    (hblock 
-#        (class $MiddleVAligned)
-#        #Статус
-#        (tf 
-#            (class $TextDefault)
-#            (bind class "_count.Installed > 0 	? '$FontColorGolden'
-#            												: _count.Available > 0 	? '$FontColorWhite'
-#            																		: _isExplored 	? '$FontColorUnready'
-#            																						: _isStock 	? '$FontColorDefault'
-#            																									: '$FontColorUnready'")
-#            (bind text "_count.Installed > 0 	? 'IDS_INSTALLED'
-#            												: _isExplored 	? 	(_count.Available > 0 	? (_count.toPurchase > 0 	? 'IDS_IN_STOCK_Q'
-#            																														: 'IDS_IN_STOCK')
-#            																							: 'IDS_NOT_PURCHASED'
-#            																	)
-#            																: _isStock 	? 'IDS_STOCK'
-#            																			: 'IDS_NOT_RESEARCHED' ")
-#        )
-#        #Количество
-#        (tf 
-#            (class $TextDefault)
-#            (bind class "_count.Installed > 0 	? '$FontColorGolden'
-#            												: _count.Available > 0 	? '$FontColorWhite'
-#            																		: _isExplored 	? '$FontColorDefault'
-#            																						: '$FontColorExp'")
-#            (bind text "_count.Installed > 0 	? ''
-#            												: _isExplored	? 	((_count.Available > 0) && (_count.toPurchase > 0) 	? _count.Available + 0
-#            																														: ''
-#            																	)
-#            																: '' ")
-#        )
-#        #Нехватка
-#        (tf 
-#            (class $TextDefault)
-#            (bind class "'$FontColorCompareNegative'")
-#            (style 
-#                (marginLeft = "3px")
-#            )
-#            (bind text "(_count.Available > 0) && (_count.toPurchase > 0) 	? 'IDS_TO_BUY_Q'
-#            																			: '' ")
-#        )
-#        #Количество
-#        (tf 
-#            (class $TextSecondary)
-#            (bind class "'$FontColorCompareNegative'")
-#            (bind text "(_count.Available > 0) && (_count.toPurchase > 0) 	? _count.toPurchase
-#            																			: '' ")
-#        )
-#    )
+#(def element ModuleStatus() layout=true
+#	(style 
+#		(flow = "horizontal")
+#	)
+#	#Status Icon
+#	(block 
+#		(class $MiddleVAligned)
+#		#(_count.toPurchase > 0) || ((_count.Available == 0) && (_count.toPurchase <= 1))
+#		(controller $Instance renderer='ModuleStatusIcon'
+#			(args _count.Installed > 0																			?  _state =  installed   = 
+#													!(_isExplored) && !(_isStock)																	?  _state =  action   = 
+#													(_count.Available > 0) && (_count.toPurchase > 0)											 	?  _state =  not_enough   = 
+#													_count.toPurchase > 0 || (_unableToInstallIncompatibles.length > 0 && _count.toPurchase == 0)	?  _state =  action   = 
+#													!(_unableToInstallIncompatibles)																?  _state =  explored 			
+#																																					 =  null)
+#		)
+#	)
+#	(hblock 
+#		(class $MiddleVAligned)
+#		#Статус
+#		(tf 
+#			(class $TextDefault)
+#			(bind class "_count.Installed > 0 	? '$FontColorGolden'
+#															: _count.Available > 0 	? '$FontColorWhite'
+#																					: _isExplored 	? '$FontColorUnready'
+#																									: _isStock 	? '$FontColorDefault'
+#																												: '$FontColorUnready'")
+#			(bind text "_count.Installed > 0 	? 'IDS_INSTALLED'
+#															: _isExplored 	? 	(_count.Available > 0 	? (_count.toPurchase > 0 	? 'IDS_IN_STOCK_Q'
+#																																	: 'IDS_IN_STOCK')
+#																										: 'IDS_NOT_PURCHASED'
+#																				)
+#																			: _isStock 	? 'IDS_STOCK'
+#																						: 'IDS_NOT_RESEARCHED' ")
+#		)
+#		#Количество
+#		(tf 
+#			(class $TextDefault)
+#			(bind class "_count.Installed > 0 	? '$FontColorGolden'
+#															: _count.Available > 0 	? '$FontColorWhite'
+#																					: _isExplored 	? '$FontColorDefault'
+#																									: '$FontColorExp'")
+#			(bind text "_count.Installed > 0 	? ''
+#															: _isExplored	? 	((_count.Available > 0) && (_count.toPurchase > 0) 	? _count.Available + 0
+#																																	: ''
+#																				)
+#																			: '' ")
+#		)
+#		#Нехватка
+#		(tf 
+#			(class $TextDefault)
+#			(bind class "'$FontColorCompareNegative'")
+#			(style 
+#				(marginLeft = "3px")
+#			)
+#			(bind text "(_count.Available > 0) && (_count.toPurchase > 0) 	? 'IDS_TO_BUY_Q'
+#																						: '' ")
+#		)
+#		#Количество
+#		(tf 
+#			(class $TextSecondary)
+#			(bind class "'$FontColorCompareNegative'")
+#			(bind text "(_count.Available > 0) && (_count.toPurchase > 0) 	? _count.toPurchase
+#																						: '' ")
+#		)
+#	)
 #)
-#(def element ModuleStatusIcon()
-#    (mc icon_module_state
-#        #(bind gotoAndStop! "_state")
-#    )
+#(def element ModuleStatusIcon() layout=true
+#	(mc icon_module_state
+#		#(bind gotoAndStop! "_state")
+#	)
 #)
-#(def element ShipHeaderModuleTree()
-#    (scope
-#        #(var accountFreeXP:unknown = "resourceEntity.accountResource.freeXP" (event "resourceEntity.accountResource.evChangedFreeXP"))
-#        #(var accountGold:unknown = "resourceEntity.accountResource.gold" (event "resourceEntity.accountResource.evChangedGold"))
-#    )
-#    #(bind controller "lesta.dialogs.controllers.EntitySingletonController;  'realmConstants'")
-#    #(bind firstEntityDH "'resourceEntity';  CC.accountResource")
-#    (style 
-#        (flow = "horizontal")
-#        (width = "100%")
-#        (height = "34px")
-#    )
-#    (block 
-#        (class $FullsizeAbsolute)
-#        (style 
-#            (top = "-5px")
-#        )
-#        (element BlurMapCustom "mc_blurmap_h_no_right")
-#        #(bind controller "lesta.dialogs.controllers.EntitySingletonController;  'optionData'")
-#        (mc contrast_panel
-#            (class $FullsizeAbsolute)
-#            (bind visible "optionData.contrast")
-#        )
-#        (mc inner_panel
-#            (class $Fullsize)
-#        )
-#    )
-#    (hblock 
-#        #(bind tooltip "'ShipExtendedTooltip';  {  shipId:  _shipId  };  0")
-#        (style 
-#            (marginTop = "5px")
-#            (marginLeft = "3px")
-#        )
-#        (mc icon_wreath
-#            (class $MouseDisable)
-#            (style 
-#                (position = "absolute")
-#                (top = "-6px")
-#            )
-#            (bind visible "_isElite || _isPremium || _uiSpecial")
-#            #(bind gotoAndStop! "_uiSpecial  ?  'special'  :  _isPremium  ?  'premium'  :  'elite'")
-#        )
-#        (mc icon_ship
-#            (class $MouseDisable)
-#            (style 
-#                (marginLeft = "5px")
-#                (marginTop = "2px")
-#            )
-#            #(bind gotoAndStop! "_isPremium  ||  _uiSpecial  ?  _subtype  +  '_P'  :  _unavailable  ?  _subtype  +  '_U'  :  _subtype")
-#        )
-#        (block 
-#            (class $MiddleVAligned)
-#            (style 
-#                (marginLeft = "3px")
-#            )
-#            (bind class "_unavailable ? '$BlockGlowFilterBright' : '$GlowDisabler'")
-#            (tf 
-#                (class $FontShipnameWhite)
-#                (style 
-#                    (position = "absolute")
-#                    (alpha = "0.25")
-#                    (top = "1px")
-#                )
-#                (bind visible "_unavailable")
-#                (bind class "'$FontGlowFilterBright'")
-#                #(bind style "'letterSpacing';  _letterSpacing  ?  _letterSpacing  :  '0'")
-#                (bind text "_levelRome + ' ' + tr(_shipName)")
-#            )
-#            (tf 
-#                (class $FontShipnameWhite)
-#                (style 
-#                    (position = "absolute")
-#                    (alpha = "0.15")
-#                    (top = "-1px")
-#                )
-#                (bind visible "_unavailable")
-#                #(bind style "'letterSpacing';  _letterSpacing  ?  _letterSpacing  :  '0'")
-#                (bind text "_levelRome + ' ' + tr(_shipName)")
-#            )
-#            (tf 
-#                (class $FontShipnameWhite)
-#                #(bind style "'letterSpacing';  _letterSpacing  ?  _letterSpacing  :  '0'")
-#                (bind class "_isPremium || _uiSpecial 	? '$FontShipnameGolden'
-#                										: _unavailable 	? '$FontShipnameBlack' : '$FontShipnameWhite'")
-#                (bind text "_levelRome + ' ' + tr(_shipName)")
-#            )
-#        )
-#        (mc icon_check
-#            (style 
-#                (marginLeft = "-2px")
-#                (marginTop = "-4px")
-#            )
-#            (bind visible "_isOwned")
-#        )
-#    )
-#    #slim_client
-#    (block 
-#        (bind visible "!_isDownloaded")
-#        (style 
-#            (marginTop = "-3px")
-#        )
-#        (controller $Instance renderer='IconSlimClient'
-#        	(args !_isDownloaded ?  _isEventLike =  _eventShips   =  null)
-#        )
-#    )
-#    # Ship experience
-#    (hblock 
-#        (style 
-#            (marginLeft = "6px")
-#            (marginTop = "-1px")
-#            (right = "12")
-#            (position = "absolute")
-#        )
-#        (block 
-#            (style 
-#                (marginLeft = "6px")
-#            )
-#            #(bind tooltip "'SimpleTooltip';  {tooltipText:  'IDS_SHIP_EXPERIENCE'}")
-#            (controller $Instance renderer='CurrentXP'
-#            	(args _isOwned ?  _exp =  _shipExp  =  null)
-#            )
-#            # playerShipInfo.exp
-#            (bind name "'AvailableExpBalanceModuleTreeHeader'")
-#        )
-#        (block 
-#            (style 
-#                (marginLeft = "9px")
-#            )
-#            #(bind tooltip "'SimpleTooltip';  {tooltipText:  'IDS_FREE_EXPERIENCE_C'}")
-#            #(bind feature "5;  ''")
-#            (bind visible "feature_5 != 'locked' && _isOwned")
-#            (controller $Instance renderer='CurrentFreeXP'
-#            	(args _freeXP =  accountFreeXP)
-#            )
-#            (bind name "'freeExpBalanceModuleTreeHeader'")
-#        )
-#    )
-#    # Natural indicator block
-#    (macro LAZY )
-#    (macro PULL_SHIP _shipId shipEntity shipInfo)
-#    (var defaultButtonCostSmallData:unknown = "_isOwned 	? null
-#    															: !(_dependencyResearched || _isExplored) ? null
-#    															: !(_isExplored) && (_expDeficit <= 0) && (_group == 'upgradeable' || _group == 'upgradeableExclusive') ? { _label: toUpperCase(tr('IDS_DO_RESEARCH')), priceInfo: (_totalCostXP == _explorePriceFinal ? _explorePrice : { finalPrice: _totalCostXP, currency: 'exp' }), _action: (isLazyLogin && (shipInfo.level > realmConstants.lazyAccountMaxShipTier)) ? null : 'researchShip', _actionParams: { shipId: _shipId }, _enabled: true, _showDiscountTag:true }
-#    															: (_isExplored) && (_creditsDeficit <= 0) && !(_isPremium) ? { _label: toUpperCase(tr('IDS_DO_PURCHASE')), priceInfo: _buyPrice, _action: (isLazyLogin && (shipInfo.level > realmConstants.lazyAccountMaxShipTier)) ? null : 'purchaseShip', _actionParams: { shipId: _shipId }, _enabled: (_creditsDeficit <= 0), _showDiscountTag:true }
-#    															: _isExplored && _isPremium  && (accountGold - _buyPriceFinal) >= 0 ? { _label: toUpperCase(tr('IDS_DO_PURCHASE')), priceInfo: _buyPrice, _action: (isLazyLogin && (shipInfo.level > realmConstants.lazyAccountMaxShipTier)) ? null : 'purchaseShip', _actionParams: { shipId: _shipId }, _enabled: ((accountGold - _costGold) >= 0), _showDiscountTag:true }
-#    															: null")
-#    (var priceTagWithLabelData:unknown = "_isOwned 	? null
-#    													: (!(_isExplored) && !(_dependencyResearched)) || (!(_isExplored) && _expDeficit > 0)? { priceInfo: { finalPrice: _totalCostXP, currency: 'exp' }, _label: 'IDS_RESEARCH_COST', _small : true}
-#    													: _isExplored && _creditsDeficit > 0 && !(_isPremium) ? { priceInfo: _buyPrice, _label: 'IDS_PURCHASE_COST', _small : true}
-#    													: _isExplored && _isPremium && (accountGold - _buyPriceFinal) < 0 ? {priceInfo: _buyPrice, _label: 'IDS_PURCHASE_COST', _small : true }
-#    													: null")
-#    (var priceDeficitData:unknown = "_isOwned 	? null
-#    												: !(_dependencyResearched) ? null
-#    												: !(_isExplored) && _expDeficit > 0 ? { priceInfo: { finalPrice: _totalCostXP, currency: 'exp' }, _small : true, _tooltipText: 'IDS_TOOLTIP_NO_XP', _deficit: _expDeficit}
-#    												: _isExplored && _creditsDeficit > 0 && !(_isPremium) ? { priceInfo: _buyPrice, _label: 'IDS_PURCHASE_COST', _small : true, _tooltipText: 'IDS_TOOLTIP_NO_CREDITS', _deficit: _creditsDeficit}
-#    												: _isExplored && _isPremium && (accountGold - _buyPriceFinal) < 0 ? {priceInfo: _buyPrice, _label: 'IDS_PURCHASE_COST', _deficit: -(accountGold - _buyPriceFinal), _tooltipText: 'IDS_TOOLTIP_NO_GOLD', _small : true }
-#    												: null")
-#    (var statusLineWithIconData:unknown = "(_dependencyResearched || _isExplored) 	? null
-#    																					: { _text: 'IDS_RESEARCH_PREVIOUS_SHIPS', _positive: false, _small: true, _maxWidth: 300}")
-#    (block 
-#        (bind visible "!_eventShips")
-#        (style 
-#            (right = "6px")
-#            (position = "absolute")
-#            (marginTop = "2px")
-#        )
-#        (block 
-#            (bind visible "!!defaultButtonCostSmallData")
-#            (bind name "'ButtonShipResearchOrPurchaseSmall'")
-#            (style 
-#                (right = "0px")
-#            )
-#            #This time the lazy implementation is not very cool. Probably we should completely rewrite this place.
-#            #(bind action "'click';  (isLazyLogin  &&  (shipInfo.level  >  realmConstants.lazyAccountMaxShipTier))  ?  'forceCreateAccount'  :  null")
-#            (controller $Instance renderer='DefaultButtonCostSmall'
-#            	(args !!defaultButtonCostSmallData ? defaultButtonCostSmallData  =  null)
-#            )
-#        )
-#        # Research cost
-#        (block 
-#            (bind visible "!defaultButtonCostSmallData")
-#            (style 
-#                (marginTop = "-8px")
-#            )
-#            (block 
-#                (bind visible "!!priceTagWithLabelData")
-#                (style 
-#                    (right = "0px")
-#                )
-#                (controller $Instance renderer='PriceTagWithLabel'
-#                	(args !!priceTagWithLabelData ? priceTagWithLabelData  =  null)
-#                )
-#            )
-#            (block 
-#                (bind visible "!!statusLineWithIconData")
-#                (style 
-#                    (right = "0px")
-#                    (marginTop = "-5px")
-#                )
-#                (controller $Instance renderer='StatusLineWithIcon'
-#                	(args !!statusLineWithIconData ? statusLineWithIconData  =  null)
-#                )
-#            )
-#            (block 
-#                (bind visible "!!priceDeficitData")
-#                (style 
-#                    (right = "0px")
-#                    (marginTop = "-5px")
-#                )
-#                (controller $Instance renderer='PriceDeficit'
-#                	(args !!priceDeficitData ? priceDeficitData  =  null)
-#                )
-#            )
-#        )
-#    )
-#    # Show Label Coming Soon
-#    (block 
-#        (bind visible "_eventShips && !_isOwned")
-#        (style 
-#            (width = "80px")
-#            (right = "0px")
-#            (position = "absolute")
-#        )
-#        (mc icon_issued_small
-#            (style 
-#                (marginTop = "12px")
-#                (marginLeft = "30px")
-#            )
-#            (bind rotation "-3")
-#            (innerBind item.item text "toUpperCase(tr('IDS_UNAVAILABLE_TO_DISPLAY_SOON'))")
-#            #(bind gotoAndPlay! "'issued'")
-#        )
-#    )
+#(def element ShipHeaderModuleTree() layout=true
+#	(scope
+#		#(var accountFreeXP:unknown = "resourceEntity.accountResource.freeXP" (event "resourceEntity.accountResource.evChangedFreeXP"))
+#		#(var accountGold:unknown = "resourceEntity.accountResource.gold" (event "resourceEntity.accountResource.evChangedGold"))
+#	)
+#	#(bind controller "lesta.dialogs.controllers.EntitySingletonController;  'realmConstants'")
+#	#(bind firstEntityDH "'resourceEntity';  CC.accountResource")
+#	(style 
+#		(flow = "horizontal")
+#		(width = "100%")
+#		(height = "34px")
+#	)
+#	(block 
+#		(class $FullsizeAbsolute)
+#		(style 
+#			(top = "-5px")
+#		)
+#		(element BlurMapCustom "mc_blurmap_h_no_right")
+#		#(bind controller "lesta.dialogs.controllers.EntitySingletonController;  'optionData'")
+#		(mc contrast_panel
+#			(class $FullsizeAbsolute)
+#			(bind visible "optionData.contrast")
+#		)
+#		(mc inner_panel
+#			(class $Fullsize)
+#		)
+#	)
+#	(hblock 
+#		#(bind tooltip "'ShipExtendedTooltip';  {  shipId:  _shipId  };  0")
+#		(style 
+#			(marginTop = "5px")
+#			(marginLeft = "3px")
+#		)
+#		(mc icon_wreath
+#			(class $MouseDisable)
+#			(style 
+#				(position = "absolute")
+#				(top = "-6px")
+#			)
+#			(bind visible "_isElite || _isPremium || _uiSpecial")
+#			#(bind gotoAndStop! "_uiSpecial  ?  'special'  :  _isPremium  ?  'premium'  :  'elite'")
+#		)
+#		(mc icon_ship
+#			(class $MouseDisable)
+#			(style 
+#				(marginLeft = "5px")
+#				(marginTop = "2px")
+#			)
+#			#(bind gotoAndStop! "_isPremium  ||  _uiSpecial  ?  _subtype  +  '_P'  :  _unavailable  ?  _subtype  +  '_U'  :  _subtype")
+#		)
+#		(block 
+#			(class $MiddleVAligned)
+#			(style 
+#				(marginLeft = "3px")
+#			)
+#			(bind class "_unavailable ? '$BlockGlowFilterBright' : '$GlowDisabler'")
+#			(tf 
+#				(class $FontShipnameWhite)
+#				(style 
+#					(position = "absolute")
+#					(alpha = "0.25")
+#					(top = "1px")
+#				)
+#				(bind visible "_unavailable")
+#				(bind class "'$FontGlowFilterBright'")
+#				#(bind style "'letterSpacing';  _letterSpacing  ?  _letterSpacing  :  '0'")
+#				(bind text "_levelRome + ' ' + tr(_shipName)")
+#			)
+#			(tf 
+#				(class $FontShipnameWhite)
+#				(style 
+#					(position = "absolute")
+#					(alpha = "0.15")
+#					(top = "-1px")
+#				)
+#				(bind visible "_unavailable")
+#				#(bind style "'letterSpacing';  _letterSpacing  ?  _letterSpacing  :  '0'")
+#				(bind text "_levelRome + ' ' + tr(_shipName)")
+#			)
+#			(tf 
+#				(class $FontShipnameWhite)
+#				#(bind style "'letterSpacing';  _letterSpacing  ?  _letterSpacing  :  '0'")
+#				(bind class "_isPremium || _uiSpecial 	? '$FontShipnameGolden'
+#														: _unavailable 	? '$FontShipnameBlack' : '$FontShipnameWhite'")
+#				(bind text "_levelRome + ' ' + tr(_shipName)")
+#			)
+#		)
+#		(mc icon_check
+#			(style 
+#				(marginLeft = "-2px")
+#				(marginTop = "-4px")
+#			)
+#			(bind visible "_isOwned")
+#		)
+#	)
+#	#slim_client
+#	(block 
+#		(bind visible "!_isDownloaded")
+#		(style 
+#			(marginTop = "-3px")
+#		)
+#		(controller $Instance renderer='IconSlimClient'
+#			(args !_isDownloaded ?  _isEventLike =  _eventShips   =  null)
+#		)
+#	)
+#	# Ship experience
+#	(hblock 
+#		(style 
+#			(marginLeft = "6px")
+#			(marginTop = "-1px")
+#			(right = "12")
+#			(position = "absolute")
+#		)
+#		(block 
+#			(style 
+#				(marginLeft = "6px")
+#			)
+#			#(bind tooltip "'SimpleTooltip';  {tooltipText:  'IDS_SHIP_EXPERIENCE'}")
+#			(controller $Instance renderer='CurrentXP'
+#				(args _isOwned ?  _exp =  _shipExp  =  null)
+#			)
+#			# playerShipInfo.exp
+#			(bind name "'AvailableExpBalanceModuleTreeHeader'")
+#		)
+#		(block 
+#			(style 
+#				(marginLeft = "9px")
+#			)
+#			#(bind tooltip "'SimpleTooltip';  {tooltipText:  'IDS_FREE_EXPERIENCE_C'}")
+#			#(bind feature "5;  ''")
+#			(bind visible "feature_5 != 'locked' && _isOwned")
+#			(controller $Instance renderer='CurrentFreeXP'
+#				(args _freeXP =  accountFreeXP)
+#			)
+#			(bind name "'freeExpBalanceModuleTreeHeader'")
+#		)
+#	)
+#	# Natural indicator block
+#	(macro LAZY )
+#	(macro PULL_SHIP _shipId shipEntity shipInfo)
+#	(var defaultButtonCostSmallData:unknown = "_isOwned 	? null
+#																: !(_dependencyResearched || _isExplored) ? null
+#																: !(_isExplored) && (_expDeficit <= 0) && (_group == 'upgradeable' || _group == 'upgradeableExclusive') ? { _label: toUpperCase(tr('IDS_DO_RESEARCH')), priceInfo: (_totalCostXP == _explorePriceFinal ? _explorePrice : { finalPrice: _totalCostXP, currency: 'exp' }), _action: (isLazyLogin && (shipInfo.level > realmConstants.lazyAccountMaxShipTier)) ? null : 'researchShip', _actionParams: { shipId: _shipId }, _enabled: true, _showDiscountTag:true }
+#																: (_isExplored) && (_creditsDeficit <= 0) && !(_isPremium) ? { _label: toUpperCase(tr('IDS_DO_PURCHASE')), priceInfo: _buyPrice, _action: (isLazyLogin && (shipInfo.level > realmConstants.lazyAccountMaxShipTier)) ? null : 'purchaseShip', _actionParams: { shipId: _shipId }, _enabled: (_creditsDeficit <= 0), _showDiscountTag:true }
+#																: _isExplored && _isPremium  && (accountGold - _buyPriceFinal) >= 0 ? { _label: toUpperCase(tr('IDS_DO_PURCHASE')), priceInfo: _buyPrice, _action: (isLazyLogin && (shipInfo.level > realmConstants.lazyAccountMaxShipTier)) ? null : 'purchaseShip', _actionParams: { shipId: _shipId }, _enabled: ((accountGold - _costGold) >= 0), _showDiscountTag:true }
+#																: null")
+#	(var priceTagWithLabelData:unknown = "_isOwned 	? null
+#														: (!(_isExplored) && !(_dependencyResearched)) || (!(_isExplored) && _expDeficit > 0)? { priceInfo: { finalPrice: _totalCostXP, currency: 'exp' }, _label: 'IDS_RESEARCH_COST', _small : true}
+#														: _isExplored && _creditsDeficit > 0 && !(_isPremium) ? { priceInfo: _buyPrice, _label: 'IDS_PURCHASE_COST', _small : true}
+#														: _isExplored && _isPremium && (accountGold - _buyPriceFinal) < 0 ? {priceInfo: _buyPrice, _label: 'IDS_PURCHASE_COST', _small : true }
+#														: null")
+#	(var priceDeficitData:unknown = "_isOwned 	? null
+#													: !(_dependencyResearched) ? null
+#													: !(_isExplored) && _expDeficit > 0 ? { priceInfo: { finalPrice: _totalCostXP, currency: 'exp' }, _small : true, _tooltipText: 'IDS_TOOLTIP_NO_XP', _deficit: _expDeficit}
+#													: _isExplored && _creditsDeficit > 0 && !(_isPremium) ? { priceInfo: _buyPrice, _label: 'IDS_PURCHASE_COST', _small : true, _tooltipText: 'IDS_TOOLTIP_NO_CREDITS', _deficit: _creditsDeficit}
+#													: _isExplored && _isPremium && (accountGold - _buyPriceFinal) < 0 ? {priceInfo: _buyPrice, _label: 'IDS_PURCHASE_COST', _deficit: -(accountGold - _buyPriceFinal), _tooltipText: 'IDS_TOOLTIP_NO_GOLD', _small : true }
+#													: null")
+#	(var statusLineWithIconData:unknown = "(_dependencyResearched || _isExplored) 	? null
+#																						: { _text: 'IDS_RESEARCH_PREVIOUS_SHIPS', _positive: false, _small: true, _maxWidth: 300}")
+#	(block 
+#		(bind visible "!_eventShips")
+#		(style 
+#			(right = "6px")
+#			(position = "absolute")
+#			(marginTop = "2px")
+#		)
+#		(block 
+#			(bind visible "!!defaultButtonCostSmallData")
+#			(bind name "'ButtonShipResearchOrPurchaseSmall'")
+#			(style 
+#				(right = "0px")
+#			)
+#			#This time the lazy implementation is not very cool. Probably we should completely rewrite this place.
+#			#(bind action "'click';  (isLazyLogin  &&  (shipInfo.level  >  realmConstants.lazyAccountMaxShipTier))  ?  'forceCreateAccount'  :  null")
+#			(controller $Instance renderer='DefaultButtonCostSmall'
+#				(args !!defaultButtonCostSmallData ? defaultButtonCostSmallData  =  null)
+#			)
+#		)
+#		# Research cost
+#		(block 
+#			(bind visible "!defaultButtonCostSmallData")
+#			(style 
+#				(marginTop = "-8px")
+#			)
+#			(block 
+#				(bind visible "!!priceTagWithLabelData")
+#				(style 
+#					(right = "0px")
+#				)
+#				(controller $Instance renderer='PriceTagWithLabel'
+#					(args !!priceTagWithLabelData ? priceTagWithLabelData  =  null)
+#				)
+#			)
+#			(block 
+#				(bind visible "!!statusLineWithIconData")
+#				(style 
+#					(right = "0px")
+#					(marginTop = "-5px")
+#				)
+#				(controller $Instance renderer='StatusLineWithIcon'
+#					(args !!statusLineWithIconData ? statusLineWithIconData  =  null)
+#				)
+#			)
+#			(block 
+#				(bind visible "!!priceDeficitData")
+#				(style 
+#					(right = "0px")
+#					(marginTop = "-5px")
+#				)
+#				(controller $Instance renderer='PriceDeficit'
+#					(args !!priceDeficitData ? priceDeficitData  =  null)
+#				)
+#			)
+#		)
+#	)
+#	# Show Label Coming Soon
+#	(block 
+#		(bind visible "_eventShips && !_isOwned")
+#		(style 
+#			(width = "80px")
+#			(right = "0px")
+#			(position = "absolute")
+#		)
+#		(mc icon_issued_small
+#			(style 
+#				(marginTop = "12px")
+#				(marginLeft = "30px")
+#			)
+#			(bind rotation "-3")
+#			(innerBind item.item text "toUpperCase(tr('IDS_UNAVAILABLE_TO_DISPLAY_SOON'))")
+#			#(bind gotoAndPlay! "'issued'")
+#		)
+#	)
 #)
-#(def element LevelItem()
-#    (style 
-#        (height = "80px")
-#        (width = "100%")
-#    )
-#    (bind height "$parent.blockHeight")
-#    #(bind style "'backgroundColor';  ($index  +  1)  %  2  ==  0  ?  '0x00000000'  :  '0x10000000'")
-#    (mc icon_level_elite
-#        (class $MiddleVAligned)
-#        (style 
-#            (marginLeft = "35px")
-#            (alpha = "0.2")
-#        )
-#        #(bind gotoAndStop! "$index  +  1")
-#    )
+#(def element LevelItem() layout=true
+#	(style 
+#		(height = "80px")
+#		(width = "100%")
+#	)
+#	(bind height "$parent.blockHeight")
+#	#(bind style "'backgroundColor';  ($index  +  1)  %  2  ==  0  ?  '0x00000000'  :  '0x10000000'")
+#	(mc icon_level_elite
+#		(class $MiddleVAligned)
+#		(style 
+#			(marginLeft = "35px")
+#			(alpha = "0.2")
+#		)
+#		#(bind gotoAndStop! "$index  +  1")
+#	)
 #)
-#(def element IncompatiblesBlock()
-#    (style 
-#        (width = "100%")
-#    )
-#    (hblock 
-#        (mc icon_warning_orange
-#            (style 
-#                (marginTop = "7px")
-#                (marginLeft = "12px")
-#            )
-#        )
-#        (tf 
-#            (class $TextSecondary)
-#            (bind class "'$FontColorUnready'")
-#            (style 
-#                (marginTop = "3px")
-#                (marginBottom = "6px")
-#                (marginLeft = "2px")
-#                (marginRight = "12px")
-#            )
-#            (text "IDS_INSTALL_COMPATIBLE_MODULE")
-#        )
-#    )
-#    (element HorizontalDivider)
-#    (block 
-#        (style 
-#            (width = "100%")
-#        )
-#        (mc inner_panel
-#            (class $Fullsize)
-#            (class $PxHorizontalCorrection)
-#            (style 
-#                (position = "absolute")
-#            )
-#        )
-#        (hblock 
-#            (mc icon_warning_red
-#                (style 
-#                    (marginTop = "7px")
-#                    (marginLeft = "12px")
-#                )
-#            )
-#            (tf 
-#                (class $TextSecondary)
-#                (bind class "'$FontColorCompareNegative'")
-#                (style 
-#                    (marginTop = "3px")
-#                    (marginLeft = "2px")
-#                    (marginRight = "12px")
-#                )
-#                (text "IDS_MODULE_INCOMPATIBLE_WITH")
-#            )
-#        )
-#        (block 
-#            (style 
-#                (width = "100%")
-#                (marginBottom = "3px")
-#            )
-#            #(bind repeat "_incompatibleModules;  'DependencyRepeatItem';  {_type:  _type}")
-#        )
-#    )
-#    (element HorizontalDivider)
+#(def element IncompatiblesBlock() layout=true
+#	(style 
+#		(width = "100%")
+#	)
+#	(hblock 
+#		(mc icon_warning_orange
+#			(style 
+#				(marginTop = "7px")
+#				(marginLeft = "12px")
+#			)
+#		)
+#		(tf 
+#			(class $TextSecondary)
+#			(bind class "'$FontColorUnready'")
+#			(style 
+#				(marginTop = "3px")
+#				(marginBottom = "6px")
+#				(marginLeft = "2px")
+#				(marginRight = "12px")
+#			)
+#			(text "IDS_INSTALL_COMPATIBLE_MODULE")
+#		)
+#	)
+#	(element HorizontalDivider)
+#	(block 
+#		(style 
+#			(width = "100%")
+#		)
+#		(mc inner_panel
+#			(class $Fullsize)
+#			(class $PxHorizontalCorrection)
+#			(style 
+#				(position = "absolute")
+#			)
+#		)
+#		(hblock 
+#			(mc icon_warning_red
+#				(style 
+#					(marginTop = "7px")
+#					(marginLeft = "12px")
+#				)
+#			)
+#			(tf 
+#				(class $TextSecondary)
+#				(bind class "'$FontColorCompareNegative'")
+#				(style 
+#					(marginTop = "3px")
+#					(marginLeft = "2px")
+#					(marginRight = "12px")
+#				)
+#				(text "IDS_MODULE_INCOMPATIBLE_WITH")
+#			)
+#		)
+#		(block 
+#			(style 
+#				(width = "100%")
+#				(marginBottom = "3px")
+#			)
+#			#(bind repeat "_incompatibleModules;  'DependencyRepeatItem';  {_type:  _type}")
+#		)
+#	)
+#	(element HorizontalDivider)
 #)
-#(def element ModuleDependenciesBlock()
-#    (style 
-#        (width = "100%")
-#    )
-#    (hblock 
-#        #(class $InfoLineBoundaries)
-#        (style 
-#            (flow = "horizontal")
-#            (width = "100%")
-#            (marginLeft = "12px")
-#            (marginRight = "12px")
-#            (marginTop = "8px")
-#            (marginBottom = "3px")
-#        )
-#        (block 
-#            (controller $Instance renderer='PriceTagWithLabel'
-#            	(args _type[1] == research ?  priceInfo =  _priceInfo
-#            		_label =  IDS_RESEARCH_COST
-#            		_techText = true
-#            		_showDiscountTag = true
-#            													 =  _type[1] == purchase ?  priceInfo = _priceInfo
-#            		_label =  IDS_PURCHASE_COST
-#            		_techText = true
-#            		_showDiscountTag = true
-#            													 =  null)
-#            )
-#        )
-#        (tf 
-#            (class $TextDefault)
-#            (bind class "'$FontColorBlueish'")
-#            (bind text "_type[1] == 'mount' ? 'IDS_HAVE_TO_BE_MOUNTED' : ''")
-#        )
-#    )
-#    (element HorizontalDivider)
-#    (block 
-#        (style 
-#            (width = "100%")
-#        )
-#        (mc inner_panel
-#            (class $Fullsize)
-#            (class $PxHorizontalCorrection)
-#            (style 
-#                (position = "absolute")
-#            )
-#        )
-#        (tf 
-#            (class $TextDefault)
-#            (bind class "'$FontColorBlueish'")
-#            (bind visible "_type[1] != 'mount'")
-#            (style 
-#                (marginTop = "4px")
-#                (marginLeft = "12px")
-#                (marginRight = "12px")
-#            )
-#            (bind text "_type[1] == 'research' ? 'IDS_WILL_BE_ALSO_RESEARCHED' 
-#            												: _type[1] == 'purchase' 	? 'IDS_HAVE_TO_BE_PURCHASED' 
-#            																			: ''")
-#        )
-#        (block 
-#            (style 
-#                (width = "100%")
-#                (marginBottom = "3px")
-#            )
-#            #(bind repeat "_dependentModules;  'DependencyRepeatItem'  ;  {_type:  _type}")
-#        )
-#    )
-#    (block 
-#        (style 
-#            (width = "100%")
-#            (marginTop = "-1px")
-#        )
-#        (element HorizontalDivider)
-#    )
+#(def element ModuleDependenciesBlock() layout=true
+#	(style 
+#		(width = "100%")
+#	)
+#	(hblock 
+#		#(class $InfoLineBoundaries)
+#		(style 
+#			(flow = "horizontal")
+#			(width = "100%")
+#			(marginLeft = "12px")
+#			(marginRight = "12px")
+#			(marginTop = "8px")
+#			(marginBottom = "3px")
+#		)
+#		(block 
+#			(controller $Instance renderer='PriceTagWithLabel'
+#				(args _type[1] == research ?  priceInfo =  _priceInfo
+#					_label =  IDS_RESEARCH_COST
+#					_techText = true
+#					_showDiscountTag = true
+#																 =  _type[1] == purchase ?  priceInfo = _priceInfo
+#					_label =  IDS_PURCHASE_COST
+#					_techText = true
+#					_showDiscountTag = true
+#																 =  null)
+#			)
+#		)
+#		(tf 
+#			(class $TextDefault)
+#			(bind class "'$FontColorBlueish'")
+#			(bind text "_type[1] == 'mount' ? 'IDS_HAVE_TO_BE_MOUNTED' : ''")
+#		)
+#	)
+#	(element HorizontalDivider)
+#	(block 
+#		(style 
+#			(width = "100%")
+#		)
+#		(mc inner_panel
+#			(class $Fullsize)
+#			(class $PxHorizontalCorrection)
+#			(style 
+#				(position = "absolute")
+#			)
+#		)
+#		(tf 
+#			(class $TextDefault)
+#			(bind class "'$FontColorBlueish'")
+#			(bind visible "_type[1] != 'mount'")
+#			(style 
+#				(marginTop = "4px")
+#				(marginLeft = "12px")
+#				(marginRight = "12px")
+#			)
+#			(bind text "_type[1] == 'research' ? 'IDS_WILL_BE_ALSO_RESEARCHED' 
+#															: _type[1] == 'purchase' 	? 'IDS_HAVE_TO_BE_PURCHASED' 
+#																						: ''")
+#		)
+#		(block 
+#			(style 
+#				(width = "100%")
+#				(marginBottom = "3px")
+#			)
+#			#(bind repeat "_dependentModules;  'DependencyRepeatItem'  ;  {_type:  _type}")
+#		)
+#	)
+#	(block 
+#		(style 
+#			(width = "100%")
+#			(marginTop = "-1px")
+#		)
+#		(element HorizontalDivider)
+#	)
 #)
-#(def element DependencyRepeatItem()
-#    (style 
-#        (width = "100%")
-#        (marginLeft = "12px")
-#        (marginRight = "12px")
-#        (marginTop = "3px")
-#        (marginBottom = "3px")
-#    )
-#    #(bind child "_type[0];  {dataArray:dataArray};'ResearchDependenciesListItem';  'PurchaseDependenciesListItem';  'MountDependenciesListItem'")
+#(def element DependencyRepeatItem() layout=true
+#	(style 
+#		(width = "100%")
+#		(marginLeft = "12px")
+#		(marginRight = "12px")
+#		(marginTop = "3px")
+#		(marginBottom = "3px")
+#	)
+#	#(bind child "_type[0];  {dataArray:dataArray};'ResearchDependenciesListItem';  'PurchaseDependenciesListItem';  'MountDependenciesListItem'")
 #)
-#(def element ResearchDependenciesListItem()
-#    #(bind controller "lesta.dialogs.controllers.CollectionController;  'pricesAll';  PriceInfoSet.OP_EXPLORE  +  dataArray[1];  'moduleExplorePrice'")
-#    (style 
-#        (width = "100%")
-#        (height = "40px")
-#        (flow = "horizontal")
-#    )
-#    (mc icon_tree_module_states
-#        (class $MouseDisable)
-#        (class $MiddleVAligned)
-#        (style 
-#            (width = "44px")
-#            (height = "44px")
-#        )
-#        #(bind gotoAndStop! "dataArray[3]  +  '_P'")
-#    )
-#    (block 
-#        (tf 
-#            (style 
-#                (marginTop = "3px")
-#            )
-#            (class $TextDefault)
-#            (bind class "'$FontColorExp'")
-#            (bind text "toUpperCase(dataArray[2])")
-#        )
-#        (tf 
-#            (class $TextSecondary)
-#            (bind class "'$FontColorBlueish'")
-#            (style 
-#                (marginTop = "-4px")
-#            )
-#            (bind text "dataArray[4]")
-#        )
-#    )
-#    (block 
-#        (bind visible "!($parent.$parent._incompatibleModules)")
-#        (class $AlignRight)
-#        (controller $Instance renderer='PriceTag'
-#        	(args priceInfo =  moduleExplorePrice.prices[0]
-#        		_showDiscountTag = true)
-#        )
-#    )
+#(def element ResearchDependenciesListItem() layout=true
+#	#(bind controller "lesta.dialogs.controllers.CollectionController;  'pricesAll';  PriceInfoSet.OP_EXPLORE  +  dataArray[1];  'moduleExplorePrice'")
+#	(style 
+#		(width = "100%")
+#		(height = "40px")
+#		(flow = "horizontal")
+#	)
+#	(mc icon_tree_module_states
+#		(class $MouseDisable)
+#		(class $MiddleVAligned)
+#		(style 
+#			(width = "44px")
+#			(height = "44px")
+#		)
+#		#(bind gotoAndStop! "dataArray[3]  +  '_P'")
+#	)
+#	(block 
+#		(tf 
+#			(style 
+#				(marginTop = "3px")
+#			)
+#			(class $TextDefault)
+#			(bind class "'$FontColorExp'")
+#			(bind text "toUpperCase(dataArray[2])")
+#		)
+#		(tf 
+#			(class $TextSecondary)
+#			(bind class "'$FontColorBlueish'")
+#			(style 
+#				(marginTop = "-4px")
+#			)
+#			(bind text "dataArray[4]")
+#		)
+#	)
+#	(block 
+#		(bind visible "!($parent.$parent._incompatibleModules)")
+#		(class $AlignRight)
+#		(controller $Instance renderer='PriceTag'
+#			(args priceInfo =  moduleExplorePrice.prices[0]
+#				_showDiscountTag = true)
+#		)
+#	)
 #)
-#(def element PurchaseDependenciesListItem()
-#    #(bind controller "lesta.dialogs.controllers.CollectionController;  'pricesAll';  PriceInfoSet.OP_BUY  +  dataArray[2];  'moduleBuyPrice'")
-#    (style 
-#        (width = "100%")
-#        (height = "40px")
-#        (flow = "horizontal")
-#    )
-#    (mc icon_tree_module_states
-#        (class $MouseDisable)
-#        (class $MiddleVAligned)
-#        #(bind gotoAndStop! "dataArray[3]  +  '_P'")
-#    )
-#    (block 
-#        (tf 
-#            (style 
-#                (marginTop = "1px")
-#            )
-#            (class $TextDefault)
-#            (bind text "dataArray[0]")
-#        )
-#        (tf 
-#            (class $TextSecondary)
-#            (bind class "'$FontColorBlueish'")
-#            (style 
-#                (marginTop = "-5px")
-#            )
-#            (bind text "dataArray[4]")
-#        )
-#    )
-#    (hblock 
-#        (class $AlignRight)
-#        (block 
-#            (bind visible "dataArray[1] > 1")
-#            (class $MiddleVAligned)
-#            (tf 
-#                (class $TextDefault)
-#                (bind class "'$FontColorWhite'")
-#                (bind text "dataArray[1] + ' x'")
-#            )
-#        )
-#        (block 
-#            (controller $Instance renderer='PriceTag'
-#            	(args priceInfo =  moduleBuyPrice.prices[0]
-#            		_showDiscountTag = true)
-#            )
-#        )
-#    )
+#(def element PurchaseDependenciesListItem() layout=true
+#	#(bind controller "lesta.dialogs.controllers.CollectionController;  'pricesAll';  PriceInfoSet.OP_BUY  +  dataArray[2];  'moduleBuyPrice'")
+#	(style 
+#		(width = "100%")
+#		(height = "40px")
+#		(flow = "horizontal")
+#	)
+#	(mc icon_tree_module_states
+#		(class $MouseDisable)
+#		(class $MiddleVAligned)
+#		#(bind gotoAndStop! "dataArray[3]  +  '_P'")
+#	)
+#	(block 
+#		(tf 
+#			(style 
+#				(marginTop = "1px")
+#			)
+#			(class $TextDefault)
+#			(bind text "dataArray[0]")
+#		)
+#		(tf 
+#			(class $TextSecondary)
+#			(bind class "'$FontColorBlueish'")
+#			(style 
+#				(marginTop = "-5px")
+#			)
+#			(bind text "dataArray[4]")
+#		)
+#	)
+#	(hblock 
+#		(class $AlignRight)
+#		(block 
+#			(bind visible "dataArray[1] > 1")
+#			(class $MiddleVAligned)
+#			(tf 
+#				(class $TextDefault)
+#				(bind class "'$FontColorWhite'")
+#				(bind text "dataArray[1] + ' x'")
+#			)
+#		)
+#		(block 
+#			(controller $Instance renderer='PriceTag'
+#				(args priceInfo =  moduleBuyPrice.prices[0]
+#					_showDiscountTag = true)
+#			)
+#		)
+#	)
 #)
-#(def element MountDependenciesListItem()
-#    (style 
-#        (width = "100%")
-#        (height = "40px")
-#        (flow = "horizontal")
-#    )
-#    (mc icon_tree_module_states
-#        (class $MouseDisable)
-#        (class $MiddleVAligned)
-#        (style 
-#            (width = "44px")
-#            (height = "44px")
-#        )
-#        #(bind gotoAndStop! "dataArray[1]  +  '_P'")
-#    )
-#    (block 
-#        (tf 
-#            (style 
-#                (marginTop = "1px")
-#            )
-#            (class $TextDefault)
-#            (bind text "dataArray[0]")
-#        )
-#        (tf 
-#            (class $TextSecondary)
-#            (bind class "'$FontColorBlueish'")
-#            (style 
-#                (marginTop = "-5px")
-#            )
-#            (bind text "'IDS' + toUpperCase(dataArray[1])")
-#        )
-#    )
+#(def element MountDependenciesListItem() layout=true
+#	(style 
+#		(width = "100%")
+#		(height = "40px")
+#		(flow = "horizontal")
+#	)
+#	(mc icon_tree_module_states
+#		(class $MouseDisable)
+#		(class $MiddleVAligned)
+#		(style 
+#			(width = "44px")
+#			(height = "44px")
+#		)
+#		#(bind gotoAndStop! "dataArray[1]  +  '_P'")
+#	)
+#	(block 
+#		(tf 
+#			(style 
+#				(marginTop = "1px")
+#			)
+#			(class $TextDefault)
+#			(bind text "dataArray[0]")
+#		)
+#		(tf 
+#			(class $TextSecondary)
+#			(bind class "'$FontColorBlueish'")
+#			(style 
+#				(marginTop = "-5px")
+#			)
+#			(bind text "'IDS' + toUpperCase(dataArray[1])")
+#		)
+#	)
 #)
-#(def element IncompatibleListItem()
-#    (style 
-#        (flow = "horizontal")
-#        (width = "100%")
-#        (height = "30px")
-#        (marginLeft = "12px")
-#        (marginRight = "12px")
-#    )
-#    (tf 
-#        (class $MiddleVAligned)
-#        (class $TextDefault)
-#        (bind text "dataArray[0]")
-#    )
+#(def element IncompatibleListItem() layout=true
+#	(style 
+#		(flow = "horizontal")
+#		(width = "100%")
+#		(height = "30px")
+#		(marginLeft = "12px")
+#		(marginRight = "12px")
+#	)
+#	(tf 
+#		(class $MiddleVAligned)
+#		(class $TextDefault)
+#		(bind text "dataArray[0]")
+#	)
 #)
-#(def element PremiumShipPointsItem()
-#    (tf 
-#        (style 
-#            (maxWidth = "480")
-#        )
-#        (class $TextDefault)
-#        (bind text "_text")
-#    )
+#(def element PremiumShipPointsItem() layout=true
+#	(tf 
+#		(style 
+#			(maxWidth = "480")
+#		)
+#		(class $TextDefault)
+#		(bind text "_text")
+#	)
 #)
 ##Use on transparent backgrounds, supports both exp and credits
-#(def element CostSmallTransparent()
-#    (bind controller "lesta.unbound.core.UbController")
-#    (style 
-#        (flow = "horizontal")
-#    )
-#    (class $InfoLineBoundaries)
-#    (name = upgrade_tree_CostXP)
-#    (tf 
-#        (class $TextHeaderBigDefault)
-#        (class $MiddleVAligned)
-#        (bind text "_label")
-#    )
-#    (block 
-#        (class $MiddleVAligned)
-#        (tf 
-#            (class $FontCostNormal)
-#            (bind class "_deficit ? '$FontColorDefault' : '$FontColorAlmostBlack'")
-#            (style 
-#                (position = "absolute")
-#                (alpha = "0.35")
-#                (top = "1px")
-#            )
-#            (bind text "format(_costXP != null ? _costXP : _costCR, -1)")
-#        )
-#        (tf 
-#            (class $FontCostNormal)
-#            (bind class "_deficit ? '$FontColorDefault' : '$FontColorAlmostBlack'")
-#            (style 
-#                (position = "absolute")
-#                (alpha = "0.1")
-#                (top = "-1px")
-#            )
-#            (bind text "format(_costXP != null ? _costXP : _costCR, -1)")
-#        )
-#        (tf 
-#            (class $FontCostNormal)
-#            (bind class "_deficit ? '$FontColorDefault' : '$FontColorAlmostBlack'")
-#            (style 
-#                (position = "absolute")
-#                (alpha = "0.15")
-#                (left = "1px")
-#            )
-#            (bind text "format(_costXP != null ? _costXP : _costCR, -1)")
-#        )
-#        (tf 
-#            (class $FontCostNormal)
-#            (bind class "_deficit ? '$FontColorDefault' : '$FontColorAlmostBlack'")
-#            (style 
-#                (position = "absolute")
-#                (alpha = "0.15")
-#                (left = "-1px")
-#            )
-#            (bind text "format(_costXP != null ? _costXP : _costCR, -1)")
-#        )
-#        (tf 
-#            (bind class "_deficit ? '$FontCostBlack' : '$FontCostNormal'")
-#            (bind text "format(_costXP != null ? _costXP : _costCR, -1)")
-#        )
-#    )
-#    (block 
-#        (bind visible "_costXP != null")
-#        (class $MiddleVAligned)
-#        (mc icon_exp_small
-#        )
-#    )
-#    (block 
-#        (bind visible "_costCR != null")
-#        (class $MiddleVAligned)
-#        (mc icon_credit_small
-#        )
-#    )
+#(def element CostSmallTransparent() layout=true
+#	(bind controller "lesta.unbound.core.UbController")
+#	(style 
+#		(flow = "horizontal")
+#	)
+#	(class $InfoLineBoundaries)
+#	(name = upgrade_tree_CostXP)
+#	(tf 
+#		(class $TextHeaderBigDefault)
+#		(class $MiddleVAligned)
+#		(bind text "_label")
+#	)
+#	(block 
+#		(class $MiddleVAligned)
+#		(tf 
+#			(class $FontCostNormal)
+#			(bind class "_deficit ? '$FontColorDefault' : '$FontColorAlmostBlack'")
+#			(style 
+#				(position = "absolute")
+#				(alpha = "0.35")
+#				(top = "1px")
+#			)
+#			(bind text "format(_costXP != null ? _costXP : _costCR, -1)")
+#		)
+#		(tf 
+#			(class $FontCostNormal)
+#			(bind class "_deficit ? '$FontColorDefault' : '$FontColorAlmostBlack'")
+#			(style 
+#				(position = "absolute")
+#				(alpha = "0.1")
+#				(top = "-1px")
+#			)
+#			(bind text "format(_costXP != null ? _costXP : _costCR, -1)")
+#		)
+#		(tf 
+#			(class $FontCostNormal)
+#			(bind class "_deficit ? '$FontColorDefault' : '$FontColorAlmostBlack'")
+#			(style 
+#				(position = "absolute")
+#				(alpha = "0.15")
+#				(left = "1px")
+#			)
+#			(bind text "format(_costXP != null ? _costXP : _costCR, -1)")
+#		)
+#		(tf 
+#			(class $FontCostNormal)
+#			(bind class "_deficit ? '$FontColorDefault' : '$FontColorAlmostBlack'")
+#			(style 
+#				(position = "absolute")
+#				(alpha = "0.15")
+#				(left = "-1px")
+#			)
+#			(bind text "format(_costXP != null ? _costXP : _costCR, -1)")
+#		)
+#		(tf 
+#			(bind class "_deficit ? '$FontCostBlack' : '$FontCostNormal'")
+#			(bind text "format(_costXP != null ? _costXP : _costCR, -1)")
+#		)
+#	)
+#	(block 
+#		(bind visible "_costXP != null")
+#		(class $MiddleVAligned)
+#		(mc icon_exp_small
+#		)
+#	)
+#	(block 
+#		(bind visible "_costCR != null")
+#		(class $MiddleVAligned)
+#		(mc icon_credit_small
+#		)
+#	)
 #)
-#(def element ShipTreeMenu()
-#    (macro HIDE_UI_ON_SHIPOVERVIEW )
-#    (macro PULL_SHIP_PLAYER shipId shipOwnEntity playerShipInfo)
-#    (macro PULL_SHIP shipId shipEntity shipInfo)
-#    (macro PULL_USI shipEntity)
-#    (var isOwned:unknown = "playerShipInfo != null")
-#    #(bind controller "lesta.dialogs.controllers.EntitySingletonController;  'slimClientData'")
-#    #(bind controller "lesta.dialogs.controllers.EntitySingletonController;  'realmConstants'")
-#    (bind visible "slimClientData.isFull")
-#    (class $DefaultMenuBehaviour)
-#    (class $ContextMenuDimentions)
-#    #(bind feature "'17';  ''")
-#    (element DeclareBlurLayer)
-#    (element BlurMap)
-#    #(bind controller "lesta.dialogs.controllers.EntitySingletonController;  'optionData'")
-#    (mc contrast_panel
-#        (class $FullsizeAbsolute)
-#        (bind visible "optionData.contrast")
-#    )
-#    (mc hint_panel
-#        (class $FullsizeAbsolute)
-#    )
-#    (bind name "'ShipContextMenu'")
-#    (block 
-#        (bind visible "isOwned")
-#        (class $ContextMenuListItem)
-#        (mc dock_submenu_item
-#            (class $FullsizeAbsolute)
-#            (bind name "'ShipContextMenu_Primary'")
-#            #(bind request "'buttonClick';  'primaryThisShip';  {shipId:  shipId}")
-#        )
-#        (tf 
-#            (class $TextDefault)
-#            (class $MiddleVAligned)
-#            (class $ContextMenuListItemContent)
-#            (bind text "playerShipInfo.isPrimary ? 'IDS_REMOVE_PRIMARY' : 'IDS_ASSIGN_PRIMARY'")
-#        )
-#    )
-#    (block 
-#        (bind visible "	feature_17 != 'locked' &&
-#        						!_disableShipActions")
-#        (class $ContextMenuListItem)
-#        (mc dock_submenu_item
-#            (class $FullsizeAbsolute)
-#            (bind name "'ShipContextMenu_Modules'")
-#            #(bind dispatch "'buttonClick'; 'Upgrade.onSelectShip'; shipId")
-#            #(bind action "'buttonClick';  'selectShipUpgrade';  {shipId  :  shipId}")
-#        )
-#        (tf 
-#            (class $TextDefault)
-#            (class $MiddleVAligned)
-#            (class $ContextMenuListItemContent)
-#            (text "IDS_MODULES")
-#        )
-#    )
-#    (block 
-#        (bind visible "	feature_17 != 'locked' &&
-#        						isOwned &&
-#        						playerShipInfo.sellable &&
-#        						(playerShipInfo.timeRent == 0) &&
-#        						!(playerShipInfo.isLocked || playerShipInfo.isNeedRepair || playerShipInfo.isInFormation) &&
-#        						!_disableShipActions")
-#        (class $ContextMenuListItem)
-#        (mc dock_submenu_item
-#            (class $FullsizeAbsolute)
-#            (bind name "'ShipContextMenu_Sell'")
-#            #(bind request "'buttonClick';  'sellShipWindow';  {shipName:  shipInfo.fullName,  shipId:  shipId}")
-#        )
-#        (tf 
-#            (class $TextDefault)
-#            (class $MiddleVAligned)
-#            (class $ContextMenuListItemContent)
-#            (text "IDS_SELL")
-#        )
-#    )
-#    (block 
-#        (bind visible "	feature_17 != 'locked' &&
-#        						(!isOwned || (playerShipInfo.timeRent != 0)) &&
-#        						upgradableShipInfo.isExplored &&
-#        						shipInfo.canBuy &&
-#        						!_disableShipActions")
-#        (class $ContextMenuListItem)
-#        (mc dock_submenu_item
-#            (class $FullsizeAbsolute)
-#            (bind name "'ShipContextMenu_Purchase'")
-#            #(bind action "'buttonClick';  'purchaseShip';  {  shipId:  shipId}")
-#        )
-#        (tf 
-#            (class $TextDefault)
-#            (class $MiddleVAligned)
-#            (class $ContextMenuListItemContent)
-#            (text "IDS_DO_PURCHASE")
-#        )
-#    )
-#    (macro LAZY )
-#    (block 
-#        (bind visible "	feature_17 != 'locked'&&
-#        						!(upgradableShipInfo.isExplored) 
-#        						&& upgradableShipInfo.dependencyResearched 
-#        						&& upgradableShipInfo.expDeficit <= 0 
-#        						&& !shipInfo.isEventLike")
-#        (class $ContextMenuListItem)
-#        (mc dock_submenu_item
-#            (class $FullsizeAbsolute)
-#            (bind name "'ShipContextMenu_Research'")
-#            #(bind action "'buttonClick';  isLazyLogin  &&  (shipInfo.level  >  realmConstants.lazyAccountMaxShipTier)  ?  null  :  'researchShip';  {  shipId:  shipId  }")
-#            #(bind action "'click';  (isLazyLogin  &&  (shipInfo.level  >  realmConstants.lazyAccountMaxShipTier))  ?  'forceCreateAccount'  :  null")
-#        )
-#        (tf 
-#            (class $TextDefault)
-#            (class $MiddleVAligned)
-#            (class $ContextMenuListItemContent)
-#            (text "IDS_DO_RESEARCH")
-#        )
-#    )
+#(def element ShipTreeMenu() layout=true
+#	(macro HIDE_UI_ON_SHIPOVERVIEW )
+#	(macro PULL_SHIP_PLAYER shipId shipOwnEntity playerShipInfo)
+#	(macro PULL_SHIP shipId shipEntity shipInfo)
+#	(macro PULL_USI shipEntity)
+#	(var isOwned:unknown = "playerShipInfo != null")
+#	#(bind controller "lesta.dialogs.controllers.EntitySingletonController;  'slimClientData'")
+#	#(bind controller "lesta.dialogs.controllers.EntitySingletonController;  'realmConstants'")
+#	(bind visible "slimClientData.isFull")
+#	(class $DefaultMenuBehaviour)
+#	(class $ContextMenuDimentions)
+#	#(bind feature "'17';  ''")
+#	(element DeclareBlurLayer)
+#	(element BlurMap)
+#	#(bind controller "lesta.dialogs.controllers.EntitySingletonController;  'optionData'")
+#	(mc contrast_panel
+#		(class $FullsizeAbsolute)
+#		(bind visible "optionData.contrast")
+#	)
+#	(mc hint_panel
+#		(class $FullsizeAbsolute)
+#	)
+#	(bind name "'ShipContextMenu'")
+#	(block 
+#		(bind visible "isOwned")
+#		(class $ContextMenuListItem)
+#		(mc dock_submenu_item
+#			(class $FullsizeAbsolute)
+#			(bind name "'ShipContextMenu_Primary'")
+#			#(bind request "'buttonClick';  'primaryThisShip';  {shipId:  shipId}")
+#		)
+#		(tf 
+#			(class $TextDefault)
+#			(class $MiddleVAligned)
+#			(class $ContextMenuListItemContent)
+#			(bind text "playerShipInfo.isPrimary ? 'IDS_REMOVE_PRIMARY' : 'IDS_ASSIGN_PRIMARY'")
+#		)
+#	)
+#	(block 
+#		(bind visible "	feature_17 != 'locked' &&
+#								!_disableShipActions")
+#		(class $ContextMenuListItem)
+#		(mc dock_submenu_item
+#			(class $FullsizeAbsolute)
+#			(bind name "'ShipContextMenu_Modules'")
+#			#(bind dispatch "'buttonClick'; 'Upgrade.onSelectShip'; shipId")
+#			#(bind action "'buttonClick';  'selectShipUpgrade';  {shipId  :  shipId}")
+#		)
+#		(tf 
+#			(class $TextDefault)
+#			(class $MiddleVAligned)
+#			(class $ContextMenuListItemContent)
+#			(text "IDS_MODULES")
+#		)
+#	)
+#	(block 
+#		(bind visible "	feature_17 != 'locked' &&
+#								isOwned &&
+#								playerShipInfo.sellable &&
+#								(playerShipInfo.timeRent == 0) &&
+#								!(playerShipInfo.isLocked || playerShipInfo.isNeedRepair || playerShipInfo.isInFormation) &&
+#								!_disableShipActions")
+#		(class $ContextMenuListItem)
+#		(mc dock_submenu_item
+#			(class $FullsizeAbsolute)
+#			(bind name "'ShipContextMenu_Sell'")
+#			#(bind request "'buttonClick';  'sellShipWindow';  {shipName:  shipInfo.fullName,  shipId:  shipId}")
+#		)
+#		(tf 
+#			(class $TextDefault)
+#			(class $MiddleVAligned)
+#			(class $ContextMenuListItemContent)
+#			(text "IDS_SELL")
+#		)
+#	)
+#	(block 
+#		(bind visible "	feature_17 != 'locked' &&
+#								(!isOwned || (playerShipInfo.timeRent != 0)) &&
+#								upgradableShipInfo.isExplored &&
+#								shipInfo.canBuy &&
+#								!_disableShipActions")
+#		(class $ContextMenuListItem)
+#		(mc dock_submenu_item
+#			(class $FullsizeAbsolute)
+#			(bind name "'ShipContextMenu_Purchase'")
+#			#(bind action "'buttonClick';  'purchaseShip';  {  shipId:  shipId}")
+#		)
+#		(tf 
+#			(class $TextDefault)
+#			(class $MiddleVAligned)
+#			(class $ContextMenuListItemContent)
+#			(text "IDS_DO_PURCHASE")
+#		)
+#	)
+#	(macro LAZY )
+#	(block 
+#		(bind visible "	feature_17 != 'locked'&&
+#								!(upgradableShipInfo.isExplored) 
+#								&& upgradableShipInfo.dependencyResearched 
+#								&& upgradableShipInfo.expDeficit <= 0 
+#								&& !shipInfo.isEventLike")
+#		(class $ContextMenuListItem)
+#		(mc dock_submenu_item
+#			(class $FullsizeAbsolute)
+#			(bind name "'ShipContextMenu_Research'")
+#			#(bind action "'buttonClick';  isLazyLogin  &&  (shipInfo.level  >  realmConstants.lazyAccountMaxShipTier)  ?  null  :  'researchShip';  {  shipId:  shipId  }")
+#			#(bind action "'click';  (isLazyLogin  &&  (shipInfo.level  >  realmConstants.lazyAccountMaxShipTier))  ?  'forceCreateAccount'  :  null")
+#		)
+#		(tf 
+#			(class $TextDefault)
+#			(class $MiddleVAligned)
+#			(class $ContextMenuListItemContent)
+#			(text "IDS_DO_RESEARCH")
+#		)
+#	)
 #)
 ##Used in ShipResearch when ship is not Owned or Researched
-#(def element ShipInfoArmourBlock()
-#    #(bind controller "lesta.dialogs.controllers.EntitySingletonController;  'dockDefaultValues';  'dockInitData,dockUpdateData'")
-#    (style 
-#        (width = "100%")
-#        (height = "0px")
-#    )
-#    #(bind transition "dockDefaultValues.armourVisibility; 0.15; {height: 0, alpha: 0}; {height: 110, alpha: 1}; {height: 0, alpha: 0}")
-#    (block 
-#        (style 
-#            (position = "absolute")
-#            (top = "-3px")
-#            (width = "100%")
-#        )
-#        (element HorizontalDivider)
-#    )
-#    (block 
-#        (class $Fullsize)
-#        (controller $Instance renderer='ArmourPickerControls'
-#        	(args dockDefaultValues.armourVisibility ? shipId =  shipId  =  null)
-#        )
-#    )
-#    (block 
-#        (style 
-#            (position = "absolute")
-#            (bottom = "0")
-#            (width = "100%")
-#        )
-#        (element HorizontalDivider)
-#    )
+#(def element ShipInfoArmourBlock() layout=true
+#	#(bind controller "lesta.dialogs.controllers.EntitySingletonController;  'dockDefaultValues';  'dockInitData,dockUpdateData'")
+#	(style 
+#		(width = "100%")
+#		(height = "0px")
+#	)
+#	#(bind transition "dockDefaultValues.armourVisibility; 0.15; {height: 0, alpha: 0}; {height: 110, alpha: 1}; {height: 0, alpha: 0}")
+#	(block 
+#		(style 
+#			(position = "absolute")
+#			(top = "-3px")
+#			(width = "100%")
+#		)
+#		(element HorizontalDivider)
+#	)
+#	(block 
+#		(class $Fullsize)
+#		(controller $Instance renderer='ArmourPickerControls'
+#			(args dockDefaultValues.armourVisibility ? shipId =  shipId  =  null)
+#		)
+#	)
+#	(block 
+#		(style 
+#			(position = "absolute")
+#			(bottom = "0")
+#			(width = "100%")
+#		)
+#		(element HorizontalDivider)
+#	)
 #)
-#(def element ShipInfoCrewBlock()
-#    #(bind feature "13;  'click'")
-#    (style 
-#        (width = "100%")
-#        (height = "80px")
-#    )
-#    (block 
-#        (class $Fullsize)
-#        (controller $Instance renderer='CrewShipPanelBlock'
-#        	(args (_crewId > 0)	? _crewId =  _crewId  =  null)
-#        )
-#        (controller $Instance renderer='CrewHireShipPanelBlock'
-#        	(args (_crewId == 0)	?   =  null)
-#        )
-#    )
-#    (block 
-#        (style 
-#            (position = "absolute")
-#            (marginTop = "-6px")
-#        )
-#        (mc icon_sticker_new
-#            (controller $Animation
-#            	(bindcall play duration=0.15 delay=0 from={alpha: 0, top: 10} to={alpha: 1, top: 0} reverse="feature_13 == 'new'" updateBeforeDisable=true (bind enabled "feature_13 == 'new'"))
-#            )
-#            (style 
-#                (hitTest = "false")
-#            )
-#        )
-#    )
-#    (block 
-#        (style 
-#            (position = "absolute")
-#            (bottom = "0")
-#            (width = "100%")
-#        )
-#        (element HorizontalDivider)
-#    )
+#(def element ShipInfoCrewBlock() layout=true
+#	#(bind feature "13;  'click'")
+#	(style 
+#		(width = "100%")
+#		(height = "80px")
+#	)
+#	(block 
+#		(class $Fullsize)
+#		(controller $Instance renderer='CrewShipPanelBlock'
+#			(args (_crewId > 0)	? _crewId =  _crewId  =  null)
+#		)
+#		(controller $Instance renderer='CrewHireShipPanelBlock'
+#			(args (_crewId == 0)	?   =  null)
+#		)
+#	)
+#	(block 
+#		(style 
+#			(position = "absolute")
+#			(marginTop = "-6px")
+#		)
+#		(mc icon_sticker_new
+#			(controller $Animation
+#				(bindcall play duration=0.15 delay=0 from={alpha: 0, top: 10} to={alpha: 1, top: 0} reverse="feature_13 == 'new'" updateBeforeDisable=true (bind enabled "feature_13 == 'new'"))
+#			)
+#			(style 
+#				(hitTest = "false")
+#			)
+#		)
+#	)
+#	(block 
+#		(style 
+#			(position = "absolute")
+#			(bottom = "0")
+#			(width = "100%")
+#		)
+#		(element HorizontalDivider)
+#	)
 #)

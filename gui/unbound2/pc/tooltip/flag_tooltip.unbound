@@ -1,0 +1,313 @@
+(def constant FLAG_TOOLTIP_WIDTH 300px)
+
+(def element FlagTooltipUB2() layout=true dispatch_size_change=true
+	(scope
+		(var _installed: bool = true)
+		(var _id: number = 0)
+		(var _name: str = '')
+		(var _shipId: number = 0)
+		(var _canUse: bool = true)
+		(var _isRankSeasonTemp: bool = true)
+		(var _isLeague: bool = true)
+		(var _iconPath: str = '')
+		(var _isNaval: bool = true)
+		(var _optionData: dict = {})
+		(var extraDescription: str = "tr('IDS_' + toUpper(_name) + '_EXTRA_DESCRIPTION')")
+	)
+
+	(macro PULL_SHIP_PLAYER "_shipId")
+	(macro PULL_EXTERIOR "_id")
+
+	(scope
+		(var attributes: gfx = "exteriorEntity.attributes" (event "exteriorEntity.attributes.evChanged"))
+		(var showParams: bool = "(attributes && (attributes.positive.length + attributes.negative.length + attributes.neutral.length) > 0) && !_isNaval")
+		(var shipEnsignRestrictionEntity: gfx = "$datahub.getEntity(playerShipEntity.ownShip.ensignAvailables)")
+		(var isShipRestrictionsVisible: bool = "(shipEnsignRestrictionEntity) && (shipEnsignRestrictionEntity.shipRestrictions.selectedFilters.length) && (!_isNaval)")
+	)
+
+	(style 
+		(width = "FLAG_TOOLTIP_WIDTH")
+	)
+
+	(class $MouseDisable)
+
+	(mc contrast_panel
+		(class $FullsizeAbsolute)
+		(bind visible "_optionData.contrast")
+	)
+
+	(mc hint_panel
+		(class $FullsizeAbsolute)
+	)
+
+	#header
+	(block 
+		(class $InfoBlockIndent)
+		(controller $Instance renderer='FlagTooltipHeader'
+			(exprs
+				(scope
+					(bind _name "_name")
+					(bind _installed "_installed")
+					(bind _isLeague "_isLeague")
+					(bind _iconPath "_iconPath")
+					(bind _isNaval "_isNaval")
+				)
+			)
+		)
+	)
+	(element HorizontalDivider)
+
+	# Installed
+	(block 
+		(style 
+			(width = "100%")
+		)
+		(hblock 
+			(style
+				(align = "middle")
+			)
+			(bind visible "_installed")
+			(class $InfoBlockIndent)
+			(mc icon_check)
+			(tf
+				(style
+					(marginLeft = "XS")
+				)
+				(class $TextDefault)
+				(class $FontColorGolden)
+				(bind text "'IDS_INSTALLED'")
+			)
+		)
+		(hblock
+			(style
+				(align = "middle")
+			)
+			(bind visible "!_installed")
+			(class $InfoBlockIndent)
+			(mc icon_warning_orange)
+			(tf 
+				(style
+					(marginLeft = "XS")
+				)
+				(class $TextDefault)
+				(class $FontColorUnready)
+				(bind text "!_canUse && !_isNaval ? 'IDS_NOT_ACHIEVED' : 'IDS_NOT_INSTALLED'")
+			)
+		)
+	)
+	(element HorizontalDivider)
+
+	# Description block
+	(block 
+		(class $InfoBlockIndent)
+		(tf 
+			(style 
+				(maxWidth = "274")
+			)
+			(class $TextDefault)
+			(bind text "'IDS_' + toUpper(_name) + '_DESCRIPTION'")
+		)
+		(tf 
+			(bind visible "!(_isLeague) && extraDescription != ' ' && !_isNaval")
+			(style 
+				(maxWidth = "274")
+			)
+			(class $TextDefault)
+			(bind text "extraDescription")
+		)
+	)
+	(element HorizontalDivider)
+
+	# Params
+	(block 
+		(bind visible "showParams")
+		(style 
+			(width = "100%")
+		)
+		(block
+			(class $PxHorizontalCorrection)
+			(class $FullsizeAbsolute)
+			(mc inner_panel
+				(class $FullsizeAbsolute)
+			)
+		)
+		(block 
+			(style 
+				(width = "100%")
+				(paddingTop = "M")
+				(paddingLeft = "SXS")
+				(paddingRight = "SXS")
+			)
+			(controller $Instance renderer='ParamsModifierList'
+				(bind enabled "showParams")
+				(args
+					_shrinkHeight = "false"
+				)
+				(exprs
+					(scope
+						(bind _attributesPositive "attributes.positive")
+						(bind _attributesNegative "attributes.negative")
+						(bind _attributesNeutral "attributes.neutral")
+					)
+				)
+			)
+		)
+		(block 
+			(style 
+				(width = "100%")
+				(bottom = "-1px")
+				(position = "absolute")
+			)
+			(element HorizontalDivider)
+		)
+	)
+
+	### Ship Restrictions
+	(block 
+		(bind visible "isShipRestrictionsVisible")
+		(class $InfoBlockIndent)
+		(tf 
+			(class $TextDefault)
+			(style 
+				(maxWidth = "270")
+			)
+			(bind text "'IDS_INSTALL_RESTRICTION_FLAGS'")
+		)
+		(block 
+			(style 
+				(marginTop = "6px")
+			)
+			
+			(controller $Instance renderer='FlagsRestrictions'
+				(bind enabled "isShipRestrictionsVisible")
+				(exprs
+					(scope
+						(bind _selectedFilters "shipEnsignRestrictionEntity.shipRestrictions.selectedFilters")
+					)
+				)
+			)
+		)
+	)
+	(block 
+		(bind visible "isShipRestrictionsVisible")
+		(style 
+			(width = "100%")
+		)
+		(element HorizontalDivider)
+	)
+
+	# Additional info
+	(block 
+		(bind visible "((!_canUse && _isLeague) || _isRankSeasonTemp) && !_isNaval")
+		(class $InfoBlockIndent)
+		(tf 
+			(bind visible "!_canUse && _isLeague")
+			(class $TextDefault)
+			(class $FontColorBlueish)
+			(style 
+				(maxWidth = "260")
+			)
+			(text = "'IDS_INSTRUCTION_ACHIEVE_LEAGUE_FLAG'")
+		)
+		(tf 
+			(bind visible "_isRankSeasonTemp")
+			(class $TextDefault)
+			(class $FontColorBlueish)
+			(style 
+				(maxWidth = "260")
+			)
+			(text = "'IDS_INSTRUCTION_IS_RANK_TEMP'")
+		)
+	)
+	(block 
+		(bind visible "!(_installed) && (_canUse || _isNaval)")
+		(class $InfoBlockIndent)
+		(controller $Instance renderer='MouseInstruction'
+			(args
+				_type = 'left'
+				_instructionText = 'IDS_INSTRUCTION_INSTALL_ENSIGN'
+				_maxWidth = 270
+				_leading = 0
+			)
+		)
+	)
+)
+
+(def element FlagTooltipHeader() layout=true
+	(scope
+		(var _name: str = '')
+		(var _installed: bool = true)
+		(var _isLeague: bool = true)
+		(var _iconPath: str = '')
+		(var _isNaval: bool = true)
+	)
+	(hblock
+		(block 
+			(style 
+				(height = "60px")
+				(width = "75px")
+				(bind backgroundImage "'url:'  +  _iconPath")
+			)
+		)
+		(block 
+			(tf 
+				(style 
+					(maxWidth = "200")
+				)
+				(class $TextHeaderBold)
+				(bind class "_installed ? '$FontColorGolden' :'$FontColorDefault'")
+				(bind text "'IDS_' + toUpper(_name)")
+			)
+			(tf 
+				(style 
+					(maxWidth = "200")
+				)
+				(class $TextDefault)
+				(bind text "_isLeague ? 'IDS_LEAGUE_FLAG' : _isNaval ? 'IDS_NAVAL_FLAG' : 'IDS_SEASON_ENSIGN'")
+			)
+		)
+	)
+)
+
+(def element FlagsRestrictions() layout=true
+	(scope
+		(var _selectedFilters: array = [])
+	)
+	
+	(hblock	
+		(style 
+			(marginRight = "XS")
+		)
+
+		(controller $Repeat renderer='FlagContainer'
+			(bind count "_selectedFilters.length")
+			(exprs
+				(scope
+					(bind _selectedFilterId "_selectedFilters[$index]")
+				)
+			)
+		)
+	)
+)
+
+(def element FlagContainer() layout=true
+	(scope
+		(var _selectedFilterId: number = 0)
+		(var filterEntity:gfx = "$datahub.getEntity(_selectedFilterId)")
+		(var isNationFlag: bool = "filterEntity.shipFilterItem.type == 'nation'")
+	)
+	
+	(bind visible "isNationFlag")
+	(style
+		(marginRight = "XS")
+	)
+
+	(controller $Instance renderer='NationFlagsTiny'
+		(bind enabled "isNationFlag")
+		(exprs
+			(scope
+				(bind shipCountry "filterEntity.shipFilterItem.field")
+			)
+		)
+	)
+)
