@@ -208,30 +208,6 @@
 			<VALUE key="KEY_RIGHTMOUSE"/>
 		</CMD_ALIVE_POINTER_ACTION_CLICK_2>
 
-		<CMD_MOVE_LEFT context="alive" type="hold">
-			<VALUE key="KEY_A"/>
-		</CMD_MOVE_LEFT>
-
-		<CMD_MOVE_RIGHT context="alive" type="hold">
-			<VALUE key="KEY_D"/>
-		</CMD_MOVE_RIGHT>
-
-		<CRUISE_SPEED_UP context="alive" type="hold">
-			<VALUE key="KEY_W"/>
-		</CRUISE_SPEED_UP>
-
-		<CRUISE_SPEED_DOWN context="alive" type="hold">
-			<VALUE key="KEY_S"/>
-		</CRUISE_SPEED_DOWN>
-
-		<CRUISE_ANGLE_RIGHT context="alive" type="hold">
-			<VALUE key="KEY_E"/>
-		</CRUISE_ANGLE_RIGHT>
-
-		<CRUISE_ANGLE_LEFT context="alive" type="hold">
-			<VALUE key="KEY_Q"/>
-		</CRUISE_ANGLE_LEFT>
-
 		<CMD_MOVE_UP context="submarine" type="hold">
 			<VALUE key="KEY_E" mods="KEY_LCONTROL"/>
 		</CMD_MOVE_UP>
@@ -322,34 +298,58 @@
 		</CMD_QUICK_CARAMBA>
 
 
-		<CMD_CONSUMABLE_0 context="alive">
+		<!--<watercraft parent="alive">-->
+		<CMD_MOVE_LEFT context="watercraft" type="hold">
+			<VALUE key="KEY_A"/>
+		</CMD_MOVE_LEFT>
+
+		<CMD_MOVE_RIGHT context="watercraft" type="hold">
+			<VALUE key="KEY_D"/>
+		</CMD_MOVE_RIGHT>
+
+		<CRUISE_SPEED_UP context="watercraft" type="hold">
+			<VALUE key="KEY_W"/>
+		</CRUISE_SPEED_UP>
+
+		<CRUISE_SPEED_DOWN context="watercraft" type="hold">
+			<VALUE key="KEY_S"/>
+		</CRUISE_SPEED_DOWN>
+
+		<CRUISE_ANGLE_RIGHT context="watercraft" type="hold">
+			<VALUE key="KEY_E"/>
+		</CRUISE_ANGLE_RIGHT>
+
+		<CRUISE_ANGLE_LEFT context="watercraft" type="hold">
+			<VALUE key="KEY_Q"/>
+		</CRUISE_ANGLE_LEFT>
+
+		<CMD_CONSUMABLE_0 context="watercraft">
 			<VALUE key="KEY_R"/>
 		</CMD_CONSUMABLE_0>
 
-		<CMD_CONSUMABLE_1 context="alive">
+		<CMD_CONSUMABLE_1 context="watercraft">
 			<VALUE key="KEY_T"/>
 		</CMD_CONSUMABLE_1>
 
-		<CMD_CONSUMABLE_2 context="alive">
+		<CMD_CONSUMABLE_2 context="watercraft">
 			<VALUE key="KEY_Y"/>
 		</CMD_CONSUMABLE_2>
 
-		<CMD_CONSUMABLE_3 context="alive">
+		<CMD_CONSUMABLE_3 context="watercraft">
 			<VALUE key="KEY_U"/>
 		</CMD_CONSUMABLE_3>
 
-		<CMD_CONSUMABLE_4 context="alive">
+		<CMD_CONSUMABLE_4 context="watercraft">
 			<VALUE key="KEY_I"/>
 		</CMD_CONSUMABLE_4>
 
 
+		<!--<ship parent="watercraft">-->
+		
 		<!-- CAMERA KEYS-->
 		<CMD_SWITCH_CAMERA context="ship" type="hold">
 			<VALUE key="KEY_C"/>
 		</CMD_SWITCH_CAMERA>
-
-
-		<!--<ship parent="alive">-->
 		<CMD_SHOOT context="ship" type="hold">
 			<VALUE key="KEY_LEFTMOUSE"/>
 		</CMD_SHOOT>
@@ -400,7 +400,7 @@
 			<VALUE key="KEY_RIGHTMOUSE"/>
 		</CMD_OBSERVE_CAMERA>
 
-		<!--<carrier parent="alive">-->
+		<!--<carrier parent="watercraft">-->
 		<CMD_CARRIER_POINTER_ACTION_1 context="carrier" type="hold">
 			<VALUE key="KEY_LEFTMOUSE"/>
 		</CMD_CARRIER_POINTER_ACTION_1>
@@ -409,81 +409,103 @@
 			<VALUE key="KEY_RIGHTMOUSE"/>
 		</CMD_CARRIER_POINTER_ACTION_2>
 
-		<CMD_SELECT_ALL_AIRPLANES context="carrier">
-			<VALUE key="KEY_A" mods="KEY_LCONTROL"/>
-		</CMD_SELECT_ALL_AIRPLANES>
-
-		<CMD_CARRIER_SELECT context="carrier">
+<!-- 		<CMD_CARRIER_SELECT context="carrier">
 			<VALUE key="KEY_1"/>
-		</CMD_CARRIER_SELECT>
-
-		<CMD_CARRIER_SELECT_MOVE type="doubleTap" lead="CMD_CARRIER_SELECT"/>
-
-		<CMD_LAND_LAUNCH context="carrier">
-			<VALUE key="KEY_F"/>
-		</CMD_LAND_LAUNCH>
+		</CMD_CARRIER_SELECT> -->
 
 		<CMD_SQUADRON_0 context="carrier">
-			<VALUE key="KEY_2"/>
+			<VALUE key="KEY_1"/>
 		</CMD_SQUADRON_0>
 
-		<CMD_SQUADRON_0_MOVE type="doubleTap" lead="CMD_SQUADRON_0"/>
-
 		<CMD_SQUADRON_1 context="carrier">
-			<VALUE key="KEY_3"/>
+			<VALUE key="KEY_2"/>
 		</CMD_SQUADRON_1>
 
-		<CMD_SQUADRON_1_MOVE type="doubleTap" lead="CMD_SQUADRON_1"/>
-
 		<CMD_SQUADRON_2 context="carrier">
-			<VALUE key="KEY_4"/>
+			<VALUE key="KEY_3"/>
 		</CMD_SQUADRON_2>
 
-		<CMD_SQUADRON_2_MOVE type="doubleTap" lead="CMD_SQUADRON_2"/>
-
-		<CMD_SQUADRON_3 context="carrier">
-			<VALUE key="KEY_5"/>
+     	<CMD_SQUADRON_3 context="carrier">
+		<VALUE key="KEY_4"/>
 		</CMD_SQUADRON_3>
 
-		<CMD_SQUADRON_3_MOVE type="doubleTap" lead="CMD_SQUADRON_3"/>
-
-		<CMD_SQUADRON_4 context="carrier">
-			<VALUE key="KEY_6"/>
+ <!-- 	<CMD_SQUADRON_4 context="carrier">
+		<VALUE key="KEY_5"/>
 		</CMD_SQUADRON_4>
 
-		<CMD_SQUADRON_4_MOVE type="doubleTap" lead="CMD_SQUADRON_4"/>
-
 		<CMD_SQUADRON_5 context="carrier">
-			<VALUE key="KEY_7"/>
+			<VALUE key="KEY_6"/>
 		</CMD_SQUADRON_5>
 
-		<CMD_SQUADRON_5_MOVE type="doubleTap" lead="CMD_SQUADRON_5"/>
-
 		<CMD_SQUADRON_6 context="carrier">
-			<VALUE key="KEY_8"/>
+			<VALUE key="KEY_7"/>
 		</CMD_SQUADRON_6>
 
-		<CMD_SQUADRON_6_MOVE type="doubleTap" lead="CMD_SQUADRON_6"/>
-
 		<CMD_SQUADRON_7 context="carrier">
-			<VALUE key="KEY_9"/>
+			<VALUE key="KEY_8"/>
 		</CMD_SQUADRON_7>
 
-		<CMD_SQUADRON_7_MOVE type="doubleTap" lead="CMD_SQUADRON_7"/>
-
 		<CMD_SQUADRON_8 context="carrier">
-			<VALUE key="KEY_0"/>
-		</CMD_SQUADRON_8>
+			<VALUE key="KEY_9"/>
+		</CMD_SQUADRON_8> -->
+		
+		
+		<!--<airplane parent="alive">-->
+		<CMD_THROTTLE_UP context="airplane" type="hold">
+			<VALUE key="KEY_W"/>
+		</CMD_THROTTLE_UP>
+		
+		<CMD_THROTTLE_DOWN context="airplane" type="hold">
+			<VALUE key="KEY_S"/>
+		</CMD_THROTTLE_DOWN>
+		
+		<CMD_SHOOT_PLANE context="airplane">
+			<VALUE key="KEY_LEFTMOUSE"/>
+		</CMD_SHOOT_PLANE>
+		
+		<CMD_OBSERVE_CAM context="airplane" type="hold">
+			<VALUE key="KEY_RIGHTMOUSE"/>
+		</CMD_OBSERVE_CAM>
+		
+		<CMD_TURN_LEFT context="airplane" type="hold">
+			<VALUE key="KEY_A"/>
+		</CMD_TURN_LEFT>
+		
+		<CMD_TURN_RIGHT context="airplane" type="hold">
+			<VALUE key="KEY_D"/>
+		</CMD_TURN_RIGHT>
+		
+		<CMD_WEAPON_0 context="airplane">
+			<VALUE key="KEY_1"/>
+		</CMD_WEAPON_0>
+		
+		<CMD_WEAPON_1 context="airplane">
+			<VALUE key="KEY_2"/>
+		</CMD_WEAPON_1>
+		
+		<CMD_LAND context="airplane">
+			<VALUE key="KEY_F"/>
+		</CMD_LAND>
+		
+		<CMD_AIRPLANE_CONSUMABLE_0 context="airplane">
+			<VALUE key="KEY_R"/>
+		</CMD_AIRPLANE_CONSUMABLE_0>
 
-		<CMD_SQUADRON_8_MOVE type="doubleTap" lead="CMD_SQUADRON_8"/>
+		<CMD_AIRPLANE_CONSUMABLE_1 context="airplane">
+			<VALUE key="KEY_T"/>
+		</CMD_AIRPLANE_CONSUMABLE_1>
 
-		<CMD_SELECT_NEXT_AIRPLANE context="carrier">
-			<VALUE key="KEY_TAB" mods="KEY_LCONTROL"/>
-		</CMD_SELECT_NEXT_AIRPLANE>
+		<CMD_AIRPLANE_CONSUMABLE_2 context="airplane">
+			<VALUE key="KEY_Y"/>
+		</CMD_AIRPLANE_CONSUMABLE_2>
 
-		<CMD_CENTERCAMERA context="carrier">
-			<VALUE key="KEY_SPACE"/>
-		</CMD_CENTERCAMERA>
+		<CMD_AIRPLANE_CONSUMABLE_3 context="airplane">
+			<VALUE key="KEY_U"/>
+		</CMD_AIRPLANE_CONSUMABLE_3>
+
+		<CMD_AIRPLANE_CONSUMABLE_4 context="airplane">
+			<VALUE key="KEY_I"/>
+		</CMD_AIRPLANE_CONSUMABLE_4>
 
 
 		<!--<replay parent="default">-->
@@ -592,6 +614,10 @@
 			<VALUE key="KEY_B"/>
 		</CMD_QUICK_COMMANDS_WINDOW>
 
+		<CMD_AIR_DEFENSE_FOCUS context="battle" type="hold">
+			<VALUE key="KEY_O"/>
+			<VALUE key="KEY_GRAVE"/>
+		</CMD_AIR_DEFENSE_FOCUS>
 
 		<!--<sound>-->
 		<!-- SOUND TRACK KEYS -->

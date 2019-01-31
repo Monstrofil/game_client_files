@@ -2003,6 +2003,7 @@
 		<bind name="name" value="_input"/>
 		<bind name="input"/>
 		<bind name="action" value="'click'; _action ? _action : null"/>
+		<bind name="action" value="'click'; 'log'; { event: 'click:banner.' + _logItemName }"/>
 		<block className="button_infopanel_no_label" type="native">
 			<styleClass value="$FullsizeAbsolute"/>
 		</block>
@@ -3958,6 +3959,7 @@
 		<bind name="feature" value="21; 'click'"/>
 		<bind name="soundSet" value="'lootbox_banner'"/>
 		<bind name="tooltip" value="'MouseInstructionTooltip'; { _mouseInstructions: [{_type: 'left', _instructionText: 'IDS_GO_TO_LOOTBOXES'}], _maxWidth: 250 }; 0"/>
+		<bind name="action" value="'click'; 'log'; { event: 'click:banner.Lootboxes' }"/>
 		<block>
 			<styleClass value="$Fullsize"/>
 			<block className="quest_thumb_title" type="native">
@@ -5887,10 +5889,10 @@
 		<bind name="controller" value="lesta.dialogs.controllers.CollectionController; 'pricesAll'; PriceInfoSet.OP_INFO + 'PREM_CR_Coef'; 		'pricePREM_CR_Coef'"/>
 		<bind name="controller" value="lesta.dialogs.controllers.CollectionController; 'pricesAll'; PriceInfoSet.OP_INFO + 'WOWS_PREM_XP_Coef'; 	'priceWOWS_PREM_XP_Coef'"/>
 		<bind name="controller" value="lesta.dialogs.controllers.CollectionController; 'pricesAll'; PriceInfoSet.OP_INFO + 'WOWS_PREM_CR_Coef'; 	'priceWOWS_PREM_CR_Coef'"/>
-		<bind name="watch" value="'wowsPremCoeffXP'; '+' + (math.round((priceWOWS_PREM_XP_Coef.prices[0].finalPrice - 1) * 100)) + '%'"/>
-		<bind name="watch" value="'wowsPremCoeffCR'; '+' + (math.round((priceWOWS_PREM_CR_Coef.prices[0].finalPrice - 1) * 100)) + '%'"/>
-		<bind name="watch" value="'wgPremCoeffXP'; 	'+' + (math.round((pricePREM_XP_Coef.prices[0].finalPrice - 1) 		* 100)) + '%'"/>
-		<bind name="watch" value="'wgPremCoeffCR'; 	'+' + (math.round((pricePREM_CR_Coef.prices[0].finalPrice - 1) 		* 100)) + '%'"/>
+		<bind name="watch" value="'wowsPremCoeffXP'; subst('IDS_WOWS_PREMIUM_ACCOUNT_XP_VALUE', 	[], {value: math.round((priceWOWS_PREM_XP_Coef.prices[0].finalPrice - 1) * 100)})"/>
+		<bind name="watch" value="'wowsPremCoeffCR'; subst('IDS_WOWS_PREMIUM_ACCOUNT_CR_VALUE', 	[], {value: math.round((priceWOWS_PREM_CR_Coef.prices[0].finalPrice - 1) * 100)})"/>
+		<bind name="watch" value="'wgPremCoeffXP'; 	subst('IDS_WG_PREMIUM_ACCOUNT_XP_VALUE', 	[], {value: math.round((pricePREM_XP_Coef.prices[0].finalPrice - 1) * 100)})"/>
+		<bind name="watch" value="'wgPremCoeffCR'; 	subst('IDS_WG_PREMIUM_ACCOUNT_CR_VALUE',	[], {value: math.round((pricePREM_CR_Coef.prices[0].finalPrice - 1) * 100)})"/>
 		<bind name="watch" value="'wowsAccountStatus'; (wowsPremBefore &gt; 0) 	? subst('IDS_PREMIUM_ACCOUNT_STATUS_ACTIVE', [], { days: wowsPremiumTimeStr }) : 'IDS_PREMIUM_ACCOUNT_STATUS_NOT_ACTIVE'"/>
 		<bind name="watch" value="'wgAccountStatus'; (premBefore &gt; 0) ? subst('IDS_PREMIUM_ACCOUNT_STATUS_ACTIVE', [], { days: premiumAccountTimeStr }) : 'IDS_PREMIUM_ACCOUNT_STATUS_NOT_ACTIVE'"/>
 		<bind name="watch" value="'accounts';[	{ 	accountType:		2,
@@ -5976,9 +5978,9 @@
 	</block>
 	<block className="PremiumAccountItem">
 		<style>
-			<width value="300px"/>
-			<marginLeft value="720:20,1080:50ah"/>
-			<marginRight value="720:20,1080:50ah"/>
+			<width value="200px"/>
+			<marginLeft value="100px"/>
+			<marginRight value="100px"/>
 		</style>
 		<bind name="var" value="{windowAppearLag: 0.2}"/>
 		<block>
@@ -5992,11 +5994,12 @@
 			<block>
 				<bind name="visible" value="(activePremType == accountType)"/>
 				<styleClass value="$MiddleAligned"/>
-				<styleClass value="$MiddleVAligned"/>
 				<style>
 					<position value="absolute"/>
-					<width value="720:340,1080:400ah"/>
-					<height value="720:340,1080:400ah"/>
+					<backgroundSize value="cover"/>
+					<marginTop value="-50px"/>
+					<width value="720:360,1080:400ah"/>
+					<height value="720:360,1080:400ah"/>
 				</style>
 				<bind name="instance" value="'SelectedBattleTypeAnimation'; {}"/>
 			</block>
@@ -6040,9 +6043,10 @@
 			</block>
 			<block>
 				<style>
-					<width value="100%"/>
-					<marginTop value="8"/>
+					<width value="375px"/>
+					<marginTop value="4px"/>
 				</style>
+				<styleClass value="$MiddleAligned"/>
 				<block type="text">
 					<styleClass value="$TextDefaultBold23NM"/>
 					<style>
@@ -6057,7 +6061,7 @@
 					<style>
 						<width value="100%"/>
 						<textAlign value="center"/>
-						<marginTop value="10px"/>
+						<marginTop value="12px"/>
 					</style>
 					<bind name="class" value="(activePremType == accountType) ? '$FontColorGolden' : '$FontColorWhite'"/>
 					<bind name="text" value="accountStatus"/>
@@ -6065,32 +6069,36 @@
 			</block>
 		</block>
 		<block>
-			<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 3 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
-			<bind name="appear" value="'startHide'; 0.15; 3 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
-			<styleClass value="$MiddleAligned"/>
 			<style>
-				<width value="200px"/>
-				<marginTop value="40"/>
+				<width value="100%"/>
+				<position value="absolute"/>
+				<top value="720:320,1080:350ah"/>
 			</style>
-			<bind name="instance" value="'PremiumAccountCoeff'; { 	_coeffXP: coeffXP, _coeffCR: coeffCR, _activePremType: activePremType, 
-													_textAffect: textAffect, _accountType: accountType }"/>
-		</block>
-		<block>
-			<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 5 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
-			<bind name="appear" value="'startHide'; 0.15; 5 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
-			<styleClass value="$MiddleAligned"/>
-			<style>
-				<width value="200px"/>
-				<marginTop value="24"/>
-			</style>
-			<bind name="watch" value="'buttonLabel'; (premActiveTime &gt; 0) ? 'IDS_PREMIUM_ACCOUNT_EXTEND' : 'IDS_PRMP_BUY_BUTTON'"/>
-			<bind name="instance" value="'DefaultButton';{	_enabled: true, _width: '100%',
-											_label: toUpperCase(tr(buttonLabel)),
-											_focusIndex: ($index == 0) ? 0 : 1, 
-											_defaultFocused: ($index == 0) ? true : false, 
-											_request: 'buttonShowPremiumPeriods', 
-											_requestParams: { selectedPremType: accountType }
-										}"/>
+			<block>
+				<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 3 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
+				<bind name="appear" value="'startHide'; 0.15; 3 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+				<style>
+					<width value="100%"/>
+				</style>
+				<bind name="instance" value="'PremiumAccountCoeff'; { 	_coeffXP: coeffXP, _coeffCR: coeffCR, _activePremType: activePremType, 
+														_textAffect: textAffect, _accountType: accountType }"/>
+			</block>
+			<block>
+				<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 5 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
+				<bind name="appear" value="'startHide'; 0.15; 5 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+				<style>
+					<width value="100%"/>
+					<marginTop value="24"/>
+				</style>
+				<bind name="watch" value="'buttonLabel'; (premActiveTime &gt; 0) ? 'IDS_PREMIUM_ACCOUNT_EXTEND' : 'IDS_PRMP_BUY_BUTTON'"/>
+				<bind name="instance" value="'DefaultButton';{	_enabled: true, _width: '100%',
+												_label: toUpperCase(tr(buttonLabel)),
+												_focusIndex: ($index == 0) ? 0 : 1, 
+												_defaultFocused: ($index == 0) ? true : false, 
+												_request: 'buttonShowPremiumPeriods', 
+												_requestParams: { selectedPremType: accountType }
+											}"/>
+			</block>
 		</block>
 	</block>
 	<block className="PremiumAccountCoeff">

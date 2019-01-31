@@ -2003,6 +2003,7 @@
 		<bind name="name" value="_input"/>
 		<bind name="input"/>
 		<bind name="action" value="'click'; _action ? _action : null"/>
+		<bind name="action" value="'click'; 'log'; { event: 'click:banner.' + _logItemName }"/>
 		<block className="button_infopanel_no_label" type="native">
 			<styleClass value="$FullsizeAbsolute"/>
 		</block>
@@ -3958,6 +3959,7 @@
 		<bind name="feature" value="21; 'click'"/>
 		<bind name="soundSet" value="'lootbox_banner'"/>
 		<bind name="tooltip" value="'MouseInstructionTooltip'; { _mouseInstructions: [{_type: 'left', _instructionText: 'IDS_GO_TO_LOOTBOXES'}], _maxWidth: 250 }; 0"/>
+		<bind name="action" value="'click'; 'log'; { event: 'click:banner.Lootboxes' }"/>
 		<block>
 			<styleClass value="$Fullsize"/>
 			<block className="quest_thumb_title" type="native">
@@ -5993,7 +5995,6 @@
 				<bind name="appear" value="'startHide'; 0.15; 2 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
 				<style>
 					<position value="absolute"/>
-					<marginTop value="5sh"/>
 				</style>
 				<styleClass value="$MiddleAligned"/>
 				<block>

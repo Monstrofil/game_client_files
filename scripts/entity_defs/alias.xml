@@ -47,47 +47,22 @@
 	<DB_ID_LIST>
 		ARRAY<of>DB_ID</of>
 	</DB_ID_LIST>
-	
-	<PLANE_INFO>
-		FIXED_DICT
-		<Properties>
-			<planeID><Type>PLANE_ID</Type></planeID>
-			<paramsID><Type>GAMEPARAMS_ID</Type></paramsID>
-			<position><Type>VECTOR3</Type></position>
-			<visibility><Type>VISIBILITY_BY_TEAM</Type></visibility>
-			<visibilityByClients><Type>VISIBILITY_BY_CLIENTS</Type></visibilityByClients>
-			<numPlanes><Type>UINT8</Type></numPlanes>
-			<speed><Type>FLOAT</Type></speed>
-			<nominalSpeed><Type>FLOAT</Type></nominalSpeed>
-			<yaw><Type>FLOAT</Type></yaw>
-			<state><Type>UINT8</Type></state>
-			<hasBomb><Type>BOOL</Type></hasBomb>
-			<aaAmmoAmount><Type>FLOAT</Type></aaAmmoAmount>
-		</Properties>
-	</PLANE_INFO>
-	
-	<PLANES_LIST>
-		FIXED_DICT
-		<Properties>
-			<packetID> <Type> UINT8 </Type> </packetID>
-			<planes> <Type> ARRAY <of> PLANE_INFO </of> </Type> </planes>
-		</Properties>
-	</PLANES_LIST>
-	
+
 	<PLANE_WAYPOINT>
 		FIXED_DICT
 		<Properties>
 			<position><Type>VECTOR3</Type></position>
 			<yaw><Type>FLOAT</Type></yaw>
-			<time><Type>FLOAT</Type></time>
+			<pitch><Type>INT8</Type></pitch>
+			<time><Type>INT16</Type></time>
 			<type><Type>INT8</Type></type>
 		</Properties>
 	</PLANE_WAYPOINT>
-	
+
 	<PLANE_PATH>
 		ARRAY <of> PLANE_WAYPOINT </of>
 	</PLANE_PATH>
-	
+
 	<BATTLE_DEF>
 		FIXED_DICT
 		<Properties>
@@ -104,7 +79,7 @@
 		</Properties>
 		<implementedBy>BattleDef.converter</implementedBy>
 	</BATTLE_DEF>
-	
+
 	<SHIP_CONFIG>
 		FIXED_DICT
 		<Properties>
@@ -140,7 +115,7 @@
 			<dogTag><Type>ARRAY<of>GAMEPARAMS_ID</of></Type></dogTag>
 		</Properties>
 	</DIVISION_SEEKER_DEF>
-	
+
 	<RANK_BATTLES_DENY_REASON>
 		FIXED_DICT
 		<Properties>
@@ -148,8 +123,8 @@
 			<reason><Type>UINT16</Type></reason>
 		</Properties>
 	</RANK_BATTLES_DENY_REASON>
-	
-	
+
+
 	<CREW_MODIFIERS_COMPACT_PARAMS>
 		FIXED_DICT
 		<Properties>
@@ -159,7 +134,7 @@
 		</Properties>
 		<implementedBy>CrewModifiers.crewModifiersCompactParamsConverter</implementedBy>
 	</CREW_MODIFIERS_COMPACT_PARAMS>
-	
+
 	<PLAYER_DEF>
 		FIXED_DICT
 		<Properties>
@@ -179,16 +154,16 @@
 		<implementedBy>PlayerDef.converter</implementedBy>
 		<AllowNone> true </AllowNone>
 	</PLAYER_DEF>
-	
+
 	<PLAYERS_DEFS>
 		ARRAY <of> PLAYER_DEF </of>
 	</PLAYERS_DEFS>
-	
+
 	<!-- Alias is used by matchmaker to send pack of players divided on teams to battle session -->
 	<TEAMSLIST>
 		ARRAY <of> PLAYERS_DEFS </of>
 	</TEAMSLIST>
-	
+
 	<PRE_BATTLE_CREATOR_DEF>
 		FIXED_DICT
 		<Properties>
@@ -198,7 +173,7 @@
 		</Properties>
 		<AllowNone> true </AllowNone>
 	</PRE_BATTLE_CREATOR_DEF>
-	
+
 	<PRE_BATTLE_SENDER_DEF>
 		FIXED_DICT
 		<Properties>
@@ -214,7 +189,7 @@
 		</Properties>
 		<AllowNone> true </AllowNone>
 	</PRE_BATTLE_SENDER_DEF>
-	
+
 	<PRE_BATTLE_INVITE_DEF>
 		FIXED_DICT
 		<Properties>
@@ -229,7 +204,7 @@
 			<!--comment><Type>UNICODE_STRING</Type></comment-->
 		</Properties>
 	</PRE_BATTLE_INVITE_DEF>
-	
+
 	<PRE_BATTLE_DEF>
 		FIXED_DICT
 		<Properties>
@@ -254,7 +229,7 @@
 		<AllowNone>true</AllowNone>
 		<implementedBy>PreBattleDef.converter</implementedBy>
 	</PRE_BATTLE_DEF>
-	
+
 	<MINIMAP_USER_INFO>
 		FIXED_DICT
 		<Properties>
@@ -262,7 +237,7 @@
 			<packedData><Type>UINT32</Type></packedData>
 		</Properties>
 	</MINIMAP_USER_INFO>
-	
+
 	<DAMAGES>
 		FIXED_DICT
 		<Properties>
@@ -278,14 +253,14 @@
 			<share><Type>FLOAT</Type></share>
 		</Properties>
 	</CAPTURE_INFO>
-	
+
 	<MINIMAPINFO>
 		ARRAY <of> MINIMAP_USER_INFO </of>
 	</MINIMAPINFO>
 	<PLAYERS_MBS>
 		ARRAY <of> MAILBOX </of>
 	</PLAYERS_MBS>
-	
+
 	<GOAL_DEF>
 		FIXED_DICT
 		<Properties>
@@ -298,7 +273,7 @@
 		<implementedBy>GoalDef.converter</implementedBy>
 		<AllowNone> true </AllowNone>
 	</GOAL_DEF>
-	
+
 	<ORDER_DEF>
 		FIXED_DICT
 		<Properties>
@@ -309,7 +284,7 @@
 		</Properties>
 		<implementedBy>OrderDef.converter</implementedBy>
 	</ORDER_DEF>
-	
+
 	<SHOT>
 		FIXED_DICT
 		<Properties>
@@ -326,7 +301,7 @@
 				<hitDistance><Type>FLOAT</Type></hitDistance>
 		</Properties>
 	</SHOT>
-	
+
 	<TORPEDOSHOT>
 		FIXED_DICT
 		<Properties>
@@ -362,7 +337,7 @@
 				<hitType>    <Type>	UINT8	</Type>	</hitType>
 		</Properties>
 	</SHOTKILL>
-	
+
 	<EXPLOSION>
 		FIXED_DICT
 		<Properties>
@@ -371,7 +346,7 @@
 				<hitType>    <Type>	UINT8	</Type>	</hitType>
 		</Properties>
 	</EXPLOSION>
-	
+
 	<ARENA_STATE>
 		FIXED_DICT
 		<Properties>
@@ -381,7 +356,7 @@
 			<buildingsInfo>     <Type>  BLOB    </Type> </buildingsInfo>
 		</Properties>
 	</ARENA_STATE>
-	
+
 	<STAT_INFO>
 		FIXED_DICT
 		<Properties>
@@ -391,7 +366,7 @@
 				<victimId>     <Type>	TARGET_ID	</Type> </victimId>
 		</Properties>
 	</STAT_INFO>
-	
+
 	<GENERIC_MESSENGER_ARGS>
 		FIXED_DICT
 		<Properties>
@@ -401,7 +376,7 @@
 			<int64ListArg1> <Type> DB_ID_LIST </Type> </int64ListArg1>
 		</Properties>
 	</GENERIC_MESSENGER_ARGS>
-	
+
 	<BACKUPED_PROPERTY>
 		FIXED_DICT
 		<Properties>
@@ -416,11 +391,16 @@
 			<planeID>       <Type>	PLANE_ID	</Type> </planeID>
 			<skinID>        <Type>	GAMEPARAMS_ID </Type> </skinID>
 			<isActive>      <Type>	BOOL	    </Type> </isActive>
-			<hasBomb>       <Type>	BOOL	    </Type>	</hasBomb>
+			<numBombs>       <Type>	INT8	    </Type>	</numBombs>
 			<catapultState> <Type>	INT8	    </Type> </catapultState>
 			<numPlanes>     <Type>	UINT8	    </Type>	</numPlanes>
 			<formation>     <Type>	INT8	    </Type>	</formation>
 			<position>      <Type>	VECTOR3	    </Type>	</position>
+			<yaw>			<Type>	FLOAT 		</Type>	</yaw>
+			<throttleMode>	<Type>	INT8 		</Type> </throttleMode>
+			<turnMode>		<Type>  INT8 		</Type> </turnMode>
+			<turnDirection>	<Type>	INT8 		</Type> </turnDirection>
+			<attackState>	<Type>	UINT8 		</Type> </attackState>
 		</Properties>
 		<implementedBy>AirPlanes.squadronStateConverter</implementedBy>
 	</SQUADRON_STATE>
@@ -908,12 +888,31 @@
 		FIXED_DICT
 		<Properties>
 			<id><Type>INT8</Type></id>
-			<zone><Type>STRING</Type></zone>
 			<paramsId><Type>GAMEPARAMS_ID</Type></paramsId>
+			<zoneName><Type>STRING</Type></zoneName>
 			<startTime><Type>INT16</Type></startTime>
-			<endTime><Type>INT16</Type></endTime>
+			<isContested><Type>BOOL</Type></isContested>
 		</Properties>
 	</DROP_ITEM_STATE>
+
+	<DROP_PLANE_STATE>
+		FIXED_DICT
+		<Properties>
+			<direction><Type>VECTOR2</Type></direction>
+			<params><Type>GAMEPARAMS_ID</Type></params>
+			<height><Type>FLOAT</Type></height>
+		</Properties>
+		<AllowNone>true</AllowNone>
+	</DROP_PLANE_STATE>
+
+	<DROP_STATE>
+		FIXED_DICT
+		<Properties>
+			<dropItems><Type>ARRAY<of>DROP_ITEM_STATE</of></Type></dropItems>
+			<plane><Type>DROP_PLANE_STATE</Type></plane>
+		</Properties>
+		<AllowNone>true</AllowNone>
+	</DROP_STATE>
 	
 	<BATTLE_LOGIC_STATE>
 		FIXED_DICT
@@ -935,7 +934,7 @@
 			<minefields><Type>ARRAY<of>MINEFIELD_STATE</of></Type></minefields>
 			<entities><Type>ARRAY<of>BATTLE_LOGIC_ENTITY_STATE</of></Type></entities>
 			<effects><Type>ARRAY<of>EFFECT_STATE</of></Type></effects>
-			<drop><Type>ARRAY<of>DROP_ITEM_STATE</of></Type></drop>
+			<drop><Type>DROP_STATE</Type></drop>
 			<!--<triggers> <Type>TRIGGERS_STATE</Type> <AllowNone>true</AllowNone> </triggers>-->
 			<!--<routes> <Type>ROUTES_STATE</Type> <AllowNone>true</AllowNone> </routes>-->
 		</Properties>
@@ -1117,14 +1116,25 @@
 			<enabled><Type> BOOL </Type></enabled>
 		</Properties>
 	</AIR_DEFENCE_AURA>
-    <PREREQUISITE_SHIP>
+
+	<PREREQUISITE_SHIP_DATA>
         FIXED_DICT
         <Properties>
             <shipParamsId><Type>GAMEPARAMS_ID</Type> </shipParamsId>
             <maxUpgrades><Type>BOOL</Type> </maxUpgrades>
             <camoParamsId><Type>GAMEPARAMS_ID</Type> </camoParamsId>
         </Properties>
-    </PREREQUISITE_SHIP>
+    </PREREQUISITE_SHIP_DATA>
+
+	<PREREQUISITE_DATA>
+		FIXED_DICT
+		<Properties>
+			<ships><Type>ARRAY<of>PREREQUISITE_SHIP_DATA</of></Type></ships>
+			<effects><Type>ARRAY<of>STRING</of></Type></effects>
+			<weather><Type>ARRAY<of>GAMEPARAMS_ID</of></Type></weather>
+			<squadrons><Type>ARRAY<of>GAMEPARAMS_ID</of></Type></squadrons>
+		</Properties>
+	</PREREQUISITE_DATA>
 
 	<ENTITY_EFFECT_STATE>
 		FIXED_DICT
@@ -1154,4 +1164,39 @@
 		</Properties>
 		<AllowNone> true </AllowNone>
 	</LINKAGE_FRAGMENTS>
+	
+	<BUBBLE>
+		FIXED_DICT
+		<Properties>
+			<position><Type> VECTOR3 </Type></position>
+			<activationDelay><Type>FLOAT</Type></activationDelay>
+		</Properties>
+	</BUBBLE>
+
+	<BUBBLE_PACK>
+		FIXED_DICT
+		<Properties>
+			<auraId><Type>INT8</Type></auraId>
+			<bubbles><Type>ARRAY<of>BUBBLE</of></Type></bubbles>
+		</Properties>
+	</BUBBLE_PACK>
+	
+	<PLANE_PROJECTILE>
+		FIXED_DICT
+		<Properties>
+			<shotID><Type>UINT16</Type></shotID>
+			<impactPoint><Type>VECTOR3</Type></impactPoint>			
+		</Properties>
+	</PLANE_PROJECTILE>
+	<PLANE_PROJECTILE_PACK>
+		FIXED_DICT
+		<Properties>
+			<bombParamsId><Type>GAMEPARAMS_ID</Type> </bombParamsId>
+			<squadronId><Type>PLANE_ID</Type> </squadronId>			
+			<squadronToTarget><Type>VECTOR3</Type></squadronToTarget>
+			<fallTime><Type>FLOAT</Type></fallTime>
+			<projectiles><Type>ARRAY<of>PLANE_PROJECTILE</of></Type></projectiles>
+		</Properties>
+	</PLANE_PROJECTILE_PACK>
+	
 </root>

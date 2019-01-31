@@ -3195,17 +3195,6 @@
 								<width value="100%"/>
 							</style>
 							<bind name="instance" value="'ModalWindowHeader'; {_header: header, _headerWidth: '100%', _showInnerCloseButton:true}"/>
-							<block>
-								<style>
-									<right value="0px"/>
-									<top value="2px"/>
-									<position value="absolute"/>
-								</style>
-								<bind name="instance" value="'LayoutSwitcher';	(inset == 1) &amp;&amp; (challengesCollection.length &gt; 0)		? {_layout: challengesLayoutType,	_changeEvent: 'challengesLayoutChangedEvent'} :
-																(inset == 2) &amp;&amp; (tasksCollection.length &gt; 0)			? {_layout: battleTasksLayoutType,	_changeEvent: 'battleTaskLayoutChangedEvent'} :
-																(inset == 3) &amp;&amp; (personalTasksCollection.length &gt; 0)	? {_layout: battlePersonalTasksLayoutType,	_changeEvent: 'PersonalTaskLayoutChangedEvent'}
-																													: null"/>
-							</block>
 						</block>
 					</block>
 					<block>
@@ -3267,9 +3256,9 @@
 		<block>
 			<bind name="appear" value="'startShow'; 0.15; 0.15; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
 			<bind name="appear" value="'startHide'; 0.15; 0.15; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
-			<bind name="visible" value="	(inset == 1 &amp;&amp; challengesCollection.length &gt; 0 &amp;&amp; challengesLayoutType == 0) ||
-						(inset == 2 &amp;&amp; tasksCollection.length &gt; 0 &amp;&amp; battleTasksLayoutType == 0) ||
-						(inset == 3 &amp;&amp; personalTasksCollection.length &gt; 0 &amp;&amp; battlePersonalTasksLayoutType == 0) "/>
+			<bind name="visible" value="	(inset == 1 &amp;&amp; challengesCollection.length &gt; 0) ||
+						(inset == 2 &amp;&amp; tasksCollection.length &gt; 0) ||
+						(inset == 3 &amp;&amp; personalTasksCollection.length &gt; 0) "/>
 			<style>
 				<width value="100%"/>
 				<marginBottom value="16px"/>
@@ -3329,7 +3318,7 @@
 		<block>
 			<styleClass value="$Fullsize"/>
 			<bind name="visible" value="challengesCollection.length &gt; 0"/>
-			<bind name="child" value="layoutType; {challengesCollection: challengesCollection, currentSelectedIndex: currentSelectedIndex}; 'ChallengesLargeTileLayout'; 'ChallengesSmallTileLayout'"/>
+			<bind name="child" value="0; {challengesCollection: challengesCollection, currentSelectedIndex: currentSelectedIndex}; 'ChallengesLargeTileLayout'; 'ChallengesSmallTileLayout'"/>
 		</block>
 	</block>
 	<block className="ChallengesSmallTileLayout">
@@ -3383,7 +3372,7 @@
 		<block>
 			<styleClass value="$Fullsize"/>
 			<bind name="visible" value="tasksCollection.length &gt; 0"/>
-			<bind name="child" value="layoutType; {tasksCollection: tasksCollection, currentSelectedIndex: currentSelectedIndex }; 'BattleQuestsLargeTileLayout'; 'BattleQuestsSmallTileLayout'"/>
+			<bind name="child" value="0; {tasksCollection: tasksCollection, currentSelectedIndex: currentSelectedIndex }; 'BattleQuestsLargeTileLayout'; 'BattleQuestsSmallTileLayout'"/>
 		</block>
 	</block>
 	<block className="PersonalQuests">
@@ -3398,7 +3387,7 @@
 		<block>
 			<styleClass value="$Fullsize"/>
 			<bind name="visible" value="personalTasksCollection.length &gt; 0"/>
-			<bind name="child" value="layoutType; {personalTasksCollection: personalTasksCollection, currentSelectedIndex: currentSelectedIndex }; 'PersonalQuestsLargeTileLayout'; 'PersonalQuestsSmallTileLayout'"/>
+			<bind name="child" value="0; {personalTasksCollection: personalTasksCollection, currentSelectedIndex: currentSelectedIndex }; 'PersonalQuestsLargeTileLayout'; 'PersonalQuestsSmallTileLayout'"/>
 		</block>
 	</block>
 	<block className="PersonalQuestsSmallTileLayout">

@@ -2160,6 +2160,7 @@
 		<bind name="name" value="_input"/>
 		<bind name="input"/>
 		<bind name="action" value="'click'; _action ? _action : null"/>
+		<bind name="action" value="'click'; 'log'; { event: 'click:banner.' + _logItemName }"/>
 		<block className="button_infopanel_no_label" type="native">
 			<styleClass value="$FullsizeAbsolute"/>
 		</block>
@@ -2755,17 +2756,14 @@
 		<bind name="watchDH" value="'dogTagList';['entityAccount.dogTagView.evComponentsChanged']; entityAccount.dogTagView.components"/>
 		<bind name="collectionDH" value="CC.dogTagComponent; 'dogtagview'+'ROOT'"/>
 		<bind name="collectionDesign" value="'DES_'+'dogtagview'+'ROOT'; 'dogtagview'; {'filter':(dogTagList.indexOf(toLowerCase($entity.dogTagComponent.id)) &gt; -1), 'sort':['dogTagComponent.categoryId']}; []"/>
-		<bind name="collectionDH" value="CC.avatar; 'selfAvatarCollection'+'ROOT'"/>
-		<bind name="collectionDesign" value="'DES_'+'selfAvatarCollection'+'ROOT'; 'selfAvatarCollection'; {'filter':$entity.relation.value == 0}; []"/>
-		<bind name="watch" value="'selfAvatarEntityId'; selfAvatarCollection[0].id"/>
-		<bind name="entityDH" value="'selfAvatarEntity'; selfAvatarEntityId"/>
-		<bind name="watchDH" value="'playerIsAlive'; ['selfAvatarEntity.health.evKilled']; selfAvatarEntity.health.isAlive"/>
+		<bind name="firstEntityDH" value="'selfAvatarEntity'; CC.playerAvatar"/>
+		<bind name="watchDH" value="'playerIsAlive'; ['selfAvatarEntity.playerAvatar.evKilled']; selfAvatarEntity.playerAvatar.isAlive"/>
 		<bind name="watchDH" value="'killerId'; ['selfAvatarEntity.health.evKillerIdChanged']; selfAvatarEntity.health.killerId"/>
 		<bind name="primaryEntityDH" value="'killerEntity'; CC.avatar; killerId"/>
 		<bind name="watchDH" value="'enemyName'; ['killerEntity.accountName.evChanged']; killerEntity.accountName.name"/>
 		<block>
 			<styleClass value="$Fullsize"/>
-			<bind name="instance" value="'BattleKillerDogTag'; killerId != 0 ? {_killerId: killerId, _enemyName: enemyName} : null"/>
+			<bind name="instance" value="'BattleKillerDogTag'; (!playerIsAlive) &amp;&amp; (killerId != 0) ? {_killerId: killerId, _enemyName: enemyName} : null"/>
 		</block>
 	</block>
 	<block className="BattleKillerDogTag">
@@ -4610,8 +4608,28 @@
 			</style>
 		</block>
 	</block>
+	<css name="$TextDefault12NM">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="12"/>
+		<marginText value="-3px|-3px|-6px|-5px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
 	<css name="$TextDefault13NM">
 		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="13"/>
+		<marginText value="-3px|-3px|-6px|-5px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultBold13NM">
+		<fontFamily value="$WWSDefaultFontBold"/>
 		<mouseEnabled value="false"/>
 		<mouseChildren value="false"/>
 		<fontSize value="13"/>
@@ -4802,6 +4820,7 @@
 		<bind name="feature" value="21; 'click'"/>
 		<bind name="soundSet" value="'lootbox_banner'"/>
 		<bind name="tooltip" value="'MouseInstructionTooltip'; { _mouseInstructions: [{_type: 'left', _instructionText: 'IDS_GO_TO_LOOTBOXES'}], _maxWidth: 250 }; 0"/>
+		<bind name="action" value="'click'; 'log'; { event: 'click:banner.Lootboxes' }"/>
 		<block>
 			<styleClass value="$Fullsize"/>
 			<block className="quest_thumb_title" type="native">

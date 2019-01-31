@@ -2369,8 +2369,28 @@
 			</block>
 		</block>
 	</block>
+	<css name="$TextDefault12NM">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="12"/>
+		<marginText value="-3px|-3px|-6px|-5px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
 	<css name="$TextDefault13NM">
 		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="13"/>
+		<marginText value="-3px|-3px|-6px|-5px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultBold13NM">
+		<fontFamily value="$WWSDefaultFontBold"/>
 		<mouseEnabled value="false"/>
 		<mouseChildren value="false"/>
 		<fontSize value="13"/>
@@ -3250,6 +3270,7 @@
 		<bind name="name" value="_input"/>
 		<bind name="input"/>
 		<bind name="action" value="'click'; _action ? _action : null"/>
+		<bind name="action" value="'click'; 'log'; { event: 'click:banner.' + _logItemName }"/>
 		<block className="button_infopanel_no_label" type="native">
 			<styleClass value="$FullsizeAbsolute"/>
 		</block>
@@ -3833,8 +3854,8 @@
 		<bind name="child" value="(type == BattleTypes.PVE_BATTLE ? 0 : 1); {_type: type, _isSmallView: _isSmallView}; 'ModalBattleTypeRendererPVE'; 'ModalBattleTypeRendererCommon'"/>
 	</block>
 	<block className="ModalBattleTypeRendererPVE">
-		<bind name="primaryEntityDH" value="'battleTypeEntity'; CC.battleType; _type"/>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'dockDefaultValues'; 'dockInitData,dockUpdateData'"/>
+		<bind name="primaryEntityDH" value="'battleTypeEntity'; CC.battleType; _type"/>
 		<bind name="watchDH" value="'status'; 					['battleTypeEntity.battleType.evStatusChanged']; 			battleTypeEntity.battleType.status"/>
 		<bind name="watchDH" value="'battleTypeDenyReasons'; 	['battleTypeEntity.battleType.evDisableReasonChanged']; 	battleTypeEntity.battleType.battleTypeReasons"/>
 		<bind name="watchDH" value="'description'; 			[]; battleTypeEntity.battleType.description"/>
@@ -4028,6 +4049,7 @@
 		</block>
 	</block>
 	<block className="ModalBattleTypeRendererCommon">
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController; null; 'juniorRankInfo_'"/>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'divisionData'"/>
 		<bind name="primaryEntityDH" value="'battleTypeEntity'; CC.battleType; _type"/>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'dockDefaultValues'; 'dockInitData,dockUpdateData'"/>
@@ -4053,9 +4075,6 @@
 															(type == BattleTypes.TRAINING_BATTLE) ||
 															((type == BattleTypes.RANKED_BATTLE) &amp;&amp; (rankedBattlesSeason.isDivisionAllowed != true)) ? false : true"/>
 		<bind name="watch" value="'isSelectableBattleType'; ((status != 2) &amp;&amp; (!(divisionData.divisionExist) || isDivisionsAvailableInThisBattleType))"/>
-		<bind name="dispatch" value="'click'; isSelectableBattleType ? 'battleTypeChose' : null; null; false"/>
-		<bind name="action" value="'click'; (isSelectableBattleType &amp;&amp; type != BattleTypes.TRAINING_BATTLE) ? 'setBattleType' : null; { battleType: type }"/>
-		<bind name="request" value="'click'; (isSelectableBattleType &amp;&amp; type == BattleTypes.TRAINING_BATTLE) ? 'showTrainingRoomsList' : null; {}"/>
 		<bind name="firstEntityDH" value="'dockDataEntity'; CC.dockDataMarker"/>
 		<bind name="watchDH" value="'battleTypeChooserVisible'; ['dockDataEntity.dockData.evBattleChooserChanged']; dockDataEntity.dockData.battleChooserVisible"/>
 		<bind name="fade" value="(battleTypeChooserVisible &amp;&amp; isVisible); 0; {alpha: 0}; {alpha: 1, top: 0}; {alpha: 0}"/>
@@ -4063,6 +4082,7 @@
 		<bind name="appear" value="selected ? 'hideBattleTypesOnBattleTypeChose' : null; 0.11; 0.12;	{alpha: 1};	{alpha: 0}; 2"/>
 		<bind name="firstEntityDH" value="'clanCurrentSeasonEntity'; CC.clanBattleSeason; 'current.active'"/>
 		<bind name="watch" value="'isClanStuffVisible'; type == BattleTypes.CLAN_BATTLE &amp;&amp; clanCurrentSeasonEntity"/>
+		<bind name="watch" value="'isBright'; (selected || rollOver) &amp;&amp; isSelectableBattleType"/>
 		<style>
 			<width value="220px"/>
 			<marginLeft value="1280:8,1920:32aw"/>
@@ -4070,104 +4090,107 @@
 			<marginBottom value="4px"/>
 			<backgroundColor value="0x01000000"/>
 		</style>
-		<bind name="watch" value="'isBright'; (selected || rollOver) &amp;&amp; isSelectableBattleType"/>
-		<block>
-			<bind name="controller" value="lesta.unbound.controls.UbInteractiveController; null; 'battleType_'"/>
-			<bind name="name" value="'isSelectable_' + isSelectableBattleType"/>
-			<styleClass value="$FullsizeAbsolute"/>
-			<style>
-				<backgroundColor value="0x01000000"/>
-			</style>
-			<bind name="countdown" value="rankedBattlesSeason.startTime; 'seasonTimeStart'; 'HIGHEST'; ''; 'ACC'"/>
-			<bind name="watch" value="'reasonText'; ((battleTypeDenyReasons[0] == 'IDS_RANK_BATTLES_SEASON_IS_NOT_ACTIVE_SEASON_STARTS_IN') 	? 	(tr(battleTypeDenyReasons[0]) + seasonTimeStart)
-																															:	battleTypeDenyReasons[0])"/>
-			<bind name="tooltip" value="isClanStuffVisible ? 'ClanBattleTypeTooltip' : 'MouseInstructionTooltip';
-
-		{	_multiParagraphArray: [{_paragraphText: ((type == BattleTypes.INTRO_MISSION)	? dockDefaultValues.introMissionDescription : description)}],
-			
-			_mouseInstructions: !(isSelectableBattleType)									? [{_type: 'warning', _instructionText: reasonText}]
-																							: [{_type: 'left', _instructionText: tr('IDS_CHOOSE') + ' ' + tr(labelIds + '_ACC')}], 
-			_maxWidth: 250 }"/>
-		</block>
 		<block>
 			<style>
 				<width value="100%"/>
-				<hitTest value="false"/>
+				<backgroundColor value="0x01000000"/>
 			</style>
-			<bind name="transition" value="isBright &amp;&amp; !(battleType_mouseDown); 0.06; {alpha: 0.85}; {alpha: 1}; {alpha: 0.85}"/>
+			<bind name="dispatch" value="'click'; isSelectableBattleType ? 'battleTypeChose' : null; null; false"/>
+			<bind name="action" value="'click'; (isSelectableBattleType &amp;&amp; type != BattleTypes.TRAINING_BATTLE) ? 'setBattleType' : null; { battleType: type }"/>
+			<bind name="request" value="'click'; (isSelectableBattleType &amp;&amp; type == BattleTypes.TRAINING_BATTLE) ? 'showTrainingRoomsList' : null; {}"/>
 			<block>
-				<styleClass value="$MiddleAligned"/>
-				<bind name="style" value="'marginBottom'; _isSmallView ? '4px' : '16px'"/>
-				<bind name="style" value="'width'; _isSmallView ? '80px' : '136px'"/>
-				<bind name="style" value="'height'; _isSmallView ? '80px' : '136px'"/>
-				<bind name="style" value="'colorMatrixFilter';	!(isSelectableBattleType)	? '0 -100 0 0'
-																			: '0 0 0 0'"/>
-				<block>
-					<bind name="style" value="'width'; _isSmallView ? '170px' : '280px'"/>
-					<bind name="style" value="'height'; _isSmallView ? '170px' : '280px'"/>
-					<bind name="instance" value="'SelectedBattleTypeAnimation'; selected ? {} : null"/>
-					<styleClass value="$MiddleAlignedAbsolutely"/>
-					<styleClass value="$MiddleVAligned"/>
-				</block>
-				<bind name="child" value="_isSmallView ? 0 : 1; {_status: status, _type: type, _selected: selected}; 'BattleTypeIconSmall'; 'BattleTypeIconBig'"/>
+				<bind name="controller" value="lesta.unbound.controls.UbInteractiveController; null; 'battleType_'"/>
+				<bind name="name" value="'isSelectable_' + isSelectableBattleType"/>
+				<bind name="countdown" value="rankedBattlesSeason.startTime; 'seasonTimeStart'; 'HIGHEST'; ''; 'ACC'"/>
+				<bind name="watch" value="'reasonText'; ((battleTypeDenyReasons[0] == 'IDS_RANK_BATTLES_SEASON_IS_NOT_ACTIVE_SEASON_STARTS_IN') 	? 	(tr(battleTypeDenyReasons[0]) + seasonTimeStart)
+																																:	battleTypeDenyReasons[0])"/>
+				<styleClass value="$FullsizeAbsolute"/>
+				<style>
+					<backgroundColor value="0x01000000"/>
+				</style>
+				<bind name="tooltip" value="isClanStuffVisible ? 'ClanBattleTypeTooltip' : 'MouseInstructionTooltip';	{	_multiParagraphArray: [{_paragraphText: ((type == BattleTypes.INTRO_MISSION)	? dockDefaultValues.introMissionDescription : description)}],			
+																											_mouseInstructions: !(isSelectableBattleType)									? [{_type: 'warning', _instructionText: reasonText}]
+																																															: [{_type: 'left', _instructionText: tr('IDS_CHOOSE') + ' ' + tr(labelIds + '_ACC')}], 
+																											_maxWidth: 250 }"/>
 			</block>
 			<block>
-				<bind name="style" value="'colorMatrixFilter';	isSelectableBattleType	? '0 0 0 0'
-																		: '0 -100 0 -20'"/>
 				<style>
 					<width value="100%"/>
+					<hitTest value="false"/>
 				</style>
-				<bind name="style" value="'marginBottom'; _isSmallView ? '8px' : '16px'"/>
-				<block type="text">
-					<style>
-						<alpha value="0.85"/>
-						<width value="100%"/>
-						<textAlign value="center"/>
-						<leading value="-2"/>
-					</style>
-					<styleClass value="$TextDefaultBold21NM"/>
-					<bind name="class" value="(selected == true ? '$FontColorWhite' : '$FontColorBlueish')"/>
-					<bind name="text" value="label"/>
+				<bind name="transition" value="isBright &amp;&amp; !(battleType_mouseDown); 0.06; {alpha: 0.85}; {alpha: 1}; {alpha: 0.85}"/>
+				<block>
+					<styleClass value="$MiddleAligned"/>
+					<bind name="style" value="'marginBottom'; _isSmallView ? '4px' : '16px'"/>
+					<bind name="style" value="'width'; _isSmallView ? '80px' : '136px'"/>
+					<bind name="style" value="'height'; _isSmallView ? '80px' : '136px'"/>
+					<bind name="style" value="'colorMatrixFilter';	!(isSelectableBattleType)	? '0 -100 0 0' : '0 0 0 0'"/>
+					<block>
+						<bind name="style" value="'width'; _isSmallView ? '170px' : '280px'"/>
+						<bind name="style" value="'height'; _isSmallView ? '170px' : '280px'"/>
+						<bind name="instance" value="'SelectedBattleTypeAnimation'; selected ? {} : null"/>
+						<styleClass value="$MiddleAlignedAbsolutely"/>
+						<styleClass value="$MiddleVAligned"/>
+					</block>
+					<bind name="child" value="_isSmallView ? 0 : 1; {_status: status, _type: type, _selected: selected}; 'BattleTypeIconSmall'; 'BattleTypeIconBig'"/>
 				</block>
-				<block type="text">
-					<bind name="feature" value="24;''"/>
-					<bind name="visible" value="(feature_24 == 'locked')"/>
+				<block>
 					<style>
 						<width value="100%"/>
-						<textAlign value="center"/>
-						<leading value="-2"/>
 					</style>
-					<bind name="style" value="'marginTop'; _isSmallView ? '8px' : '16px'"/>
-					<bind name="style" value="'alpha'; selected ? 0.8 : 0.6"/>
-					<styleClass value="$TextDefaultNM"/>
-					<bind name="text" value="type == BattleTypes.COOPERATIVE_BATTLE	? 'IDS_COOPERATIVE_SHORT_DESCRIPTION' :
-							type == BattleTypes.RANDOM_BATTLE		? 'IDS_RANDOM_SHORT_DESCRIPTION' :
-							type == BattleTypes.INTRO_MISSION		? 'IDS_INTRO_SHORT_DESCRIPTION'
-																	: null "/>
+					<bind name="style" value="'marginBottom'; _isSmallView ? '8px' : '16px'"/>
+					<bind name="style" value="'colorMatrixFilter';isSelectableBattleType	? '0 0 0 0' : '0 -100 0 -20'"/>
+					<block type="text">
+						<style>
+							<alpha value="0.85"/>
+							<width value="100%"/>
+							<textAlign value="center"/>
+							<leading value="-2"/>
+						</style>
+						<styleClass value="$TextDefaultBold21NM"/>
+						<bind name="class" value="(selected == true ? '$FontColorWhite' : '$FontColorBlueish')"/>
+						<bind name="text" value="label"/>
+					</block>
+					<block type="text">
+						<bind name="feature" value="24;''"/>
+						<bind name="visible" value="(feature_24 == 'locked')"/>
+						<style>
+							<width value="100%"/>
+							<textAlign value="center"/>
+							<leading value="-2"/>
+						</style>
+						<bind name="style" value="'marginTop'; _isSmallView ? '8px' : '16px'"/>
+						<bind name="style" value="'alpha'; selected ? 0.8 : 0.6"/>
+						<styleClass value="$TextDefaultNM"/>
+						<bind name="text" value="type == BattleTypes.COOPERATIVE_BATTLE	? 'IDS_COOPERATIVE_SHORT_DESCRIPTION' :
+								type == BattleTypes.RANDOM_BATTLE		? 'IDS_RANDOM_SHORT_DESCRIPTION' :
+								type == BattleTypes.INTRO_MISSION		? 'IDS_INTRO_SHORT_DESCRIPTION'
+																		: null "/>
+					</block>
 				</block>
-			</block>
-			<block>
-				<bind name="visible" value="isDivisionDenyReasonVisible"/>
-				<bind name="style" value="'marginTop'; _isSmallView ? '4px' : '0px'"/>
-				<bind name="watch" value="'isDivisionDenyReasonVisible'; (divisionData.divisionExist &amp;&amp; isDivisionsAvailableInThisBattleType == false) &amp;&amp;
-														 (battleTypeDenyReasons.length &gt; 0) &amp;&amp; (status != 2)"/>
-				<bind name="name" value="isDivisionDenyReasonVisible ? type + '_division' : ''"/>
-				<styleClass value="$MiddleAligned"/>
-				<bind name="instance" value="'BattletypeDenyReason'; isDivisionDenyReasonVisible	? { _neutral: false, _textAlign: 'center', _maxWidth: 220,
-																					_reasonText: battleTypeDenyReasons[0]}
-																				: null"/>
-			</block>
-			<block>
-				<bind name="fade" value="((featureState == 'new') &amp;&amp; (status != 2)); 0.15; {alpha: 0, top: 10}; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
-				<style>
-					<marginTop value="4px"/>
-					<position value="absolute"/>
-				</style>
-				<bind name="style" value="'marginLeft'; _isSmallView ? '40px' : '0px'"/>
-				<block className="icon_sticker_new" type="native">
+				<block>
+					<bind name="visible" value="isDivisionDenyReasonVisible"/>
+					<bind name="style" value="'marginTop'; _isSmallView ? '4px' : '0px'"/>
+					<bind name="name" value="isDivisionDenyReasonVisible ? type + '_division' : ''"/>
+					<bind name="watch" value="'isDivisionDenyReasonVisible'; (divisionData.divisionExist &amp;&amp; isDivisionsAvailableInThisBattleType == false) &amp;&amp;
+															 (battleTypeDenyReasons.length &gt; 0) &amp;&amp; (status != 2)"/>
+					<styleClass value="$MiddleAligned"/>
+					<bind name="instance" value="'BattletypeDenyReason'; isDivisionDenyReasonVisible	? { _neutral: false, _textAlign: 'center', _maxWidth: 220,
+																						_reasonText: battleTypeDenyReasons[0]}
+																					: null"/>
+				</block>
+				<block>
+					<bind name="fade" value="((featureState == 'new') &amp;&amp; (status != 2)); 0.15; {alpha: 0, top: 10}; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
 					<style>
-						<hitTest value="false"/>
+						<marginTop value="4px"/>
+						<position value="absolute"/>
 					</style>
+					<bind name="style" value="'marginLeft'; _isSmallView ? '40px' : '0px'"/>
+					<block className="icon_sticker_new" type="native">
+						<style>
+							<hitTest value="false"/>
+						</style>
+					</block>
 				</block>
 			</block>
 		</block>
@@ -4180,12 +4203,23 @@
 			<bind name="instance" value="'ClanBattlePrimeTimeIndicator'; isClanStuffVisible ? {} : null"/>
 		</block>
 		<block>
-			<bind name="controller" value="lesta.unbound.controls.UbInteractiveController; null; 'juniorRankInfo_'"/>
-			<bind name="visible" value="(type == BattleTypes.RANKED_BATTLE) &amp;&amp; (rankedBattlesSeason.isJuniorSeason == true)"/>
-			<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_MORE_INFO_ABOUT_RANKES_TOOLTIP'}"/>
+			<bind name="visible" value="isClanStuffVisible"/>
+			<style>
+				<marginTop value="24px"/>
+			</style>
+			<styleClass value="$MiddleAligned"/>
+			<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_INSTRUCTION_TOOLTIP_GO_TO_PRIME_CHOOSER'}"/>
+			<bind name="instance" value="'ResizableButtonDock'; isClanStuffVisible ? { 	_label: toUpperCase(tr('IDS_SCHEDULLE')),
+																		_request: 'showClanBattlesSchedule',
+																		_name: 'clanBattlesScheduleBtn'
+																	} : null"/>
+		</block>
+		<block>
+			<bind name="visible" value="(type == BattleTypes.RANKED_BATTLE) &amp;&amp; (status != 2)"/>
 			<bind name="request" value="'click'; 'webBrowser'; {url: URL.RULES_ABOUT_RANKED_SEASON}"/>
 			<bind name="action" value="'click'; userDoNotWatchRankRules ? 'ServerUIDataUSS.setUserTaskExecuted' : null; { taskId: UserTasksFlags.KNOWS_ABOUT_JUNIOR_RANKED_RULES }"/>
 			<bind name="transition" value="(battleType_rollOver || juniorRankInfo_rollOver); 0.1; {alpha: 0, top: 5}; {alpha: 1, top: 0}"/>
+			<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_MORE_INFO_ABOUT_RANKES_TOOLTIP'}"/>
 			<style>
 				<position value="absolute"/>
 				<top value="8px"/>
@@ -5049,6 +5083,97 @@
 			<bind name="repeat" value="_multiParagraphArray; 'RepeatParagraphItemNM'; {_maxWidth: _maxWidth, _marginBottom: _marginBottom, _leading: (_leading ? _leading : -3)}"/>
 		</block>
 	</block>
+	<block className="AccountCompletionRewardTooltip">
+		<styleClass value="$DefaultTooltipBehaviour"/>
+		<style>
+			<width value="340px"/>
+		</style>
+		<block className="DeclareBlurLayer">
+			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<bind name="visible" value="optionData.blurEnabled"/>
+			<block className="transparentPixel" type="native">
+				<bind name="blurLayer" value="0"/>
+			</block>
+			<style>
+				<position value="absolute"/>
+			</style>
+		</block>
+		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
+			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<style>
+				<hitTest value="false"/>
+			</style>
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
+				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
+				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
+				<styleClass value="$FullsizeAbsolute"/>
+				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
+			</block>
+		</block>
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<block className="contrast_panel" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<bind name="visible" value="optionData.contrast"/>
+		</block>
+		<block className="hint_panel" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+		</block>
+		<block>
+			<styleClass value="$InfoBlockIndentNoWidth"/>
+			<style>
+				<width value="100%"/>
+			</style>
+			<block type="text">
+				<styleClass value="$TextHeaderBold"/>
+				<style>
+					<leading value="-3"/>
+					<width value="100%"/>
+				</style>
+				<bind name="text" value="tooltipText"/>
+			</block>
+			<block type="text">
+				<styleClass value="$TextHeaderBigDefault"/>
+				<style>
+					<marginTop value="3px"/>
+					<leading value="-3"/>
+					<width value="100%"/>
+				</style>
+				<bind name="text" value="tooltipSubText"/>
+			</block>
+		</block>
+		<block className="HorizontalDivider">
+			<styleClass value="$PxHorizontalCorrection"/>
+			<style>
+				<width value="100%"/>
+				<height value="3px"/>
+			</style>
+			<block className="divider_h" type="native">
+				<styleClass value="$Fullsize"/>
+			</block>
+		</block>
+		<block>
+			<styleClass value="$InfoBlockIndentNoWidth"/>
+			<style>
+				<width value="100%"/>
+			</style>
+			<block type="text">
+				<styleClass value="$TextHeaderBigDefault"/>
+				<style>
+					<leading value="-3"/>
+					<width value="100%"/>
+				</style>
+				<bind name="text" value="'Награда за регистрацию аккаунта:'"/>
+			</block>
+		</block>
+	</block>
 	<block className="BattleGalleryItem">
 		<block>
 			<bind name="child" value="_image.type; { _image 	: _image, 
@@ -5138,11 +5263,9 @@
 				<marginRight value="20px"/>
 			</style>
 			<block>
-				<styleClass value="$MiddleAligned"/>
 				<block type="text">
 					<style>
 						<maxWidth value="320"/>
-						<textAlign value="center"/>
 					</style>
 					<styleClass value="$TextHeaderWhiteBold"/>
 					<bind name="text" value="toUpperCase(tr(_description.textHeader))"/>
@@ -6384,6 +6507,9 @@
 					<bind name="style" value="'alpha'; (	pveOperationStatus == 1 ||
 									pveOperationStatus == 0 ? 0.7 : 0.9)"/>
 					<block type="text">
+						<style>
+							<width value="100%"/>
+						</style>
 						<styleClass value="$TextDefaultBold23NM"/>
 						<bind name="text" value="tr('IDS_' + toUpperCase(operationEntity.operation.gpName) + '_NAME')"/>
 					</block>
@@ -6532,6 +6658,9 @@
 				<bind name="style" value="'alpha'; (	pveOperationStatus == 1 ||
 									pveOperationStatus == 0 ? 0.7 : 0.9)"/>
 				<block type="text">
+					<style>
+						<width value="100%"/>
+					</style>
 					<styleClass value="$TextDefaultBold23NM"/>
 					<bind name="text" value="tr('IDS_' + toUpperCase(operationEntity.operation.gpName) + '_NAME')"/>
 				</block>
@@ -6743,6 +6872,9 @@
 						<bind name="style" value="'alpha'; (	pveOperationStatus == 1 ||
 									pveOperationStatus == 0 ? 0.7 : 0.9)"/>
 						<block type="text">
+							<style>
+								<width value="100%"/>
+							</style>
 							<styleClass value="$TextDefaultBold23NM"/>
 							<bind name="text" value="tr('IDS_' + toUpperCase(operationEntity.operation.gpName) + '_NAME')"/>
 						</block>
@@ -7323,6 +7455,7 @@
 		<bind name="feature" value="21; 'click'"/>
 		<bind name="soundSet" value="'lootbox_banner'"/>
 		<bind name="tooltip" value="'MouseInstructionTooltip'; { _mouseInstructions: [{_type: 'left', _instructionText: 'IDS_GO_TO_LOOTBOXES'}], _maxWidth: 250 }; 0"/>
+		<bind name="action" value="'click'; 'log'; { event: 'click:banner.Lootboxes' }"/>
 		<block>
 			<styleClass value="$Fullsize"/>
 			<block className="quest_thumb_title" type="native">

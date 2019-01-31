@@ -1,6 +1,34 @@
-(def constant EventDirection { 	NONE:	0,
+# Colors
+(def constant C_NEUTRAL 0xfff1f1f1)
+(def constant C_ENEMY 0xffe75153)
+(def constant C_ENEMY_INVERT 0xFF330012)
+(def constant C_ALLY 0xFF80c0ff)
+(def constant C_ALLY_INVERT 0xFF001b33)
+(def constant C_DIVISION 0xFFFFCC66)
+(def constant C_TK 0xFFFF96CA)
+(def constant C_POSITIVE 0xFF4CE8AA)
+(def constant C_WARNING 0xFFFF9933)
+(def constant C_CRITICAL 0xFFFF4400)
+(def constant C_DARK 0xFF000000)
+(def constant C_DEAD 0xFF111111)
+(def constant C_DARK_T 0x70000000) #30% Dark
+(def constant C_BLUEISH 0xFF9BB9B9)
+(def constant C_ERROR 0xFFFF4400)
+(def constant C_DARK_33 0x33333333) # Barely transparent Dark
+
+(def constant HOTKEY_BUTTON_SIZE 16)
+
+(def constant EventDirection { 	
+								NONE:	0,
 								UP:		1,
 								DOWN: 	2								
+								})
+
+(def constant RELATION_NAMES    { 	
+								OWN:	'own',
+								ALLY:	'ally',
+								ENEMY:  'enemy',
+								NEUTRAL: 'neutral'								
 								})
 								
 (def constant SHIP_TYPE   {   
@@ -24,6 +52,24 @@
 								ASSAULT_DEFENSE: 13,
 								PVE: 14
 								})
+
+(def constant CameraMode {
+		AIRPLANES           :1,
+		DOCK			    :2,
+		TACTICALMAP	        :3,
+		DEVFREE             :4,
+		SHELLTRACKER	    :5,
+		PLANETRACKER	    :6,
+		DOCKMODULE		    :7,
+		SNAKETAIL           :8,
+		SPECTATOR		    :9,
+		REPLAY_FPC          :10,
+	
+		DOCKFLAGS		    :19,
+		DOCKENSIGN		    :20,
+		DOCKLOOTBOX         :21,
+		DOCKNAVALFLAG	    :22
+		})
 
 (def constant WeaponType {
 								ARTILLERY: 0,

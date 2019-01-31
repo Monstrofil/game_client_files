@@ -3,6 +3,13 @@
 # Colors
 (def constant C_LIGHT_GREY 0xFFEEEEEE)
 
+#normal: 
+#Renders text using the standard anti-aliasing method used by Flash MX 2004. This is the best setting to use for animated, very large, or skewed text. 
+#advanced:
+#Renders text using the advanced anti-aliasing font rendering technology implemented in Flash 8, which produces better anti-aliasing and improves readability, especially for small text. 
+(def constant ANTI_ALIAS_NAMES    { NORMAL:	'normal',
+									ADVANCED:	'advanced'
+								  })
 
 ### Utils
 (def css $TextMouseDisable ()
@@ -19,7 +26,9 @@
 #	(hitTest = true)
 )
 
-
+(def css $FontEnableReadability ()
+	(antiAliasType = "ANTI_ALIAS_NAMES.ADVANCED")
+)
 
 ### Families
 
@@ -51,6 +60,9 @@
 (def css $FontColorWhite ()
 	(textColor = 0xFFFFFF)) # White
 
+(def css $FontColorBlack ()
+	(textColor = 0xFF000000)) # Black
+
 (def css $FontColorBlueish ()
 	(textColor = 0x9CBABA)) # Light blueish grey
 
@@ -71,6 +83,12 @@
 
 (def css $FontColorHealth ()
 	(textColor = 0x4ce8aa)) # green (Health)
+
+(def css $FontColorWarning ()
+	(textColor = 0xffb600)) # yellow (Health)
+
+(def css $FontColorCritical ()
+	(textColor = 0xff4b1d)) # red (Health)
 
 (def css $FontColorGolden ()
 	(textColor = 0xFFCC66)) # Yellow (player, choosed modules)
@@ -217,4 +235,8 @@
 
 (def css $BlockDropShadowFilter2 () 
 	(dropShadowFilter = { distance: 3, angle: 110, color: 0x000000, alpha:0.6, blurX: 6.0, blurY: 6.0, strength: 0.6, quality: 1 })
+)
+
+(def css $BlockDropShadowFilter3 () 
+	(dropShadowFilter = { distance: 0, angle: 90, color: 0x333333, alpha:1.0, blurX: 2.0, blurY: 2.0, strength: 0.6, quality: 1 })
 )

@@ -1292,8 +1292,28 @@
 			</block>
 		</block>
 	</block>
+	<css name="$TextDefault12NM">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="12"/>
+		<marginText value="-3px|-3px|-6px|-5px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
 	<css name="$TextDefault13NM">
 		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="13"/>
+		<marginText value="-3px|-3px|-6px|-5px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultBold13NM">
+		<fontFamily value="$WWSDefaultFontBold"/>
 		<mouseEnabled value="false"/>
 		<mouseChildren value="false"/>
 		<fontSize value="13"/>
@@ -1462,530 +1482,6 @@
 		<selectable value="false"/>
 		<textColor value="0xFFFFFF"/>
 	</css>
-	<block className="Login">
-		<bind name="collectionDH" value="CC.userPrefs; 'userPrefsCollection'"/>
-		<bind name="entityDH" value="'userPrefsEntity'; userPrefsCollection[0].id"/>
-		<bind name="watchDH" value="'userPrefs'; ['userPrefsEntity.userPrefs.evUserPrefsChanged']; userPrefsEntity.userPrefs.userPrefs"/>
-		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'realmConstants'"/>
-		<styleClass value="$Fullsize"/>
-		<bind name="var" value="{volume:1, topLost:false}"/>
-		<bind name="var" value="{atPause: (userPrefs.loginVideoPaused == null) ? false : userPrefs.loginVideoPaused}"/>
-		<bind name="action" value="'onLoginVideoPaused'; 'setUserPref'; {value: atPause, name: 'loginVideoPaused'}"/>
-		<bind name="catch" value="'onPauseButtonClick'; {atPause: (atPause ? false : true)}; 'onLoginVideoPaused'"/>
-		<bind name="catch" value="'onMuteButtonClick';  {volume: (volume == 0 ? 1 : 0)}"/>
-		<bind name="catch" value="'onBecomeTop';  {topLost: false}"/>
-		<bind name="catch" value="'onLostTop';  {topLost: true}"/>
-		<block className="lesta.controls.video.VideoResourcePlayer" type="native">
-			<styleClass value="$FullsizeAbsolute"/>
-			<params>
-				<param name="startOffset" value="1"/>
-			</params>
-			<bind name="play!" value="$root.videoResourceId"/>
-			<bind name="volume" value="volume"/>
-			<bind name="atPause" value="atPause || topLost"/>
-		</block>
-		<block>
-			<styleClass value="$FullsizeAbsolute"/>
-			<style>
-				<backgroundSize value="cover"/>
-				<backgroundImage value="symbol:fullsize_texture_login"/>
-			</style>
-		</block>
-		<block>
-			<styleClass value="$FullsizeAbsolute"/>
-			<style>
-				<backgroundSize value="cover"/>
-				<backgroundImage value="symbol:fullsize_shadow_login"/>
-			</style>
-		</block>
-		<block>
-			<bind name="firstEntityDH" value="'clientBuildInfoEntity'; CC.clientBuildInfo"/>
-			<bind name="visible" value="clientBuildInfoEntity.clientBuildInfo.buildConfig == 'hybrid'"/>
-			<style>
-				<position value="absolute"/>
-				<top value="50px"/>
-				<right value="50"/>
-			</style>
-			<block className="DevTraces"/>
-		</block>
-		<block>
-			<styleClass value="$MiddleAlignedAbsolutely"/>
-			<style>
-				<bottom value="10%"/>
-				<height value="556px"/>
-			</style>
-			<block>
-				<styleClass value="$MiddleAligned"/>
-				<block>
-					<styleClass value="$MiddleAlignedAbsolutely"/>
-					<styleClass value="$MiddleVAligned"/>
-					<style>
-						<width value="284px"/>
-						<height value="260px"/>
-					</style>
-					<block className="DeclareBlurLayer">
-						<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
-						<bind name="visible" value="optionData.blurEnabled"/>
-						<block className="transparentPixel" type="native">
-							<bind name="blurLayer" value="0"/>
-						</block>
-						<style>
-							<position value="absolute"/>
-						</style>
-					</block>
-					<block className="BlurMapCustom">
-						<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
-						<styleClass value="$FullsizeAbsolute"/>
-						<style>
-							<hitTest value="false"/>
-						</style>
-						<bind name="visible" value="optionData.blurEnabled"/>
-						<block className="mc_blurmap_wowsLogo" type="native">
-							<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
-							<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-							<styleClass value="$Fullsize"/>
-							<bind name="blurMap" value="0"/>
-						</block>
-					</block>
-				</block>
-				<block className="wows_logo" type="native">
-					<bind name="appear" value="'addedToStage'; 0.7; 0; {alpha: 0, top: 20}; {alpha: 1, top: 0}"/>
-					<bind name="gotoAndStop!" value="realmConstants.wowsLogo"/>
-				</block>
-			</block>
-			<bind name="watch" value="'lazyLoginEnabled'; realmConstants.lazyEnable"/>
-			<bind name="action" value="'changeLoginScreenState'; 'showErrorMessage'; {header: '', message: ''}"/>
-			<bind name="primaryEntityDH" value="'externalLoginEntity'; CC.loginCredentials; 'external'"/>
-			<bind name="watchDH" value="'isExternalCredentialsSaved'; ['externalLoginEntity.loginCredentials.evUpdate']; externalLoginEntity.loginCredentials.externalCredentialsSaved"/>
-			<bind name="watchDH" value="'savedExternalLogin'; ['externalLoginEntity.loginCredentials.evUpdate']; externalLoginEntity.loginCredentials.name"/>
-			<bind name="firstEntityDH" value="'loginEntity'; CC.loginData"/>
-			<bind name="watchDH" value="'savedHostIndex'; ['loginEntity.loginData.evUpdate']; loginEntity.loginData.selectedHostIndex"/>
-			<bind name="watchDH" value="'isWaitingAnswer'; ['loginEntity.loginData.evUpdate']; loginEntity.loginData.isWaitingAnswer"/>
-			<bind name="watchDH" value="'gameVersion'; ['loginEntity.loginData.evUpdate']; loginEntity.loginData.gameVersion"/>
-			<bind name="watch" value="'_curItemIndex'; (savedHostIndex ? savedHostIndex : 0)}"/>
-			<bind name="watch" value="'curHostIndex'; _curItemIndex"/>
-			<bind name="catch" value="'ItemChooser.hostSelected'"/>
-			<bind name="primaryEntityDH" value="'baseLoginEntity'; CC.loginCredentials; 'base'"/>
-			<bind name="watchDH" value="'savedPermanentLogin'; ['baseLoginEntity.loginCredentials.evUpdate']; baseLoginEntity.loginCredentials.login"/>
-			<bind name="watch" value="'login'; (savedPermanentLogin ? savedPermanentLogin : '')"/>
-			<bind name="watchDH" value="'savedPermanentPassword'; ['baseLoginEntity.loginCredentials.evUpdate']; baseLoginEntity.loginCredentials.password"/>
-			<bind name="watch" value="'password'; (savedPermanentPassword ? savedPermanentPassword : '')"/>
-			<bind name="watchDH" value="'permanentLoginSavePassword'; ['baseLoginEntity.loginCredentials.evUpdate']; baseLoginEntity.loginCredentials.rememberPwd"/>
-			<bind name="watch" value="'saveCredentials'; (permanentLoginSavePassword ? permanentLoginSavePassword : false)}"/>
-			<bind name="catch" value="'toggleSaveCredentials'; {saveCredentials: !(saveCredentials)}"/>
-			<bind name="primaryEntityDH" value="'demoLoginEntity'; CC.loginCredentials; 'demo'"/>
-			<bind name="watchDH" value="'savedLazyName'; ['']; demoLoginEntity.loginCredentials.name"/>
-			<bind name="catch" value="'changeLoginScreenState'"/>
-			<bind name="firstEntityDH" value="'steamLoginEntity'; CC.steamLoginData"/>
-			<bind name="watchDH" value="'isExternalPlatformClient'; ['loginEntity.loginData.evUpdate']; loginEntity.loginData.isExternalPlatformClient"/>
-			<bind name="watchDH" value="'isWGC'; ['loginEntity.loginData.evUpdate']; loginEntity.loginData.isWGC"/>
-			<bind name="watchDH" value="'isSteamIdConnected'; ['steamLoginEntity.steamLoginData.evUpdate']; steamLoginEntity.steamLoginData.hasAccount"/>
-			<bind name="watchDH" value="'isGettingBoundAccountInfo'; ['steamLoginEntity.steamLoginData.evUpdate']; steamLoginEntity.steamLoginData.isGettingBoundAccountInfo"/>
-			<bind name="watchDH" value="'autoLogin'; ['steamLoginEntity.steamLoginData.evUpdate']; steamLoginEntity.steamLoginData.autoLogin"/>
-			<bind name="watchDH" value="'needToReconnect'; ['steamLoginEntity.steamLoginData.evUpdate']; steamLoginEntity.steamLoginData.needToReconnect"/>
-			<bind name="watchDH" value="'isSteamHostChosen'; ['steamLoginEntity.steamLoginData.evUpdate']; !steamLoginEntity.steamLoginData.isDefaultRealm"/>
-			<bind name="watchDH" value="'steamStatus'; ['steamLoginEntity.steamLoginData.evUpdate']; steamLoginEntity.steamLoginData.steamStatus"/>
-			<bind name="watchDH" value="'selectedSteamHostIndex'; ['steamLoginEntity.steamLoginData.evUpdate']; steamLoginEntity.steamLoginData.selectedHostIndex"/>
-			<bind name="watchDH" value="'selectedSteamHostName'; ['steamLoginEntity.steamLoginData.evUpdate']; steamLoginEntity.steamLoginData.hostsDataProvider[steamLoginEntity.steamLoginData.selectedHostIndex].ids"/>
-			<bind name="watchDH" value="'isNicknameInUse'; ['steamLoginEntity.steamLoginData.evUpdate']; steamLoginEntity.steamLoginData.isNicknameInUse"/>
-			<bind name="watchDH" value="'isNicknameInvalid'; ['steamLoginEntity.steamLoginData.evUpdate']; steamLoginEntity.steamLoginData.isNicknameInvalid"/>
-			<bind name="watchDH" value="'platformLoginDenied'; ['steamLoginEntity.steamLoginData.evUpdate']; steamLoginEntity.steamLoginData.loginDenied"/>
-			<bind name="watch" value="'isProcessing'; isSteamIdConnected || isGettingBoundAccountInfo"/>
-			<bind name="watch" value="'steamLoginScreenState'; isExternalPlatformClient ? 	platformLoginDenied	? 10 :
-																			needToReconnect		? 5 :
-																isProcessing							? 4 :
-																isSteamHostChosen						? 7 :
-																!isSteamHostChosen						? 6
-																										: 4
-															: null"/>
-			<bind name="watchDH" value="'isDMM'; ['loginEntity.loginData.evUpdate']; loginEntity.loginData.isDMM"/>
-			<bind name="watchDH" value="'hasDMMMarker'; ['loginEntity.loginData.evUpdate']; loginEntity.loginData.hasDMMMarker"/>
-			<bind name="watch" value="'dmmLoginScreenState'; isDMM || hasDMMMarker ?		needToReconnect							? 9 :
-																		autoLogin								? 4
-																												: null
-															: null"/>
-			<bind name="watchDH" value="'isWGCLogined'; ['loginEntity.loginData.evUpdate']; loginEntity.loginData.isWGC"/>
-			<bind name="watch" value="'wgcLoginScreenState'; isWGCLogined ?		needToReconnect							? 5 :
-																autoLogin								? 4
-																										: null
-															: null"/>
-			<bind name="watch" value="'loginScreenState';	dmmLoginScreenState									 ? dmmLoginScreenState :
-											(isExternalCredentialsSaved &amp;&amp; !!savedExternalLogin)	? 8 :
-											steamLoginScreenState									? steamLoginScreenState :
-											wgcLoginScreenState										? wgcLoginScreenState :
-											(lazyLoginEnabled != true)								? 1 :
-											(savedPermanentLogin.length &gt; 0)						? 1 :
-											(savedLazyName.length &gt; 0)								? 2
-																									: 0"/>
-			<bind name="watch" value="'isSpecialLoginState'; loginScreenState == 0 ||
-											loginScreenState == 3 ||
-											loginScreenState == 6 ||
-											loginScreenState == 7 ||
-											loginScreenState == 4 ||
-											loginScreenState == 5||
-											loginScreenState == 8 || 
-											loginScreenState == 9 || 
-											loginScreenState == 10"/>
-			<bind name="watch" value="'showHostChooser'; (!isSpecialLoginState &amp;&amp; !isExternalPlatformClient) || (loginScreenState == 8)"/>
-			<bind name="watch" value="'defaultFocus'; (savedPermanentLogin &amp;&amp; savedPermanentPassword)	? 'loginBtn' :
-									 (savedPermanentLogin) 								? 'passwordInput'
-									 													: 'loginInput'"/>
-			<block>
-				<styleClass value="$MiddleAligned"/>
-				<style>
-					<height value="140px"/>
-					<marginTop value="19px"/>
-					<width value="200px"/>
-				</style>
-				<bind name="firstEntityDH" value="'loginMessageEntity'; CC.loginMessageData"/>
-				<bind name="watchDH" value="'loginMessage';			['loginMessageEntity.loginMessageData.evUpdate']; loginMessageEntity.loginMessageData.message"/>
-				<bind name="watchDH" value="'loginMessageHeader';	['loginMessageEntity.loginMessageData.evUpdate']; loginMessageEntity.loginMessageData.header"/>
-				<bind name="watchDH" value="'loginMessageHighlight';	['loginMessageEntity.loginMessageData.evUpdate']; loginMessageEntity.loginMessageData.messageHighlight"/>
-				<block>
-					<bind name="visible" value="(loginScreenState == 1)"/>
-					<styleClass value="$FullsizeAbsolute"/>
-					<bind name="style" value="'paddingTop'; showHostChooser ? '0px' : '33px'"/>
-					<block className="BlurMapCustomPxOutbound">
-						<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
-						<style>
-							<hitTest value="false"/>
-						</style>
-						<styleClass value="$FullsizeAbsolute"/>
-						<bind name="style" value="'marginLeft'; -20px"/>
-						<bind name="style" value="'marginRight'; -20px"/>
-						<bind name="style" value="'marginTop'; -12px"/>
-						<bind name="style" value="'marginBottom'; -12px"/>
-						<bind name="visible" value="optionData.blurEnabled"/>
-						<block className="mc_blurmap10_feather" type="native">
-							<bind name="appear" value="'addedToStage'; 0.15; 0; {alpha: 0}; {alpha: 0.7}"/>
-							<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-							<styleClass value="$Fullsize"/>
-							<bind name="blurMap" value="0"/>
-						</block>
-					</block>
-				</block>
-				<block>
-					<bind name="visible" value="((loginScreenState == 2 &amp;&amp; showHostChooser) || (loginScreenState == 8))"/>
-					<style>
-						<height value="33px"/>
-						<top value="7px"/>
-						<width value="200px"/>
-						<position value="absolute"/>
-					</style>
-					<block className="BlurMapCustomPxOutbound">
-						<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
-						<style>
-							<hitTest value="false"/>
-						</style>
-						<styleClass value="$FullsizeAbsolute"/>
-						<bind name="style" value="'marginLeft'; -20px"/>
-						<bind name="style" value="'marginRight'; -20px"/>
-						<bind name="style" value="'marginTop'; -3px"/>
-						<bind name="style" value="'marginBottom'; -3px"/>
-						<bind name="visible" value="optionData.blurEnabled"/>
-						<block className="mc_blurmap10_feather" type="native">
-							<bind name="appear" value="'addedToStage'; 0.15; 0; {alpha: 0}; {alpha: 0.7}"/>
-							<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-							<styleClass value="$Fullsize"/>
-							<bind name="blurMap" value="0"/>
-						</block>
-					</block>
-				</block>
-				<block>
-					<bind name="visible" value="showHostChooser == true"/>
-					<style>
-						<marginTop value="6px"/>
-						<height value="33px"/>
-					</style>
-					<styleClass value="$MiddleAligned"/>
-					<block>
-						<bind name="instance" value="'HostChooser'; showHostChooser ? {	_curItemIndex: _curItemIndex,
-																		_hostsItems: loginEntity.loginData.hostsDataProvider} : null"/>
-					</block>
-					<block>
-						<style>
-							<position value="absolute"/>
-							<bottom value="25px"/>
-						</style>
-						<styleClass value="$MiddleAligned"/>
-						<bind name="instance" value="'ServerMessage'; loginMessage.length &gt; 0	? {	_messageHighlight: loginMessageHighlight, _headerText: loginMessageHeader,
-																					_messageText: loginMessage}
-																				: null"/>
-					</block>
-				</block>
-				<block>
-					<styleClass value="$MiddleAligned"/>
-					<bind name="childParentScope" value="loginScreenState; 
-										'NoLoginContent';
-										'PermanentLoginContent';
-										'LazyLoginContent';
-										'SteamNoLoginContent';
-										'AutoLoginContent';
-										'SteamLoggedOutContent';
-										'SteamChooseRealmContent';
-										'SteamNewNicknameContent';
-										'SavedExternalLoginContent';
-										'ExternalOnlyLoginButtonContent';	
-										'SteamLoginDenied'"/>
-				</block>
-			</block>
-			<bind name="watch" value="'showSwitchLoginButton'; 	!isSpecialLoginState &amp;&amp;
-												!(savedPermanentLogin.length &gt; 0 &amp;&amp; savedPermanentPassword.length &gt; 0) &amp;&amp;
-												((lazyLoginEnabled == true) || isExternalPlatformClient)"/>
-			<block>
-				<bind name="fade" value="showSwitchLoginButton; 0.15; {alpha: 0, top: 10}; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 1;	((loginScreenState == 1)	? 0.37 :
-																														(loginScreenState == 2)		? 0.23
-																																																: 0.23)"/>
-				<styleClass value="$MiddleAlignedAbsolutely"/>
-				<style>
-					<bottom value="48px"/>
-				</style>
-				<bind name="instance" value="'ButtonSwitchLogin'; showSwitchLoginButton 	? { _isActive: isButtonSwitchLoginActive,
-																			_loginScreenState: loginScreenState,
-																			_isExternalPlatformClient: isExternalPlatformClient }
-																		: null"/>
-			</block>
-			<bind name="watch" value="'isLoginBtnEnabled'; ((loginScreenState == 1) &amp;&amp; (login == '') || isWaitingAnswer)	? false
-																																: true"/>
-			<block>
-				<bind name="fade" value="!isSpecialLoginState; 0.15; {alpha: 0, top: 10};
-																			{alpha: 1, top: 0};
-																			{alpha: 0, top: -10}; 1;	((loginScreenState == 1)	? 0.3 :
-																										(loginScreenState == 2)		? 0.15
-																																						: 0.15)"/>
-				<bind name="style" value="'hitTest'; !isSpecialLoginState"/>
-				<bind name="watch" value="'isButtonSwitchLoginActive';	(loginScreenState == 1 &amp;&amp; (login.length &gt; 0))		? false :
-														(loginScreenState == 2 &amp;&amp; (savedLazyName.length &gt; 0))	? false
-																																: true}"/>
-				<styleClass value="$MiddleAligned"/>
-				<style>
-					<marginTop value="14px"/>
-					<marginBottom value="90px"/>
-					<width value="200px"/>
-				</style>
-				<block className="button_special_no_label" type="native">
-					<style>
-						<width value="100%"/>
-						<height value="51px"/>
-					</style>
-					<bind name="soundSet" value="'hard_button'"/>
-					<bind name="enabled" value="isLoginBtnEnabled"/>
-					<bind name="action" value="'buttonClick'; (loginScreenState == 2)				? isExternalPlatformClient ? 'createWGAccForSteam'
-																													: 'demoConnect' :
-											 (loginScreenState == 1)			? isExternalPlatformClient ? 'joinSteamWithWGAcc'
-											 																		: 'doLogin'
-																									: null;
-											 (loginScreenState == 2)				? {	hostId: curHostIndex } :
-											 (loginScreenState == 1)			? {	hostId: curHostIndex, user: login,
-											 															password: password, savePassword: saveCredentials }
-											 														: null"/>
-					<bind name="focus" value="3; (defaultFocus == 'loginBtn')"/>
-					<params>
-						<param name="name" value="connectBtn"/>
-					</params>
-					<block type="text">
-						<styleClass value="$MiddleVAligned"/>
-						<style>
-							<hitTest value="false"/>
-							<width value="100%"/>
-							<position value="absolute"/>
-							<textAlign value="center"/>
-							<multiline value="true"/>
-							<leading value="-4"/>
-							<marginLeft value="6px"/>
-							<marginRight value="6px"/>
-						</style>
-						<styleClass value="$TextAccentBold"/>
-						<bind name="class" value="(loginScreenState == 2) ? '$FontSizeLarge' : '$None'"/>
-						<bind name="class" value="isLoginBtnEnabled ? '$FontColorSpecialButton' : '$FontColorAlmostBlack'"/>
-						<bind name="class" value="isLoginBtnEnabled ? '$FontDropShadowFilter1' : '$FontDropShadowWhite'"/>
-						<bind name="text" value="(loginScreenState == 2) 	? 	isExternalPlatformClient ? 'IDS_JOIN_VIA_STEAM' :
-																				((savedLazyName.length &gt; 0)	? subst('IDS_ENTER_AS_BUTTON', [], {playerName: savedLazyName})
-																											: toUpperCase(tr('IDS_PLAY_WITHOUT_REGISTRATION_BUTTON')))
-																			: toUpperCase(tr('IDS_LOGIN_BUTTON'))"/>
-					</block>
-				</block>
-				<block>
-					<bind name="visible" value="(loginScreenState == 1) &amp;&amp; realmConstants.externalLogin.length &gt; 0"/>
-					<bind name="style" value="'marginTop'; lazyLoginEnabled ? 64 : 16"/>
-					<styleClass value="$MiddleAligned"/>
-					<block className="BlurMapCustomPxOutbound">
-						<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
-						<style>
-							<hitTest value="false"/>
-						</style>
-						<styleClass value="$FullsizeAbsolute"/>
-						<bind name="style" value="'marginLeft'; -3px"/>
-						<bind name="style" value="'marginRight'; -3px"/>
-						<bind name="style" value="'marginTop'; -3px"/>
-						<bind name="style" value="'marginBottom'; -3px"/>
-						<bind name="visible" value="optionData.blurEnabled"/>
-						<block className="mc_blurmap10_feather" type="native">
-							<bind name="appear" value="'addedToStage'; 0.15; 0; {alpha: 0}; {alpha: 0.7}"/>
-							<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-							<styleClass value="$Fullsize"/>
-							<bind name="blurMap" value="0"/>
-						</block>
-					</block>
-					<block type="text">
-						<style>
-							<marginTop value="5px"/>
-							<marginRight value="4"/>
-						</style>
-						<styleClass value="$TextDefaultNM"/>
-						<bind name="text" value="'IDS_LOGIN_SCREEN_FAST_LOGIN'"/>
-					</block>
-					<bind name="repeat" value="realmConstants.externalLogin; 'ExternalLoginButton'; {_curHostIndex: curHostIndex, _saveCredentials: saveCredentials}"/>
-					<style>
-						<flow value="horizontal"/>
-					</style>
-				</block>
-			</block>
-		</block>
-		<block>
-			<style>
-				<marginLeft value="18px"/>
-				<marginTop value="15px"/>
-				<position value="absolute"/>
-			</style>
-			<block>
-				<block className="button_settings" type="native">
-					<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_TOOLTIP_MENU'}"/>
-					<params>
-						<param name="name" value="loginButtonSettings"/>
-					</params>
-					<bind name="input"/>
-				</block>
-				<block type="text">
-					<styleClass value="$MiddleVAligned"/>
-					<styleClass value="$TextDefault"/>
-					<bind name="text" value="tr('IDS_WORLD_OF_WARSHIPS') + ' ' + gameVersion"/>
-				</block>
-				<style>
-					<flow value="horizontal"/>
-				</style>
-			</block>
-			<block>
-				<style>
-					<marginTop value="14px"/>
-				</style>
-				<bind name="instance" value="'LinkText'; {	_label: 'IDS_ERROR_REPORT', _urlIdent: URL.REPORT_ERROR,
-											_tooltipText: 'IDS_ERROR_REPORT_HINT',_name: 'ButtonErrorReport'}"/>
-			</block>
-			<block>
-				<bind name="instance" value="'LinkText'; {	_label: 'IDS_ENTER_FORUM', _urlIdent: URL.FORUM,
-											_tooltipText: 'IDS_ENTER_FORUM_HINT', _name: 'ButtonForum'}"/>
-			</block>
-		</block>
-		<block>
-			<styleClass value="$MiddleAligned"/>
-			<style>
-				<position value="absolute"/>
-				<bottom value="15px"/>
-				<width value="1000px"/>
-			</style>
-			<block>
-				<styleClass value="$MiddleAligned"/>
-				<style>
-					<marginTop value="15px"/>
-				</style>
-				<block type="text">
-					<styleClass value="$TextDefault"/>
-					<text value="IDS_RIGHTS_RESERVED"/>
-				</block>
-				<block type="text">
-					<styleClass value="$TextDefault"/>
-					<text value="|"/>
-				</block>
-				<block>
-					<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
-					<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_TOOLTIP_LICENCE_INFO'}"/>
-					<params>
-						<param name="name" value="buttonLegal"/>
-					</params>
-					<bind name="input"/>
-					<styleClass value="$MiddleVAligned"/>
-					<block type="text">
-						<styleClass value="$TextDefault"/>
-						<text value="IDS_LICENCE_INFO"/>
-						<bind name="style" value="'alpha'; rollOver ? 1 : 0.7"/>
-					</block>
-				</block>
-				<style>
-					<flow value="horizontal"/>
-				</style>
-			</block>
-		</block>
-		<block>
-			<bind name="action" value="'click'; 'gotoUrlByIdent'; {ident: URL.WARGAMING_NET}"/>
-			<style>
-				<position value="absolute"/>
-				<bottom value="21px"/>
-				<left value="18px"/>
-			</style>
-			<block className="wargaming_logo" type="native"/>
-		</block>
-		<block>
-			<params>
-				<param name="name" value="logo_kz"/>
-			</params>
-			<bind name="visible" value="realmConstants.showKongzhong"/>
-			<bind name="action" value="'click'; 'gotoUrlByIdent'; {ident: URL.KONGZHONG}"/>
-			<style>
-				<position value="absolute"/>
-				<bottom value="23px"/>
-				<left value="140px"/>
-			</style>
-			<block className="kongzhong_logo" type="native"/>
-		</block>
-		<block>
-			<params>
-				<param name="name" value="buttonClose"/>
-			</params>
-			<bind name="input"/>
-			<style>
-				<position value="absolute"/>
-				<top value="6px"/>
-				<right value="6px"/>
-			</style>
-			<block className="button_close" type="native"/>
-			<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_CLOSE'}; 0"/>
-		</block>
-		<block className="button_play_pause" type="native">
-			<bind name="tooltip" value="'SimpleTooltip'; { tooltipText: atPause ? 'IDS_TOOLTIP_PLAY_HINT' : 'IDS_TOOLTIP_PAUSE_HINT'}"/>
-			<style>
-				<position value="absolute"/>
-				<top value="40px"/>
-				<right value="50px"/>
-			</style>
-			<bind name="selected" value="atPause"/>
-			<bind name="dispatch" value="'buttonClick'; 'onPauseButtonClick'"/>
-			<params>
-				<param name="soundSet" value="pause_login"/>
-			</params>
-		</block>
-		<bind name="firstEntityDH" value="'languageEntity'; CC.languageChangeData"/>
-		<bind name="watchDH" value="'abbreviatedLanguage'; ['languageEntity.languageChangeData.evUpdate']; languageEntity.languageChangeData.abbreviatedLanguage"/>
-		<block type="text">
-			<styleClass value="$TextDefault"/>
-			<style>
-				<position value="absolute"/>
-				<bottom value="6px"/>
-				<right value="6px"/>
-			</style>
-			<bind name="text" value="abbreviatedLanguage"/>
-		</block>
-		<block className="DeclareBlurLayer">
-			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="transparentPixel" type="native">
-				<bind name="blurLayer" value="0"/>
-			</block>
-			<style>
-				<position value="absolute"/>
-			</style>
-		</block>
-	</block>
 	<block className="ExternalLoginButton">
 		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController;"/>
 		<style>
@@ -2181,8 +1677,8 @@
 			</style>
 			<styleClass value="$MiddleAligned"/>
 			<bind name="instance" value="'ServerMessage'; loginMessage.length &gt; 0	? {	_messageHighlight: loginMessageHighlight, _headerText: loginMessageHeader,
-																		_messageText: loginMessage}
-																	: null"/>
+                                                                        _messageText: loginMessage}
+                                                                    : null"/>
 		</block>
 		<block className="button_special_no_label" type="native">
 			<bind name="appear" value="'addedToStage'; 0.15; 0 + 2*0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
@@ -2193,7 +1689,7 @@
 				<marginTop value="24px"/>
 			</style>
 			<bind name="soundSet" value="'hard_button'"/>
-			<bind name="request" value="'click'; 'doLoginDMM'; {	}"/>
+			<bind name="request" value="'click'; isDMM ? 'doLoginDMM' : 'doLoginPmangKr' ; {	}"/>
 			<bind name="focus" value="3; (defaultFocus == 'loginBtn')"/>
 			<params>
 				<param name="name" value="connectBtn"/>
@@ -2852,7 +2348,10 @@
 	<block className="SteamLoggedOutContent">
 		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
 		<bind name="firstEntityDH" value="'loginEntity'; CC.loginData"/>
+		<bind name="firstEntityDH" value="'wgcLoginEntity'; CC.wgcLoginData"/>
 		<bind name="watchDH" value="'isWinStore'; ['loginEntity.loginData.evUpdate']; loginEntity.loginData.isWinStore"/>
+		<bind name="watchDH" value="'isWGC'; ['loginEntity.loginData.evUpdate']; loginEntity.loginData.isWGC"/>
+		<bind name="watchDH" value="'wgcName'; ['wgcLoginEntity.wgcLoginData.evNameChanged']; wgcLoginEntity.wgcLoginData.name"/>
 		<style>
 			<width value="200px"/>
 			<marginTop value="32px"/>
@@ -2901,7 +2400,7 @@
 		</block>
 		<block>
 			<bind name="appear" value="'addedToStage'; 0.15; 0 + 2*0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
-			<bind name="visible" value="isWinStore == true"/>
+			<bind name="visible" value="isWinStore == true || isWGC == true"/>
 			<style>
 				<width value="100%"/>
 				<height value="44px"/>
@@ -2926,9 +2425,10 @@
 				</block>
 			</block>
 			<bind name="transition" value="rollOver; 0.1; {alpha: 0.75}; {alpha: 0.9}"/>
-			<bind name="request" value="'click'; 'switchAccount'; {}"/>
 			<block className="button_infopanel_no_label" type="native">
 				<styleClass value="$FullsizeAbsolute"/>
+				<bind name="enabled" value="isLoginBtnEnabled"/>
+				<bind name="request" value="'click'; 'switchAccount'; {}"/>
 				<block type="text">
 					<style>
 						<width value="100%"/>
@@ -4379,6 +3879,97 @@
 				<margin value="16px"/>
 			</style>
 			<bind name="repeat" value="_multiParagraphArray; 'RepeatParagraphItemNM'; {_maxWidth: _maxWidth, _marginBottom: _marginBottom, _leading: (_leading ? _leading : -3)}"/>
+		</block>
+	</block>
+	<block className="AccountCompletionRewardTooltip">
+		<styleClass value="$DefaultTooltipBehaviour"/>
+		<style>
+			<width value="340px"/>
+		</style>
+		<block className="DeclareBlurLayer">
+			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<bind name="visible" value="optionData.blurEnabled"/>
+			<block className="transparentPixel" type="native">
+				<bind name="blurLayer" value="0"/>
+			</block>
+			<style>
+				<position value="absolute"/>
+			</style>
+		</block>
+		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
+			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<style>
+				<hitTest value="false"/>
+			</style>
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
+				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
+				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
+				<styleClass value="$FullsizeAbsolute"/>
+				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
+			</block>
+		</block>
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<block className="contrast_panel" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<bind name="visible" value="optionData.contrast"/>
+		</block>
+		<block className="hint_panel" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+		</block>
+		<block>
+			<styleClass value="$InfoBlockIndentNoWidth"/>
+			<style>
+				<width value="100%"/>
+			</style>
+			<block type="text">
+				<styleClass value="$TextHeaderBold"/>
+				<style>
+					<leading value="-3"/>
+					<width value="100%"/>
+				</style>
+				<bind name="text" value="tooltipText"/>
+			</block>
+			<block type="text">
+				<styleClass value="$TextHeaderBigDefault"/>
+				<style>
+					<marginTop value="3px"/>
+					<leading value="-3"/>
+					<width value="100%"/>
+				</style>
+				<bind name="text" value="tooltipSubText"/>
+			</block>
+		</block>
+		<block className="HorizontalDivider">
+			<styleClass value="$PxHorizontalCorrection"/>
+			<style>
+				<width value="100%"/>
+				<height value="3px"/>
+			</style>
+			<block className="divider_h" type="native">
+				<styleClass value="$Fullsize"/>
+			</block>
+		</block>
+		<block>
+			<styleClass value="$InfoBlockIndentNoWidth"/>
+			<style>
+				<width value="100%"/>
+			</style>
+			<block type="text">
+				<styleClass value="$TextHeaderBigDefault"/>
+				<style>
+					<leading value="-3"/>
+					<width value="100%"/>
+				</style>
+				<bind name="text" value="'Награда за регистрацию аккаунта:'"/>
+			</block>
 		</block>
 	</block>
 	<css name="$TextMouseDisable">
@@ -5881,6 +5472,7 @@
 		<bind name="name" value="_input"/>
 		<bind name="input"/>
 		<bind name="action" value="'click'; _action ? _action : null"/>
+		<bind name="action" value="'click'; 'log'; { event: 'click:banner.' + _logItemName }"/>
 		<block className="button_infopanel_no_label" type="native">
 			<styleClass value="$FullsizeAbsolute"/>
 		</block>
@@ -7386,6 +6978,7 @@
 		<bind name="feature" value="21; 'click'"/>
 		<bind name="soundSet" value="'lootbox_banner'"/>
 		<bind name="tooltip" value="'MouseInstructionTooltip'; { _mouseInstructions: [{_type: 'left', _instructionText: 'IDS_GO_TO_LOOTBOXES'}], _maxWidth: 250 }; 0"/>
+		<bind name="action" value="'click'; 'log'; { event: 'click:banner.Lootboxes' }"/>
 		<block>
 			<styleClass value="$Fullsize"/>
 			<block className="quest_thumb_title" type="native">
@@ -9304,6 +8897,18 @@
 			</block>
 		</block>
 	</block>
+	<block className="CompleteAccountRewardItemAdapter">
+		<bind name="entityDH" value="'rewardEntity'; $value"/>
+		<bind name="appear" value="'addedToStage'; 0.25; 0.1 + $index*0.23; {alpha: 0, top: 35}; {alpha: 1, top: 0}; 1"/>
+		<bind name="appear" value="'hideRewards'; 0.15; 0; {alpha: 1, top: 0}; {alpha: 0, top: 20}"/>
+		<style>
+			<marginRight value="16px"/>
+			<marginLeft value="16px"/>
+		</style>
+		<block>
+			<bind name="instance" value="'RewardItem'; rewardEntity.rewardComponent"/>
+		</block>
+	</block>
 	<block className="ModalWindowCompleteAccount">
 		<block className="ModalWindowContainer">
 			<styleClass value="$FullsizeAbsolute"/>
@@ -9355,13 +8960,13 @@
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'realmConstants'"/>
 		<bind name="action" value="'addedToStage'; 'SteamContext.clearErrors'; {}"/>
 		<bind name="firstEntityDH" value="'incompleteAccountEntity'; CC.incompleteAccount"/>
-		<bind name="watchDH" value="'codeSent';		['incompleteAccountEntity.incompleteAccount.evCodeSent'];	incompleteAccountEntity.incompleteAccount.codeSent"/>
+		<bind name="watchDH" value="'codeSent';						['incompleteAccountEntity.incompleteAccount.evCodeSent'];			incompleteAccountEntity.incompleteAccount.codeSent"/>
 		<bind name="watchDH" value="'error';							['incompleteAccountEntity.incompleteAccount.evErrorCodeChanged'];	incompleteAccountEntity.incompleteAccount.error"/>
 		<bind name="watchDH" value="'errorIDS';						['incompleteAccountEntity.incompleteAccount.evErrorCodeChanged'];	incompleteAccountEntity.incompleteAccount.errorIDS"/>
-		<bind name="watchDH" value="'isPasswordInvalid';				['incompleteAccountEntity.incompleteAccount.evValidationUpdate']; incompleteAccountEntity.incompleteAccount.isPasswordInvalid"/>
-		<bind name="watchDH" value="'isPasswordValidationRunning';	['incompleteAccountEntity.incompleteAccount.evValidationUpdate']; incompleteAccountEntity.incompleteAccount.isPasswordValidationRunning"/>
-		<bind name="watchDH" value="'isLoginInvalid';				['incompleteAccountEntity.incompleteAccount.evValidationUpdate']; incompleteAccountEntity.incompleteAccount.isLoginInvalid"/>
-		<bind name="watchDH" value="'isLoginValidationRunning';		['incompleteAccountEntity.incompleteAccount.evValidationUpdate']; incompleteAccountEntity.incompleteAccount.isLoginValidationRunning"/>
+		<bind name="watchDH" value="'isPasswordInvalid';				['incompleteAccountEntity.incompleteAccount.evValidationUpdate']; 	incompleteAccountEntity.incompleteAccount.isPasswordInvalid"/>
+		<bind name="watchDH" value="'isPasswordValidationRunning';	['incompleteAccountEntity.incompleteAccount.evValidationUpdate']; 	incompleteAccountEntity.incompleteAccount.isPasswordValidationRunning"/>
+		<bind name="watchDH" value="'isLoginInvalid';				['incompleteAccountEntity.incompleteAccount.evValidationUpdate']; 	incompleteAccountEntity.incompleteAccount.isLoginInvalid"/>
+		<bind name="watchDH" value="'isLoginValidationRunning';		['incompleteAccountEntity.incompleteAccount.evValidationUpdate']; 	incompleteAccountEntity.incompleteAccount.isLoginValidationRunning"/>
 		<bind name="var" value="{ windowAppearLag: 0.4 }"/>
 		<bind name="watch" value="'userEmail'; ''"/>
 		<bind name="dispatch" value="'userEmail' + varChanged; 'evEmailChanged'"/>
@@ -9395,7 +9000,7 @@
 			<style>
 				<width value="100%"/>
 			</style>
-			<bind name="childParentScope" value="accountComplitionState; 
+			<bind name="childParentScope" value="accountComplitionState;
 								'EmailModal';
 								'CodeModal';
 								'AccountDoneModal'"/>
@@ -9413,7 +9018,6 @@
 			</style>
 			<block>
 				<styleClass value="$MiddleAligned"/>
-				<bind name="stageSize"/>
 				<bind name="instance" value="'ModalWindowHeader'; { _header: 'IDS_ACCOUNT_COMPLETION_HEADER_0', _headerWidth: '600px', _innerCloseButton: false}"/>
 			</block>
 		</block>
@@ -9721,7 +9325,6 @@
 			</block>
 			<block>
 				<styleClass value="$MiddleAligned"/>
-				<bind name="stageSize"/>
 				<bind name="instance" value="'ModalWindowHeader'; { _header: 'IDS_ACCOUNT_COMPLETION_HEADER_1', _headerWidth: '600px', _innerCloseButton: false}"/>
 			</block>
 		</block>
@@ -9859,28 +9462,53 @@
 			</style>
 			<block>
 				<styleClass value="$MiddleAligned"/>
-				<bind name="stageSize"/>
 				<bind name="instance" value="'ModalWindowHeader'; { _header: 'IDS_ACCOUNT_COMPLETION_HEADER_2', _headerWidth: '600px', _innerCloseButton: false}"/>
 			</block>
 		</block>
 		<block>
-			<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 1.5 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
-			<bind name="appear" value="'startHide'; 0.15; 1.5 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+			<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 1 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
+			<bind name="appear" value="'startHide'; 0.15; 1 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+			<styleClass value="$MiddleAligned"/>
 			<style>
-				<width value="100%"/>
-				<marginTop value="24px"/>
+				<marginTop value="48px"/>
+				<marginBottom value="16px"/>
 			</style>
-			<bind name="repeat" value="[{_paragraphText: 'IDS_ACCOUNT_COMPLETION_HINT_4'},
-					   {_paragraphText: 'IDS_ACCOUNT_COMPLETION_HINT_5'}]; 'RepeatParagraphItem'; {	_maxWidth: 580, _marginBottom: 32,
-																										_middleAligned: true, _class: '$TextDefault19NM',
-																										_textAlign: 'center', _leading: 0}"/>
+			<block className="icon_check" type="native">
+				<styleClass value="$MiddleVAligned"/>
+			</block>
+			<block type="text">
+				<styleClass value="$TextDefaultBold19NM"/>
+				<styleClass value="$FontColorGolden"/>
+				<style>
+					<marginLeft value="8px"/>
+				</style>
+				<bind name="text" value="toUpperCase(tr('IDS_ACCOUNT_COMPLETION_FINISH_SUBHEADER'))"/>
+			</block>
+			<style>
+				<flow value="horizontal"/>
+			</style>
+		</block>
+		<block>
+			<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 2 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
+			<bind name="appear" value="'startHide'; 0.15; 2 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+			<styleClass value="$MiddleAligned"/>
+			<style>
+				<align value="center|middle"/>
+				<marginBottom value="48px"/>
+			</style>
+			<bind name="firstEntityDH" value="'completionRewardsEntity'; CC.completionRewards"/>
+			<bind name="watchDH" value="'rewards';[]; completionRewardsEntity.completionRewards.rewards"/>
+			<bind name="repeat" value="rewards; 'CompleteAccountRewardItemAdapter'; {_openedLootboxRewards: rewards}"/>
+			<style>
+				<flow value="horizontal"/>
+			</style>
 		</block>
 		<block>
 			<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 3 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
 			<bind name="appear" value="'startHide'; 0.15; 3 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
 			<styleClass value="$MiddleAligned"/>
 			<style>
-				<width value="129px"/>
+				<width value="100px"/>
 			</style>
 			<block className="DefaultButtonModal">
 				<styleClass value="$InfoLineBoundaries"/>
