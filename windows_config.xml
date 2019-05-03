@@ -414,6 +414,14 @@
 	</window>
 
 	<window>
+		<name>ModalGameFirstEntrance</name>
+		<hideTime>0.6</hideTime>
+		<config>../unbound/modal_game_first_entrance.xml</config>
+		<root_element_id>ModalGameFirstEntrance</root_element_id>
+		<statistics_event>wnd:modal.greeting</statistics_event>
+	</window>
+
+	<window>
 		<name>ModalWindowPremiumAccount</name>
 		<hideTime>0.4</hideTime>
 		<config>../unbound/modal_account_premium.xml</config>
@@ -791,14 +799,7 @@
 		<root_element_id>ModalWindowSubAlbumFullyCollected</root_element_id>
 		<statistics_event>wnd:collection.subAlbumFull</statistics_event>
 	</window>
-	
-	<window>
-		<name>ModalWindowArcEventTeamEntrance</name>
-		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_window_arc_event_team_entrance.xml</config>
-		<root_element_id>ModalWindowArcEventTeamEntrance</root_element_id>
-	</window>
-	
+
 	<window>
 		<name>ModalMilestoneScreen</name>
 		<hideTime>0.7</hideTime>
@@ -807,17 +808,32 @@
 	</window>
 
 	<window>
-		<name>ModalWindowArcEventRecruiter</name>
-		<hideTime>0.5</hideTime>
-		<config>../unbound/modal_window_arc_event_recruiter.xml</config>
-		<root_element_id>ModalWindowArcEventRecruiter</root_element_id>
+		<name>ModalEventScreen</name>
+		<hideTime>1</hideTime>
+		<config>../unbound/modal_window_arc_event_daily_choice.xml</config>
+		<root_element_id>ModalEventScreen</root_element_id>
+		<statistics_event>wnd:splash.event</statistics_event>
+		<bitmaps>
+			../events/arc_event/common/arc_event_bg_default.jpg,
+			../events/arc_event/common/arc_event_content_bg.png
+		</bitmaps>
 	</window>
-
+	
 	<window>
-		<name>ModalWindowArcEventFinish</name>
+		<name>ModalWindowArcEventSideEntrance</name>
 		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_window_arc_event_finish.xml</config>
-		<root_element_id>ModalWindowArcEventFinish</root_element_id>
+		<config>../unbound/modal_window_arc_event_side_entrance.xml</config>
+		<root_element_id>ModalWindowArcEventSideEntrance</root_element_id>
+		<bitmaps>
+			../events/arc_event/common/arc_event_bg_default.jpg,
+			../events/arc_event/common/arc_event_content_bg.png,
+			../events/arc_event/rules/rules_column_header_0.png,
+			../events/arc_event/rules/rules_column_header_1.png,
+			../events/arc_event/rules/rules_column_header_2.png,
+			../events/arc_event/rules/rules_column_header_3.png,
+			../events/arc_event/rules/rules_column_header_4.png,
+			../events/arc_event/rules/rules_column_header_5.png
+		</bitmaps>
 	</window>
 
 	<window>
@@ -825,6 +841,17 @@
 		<hideTime>0.5</hideTime>
 		<config>../unbound/modal_window_arc_event_postbattle_result.xml</config>
 		<root_element_id>ModalWindowArcEventResult</root_element_id>
+	</window>
+
+	<window>
+		<name>ModalWindowArcEventFinish</name>
+		<hideTime>0.7</hideTime>
+		<config>../unbound/modal_window_arc_event_finish.xml</config>
+		<root_element_id>ModalWindowArcEventFinish</root_element_id>
+		<bitmaps>
+			../events/arc_event/common/arc_event_bg_default.jpg,
+			../events/arc_event/final_screen/arc_event_content_bg.png
+		</bitmaps>
 	</window>
 
 	<window>
@@ -945,6 +972,7 @@
 		<root_element_id>ModalWindowRenameReplays</root_element_id>
 		<statistics_event>wnd:replays.rename</statistics_event>
 	</window>
+
 	<window>
 		<name>ModalWindowShowDogTag</name>
 		<hideTime>0.7</hideTime>
@@ -952,13 +980,7 @@
 		<root_element_id>ModalWindowShowDogTag</root_element_id>
 		<statistics_event>wnd:dogTag.show</statistics_event>
 	</window>
-	<window>
-		<name>ModalEventScreen</name>
-		<hideTime>1</hideTime>
-		<config>../unbound/modal_window_arc_event_daily_entrance.xml</config>
-		<root_element_id>ModalEventScreen</root_element_id>
-		<statistics_event>wnd:splash.event</statistics_event>
-	</window>
+
 	<window>
 		<name>ModalWindowPromoscreen</name>
 		<hideTime>0.9</hideTime>
@@ -966,6 +988,7 @@
 		<root_element_id>ModalWindowPromoscreen</root_element_id>
 		<statistics_event>wnd:splash.promo</statistics_event>
 	</window>
+	
 	<window>
 		<name>ModalWindowConfirmationDogTag</name>
 		<hideTime>0.7</hideTime>
@@ -996,6 +1019,64 @@
 		<config>../unbound/modal_window_aircraft_carrier_tutorial.xml</config>
 		<root_element_id>ModalWindowAircraftCarrierTutorial</root_element_id>
 		<!--<statistics_event>wnd:replays.leave</statistics_event>-->
+	</window>
+
+	<window>
+		<name>ModalWindowOpenAllLootBoxes</name>
+		<hideTime>0.7</hideTime>
+		<config>../unbound/modal_window_open_all_loot_boxes.xml</config>
+		<root_element_id>ModalWindowOpenAllLootBoxes</root_element_id>
+		<statistics_event>wnd:lootboxes.openall</statistics_event>
+	</window>
+
+	<window>
+		<name>ModalWindowRewardContainer</name>
+		<hideTime>0.7</hideTime>
+		<config>../unbound/modal_reward_container.xml</config>
+		<root_element_id>ModalWindowRewardContainer</root_element_id>
+		<statistics_event>wnd:player.rewards</statistics_event>
+	</window>
+
+	<window>
+		<name>ModalWindowAccountLevelling</name>
+		<python_class>lobby.ModalWindowAccountLevelling</python_class>
+		<hideTime>0.6</hideTime>
+		<config>../unbound/modal_account_levelling.xml</config>
+		<root_element_id>ModalWindowAccountLevelling</root_element_id>
+	</window>
+
+	<window>
+		<name>ModalWindowAccountLevellingAboutRange</name>
+		<python_class>lobby.ModalWindowAccountLevellingAboutRange</python_class>
+		<hideTime>0.6</hideTime>
+		<config>../unbound/modal_account_levelling.xml</config>
+		<root_element_id>ModalWindowAccountLevellingAboutRange</root_element_id>
+	</window>
+
+	<window>
+		<name>ModalWindowLevelInfo</name>
+		<python_class>ModalWindow</python_class>
+		<hideTime>0.6</hideTime>
+		<config>../unbound/modal_account_level_info.xml</config>
+		<root_element_id>ModalWindowLevelInfo</root_element_id>
+		<statistics_event>wnd:account.levelInfo</statistics_event>
+	</window>
+
+	<window>
+		<name>ModalWindowRewardInfo</name>
+		<python_class>ModalWindow</python_class>
+		<hideTime>0.6</hideTime>
+		<config>../unbound/modal_account_reward_info.xml</config>
+		<root_element_id>ModalWindowRewardInfo</root_element_id>
+		<statistics_event>wnd:account.rewardInfo</statistics_event>
+	</window>
+
+	<window>
+		<name>ModalWindowRewardContainer</name>
+		<hideTime>0.7</hideTime>
+		<config>../unbound/modal_reward_container.xml</config>
+		<root_element_id>ModalWindowRewardContainer</root_element_id>
+		<statistics_event>wnd:player.rewards</statistics_event>
 	</window>
 
 </windows_config.xml>

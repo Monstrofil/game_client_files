@@ -140,6 +140,16 @@
 		<selectable value="false"/>
 		<textColor value="0xFFFFFF"/>
 	</css>
+	<css name="$TextDefault27NM">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="27"/>
+		<marginText value="-3px|-3px|-10px|-8px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
 	<css name="$TextDefaultBold30NM">
 		<fontFamily value="$WWSDefaultFontBold"/>
 		<mouseEnabled value="false"/>
@@ -176,6 +186,16 @@
 		<mouseChildren value="false"/>
 		<fontSize value="46"/>
 		<marginText value="-3px|-4px|-12px|-10px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultBold50NM">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="50"/>
+		<marginText value="-3px|-4px|-15px|-13px"/>
 		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
 		<selectable value="false"/>
 		<textColor value="0xFFFFFF"/>
@@ -269,13 +289,6 @@
 		<marginTop value="9px"/>
 		<marginLeft value="12px"/>
 		<marginRight value="12px"/>
-	</css>
-	<css name="$ShipTechStats">
-		<width value="312px"/>
-		<top value="32px"/>
-		<position value="absolute"/>
-		<right value="10px"/>
-		<height value="100%"/>
 	</css>
 	<css name="$TextInputEnterButton">
 		<right value="2px"/>
@@ -469,6 +482,12 @@
 			<alpha value="0.5"/>
 		</style>
 	</block>
+	<css name="$ContentIndents">
+		<marginBottom value="12"/>
+		<marginTop value="12"/>
+		<marginLeft value="12"/>
+		<marginRight value="12"/>
+	</css>
 	<css name="$TextNano">
 		<fontFamily value="$WWSDefaultFont"/>
 		<mouseEnabled value="false"/>
@@ -973,14 +992,12 @@
 	</css>
 	<block className="CapturingIndicator">
 		<bind name="firstEntityDH" value="'avatar'; CC.playerAvatar"/>
-		<bind name="watchDH" value="'isAlive'; ['avatar.health.evKilled']; avatar.health.isAlive"/>
-		<bind name="collectionDH" value="CC.interactiveZone; 'playerInsideZones'; 'playerInside'"/>
-		<bind name="entityDH" value="'insideZone'; playerInsideZones[0].id"/>
-		<bind name="watchDH" value="'zoneType'; ['insideZone.interactiveZone.evChanged']; insideZone.interactiveZone.type"/>
-		<bind name="visible" value="isAlive"/>
+		<bind name="watchDH" value="'isAlive'; ['avatar.health.evIsAliveChanged']; avatar.health.isAlive"/>
+		<bind name="collectionDH" value="CC.interactiveZone; 'insideDropZones'; 'playerInside.dropZones'"/>
+		<bind name="entityDH" value="'insideZone'; insideDropZones[0].id"/>
 		<block>
 			<bind name="name" value="'size'"/>
-			<bind name="instance" value="'DropZonesIndicators'; hasComponent(insideZone, 'drop') ? {_zoneId: insideZone.id} : null"/>
+			<bind name="instance" value="'DropZonesIndicators'; isAlive &amp;&amp; !!(insideZone) ? {_zoneId: insideZone.id} : null"/>
 		</block>
 	</block>
 	<block className="DropZonesIndicators">
@@ -1028,6 +1045,67 @@
 			</style>
 			<styleClass value="$TextDefaultNM"/>
 			<bind name="text" value="countdownText"/>
+		</block>
+	</block>
+	<block className="RespawnTimerWrapper">
+		<bind name="firstEntityDH" value="'avatar'; CC.playerAvatar"/>
+		<bind name="watchDH" value="'isAlive'; ['avatar.health.evIsAliveChanged']; avatar.health.isAlive"/>
+		<bind name="watchDH" value="'timeToRespawn'; ['avatar.playerAvatar.evTimeToRespawnChanged']; avatar.playerAvatar.timeToRespawn"/>
+		<styleClass value="$FullsizeAbsolute"/>
+		<block>
+			<styleClass value="$MiddleVHAbsolutely"/>
+			<bind name="instance" value="'RespawnTimer'; !(isAlive) &amp;&amp; !!(timeToRespawn) ? {} : null"/>
+		</block>
+	</block>
+	<block className="RespawnTimer">
+		<bind name="firstEntityDH" value="'avatar'; CC.playerAvatar"/>
+		<bind name="watchDH" value="'willBeAliveAt'; ['avatar.playerAvatar.evTimeToRespawnChanged']; avatar.playerAvatar.willBeAliveAt"/>
+		<bind name="watchDH" value="'timeToRespawn'; ['avatar.playerAvatar.evTimeToRespawnChanged']; avatar.playerAvatar.timeToRespawn"/>
+		<bind name="countdown" value="willBeAliveAt; 'timeLeft'; 'mm:ss'; ''; ''; 'rawTimeLeft'"/>
+		<bind name="dispatch" value="'addedToStage'; 'evDelayedShowCountdown'; {showCountdown: true}; 0; 1"/>
+		<bind name="catch" value="'evDelayedShowCountdown'"/>
+		<bind name="fade" value="showCountdown &amp;&amp; rawTimeLeft &amp;&amp; rawTimeLeft &gt; 0; 0.3; {alpha: 0}; {alpha: 1}"/>
+		<block type="text">
+			<styleClass value="$TextDefaultBold17NM"/>
+			<style>
+				<textAlign value="center"/>
+				<width value="100%"/>
+				<marginBottom value="8px"/>
+				<leading value="-3"/>
+			</style>
+			<bind name="text" value="toUpperCase(tr('IDS_TIME_TILL_RESPAWN'))"/>
+		</block>
+		<block type="text">
+			<styleClass value="$TextDefaultNM"/>
+			<style>
+				<textAlign value="center"/>
+				<width value="100%"/>
+				<marginBottom value="8px"/>
+			</style>
+			<bind name="text" value="timeLeft"/>
+		</block>
+		<block>
+			<style>
+				<width value="180px"/>
+			</style>
+			<block className="indicator_progress_bar_lightgreen" type="native">
+				<style>
+					<width value="100%"/>
+				</style>
+				<bind name="value" value="0"/>
+				<bind name="maximum" value="1"/>
+			</block>
+			<block>
+				<bind name="watch" value="'progressBarWidth'; math.round(100 - (rawTimeLeft / 1000 / timeToRespawn * 100))"/>
+				<bind name="watch" value="'progressBarWidthClamped'; progressBarWidth &gt; 100 ? 100 : progressBarWidth"/>
+				<style>
+					<height value="2px"/>
+					<marginTop value="1px"/>
+					<backgroundColor value="0xFF4CE8AA"/>
+					<position value="absolute"/>
+				</style>
+				<bind name="style" value="'width'; progressBarWidthClamped + '%'"/>
+			</block>
 		</block>
 	</block>
 </ui>

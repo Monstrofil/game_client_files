@@ -15,7 +15,7 @@
     )			
 )
 
-#отображает текст с результатом выражения в верстке
+
 (def macro trace(expr:expression)
 	(block
 		(style 
@@ -29,7 +29,7 @@
 	)
 )
 
-#создает видимый список всех измененных значений выражения и обновляет его при каждом изменении результата выражения
+
 (def macro traceChange(expr:expression)
 	(scope
 		(var traceChangeCount:number = 0)
@@ -53,7 +53,7 @@
 	)
 )
 
-#отображает счетчик того, сколько раз выстрелило конкретное событие
+
 (def macro eventChecker (eventName:expression = "'eventName'")
 	(scope
 		(event eventName)
@@ -81,7 +81,7 @@
 
 )
 
-#выводит результат выражения в лог
+
 (def macro log(expr:expression)
 	(scope
 		(var logVar:str = "log(expr)")
@@ -162,13 +162,6 @@
         (var shipEntity:gfx = "$datahub.getPrimaryEntity(CC.ship, shipId)")
         (var shipComponent:gfx = "shipEntity.ship" (event "shipEntity.ship.evUpdate") (event "shipEntity.ship.evCurrentSkinChanged"))
         (var shipComponentSlim:gfx = "shipEntity.slimClientComponent" (event "shipEntity.slimClientComponent.evUpdate"))
-    )
-)
-
-(def macro PULL_SHIP_PLAYER (shipId:expression)
-    (scope
-        (var playerShipEntity:gfx = "$datahub.getPrimaryEntity(CC.ownShip, shipId)")
-        (var playerShipComponent:gfx = "playerShipEntity.ownShip" (event "playerShipEntity.ownShip.evUpdate") (event "playerShipEntity.ownShip.evCrewChanged"))
     )
 )
 

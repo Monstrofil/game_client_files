@@ -582,13 +582,6 @@
 		<marginLeft value="12px"/>
 		<marginRight value="12px"/>
 	</css>
-	<css name="$ShipTechStats">
-		<width value="312px"/>
-		<top value="32px"/>
-		<position value="absolute"/>
-		<right value="10px"/>
-		<height value="100%"/>
-	</css>
 	<css name="$TextInputEnterButton">
 		<right value="2px"/>
 		<top value="50%"/>
@@ -781,9 +774,15 @@
 			<alpha value="0.5"/>
 		</style>
 	</block>
+	<css name="$ContentIndents">
+		<marginBottom value="12"/>
+		<marginTop value="12"/>
+		<marginLeft value="12"/>
+		<marginRight value="12"/>
+	</css>
 	<block className="WaitingScreenDockReload">
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
-		<bind name="collectionDH" value="CC.port; 'currentPort'; 'current'"/>
+		<bind name="collectionDH" value="CC.port; 'currentPort'; 'visible.current'"/>
 		<styleClass value="$Fullsize"/>
 		<block className="DeclareBlurLayer">
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>

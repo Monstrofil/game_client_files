@@ -80,13 +80,6 @@
 		<marginLeft value="12px"/>
 		<marginRight value="12px"/>
 	</css>
-	<css name="$ShipTechStats">
-		<width value="312px"/>
-		<top value="32px"/>
-		<position value="absolute"/>
-		<right value="10px"/>
-		<height value="100%"/>
-	</css>
 	<css name="$TextInputEnterButton">
 		<right value="2px"/>
 		<top value="50%"/>
@@ -279,6 +272,12 @@
 			<alpha value="0.5"/>
 		</style>
 	</block>
+	<css name="$ContentIndents">
+		<marginBottom value="12"/>
+		<marginTop value="12"/>
+		<marginLeft value="12"/>
+		<marginRight value="12"/>
+	</css>
 	<css name="$TextNano">
 		<fontFamily value="$WWSDefaultFont"/>
 		<mouseEnabled value="false"/>
@@ -1141,7 +1140,7 @@
 					<style>
 						<multiline value="false"/>
 					</style>
-					<bind name="substitute" value="''; 3; null; (key ? '[' + key.inputKey.name + ']' : 'IDS_EMPTY')"/>
+					<bind name="substitute" value="3; null; (key ? '[' + key.inputKey.name + ']' : 'IDS_EMPTY')"/>
 				</block>
 				<style>
 					<flow value="horizontal"/>
@@ -1181,7 +1180,7 @@
 		<bind name="visible" value="used"/>
 		<block type="text">
 			<styleClass value="$TextDefault"/>
-			<bind name="substitute" value="''; 3; null; (key ? '[' + key.inputKey.name + ']' : 'IDS_EMPTY')"/>
+			<bind name="substitute" value="3; null; (key ? '[' + key.inputKey.name + ']' : 'IDS_EMPTY')"/>
 		</block>
 	</block>
 </ui>

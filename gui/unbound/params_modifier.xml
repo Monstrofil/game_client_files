@@ -24,7 +24,13 @@
 			<bind name="class" value="category == 'positive' ? '$FontColorComparePositive' : 
 					 category == 'negative'	? '$FontColorCompareNegative'
 					 						: '$FontColorDefault'"/>
-			<bind name="text" value="measuredValue"/>
+			<bind name="substitute" value="5; {
+								 '[battleship]' : 'battleship_small_own',
+								  '[aircarrier]' : 'carrier_small_own',
+								   '[cruiser]' : 'cruiser_small_own',
+								   '[destroyer]' : 'destroyer_small_own',
+								   '[submarine]' : 'submarine_small_own'
+								   }; measuredValue"/>
 		</block>
 		<block type="text">
 			<style>

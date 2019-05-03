@@ -6,39 +6,41 @@
 		(var _needService:bool = false)
 		(var _isLocked:bool = false)
 		(var _isNotMyShip:bool = false)
-		(var _inRewards:bool = false) #TODO true from giftbox
-		(var _rewardReasons:dict = {}) #TODO true from giftbox
-		(var _isPRMP:bool = false) #TODO true from PRMP
+		(var _inRewards:bool = false) 
+		(var _rewardReasons:dict = {}) 
+		(var _isPRMP:bool = false) 
 		(var _inSideCompare:bool = false)
 		(var _inIntromissionWindow:bool = false)
+
+		(var playerShipEntity:gfx = "$datahub.getPrimaryEntity(CC.ownShip, _shipId)")
+		(var isOwned:bool = "playerShipEntity != null")
+		(var exp:number = "playerShipEntity.ownShip.exp" (event "playerShipEntity.ownShip.evUpdateConfig"))
+		(var isInFormation:bool = "playerShipEntity.ownShip.isInFormation" (event "playerShipEntity.ownShip.evUpdateLock"))
 	)
 	
 	(macro PULL_SHIP "_shipId")
-	(macro PULL_SHIP_PLAYER "_shipId")
 	(macro PULL_USI "playerShipEntity")
 	(scope
-		(var isOwned:bool = "playerShipEntity.hasComponent(CC.ownShip)")
 		
-		# ship tech-stats
 		(var showStats:bool = "!(shipComponent.isEventLike) || isOwned")
 		(var showLabelComingSoon:bool = "shipComponent.isEventLike && (shipComponent.group != 'event')")
 		(var isEventLike:bool = "shipComponent.isEventLike" )
-		#(bind controller "lesta.dialogs.controllers.CollectionController; 'pricesAll'; PriceInfoSet.OP_EXPLORE + shipId; 'shipExplorePrice'")
-		#(bind controller "lesta.dialogs.controllers.CollectionController; 'pricesAll'; PriceInfoSet.OP_BUY + shipId; 'shipBuyPrice'")
-		(var shipExplorePrice:number = 0) #TODO UB2
-		(var shipBuyPrice:number = 0) #TODO UB2
 		
-		(var hasWarning:bool = "_needService || (_isLocked && !(playerShipComponent.isInFormation))")
+		
+		(var shipExplorePrice:number = 0) 
+		(var shipBuyPrice:number = 0) 
+
+		(var hasWarning:bool = "_needService || (_isLocked && !isInFormation)")
 		(var slimClientWarningData:array = "[ { _type: 'warning', _instructionText: isEventLike	? 'IDS_ENTER_IN_FULL_VERSION_FOR_ANNOUNCE_SHIPS' : 'IDS_ENTER_IN_FULL_VERSION_FOR_SHIPS'}, {_type: 'left', _instructionText: 'IDS_CONTINUE_DOWNLOADING_HINT_EXIT'} ]")
 	)
 	
 	(style
 		(width = "TOOLTIP_SHIP_MAX_WIDTH")
-		#(backgroundColor = 0x2200FF00)
+		
 		(position = "absolute")
 	)
 	
-	#header
+	
 	(element ShipInfoTabHeader
 		 (scope
 			(bind _isNotMyShip "_isNotMyShip")
@@ -47,7 +49,7 @@
 		)
 		(style
 			(width = 100%)
-			#(backgroundColor = 0xFF00FF00)
+			
 		)
 	)
 	
@@ -57,11 +59,11 @@
 		(style 
 			(width = 100%) 
 			(align = "center")
-			#(backgroundColor = 0x88FF00FF)
+			
 			(paddingBottom = 0px)
 		)
 		
-		# separation block
+		
 		(block 
 			(style 
 				(width = 214px) 
@@ -73,39 +75,39 @@
 			(bind visible "!_inSideCompare && !_inIntromissionWindow")
 			(style 
 				(width = 100%)
-				#(backgroundColor = 0x88FFFF00)
+				
 			)
 			(element CurrentXPLarge
 				(scope
-					(bind _exp "playerShipComponent.exp")
+					(bind _exp "exp")
 					(bind _label 'IDS_SHIP_EXPERIENCE')
 				)
 				(style 
 					(marginBottom = 3px)
 				)
 			)
-			#TODO isOwned=false for other tooltips
-#			(block
-#				(bind visible "!isOwned && !(_inRewards) && !(shipComponent.isEventLike)")
-#				(style (width 100%)(marginTop 12px))
-#				(block
-#					(style (width 100%))
-#					(bind instance "'PriceInLine'; !(upgradableShipInfo.isExplored)	? { priceInfo: shipExplorePrice.prices[0], _label: 'IDS_RESEARCH_COST',
-#																						_medium: true, _showDiscountTag: true}
-#															: null")
-#				)
-#				(block
-#					(bind style "'marginTop'; upgradableShipInfo.isExplored ? '0px' : '9px'")
-#					(style (width 100%))
-#					(bind instance "'PriceInLine'; 	upgradableShipInfo.isExplored && isOwned ? null
-#															:!(isOwned) ? { priceInfo: shipBuyPrice.prices[0], _label: 'IDS_PURCHASE_COST', _medium : true, _showDiscountTag:true}
-#															: null")
-#				)
-#			)
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		)
 	)	
 	
-	#ship description
+	
 	(block
 		(bind visible "!_inSideCompare")
 		(style (width = 100%))
@@ -166,15 +168,15 @@
 			)
 		)
 		
-#TODO PRMP	
-#	(block
-#		(bind visible "(_inRewards) && (!_isPRMP)")
-#		(style (width 100%)(marginBottom = 9px))
-#    		(controller $Instance renderer='RewardReasonsList'
-#    			(args _shipId="_shipId" _rewardReasons="_rewardReasons")
-#    			(bind enabled "showLabelComingSoon")
-#    		)
-#	)
+
+
+
+
+
+
+
+
+
 
 
 	(block
@@ -184,8 +186,8 @@
 		(controller $Instance renderer='InstructionWarning'
 			(exprs
 				(scope
-					(bind _instructionText "_needService ? 'IDS_SHIP_NEEDS_SERVICE_MESSAGE' : _isLocked && !(playerShipComponent.isInFormation) ? 'IDS_SHIP_IN_BATTLE_MESSAGE' : 0")
-					(bind _maxWidth "_needService ? 280 : _isLocked && !(playerShipComponent.isInFormation) ? 280 : 0")
+					(bind _instructionText "_needService ? 'IDS_SHIP_NEEDS_SERVICE_MESSAGE' : _isLocked && !isInFormation ? 'IDS_SHIP_IN_BATTLE_MESSAGE' : 0")
+					(bind _maxWidth "_needService ? 280 : _isLocked && !isInFormation ? 280 : 0")
 				)
 				(class $InfoBlockIndent)
 			)
@@ -217,8 +219,8 @@
 	
 		(var collection:gfx = "$datahub.getCollection(CC.shipParamsView)")
 		(var entity:gfx = "$datahub.getPrimaryCompositeEntity(CC.shipParamsView, _shipId, 'tooltipShipParams')" (event "collection.evAdded"))
-		(var shipParamsView:gfx = "entity.shipParamsView")# (event "shipParamsView.evParamsRendererDataChanged"))
-		(var paramsRendererData:array = "shipParamsView ? shipParamsView.paramsRendererData : []" (event "shipParamsView.evParamsRendererDataChanged") (bindcall event "shipParamsView.evParamsRendererDataChanged"))
+		(var shipParamsView:gfx = "entity.shipParamsView")
+		(var paramsRendererData:array = "shipParamsView ? shipParamsView.paramsRendererData : []" (event "shipParamsView.evParamsRendererDataChanged"))
 	)
 	(bindcall externalCall 'direct.action' "['make_tooltipShipParams_list', [_shipId]]" init=true)
 	
@@ -251,14 +253,14 @@
 	)
 )
 
-##element for shipparams repeat in ship tooltip
+
 (def element ShipInfoTooltipRow(_entityId:number = "0", _inSideCompare:bool = false) layout=true
 	(scope
 		(var entityId:number = "_entityId")
 	
 		(var entity:gfx = "$datahub.getEntity(entityId)")
 		(var shipParamRendererData:gfx = "entity.shipParamRendererData")
-		(var valueEntity:gfx = "$datahub.getEntity(shipParamRendererData.valueEntityID)" (event "shipParamRendererData.evChanged") (bindcall event "shipParamRendererData.evChanged"))
+		(var valueEntity:gfx = "$datahub.getEntity(shipParamRendererData.valueEntityID)" (event "shipParamRendererData.evChanged"))
 		(var shipParamItemData:gfx = "valueEntity.shipParamItemData")
 	)
 	
@@ -276,10 +278,10 @@
 		
 		(element StatValueBar
 			(scope
-				(bind _hasDiff "false || _inSideCompare") #TODO diff params
-				(bind _diffValue "0") #TODO diff params
-				(bind _isPositiveDiff "true") #TODO diff params
-				(bind _currentValue "shipParamItemData.currentValue" (event "shipParamItemData.evChanged") (bindcall event "shipParamItemData.evChanged"))
+				(bind _hasDiff "false || _inSideCompare") 
+				(bind _diffValue "0") 
+				(bind _isPositiveDiff "true") 
+				(bind _currentValue "shipParamItemData.currentValue" (event "shipParamItemData.evChanged"))
 			)
 		)
 	)
@@ -290,43 +292,43 @@
 			(height = 100%)
 			(paddingLeft = 12px)
 			(paddingRight = 12px)
-			(paddingTop = 1px) #TODO ?
-			#(paddingBottom = 3px) #TODO ?
-			#(backgroundColor = 0xFF00FFFF)
+			(paddingTop = 1px) 
+			
+			
 			(position = "absolute")
 		)
-		#(macro trace "shipParamRendererData.nameIDS")
-		#(macro trace "shipParamRendererData.meta")
-		#TODO ?	
-#		#first element in stat-list
-#		(bind style "'marginTop'; ($parent.viewParams.list[$index - 1] == null) && !(meta) ? '5px' : '1px'")
-#		#last element in stat-list
-#		(bind style "'marginBottom'; $parent.viewParams.list[$index + 1] == null && !(meta) ? '8px' : '3px'")
+		
+		
+		
+
+
+
+
 
 
 		(block
 			(style
-				#(backgroundColor = 0xFF00FFFF)
+				
 			)
 		
 			(tf 
 				(style 
-					#(leading = -4) 
+					
 					(maxWidth = 160)
 				)
 				(bind class "shipParamRendererData.meta ? '$TextMetaHeader' : '$TextMetaInfo'")
-				(bind text "shipParamRendererData.nameIDS" (event "shipParamRendererData.evChanged") (bindcall event "shipParamRendererData.evChanged"))
+				(bind text "shipParamRendererData.nameIDS" (event "shipParamRendererData.evChanged"))
 				(alpha = 0.8)
 			)
-			#TODO title
-#			(block
-#				(style 
-#					(marginLeft = -7px)
-#					(bind marginTop "shipParamRendererData.titleEntityID ? '-7px' : '0px'")
-#				)
-#				(alpha = 0.8) 
-#				(element ParamElement valueEntityID="shipParamRendererData.titleEntityID")
-#			)
+			
+
+
+
+
+
+
+
+
 		)
 		(block
 			(class $AlignRight)
@@ -342,7 +344,7 @@
 		(style 
 			(width = 100%) 
 		)
-		#(bind visible "meta")
+		
 		(element HorizontalDivider)
 	)
 )

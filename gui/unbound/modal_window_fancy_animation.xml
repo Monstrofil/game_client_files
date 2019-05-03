@@ -425,13 +425,6 @@
 		<marginLeft value="12px"/>
 		<marginRight value="12px"/>
 	</css>
-	<css name="$ShipTechStats">
-		<width value="312px"/>
-		<top value="32px"/>
-		<position value="absolute"/>
-		<right value="10px"/>
-		<height value="100%"/>
-	</css>
 	<css name="$TextInputEnterButton">
 		<right value="2px"/>
 		<top value="50%"/>
@@ -624,6 +617,12 @@
 			<alpha value="0.5"/>
 		</style>
 	</block>
+	<css name="$ContentIndents">
+		<marginBottom value="12"/>
+		<marginTop value="12"/>
+		<marginLeft value="12"/>
+		<marginRight value="12"/>
+	</css>
 	<css name="$ConfirmationWindowWidth">
 		<width value="472px"/>
 	</css>
@@ -799,8 +798,8 @@
 				<width value="100%"/>
 			</style>
 			<block type="text">
-				<styleClass value="$MiddleAligned"/>
 				<styleClass value="$TextLargeHeaderBold"/>
+				<bind name="class" value="_isAlignLeft ? '$None' : '$MiddleAligned'"/>
 				<bind name="text" value="toUpperCase(tr(_header))"/>
 			</block>
 			<block>
@@ -857,6 +856,7 @@
 			</block>
 		</block>
 		<block>
+			<bind name="visible" value="_hideDivider != true"/>
 			<style>
 				<width value="100%"/>
 				<position value="absolute"/>
@@ -1194,11 +1194,11 @@
 		</block>
 	</block>
 	<block className="ModalWindowHeaderFullSize">
+		<bind name="style" value="'paddingTop';		_paddingTop   ? _paddingTop   : '720:20,2160:100ah'"/>
+		<bind name="style" value="'paddingRight';	_paddingRight ? _paddingRight : '1280:20,1920:46aw'"/>
+		<bind name="style" value="'paddingLeft'; 	_paddingLeft  ? _paddingLeft  : '1280:20,1920:46aw'"/>
 		<style>
 			<width value="100%"/>
-			<paddingRight value="1280:20,1920:46aw"/>
-			<paddingLeft value="1280:20,1920:46aw"/>
-			<paddingTop value="720:20,2160:100ah"/>
 		</style>
 		<block>
 			<bind name="visible" value="_hideBackButton != true"/>
@@ -1212,6 +1212,7 @@
 										_request: _request, _requestParams: _requestParams }"/>
 		</block>
 		<block>
+			<bind name="visible" value="_windowName != null"/>
 			<styleClass value="$MiddleAligned"/>
 			<block type="text">
 				<styleClass value="$TextDefaultBold21NM"/>
@@ -1612,20 +1613,31 @@
 		<block className="button_special_no_label" type="native">
 			<bind name="soundSet" value="'hard_button'"/>
 			<bind name="enabled" value="_enabled"/>
-			<bind name="action" value="'buttonClick'; _action; _actionParams ? _actionParams : {}"/>
-			<block type="text">
+			<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
+			<bind name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
+			<bind name="style" value="'width'; _width ? _width : '100%f'"/>
+			<bind name="focus" value="_focusIndex; _defaultFocused"/>
+			<bind name="focusable" value="_focusIndex ? true : false"/>
+			<block>
+				<bind name="class" value="_width ? '$MiddleAligned' : '$None'"/>
 				<style>
-					<marginRight value="18px"/>
-					<marginLeft value="18px"/>
-					<marginTop value="3px"/>
-					<marginBottom value="4px"/>
-					<hitTest value="false"/>
+					<width value="100%f"/>
 				</style>
-				<bind name="class" value="_enabled 	? rollOver &amp;&amp; !(mouseDown) ? '$FontColorDefault' : '$FontColorSpecialButton'
-									: '$FontColorAlmostBlack'"/>
-				<bind name="class" value="_enabled ? '$FontDropShadowFilter1' : '$FontDropShadowWhite'"/>
-				<styleClass value="$TextDefaultBold"/>
-				<bind name="text" value="_label"/>
+				<block type="text">
+					<style>
+						<marginRight value="18px"/>
+						<marginLeft value="18px"/>
+						<marginTop value="3px"/>
+						<marginBottom value="4px"/>
+						<hitTest value="false"/>
+					</style>
+					<bind name="class" value="_enabled 	? '$FontDropShadowFilter1' 	: '$FontDropShadowWhite'"/>
+					<bind name="class" value="_enabled 	? rollOver &amp;&amp; !(mouseDown) 	? '$FontColorDefault' 
+																	: '$FontColorSpecialButton'
+										: '$FontColorAlmostBlack'"/>
+					<styleClass value="$TextDefaultBold"/>
+					<bind name="text" value="_label"/>
+				</block>
 			</block>
 		</block>
 	</block>
@@ -1640,7 +1652,6 @@
 				<height value="30px"/>
 			</style>
 			<bind name="enabled" value="_enabled"/>
-			<bind name="dispatch" value="'buttonClick'; _dispatchEvent; {}"/>
 			<block type="text">
 				<styleClass value="$TextDefaultBold"/>
 				<styleClass value="$MiddleAligned"/>
@@ -1693,44 +1704,40 @@
 		</block>
 	</block>
 	<block className="InfopanelButton">
-		<bind name="request" value="'buttonClick'; _request ? _request : null; _request ? _requestParams : null"/>
-		<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: _tooltipIDS}"/>
-		<bind name="name" value="_name"/>
-		<bind name="dispatch" value="'mouseOver'; 'overInfopanelButton'; {InfopanelButtonOverAlpha: 1}"/>
-		<bind name="dispatch" value="'mouseOut'; 'upInfopanelButton'; {InfopanelButtonOverAlpha: 0.6}"/>
-		<bind name="dispatch" value="'mouseDown'; 'downInfopanelButton'; {InfopanelButtonOverAlpha: 0.3}"/>
-		<bind name="style" value="'alpha'; InfopanelButtonOverAlpha"/>
-		<bind name="catch" value="'downInfopanelButton'"/>
+		<bind name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
+		<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
+		<bind name="dispatch" value="'mouseOver'; 'overInfopanelButton'; {infopanelButtonOverAlpha: 1}"/>
+		<bind name="dispatch" value="'mouseOut'; 'upInfopanelButton'; 	{infopanelButtonOverAlpha: 0.6}"/>
+		<bind name="dispatch" value="'mouseDown'; 'downInfopanelButton'; {infopanelButtonOverAlpha: 0.3}"/>
 		<bind name="catch" value="'upInfopanelButton'}"/>
 		<bind name="catch" value="'overInfopanelButton'"/>
+		<bind name="catch" value="'downInfopanelButton'"/>
+		<bind name="tooltip" value="'SimpleTooltip'; _tooltipIDS ? { tooltipText: _tooltipIDS } : null"/>
+		<bind name="style" value="'alpha'; infopanelButtonOverAlpha"/>
+		<bind name="name" value="_name"/>
 		<block className="button_infopanel_no_label" type="native">
-			<bind name="style" value="'width'; _width"/>
-			<style>
-				<height value="40px"/>
-			</style>
+			<bind name="style" value="'width'; _width ? _width : '150px'"/>
+			<bind name="style" value="'height'; _height ? _height : '40px'"/>
 			<block>
+				<styleClass value="$Fullsize"/>
 				<style>
-					<width value="100%"/>
-					<height value="100%"/>
 					<hitTest value="false"/>
 				</style>
 				<block>
+					<bind name="visible" value="_backgroundImage != null"/>
+					<bind name="style" value="'width'; _iconWidth"/>
+					<bind name="style" value="'height'; _iconHeight"/>
 					<styleClass value="$MiddleVAligned"/>
 					<style>
-						<marginLeft value="8"/>
+						<marginLeft value="8px"/>
 						<backgroundStretchX value="true"/>
 						<backgroundStretchY value="true"/>
 					</style>
-					<bind name="style" value="'width'; _iconWidth"/>
-					<bind name="style" value="'height'; _iconHeight"/>
 					<bind name="style" value="'backgroundImage'; _backgroundImage"/>
 				</block>
 				<block>
-					<styleClass value="$MiddleAligned"/>
 					<styleClass value="$MiddleVAligned"/>
-					<style>
-						<position value="absolute"/>
-					</style>
+					<styleClass value="$MiddleAlignedAbsolutely"/>
 					<block type="text">
 						<styleClass value="$TextDefaultBoldNM"/>
 						<bind name="text" value="toUpperCase(tr(_label))"/>

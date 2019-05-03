@@ -1,36 +1,50 @@
-###font_styles.uss
 
-# Colors
+
+
 (def constant C_LIGHT_GREY 0xFFEEEEEE)
 
-#normal: 
-#Renders text using the standard anti-aliasing method used by Flash MX 2004. This is the best setting to use for animated, very large, or skewed text. 
-#advanced:
-#Renders text using the advanced anti-aliasing font rendering technology implemented in Flash 8, which produces better anti-aliasing and improves readability, especially for small text. 
+
+
+
+
 (def constant ANTI_ALIAS_NAMES    { NORMAL:	'normal',
 									ADVANCED:	'advanced'
 								  })
 
-### Utils
+
 (def css $TextMouseDisable ()
-#TODO_UB disabled as style has no such props
-#	(mouseEnabled = false)
-#	(mouseChildren = false)
-#	(selectable = false)
+
+
+
+
 )
 
 (def css $MouseEnable ()
-#TODO_UB disabled as style has no such props
-#	(mouseEnabled = true)
-#	(mouseChildren = true)
-#	(hitTest = true)
+
+
+
+
+)
+
+(def macro TFMouseEnabled(value:bool)
+	(bind mouseEnabled "value")
+	(bind selectable "value")
 )
 
 (def css $FontEnableReadability ()
 	(antiAliasType = "ANTI_ALIAS_NAMES.ADVANCED")
 )
 
-### Families
+
+
+(def css $Text()
+	(fontFamily = '$WWSDefaultFont')
+	(fontSize = 18)
+	(textColor = "C_NEUTRAL")
+	
+	
+	
+)
 
 (def css $FontFamilyDefault ()
 	(fontFamily = '$WWSDefaultFont')
@@ -46,67 +60,67 @@
 	(fontFamily = '$WWSDefaultFontBold')
 )
 
-### Colors
+
 
 (def css $FontColorDefault ()
-	(textColor = 0xEEEEEE)) # Light Grey
+	(textColor = 0xEEEEEE)) 
 
 (def css $FontColorGrey ()
-	(textColor = 0xDDDDDD)) # grey
+	(textColor = 0xDDDDDD)) 
 
 (def css $FontColorStrongGrey ()
-	(textColor = 0x636363)) # Strong grey
+	(textColor = 0x636363)) 
 
 (def css $FontColorWhite ()
-	(textColor = 0xFFFFFF)) # White
+	(textColor = 0xFFFFFF)) 
 
 (def css $FontColorBlack ()
-	(textColor = 0xFF000000)) # Black
+	(textColor = 0xFF000000)) 
 
 (def css $FontColorBlueish ()
-	(textColor = 0x9CBABA)) # Light blueish grey
+	(textColor = 0x9CBABA)) 
 
 (def css $FontColorStrongBlueish ()
-	(textColor = 0x758b8b)) # Strong blueish grey
+	(textColor = 0x758b8b)) 
 
 (def css $FontColorDarkBlueish ()
-	(textColor = 0x2B393A)) # Dark blueish grey (for light bg)
+	(textColor = 0x2B393A)) 
 
 (def css $FontColorSpecialButton ()
-	(textColor = 0xFFE8D3)) # Light orange (fight button)
+	(textColor = 0xFFE8D3)) 
 
 (def css $FontColorTurquoise ()
-	(textColor = 0x00cccc))	# Turquoise
+	(textColor = 0x00cccc))	
 
 (def css $FontColorBuoyancy ()
-	(textColor = 0x13C9F7)) # blue (Buoyancy)
+	(textColor = 0x13C9F7)) 
 
 (def css $FontColorHealth ()
-	(textColor = 0x4ce8aa)) # green (Health)
+	(textColor = 0x4ce8aa)) 
 
 (def css $FontColorWarning ()
-	(textColor = 0xffb600)) # yellow (Health)
+	(textColor = 0xffb600)) 
 
 (def css $FontColorCritical ()
-	(textColor = 0xff4b1d)) # red (Health)
+	(textColor = 0xff4b1d)) 
 
 (def css $FontColorGolden ()
-	(textColor = 0xFFCC66)) # Yellow (player, choosed modules)
+	(textColor = 0xFFCC66)) 
 
 (def css $FontColorGold ()
-	(textColor = 0xFFCC66)) # Gold (money)
+	(textColor = 0xFFCC66)) 
 
 (def css $FontColorFreeExp ()
-	(textColor = 0xCCFF99)) # light green (free exp)
+	(textColor = 0xCCFF99)) 
 
 (def css $FontColorExp ()
-	(textColor = 0xEEEEEE)) # light blue 0xb8dcff (exp)
+	(textColor = 0xEEEEEE)) 
 
 (def css $FontColorUnready ()
-	(textColor = 0xFF9933)) # orange (repair)
+	(textColor = 0xFF9933)) 
 
 (def css $FontColorAlmostBlack ()
-	(textColor = 0x08222a)) # Almost Black092732
+	(textColor = 0x08222a)) 
 
 (def css $FontColorTeamkiller ()
 	(textColor = 0xFF96CA))
@@ -115,27 +129,55 @@
 	(textColor = 0xc8751c))
 
 (def css $FontColorParty ()
-	(textColor = 0x00cccc)) #(textColor = 0xff5533)
+	(textColor = 0x00cccc)) 
 
-(def css $FontColorFPS () # highly likely black
+(def css $FontColorFPS () 
 	(textColor = 0xe5161616))
 
-#Default Button Colors
+
 (def css $FontColorDefaultButtonUp ()
 	(textColor = 0xc7e2e2))
 
-# Compare Colors
-#Green
+
+
 (def css $FontColorComparePositive ()
 	(textColor = 0x4CE8AA))
-#Red
+
 (def css $FontColorCompareNegative ()
 	(textColor = 0xFF6600))
 
 (def css $FontColorMercenaries ()
 	(textColor = 0x4ce8aa))
 
-### Sizes
+
+(def css $TextColorNeutral ()
+	(textColor = "C_NEUTRAL"))
+
+(def css $TextColorAlly ()
+	(textColor = "C_ALLY")
+	
+	
+)
+
+(def css $TextColorDivision ()
+	(textColor = "C_DIVISION")
+	
+	
+)
+
+(def css $TextColorEnemy ()
+	(textColor = "C_ENEMY")
+	
+	
+)
+
+
+
+(def css $TextH8 ()
+	(extends $Text)
+	
+	(fontSize = 18)
+)
 
 (def css $FontSizeThumbelina ()
 	(fontSize = 7))
@@ -179,29 +221,29 @@
 (def css $LetterSpacingSmall ()
 	(letterSpacing = 0.8))
 	
-#### Special Effects
+
 (def css $InvertedTextEffect ()
 	(extends $FontColorAlmostBlack)
 	(extends $FontDropShadowWhite))
 
 
 
-#### Glow Filters
-#(def css $FontGlowFilter1 ()
-#	(glowFilter "0x08222a 0.3 0.8 0.8 10.0 2")) #122833 - prev color
+
+
+
 
 (def css $FontGlowFilterBright ()
-	#(glowFilter "0xffffff 0.6 10.0 4.0 1.5 2")
+	
 	(dropShadowFilter = { distance: 1, angle: 90, color: 0xFFFFFF, alpha:0.3, blurX: 5.0, blurY: 3.0, strength: 0.9, quality: 2 })
 )
 
 (def css $BlockGlowFilterBright ()
-	#(glowFilter "0xffffff 0.6 10.0 6.0 0.35 2")
+	
 	(dropShadowFilter = { distance: 1, angle: 90, color: 0xFFFFFF, alpha:0.3, blurX: 4.0, blurY: 3.0, strength: 0.2, quality: 2 })
 )
 
 (def css $GlowDisabler ()
-	#(glowFilter "0x000000 0.0 0.0 0.0 0.0 0")
+	
 	(dropShadowFilter = { distance: 0, angle: 0, color: 0x000000, alpha:0.0, blurX: 0.0, blurY: 0.0, strength: 0.0, quality: 0 })
 )
 
@@ -209,10 +251,10 @@
 	(dropShadowFilter = { distance: 0, angle: 0, color: 0x000000, alpha:0.0, blurX: 0.0, blurY: 0.0, strength: 0.0, quality: 0 })
 )
 
-#GlowFilter(color:uint = 0xFF0000, alpha:Number = 1.0, blurX:Number = 6.0, blurY:Number = 6.0, strength:Number = 2, quality:int = 1, inner:Boolean = false, knockout:Boolean = false)
 
 
-#### Dropshadow Filters
+
+
 (def css $FontDropShadowFilter1 () 
 	(dropShadowFilter = { distance: 1, angle: 90, color: 0x08222A, alpha:0.5, blurX: 2.0, blurY: 2.0, strength: 1.0, quality: 2 })
 )
@@ -239,4 +281,115 @@
 
 (def css $BlockDropShadowFilter3 () 
 	(dropShadowFilter = { distance: 0, angle: 90, color: 0x333333, alpha:1.0, blurX: 2.0, blurY: 2.0, strength: 0.6, quality: 1 })
+)
+
+(def css $BlockDropShadowFilter4 ()
+	(dropShadowFilter = { distance: 0, angle: 90, color: 0x000000, alpha:1.0, blurX: 2.0, blurY: 2.0, strength: 0.6, quality: 1 })
+)
+
+(def css $TextDefault12NM ()
+	(extends $FontFamilyDefault)
+	(extends $FontColorWhite)
+	
+	(fontSize = 12)
+	(marginLeft = 3px)
+	(marginRight = 3px)
+	(marginTop = -6px)
+	(marginBottom = -5px)
+)
+
+
+(def css $TextH8Bold ()
+	(extends $TextH8)
+	(extends $Bold)
+)
+
+(def css $TextDefault13NM ()
+	(extends $FontFamilyDefault)
+	(extends $FontColorWhite)
+	
+	(fontSize = 13)
+	(marginLeft = -3px)
+	(marginRight = -3px)
+	(marginTop = -6px)
+	(marginBottom = -5px)
+)
+
+
+(def css $TextDefaultBold13NM ()
+	(extends $FontFamilyDefaultBold)
+	(extends $FontColorWhite)
+	
+	(fontSize = 13)
+	(marginLeft = -3px)
+	(marginRight = -3px)
+	(marginTop = -6px)
+	(marginBottom = -5px)
+)
+(def css $TextDefault17NM ()
+	(extends $FontFamilyDefault)
+	(extends $FontColorWhite)
+	
+	(fontSize = 17)
+	(marginLeft = -3px)
+	(marginRight = -4px)
+	(marginTop = -7px)
+	(marginBottom = -6px)
+)
+
+
+(def css $TextDefaultBold17NM ()
+	(extends $FontFamilyDefaultBold)
+	(extends $FontColorWhite)
+	
+	(fontSize = 17)
+	(marginLeft = -3px)
+	(marginRight = -3px)
+	(marginTop = -7px)
+	(marginBottom = -6px)
+)
+
+(def css $TextDefaultBold18NM ()
+	(extends $FontFamilyDefaultBold)
+	(extends $FontColorWhite)
+	
+	(fontSize = 18)
+	(marginLeft = -3px)
+	(marginRight = -3px)
+	(marginTop = -7px)
+	(marginBottom = -6px)
+)
+
+(def css $TextDefaultBold19NM ()
+	(extends $FontFamilyDefaultBold)
+	(extends $FontColorWhite)
+	
+	(fontSize = 19px)
+	(marginLeft = -3px)
+	(marginRight = -3px)
+	(marginTop = -8px)
+	(marginBottom = -6px)
+)
+
+(def css $TextDefaultBold21NM ()
+	(extends $FontFamilyDefaultBold)
+	(extends $FontColorWhite)
+	
+	(fontSize = 21)
+	(marginLeft = -3px)
+	(marginRight = -3px)
+	(marginTop = -8px)
+	(marginBottom = -7px)
+)
+
+(def css $TextDefault27NM ()
+	(extends $FontFamilyDefault)
+	(extends $FontColorWhite)
+	
+
+	(fontSize = 27)
+	(marginLeft = -3px)
+	(marginRight = -3px)
+	(marginTop = -10px)
+	(marginBottom = -8px)
 )

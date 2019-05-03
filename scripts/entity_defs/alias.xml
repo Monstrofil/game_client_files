@@ -76,6 +76,7 @@
 			<sseInfo><Type>STRING</Type></sseInfo>
 			<pveInfo><Type>UINT64</Type></pveInfo>
 			<realms><Type>ARRAY<of>STRING</of></Type></realms>
+			<eventInfo><Type>GAMEPARAMS_ID</Type></eventInfo>
 		</Properties>
 		<implementedBy>BattleDef.converter</implementedBy>
 	</BATTLE_DEF>
@@ -288,72 +289,95 @@
 	<SHOT>
 		FIXED_DICT
 		<Properties>
-				<paramsID>   <Type>	GAMEPARAMS_ID	</Type> </paramsID>
-				<pos>        <Type>	VECTOR3	</Type> </pos>
-				<dir>        <Type>	VECTOR3	</Type>	</dir>
-				<tarPos>     <Type>	VECTOR3	</Type>	</tarPos>
-				<ownerID>    <Type>	PLAYER_ID	</Type>	</ownerID>
-				<salvoID>    <Type>	INT32	</Type>	</salvoID>
-				<shotID>     <Type>	UINT16	</Type>	</shotID>
-				<gunBarrelID><Type>	UINT8	</Type>	</gunBarrelID>
-				<serverTimeLeft><Type>FLOAT</Type></serverTimeLeft>
-				<shooterHeight><Type>FLOAT</Type></shooterHeight>
-				<hitDistance><Type>FLOAT</Type></hitDistance>
+			<pos>        	<Type>VECTOR3</Type>	</pos>
+			<dir>        	<Type>VECTOR3</Type>	</dir>
+			<tarPos>     	<Type>VECTOR3</Type>	</tarPos>
+			<shotID>     	<Type>UINT16</Type>		</shotID>
+			<gunBarrelID>	<Type>UINT8</Type>		</gunBarrelID>
+			<serverTimeLeft><Type>FLOAT</Type>		</serverTimeLeft>
+			<shooterHeight>	<Type>FLOAT</Type>		</shooterHeight>
+			<hitDistance>	<Type>FLOAT</Type>		</hitDistance>
 		</Properties>
 	</SHOT>
 
-	<TORPEDOSHOT>
+	<SHOTS_PACK>
 		FIXED_DICT
 		<Properties>
-				<paramsID>     <Type>	GAMEPARAMS_ID	</Type> </paramsID>
-				<pos>          <Type>	VECTOR3	</Type> </pos>
-				<dir>          <Type>	VECTOR3	</Type>	</dir>
-				<ownerID>      <Type>	PLAYER_ID	</Type>	</ownerID>
-				<salvoID>      <Type>	INT32	</Type>	</salvoID>
-				<shotID>       <Type>	UINT16	</Type>	</shotID>
-				<skinID>       <Type>	GAMEPARAMS_ID	</Type>	</skinID>
+			<paramsID>	<Type>GAMEPARAMS_ID</Type>		</paramsID>
+			<ownerID>	<Type>PLAYER_ID</Type>			</ownerID>
+			<salvoID>	<Type>INT32</Type>				</salvoID>
+			<shots>		<Type>ARRAY<of>SHOT</of></Type>	</shots>
 		</Properties>
-	</TORPEDOSHOT>
+	</SHOTS_PACK>
+	
+	<TORPEDO>
+		FIXED_DICT
+		<Properties>
+			<pos>		<Type>VECTOR3</Type></pos>
+			<dir>		<Type>VECTOR3</Type></dir>
+			<shotID>	<Type>UINT16</Type>	</shotID>
+			<armed>		<Type>UINT16</Type>	</armed>
+		</Properties>
+	</TORPEDO>
 
+	<TORPEDOES_PACK>
+		FIXED_DICT
+		<Properties>
+			<paramsID>	<Type>GAMEPARAMS_ID</Type>			</paramsID>
+			<ownerID>	<Type>PLAYER_ID</Type>				</ownerID>
+			<salvoID>	<Type>INT32</Type>					</salvoID>
+			<skinID>	<Type>GAMEPARAMS_ID</Type>			</skinID>
+			<torpedoes>	<Type>ARRAY<of>TORPEDO</of></Type>	</torpedoes>
+		</Properties>
+	</TORPEDOES_PACK>
+
+	
 	<DEPTHCHARGESHOT>
 		FIXED_DICT
 		<Properties>
-				<paramsID>     <Type>	GAMEPARAMS_ID	</Type> </paramsID>
-				<pos>          <Type>	VECTOR3	</Type> </pos>
-				<dir>          <Type>	VECTOR3	</Type>	</dir>
-				<ownerID>      <Type>	PLAYER_ID	</Type>	</ownerID>
-				<salvoID>      <Type>	INT32	</Type>	</salvoID>
-				<shotID>       <Type>	UINT16	</Type>	</shotID>
-				<serverTimeLeft>       <Type>	FLOAT	</Type>	</serverTimeLeft>
+				<paramsID>			<Type>	GAMEPARAMS_ID	</Type> </paramsID>
+				<pos>				<Type>	VECTOR3	</Type> </pos>
+				<dir>				<Type>	VECTOR3	</Type>	</dir>
+				<ownerID>			<Type>	PLAYER_ID	</Type>	</ownerID>
+				<salvoID>			<Type>	INT32	</Type>	</salvoID>
+				<shotID>			<Type>	UINT16	</Type>	</shotID>
+				<serverTimeLeft>	<Type>	FLOAT	</Type>	</serverTimeLeft>
 		</Properties>
 	</DEPTHCHARGESHOT>
 	
 	<SHOTKILL>
 		FIXED_DICT
 		<Properties>
-				<pos>        <Type>	VECTOR3	</Type> </pos>
-				<ownerID>    <Type>	PLAYER_ID	</Type>	</ownerID>
-				<shotID>     <Type>	UINT16	</Type>	</shotID>
-				<hitType>    <Type>	UINT8	</Type>	</hitType>
-		</Properties>
+			<pos>		<Type>	VECTOR3	</Type> </pos>
+			<shotID>	<Type>	UINT16	</Type>	</shotID>		</Properties>
 	</SHOTKILL>
 
+	<SHOTKILLS_PACK>
+		FIXED_DICT
+		<Properties>
+			<ownerID>	<Type>	PLAYER_ID				</Type>	</ownerID>
+			<hitType>	<Type>	UINT8					</Type>	</hitType>
+			<kills>		<Type>	ARRAY<of>SHOTKILL</of>	</Type>	</kills>
+		</Properties>
+	</SHOTKILLS_PACK>
+	
 	<EXPLOSION>
 		FIXED_DICT
 		<Properties>
-				<pos>        <Type>	VECTOR3	</Type> </pos>
-				<paramsID>   <Type>	GAMEPARAMS_ID	</Type>	</paramsID>
-				<hitType>    <Type>	UINT8	</Type>	</hitType>
+			<pos>        <Type>	VECTOR3	</Type> </pos>
+			<paramsID>   <Type>	GAMEPARAMS_ID	</Type>	</paramsID>
+			<hitType>    <Type>	UINT8	</Type>	</hitType>
 		</Properties>
 	</EXPLOSION>
 
 	<ARENA_STATE>
 		FIXED_DICT
 		<Properties>
-			<arenaUniqueId>		<Type>	INT64	</Type> </arenaUniqueId>
-			<teamBuildTypeId>	<Type>	INT8	</Type> </teamBuildTypeId>
+			<arenaUniqueId>		<Type>	INT64	</Type>	</arenaUniqueId>
+			<teamBuildTypeId>	<Type>	INT8	</Type>	</teamBuildTypeId>
+			<preBattlesInfo>	<Type>	BLOB	</Type>	</preBattlesInfo>
 			<playersStates>		<Type>	BLOB	</Type>	</playersStates>
-			<buildingsInfo>     <Type>  BLOB    </Type> </buildingsInfo>
+			<buildingsInfo>		<Type>	BLOB	</Type>	</buildingsInfo>
 		</Properties>
 	</ARENA_STATE>
 
@@ -491,6 +515,7 @@
 			<hitPos>    <Type> VECTOR3      </Type> </hitPos> <!-- позиция попадания или None -->
 			<hitDir>    <Type> VECTOR3      </Type> </hitDir> <!-- направления попадания -->
 			<normal>    <Type> VECTOR3      </Type> </normal> <!-- нормаль плоскости попадания -->
+			<isAlive>   <Type> BOOL         </Type> </isAlive> <!-- жива ли цель в момент попадания -->
 			<entityId>  <Type> ENTITY_ID    </Type> </entityId> <!-- id entity -->
 			<matId>     <Type> INT32        </Type> </matId> <!-- id материала плоскости попадания-->
 			<isInside>  <Type> BOOL         </Type> </isInside> <!-- -->
@@ -562,6 +587,7 @@
 		<Properties>
 			<position><Type>ARRAY<of>FLOAT</of><size>2</size></Type></position>
 			<radius><Type>FLOAT</Type></radius>
+			<innerRadius><Type>FLOAT</Type></innerRadius>
 			<buoy_modelID><Type>GAMEPARAMS_ID</Type></buoy_modelID>
 			<nextControlPoint><Type>INT8</Type></nextControlPoint>
 			<controlPointType><Type>UINT8</Type></controlPointType>
@@ -635,6 +661,8 @@
 			<name><Type>STRING</Type></name>
 			<type><Type>UINT8</Type></type>
 			<ownerId><Type>ENTITY_ID</Type></ownerId>
+			<maxValue><Type>FLOAT</Type></maxValue>
+			<curValue><Type>FLOAT</Type></curValue>
 		</Properties>
 		<AllowNone>true</AllowNone>
 	</KEY_OBJECT_STATE>
@@ -788,7 +816,7 @@
 		FIXED_DICT
 		<Properties>
 			<id><Type>UINT32</Type></id>
-            <position><Type>VECTOR2</Type></position>
+			<position><Type>VECTOR2</Type></position>
 			<length><Type>FLOAT</Type></length>
 			<width><Type>FLOAT</Type></width>
 			<yaw><Type>FLOAT</Type></yaw>
@@ -941,15 +969,15 @@
 	</BATTLE_LOGIC_STATE>
 
 
-    <INDIVIDUAL_TASK_STATE>
-        FIXED_DICT
-        <Properties>
+	<INDIVIDUAL_TASK_STATE>
+		FIXED_DICT
+		<Properties>
 			<status><Type>UINT8</Type></status>
-            <paramsId> <Type>GAMEPARAMS_ID</Type> </paramsId>
-            <currentValues><Type>ARRAY<of>UINT8</of></Type></currentValues>
-            <attentionMarkers><Type>ARRAY<of>ATTENTION_MARKER_STATE</of></Type></attentionMarkers>
-        </Properties>
-    </INDIVIDUAL_TASK_STATE>
+			<paramsId> <Type>GAMEPARAMS_ID</Type> </paramsId>
+			<currentValues><Type>ARRAY<of>UINT8</of></Type></currentValues>
+			<attentionMarkers><Type>ARRAY<of>ATTENTION_MARKER_STATE</of></Type></attentionMarkers>
+		</Properties>
+	</INDIVIDUAL_TASK_STATE>
 
 	<MODIFIER_STATE>
 		FIXED_DICT
@@ -963,13 +991,14 @@
 	</MODIFIER_STATE>
 
 
-    <PRIVATE_BATTLE_LOGIC_STATE>
-        FIXED_DICT
-        <Properties>
-            <individualTasks><Type> ARRAY <of> INDIVIDUAL_TASK_STATE </of> </Type></individualTasks>
-	        <modifiers><Type> ARRAY <of> MODIFIER_STATE </of> </Type></modifiers>
-        </Properties>
-    </PRIVATE_BATTLE_LOGIC_STATE>
+	<PRIVATE_BATTLE_LOGIC_STATE>
+		FIXED_DICT
+		<Properties>
+			<individualTasks><Type> ARRAY <of> INDIVIDUAL_TASK_STATE </of> </Type></individualTasks>
+			<modifiers><Type> ARRAY <of> MODIFIER_STATE </of> </Type></modifiers>
+			<screenplayMessage> <Type> SCREENPLAY_MESSAGE_STATE </Type> </screenplayMessage>
+		</Properties>
+	</PRIVATE_BATTLE_LOGIC_STATE>
 
 	<EVALUATION_DEF>
 		FIXED_DICT
@@ -1011,13 +1040,13 @@
 		</Properties>
 	</BATTLE_LOGIC_DEBUG_TEXT>
 
-    <INDIVIDUAL_TASK_DEF>
+	<INDIVIDUAL_TASK_DEF>
 		FIXED_DICT
 		<Properties>
-            <entityId><Type>ENTITY_ID</Type></entityId>
-            <paramsId><Type>GAMEPARAMS_ID</Type></paramsId>
-        </Properties>
-    </INDIVIDUAL_TASK_DEF>
+			<entityId><Type>ENTITY_ID</Type></entityId>
+			<paramsId><Type>GAMEPARAMS_ID</Type></paramsId>
+		</Properties>
+	</INDIVIDUAL_TASK_DEF>
 
 	<SHIP_RESTRICTIONS>
 		FIXED_DICT
@@ -1118,13 +1147,13 @@
 	</AIR_DEFENCE_AURA>
 
 	<PREREQUISITE_SHIP_DATA>
-        FIXED_DICT
-        <Properties>
-            <shipParamsId><Type>GAMEPARAMS_ID</Type> </shipParamsId>
-            <maxUpgrades><Type>BOOL</Type> </maxUpgrades>
-            <camoParamsId><Type>GAMEPARAMS_ID</Type> </camoParamsId>
-        </Properties>
-    </PREREQUISITE_SHIP_DATA>
+		FIXED_DICT
+		<Properties>
+			<shipParamsId><Type>GAMEPARAMS_ID</Type> </shipParamsId>
+			<maxUpgrades><Type>BOOL</Type> </maxUpgrades>
+			<camoParamsId><Type>GAMEPARAMS_ID</Type> </camoParamsId>
+		</Properties>
+	</PREREQUISITE_SHIP_DATA>
 
 	<PREREQUISITE_DATA>
 		FIXED_DICT
@@ -1199,4 +1228,9 @@
 		</Properties>
 	</PLANE_PROJECTILE_PACK>
 	
+	<MSGPACK_BLOB>
+		USER_TYPE
+		<Type>BLOB</Type>
+		<implementedBy>MsgPackCustomConverter.converter</implementedBy>
+	</MSGPACK_BLOB>
 </root>

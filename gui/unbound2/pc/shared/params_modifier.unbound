@@ -9,7 +9,7 @@
 		(marginBottom = "M")
 		(bind marginTop "(_shrinkHeight == true) ? -S : 0")
 	)
-	#attributeIDS
+	
 	(tf 
 		(class $TextDefaultNM)
 		(style 
@@ -19,19 +19,19 @@
 		(alpha = "0.8")
 		(bind text "_dataItem.attributeIDS")
 	)
-	#measuredValue
+	
 	(tf 
 		(style 
-			(marginLeft = "SXS - 3") # Because TextDefaultNM doesn't work as it should
+			(marginLeft = "SXS - 3") 
 		)
 		(class $TextDefaultNM)
 		(bind class "_dataItem.category == 'positive' ? '$FontColorComparePositive' : 
 			_dataItem.category == 'negative' ? '$FontColorCompareNegative' : '$FontColorDefault'")
 		(bind text "_dataItem.measuredValue")
 	)
-	#measure
+	
 	(tf 
-		(style # Because TextDefaultNM doesn't work as it should
+		(style 
 			(marginLeft = "1")
 			(marginRight = "-9")
 		)

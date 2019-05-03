@@ -1,13 +1,13 @@
-(def constant HeaderShip_ItemOffset 6)	# 10
-(def constant HeaderShip_ItemWidth 26)	# 20 + 6
+(def constant HeaderShip_ItemOffset 6)	
+(def constant HeaderShip_ItemWidth 26)	
 (def constant HeaderShip_ContainerHeight 20)
 (def constant HeaderShip_ItemDuration 0.15)
 (def constant HeaderShip_ItemDelay 0.15)
 (def constant HeaderShip_ItemDoubleDelay 0.3)
 
-#(def constant HeaderShip_ItemDuration 2.0)
-#(def constant HeaderShip_ItemDelay 2.0)
-#(def constant HeaderShip_ItemDoubleDelay 4.0)
+
+
+
 
 (def constant HEADER_SHIP_ICON { WIDTH:20, HEIGHT:11 })
 (def constant HEADER_TEAMS_DISTANCE 55)
@@ -16,7 +16,7 @@
 	(scope
 		(var stageWidth:number = 100px)
 		(var stageHeight:number = 100px)      
-	# collection
+	
 		(var collection:gfx = "$datahub.getCollection(CC.avatar)")
 		(var allyCollection:gfx = "collection.getChildByPath('team.ally.sortedLeftTeam')")
 		(var enemyCollection:gfx = "collection.getChildByPath('team.enemy.sortedRightTeam')")
@@ -28,7 +28,7 @@
 			: 0")
 		(var allyItemsWidth:number = "allyCollection.items.length * HeaderShip_ItemWidth - HeaderShip_ItemOffset")
 		(var enemyItemsWidth:number = "enemyCollection.items.length * HeaderShip_ItemWidth - HeaderShip_ItemOffset")
-	# gameModeId
+	
 		(var battleDataEntityCollection:gfx = "$datahub.getCollection(CC.battleData)")
 		(var battleDataEntity:gfx = "battleDataEntityCollection.items[0]")
 		(var battleInfoComponent:gfx = "battleDataEntity.battleInfo")
@@ -45,13 +45,13 @@
 
 	(bind visible "gameModeId != GameMode.TUTORIAL")
 
-	# PVE - show only allies
+	
 	(controller $Instance renderer='HeaderShipListAllyOnly'
 		(args allyCollection="allyCollection" allyItemsWidth="allyItemsWidth")
 		(bind enabled "gameModeId == GameMode.PVE")
 	)
 	
-	# Other - show two teams
+	
 	(controller $Instance renderer='HeaderShipListTwoTeams'
 		(args allyCollection="allyCollection" enemyCollection="enemyCollection" 
 				allyItemsWidth = "allyItemsWidth" allyLeftPadding = "allyLeftPadding" 
@@ -114,16 +114,16 @@
 
 (def element BattleShipListRenderer(collection:gfx, isAlly:bool) layout=true
 	(scope
-		# To support correct transitions, we take sorted collection once and update it later through animation.
+		
 		(var entity:gfx = "collection.items[$index]" watch=false)
 		(macro VAR_RELATION "entity")
 		(var avatarComponent:gfx = "entity.avatar")
 		
-		# entity icon
+		
 		(var subType:str = "avatarComponent.ship.ref.ship.subtype")
 		(var shipType:str = "toLower(subType)")
 		(var isSelf:bool = "entity.relation.value == 0" (event "entity.relation.evChanged"))
-		(var isAlive:bool = "entity.health.isAlive" (event "entity.health.evKilled"))
+		(var isAlive:bool = "entity.health.isAlive" (event "entity.health.evIsAliveChanged"))
 		(var tkStatus:bool = "avatarComponent.tkStatus && isAlly" (event "avatarComponent.evTeamkillStatusChanged"))
 		(var ttkStatus:bool = "avatarComponent.ttkStatus" (event "avatarComponent.evTTKStatusChanged"))
 		(var isInSameDivision:bool = "avatarComponent.isInSameDivision" (event "avatarComponent.evDivisionChanged"))
@@ -147,19 +147,19 @@
 					? 'ally_' + shipType + '_sunk_small'
 					: 'enemy_' + shipType + '_sunk_small'")
 
-		# targets
-		#TODO HACK entity should not have such global evAdded/evRemoved events
-		#TODO HACK expression "entity.component" does not listen for "entity" changes, so using "entity ? entity.component : null" to force parser create watcher for entity
-		#TODO HACK (event "component.ev") can not rebind if "component" is changed, so using bindcall to force that behavior
+		
+		
+		
+		
 		(var targetComponent:gfx = "entity.hasComponent(CC.target) ? entity.target : null" (event "entity.evAdded") (event "entity.evRemoved") )
-		(var targetFlags:number = "targetComponent ? targetComponent.flags : 0" (event "targetComponent.evFlagsChanged") (bindcall event "targetComponent.evFlagsChanged"))
+		(var targetFlags:number = "targetComponent ? targetComponent.flags : 0" (event "targetComponent.evFlagsChanged"))
 		(var isTargetLocked:bool = "(targetFlags & (1 << WeaponType.ARTILLERY | 1 << WeaponType.TORPEDO)) > 0")
 		(var isTargetLockedATBA:bool = "(targetFlags & (1 << WeaponType.ATBA)) > 0")
 
 		(var avatarAnimation:gfx = "entity.avatarAnimation")
-		#(var toIndex:number = "avatarAnimation.toIndex" (event "avatarAnimation.evPlayMoveAnimation")(event "avatarAnimation.evPlayDeathAnimation"))
-		#(var fromIndex:number = "avatarAnimation.fromIndex" (event "avatarAnimation.evPlayMoveAnimation")(event "avatarAnimation.evPlayDeathAnimation"))
-		#(var currentIndex:number = "avatarAnimation.currentIndex" (event "avatarAnimation.evForceSetIndexChange"))
+		
+		
+		
 	)
 
 	(bind name "'HeaderIconShip_'+ (isAlly ? 'Ally_' : 'Enemy_') + $index")
@@ -167,12 +167,12 @@
 	(style
 		(position = "absolute")
 		(left = "$index * HeaderShip_ItemWidth")
-		#(bind left "avatarAnimation.currentIndex * HeaderShip_ItemWidth" watch=false init=false (event "avatarAnimation.evForceSetIndexChange"))
+		
 	)
 	
-#	(macro trace "entity.id")
-#	(macro trace "currentIndex")
-#	(macro trace "$index")
+
+
+
 	
 	
 	(controller $Animation

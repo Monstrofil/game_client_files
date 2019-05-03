@@ -1,0 +1,278 @@
+(def constant MODULE_ICON_WIDTH 44)
+(def constant MODULE_ICON_HEIGHT 44)
+
+(def element ShipModulesStatesUB2() layout=true
+
+	(scope
+		(var selfVehicleEntity:gfx = "$datahub.getSingleEntity(CC.selfVehicle)")
+		(var ownCarrierEntity:gfx = "$datahub.getSingleEntity(CC.aircarrier)")
+		(var activeSquadron:number = "ownCarrierEntity ? ownCarrierEntity.aircarrier.activeSquadron : -1" (event "ownCarrierEntity.aircarrier.evStateChanged"))
+		(var isOnPlane:bool =  "activeSquadron != -1")
+
+		(var avatar:gfx = "$datahub.getSingleEntity(CC.playerAvatar)")
+		(var isAlive:bool = "avatar.health.isAlive" (event "avatar.health.evIsAliveChanged"))
+	)
+
+	(bind visible "!isOnPlane")
+
+	(block
+		(style (position = "absolute") (left = "-MODULE_ICON_WIDTH/2-4") (top = "-MODULE_ICON_HEIGHT"))
+		(controller $Instance renderer='ShipModulesList' (bind enabled "isAlive"))
+	)
+)
+
+(def element ShipModulesList () layout=true
+	(scope
+		(var selfVehicleEntity:gfx = "$datahub.getSingleEntity(CC.selfVehicle)")
+	)
+	(hblock
+		(style (width = 400) (align = "center"))
+		(controller $Repeat renderer='DamagedModuleItem' layout=false
+			(bind count "selfVehicleEntity.damageModuleList.value.length" (event "selfVehicleEntity.damageModuleList.evValueChanged"))
+			(args
+				damageModuleList = "selfVehicleEntity.damageModuleList"
+			)
+		)
+		(element ShipModifierRenderer ownerId="selfVehicleEntity.vehicle.id" isNegative=false)
+	)
+)
+
+(def element ShipModifierRenderer (ownerId:number, isNegative:bool) layout=true
+	(scope
+		(var shipModifiersCountEntity:gfx = "$datahub.getSingleEntity(CC.shipModifiersCount)")
+		(var shipModifiersCountComponent:gfx = "shipModifiersCountEntity.shipModifiersCount")
+		(var modifiersCount:number = "shipModifiersCountComponent.count"	(event "shipModifiersCountComponent.evCountChanged"))
+		
+		
+
+		(var widthAnimated:number = "modifiersCount > 0 ? MODULE_ICON_WIDTH + 4 : 0" watch=false)
+		(controller $Animation
+			(bindcall play duration=0.15 from="{widthAnimated:0}" to="{widthAnimated:MODULE_ICON_WIDTH + 4}" (bind enabled "modifiersCount > 0"))
+			(bindcall play duration=0.15 to="{widthAnimated:0}" (bind enabled "!(modifiersCount > 0)"))
+		)
+	)
+
+
+	(style
+		(width = "modifiersCount > 0 ? MODULE_ICON_WIDTH + 4 : 0")
+		(bind width "widthAnimated" init=false)
+		(height = "MODULE_ICON_HEIGHT")
+	)
+
+	(block
+		(style
+			(position = "absolute")
+			(bind left "widthAnimated/2")
+		)
+
+		(alpha = "modifiersCount > 0 ? 1 : 0")
+		(visible = "modifiersCount > 0 ? 1 : 0")
+
+		(controller $Animation
+			(bindcall play duration=0.15 from={alpha:0, visible:0} to={alpha:1, visible: 1} (bind enabled "modifiersCount > 0"))
+			(bindcall play duration=0.15 to={alpha:0, visible: 0} (bind enabled "!(modifiersCount > 0)"))
+        )
+
+		(block
+			(style (left = "MODULE_ICON_WIDTH/2") (top = "MODULE_ICON_HEIGHT/2  - 2"))
+			(class $FullsizeAbsolute)
+
+			(controller $Animation
+				(bindcall play duration=0.15 from={alpha:0, visible:0, scaleX:3, scaleY:3} to={alpha:1, visible: 1, scaleX:1, scaleY:1} (bind enabled "modifiersCount > 0"))
+				(bindcall play duration=0.15 to={alpha:0, visible: 0, scaleX:0, scaleY:0} init=true (bind enabled "!(modifiersCount > 0)"))
+
+				(bindcall play duration=0.15 delay=0.00 from={scaleX:1, scaleY:1} to={scaleX:2, scaleY:2} (event "shipModifiersCountComponent.evCountChanged"))
+				(bindcall play duration=0.15 delay=0.15 from={scaleX:2, scaleY:2} to={scaleX:0.8, scaleY:0.8} (event "shipModifiersCountComponent.evCountChanged"))
+				(bindcall play duration=0.10 delay=0.30 from={scaleX:0.8, scaleY:0.8} to={scaleX:1.1, scaleY:1.1} (event "shipModifiersCountComponent.evCountChanged"))
+				(bindcall play duration=0.15 delay=0.40 from={scaleX:1.1, scaleY:1.1} to={scaleX:1, scaleY:1} (event "shipModifiersCountComponent.evCountChanged"))
+			)
+
+			(block
+				(class $FullsizeAbsolute)
+				(style (position = "absolute") (left = "-MODULE_ICON_WIDTH/2") (top = "-MODULE_ICON_HEIGHT/2"))
+				(block
+					(style
+						(position = "absolute")
+						(width = "MODULE_ICON_WIDTH")
+						(height = "MODULE_ICON_HEIGHT")
+						(backgroundImage = 'bitmap:icon_state_panel_powerup_positive')
+					)
+				)
+				
+				(tf
+					(bind visible "modifiersCount > 0")
+					(style
+						(position = "absolute")
+						(right = "-45") (top = "MODULE_ICON_HEIGHT-21")
+					)
+					(class $TextDefaultBoldNM)
+
+					(bind text "'x' + modifiersCount")
+				)
+				
+				
+				
+				
+				
+				
+			)
+		)
+	)
+)
+
+(def element DamagedModuleItem(damageModuleList:gfx) layout=true
+
+	(scope
+		(var prefsEntity:gfx = "$datahub.getSingleEntity(CC.prefsMarker)")
+    	(var altVisionMode:number = "prefsEntity.prefsBattle.altVisionMode" (event "prefsEntity.prefsBattle.evUpdate"))
+
+    	(var cameraEntity:gfx = "$datahub.getSingleEntity(CC.camera)")
+    	(var altVision:bool = "cameraEntity.camera.altVision" (event "cameraEntity.camera.evAltVisionChanged"))
+    	(var isAltVisionMode:bool = "altVision || altVisionMode >= AltVisionMode.ADAPTIVE")
+
+		(var moduleEntity:gfx = "$datahub.getEntity(damageModuleList.value[$index])" (event "damageModuleList.evValueChanged"))
+		(var damageModule:gfx = "moduleEntity.damageModule")
+		(var damageModuleState:gfx = "moduleEntity.damageModuleState")
+
+		(var moduleId:number = "damageModule.moduleId")
+
+		
+		(var moduleState:number = "damageModuleState.state" (event "damageModuleState.evStateChanged"))
+		(var timeLeft:number = "timeLeft >= 10 ? floor(damageModuleState.timeLeft) : damageModuleState.timeLeft" (event "damageModuleState.evTimeLeftChanged"))
+		(var timeFull:number = "damageModuleState.timeFull" (event "damageModuleState.evTimeFullChanged"))
+		(var numDigits:number = "timeLeft >= 10 ? 0 : 1")
+
+
+		(var widthAnimated:number = "moduleState > 1 ? MODULE_ICON_WIDTH + 4 : 0" watch=false)
+		(controller $Animation
+			(bindcall play duration=0.3 from="{widthAnimated:0}" to="{widthAnimated:MODULE_ICON_WIDTH + 4}" (bind enabled "moduleState > 1"))
+			(bindcall play duration=0.3 to="{widthAnimated:0}" (bind enabled "!(moduleState > 1)"))
+		)
+	)
+
+	(style
+		(width = "moduleState > 1 ? MODULE_ICON_WIDTH + 4 : 0")
+		(bind width "widthAnimated" init=false)
+		(height = "MODULE_ICON_HEIGHT")
+	)
+
+	(block
+		(style
+			(position = "absolute")
+			(bind left "MODULE_ICON_WIDTH/2 + 2 + widthAnimated/2") (top = "MODULE_ICON_HEIGHT/2")
+		)
+
+		(alpha = "moduleState > 1 ? 1 : 0")
+
+		(controller $Animation
+			(bindcall play duration=0.3 from={alpha:0, scaleX: 3, scaleY: 3, visible:0} to={alpha:1, scaleX: 1, scaleY: 1, visible:1} easing="Easing.cubic_in" (bind enabled "moduleState > 1"))
+			(bindcall play duration=0.3 to={alpha:0, scaleX: 0, scaleY: 0, visible:0} easing="Easing.cubic_in" (bind enabled "!(moduleState > 1)"))
+		)
+
+		(block
+			(style
+				(position = "absolute")
+				 (left = "-MODULE_ICON_WIDTH/2") (top = "-MODULE_ICON_HEIGHT/2 - 2")
+			)
+
+			(class $PanelElementSize)
+
+			(block
+				(controller $Instance renderer='ModuleStateIcon' layout=false
+					(exprs
+						(scope
+							(bind _moduleId "moduleId")
+							(bind _moduleState "moduleState")
+						)
+					)
+					(bind enabled "(moduleId >=0 && moduleId<=4) || moduleId == 6 || moduleId==7")
+				)
+
+				(controller $Instance renderer='BurnStateIcon' layout=false
+					(bind enabled "moduleId == 10")
+				)
+				(controller $Instance renderer='FloodStateIcon' layout=false
+					(bind enabled "moduleId == 11")
+				)
+				(bind alpha "isAltVisionMode ? 0.5 : 1")
+			)
+
+			(block
+				(style (position = "absolute") (top = 5) (left = 5))
+				(block
+					
+					(mc 'flash.display.Sprite'
+                    	(style (position = "absolute")(width = 0px) (height = 0px))
+                    	(alpha = 0.3)
+                    	(controller $Sector
+                    		(bind color 0x000000)
+							(bind arc 360)
+							(bind offset 0)
+							(bind radius 5)
+							(bind innerRadius 3)
+                    	)
+                    )
+					
+					(mc 'flash.display.Sprite'
+						(style (position = "absolute")(width = 0px) (height = 0px))
+						(alpha = 0.5)
+						(controller $Sector
+							(bind color 0xFF3500)
+							(bind arc "timeFull && timeLeft ? 360 * (timeLeft/timeFull) : 0")
+							(bind offset 90)
+							(bind radius 5)
+							(bind innerRadius 3)
+						)
+					)
+				)
+			)
+
+			
+			(block
+				(style (position = "absolute") (width = 100%) (top = 7))
+				(tf
+					(style (width = 100%) (textAlign = "center"))
+					(alpha = "timeLeft > 0.3 && isAltVisionMode ? 1 :0" )
+					(y =  "timeLeft > 0.3 && isAltVisionMode ? 0 : 10")
+					(visible = "timeLeft > 0.3 && isAltVisionMode ? 1 :0")
+					(controller $Animation
+						(bindcall play duration=0.15 from={alpha:0, y:10, visible:0} to={alpha:1, y:0, visible:1} (bind enabled "timeLeft > 0.3 && isAltVisionMode"))
+						(bindcall play duration=0.15 to={alpha:0, y:10, visible:0} (bind enabled "!(timeLeft > 0.3 && isAltVisionMode)"))
+					)
+					(class $TextDefault25NM)
+					(class $FontColorRepairTimer)
+					(bind text "countdownFormat(timeLeft, numDigits, false)")
+				)
+			)
+		)
+	)
+)
+
+(def element ModuleStateIcon() layout=true
+	(scope
+		(var _moduleId:number = -1)
+		(var _moduleState:number = -1)
+	)
+	(style (width = "MODULE_ICON_WIDTH") (height = "MODULE_ICON_HEIGHT"))
+	
+	(style
+		(bind backgroundImage "'bitmap:icon_module_' + _moduleId + '_' + _moduleState" init=false (bind enabled "_moduleId!=-1 && _moduleState > 1"))
+	)
+)
+
+(def element BurnStateIcon() layout=true
+	(block
+	   	
+		(style (width = "MODULE_ICON_WIDTH") (height = "MODULE_ICON_HEIGHT") (backgroundImage = 'bitmap:icon_fire_small'))
+	)
+)
+(def element FloodStateIcon() layout=true
+	(block
+	    
+		(style (width = "MODULE_ICON_WIDTH") (height = "MODULE_ICON_HEIGHT") (backgroundImage = 'bitmap:icon_flooding'))
+	)
+)
+
+
+
+

@@ -12,19 +12,19 @@
 
 (def css $MiddleAligned ()
 	(left = 50%)
-	(marginLeft = -50%))
-	
+	(paddingLeft = -50%)) 
+
 (def css $MiddleAlignedAbsolutely ()
 	(extends $MiddleAligned)
 	(position = "absolute"))
 
 (def css $MiddleVAligned ()
 	(top = 50%)
-	(marginTop = -50%))
+	(paddingTop = -50%))
 	
 (def css $EyeLevelVAligned ()
-	#(top "720:360,2160:900ah")
-	(marginTop = -50%))
+	
+	(paddingTop = -50%))
 
 (def css $MiddleVAlignedAbsolutely ()
 	(extends $MiddleVAligned)
@@ -34,8 +34,8 @@
 	(position = "absolute")
 	(left = 50%)
 	(top = 50%)
-	(marginTop = -50%)
-	(marginLeft = -50%)
+	(paddingTop = -50%)
+	(paddingLeft = -50%)
 )
 
 (def css $AlignRight ()
@@ -44,14 +44,14 @@
 
 	
 (def css $Quad ()
-#	(width = _size)
-#	(height = _size)
+
+
 )
 
 (def css $MouseDisable ()
-#	(mouseEnabled false)
-#	(mouseChildren false)
-#	(hitTest false)
+
+
+
 )
 
 (def css $InfoLineBoundaries ()
@@ -111,11 +111,11 @@
 )
 
 (def css $DefaultScrollBar ()
-#	(scrollbar "ModernScrollBar")
-#	(scrollbarController "lesta.unbound.style.UbScrollingControllerModern")
-#	(scrollArea "ModernScrollArea")
-#	(scrollbarTrackMode "scrollToCursor")
-#	(wheelScrollSpeed 15)
+
+
+
+
+
 )
 
 (def css $None ())
@@ -126,14 +126,14 @@
 )
 
 (def css $CustomIndent ()
-#	(marginLeft = _px)
-#	(marginRight = _px)
-#	(marginTop = _px)
-#	(marginBottom = _px)
+
+
+
+
 )
 
 (def css $PxIndent ()
-#	(extends $CustomIndent "1px")
+
 )
 
 (def css $BottomMenu ()	
@@ -144,12 +144,12 @@
 )
 
 (def element HorizontalDivider () layout=true
-	#
+	
 	(class $PxHorizontalCorrection)
 	(style 
 		(width = 100%) 
 		(height = 3px)
-		#(backgroundColor = 0xFF000000)
+		
 	)
 	(mc divider_h
 			(class $Fullsize))
@@ -164,7 +164,7 @@
 (def element TableDivider () layout=true
 	(style
 		(backgroundImage = "'symbol:dotted_line'")
-		#(backgroundRepeatX = true)
+		
 		(width = 100%)
 		(height = 1px)
 		(alpha = 0.1)
@@ -172,160 +172,169 @@
 )
 
 (def element Underline() layout=true
-#	(bind style "'backgroundColor'; (rollOver && !mouseDown) ? '0xFFFFFFFF' : '0x00856933'")
-#	(bind transition "(rollOver && !mouseDown) == true; 0.3; {scaleX : 0, alpha : 0}; {scaleX : 1, alpha :1}")
-#	(style
-#		(backgroundColor 0xFFFFFFFF)
-#		(position absolute)
-#		(height 1px)
-#		(width 100%)
-#		(bottom 0px)
-#		(marginLeft 2px)
-#		(marginRight 2px)
-#	)
+
+
+
+
+
+
+
+
+
+
+
 )
 
-#Default Blur map: use for any case, except come special cases
+
 (def element BlurMap () layout=true
-#	(bind visible "optionData.blurEnabled")
-#
-#	(bind controller "lesta.dialogs.controllers.EntitySingletonController; 'optionData'")
-#	(style (hitTest false))
-#	(class $FullsizeAbsolute)
-#	(mc mc_blurmap_medium
-#		(bind appear "'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}")
-#		(bind appear "'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}")
-#		(class $FullsizeAbsolute)
-#		(bind blurMap "0")
-#	)
-#	(mc inner_panel
-#		(style (alpha 0.5))
-#		(class $FullsizeAbsolute)
-#	)
+	(scope
+		(var optionDataEntity:gfx = "$datahub.getSingleEntity(CC.optionData)")
+		(var blurEnabled:bool = "optionDataEntity.optionData.blurEnabled" (event "optionDataEntity.optionData.evBlurEnabledChanged"))
+	)
+	(bind visible "blurEnabled")
+
+	(class $FullsizeAbsolute)
+	(mouseEnabled = false)
+	(mouseChildren = false)
+	(mc mc_blurmap_medium
+		
+		
+		(class $FullsizeAbsolute)
+		(macro BLUR_MAP)
+		
+	)
+	(mc inner_panel
+		(class $FullsizeAbsolute)
+		(alpha = 0.5)
+	)
 )
 
 (def element BlurMapLow () layout=true
-#	(bind visible "optionData.blurEnabled")
-#
-#	(bind controller "lesta.dialogs.controllers.EntitySingletonController; 'optionData'")
-#	(style (hitTest false))
-#	(class $FullsizeAbsolute)
-#	(mc mc_blurmap5
-#		(bind appear "'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}")
-#		(bind appear "'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}")
-#		(class $FullsizeAbsolute)
-#		(bind blurMap "0")
-#	)
-#	(mc inner_panel
-#		(style (alpha 0.2))
-#		(class $FullsizeAbsolute)
-#	)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 )
 
 (def element BlurMapNotifications () layout=true
-#	(bind controller "lesta.dialogs.controllers.EntitySingletonController; 'optionData'")
-#	(bind visible "optionData.blurEnabled")
-#	(style (position absolute) (width 100%) (height 100%))
-#	(mc mc_blurmap5_feather
-#		(bind fade "_start; 0.3; {alpha: 0, top: 10}; {alpha: 1, top:0 }; {alpha: 0, top: -20}; 1; 0.15")
-#		(style (width 100%) (height 100%))
-#		(bind blurMap "0")
-#	)
+
+
+
+
+
+
+
+
 )
 
-#Pass blurmap class name (mc swf lib) to "_map" to use any kind of blurmap for special cases.
+
 (def element BlurMapCustom (_map:str) layout=true
-#	(bind controller "lesta.dialogs.controllers.EntitySingletonController; 'optionData'")
-#	(class $FullsizeAbsolute)
-#	(style (hitTest false))
-#	(bind visible "optionData.blurEnabled")
-#	(mc _map
-#		(bind appear "'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}")
-#		(bind appear "'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}")
-#		(class $Fullsize)
-#		(bind blurMap "0")
-#	)
+
+
+
+
+
+
+
+
+
+
 )
 
-#Pass blurmap class name (mc swf lib) to "_map" to use any kind of blurmap for special cases.
+
 (def element BlurMapCustomOutbound (_map:str) layout=true
-#	(bind controller "lesta.dialogs.controllers.EntitySingletonController; 'optionData'")
-#	(style (position absolute) (width 100%) (height 100%) (hitTest false))
-#	(bind visible "optionData.blurEnabled")
-#	(mc _map
-#		(bind appear "'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}")
-#		(bind appear "'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}")
-#		(style (width 110%) (height 110%) (left -5%) (top -5%))
-#		(bind blurMap "0")
-#	)
+
+
+
+
+
+
+
+
+
 )
 (def element BlurMapCustomPxOutbound (_map:str, _hOut:number, _vOut:number) layout=true
-#	(bind controller "lesta.dialogs.controllers.EntitySingletonController; 'optionData'")
-#	(style (hitTest false))
-#	(class $FullsizeAbsolute)
-#	(bind style (template "'marginLeft'; -%s" _hOut))
-#	(bind style (template "'marginRight'; -%s" _hOut))
-#	(bind style (template "'marginTop'; -%s" _vOut))
-#	(bind style (template "'marginBottom'; -%s" _vOut))
-#
-#	(bind visible "optionData.blurEnabled")
-#	(mc _map
-#		(bind appear "'addedToStage'; 0.15; 0; {alpha: 0}; {alpha: 0.7}")
-#		(bind appear "'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}")
-#		(class $Fullsize)
-#		(bind blurMap "0")
-#	)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 )
 
 (def element DeclareBlurLayer () layout=true
-#	(bind controller "lesta.dialogs.controllers.EntitySingletonController; 'optionData'")
-#	(bind visible "optionData.blurEnabled")
-#	(mc transparentPixel
-#		(bind blurLayer "0")
-#	)
-#	(style (position absolute))
+	(scope
+		(var optionDataEntity:gfx = "$datahub.getSingleEntity(CC.optionData)")
+		(var blurEnabled:bool = "optionDataEntity.optionData.blurEnabled" (event "optionDataEntity.optionData.evBlurEnabledChanged"))
+	)
+	(style (position = "absolute"))
+	(bind visible "blurEnabled")
+	(mc transparentPixel
+		(macro BLUR_LAYER)
+		
+	)
 )
 
 (def css $ContextMenuListItem () layout=true
-#	(width 100%)
-#	(height 29px)
+
+
 )
 
 (def css $ContextMenuListItemContent () layout=true
-#	(width 198px)
-#	(marginLeft 6px)
-#	(marginRight 6px)
+
+
+
 )
 
 (def css $ContextMenuDimentions () layout=true
-#	(width 210px)
+
 )
 
 (def element DropShadow () layout=true
-#	(class $FullsizeAbsolute)
-#	(class $MouseDisable)
-#	(mc drop_shadow
-#		(class $Fullsize)
-#		(style (position absolute) (marginTop -2px) (marginRight -6px) (marginBottom -10px) (marginLeft -6px))
-#	)
+
+
+
+
+
+
 )
 
 (def element EmptyItem() layout=true
-	#Hack for childBinding crash on later subtype update and default element
-#	(bind visible "false")
+	
+
 )
 
-# few things to make repetitive layout prettier
-#(define isListEmpty (items)
-#	(eq (car items) none))
-
-#(define map (items proc)
-#	(if (not (isListEmpty items))
-#		(cons (proc (car items)) (map (cdr items) proc))
-#		(list)))
 
 
-### Dotted Line Element of Detailed Statistic
+
+
+
+
+
+
+
+
+
 (def element DottedLine () layout=true
-#	(style (backgroundImage "symbol:dotted_line") (backgroundRepeatX true) (width 100%) (height 1px) (alpha 0.5))
+
 )	

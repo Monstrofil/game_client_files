@@ -15,13 +15,15 @@
 		(var extraDescription: str = "tr('IDS_' + toUpper(_name) + '_EXTRA_DESCRIPTION')")
 	)
 
-	(macro PULL_SHIP_PLAYER "_shipId")
 	(macro PULL_EXTERIOR "_id")
 
 	(scope
 		(var attributes: gfx = "exteriorEntity.attributes" (event "exteriorEntity.attributes.evChanged"))
 		(var showParams: bool = "(attributes && (attributes.positive.length + attributes.negative.length + attributes.neutral.length) > 0) && !_isNaval")
-		(var shipEnsignRestrictionEntity: gfx = "$datahub.getEntity(playerShipEntity.ownShip.ensignAvailables)")
+		(var playerShipEntity: gfx = "$datahub.getPrimaryEntity(CC.ownShip, _shipId)")
+		(var ensignAvailables: dict = "playerShipEntity.ownShip.ensignAvailables" (event "playerShipEntity.ownShip.evUpdateConfig"))
+		(var country: str = "playerShipEntity.ship.country")
+		(var shipEnsignRestrictionEntity: gfx = "$datahub.getEntity(ensignAvailables[country])")
 		(var isShipRestrictionsVisible: bool = "(shipEnsignRestrictionEntity) && (shipEnsignRestrictionEntity.shipRestrictions.selectedFilters.length) && (!_isNaval)")
 	)
 
@@ -40,7 +42,7 @@
 		(class $FullsizeAbsolute)
 	)
 
-	#header
+	
 	(block 
 		(class $InfoBlockIndent)
 		(controller $Instance renderer='FlagTooltipHeader'
@@ -57,7 +59,7 @@
 	)
 	(element HorizontalDivider)
 
-	# Installed
+	
 	(block 
 		(style 
 			(width = "100%")
@@ -97,7 +99,7 @@
 	)
 	(element HorizontalDivider)
 
-	# Description block
+	
 	(block 
 		(class $InfoBlockIndent)
 		(tf 
@@ -118,7 +120,7 @@
 	)
 	(element HorizontalDivider)
 
-	# Params
+	
 	(block 
 		(bind visible "showParams")
 		(style 
@@ -162,7 +164,7 @@
 		)
 	)
 
-	### Ship Restrictions
+	
 	(block 
 		(bind visible "isShipRestrictionsVisible")
 		(class $InfoBlockIndent)
@@ -196,7 +198,7 @@
 		(element HorizontalDivider)
 	)
 
-	# Additional info
+	
 	(block 
 		(bind visible "((!_canUse && _isLeague) || _isRankSeasonTemp) && !_isNaval")
 		(class $InfoBlockIndent)

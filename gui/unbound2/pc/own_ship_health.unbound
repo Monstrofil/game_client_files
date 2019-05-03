@@ -35,11 +35,11 @@
 
 
 (def macro HEALTH_PERCENT_AND_ALIVE(entity:expression)
-	(var healthComponent:gfx = "entity.health")
+	(var healthComponent:gfx = "entity.health" (event "entity.evAdded") (bindcall event "entity.evAdded"))
 	(var maxHealth:number = "healthComponent.max")
-	(var healthValue:number = "healthComponent.value" (event "healthComponent.evValueChanged") (event "healthComponent.evKilled") (bindcall event "healthComponent.evValueChanged") (bindcall event "healthComponent.evKilled"))
+	(var healthValue:number = "healthComponent.value" (event "healthComponent.evValueChanged") (event "healthComponent.evIsAliveChanged") (bindcall event "healthComponent.evValueChanged") (bindcall event "healthComponent.evIsAliveChanged"))
 	(var healthPercent:number = "entity ? healthValue / maxHealth : 0")
-	(var isAlive:bool = "healthComponent.isAlive" (event "healthComponent.evKilled") (bindcall event "healthComponent.evKilled"))
+	(var isAlive:bool = "healthComponent.isAlive" (event "healthComponent.evIsAliveChanged") (bindcall event "healthComponent.evIsAliveChanged"))
 )
 
 (def element OwnShipHealth() layout=true
@@ -81,7 +81,7 @@
 		(var showHealthBar:bool = "shipInfoEntityId != null")
         
 	)
-	#Hiding health bar on reconnect and UI reload
+	
 	(visible = "showHealthBar")
 	
 	(style
@@ -114,14 +114,14 @@
             (bind visible "isSelfObserved")
 		)
 		
-		#TODO cheap solution for spectator switch
+		
 		(controller $Instance renderer='OwnHealthBar'
         	(args _entityId="entityId")
         	(bindcall recreate (bind trigger "entityId"))   		
         )
 		
-		#TODO animation bugs
-#		(element OwnHealthBar _entityId="entityId" (scope (bind entityId "entityId")))
+		
+
 	)
 
 	(hblock
@@ -212,7 +212,7 @@
 		(var entityId:number = "_entityId")
 		(var entity:gfx = "$datahub.getEntity(entityId)")
 
-		(var isAlive:bool = "entity.health.isAlive" (event "entity.health.evKilled"))
+		(var isAlive:bool = "entity.health.isAlive" (event "entity.health.evIsAliveChanged") (bindcall event "entity.health.evIsAliveChanged"))
 		
 		(var shipInfoEntityId:number = "entity ? entity.vehicleInfo.shipInfoEntityId : 0")
         (var shipInfo:gfx = "$datahub.getEntity(shipInfoEntityId)")
@@ -224,7 +224,7 @@
 		(height = "BAR_IMAGE_HEIGHT")
 	)
 	
-	#OwnHealthBarBackground
+	
 	(block
 		(style 
 			(width = "100%") (height = "100%") (position = "absolute")
@@ -294,8 +294,10 @@
 		(var maxHealth:number = "entity.health.max")
 		(var barVisibleLeft:number = "shipInfo.shipBarConfig.left")
 		(var barVisibleWidth:number = "barImageWidth - shipInfo.shipBarConfig.right - shipInfo.shipBarConfig.left")
-		(var regenValue:number = "entity.regeneration.value" (event "entity.regeneration.evChanged") (bindcall event "entity.regeneration.evChanged"))
-		(var regenPercent:number = "entity.regeneration.maxValue / maxHealth" (event "entity.regeneration.evChanged") (bindcall event "entity.regeneration.evChanged"))
+		
+		(var regenComponent:gfx = "entity.regeneration" (event "entity.evAdded") (bindcall event "entity.evAdded"))
+		(var regenValue:number = "regenComponent.value" (event "regenComponent.evChanged") (bindcall event "regenComponent.evChanged"))
+		(var regenPercent:number = "regenComponent.maxValue / maxHealth" (event "regenComponent.evChanged") (bindcall event "regenComponent.evChanged"))
 		(var resultWidth:number = "ceil(barVisibleWidth * regenPercent + barVisibleLeft)")
 	)
 
@@ -306,14 +308,14 @@
 		(backgroundSize = "crop")
 		(bind backgroundImage "'url:../ship_bars/'  +  shortName  +  '_h.png'")
 	)
-	
+
 	(controller $Animation
         (bindcall play  duration = "HEALTH_ANI_MIN"
                         killAll=true
                         watch = false
                         easing="Easing.quad_in"
                         to = "{ width: resultWidth }"
-                        (event "entity.regeneration.evChanged") (bindcall event "entity.regeneration.evChanged")
+                        (event "regenComponent.evChanged") (bindcall event "regenComponent.evChanged")
         )
     )
 	
@@ -379,7 +381,7 @@
 		(var resultWidth:number = "ceil(barVisibleWidth * healthPercent + barVisibleLeft)")
 		(var healthDelta:number = "entity.health.delta" (event "entity.health.evDeltaChanged")  (bindcall event "entity.health.evDeltaChanged"))
 	)
-
+	
 	(style 
 		(width = "resultWidth")
 		(height = "100%")
@@ -396,10 +398,20 @@
 						watch = false
 						easing="Easing.quad_in"
 						to = "{ width: resultWidth }"
-						(event "entity.health.evChanged") (bindcall event "entity.health.evChanged")
+						(event "healthComponent.evChanged") (bindcall event "healthComponent.evChanged")
+		)
+		
+		(bindcall play  
+						delay= "0"
+						duration = "HEALTH_ANI_MIN"
+						killAll=true
+						watch = false
+						easing="Easing.quad_in"
+						to = "{ width: resultWidth }"
+						(event "healthComponent.evIsAliveChanged") (bindcall event "healthComponent.evIsAliveChanged")
 		)
 	)
-	
+
 	(bind colorTransform "healthPercent > 0.8 ? SHIP_HP_TRANSFORM_COLORS.GREEN : healthPercent > 0.3 ? SHIP_HP_TRANSFORM_COLORS.YELLOW : SHIP_HP_TRANSFORM_COLORS.RED")
 )
 
@@ -426,15 +438,16 @@
 		)
 	)
 
-	(controller $Instance renderer = 'FloodItem'
-		(args _entityId="entityId")
-		(bind enabled "entityId > 0")
+	(controller $Repeat renderer = 'FloodItem'
+		(bind count "entity.floodModule.coordArray.length")
+		(args _entityId = "entityId")
 		(exprs
 			(scope
 				(bind entityId "entityId")
 			)
-		)		
+		)
 	)
+
 )
 
 (def element FireItem (_entityId:number = 0) layout=true
@@ -485,32 +498,38 @@
 	(scope
 		(var entityId:number = "_entityId")
 		(var entity:gfx = "$datahub.getEntity(entityId)")
-		(var floodStateEntity:gfx = "$datahub.getEntity(entity.floodModule.stateEntity)")
-		(var enabled:bool = "floodStateEntity.damageModuleState.state" (event "floodStateEntity.damageModuleState.evStateChanged") (bindcall event "floodStateEntity.damageModuleState.evStateChanged"))
+		(var shipInfo:gfx = "$datahub.getEntity(entity.vehicleInfo.shipInfoEntityId)")
+
+		(var barLeft:number = "shipInfo.shipBarConfig.left")
+		(var barSize:number = "BAR_IMAGE_WIDTH - shipInfo.shipBarConfig.right - shipInfo.shipBarConfig.left")
+		(var pos:number = "entity.floodModule.coordArray[$index]")
+		(var burnFlag:number = "entity.floodModule.burnFlag" (event "entity.floodModule.evBurnFlagChanged") (bindcall event "entity.floodModule.evBurnFlagChanged") )
+
+		(var enabled:bool = "burnFlag & (1 << $index)")
 	)
 
-	(style 
+	(style
 		(position = "absolute")
-		(left = "87px")
 		(width = "27px")
 		(height = "27px")
-		(backgroundImage = 'bitmap:icon_personal_lock_flooding')
-		
 		(top = "enabled ? 22 : 28")
+		(bind left "barLeft + (barSize * pos)")
+		(backgroundImage = 'bitmap:icon_personal_lock_flooding')
+
 	)
 
-    (visible = "enabled")
-    (alpha = "enabled")	
+	(visible = "enabled")
+	(alpha = "enabled")
 
 	(controller $Animation
-		(bindcall play  duration = 0.3 
+		(bindcall play  duration = 0.3
 						from = { visible:0, alpha:0, top:28px }
-						to = { visible:1, alpha:1, top:22px } 
+						to = { visible:1, alpha:1, top:22px }
 						(bind enabled "enabled")
 		)
-		(bindcall play  duration = 0.3 
+		(bindcall play  duration = 0.3
 						from = { visible:1 }
-						to = { visible:0, alpha:0 } 
+						to = { visible:0, alpha:0 }
 						(bind enabled "!enabled")
 		)
 	)
@@ -521,7 +540,7 @@
 		(var entityId:number = "_entityId")
 		(var shipType:str = "_shipType")
 		(var entity:gfx = "$datahub.getEntity(entityId)")
-		#(macro VAR_RELATION "entity") #Disabled, we do not have full spectator mode for ally/enemy watch, for now 	
+		
 		(var icon:str = "RELATION_NAMES.OWN + '_' + shipType + '_small'")
 	)
 	(bind name "icon")
