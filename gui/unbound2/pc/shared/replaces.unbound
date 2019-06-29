@@ -1,7 +1,7 @@
 (def element nullLayout() layout=true)
 
 (def macro VAR_RELATION (entity:expression)
-	(var relation:str = "entity.relation.value == 0	? RELATION_NAMES.OWN		:
+	(var relation:str = "entity.relation.value == 0	? RELATION_NAMES.OWN	:
 						(entity.relation.value == 1 ? RELATION_NAMES.ALLY	:
 						(entity.relation.value == 2 ? RELATION_NAMES.ENEMY	: RELATION_NAMES.NEUTRAL))" (event "entity.relation.evChanged"))
 )
@@ -132,6 +132,15 @@
     )
 )
 
+(def macro BIND_FAIR_SCALE (scale:expression)
+    (bind scaleX "scale")
+    (bind scaleY "scale")
+    (style
+        (bind ubScaleX "scale")
+        (bind ubScaleY "scale")
+    )
+)
+
 (def macro HIDE_UI_CMD ()
 	(scope
         (var cmdEntity:gfx = "$datahub.getPrimaryEntity(CC.commandMappingCommandName, 'CMD_HIDE_INTERFACE')")
@@ -159,7 +168,7 @@
 
 (def macro PULL_SHIP (shipId:expression)
     (scope
-        (var shipEntity:gfx = "$datahub.getPrimaryEntity(CC.ship, shipId)")
+		(var shipEntity:gfx = "$datahub.getPrimaryEntity(CC.ship, shipId)")
         (var shipComponent:gfx = "shipEntity.ship" (event "shipEntity.ship.evUpdate") (event "shipEntity.ship.evCurrentSkinChanged"))
         (var shipComponentSlim:gfx = "shipEntity.slimClientComponent" (event "shipEntity.slimClientComponent.evUpdate"))
     )
@@ -176,4 +185,44 @@
 		(var exteriorEntity:gfx = "$datahub.getPrimaryEntity(CC.exteriorConfig, exteriorId)")
 		(var exteriorConfig:gfx = "exteriorEntity.exteriorConfig")
 	)
+)
+
+(def macro MASK()
+	(mc 'size'
+		(style
+			(position = "absolute")
+			(width = 100%)
+			(height = 100%)
+		)
+		(isMask = true)
+	)
+)
+
+(def macro MOUSE_HANDLER_SCOPE (_prefix:expression='')
+    (event name="_prefix + 'evMouseOver'")
+    (event name="_prefix + 'evMouseOut'")
+
+    (event name="_prefix + 'evMouseDown'")
+    (event name="_prefix + 'evMouseUp'")
+
+    (var name="_prefix + 'rollOver'" type=bool value="$event.isOver" init=false watch=false (event "$scope[_prefix + 'evMouseOver']") (event "$scope[_prefix + 'evMouseOut']"))
+    (var name="_prefix + 'mouseDown'" type=bool value="$event.isDown" init=false watch=false (event "$scope[_prefix + 'evMouseDown']") (event "$scope[_prefix + 'evMouseUp']"))
+)
+
+(def macro MOUSE_EVENTS_DISPATCHER (_prefix:expression='')
+	(dispatch "_prefix + 'evMouseOver'" on='mouseOver' args="{isOver: true}")
+	(dispatch "_prefix + 'evMouseOut'" on='mouseOut' args="{isOver: false}")
+
+	(dispatch "_prefix + 'evMouseDown'" on='mouseDown' args="{isDown: true}")
+	(dispatch "_prefix + 'evMouseUp'" on='mouseUp' args="{isDown: false}")
+)
+
+(def macro MOUSE_HANDLER (_enabled:expression=true, _prefix:expression='')
+    (block
+		(bind visible "_enabled")
+        (class $FullsizeAbsolute)
+        (style (backgroundColor = "0x01000000"))
+
+        (macro MOUSE_EVENTS_DISPATCHER "_prefix")
+    )
 )

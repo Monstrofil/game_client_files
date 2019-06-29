@@ -1421,6 +1421,10 @@
 		<fontFamily value="$WWSDefaultFontBold"/>
 		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
 	</css>
+	<css name="$FontFamilyDefaultBoldTabs">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<dropShadowFilter value="0 90 0x000000 1 2 2 1"/>
+	</css>
 	<css name="$Bold">
 		<fontFamily value="$WWSDefaultFontBold"/>
 	</css>
@@ -1487,6 +1491,12 @@
 	<css name="$FontColorDefaultButtonUp">
 		<textColor value="0xc7e2e2"/>
 	</css>
+	<css name="$FontColorTabButtonDown">
+		<textColor value="0x999999"/>
+	</css>
+	<css name="$FontColorTabButtonSelectedUp">
+		<textColor value="0xAABFBF"/>
+	</css>
 	<css name="$FontColorComparePositive">
 		<textColor value="0x4CE8AA"/>
 	</css>
@@ -1536,7 +1546,7 @@
 		<fontSize value="60"/>
 	</css>
 	<css name="$LetterSpacingSmall">
-		<letterSpacing value="0.8"/>
+		<letterSpacing value="0"/>
 	</css>
 	<css name="$InvertedTextEffect">
 		<dropShadowFilter value="0 90 0xffffff 1.0 3.0 3.0 0.3"/>
@@ -1559,6 +1569,9 @@
 	</css>
 	<css name="$FontDropShadowWhite">
 		<dropShadowFilter value="0 90 0xffffff 1.0 3.0 3.0 0.3"/>
+	</css>
+	<css name="$BlockDropShadowTabText">
+		<dropShadowFilter value="0 90 0x000000 1 2 2 1"/>
 	</css>
 	<block className="DefaultButton">
 		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
@@ -1814,14 +1827,12 @@
 		</block>
 	</block>
 	<block className="InfopanelButton">
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
 		<bind name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
 		<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
-		<bind name="dispatch" value="'mouseOver'; 'overInfopanelButton'; {infopanelButtonOverAlpha: 1}"/>
-		<bind name="dispatch" value="'mouseOut'; 'upInfopanelButton'; 	{infopanelButtonOverAlpha: 0.6}"/>
-		<bind name="dispatch" value="'mouseDown'; 'downInfopanelButton'; {infopanelButtonOverAlpha: 0.3}"/>
-		<bind name="catch" value="'upInfopanelButton'}"/>
-		<bind name="catch" value="'overInfopanelButton'"/>
-		<bind name="catch" value="'downInfopanelButton'"/>
+		<bind name="watch" value="'infopanelButtonOverAlpha';	(mouseDown)		? 0.3 :
+												(rollOver)		? 1
+																: 0.6"/>
 		<bind name="tooltip" value="'SimpleTooltip'; _tooltipIDS ? { tooltipText: _tooltipIDS } : null"/>
 		<bind name="style" value="'alpha'; infopanelButtonOverAlpha"/>
 		<bind name="name" value="_name"/>
@@ -2096,7 +2107,6 @@
 			</block>
 		</block>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
-		<bind name="var" value="{windowAppearLag: 2}"/>
 		<bind name="appear" value="'startShow'; 0.3; 1; {alpha: 0}; {alpha: 1}"/>
 		<bind name="appear" value="'startHide'; 0.3; 0.45; {alpha: 1}; {alpha: 0}"/>
 		<block className="contrast_panel" type="native">
@@ -2106,6 +2116,188 @@
 		<block className="modal_panel" type="native">
 			<styleClass value="$FullsizeAbsolute"/>
 		</block>
+		<bind name="watch" value="'arenaId'; $root.arenaId"/>
+		<bind name="primaryEntityDH" value="'clanBrawlResultsEntity'; CC.clanBrawlResult; $root.arenaId"/>
+		<bind name="child" value="clanBrawlResultsEntity ? 0 : 1; {}; 'ModalCvCBrawlResultsContent'; 'ModalCvCBattleResultsContent'"/>
+	</block>
+	<block className="ModalCvCBrawlResultsContent">
+		<styleClass value="$Fullsize"/>
+		<style>
+			<align value="center"/>
+		</style>
+		<bind name="var" value="{windowAppearLag: 0.4}"/>
+		<bind name="firstEntityDH" value="'selfPlayerEntity'; CC.accountSelf"/>
+		<bind name="watchDH" value="'selfPlayerDbId'; 		[]; selfPlayerEntity.accountSimple.dbId"/>
+		<bind name="watchDH" value="'selfPlayerName'; 		['selfPlayerEntity.accountName.evChanged']; selfPlayerEntity.accountName.name"/>
+		<bind name="watchDH" value="'selfPlayerNickName'; 	['selfPlayerEntity.accountName.evChanged']; selfPlayerEntity.accountName.nickName"/>
+		<bind name="watchDH" value="'clanId'; ['selfPlayerEntity.clanman.evClanIdChanged']; selfPlayerEntity.clanman.clanId"/>
+		<bind name="primaryEntityDH" value="'clanEntity'; CC.clan; clanId"/>
+		<bind name="watchDH" value="'clanTag'; ['clanEntity.clan.evTagChanged']; clanEntity.clan.tag"/>
+		<bind name="watchDH" value="'clanName'; ['clanEntity.clanExtended.evNameChanged']; clanEntity.clanExtended.name"/>
+		<bind name="primaryEntityDH" value="'clanBrawlResultsEntity'; CC.clanBrawlResult; $root.arenaId"/>
+		<bind name="watchDH" value="'battleResult'; []; clanBrawlResultsEntity.clanBrawlResult.battleResult"/>
+		<bind name="watchDH" value="'realm'; []; clanBrawlResultsEntity.clanBrawlResult.realm"/>
+		<bind name="watchDH" value="'place'; []; clanBrawlResultsEntity.clanBrawlResult.place"/>
+		<bind name="watchDH" value="'battlesCount'; []; clanBrawlResultsEntity.clanBrawlResult.battlesCount"/>
+		<bind name="watchDH" value="'winsCount'; []; clanBrawlResultsEntity.clanBrawlResult.winsCount"/>
+		<block>
+			<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 0 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
+			<bind name="appear" value="'startHide'; 0.15; 0 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+			<style>
+				<width value="100%"/>
+			</style>
+			<bind name="instance" value="'ModalWindowHeaderFullSize'; { _windowName: 'IDS_BATTLE_RESULTS', _hideBackButton: true}"/>
+		</block>
+		<block>
+			<styleClass value="$Fullsize"/>
+			<style>
+				<align value="center"/>
+			</style>
+			<block>
+				<style>
+					<top value="45%"/>
+					<marginTop value="-50%"/>
+					<width value="930px"/>
+					<align value="center"/>
+				</style>
+				<block>
+					<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 1 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
+					<bind name="appear" value="'startHide'; 0.15; 1 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+					<style>
+						<marginBottom value="98px"/>
+					</style>
+					<block type="text">
+						<styleClass value="$TextDefaultBold60NM"/>
+						<bind name="class" value="battleResult == 'victory'	? '$FontColorGold'
+															: '$FontColorStrongBlueish'"/>
+						<bind name="text" value="battleResult == 'defeat'	? 'IDS_DEFEAT' :
+								battleResult == 'victory'	? 'IDS_VICTORY'
+															: 'IDS_DRAW' "/>
+					</block>
+				</block>
+				<block>
+					<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 2 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
+					<bind name="appear" value="'startHide'; 0.15; 2 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+					<style>
+						<width value="100%"/>
+						<align value="center"/>
+					</style>
+					<block>
+						<style>
+							<position value="absolute"/>
+							<width value="100%"/>
+						</style>
+						<block className="HorizontalDivider">
+							<styleClass value="$PxHorizontalCorrection"/>
+							<style>
+								<width value="100%"/>
+								<height value="3px"/>
+							</style>
+							<block className="divider_h" type="native">
+								<styleClass value="$Fullsize"/>
+							</block>
+						</block>
+						<block>
+							<styleClass value="$MiddleAligned"/>
+							<style>
+								<width value="890px"/>
+								<height value="280px"/>
+								<backgroundImage value="url:../clans/common/half_ellipse_bg.png"/>
+								<backgroundSize value="fill"/>
+							</style>
+						</block>
+					</block>
+					<bind name="watch" value="'realmIDS'; realm == 'asia' ? 'IDS_AS' : 'IDS_'+ toUpperCase(realm)"/>
+					<bind name="watch" value="'realmTooltupText'; realm ? tr('IDS_CLAN_REGION') + ' ' + tr(realmIDS) : ''"/>
+					<bind name="watch" value="'clanTagText'; clanTag ? '[' + clanTag + ']' : ''"/>
+					<bind name="watch" value="'clanTagTooltipText'; clanTag &amp;&amp; clanName ? '[' + clanTag + '] ' + clanName : ''"/>
+					<bind name="instance" value="'ModalCvCBrawlResultsStatElement'; {_value: clanTagText,
+																	_description: 'IDS_CLAN',
+																	_tooltipText: clanTagTooltipText}"/>
+					<bind name="instance" value="'ModalCvCBrawlResultsStatElement'; {_value: realm,
+																	_description: 'IDS_CLAN_REGION',
+																	_tooltipText: realmTooltupText}"/>
+					<bind name="instance" value="'ModalCvCBrawlResultsStatElement'; {_value: place,
+																	_description: 'IDS_CLAN_BRAWL_PLACE_IN_RATING',
+																	_tooltipText: 'IDS_CLAN_BRAWL_PLACE_IN_RATING_TOOLTIP'}"/>
+					<bind name="instance" value="'ModalCvCBrawlResultsStatElement'; {_value: battlesCount,
+																	_description: 'IDS_CLAN_BRAWL_BATTLES_COUNT',
+																	_tooltipText: 'IDS_CLAN_BRAWL_BATTLES_COUNT_TOOLTIP'}"/>
+					<bind name="instance" value="'ModalCvCBrawlResultsStatElement'; {_value: winsCount,
+																	_description: 'IDS_CLAN_BRAWL_WINS_COUNT',
+																	_tooltipText: 'IDS_CLAN_BRAWL_WINS_COUNT_TOOLTIP'}"/>
+					<style>
+						<flow value="horizontal"/>
+					</style>
+				</block>
+			</block>
+		</block>
+		<block>
+			<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 3 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
+			<bind name="appear" value="'startHide'; 0.15; 3 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+			<style>
+				<marginBottom value="720:16,1080:128ah"/>
+				<width value="129px"/>
+			</style>
+			<block className="DefaultButtonModal">
+				<styleClass value="$InfoLineBoundaries"/>
+				<style>
+					<width value="100%"/>
+				</style>
+				<bind name="name" value="'Modal_window_action_Button' + 'IDS_CLOSE_UPPER_CASE'"/>
+				<block className="button_default" type="native">
+					<style>
+						<width value="100%"/>
+					</style>
+					<bind name="label" value="'IDS_CLOSE_UPPER_CASE'"/>
+					<params>
+						<param name="name" value="btn_cancel"/>
+					</params>
+					<bind name="input"/>
+					<bind name="focus" value="0;true"/>
+				</block>
+			</block>
+		</block>
+	</block>
+	<block className="ModalCvCBrawlResultsStatElement">
+		<style>
+			<align value="center"/>
+			<marginTop value="48px"/>
+			<marginBottom value="48px"/>
+		</style>
+		<bind name="style" value="'width'; _width ? _width : '20%'"/>
+		<block>
+			<style>
+				<align value="center"/>
+				<width value="100%"/>
+				<marginLeft value="8px"/>
+				<marginRight value="8px"/>
+				<backgroundColor value="0x01000000"/>
+			</style>
+			<block type="text">
+				<styleClass value="$TextDefaultBold50NM"/>
+				<style>
+					<alpha value="0.9"/>
+				</style>
+				<bind name="text" value="(_value || _value == 0) ? _value : '—'"/>
+			</block>
+			<block type="text">
+				<styleClass value="$TextDefaultBold19NM"/>
+				<style>
+					<width value="100%"/>
+					<marginTop value="16px"/>
+					<textAlign value="center"/>
+					<alpha value="0.7"/>
+				</style>
+				<bind name="text" value="_description ? _description : ''"/>
+			</block>
+			<bind name="tooltip" value="'SimpleTooltip'; _tooltipText ? {tooltipText: _tooltipText} : null"/>
+		</block>
+	</block>
+	<block className="ModalCvCBattleResultsContent">
+		<styleClass value="$FullsizeAbsolute"/>
+		<bind name="var" value="{windowAppearLag: 2}"/>
+		<bind name="primaryEntityDH" value="'clanBattleResultsEntity'; CC.clanBattleResult; $root.arenaId"/>
 		<block>
 			<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 0 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
 			<bind name="appear" value="'startHide'; 0.15; 0 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
@@ -2115,20 +2307,18 @@
 			<styleClass value="$MiddleAligned"/>
 			<bind name="instance" value="'ModalWindowHeader'; { _header: 'IDS_CLAN_BATTLE_RESULTS', _headerWidth: '850px', _showInnerCloseButton:true}"/>
 		</block>
-		<bind name="primaryEntityDH" value="'clanBattleResultsEntity'; CC.clanBattleResult; $root.arenaId"/>
-		<bind name="watch" value="'showContentBlock'; !!clanBattleResultsEntity ? true : false"/>
 		<block>
 			<style>
 				<width value="100%"/>
 			</style>
-			<bind name="instance" value="'ModalCvCBattleResultsContent'; clanBattleResultsEntity ? {} : null"/>
+			<bind name="instance" value="'ModalCvCBattleResultsContentUnderHeader'; clanBattleResultsEntity ? {} : null"/>
 		</block>
 		<block>
 			<styleClass value="$FullsizeAbsolute"/>
 			<bind name="instance" value="'NoItemsComeBackLater'; clanBattleResultsEntity ? null : {_type: 'CVC_RESULTS', _subText: 'IDS_NO_CURRENT_CVC_RESULTS_SUBTEXT'} "/>
 		</block>
 	</block>
-	<block className="ModalCvCBattleResultsContent">
+	<block className="ModalCvCBattleResultsContentUnderHeader">
 		<style>
 			<width value="100%"/>
 		</style>

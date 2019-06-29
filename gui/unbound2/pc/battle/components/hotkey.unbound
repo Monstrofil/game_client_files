@@ -1,3 +1,10 @@
+(def css $HotkeyText ()
+	(fontFamily = $ZurichCondensedBold)
+	(extends $FontSizeSmall)
+	(extends $FontColorBlack)
+	(extends $TextMouseDisable)
+	(extends $FontEnableReadability))
+
 (def constant NOT_LOCALIZE_KEYS
 	{	F1: true,
 		F2: true,
@@ -15,7 +22,7 @@
 )
 
 
-(def element HotkeyIndicator(commandId:number, toggle:bool = false, fxOnDown:bool = true) layout=true
+(def element HotkeyIndicator(commandId:number, toggle:bool=false, fxOnDown:bool=true) layout=true
 	(scope
 		(var command:gfx = "$datahub.getPrimaryEntity(CC.commandMappingCommand, commandId)")
 		(var deviceMap:dict = "command.commandKeyList.deviceMap" (event "command.commandKeyList.evChanged"))
@@ -36,13 +43,12 @@
 	)
 	
 	(block
+		(class $FullsizeAbsolute)
 		(style
 			
 			(bind backgroundImage "'symbol:hotkey_holder_' + (toggled ? 'green' : 'white') + '_9slice'")
             (backgroundSize = "fill")
-			(position = "absolute")
-			(hcenter = 0)
-			(vcenter = 0)
+			(align = "center|middle")
 		)
 		
 		(bind alpha "enabled ? 0.8 : 0.5")
@@ -83,21 +89,9 @@
 		)
 		
 		(tf 
-			(class $Bold)
-			(class $FontSizeSmall)
-			(class $FontColorBlack)
-			(class $FontEnableReadability)
-			(style
-				(fontSize = 13)
-				(bind marginBottom "toggled ? 2  : -1")
-				(bind marginTop "toggled ?    1  : -1")
-				(bind marginLeft "toggled ?   5  : 3")
-				(bind marginRight "toggled ?  5  : 3")
-			)
-
-			(bind text "keyId == -1 ? '-' :
-					(keyPureName.length == 1 || NOT_LOCALIZE_KEYS[keyPureName]) ? keyPureName : ('IDS_' + keyName)")
-
+			(class $HotkeyText)
+			(bind text "keyId == -1 	? '-' 
+										: (keyPureName.length == 1 || NOT_LOCALIZE_KEYS[keyPureName]) ? keyPureName : ('IDS_' + keyName)")
 		)
 	)
 )

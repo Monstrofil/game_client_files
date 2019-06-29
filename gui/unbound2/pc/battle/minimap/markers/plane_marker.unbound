@@ -1,0 +1,94 @@
+(def constant PLANE_TYPE_TO_STR
+    [
+        ['scout', 'scout'],
+        ['bomber', 'bomber_AP'],
+        ['torpedo', 'torpedo_deepwater'],
+        ['fighter', 'catapult_fighter'],
+        ['emptybomber', ''],
+        ['auxiliary', 'auxiliary']
+    ]
+)
+
+(def element MapSquadronMarker (_entityId:number, _mapScale:number, _itemScale:number, _scaleRatio:number) layout=true
+    (scope
+        (macro BASE_MAP_MARKER_PARAMS)
+
+        (var markerYaw:number = "radToGrad(entity.mapPosition.yaw)" (event "evEnterFrame"))
+        (var markerScale:number = "itemScale / mapScale")
+
+		(var aircarrier:gfx = "$datahub.getSingleComponent(CC.aircarrier)")
+        (var activeSquadron:number = "aircarrier.activeSquadron" (event "aircarrier.evStateChanged"))
+        (var isControlledByPlayer:bool = "entity.ownSquadron && entity.ownSquadron.id == activeSquadron")
+    )
+
+    (controller $Instance (renderer = 'MapMarkerSquadronRanges') 
+        (bind enabled "isControlledByPlayer")
+        (args _entityId="entity.id" _mapScale="mapScale")
+        (exprs
+            (scope
+                (bind mapScale "mapScale")
+            )
+        )
+    )
+
+    (element MapMarkerSquadronIcon _entityId="entity.id" _rotation="markerYaw"
+        (scope
+            (bind rotation "markerYaw")   
+        )
+        (macro BIND_FAIR_SCALE "markerScale")
+    )
+)
+
+(def element MapMarkerSquadronRanges (_entityId:number, _mapScale:number) layout=true
+    (scope
+        (var mapScale:number = "_mapScale")
+    )
+    (macro MINIMAP_MARKER_RANGES "_entityId")
+)
+
+(def element MapMarkerSquadronIcon (_entityId:number, _rotation:number) layout=true
+    (scope
+        (var rotation:number = "_rotation")
+        (var planeEntity:gfx = "$datahub.getEntity(_entityId)")
+
+        (var planeTypeInt:number = "planeEntity.plane.planeType")
+        (var ammoType:number = "planeEntity.plane.ammoType")
+        (var isExtendedPlaneType:bool = "planeEntity.plane.isConsumable || planeEntity.squadron.isFighter || ammoType == PlaneAmmoTypes.BOMB_AP || ammoType == PlaneAmmoTypes.TORPEDO_DEEPWATER")
+        (var planeType:str = "isExtendedPlaneType ? PLANE_TYPE_TO_STR[planeTypeInt][1] : PLANE_TYPE_TO_STR[planeTypeInt][0]")
+
+        (var ownerEntity:gfx = "planeEntity.squadron.owner.ref")
+        (var ownerAvatar:gfx = "ownerEntity.avatar")
+
+        (var healthComponent:gfx = "planeEntity.health" (event "planeEntity.evAdded"))
+        (var isInSameDivision:bool = "ownerAvatar.isInSameDivision" (event "ownerAvatar.evDivisionChanged"))
+        (var isSelf:bool = "ownerEntity.relation.value == 0")
+        (var isAlly:bool = "ownerEntity.relation.value == 1")
+        (var tkStatus:bool = "ownerAvatar.tkStatus && isAlly" (event "ownerAvatar.evTeamkillStatusChanged"))
+
+       	(var aircarrier:gfx = "$datahub.getSingleComponent(CC.aircarrier)")
+        (var activeSquadron:number = "aircarrier.activeSquadron" (event "aircarrier.evStateChanged"))
+        (var isControlledByPlayer:bool = "planeEntity.ownSquadron && planeEntity.ownSquadron.id == activeSquadron")
+
+		(var markerIcon:str = 
+			"isSelf
+                ? isControlledByPlayer
+                    ? 'minimap_self_alive'
+                    : 'icon_minimap_' + planeType + '_own'
+                : isAlly
+                    ? isInSameDivision
+                        ? 'icon_minimap_' + planeType + '_division'
+                        : tkStatus 
+                            ? 'icon_minimap_' + planeType + '_teamkiller'
+                            : 'icon_minimap_' + planeType + '_ally'
+                    : 'icon_minimap_' + planeType + '_enemy'
+        ")
+    )
+
+    (bind rotation "isSelf && isControlledByPlayer ? rotation : 0")
+
+    (block
+		(style
+			(bind backgroundImage "'symbol:' + markerIcon")
+		)
+	)
+)

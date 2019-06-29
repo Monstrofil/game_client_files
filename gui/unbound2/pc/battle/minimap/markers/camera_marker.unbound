@@ -1,0 +1,59 @@
+(def element MapCameraMarker (_entityId:number, _mapScale:number, _itemScale:number, _scaleRatio:number) layout = true
+    (scope
+        (macro BASE_MAP_MARKER_PARAMS)
+
+        (var cameraYaw:number = "radToGrad(entity.camera.yaw)" (event "evEnterFrame"))
+        (var isTacticalCam:bool = "entity.camera.isTactical" (event "entity.camera.evTacticalStateChanged"))
+
+        (var visibilityRangeRadius:number = "entity.camera.visibilityRangePerc" (event "entity.camera.evVisibilityRangeChanged"))
+        (var cameraFrustumAngle:number = "radToGrad(entity.camera.frustumAngle)" (event "entity.camera.evFrustumAngleChanged"))
+    )
+
+    (controller $Animation
+    	(bindcall play  duration=0.1 
+                        delay=0 
+                        to={alpha: 0} 
+                        easing="Easing.cubic_in" 
+                        (bind enabled "isTacticalCam")
+        )
+    	(bindcall play  duration=0.1 
+                        delay=0 
+                        to={alpha: 1}
+                        easing="Easing.cubic_out" 
+                        (bind enabled "!(isTacticalCam)")
+        )
+    )
+
+    (block 
+        (style 
+            (position = "absolute")
+            (width = "1px")
+            (height = "1px")
+            (backgroundImage = "'symbol:minimap_frustum_edge_vector'")
+            (bind height "visibilityRangeRadius")
+        )
+        (alpha = "0.7")
+        (bind rotation "cameraYaw")
+    )
+
+    (block
+        (isMask = true)
+        (macro BIND_FAIR_SCALE "visibilityRangeRadius * 2")
+        (style 
+            (position = "absolute")
+            (backgroundImage = "'symbol:minimap_observe_mask'")
+            (bind height "visibilityRangeRadius")
+        )
+    )
+
+    (block
+        (bind alpha "0.08")
+        (controller $Sector
+            (bind color "0x7dffff")
+            (bind arc "cameraFrustumAngle")
+            (bind offset "-90")
+            (bind radius "300")
+        )
+        (bind rotation "(cameraYaw - cameraFrustumAngle / 2)")
+    )
+)

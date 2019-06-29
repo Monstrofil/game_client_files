@@ -1,0 +1,378 @@
+
+(def constant SCALE_STEP 0.5)
+(def constant LIST_MAP_SCALES [1.0, 1.25, 1.5, 1.75, 2.0, 2.25])
+(def constant LIST_ICON_SCALES [1.0, 1.0, 1.0, 1.0, 1.0, 1.0])
+(def constant MAP_LAYERS_ORDERED ['scenario_tags', 'ranges', 'capture_points', 'ships', 'buildings', 'squadrons', 'navpoints', 'aim'])
+(def constant MINIMAP_ASSETS_SIZE 196)
+
+(def css $TextMinimapCoordsLabel ()
+	(extends $FontFamilyDefaultBold)
+	(extends $FontSizeNano)
+	(extends $FontColorDefault)
+	(extends $TextMouseDisable))
+
+(def element BattleMinimapUb2 () layout=true dispatch_size_change=true
+    (scope
+        (var minimapEntity:gfx = "$datahub.getSingleEntity(CC.minimap)")
+        (var minimapOptions:gfx = "minimapEntity.minimapOptions")
+
+        (var angleToRotate:number = "minimapEntity.minimap.rotationAngleDeg" (event "minimapEntity.minimap.evRotationAngleDegChanged"))
+        (var rotationAngle:number = "angleToRotate" watch=false)
+        (var startRotation:number = "(abs(rotationAngle) == 180) && ((rotationAngle * angleToRotate) < 0) ? -rotationAngle : rotationAngle")
+        (controller $Animation
+            (bindcall play  duration=0.3
+                            easing="Easing.linear"
+                            from="{ rotationAngle:startRotation }"
+                            to="{ rotationAngle:angleToRotate }"
+                            watch=false
+                            (bind trigger "angleToRotate")
+            )
+        )
+        (var coordsVisible:bool = "rotationAngle == angleToRotate")
+        
+        (var scaleIndex:number = "minimapOptions.minimapSizeIndex" (event "minimapOptions.evMinimapSizeIndexChanged"))
+        (var mapScale:number = "scaleIndex < LIST_MAP_SCALES.length ? LIST_MAP_SCALES[scaleIndex] : LIST_MAP_SCALES[LIST_MAP_SCALES.length - 1] + SCALE_STEP * (scaleIndex - LIST_MAP_SCALES.length + 1)")
+        (var itemScale:number = "scaleIndex < LIST_ICON_SCALES.length ? LIST_ICON_SCALES[scaleIndex] : LIST_ICON_SCALES[LIST_MAP_SCALES.length - 1]")
+        (var scaleRatio:number = "MINIMAP_ASSETS_SIZE * mapScale")
+
+        (event evMouseOverMap)
+        (event evMouseOutMap)
+        (event evMouseMoveMap)
+        (event evMouseDownMap)
+
+        (var mouseOverMap:bool = "$event.isOver" watch=false init=false (event "evMouseOverMap") (event "evMouseOutMap"))
+        (var worldX:number = "$event.localX / scaleRatio" watch=false init=false (event "evMouseMoveMap") (event "evMouseOverMap"))
+        (var worldY:number = "$event.localY / scaleRatio" watch=false init=false (event "evMouseMoveMap") (event "evMouseOverMap"))
+    )
+
+    (bindcall externalCall 'direct.action' "['minimap.setMouseOver', [mouseOverMap]]" (bind trigger "mouseOverMap"))
+    (bindcall externalCall 'direct.action' "['minimap.moveOnMinimap', [worldX, worldY]]" (event "evMouseMoveMap"))
+    (bindcall externalCall 'direct.action' "['minimap.moveOnMinimap', [worldX, worldY]]" (event "evMouseOverMap"))
+    (bindcall externalCall 'direct.action' "['minimap.moveOnMinimap', [-1, -1]]" (event "evMouseOutMap"))
+
+    (style
+        (bind width "scaleRatio")
+        (bind height "scaleRatio")
+    )
+
+    (block
+        (class $FullsizeAbsolute)
+        (style
+            (bind top "scaleRatio / 2") 
+            (bind left "scaleRatio / 2")
+        )
+        (bind rotation "rotationAngle")
+
+        (block
+            (class $FullsizeAbsolute)
+            (style
+                (bind top "-scaleRatio / 2")
+                (bind left "-scaleRatio / 2")
+            )
+
+            (element MinimapBG _scaleRatio="scaleRatio" _mapScale="mapScale"
+                (scope 
+                    (bind scaleRatio "scaleRatio")
+                    (bind mapScale "mapScale")
+                )
+            )
+
+            (block
+                (class $FullsizeAbsolute)
+                (macro MASK)
+
+                (controller $Repeat renderer='MinimapMarkersLayer'
+                    (bind count "MAP_LAYERS_ORDERED.length" watch=false)
+                    (args _mapScale="mapScale" _itemScale="itemScale" _scaleRatio="scaleRatio")
+                    (exprs
+                        (scope
+                            (bind mapScale "mapScale")
+                            (bind itemScale "itemScale")
+                            (bind scaleRatio "scaleRatio")
+                        )
+                    )
+                )
+            )
+
+            (block
+                (class $FullsizeAbsolute)
+                (style (backgroundColor = 0x01000000))
+
+                (dispatch evMouseOverMap on='mouseOver' args="{isOver: true, localX: $event.localX, localY: $event.localY}"  init=false)
+                (dispatch evMouseOutMap on='mouseOut' args="{isOver: false}")
+                (dispatch evMouseMoveMap on='mouseMove' args="{localX: $event.localX, localY: $event.localY}" init=false)
+                (dispatch evMouseDownMap on='mouseDown' args="{}")
+            )
+        )
+    )
+
+    (element MinimapCoordLabels _scaleRatio="scaleRatio" _angleToRotate="angleToRotate" _mapScale="mapScale"
+        (scope 
+            (bind scaleRatio "scaleRatio")
+            (bind angleToRotate "angleToRotate")
+            (bind mapScale "mapScale")
+        )
+        (bind visible "coordsVisible")
+    )    
+
+    (dispatch evSwitchOptionsPanel args="{isVisible: false}" dir="EventDirection.DOWN" (event "evMouseDownMap") (bind trigger "mapScale"))
+    (element MinimapOptionsButton
+        (style (position = "absolute") (right = "20px") (top = "-22px"))
+    )
+
+    
+    
+    
+    
+)
+
+(def element MinimapMarkersLayer (_mapScale:number, _itemScale:number, _scaleRatio:number) layout=true
+    (scope
+        (var layerName:str = "MAP_LAYERS_ORDERED[$index]")
+        (var mapScale:number = "_mapScale")
+        (var itemScale:number = "_itemScale")
+        (var scaleRatio:number = "_scaleRatio") 
+
+        (var markerCollection:gfx = "$datahub.getCollection(CC.mapPosition)")
+        (var layerCollection:gfx = "markerCollection.getChildByPath('byLayer.' + layerName)")
+    )
+
+    (class $FullsizeAbsolute)
+
+    (controller $Repeat renderer='MapMarkerItem'
+        (bind count "layerCollection.items.length" watch=false (event "layerCollection.evAdded"))
+        (bindcall removeChildAt "$event[1]" (event "layerCollection.evRemoved"))
+        (args _mapScale="mapScale" _itemScale="itemScale" _scaleRatio="scaleRatio" _layerName="layerName")
+        (exprs
+            (scope
+                (bind mapScale "mapScale")
+                (bind itemScale "itemScale")
+                (bind scaleRatio "scaleRatio")
+            )
+        )
+    )
+)
+
+(def element MinimapBG (_scaleRatio:number, _mapScale:number) layout=true
+    (scope
+        (var scaleRatio:number = "_scaleRatio")
+        (var mapScale:number = "_mapScale")
+
+        (var battleDataEntityCollection:gfx = "$datahub.getCollection(CC.battleData)")
+		(var battleDataEntity:gfx = "battleDataEntityCollection.items[0]")
+        (var mapEntity:gfx = "$datahub.getPrimaryEntity(CC.map, battleDataEntity.battleInfo.mapId)")
+
+        (var minimapOptions:gfx = "$datahub.getSingleComponent(CC.minimapOptions)")
+        (var waterAlpha:number = "minimapOptions.waterAlpha * 0.01" (event "minimapOptions.evChanged"))
+
+        (var minimapComponent:gfx = "$datahub.getSingleComponent(CC.minimap)")
+    )
+
+    (class $FullsizeAbsolute)
+
+    
+    (block
+        (class $FullsizeAbsolute)
+        (bind alpha "waterAlpha")
+		(style            
+            (backgroundSize = "fill")
+            (bind backgroundImage "'url:' + mapEntity.map.minimapWaterPath")
+        )
+	)
+
+    
+    (block
+        (class $FullsizeAbsolute)
+		(style
+            (backgroundSize = "cover")
+            (bind backgroundImage "'url:' + mapEntity.map.minimapPath")
+        )
+	)
+
+    
+    (controller $Repeat renderer='MinimapGridVertical' count=10
+        (args _scaleRatio = "scaleRatio")
+        (exprs (scope (bind scaleRatio "scaleRatio")))
+    )  
+    (controller $Repeat renderer='MinimapGridHorizontal' count=10
+        (args _scaleRatio = "scaleRatio")
+        (exprs (scope (bind scaleRatio "scaleRatio")))
+    )
+
+    
+    (controller $FxInstance renderer='MinimapRectAttention' lifetime="4"
+        (bindcall create (event "minimapComponent.evRectAttention"))
+        (args _scaleRatio = "scaleRatio" row="$event[1]" column="$event[2]" idPlayer="$event[3]")
+        (exprs 
+            (scope 
+                (bind scaleRatio "scaleRatio")
+            )
+            (macro BIND_FAIR_SCALE "mapScale")
+        )
+    )
+)
+
+(def element MinimapCoordLabels (_scaleRatio:number, _angleToRotate:number, _mapScale:number) layout=true
+    (scope
+        (var scaleRatio:number = "_scaleRatio")
+        (var angleToRotate:number = "_angleToRotate")
+        (var mapScale:number = "_mapScale")
+
+        (var coordMargin:number = "-4 - (mapScale < 2 ? mapScale : 2) * 3")
+
+        (var letters:array = "[ 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J' ]")
+        (var reverseLetters:array = "[ 'J', 'I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A' ]")
+
+        (var digits:array = "[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]")
+        (var reverseDigits:array = "[ 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 ]")
+
+        (var currentVertical:array = "  angleToRotate == 0          ? letters :
+                                        angleToRotate == 90         ? digits :
+                                        abs(angleToRotate) == 180   ? reverseLetters
+                                                                    : reverseDigits")
+
+        (var currentHorizontal:array = "angleToRotate == 0          ? digits :
+                                        angleToRotate == 90         ? reverseLetters :
+                                        abs(angleToRotate) == 180   ? reverseDigits
+                                                                    : letters")
+    )
+
+    (class $FullsizeAbsolute)
+
+    (block 
+        (style (position = "absolute") (bind left "coordMargin"))
+        (controller $Repeat renderer='MinimapCoordsLabel'
+            (bind count "currentVertical.length")
+            (args _height="scaleRatio / 10" _value="currentVertical[$index]")
+            (exprs
+                (scope
+                    (bind height "scaleRatio  /  10")
+                    (bind value "currentVertical[$index]")
+                )
+            )
+        )
+    )
+
+    (hblock 
+        (style (position = "absolute") (bind top "coordMargin"))
+        (controller $Repeat renderer='MinimapCoordsLabel'
+            (bind count "currentHorizontal.length")
+            (args _width="scaleRatio / 10" _value="currentHorizontal[$index]")
+            (exprs
+                (scope
+                    (bind width "scaleRatio / 10")
+                    (bind value "currentHorizontal[$index]")
+                )
+            )
+        )
+    )
+)
+
+(def element MinimapOptionsButton () layout=true
+    (scope
+        (macro MOUSE_HANDLER_SCOPE)
+        (event evSwitchOptionsPanel)
+        (var isInfotip:bool = "$event.isVisible" watch=false init=false (event "evSwitchOptionsPanel"))
+        (var isTooltip:bool = "rollOver && !(isInfotip)")
+
+        
+        
+        
+        
+        (var mouse:gfx = "$datahub.getSingleComponent(CC.mouse)")
+        (var isMouseActive:bool = "mouse.active" (event "mouse.evActiveChanged"))
+    )
+    (dispatch evSwitchOptionsPanel args="{isVisible: false}" (bind trigger "isMouseActive") (bind enabled "!(isMouseActive)"))
+
+    
+    (block
+        (style (position = "absolute") (right = "-32px") (bottom = "-22px"))
+        (controller $Instance (renderer = 'MinimapOptions')
+            (args _isTooltip="isTooltip")
+            (exprs
+                (scope
+                    (bind isTooltip "isTooltip")
+                )
+                (bind visible "isInfotip || isTooltip")
+            )
+        )        
+    )
+
+    
+    (block
+        (style
+            (position = "absolute") (right = "-20px") (top = "-18px")
+        )
+        (mc button_settings_small
+            (dispatch evSwitchOptionsPanel args="{isVisible: !(isInfotip)}" on='buttonClick')
+            (macro MOUSE_EVENTS_DISPATCHER)
+        )
+    )
+)
+
+(def element MinimapRectAttention (_scaleRatio:number, row:number, column: number, idPlayer:number) layout=true
+    (scope
+        (var scaleRatio:number = "_scaleRatio")
+    )
+    (style
+        (position = "absolute")
+        (bind top "scaleRatio * 0.1 * (row + 0.5)")
+        (bind left "scaleRatio * 0.1 * (column + 0.5)")
+        (bind backgroundImage "'symbol:minimap_rect_attention'")
+    )
+)
+
+(def element MinimapCoordsLabel (_width:number=0, _height:number=0, _value:str='') layout=true
+    (scope
+        (var width:number = "_width")
+        (var height:number = "_height")
+        (var value:str = "_value")
+    )
+    (style
+        (bind width "width")
+        (bind height "height")
+        (align = "center|middle")
+    )
+    (tf
+        (class $TextMinimapCoordsLabel)        
+        (bind text "value")
+    )
+)
+
+(def element MinimapGridVertical (_scaleRatio:number=0) layout=true
+    (scope
+        (var scaleRatio:number = "_scaleRatio")
+    )
+    (style 
+        (position = "absolute")
+        (width = "1px")
+        (height = "100%")
+        (backgroundColor = "0x10ffffff")
+        (bind left "scaleRatio * 0.1 * ( $index )")
+    )
+)
+
+(def element MinimapGridHorizontal (_scaleRatio:number=0) layout=true
+    (scope
+        (var scaleRatio:number = "_scaleRatio")
+    )
+	(style 
+        (position = "absolute")
+        (width = "100%")
+        (height = "1px")
+        (backgroundColor = "0x10ffffff")
+        (bind top "scaleRatio * 0.1 * ( $index )")
+    )
+)
+
+(def element MinimapSizeHotkeys () layout=true
+    (element HotkeyIndicator "Cmd.MAP_SCALE_PLUS"
+        (style (position="absolute"))
+    )
+    (element HotkeyIndicator "Cmd.MAP_SCALE_MINUS"
+        (style 
+            (position="absolute")
+            (left = "10px") (top = "10px")
+        )
+    )
+)

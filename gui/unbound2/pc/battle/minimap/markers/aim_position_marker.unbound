@@ -1,0 +1,75 @@
+(def constant AIM_POS_MAX_SHIFT_HEIGHT 4)
+
+(def element MapAimPositionMarker (_entityId:number, _mapScale:number, _itemScale:number, _scaleRatio:number) layout=true
+    (scope
+        (macro BASE_MAP_MARKER_PARAMS)
+
+        (var isVisible:bool = "entity.aimPosition.visible" (event "entity.aimPosition.evChanged"))
+    )
+
+    (controller $Instance (renderer = 'AimPositionMarker')
+        (bind enabled "isVisible")
+        (args _entityId="_entityId" _mapScale="mapScale" _itemScale="itemScale" _scaleRatio="scaleRatio")
+        (exprs
+            (scope
+                (bind mapScale "mapScale")
+                (bind itemScale "itemScale")
+                (bind scaleRatio "scaleRatio")
+            )
+        )
+    )
+)
+
+(def element AimPositionMarker (_entityId:number, _mapScale:number, _itemScale:number, _scaleRatio:number) layout=true
+    (scope
+        (macro BASE_MAP_MARKER_PARAMS)
+
+        (var isVisible:bool = "entity.aimPosition.visible" (event "entity.aimPosition.evChanged"))
+        (var position:gfx = "entity.mapPosition.position")
+        (var posX:number = "position.x" (event "evEnterFrame"))
+        (var posY:number = "position.y" (event "evEnterFrame"))
+        (var yaw:number = "radToGrad(entity.mapPosition.yaw)" (event "evEnterFrame"))
+
+        (var offset:number = "entity.aimPosition.offset" (event "evEnterFrame"))
+
+        (var minimapOptions:gfx = "$datahub.getSingleComponent(CC.minimapOptions)")
+        (var rangesAlpha:number = "minimapOptions.rangesAlpha / 100" (event "minimapOptions.evChanged"))
+
+        (var positionX:number = "posX * scaleRatio" watch=false)
+        (controller $Animation
+            (bindcall play  duration=0.07
+                            easing="Easing.linear"
+                            to="{ positionX:position.x * scaleRatio }"
+                            watch=false
+                            (bind trigger "posX")
+                            (bind enabled "isVisible")
+            )
+        )
+
+        (var positionY:number = "posY * scaleRatio" watch=false)
+        (controller $Animation
+            (bindcall play  duration=0.07
+                            easing="Easing.linear"
+                            to="{ positionY:position.y * scaleRatio }"
+                            watch=false
+                            (bind trigger "posY")
+                            (bind enabled "isVisible")
+            )
+        )
+    )
+
+    (bind x "positionX")
+    (bind y "positionY")
+    (bind rotation "yaw")
+    (macro BIND_FAIR_SCALE "mapScale")
+    
+    (bind visible "isVisible")
+    (bind alpha "rangesAlpha")
+
+    (block
+        (bind y "-offset")
+        (style
+            (backgroundImage = "'symbol:minimap_aim_position'")
+        )
+    )
+)

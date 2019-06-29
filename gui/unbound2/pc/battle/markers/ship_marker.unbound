@@ -1,0 +1,48 @@
+(def macro SHIP_MARKER_ICON_DATA (_entityId:expression)
+    (var entity:gfx = "$datahub.getEntity(_entityId)")
+    (var avatarComponent:gfx = "entity.avatar")
+    (var subType:str = "avatarComponent.ship.ref.ship.subtype")
+    (var shipType:str = "toLower(subType)")
+    (var isSelf:bool = "entity.relation.value == 0" (event "entity.relation.evChanged"))
+    (var isAlly:bool = "entity.relation.value == 1" (event "entity.relation.evChanged"))
+    (var isAlive:bool = "entity.health.isAlive" (event "entity.health.evIsAliveChanged"))
+    (var tkStatus:bool = "avatarComponent.tkStatus && isAlly" (event "avatarComponent.evTeamkillStatusChanged"))
+    (var ttkStatus:bool = "avatarComponent.ttkStatus" (event "avatarComponent.evTTKStatusChanged"))
+    (var isInSameDivision:bool = "avatarComponent.isInSameDivision" (event "avatarComponent.evDivisionChanged"))
+    (var isDeadEnemy:bool = "!isAlly && !isAlive")
+    (var worldVisible:bool = "entity.visibility.visible" (event "entity.visibility.evChanged"))
+    (var mapVisible:bool = "entity.visibility.mapVisible" (event "entity.visibility.evChanged"))
+)
+
+
+(def element ShipMarkerIconSimple (_entityId:number) layout=true
+    (scope
+		(var entityId:number = "_entityId")
+        (macro SHIP_MARKER_ICON_DATA "entityId")
+
+		(var markerIcon:str = 
+			"isAlive 
+				? isSelf
+					? 'own_' + shipType + '_small'
+					: isAlly
+						? ttkStatus 
+							? 'henkey_ally_' + shipType
+							: isInSameDivision
+								? 'division_' + shipType + '_small'
+								: tkStatus 
+									? 'ally_' + shipType + '_teamkiller_small' 
+									: 'ally_' + shipType + '_small'
+						: ttkStatus 
+							? 'henkey_enemy_' + shipType
+							: 'enemy_' + shipType + '_small'
+				: isAlly || isSelf
+					? 'ally_' + shipType + '_sunk_small'
+					: 'enemy_' + shipType + '_sunk_small'")
+    )
+
+    (block
+		(style
+			(bind backgroundImage "'bitmap:' + toLower(markerIcon)")
+		)
+	)
+)

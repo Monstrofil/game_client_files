@@ -46,6 +46,16 @@
 	</window>
 
 	<window>
+		<name>FakeDock</name>
+		<python_class>Dock</python_class>
+		<config>../unbound/fake_elements.xml</config>
+		<root_element_id>FakeDock</root_element_id>
+		<drawWorld>True</drawWorld>
+		<release>hold_with_suspend</release>
+		<consume_events>false</consume_events>
+	</window>
+
+	<window>
 		<name>ModalWindowBattleTypeChooser</name>
 		<hideTime>0.15</hideTime>
 		<config>../unbound/modal_battle_type_chooser.xml</config>
@@ -85,12 +95,6 @@
 	</window>
 
 	<window>
-		<name>Admin</name>
-		<python_class>AdminPanel</python_class>
-		<swf_url>admin_panel.swf</swf_url>
-	</window>
-
-	<window>
 		<name>LoadingBattle</name>
 		<python_class>BattleLoading</python_class>
 		<swf_url>battle_loading.swf</swf_url>
@@ -101,10 +105,17 @@
 	</window>
 
 	<window>
+		<name>FakeLoadingBattle</name>
+		<swf_url>battle_loading.swf</swf_url>
+		<config>../unbound/fake_elements.xml</config>
+		<root_element_id>FakeBattleLoading</root_element_id>
+		<cursorLock>True</cursorLock>
+	</window>
+
+	<window>
 		<name>Battle</name>
 		<python_class>Battle</python_class>
 		<as3_class>lesta.dialogs.BattleWindow</as3_class>
-		<swf_url>battle_new.swf</swf_url>
 		<drawWorld>True</drawWorld>
 		<cursorLock>True</cursorLock>
 		<statistics_event>wnd:battle.battle</statistics_event>
@@ -175,20 +186,18 @@
 
 	<window>
 		<name>LobbyMenu</name>
-		<python_class>GameMenu</python_class>
-		<swf_url>lobby_menu.swf</swf_url>
+		<config>../unbound/lobby_menu.xml</config>
+		<root_element_id>LobbyMenu</root_element_id>
 		<hideTime>0.3</hideTime>
 		<statistics_event>wnd:menu.lobby</statistics_event>
-		<!--<as3_class>lesta.dialogs.game_menu.GameMenu</as3_class>	-->
 	</window>
 
 	<window>
 		<name>GameMenu</name>
-		<python_class>GameMenu</python_class>
-		<swf_url>game_menu.swf</swf_url>
+		<config>../unbound/game_menu.xml</config>
+		<root_element_id>GameMenu</root_element_id>
 		<hideTime>0.3</hideTime>
 		<statistics_event>wnd:menu.battle</statistics_event>
-		<!--<as3_class>GameMenu</as3_class>	-->
 	</window>
 
 	<window>
@@ -201,8 +210,15 @@
 	<window>
 		<name>RandomBattle</name>
 		<python_class>RandomBattle</python_class>
-		<swf_url>random_battle.swf</swf_url>
+		<config>../unbound/random_battle.xml</config>
+		<root_element_id>RandomBattleWindow</root_element_id>
 		<statistics_event>wnd:battle.balancer</statistics_event>
+	</window>
+
+	<window>
+		<name>FakeRandomBattle</name>
+		<config>../unbound/fake_elements.xml</config>
+		<root_element_id>FakeRandomBattle</root_element_id>
 	</window>
 
 	<window>
@@ -588,12 +604,6 @@
 	</window>
 
 	<window>
-		<name>customHud</name>
-		<python_class>CustomHud</python_class>
-		<swf_url>custom_hud.swf</swf_url>
-	</window>
-
-	<window>
 		<name>ModalWindowRankChanged</name>
 		<hideTime>0.7</hideTime>
 		<config>../unbound/modal_rank_changed.xml</config>
@@ -841,6 +851,11 @@
 		<hideTime>0.5</hideTime>
 		<config>../unbound/modal_window_arc_event_postbattle_result.xml</config>
 		<root_element_id>ModalWindowArcEventResult</root_element_id>
+		<bitmaps>
+			../events/arc_event/common/arc_event_bg_default.jpg,
+			../events/arc_event/final_screen/arc_event_content_bg.jpg,
+			../events/arc_event/final_screen/arc_event_content_bg_noise_mask.png
+		</bitmaps>
 	</window>
 
 	<window>
@@ -850,7 +865,7 @@
 		<root_element_id>ModalWindowArcEventFinish</root_element_id>
 		<bitmaps>
 			../events/arc_event/common/arc_event_bg_default.jpg,
-			../events/arc_event/final_screen/arc_event_content_bg.png
+			../events/arc_event/final_screen/arc_event_content_bg.jpg
 		</bitmaps>
 	</window>
 
@@ -904,6 +919,7 @@
 	<window>
 		<name>ModalWindowTrainingRoomsList</name>
 		<hideTime>0.6</hideTime>
+        <swf_url>login.swf</swf_url>
 		<config>../unbound/modal_training_rooms_list.xml</config>
 		<root_element_id>ModalWindowTrainingRoomsList</root_element_id>
 		<statistics_event>wnd:training.rooms</statistics_event>
@@ -1022,6 +1038,14 @@
 	</window>
 
 	<window>
+		<name>ModalWindowRogueWaveRules</name>
+		<hideTime>0.7</hideTime>
+		<config>../unbound/modal_window_rogue_wave_rules.xml</config>
+		<root_element_id>ModalWindowRogueWaveRules</root_element_id>
+		<!--<statistics_event>wnd:replays.leave</statistics_event>-->
+	</window>
+
+	<window>
 		<name>ModalWindowOpenAllLootBoxes</name>
 		<hideTime>0.7</hideTime>
 		<config>../unbound/modal_window_open_all_loot_boxes.xml</config>
@@ -1077,6 +1101,13 @@
 		<config>../unbound/modal_reward_container.xml</config>
 		<root_element_id>ModalWindowRewardContainer</root_element_id>
 		<statistics_event>wnd:player.rewards</statistics_event>
+	</window>
+
+	<window>
+		<name>ModalWindowEventRules</name>
+		<hideTime>0.2</hideTime>
+		<config>../unbound/modal_window_event_rules.xml</config>
+		<root_element_id>ModalWindowEventRules</root_element_id>
 	</window>
 
 </windows_config.xml>

@@ -1,0 +1,119 @@
+(def constant SoundEvent "{
+    OVER: 'over',
+    OUT: 'out',
+    PRESS: 'press',
+    CLICK: 'click'
+}")
+
+(def macro SOUND_HANDLER (_soundSet:expression='', _prefix:expression='')
+    (bindcall externalCall 'sound.playSetSoundDirect' "[_soundSet, SoundEvent.OVER]" init=false watch=false (event "$scope[_prefix + 'evMouseOver']"))
+    (bindcall externalCall 'sound.playSetSoundDirect' "[_soundSet, SoundEvent.OUT]" init=false watch=false (event "$scope[_prefix + 'evMouseOut']"))
+    (bindcall externalCall 'sound.playSetSoundDirect' "[_soundSet, SoundEvent.PRESS]" init=false watch=false (event "$scope[_prefix + 'evMouseDown']"))
+    (bindcall externalCall 'sound.playSetSoundDirect' "[_soundSet, SoundEvent.CLICK]" init=false watch=false (event "$scope[_prefix + 'evMouseUp']"))
+)
+
+(def element CheckBoxNoLabel (_selected:bool, _enabled:bool=true, _interactive:bool=true, _rollOver:bool=false) layout=true
+    (scope
+        (var selected:bool = "_selected")
+        (var enabled:bool = "_enabled")
+        (var rollOver:bool = "_rollOver")
+        (var interactive:bool = "_interactive")
+
+        (macro MOUSE_HANDLER_SCOPE "'cb_'")
+
+        (var privRollOver:bool = "cb_rollOver || rollOver")
+    )
+    
+    (style (width = "20px") (height = "20px"))
+
+    
+    (block
+        (bind visible "interactive")
+
+        (style
+            (backgroundImage = "'bitmap:checkbox_up'")
+        )
+
+        
+        (block
+            (bind alpha "   enabled     ? (privRollOver ? 0.7 : 0) :
+                            selected    ? 0.7
+                                        : 0")
+            (style
+                (position = "absolute")
+                (backgroundImage = "'bitmap:checkbox_over'")
+            )
+
+            (controller $Animation        
+                (bindcall play
+                    duration=0.3
+                    from={alpha: 0}
+                    to={alpha: 0.7}
+                    reverse="!(privRollOver)"
+                    easing="Easing.linear"
+                    (bind trigger "privRollOver")
+                )
+            )
+        )
+    )
+
+    
+    (block
+        (bind visible "selected")
+        (style
+            (position = "absolute")
+            (backgroundImage = "'bitmap:checkbox_check'")
+        )
+    )
+
+    (macro MOUSE_HANDLER "enabled" "'cb_'")
+)
+
+(def element CheckBox (_selected:bool, _label:str='', _enabled:bool=true) layout=true
+    (scope
+        (var selected:bool = "_selected")
+        (var enabled:bool = "_enabled")
+
+        (macro MOUSE_HANDLER_SCOPE "'cb_'")
+    )
+
+    (hblock
+        (controller $Instance (renderer = 'CheckBoxNoLabel')
+            (args _selected="selected" _enabled="enabled" _interactive="true" _rollOver="cb_rollOver")
+            (exprs
+                (scope
+                    (bind selected "selected")
+                    (bind rollOver "cb_rollOver")
+                )
+            )
+        )
+
+        (tf
+            (class $TextDefaultNM)
+            (bind alpha "cb_rollOver && !(cb_mouseDown) ? 1 : 0.8")
+            (style
+                (textColor = "0xFFFFFF")
+            )
+            (bind text "_label")
+        )
+    )
+
+    (macro MOUSE_HANDLER "enabled" "'cb_'")
+)
+
+(def element Slider (_value:number, _min:number, _max:number, _enabled:bool=true) layout=true
+    (scope
+        (var enabled:bool = "_enabled")
+
+        (event evValueChanged)
+        (var value:number = "$event.value" init=false watch=false (event "evValueChanged"))
+    )
+
+    (mc slider_default
+        (bind minimum "_min")
+        (bind maximum "_max")
+        (bind value "_value")
+        (bind enabled "enabled")
+        (dispatch evValueChanged args="{value: $event.value}" dir=1 on='valueChange')
+    )
+)

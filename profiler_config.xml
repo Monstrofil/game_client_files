@@ -20,7 +20,6 @@ Each entry corresponds to a profiler marker in C++ code
 	<entry id="Global_Threads_Count" unit="0" count="0" />
 	<entry id="Video_Mem_Textures_Loaded" unit="2" count="0" />
 	<entry id="Video_Mem_Textures_Terrain" unit="2" count="0" />
-	<entry id="Video_Mem_Textures_Terrain_System" unit="2" count="0" />
 	<entry id="Video_Mem_Geometry_Loaded" unit="2" count="0" />
 	<entry id="Video_Mem_Vertex_Loaded" unit="2" count="0" />
 	<entry id="Video_Mem_Index_Loaded" unit="2" count="0" />
@@ -83,6 +82,7 @@ Each entry corresponds to a profiler marker in C++ code
 	<entry id="CPU_Update" unit="1" count="0" />
 	<entry id="CPU_Update_EventSystem" unit="1" count="0"/>
 	<entry id="CPU_Update_GUI" unit="1" count="0" />
+	<entry id="CPU_Update_GUI_StartUpdate" unit="1" count="0" />
 	<entry id="CPU_Update_GUI_Invoke" unit="1" count="1" />	
 	<entry id="CPU_Update_GUI_Minimap" unit="1" count="1" />
 	<entry id="CPU_Update_GUI_Advance" unit="1" count="1" />
@@ -190,7 +190,6 @@ Each entry corresponds to a profiler marker in C++ code
 	<entry id="Visibility_update"  unit="1" count="0" />
 	<entry id="CPU_Draw_UI_PA_Total" unit="1" count="0" />
 	<entry id="CPU_Draw_UI_TA_CastShadows_Total" unit="1" count="0" />
-	<entry id="CPU_Draw_UI_TA_CastShadows_Terrain" unit="1" count="0" />
 	<entry id="CPU_Draw_UI_TA_CastShadows_Objects" unit="1" count="0" />
 	<entry id="CPU_Draw_UI_TA_Total" unit="1" count="0" />
 	<entry id="CPU_Draw_UI_Render" unit="1" count="0" />
@@ -256,7 +255,6 @@ Each entry corresponds to a profiler marker in C++ code
 	<entry id="GPU_UI_PA_Total" unit="1" count="0" />
 	<entry id="GPU_UI_TA_Total" unit="1" count="0" />
 	<entry id="GPU_UI_TA_CastShadows_Total" unit="1" count="0" />
-	<entry id="GPU_UI_TA_CastShadows_Terrain" unit="1" count="0" />
 	<entry id="GPU_UI_TA_CastShadows_Objects" unit="1" count="0" />
 	<entry id="GPU_UI_TA_Decals" unit="1" count="0" />
 	<entry id="UI_TA_Sectors" unit="1" count="0" />
@@ -467,8 +465,11 @@ Each entry corresponds to a profiler marker in C++ code
 
 	<entry id="WebBrowser_ProcessesCount" unit="0" count="0" />
 	<entry id="WebBrowser_Memory" unit="2" count="0" />
-
-	<entry id="CPU_Draw_GUI_HAL" unit="1" count="0" />
+	<entry id="CPU_Draw_GUI_Start" unit="1" count="0" />
+	<entry id="CPU_Draw_GUI_Draw" unit="1" count="0" />
+	<entry id="CPU_Draw_GUI_Finish" unit="1" count="0" />
+	<entry id="CPU_Draw_GUI_Wait" unit="1" count="0" />
+	<entry id="CPU_Draw_GUI_Flush" unit="1" count="0" />
 	<entry id="CPU_Draw_GUI_RenderTargetWrapper" unit="1" count="0" />
 	<entry id="CPU_Draw_GUI_UIBlur" unit="1" count="0" />
 	<entry id="CPU_Update_Script_Callback" unit="1" count="0" />

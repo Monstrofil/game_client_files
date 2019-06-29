@@ -152,7 +152,12 @@
 
 	<component name="AccountSelf">
 		<property	name="shouldRedirectOnCompletion"	type="Boolean"/>
-		<property	name="replaysAvailable"	type="Boolean"/>
+		<property	name="replaysAvailable"				type="Boolean"/>
+
+		<!-- UNKNOWN = 0, YES = 1, NO = 2, declarated at wows/game/res/gui/data/constants/common.xml -->
+		<property	name="hasRecruitsStatus"			type="Integer"	default="0"/>
+
+		<event		name="evHasRecruitsStatusChanged"/>
 	</component>
 
 	<component name="AccountRealm">
@@ -359,10 +364,6 @@
 		<event		name="evIsCommanderChanged"/>
 	</component>
 
-	<component name="PartyPreBattlePlayer">
-		<property name="clubId" type="Integer"/>
-	</component>
-
 	<!-- prebattles -->
 
 	<component	name="ContactsGroup">
@@ -388,6 +389,7 @@
 		<property	name="nameIds"				type="String"		/>
 		<property	name="isLocal"				type="Boolean"		/>
 		<property	name="isIgnorList"			type="Boolean"		/>
+		<property	name="isReferralsList"		type="Boolean"		/>
 		<property	name="elements"				type="List"			/>	<!-- refs to entities with ElementInGroup, see ContactsGroup, ChannelsGroup entities-->
 
 		<event		name="evNameChanged"/>
@@ -639,8 +641,8 @@
 	</component>
 
 	<component	name="CrewUniqueSkill">
-		<property	name="achievementName"		type="String"	pk="true"/>
-
+		<property	name="id"					type="String"	pk="true"/>
+		<property	name="achievementName"		type="String"	/>
 	</component>
 	
 	<component	name="CrewVanity">
@@ -922,6 +924,7 @@
 		<property	name="winnerClanId"			type="Integer"		/>
 		<property	name="active"				type="Boolean"		/>
 		<property	name="isCurrent"			type="Boolean"		/>
+		<property	name="isBrawl"				type="Boolean"		/> <!-- false if regular and true if brawl -->
 		<property	name="stage"				type="Integer"		/>
 		<property	name="shipLevelMin"			type="Integer"		/>
 		<property	name="shipLevelMax"			type="Integer"		/>
@@ -1018,22 +1021,23 @@
 	</component>
 
 	<component	name="ClanBattleResult">
-		<property	name="arenaUniqueID"			type="String"		pk="true"/>
-		<property	name="squadId"					type="Integer"/>
-		<property	name="battleResult"				type="String"	/>  <!-- see clans_constants.CLAN_BATTLE_PROGRESS -->
+		<property	name="arenaUniqueID"						type="String"		pk="true"/>
+		<property	name="squadId"								type="Integer"/>
+		<property	name="battleResult"							type="String"	/>  <!-- see clans_constants.CLAN_BATTLE_PROGRESS -->
+
 		<property	name="fromDivisionMinRatingForDemotion"		type="Integer"	/>
-		<property	name="fromRating"				type="Integer"	/> <!-- нормализованный рейтинг клана внутри дивизии -->
+		<property	name="fromRating"							type="Integer"	/> <!-- нормализованный рейтинг клана внутри дивизии -->
 		<property	name="fromDivisionMaxRatingForPromotion"	type="Integer"	/>
 		
 		<property	name="toDivisionMinRatingForDemotion"		type="Integer"	/>
-		<property	name="toRating"					type="Integer"	/> <!-- нормализованный рейтинг клана внутри дивизии -->
-		<property	name="toDivisionMaxRatingForPromotion"	type="Integer"	/>
+		<property	name="toRating"								type="Integer"	/> <!-- нормализованный рейтинг клана внутри дивизии -->
+		<property	name="toDivisionMaxRatingForPromotion"		type="Integer"	/>
 
-		<property	name="fromDivisionId"			type="Integer"	/>
-		<property	name="fromLeagueId"				type="Integer"	/>
-		<property	name="stage"					type="String"	/> <!-- 'promotion', 'demotion', 'league', 'qualification' -->
-		<property	name="toLeagueId"				type="Integer"	/>
-		<property	name="toDivisionId"			type="Integer"	/>
+		<property	name="fromDivisionId"						type="Integer"	/>
+		<property	name="fromLeagueId"							type="Integer"	/>
+		<property	name="stage"								type="String"	/> <!-- 'promotion', 'demotion', 'league', 'qualification' -->
+		<property	name="toLeagueId"							type="Integer"	/>
+		<property	name="toDivisionId"							type="Integer"	/>
 
 		<event		name="evChanged"/>
 	</component>
@@ -1054,6 +1058,19 @@
 		<property	name="toBattleProgress"			type="Array"	/>  <!-- [x,x,x,x,x] - 'victory', 'defeat', 'draw', 'unknown' -->
 
 		<property	name="isProgressFinished"		type="Boolean"	/>
+
+		<event		name="evChanged"/>
+	</component>
+
+	<component	name="ClanBrawlResult">
+		<property	name="arenaUniqueID"	type="String"		pk="true"/>
+
+		<property	name="battleResult"		type="String"/>
+		<property	name="realm"			type="String"/>
+		<property	name="place"			type="Integer"/>
+		<property	name="winsCount"		type="Integer"/>
+		<property	name="battlesCount"		type="Integer"/>
+
 
 		<event		name="evChanged"/>
 	</component>
@@ -1081,12 +1098,19 @@
 		<property 	name="levelRome"			type="String"		/>
 	</component>
 
-	<component	name="Aircarrier"	>
-		<property 	name="activeSquadron"			type="Integer"		/>
-		<property 	name="squadronCameraMode"		type="String"	default="'default'" /> <!-- class SquadronCameraMode -->
-		<event		name="evSquadronCameraModeChanged"	/>
-		<event		name="evStateChanged"	/>
-	</component>
+    <component	name="Aircarrier"	>
+        <property 	name="canLaunchTimestamp"		type="Number"	default="0" /> <!-- delay before launch squadron after battle started -->
+        <property 	name="canLaunchSquadrons"		type="Boolean"	default="true" /> <!-- delay before launch squadron after battle started -->
+        <property 	name="activeSquadron"			type="Integer"	default="-1"	/>
+        <property 	name="selectedSquadron"			type="Integer"	default="-1"	/>
+        <property 	name="squadronCameraMode"		type="String"	default="'default'" /> <!-- class SquadronCameraMode -->
+
+        <event  	name="evCanLaunchTimestampChanged"	    />
+        <event  	name="evCanLaunchSquadronsChanged"	    />
+        <event		name="evSelectedSquadronChanged"	/>
+        <event		name="evSquadronCameraModeChanged"	/>
+        <event		name="evStateChanged"	/>
+    </component>
 
 	<component	name="ForsageElement"	>
 		<property	name="min"					type="Number"		/>
@@ -1109,41 +1133,16 @@
 		<property	name="planeTypeIndex"		type="Integer"		/> <!-- index for element with current planeType-->
 		<property	name="commandId"			type="Integer"		/>
 
-		<property	name="numInQueue"			type="Integer"		/>
-		<property	name="numPlanes"			type="Integer"/>
 		<property	name="attackerSize"			type="Integer"		/> <!-- num of attackers -->
-		<property	name="state"				type="Integer"		/>
-		<property	name="order"				type="String"		/>
-
-		<property	name="attackState"			type="Integer"		/>
-		<property	name="underAttack"			type="Boolean"		/>
 		<property	name="numBombs"				type="Integer"		/>
-		<property	name="ammo"					type="Number"		/>
-		<property	name="maxAmmo"				type="Number"		/>
 
-		<property	name="canLand"				type="Boolean"		/>
-		<property	name="canEscort"			type="Boolean"		/>
+		<property	name="state"				type="Integer"		/>
+		<property	name="attackState"			type="Integer"		/>
 
-		<property	name="hasAA"				type="Boolean"		/>
-		<property	name="hasBomb"				type="Boolean"		/>
-
-		<property	name="selectedWeapon"		type="Integer"		/>
-
-		<event		name="evAmmoChanged"	/>
-		<event		name="evBombChanged"	/>
+		<event		name="evNumBombsChanged"	/>
 		<event		name="evStateChanged"	/>
-		<event		name="evOrderChanged"	/>
-		<event		name="evAttackingStateChanged"	/>
-		<event		name="evAttackedStateChanged"	/>
-		<event		name="evRadioFeedback"	/>
-		<event		name="evSelectedWeaponChanged"	/>
-		<event		name="evGoingHome"	/>
+		<event		name="evAttackStateChanged"	/>
 
-		<event name="evNumInQueueChanged"/>
-		<event name="evNumPlanesChanged"/>
-
-		<event name="evCanLandChanged"/>
-		<event name="evCanEscortChanged"/>
 	</component>
 
 	<component name="Aircraft" >
@@ -1190,6 +1189,8 @@
 		<event		name="evDrag"	/>
 		<event		name="evDraggableChanged"	/>
 		<event		name="evIndexChanged"	/>
+		<event		name="evPrevChanged"	/>
+		<event		name="evNextChanged"	/>
 	</component>
 
 	<component	name="AttackRadius"	>
@@ -1288,6 +1289,13 @@
 		<property name="mapBGPath" type="String"/>
 		<property name="enabled" type="Boolean" default="true"/>
 	</component>
+	
+	<component name="Minimap">
+		<property name="rotationAngleDeg"	type="Number"/>
+		
+		<event name="evRotationAngleDegChanged"/>
+		<event name="evRectAttention"/>
+	</component>
 
 	<component	name="MinimapOptions"	>
 		<property	name="sonarRangeEnabled"					type="Boolean"		/>
@@ -1295,20 +1303,27 @@
 		<property	name="visibilityRangeEnabled"				type="Boolean"		/>
 		<property	name="visibilityPlaneRangeEnabled"			type="Boolean"		/>
 		<property	name="atbaRangeEnabled"						type="Boolean"		/>
-		<property	name="aaRangeEnabled"						type="Boolean"		/>
-		<property	name="mgRangeEnabled"						type="Boolean"		/>
-		<property	name="taRangeEnabled"						type="Boolean"		/>
-		<property	name="lastVisEnabled"						type="Boolean"		/>
+		<property	name="aaRangeMaxEnabled"					type="Boolean"		/>
+		<property	name="shootMGRangeEnabled"					type="Boolean"		/>
+		<property	name="shootTARangeEnabled"					type="Boolean"		/>
 		<property	name="distanceDisplayEnabled"				type="Boolean"		/>
 		<property	name="shipNamesDisplayEnabled"				type="Boolean"		/>
+		<property 	name="minimapRotationEnabled" 				type="Boolean"		/>
+		<property 	name="minimapSizeIndex" 					type="Integer"		/>
 		<property	name="rangesAlpha"							type="Integer"		/>
 		<property	name="waterAlpha"							type="Integer"		/>
+		
 		<event name="evChanged"/>
+		<event name="evMinimapSizeIndexChanged"/>
 	</component>
-
-	<component name="MinimapSize">
-		<property name="minimapSizeIndex" type="Integer"/>
-		<event name="evChanged"/>
+	
+	<component name="MinimapRange">
+		<property name="parameterKey" 	type="String"/>
+		<property name="type" 			type="Integer"	default="-1"/>
+		<property name="isConsumable" 	type="Boolean"/>
+		<property name="isActive" 		type="Boolean"	default="true"/>
+		
+		<event name="evIsActiveChanged"/>
 	</component>
 
 	<component	name="Health"	>
@@ -1971,6 +1986,8 @@
 	<component	name="AimPosition"	>
 		<property name="offset"			type="Number" 	/>
 		<property name="visible"		type="Boolean" 	/>
+		
+		<event name="evChanged"/>
 	</component>
 	
 	<component	name="CanHit">
@@ -2039,15 +2056,11 @@
 	</component>
 
 	<component	name="Timer"	>
-		<property name="currentTime" type="Number"/>
-
+		<property name="currentTime"			type="Number"/>
+		<property name="currentServerTime"		type="Number"/>
 		<event		name="evDrawer"		/> <!-- TODO: WWSD-76249 REMOVE THIS EVENT and replace with Event.ENTER_FRAME -->
 		<event		name="evFrequent"		/>
 		<event		name="evInfrequent"	/>
-	</component>
-
-	<component	name="ServerTime"	>
-		<property name="currentTime" type="Number"/>
 	</component>
 
 	<component	name="Progress"	>
@@ -2852,7 +2865,6 @@
 
     <component name="PrefsBattle">
         <property name="altVisionMode" type="Integer" default="0"/>
-        <property name="minimapRotation" type="Boolean" default="false"/>
         <property name="enableEars" type="Boolean" default="false"/>
         <property name="simultaneousReload" type="Boolean" default="false"/>
         <property name="autoATBAswitch" type="Boolean" default="false"/>
@@ -2981,6 +2993,7 @@
 		<property name="isSyncedWithWallet"		type="Boolean"/>
 		<property name="operationsLocked"		type="Boolean"/>
 		<property name="operationsLockReasons"	type="Array"/>
+		<property name="hasReferralPoints"		type="Boolean"/>
 		
 		<event name="evChangedGold"/>
 		<event name="evChangedCredit"/>
@@ -3002,6 +3015,7 @@
 		<event name="evUpdateSplitCurrency"/>
 		<event name="evChangedSplitGold"/>
 		<event name="evChangedSplitCredit"/>
+		<event name="evChangedHasReferralPoints"/>
 	</component>
 
 	<component name="LoginData">
@@ -3099,11 +3113,8 @@
 		<property name="collectionName" type="String"/>
 		<property name="description" type="String"/>
 		<property name="isOwned" type="Boolean"/>
-		<property name="isSeen" type="Boolean"/>
-		<property name="isPasted" type="Boolean"/>
 		<event name="evUpdate"/>
 		<event name="evOwn"/>
-		<event name="evPasted"/>
 	</component>
 
 	<component name="CollectionAlbum">
@@ -3119,8 +3130,6 @@
 		<property name="unPastedCardIndex" type="Number"/>
 		<property name="progress" type="Number"/>
 		<property name="cardCost" type="Integer"/>
-		<property name="isSeen" type="Boolean"/>
-		<property name="isSeenCards" type="Boolean"/>
 		<property name="isFull" type="Boolean"/>
 		<property name="inSubscription" type="Boolean"/>
 		<property name="subscriptionEnable" type="Boolean"/>
@@ -3129,6 +3138,8 @@
 		<property name="compensations" type="Array"/>
 		<property name="comingSoon" type="Boolean"/>
 		<property name="congratulationShown" type="Boolean"/>
+		<property name="changeStateTimestamp" type="Integer"/>
+		<event name="evUnPastedCardIndexChanged"/>
 		<event name="evUpdate"/>
 		<event name="evFull"/>
 	</component>
@@ -3140,12 +3151,12 @@
 		<property name="subAlbumID" type="Number"/>
 		<property name="description" type="String"/>
 		<property name="ownCards" type="Array"/>
-		<property name="isSeenCards" type="Boolean"/>
 		<property name="cards" type="Array"/>
 		<property name="rewards" type="Array"/>
 		<property name="isFull" type="Boolean"/>
 		<property name="unPastedCardIndex" type="Number"/>
 		<property name="congratulationShown" type="Boolean"/>
+		<event name="evUnPastedCardIndexChanged"/>
 		<event name="evUpdate"/>
 		<event name="evFull"/>
 	</component>
@@ -3279,7 +3290,16 @@
 	<component name="DogTagComponentSaved">
 	</component>
 
-	<component name="DogTagComponentNew">
+	<component name="NewItem">
+		<property	name="type"								type="Integer"		/>
+		<property	name="count"							type="Integer"		/>
+		<event name="evCountChanged"/>
+	</component>
+
+	<component name="NewContent">
+		<property	name="id"								type="Integer"		pk="true"/>
+		<property	name="count"							type="Integer"		/>
+		<event name="evCountChanged"/>
 	</component>
 
 	<component name="DogTagView">
@@ -3480,6 +3500,16 @@
 	<component name="BattleInfo">
 		<property name="mapId" 				type="Integer"/>
 		<property name="gameModeId" 		type="Integer"/>
+		<property name="gameMode" 			type="String"/>
+		<property name="gameModeDescription" 	type="String"/>
+		<property name="battleType" 		type="String"/>
+		<property name="duration" 			type="Integer"/>
+		<property name="maxDivisions" 		type="Integer"/>
+		<property name="alliedFrags" 		type="Integer"/>
+		<property name="enemyFrags" 		type="Integer"/>
+
+		<event name="evAlliedFragsChanged"/>
+		<event name="evEnemyFragsChanged"/>
 	</component>
 
 	<component name="BattleTeamScore">
@@ -3964,9 +3994,23 @@
 		<property	name="header"		type="String"				/>
 		<property	name="desc"			type="String"				/>
 		<property	name="state"		type="Integer"				/>
+		<property	name="uiState"		type="Integer"				/>
+		<property	name="chainId"		type="String"				/>
 		<property	name="active"		type="Boolean"				/>
+		<property	name="uiPriority"	type="Integer"				/>
 		<event		name="evStateChanged"							/>
 		<event		name="evActiveChanged"							/>
+	</component>
+
+	<component name="SplitRunTest">
+		<property	name="id"			type="String"	pk="true"	/>
+		<property	name="tokenId"		type="String"				/>
+		<property	name="data"			type="Dictionary"			/>
+		<event		name="evDataChanged"							/>
+	</component>
+
+	<component name="ExposedToken">
+		<property	name="id"			type="String"	pk="true"	/>
 	</component>
 
 	<!-- Event battles(gamestore)-->
@@ -4011,6 +4055,13 @@
 		<event		name="evShowPortClockChanged"/>
 		<event		name="evSimultaneousReloadChanged"/>
 		<event		name="evChanged"/>
+	</component>
+
+	<!-- RECRUIT = 0, VETERAN = 1, declarated at wows/game/res/gui/data/constants/common.xml -->
+	<component name="Referral">
+		<property	name="type"					type="Number"/>
+
+		<event		name="evTypeUpdated"		/>
 	</component>
 
 </components>

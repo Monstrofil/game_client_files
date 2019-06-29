@@ -1,0 +1,245 @@
+(def constant SETTINGS_CONTROL_TYPE {
+    CHECKBOX: 0,
+    RANGE_CHECKBOX: 1,
+    SLIDER: 2,
+    DIVIDER: 3
+})
+
+(def constant MINIMAP_OPTIONS_SETTINGS [
+    {type: 1, setProp: 'visibilityRangeEnabled', textProp: 'currentVisibilityRange', strokeClip: 'VisibilityRangeStroke', textColor: 0x6EE1F7, text: 'IDS_SHIP_PARAM_VISIBILITY_DIST_BY_SHIP'},
+    {type: 1, setProp: 'visibilityPlaneRangeEnabled', textProp: 'currentVisibilityPlaneRange', strokeClip: 'VisibilityPlaneRangeStroke', textColor: 0x6EE1D8, text: 'IDS_SHIP_PARAM_VISIBILITY_DIST_BY_PLANE'},
+    {type: 1, setProp: 'atbaRangeEnabled', textProp: 'atbaRange', strokeClip: 'ATBARangeStroke', textColor: 0xA9C272, text: 'IDS_MINIMAP_ATBA_RANGE'},
+    {type: 1, setProp: 'aaRangeMaxEnabled', textProp: 'aaRangeMax', strokeClip: 'AARangeStroke', textColor: 0xF0A522, text: 'IDS_MINIMAP_MAX_AA_RANGE'},
+    {type: 1, setProp: 'sonarRangeEnabled', textProp: 'sonarRange', strokeClip: 'SonarRangeStroke', textColor: 0x00CDFF, text: 'IDS_MINIMAP_SONAR_RANGE', textClass: '$TextDefaultBoldNM'},
+    {type: 1, setProp: 'rlsRangeEnabled', textProp: 'rlsRange', strokeClip: 'RLSRangeStroke', textColor: 0x00CDFF, text: 'IDS_MINIMAP_RLS_RANGE', textClass: '$TextDefaultBoldNM'},
+
+    {type: 3},
+
+    {type: 1, setProp: 'shootMGRangeEnabled', textProp: 'shootMGRange', strokeClip: 'MGRangeStroke', textColor: 0xCCCCCC, text: 'IDS_MINIMAP_MG_RANGE', textClass: '$TextDefaultBoldNM', disabled: true},
+    {type: 1, setProp: 'shootTARangeEnabled', textProp: 'shootTARange', strokeClip: 'MGRangeStroke', textColor: 0xCCCCCC, text: 'IDS_MINIMAP_TA_RANGE', textClass: '$TextDefaultBoldNM', disabled: true},
+
+    {type: 3},
+
+    {type: 2, setProp: 'rangesAlpha', min: 20, max: 100, text: 'IDS_MINIMAP_CIRCLES_TRANSPARENCY_SLIDER'},
+    {type: 2, setProp: 'waterAlpha', min: 0, max: 100, text: 'IDS_WATER_ALPHA_SLIDER'},
+
+    {type: 3},
+
+    {type: 0, setProp: 'distanceDisplayEnabled', text: 'IDS_MINIMAP_DIST_DIS'},
+    {type: 0, setProp: 'shipNamesDisplayEnabled', text: 'IDS_MINIMAP_SHIP_NAMES_DIS'},
+    {type: 0, setProp: 'minimapRotationEnabled', text: 'IDS_MINIMAP_ROTATION'}
+])
+
+
+(def element MinimapOptions (_isTooltip:bool=false) layout=true
+    (scope
+        (var isTooltip:bool = "_isTooltip")
+        (var paddings:number = "isTooltip ? 10 : 20")
+    )
+
+    (style (width = "380px"))
+
+    (mc notification_panel
+        (class $FullsizeAbsolute)
+        (bind visible "isTooltip")
+    )
+
+    (mc dock_panel
+        (class $FullsizeAbsolute)
+        (bind visible "!(isTooltip)")
+    )
+
+    (block
+        (style
+            (bind paddingLeft "paddings")
+            (bind paddingTop "paddings")
+            (bind paddingRight "paddings")
+            (bind paddingBottom "paddings")
+            (width = 100%)
+        )
+
+        (controller $Repeat renderer='MinimapOptionsItemAdapter'
+            (bind count "MINIMAP_OPTIONS_SETTINGS.length")
+            (args _isTooltip = "isTooltip")
+            (exprs
+                (scope
+                    (bind isTooltip "isTooltip")
+                )
+            )
+        )
+
+        (block
+            (bind visible "isTooltip")
+            (style (width = 100%))
+            (element HorizontalDivider
+                (style (marginTop = "6px") (marginBottom = "6px"))
+            )
+            (controller $Instance renderer='MouseInstruction'
+                (args
+                    _type = 'left'
+                    _instructionText = 'IDS_MINIMAP_OPTIONS_HINT'
+                    _maxWidth = 270
+                    _leading = 0
+                )
+            )
+        )
+    )
+)
+
+(def element MinimapOptionsItemAdapter (_isTooltip:bool) layout=true
+    (scope
+        (var isTooltip:bool = "_isTooltip")
+
+        (var itemOptions:dict = "MINIMAP_OPTIONS_SETTINGS[$index]")
+        (var itemType:number = "itemOptions.type")
+        (var itemEnabled:bool = "itemOptions.disabled ? false : !(isTooltip)")
+    )
+
+    (style (width = 100%))
+    
+    (controller $Instance (renderer = 'MinimapOptionsCheckBox')
+        (bind enabled "itemType == SETTINGS_CONTROL_TYPE.RANGE_CHECKBOX")
+        (args   _setProp="itemOptions.setProp" _textProp="itemOptions.textProp" _enabled="itemEnabled" _strokeClip="itemOptions.strokeClip"
+                _textClass="itemOptions.textClass ? itemOptions.textClass : '$TextDefaultNM'" _textColor="itemOptions.textColor" _text="itemOptions.text")
+        (exprs
+            (scope
+                (bind enabled "itemEnabled")    
+            )
+        )
+    )
+
+    (controller $Instance (renderer = 'MinimapOptionsCheckBox')
+        (bind enabled "itemType == SETTINGS_CONTROL_TYPE.CHECKBOX")
+        (args _setProp="itemOptions.setProp" _enabled="itemEnabled" _text="itemOptions.text")
+        (exprs
+            (scope
+                (bind enabled "itemEnabled")    
+            )
+        )
+    )
+
+    (controller $Instance (renderer = 'MinimapOptionsSlider')
+        (bind enabled "itemType == SETTINGS_CONTROL_TYPE.SLIDER")
+        (args _setProp="itemOptions.setProp" _min="itemOptions.min" _max="itemOptions.max" _enabled="itemEnabled" _text="itemOptions.text")
+        (exprs
+            (scope
+                (bind enabled "itemEnabled")    
+            )
+        )
+    )
+
+    (controller $Instance (renderer = 'MinimapOptionsDivider')
+        (bind enabled "itemType == SETTINGS_CONTROL_TYPE.DIVIDER")
+    )
+)
+
+
+
+
+
+
+
+
+(def element MinimapOptionsDivider () layout=true
+    (style (width = 100%) (marginTop = "6px") (marginBottom = "6px"))
+    (element HorizontalDivider)
+)
+
+(def element MinimapOptionsSlider (_setProp:str, _min:number, _max:number, _text:str, _enabled:bool=true) layout=true
+    (scope
+        (var enabled:bool = "_enabled")
+
+        (event evValueChanged)
+        (var minimapOptions:gfx = "$datahub.getSingleComponent(CC.minimapOptions)")
+        (var propValue:number = "minimapOptions[_setProp]" (event "minimapOptions.evChanged"))
+    )
+
+    (bindcall externalCall 'direct.action' "['battle.saveMinimapOptions', [_setProp, $event.value]]" init=false watch=false (event "evValueChanged"))
+
+    (style (height = "55px") (align = "middle") (marginLeft = "27px"))
+
+    (block
+        (tf
+            (class $TextDefaultNM)
+            (alpha = "0.8")
+            (style (marginBottom = "8px"))
+            (bind text "_text")
+        )
+        (controller $Instance (renderer = 'Slider')
+            (args _value="propValue" _min="_min" _max="_max" _enabled="enabled")
+            (exprs
+                (scope
+                    (bind enabled "enabled")
+                )
+            )
+        )
+    )
+)
+
+(def element MinimapOptionsCheckBox (_setProp:str, _textProp:str='', _enabled:bool=true, _strokeClip:str='size', _textClass:str='$TextDefaultNM', _textColor:number=0, _text:str='') layout=true
+    (scope
+        (var enabled:bool = "_enabled")
+
+        (var minimapOptions:gfx = "$datahub.getSingleComponent(CC.minimapOptions)")
+        (var propValue:bool = "minimapOptions[_setProp]" (event "minimapOptions.evChanged"))
+
+        (var avatarEntity:gfx = "$datahub.getCollection(CC.playerAvatar).items[0]")
+
+        (var textPropEntity:gfx = "$datahub.getPrimaryEntity(CC.parameter, '' + avatarEntity.id + '_' + _textProp)")
+        (var textPropParameter:number = "textPropEntity.parameter.currentValue" (event "textPropEntity.parameter.evChanged"))
+
+        (var textProp:str = "textPropParameter ? formatFloatingPoint(textPropParameter, 1) : ''")
+
+        (var isAvailable:bool = "_textProp == '' || textPropParameter > 0")
+
+        (macro MOUSE_HANDLER_SCOPE)
+    )
+
+    (macro SOUND_HANDLER "'default_checkbox'")
+
+    (bindcall externalCall 'direct.action' "['battle.saveMinimapOptions', [_setProp, !(propValue)]]" init=false watch=false (event "evMouseDown"))
+
+    (bind visible "isAvailable")
+
+    (style (height = "32px") (width = "100%"))
+
+    (hblock
+        (style (height ="100%") (align = "middle"))
+
+        (controller $Instance (renderer = 'CheckBoxNoLabel') 
+            (args _selected="propValue" _enabled="enabled" _rollOver="rollOver" _interactive="enabled")
+            (exprs
+                (scope                    
+                    (bind selected "propValue")
+                    (bind enabled "enabled")
+                    (bind rollOver "rollOver")
+                    (bind interactive "enabled")
+                )
+            )
+        )
+
+        (block
+            (bind visible "textProp != ''")
+            (style (width = "86px") (align = "center|middle"))
+            (block
+                (tf
+                    (bind class "_textClass")
+                    (style (bind textColor "_textColor"))
+                    (bind text "textProp + ' ' + tr('IDS_KILOMETER')")
+                )
+                (mc "_strokeClip"
+                    (style (position = "absolute") (bottom = "-6px") (width = "100%"))
+                ) 
+            )
+        )
+
+        (tf
+            (class $TextDefaultNM)
+            (bind alpha "enabled ? (rollOver && !(mouseDown) ? 1 : 0.8) : 0.6")
+            (style (textColor = "0xFFFFFF") (marginLeft = "4px"))
+            (bind text "_text")
+        )
+
+        (macro MOUSE_HANDLER "enabled")
+    )
+)

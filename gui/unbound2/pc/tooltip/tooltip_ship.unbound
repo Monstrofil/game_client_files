@@ -1,10 +1,10 @@
 (def constant TOOLTIP_SHIP_MAX_WIDTH 300)
 
-(def element ShipExtendedTooltip() layout=true dispatch_size_change=true
+(def element ShipExtendedTooltip(__shipId:number, __needService:bool, __isLocked:bool) layout=true dispatch_size_change=true
 	(scope
-		(var _shipId:number = 0)
-		(var _needService:bool = false)
-		(var _isLocked:bool = false)
+		(var _shipId:number = "__shipId")
+		(var _needService:bool = "__needService")
+		(var _isLocked:bool = "__isLocked")
 		(var _isNotMyShip:bool = false)
 		(var _inRewards:bool = false) 
 		(var _rewardReasons:dict = {}) 
@@ -17,7 +17,7 @@
 		(var exp:number = "playerShipEntity.ownShip.exp" (event "playerShipEntity.ownShip.evUpdateConfig"))
 		(var isInFormation:bool = "playerShipEntity.ownShip.isInFormation" (event "playerShipEntity.ownShip.evUpdateLock"))
 	)
-	
+
 	(macro PULL_SHIP "_shipId")
 	(macro PULL_USI "playerShipEntity")
 	(scope
@@ -223,8 +223,8 @@
 		(var paramsRendererData:array = "shipParamsView ? shipParamsView.paramsRendererData : []" (event "shipParamsView.evParamsRendererDataChanged"))
 	)
 	(bindcall externalCall 'direct.action' "['make_tooltipShipParams_list', [_shipId]]" init=true)
-	
-	(style 
+
+	(style
 		(width = 100%)
 		(bind paddingTop "_inSideCompare ? 18 : 0")
 		(paddingLeft = 1)

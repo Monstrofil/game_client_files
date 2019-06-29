@@ -4143,8 +4143,9 @@
 		</block>
 	</block>
 	<block className="BattleShipList">
-		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'gameInfo'"/>
-		<bind name="visible" value="gameInfo.gameModeId != GameMode.TUTORIAL"/>
+		<bind name="firstEntityDH" value="'battleDataEntity'; CC.battleData"/>
+		<bind name="watch" value="'gameModeId';	battleDataEntity.battleInfo.gameModeId"/>
+		<bind name="visible" value="gameModeId != GameMode.TUTORIAL"/>
 		<style>
 			<position value="absolute"/>
 			<width value="100%"/>
@@ -4161,7 +4162,7 @@
 				<bind name="collectionRepeatDH" value="CC.avatar; 'BattleShipListRenderer'; 'team.ally.sortedLeftTeam'; {_isAllyTeam: true, _isEnemyTeam: false}"/>
 			</block>
 			<block>
-				<bind name="visible" value="gameInfo.gameModeId != GameMode.PVE"/>
+				<bind name="visible" value="gameModeId != GameMode.PVE"/>
 				<style>
 					<left value="12px"/>
 				</style>
@@ -5342,11 +5343,14 @@
 		</block>
 	</block>
 	<block className="BattleStatus">
+		<bind name="firstEntityDH" value="'battleDataEntity'; CC.battleData"/>
+		<bind name="watch" value="'battleType';	battleDataEntity.battleInfo.battleType"/>
+		<bind name="watch" value="'gameModeId';	battleDataEntity.battleInfo.gameModeId"/>
+		<bind name="watch" value="'gameMode';	battleDataEntity.battleInfo.gameMode"/>
 		<bind name="controller" value="lesta.dialogs.battle_window_controllers.uss_controllers.ControllerBattleStats"/>
-		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'gameInfo'"/>
-		<bind name="watch" value="'isDynamicDivisionsEnabled'; ((gameInfo.battleType == BattleTypes.COOPERATIVE_BATTLE) || (gameInfo.battleType == BattleTypes.RANDOM_BATTLE))"/>
+		<bind name="watch" value="'isDynamicDivisionsEnabled'; ((battleType == BattleTypes.COOPERATIVE_BATTLE) || (battleType == BattleTypes.RANDOM_BATTLE))"/>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'battleModeInfo'; 'battleModeInfo,updateBattleModeInfo'"/>
-		<bind name="primaryEntityDH" value="'battleTypeEntity'; CC.battleType; gameInfo.battleType"/>
+		<bind name="primaryEntityDH" value="'battleTypeEntity'; CC.battleType; battleType"/>
 		<bind name="watchDH" value="'battleType'; []; battleTypeEntity.battleType.type"/>
 		<bind name="watchDH" value="'battleTypelabel'; []; battleTypeEntity.battleType.labelIds"/>
 		<bind name="firstEntityDH" value="'pveStateEntity'; CC.pveState"/>
@@ -5383,8 +5387,8 @@
 					<style>
 						<fontSize value="50"/>
 					</style>
-					<bind name="text" value="gameInfo.gameModeId == GameMode.PVE	? toUpperCase(tr('IDS_' + toUpperCase(operationEntity.operation.gpName) + '_NAME'))
-															: toUpperCase(tr(battleModeInfo.mapName))"/>
+					<bind name="text" value="gameModeId == GameMode.PVE	? toUpperCase(tr('IDS_' + toUpperCase(operationEntity.operation.gpName) + '_NAME'))
+													: toUpperCase(tr(battleModeInfo.mapName))"/>
 				</block>
 				<block type="text">
 					<styleClass value="$TextHUD22Bold"/>
@@ -5394,10 +5398,10 @@
 						<marginLeft value="2px"/>
 						<marginTop value="-12px"/>
 					</style>
-					<bind name="text" value="(gameInfo.gameModeId == GameMode.PVE	?	toUpperCase(tr('IDS_PVE_BATTLE_WITH_DOT')) + ' ' +	(isChosenOperationOfTheWeek == true ? toUpperCase(tr('IDS_OPERATION_OF_THE_WEEK_OPERATION_TITLE')) :
-																											(!(operationIsHard)								? toUpperCase(tr('IDS_OPERATION_NORMAL_DIFFICULTY_TITLE'))
-																																							: toUpperCase(tr('IDS_OPERATION_HARD_DIFFICULTY_TITLE'))))
-																:	toUpperCase(tr('IDS_'+ gameInfo.gameMode + '_TITLE')))"/>
+					<bind name="text" value="(gameModeId == GameMode.PVE	?	toUpperCase(tr('IDS_PVE_BATTLE_WITH_DOT')) + ' ' +	(isChosenOperationOfTheWeek == true ? toUpperCase(tr('IDS_OPERATION_OF_THE_WEEK_OPERATION_TITLE')) :
+																								(!(operationIsHard)								? toUpperCase(tr('IDS_OPERATION_NORMAL_DIFFICULTY_TITLE'))
+																																				: toUpperCase(tr('IDS_OPERATION_HARD_DIFFICULTY_TITLE'))))
+													:	toUpperCase(tr('IDS_'+ gameMode + '_TITLE')))"/>
 				</block>
 			</block>
 		</block>
@@ -5427,11 +5431,11 @@
 				<position value="absolute"/>
 				<bottom value="0%"/>
 			</style>
-			<bind name="watch" value="'isChargePointsVisible'; (gameInfo.gameModeId == GameMode.AWESOME) ||
-											(gameInfo.gameModeId == GameMode.STANDARD_DOMINATION) ||
-											(gameInfo.gameModeId == GameMode.FORTS) ||
-											(gameInfo.gameModeId == GameMode.ASSAULT_DEFENSE) ||
-											(gameInfo.gameModeId == GameMode.EPICENTER)"/>
+			<bind name="watch" value="'isChargePointsVisible'; (gameModeId == GameMode.AWESOME) ||
+											(gameModeId == GameMode.STANDARD_DOMINATION) ||
+											(gameModeId == GameMode.FORTS) ||
+											(gameModeId == GameMode.ASSAULT_DEFENSE) ||
+											(gameModeId == GameMode.EPICENTER)"/>
 			<block>
 				<bind name="visible" value="(isChargePointsVisible == true)"/>
 				<block className="ChargePoints">
@@ -5541,8 +5545,8 @@
 				<style>
 					<fontSize value="50"/>
 				</style>
-				<bind name="text" value="gameInfo.gameModeId == GameMode.PVE	? toUpperCase(tr('IDS_' + toUpperCase(operationEntity.operation.gpName) + '_NAME'))
-															: toUpperCase(tr(battleModeInfo.mapName))"/>
+				<bind name="text" value="gameModeId == GameMode.PVE	? toUpperCase(tr('IDS_' + toUpperCase(operationEntity.operation.gpName) + '_NAME'))
+													: toUpperCase(tr(battleModeInfo.mapName))"/>
 			</block>
 			<block type="text">
 				<styleClass value="$TextHUD22Bold"/>
@@ -5552,10 +5556,10 @@
 					<marginLeft value="2px"/>
 					<marginTop value="-12px"/>
 				</style>
-				<bind name="text" value="(gameInfo.gameModeId == GameMode.PVE	?	toUpperCase(tr('IDS_PVE_BATTLE_WITH_DOT')) + ' ' +	(isChosenOperationOfTheWeek == true ? toUpperCase(tr('IDS_OPERATION_OF_THE_WEEK_OPERATION_TITLE')) :
-																											(!(operationIsHard)								? toUpperCase(tr('IDS_OPERATION_NORMAL_DIFFICULTY_TITLE'))
-																																							: toUpperCase(tr('IDS_OPERATION_HARD_DIFFICULTY_TITLE'))))
-																:	toUpperCase(tr('IDS_'+ gameInfo.gameMode + '_TITLE')))"/>
+				<bind name="text" value="(gameModeId == GameMode.PVE	?	toUpperCase(tr('IDS_PVE_BATTLE_WITH_DOT')) + ' ' +	(isChosenOperationOfTheWeek == true ? toUpperCase(tr('IDS_OPERATION_OF_THE_WEEK_OPERATION_TITLE')) :
+																								(!(operationIsHard)								? toUpperCase(tr('IDS_OPERATION_NORMAL_DIFFICULTY_TITLE'))
+																																				: toUpperCase(tr('IDS_OPERATION_HARD_DIFFICULTY_TITLE'))))
+													:	toUpperCase(tr('IDS_'+ gameMode + '_TITLE')))"/>
 			</block>
 		</block>
 	</block>
@@ -5582,7 +5586,6 @@
 	</block>
 	<block className="PlayersListRenderer">
 		<bind name="name" value="'player_' + name"/>
-		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'gameInfo'"/>
 		<bind name="controller" value="lesta.dialogs.controllers.CollectionController; 'playersInvitedToDivision'; name; 'playerInvitationData'"/>
 		<bind name="primaryEntityDH" value="'playerVoiceChatEntity'; CC.playerVoiceState; pureName"/>
 		<bind name="dataRefDH" value="'playerEntity'; '$dataRef.ref'"/>
@@ -5749,11 +5752,11 @@
 			<position value="absolute"/>
 			<bottom value="0%"/>
 		</style>
-		<bind name="watch" value="'isChargePointsVisible'; (gameInfo.gameModeId == GameMode.AWESOME) ||
-											(gameInfo.gameModeId == GameMode.STANDARD_DOMINATION) ||
-											(gameInfo.gameModeId == GameMode.FORTS) ||
-											(gameInfo.gameModeId == GameMode.ASSAULT_DEFENSE) ||
-											(gameInfo.gameModeId == GameMode.EPICENTER)"/>
+		<bind name="watch" value="'isChargePointsVisible'; (gameModeId == GameMode.AWESOME) ||
+											(gameModeId == GameMode.STANDARD_DOMINATION) ||
+											(gameModeId == GameMode.FORTS) ||
+											(gameModeId == GameMode.ASSAULT_DEFENSE) ||
+											(gameModeId == GameMode.EPICENTER)"/>
 		<block>
 			<bind name="visible" value="(isChargePointsVisible == true)"/>
 			<block className="ChargePoints">
@@ -6845,7 +6848,8 @@
 		<bind name="watchDH" value="'tacticalMap'; ['cameraEntity.camera.evTacticalStateChanged']; cameraEntity.camera.isTactical"/>
 		<bind name="mouseEnabled" value="false"/>
 		<bind name="mouseChildren" value="false"/>
-		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'gameInfo'"/>
+		<bind name="firstEntityDH" value="'battleDataEntity'; CC.battleData"/>
+		<bind name="watch" value="'gameModeId';	battleDataEntity.battleInfo.gameModeId"/>
 		<block>
 			<styleClass value="$HUDFullsize"/>
 			<block>

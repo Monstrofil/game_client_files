@@ -765,7 +765,7 @@
 		appearDuration: 0.1,
 		appearOffset: 5.0,
 		disappearDelay: 0.0,
-		disappearDuration: 0.1,
+		disappearDuration: 0.0,
 		disappearOffset: -10.0,
 		tinyOffset: 0,
 		rightOffset: -10,
@@ -1396,7 +1396,7 @@
 		<bind name="watchDH" value="'selected'; ['battleTypeEntity.battleType.evSelectionChanged']; battleTypeEntity.battleType.selected)"/>
 		<bind name="collectionDH" value="CC.battleType; 'coomonBattleTypes'; 'common'"/>
 		<bind name="watch" value="'isVisible'; type != BattleTypes.INTRO_MISSION || coomonBattleTypes.length &lt; 6"/>
-		<bind name="feature" value="featureId; 'click'"/>
+		<bind name="feature" value="featureId; isSelectableBattleType ? 'click' : ''"/>
 		<bind name="visible" value="isVisible"/>
 		<bind name="watch" value="'isSelectableBattleType'; (status != 2)"/>
 		<bind name="firstEntityDH" value="'dockDataEntity'; CC.dockDataMarker"/>
@@ -1465,6 +1465,15 @@
 					</style>
 					<bind name="child" value="_isSmallView ? 0 : 1; {_status: status, _type: type, _selected: selected, _pveIconLabel: pveIconLabel}; 'BattleTypeIconSmall'; 'BattleTypeIconBig'"/>
 				</block>
+				<block>
+					<bind name="fade" value="(featureState == 'new') &amp;&amp; (isSelectableBattleType); 0.15; {alpha: 0, top: 10}; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+					<style>
+						<position value="absolute"/>
+						<top value="3px"/>
+					</style>
+					<bind name="style" value="'right'; _isSmallView ? '0px' : '3px'"/>
+					<bind name="instance" value="'MarkerNewAttention'; { }"/>
+				</block>
 				<block className="DeclareBlurLayer">
 					<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
 					<bind name="visible" value="optionData.blurEnabled"/>
@@ -1529,18 +1538,6 @@
 					<bind name="text" value="(isSelectableBattleType ? tr('IDS_' + toUpperCase(operationEntity.operation.gpName) + '_NAME') : 'IDS_PVE_BATTLE')"/>
 				</block>
 			</block>
-			<block>
-				<bind name="fade" value="((featureState == 'new') &amp;&amp; isSelectableBattleType); 0.15; {alpha: 0, top: 10}; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
-				<style>
-					<marginTop value="4px"/>
-					<position value="absolute"/>
-				</style>
-				<block className="icon_sticker_new" type="native">
-					<style>
-						<hitTest value="false"/>
-					</style>
-				</block>
-			</block>
 		</block>
 		<block>
 			<bind name="visible" value="isSelectableBattleType"/>
@@ -1591,7 +1588,7 @@
 		<bind name="watch" value="'userDoNotWatchRankRules'; ((currentUserTaskFlag &amp; UserTasksFlags.KNOWS_ABOUT_JUNIOR_RANKED_RULES) == 0)"/>
 		<bind name="collectionDH" value="CC.battleType; 'commonBattleTypes'; 'common'"/>
 		<bind name="watch" value="'isVisible'; type != BattleTypes.INTRO_MISSION || commonBattleTypes.length &lt; 6"/>
-		<bind name="feature" value="featureId; 'click'"/>
+		<bind name="feature" value="featureId; isSelectableBattleType ? 'click' : ''"/>
 		<bind name="visible" value="isVisible"/>
 		<bind name="watch" value="'isDivisionsAvailableInThisBattleType';	(type == BattleTypes.INTRO_MISSION) ||
 															(type == BattleTypes.TRAINING_BATTLE) ||
@@ -1602,8 +1599,10 @@
 		<bind name="fade" value="(battleTypeChooserVisible &amp;&amp; isVisible); 0; {alpha: 0}; {alpha: 1, top: 0}; {alpha: 0}"/>
 		<bind name="appear" value="selected ? null : 'hideBattleTypesOnBattleTypeChose'; 0.14; 0.02; {alpha: 1, top: 0}; {alpha: 0, top: -5}; 3"/>
 		<bind name="appear" value="selected ? 'hideBattleTypesOnBattleTypeChose' : null; 0.11; 0.12;	{alpha: 1};	{alpha: 0}; 2"/>
-		<bind name="firstEntityDH" value="'clanCurrentSeasonEntity'; CC.clanBattleSeason; 'current.active'"/>
-		<bind name="watch" value="'isClanStuffVisible'; type == BattleTypes.CLAN_BATTLE &amp;&amp; clanCurrentSeasonEntity"/>
+		<bind name="firstEntityDH" value="'clanCurrentSeasonEntity'; CC.clanBattleSeason; 'current'"/>
+		<bind name="watchDH" value="'isActive'; ['clanCurrentSeasonEntity.clanBattleSeason.evChanged']; clanCurrentSeasonEntity.clanBattleSeason.active"/>
+		<bind name="watchDH" value="'isBrawl'; ['clanCurrentSeasonEntity.clanBattleSeason.evChanged']; clanCurrentSeasonEntity.clanBattleSeason.isBrawl"/>
+		<bind name="watch" value="'isClanStuffVisible'; (type == BattleTypes.CLAN_BATTLE) &amp;&amp; isActive"/>
 		<bind name="watch" value="'isBright'; (selected || rollOver) &amp;&amp; isSelectableBattleType"/>
 		<style>
 			<width value="220px"/>
@@ -1630,9 +1629,11 @@
 				<style>
 					<backgroundColor value="0x01000000"/>
 				</style>
+				<bind name="watch" value="'battleTypeLabelIds'; (type == BattleTypes.CLAN_BATTLE &amp;&amp; isBrawl)	? 'IDS_CLANBRAWL'
+																							: labelIds"/>
 				<bind name="tooltip" value="isClanStuffVisible ? 'ClanBattleTypeTooltip' : 'MouseInstructionTooltip';	{	_multiParagraphArray: [{_paragraphText: ((type == BattleTypes.INTRO_MISSION)	? dockDefaultValues.introMissionDescription : description)}],			
 																											_mouseInstructions: !(isSelectableBattleType)									? [{_type: 'warning', _instructionText: reasonText}]
-																																															: [{_type: 'left', _instructionText: tr('IDS_CHOOSE') + ' ' + tr(labelIds + '_ACC')}], 
+																																															: [{_type: 'left', _instructionText: tr('IDS_CHOOSE') + ' ' + tr(battleTypeLabelIds + '_ACC')}], 
 																											_maxWidth: 250 }"/>
 			</block>
 			<block>
@@ -1643,20 +1644,34 @@
 				<bind name="transition" value="isBright &amp;&amp; !(battleType_mouseDown); 0.06; {alpha: 0.85}; {alpha: 1}; {alpha: 0.85}"/>
 				<block>
 					<styleClass value="$MiddleAligned"/>
-					<bind name="style" value="'marginBottom'; _isSmallView ? '4px' : '16px'"/>
-					<bind name="style" value="'width'; _isSmallView ? '80px' : '136px'"/>
-					<bind name="style" value="'height'; _isSmallView ? '80px' : '136px'"/>
-					<bind name="style" value="'colorMatrixFilter';	!(isSelectableBattleType)	? '0 -100 0 0' : '0 0 0 0'"/>
 					<block>
-						<bind name="style" value="'width'; _isSmallView ? '170px' : '280px'"/>
-						<bind name="style" value="'height'; _isSmallView ? '170px' : '280px'"/>
-						<bind name="instance" value="'SelectedBattleTypeAnimation'; selected ? {} : null"/>
-						<styleClass value="$MiddleAlignedAbsolutely"/>
-						<styleClass value="$MiddleVAligned"/>
+						<styleClass value="$MiddleAligned"/>
+						<bind name="style" value="'marginBottom'; _isSmallView ? '4px' : '16px'"/>
+						<bind name="style" value="'width'; _isSmallView ? '80px' : '136px'"/>
+						<bind name="style" value="'height'; _isSmallView ? '80px' : '136px'"/>
+						<bind name="style" value="'colorMatrixFilter';	!(isSelectableBattleType)	? '0 -100 0 0' : '0 0 0 0'"/>
+						<block>
+							<bind name="style" value="'width'; _isSmallView ? '170px' : '280px'"/>
+							<bind name="style" value="'height'; _isSmallView ? '170px' : '280px'"/>
+							<bind name="instance" value="'SelectedBattleTypeAnimation'; selected ? {} : null"/>
+							<styleClass value="$MiddleAlignedAbsolutely"/>
+							<styleClass value="$MiddleVAligned"/>
+						</block>
+						<bind name="child" value="_isSmallView ? 0 : 1; {_status: status, _type: type, _selected: selected}; 'BattleTypeIconSmall'; 'BattleTypeIconBig'"/>
 					</block>
-					<bind name="child" value="_isSmallView ? 0 : 1; {_status: status, _type: type, _selected: selected}; 'BattleTypeIconSmall'; 'BattleTypeIconBig'"/>
+					<block>
+						<bind name="fade" value="(featureState == 'new') &amp;&amp; isSelectableBattleType &amp;&amp; type != 'CooperativeBattle'; 0.15; {alpha: 0, top: 10}; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+						<style>
+							<position value="absolute"/>
+							<top value="3px"/>
+						</style>
+						<bind name="style" value="'right'; _isSmallView ? '-17px' : '-31px'"/>
+						<bind name="instance" value="'MarkerNewAttention'; { }"/>
+					</block>
 				</block>
 				<block>
+					<bind name="watch" value="'battleTypeLabel'; (type == BattleTypes.CLAN_BATTLE &amp;&amp; isBrawl)	? 'IDS_CLAN_BRAWL'
+																								: label"/>
 					<style>
 						<width value="100%"/>
 					</style>
@@ -1671,7 +1686,7 @@
 						</style>
 						<styleClass value="$TextDefaultBold21NM"/>
 						<bind name="class" value="(selected == true ? '$FontColorWhite' : '$FontColorBlueish')"/>
-						<bind name="text" value="label"/>
+						<bind name="text" value="battleTypeLabel"/>
 					</block>
 					<block>
 						<style>
@@ -1692,19 +1707,6 @@
 																					_reasonText: battleTypeDenyReasons[0]}
 																				: null"/>
 			</block>
-			<block>
-				<bind name="fade" value="((featureState == 'new') &amp;&amp; (status != 2)) &amp;&amp; type != 'CooperativeBattle'; 0.15; {alpha: 0, top: 10}; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
-				<style>
-					<marginTop value="4px"/>
-					<position value="absolute"/>
-				</style>
-				<bind name="style" value="'marginLeft'; _isSmallView ? '40px' : '0px'"/>
-				<block className="icon_sticker_new" type="native">
-					<style>
-						<hitTest value="false"/>
-					</style>
-				</block>
-			</block>
 		</block>
 		<block>
 			<style>
@@ -1720,18 +1722,26 @@
 				<marginTop value="24px"/>
 			</style>
 			<styleClass value="$MiddleAligned"/>
-			<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_INSTRUCTION_TOOLTIP_GO_TO_PRIME_CHOOSER'}"/>
+			<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: isBrawl	? 'IDS_INSTRUCTION_TOOLTIP_GO_TO_CLANBRAWL_PRIME_CHOOSER'
+																: 'IDS_INSTRUCTION_TOOLTIP_GO_TO_PRIME_CHOOSER'}"/>
 			<bind name="instance" value="'ResizableButtonDock'; isClanStuffVisible ? { 	_label: toUpperCase(tr('IDS_SCHEDULLE')),
 																		_request: 'showClanBattlesSchedule',
 																		_name: 'clanBattlesScheduleBtn'
 																	} : null"/>
 		</block>
 		<block>
-			<bind name="visible" value="(type == BattleTypes.RANKED_BATTLE) &amp;&amp; (status != 2)"/>
-			<bind name="request" value="'click'; 'webBrowser'; {url: URL.RULES_ABOUT_RANKED_SEASON}"/>
-			<bind name="action" value="'click'; userDoNotWatchRankRules ? 'ServerUIDataUSS.setUserTaskExecuted' : null; { taskId: UserTasksFlags.KNOWS_ABOUT_JUNIOR_RANKED_RULES }"/>
+			<bind name="watch" value="'isRankedBattle'; (type == BattleTypes.RANKED_BATTLE)"/>
+			<bind name="watch" value="'isBrawlBattle'; (isClanStuffVisible) &amp;&amp; (isBrawl)"/>
+			<bind name="watch" value="'isRulesBtnVisible'; (isRankedBattle || isBrawlBattle) &amp;&amp; (status != 2)"/>
+			<bind name="visible" value="isRulesBtnVisible"/>
+			<bind name="watch" value="'urlRules'; isBrawlBattle  ? URL.RULES_ABOUT_CLAN_SEASON
+												: URL.RULES_ABOUT_RANKED_SEASON"/>
+			<bind name="request" value="'click'; 'webBrowser'; {url: urlRules}"/>
+			<bind name="action" value="'click'; (isRankedBattle &amp;&amp; userDoNotWatchRankRules) ? 'ServerUIDataUSS.setUserTaskExecuted' : null; { taskId: UserTasksFlags.KNOWS_ABOUT_JUNIOR_RANKED_RULES }"/>
 			<bind name="transition" value="rollOver; 0.1; {alpha: 0, top: 5}; {alpha: 1, top: 0}"/>
-			<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_MORE_INFO_ABOUT_RANKES_TOOLTIP'}"/>
+			<bind name="watch" value="'rulesTooltipText'; isBrawlBattle  ? 'IDS_MORE_INFO_ABOUT_CLANB_RAWL_TOOLTIP'
+														: 'IDS_MORE_INFO_ABOUT_RANKES_TOOLTIP'"/>
+			<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: rulesTooltipText}"/>
 			<style>
 				<position value="absolute"/>
 				<top value="8px"/>
@@ -1740,11 +1750,9 @@
 			<block className="button_info" type="native"/>
 		</block>
 		<block>
-			<bind name="firstEntityDH" value="'selectedEventBattleEntity'; CC.selectedEventBattle"/>
-			<bind name="watchDH" value="'selectedEventName'; ['selectedEventBattleEntity.eventBattleState.evChanged']; selectedEventBattleEntity.eventBattleState.name"/>
 			<bind name="visible" value="(type == BattleTypes.EVENT_BATTLE) &amp;&amp; (status != 2)"/>
 			<bind name="transition" value="rollOver; 0.1; {alpha: 0, top: 5}; {alpha: 1, top: 0}"/>
-			<bind name="request" value="'click'; 'webBrowser'; {url: 'aboutAprilFoolsDay_' + selectedEventName + '_InGame'}"/>
+			<bind name="request" value="'click';'showEventRules';{}"/>
 			<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_MORE_INFO_ABOUT_EVENT_TOOLTIP'}"/>
 			<style>
 				<position value="absolute"/>
@@ -1753,6 +1761,9 @@
 			</style>
 			<block className="button_info" type="native"/>
 		</block>
+		<bind name="primaryEntityDH" value="'notificationEntity'; CC.contextGuidingTip; SC.Context_guiding_tip.TIP_TYPES.RANDOM_FIGHT_BTN"/>
+		<bind name="watchDH" value="'contextGuidingTipEnabled'; ['notificationEntity.contextGuidingTip.evUpdate']; notificationEntity.contextGuidingTip.active"/>
+		<bind name="instance" value="'BattleChooserContextGuidingTip'; !contextGuidingTipEnabled || (_type != BattleTypes.RANDOM_BATTLE)	? null : {} "/>
 	</block>
 	<block className="ClanBattlePrimeTimeIndicator">
 		<bind name="firstEntityDH" value="'chosenPrimeTimeEntity'; CC.clanBattlePrimeTime; 'chosen'"/>
@@ -1787,6 +1798,8 @@
 	<block className="ClanBattleTypeTooltip">
 		<bind name="firstEntityDH" value="'chosenPrimeTimeEntity'; CC.clanBattlePrimeTime; 'chosen'"/>
 		<bind name="firstEntityDH" value="'fixedPrimeTimeEntity'; CC.clanBattlePrimeTime; 'fixed'"/>
+		<bind name="firstEntityDH" value="'clanCurrentSeasonEntity'; CC.clanBattleSeason; 'current'"/>
+		<bind name="watchDH" value="'isBrawl'; ['clanCurrentSeasonEntity.clanBattleSeason.evChanged']; clanCurrentSeasonEntity.clanBattleSeason.isBrawl"/>
 		<bind name="watch" value="'currentEntityId'; !!(fixedPrimeTimeEntity) ? fixedPrimeTimeEntity.id : chosenPrimeTimeEntity.id"/>
 		<bind name="watch" value="'showPrimeTimeInfo'; !!(chosenPrimeTimeEntity) || !!(fixedPrimeTimeEntity)"/>
 		<styleClass value="$DefaultTooltipBehaviour"/>
@@ -1808,7 +1821,7 @@
 			<block>
 				<style>
 					<width value="100%"/>
-					<marginBottom value="24px"/>
+					<marginBottom value="16px"/>
 				</style>
 				<block type="text">
 					<style>
@@ -1816,7 +1829,7 @@
 						<marginBottom value="8px"/>
 					</style>
 					<styleClass value="$TextDefaultBold19NM"/>
-					<bind name="text" value="'IDS_CLAN_BATTLE'"/>
+					<bind name="text" value="isBrawl ? 'IDS_CLAN_BRAWL' : 'IDS_CLAN_BATTLE'"/>
 				</block>
 				<block type="text">
 					<bind name="visible" value="!showPrimeTimeInfo"/>
@@ -1840,7 +1853,7 @@
 			</block>
 		</block>
 		<block>
-			<bind name="visible" value="(_multiParagraphArray.length &gt; 0) &amp;&amp; (_mouseInstructions.length &gt; 0)"/>
+			<bind name="visible" value="(_mouseInstructions.length &gt; 0)"/>
 			<style>
 				<width value="100%"/>
 			</style>
@@ -1857,17 +1870,14 @@
 		</block>
 		<block>
 			<bind name="visible" value="_mouseInstructions.length &gt; 0"/>
-			<style>
-				<marginTop value="16px"/>
-				<marginBottom value="16px"/>
-				<marginLeft value="16px"/>
-				<marginRight value="16px"/>
-			</style>
+			<styleClass value="$InfoBlockIndentNoWidth"/>
 			<bind name="repeat" value="_mouseInstructions; 'MouseInstructionRepeater'; {_maxWidth: _maxWidth, _lastIndex: _mouseInstructions.length - 1}"/>
 		</block>
 	</block>
 	<block className="BattleTypeIconBig">
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'rankedBattlesSeason'"/>
+		<bind name="firstEntityDH" value="'clanCurrentSeasonEntity'; CC.clanBattleSeason; 'current'"/>
+		<bind name="watchDH" value="'isBrawl'; ['clanCurrentSeasonEntity.clanBattleSeason.evChanged']; clanCurrentSeasonEntity.clanBattleSeason.isBrawl"/>
 		<styleClass value="$MiddleVAligned"/>
 		<styleClass value="$MiddleAlignedAbsolutely"/>
 		<style>
@@ -1881,8 +1891,10 @@
 			<bind name="gotoAndStop!" value="_type == BattleTypes.RANKED_BATTLE		?	(_status == 2) 			? 'RankedBattle_disabled'
 																	: 	(rankedBattlesSeason.isJuniorSeason == true)	? 'RankedBattle_junior'
 																														: 'RankedBattle'
-							: _type == BattleTypes.CLAN_BATTLE		?	(_status == 2)				? 'ClanBattle_disabled'
-																														: 'ClanBattle'
+							: _type == BattleTypes.CLAN_BATTLE		?	(_status == 2)				? isBrawl	? 'ClanBrawl_disabled'
+																																	: 'ClanBattle_disabled'
+																														: isBrawl	? 'ClanBrawl'
+																																	: 'ClanBattle'
 							: _type == BattleTypes.RANDOM_BATTLE	?	(_status == 2)				? 'CooperativeBattle_disabled'
 																														: 'RandomBattle'
 							:_type == BattleTypes.PVE_BATTLE 		?	(_status == 2)				? 'PVEBattle_disabled'
@@ -1892,6 +1904,8 @@
 	</block>
 	<block className="BattleTypeIconSmall">
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'rankedBattlesSeason'"/>
+		<bind name="firstEntityDH" value="'clanCurrentSeasonEntity'; CC.clanBattleSeason; 'current'"/>
+		<bind name="watchDH" value="'isBrawl'; ['clanCurrentSeasonEntity.clanBattleSeason.evChanged']; clanCurrentSeasonEntity.clanBattleSeason.isBrawl"/>
 		<styleClass value="$MiddleVAligned"/>
 		<styleClass value="$MiddleAlignedAbsolutely"/>
 		<style>
@@ -1905,8 +1919,10 @@
 			<bind name="gotoAndStop!" value="_type == BattleTypes.RANKED_BATTLE		?	(_status == 2) 			? 'RankedBattle_disabled'
 																	: 	(rankedBattlesSeason.isJuniorSeason == true)	? 'RankedBattle_junior'
 																														: 'RankedBattle'
-							: _type == BattleTypes.CLAN_BATTLE		?	(_status == 2)				? 'ClanBattle_disabled'
-																														: 'ClanBattle'
+							: _type == BattleTypes.CLAN_BATTLE		?	(_status == 2)				? isBrawl	? 'ClanBrawl_disabled'
+																																	: 'ClanBattle_disabled'
+																														: isBrawl	? 'ClanBrawl'
+																																	: 'ClanBattle'
 							: _type == BattleTypes.RANDOM_BATTLE	?	(_status == 2)				? 'CooperativeBattle_disabled'
 																														: 'RandomBattle'
 							:_type == BattleTypes.PVE_BATTLE 		?	(_status == 2)				? 'PVEBattle_disabled'
@@ -2679,6 +2695,10 @@
 		<fontFamily value="$WWSDefaultFontBold"/>
 		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
 	</css>
+	<css name="$FontFamilyDefaultBoldTabs">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<dropShadowFilter value="0 90 0x000000 1 2 2 1"/>
+	</css>
 	<css name="$Bold">
 		<fontFamily value="$WWSDefaultFontBold"/>
 	</css>
@@ -2745,6 +2765,12 @@
 	<css name="$FontColorDefaultButtonUp">
 		<textColor value="0xc7e2e2"/>
 	</css>
+	<css name="$FontColorTabButtonDown">
+		<textColor value="0x999999"/>
+	</css>
+	<css name="$FontColorTabButtonSelectedUp">
+		<textColor value="0xAABFBF"/>
+	</css>
 	<css name="$FontColorComparePositive">
 		<textColor value="0x4CE8AA"/>
 	</css>
@@ -2794,7 +2820,7 @@
 		<fontSize value="60"/>
 	</css>
 	<css name="$LetterSpacingSmall">
-		<letterSpacing value="0.8"/>
+		<letterSpacing value="0"/>
 	</css>
 	<css name="$InvertedTextEffect">
 		<dropShadowFilter value="0 90 0xffffff 1.0 3.0 3.0 0.3"/>
@@ -2817,6 +2843,9 @@
 	</css>
 	<css name="$FontDropShadowWhite">
 		<dropShadowFilter value="0 90 0xffffff 1.0 3.0 3.0 0.3"/>
+	</css>
+	<css name="$BlockDropShadowTabText">
+		<dropShadowFilter value="0 90 0x000000 1 2 2 1"/>
 	</css>
 	<block className="DropdownInfotip">
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'shipOverview'"/>
@@ -4050,6 +4079,43 @@
 			</block>
 			<block>
 				<bind name="mc" value="'slider_default'; ['valueChange']; ['value']; {maximum:_maximum, minimum:_minimum, step:_step, value:_value}"/>
+			</block>
+		</block>
+	</block>
+	<block className="AchievementRenderer">
+		<bind name="controller" value="lesta.dialogs.controllers.CollectionController; 'achievements'; (_id ? _id : $value); 'achievement'"/>
+		<style>
+			<flow value="horizontal"/>
+			<width value="100%"/>
+		</style>
+		<block>
+			<bind name="instance" value="'AchievementIcon'; {_id: (_id ? _id : $value)}"/>
+		</block>
+		<block>
+			<styleClass value="$InfoBlockHorizontalIndent"/>
+			<style>
+				<marginLeft value="10px"/>
+				<marginTop value="-1px"/>
+			</style>
+			<block type="text">
+				<styleClass value="$TextHeaderWhiteBold"/>
+				<style>
+					<width value="100%"/>
+					<maxWidth value="222"/>
+					<textAlign value="left"/>
+				</style>
+				<bind name="class" value="'$FontColorWhite'"/>
+				<bind name="text" value="achievement.nameIDS"/>
+			</block>
+			<block type="text">
+				<styleClass value="$TextHeaderBigDefaultTech"/>
+				<style>
+					<marginTop value="-3px"/>
+					<maxWidth value="220"/>
+					<textAlign value="left"/>
+				</style>
+				<bind name="class" value="'$FontColorWhite'"/>
+				<bind name="text" value="achievement.subtypeIDS"/>
 			</block>
 		</block>
 	</block>
@@ -5558,6 +5624,7 @@
 		<bind name="watchDH" value="'cbs_startTime'; ['clanCurrentSeasonEntity.clanBattleSeason.evChanged']; clanCurrentSeasonEntity.clanBattleSeason.startTime"/>
 		<bind name="watchDH" value="'cbs_shipLevelMin'; ['clanCurrentSeasonEntity.clanBattleSeason.evChanged']; clanCurrentSeasonEntity.clanBattleSeason.shipLevelMin"/>
 		<bind name="watchDH" value="'cbs_shipLevelMax'; ['clanCurrentSeasonEntity.clanBattleSeason.evChanged']; clanCurrentSeasonEntity.clanBattleSeason.shipLevelMax"/>
+		<bind name="watchDH" value="'cbs_isBrawl'; ['clanCurrentSeasonEntity.clanBattleSeason.evChanged']; clanCurrentSeasonEntity.clanBattleSeason.isBrawl"/>
 		<bind name="timeFormat" value="cbs_startTime; 'hh:mm'; 'localStartTime'; true"/>
 		<bind name="timeFormat" value="cbs_startTime; 'hh:mm'; 'startTime'; false"/>
 		<bind name="watch" value="'textClass'; _useWhiteColor ? '$TextDefault17NM' : '$TextDefault17NMTech'"/>
@@ -5577,46 +5644,68 @@
 			<style>
 				<width value="100%"/>
 				<leading value="-2"/>
-				<marginTop value="24px"/>
+				<marginTop value="16px"/>
 			</style>
 			<styleClass value="$TextDefault17NM"/>
-			<bind name="watch" value="'shipsRestrictionString';		cbs_shipLevelMin == cbs_shipLevelMax			?	'IDS_CLAN_BATTLES_ALLOWED_SHIPS_SINGLE' :
-													cbs_shipLevelMin &lt;= 1 &amp;&amp; cbs_shipLevelMax &lt; 10	?	'IDS_CLAN_BATTLES_ALLOWED_SHIPS_TO' :
-													cbs_shipLevelMin &gt; 1 &amp;&amp; cbs_shipLevelMax &gt;= 10	?	'IDS_CLAN_BATTLES_ALLOWED_SHIPS_FROM' :
-																										'IDS_CLAN_BATTLES_ALLOWED_SHIPS_FROM_TO'"/>
+			<bind name="watch" value="'battleType'; cbs_isBrawl ? 'BRAWL' : 'BATTLES'"/>
+			<bind name="watch" value="'shipsRestrictionString';		cbs_shipLevelMin == cbs_shipLevelMax			?	'IDS_CLAN_' + battleType + '_ALLOWED_SHIPS_SINGLE' :
+													cbs_shipLevelMin &lt;= 1 &amp;&amp; cbs_shipLevelMax &lt; 10	?	'IDS_CLAN_' + battleType + '_ALLOWED_SHIPS_TO' :
+													cbs_shipLevelMin &gt; 1 &amp;&amp; cbs_shipLevelMax &gt;= 10	?	'IDS_CLAN_' + battleType + '_ALLOWED_SHIPS_FROM' :
+																										'IDS_CLAN_' + battleType + '_ALLOWED_SHIPS_FROM_TO'"/>
 			<bind name="text" value="subst(shipsRestrictionString, [], {levelMin: RDigits.rdigits[cbs_shipLevelMin], levelMax: RDigits.rdigits[cbs_shipLevelMax]})"/>
 		</block>
 		<block>
 			<style>
 				<width value="100%"/>
 				<alpha value="0.5"/>
-				<marginTop value="64px"/>
+				<marginTop value="16px"/>
 			</style>
-			<block type="text">
-				<styleClass value="$TextDefault17NM"/>
+			<block>
+				<bind name="visible" value="cbs_isBrawl != true"/>
 				<style>
 					<width value="100%"/>
-					<leading value="-2"/>
 				</style>
-				<bind name="text" value="'IDS_CLAN_BATTLES_SCHEDULE_NOTES_1'"/>
+				<block type="text">
+					<styleClass value="$TextDefault17NM"/>
+					<style>
+						<width value="100%"/>
+						<leading value="-2"/>
+						<marginTop value="16px"/>
+					</style>
+					<bind name="text" value="'IDS_CLAN_BATTLES_SCHEDULE_NOTES_1'"/>
+				</block>
+				<block type="text">
+					<styleClass value="$TextDefault17NM"/>
+					<style>
+						<width value="100%"/>
+						<leading value="-2"/>
+						<marginTop value="16px"/>
+					</style>
+					<bind name="text" value="'IDS_CLAN_BATTLES_SCHEDULE_NOTES_2'"/>
+				</block>
+				<block type="text">
+					<styleClass value="$TextDefault17NM"/>
+					<style>
+						<width value="100%"/>
+						<leading value="-2"/>
+						<marginTop value="16px"/>
+					</style>
+					<bind name="text" value="'IDS_CLAN_BATTLES_SCHEDULE_NOTES_3'"/>
+				</block>
 			</block>
-			<block type="text">
-				<styleClass value="$TextDefault17NM"/>
+			<block>
+				<bind name="visible" value="cbs_isBrawl == true"/>
 				<style>
 					<width value="100%"/>
-					<leading value="-2"/>
-					<marginTop value="24px"/>
 				</style>
-				<bind name="text" value="'IDS_CLAN_BATTLES_SCHEDULE_NOTES_2'"/>
-			</block>
-			<block type="text">
-				<styleClass value="$TextDefault17NM"/>
-				<style>
-					<width value="100%"/>
-					<leading value="-2"/>
-					<marginTop value="24px"/>
-				</style>
-				<bind name="text" value="'IDS_CLAN_BATTLES_SCHEDULE_NOTES_3'"/>
+				<block type="text">
+					<styleClass value="$TextDefault17NM"/>
+					<style>
+						<width value="100%"/>
+						<leading value="-2"/>
+					</style>
+					<bind name="text" value="'IDS_CLAN_BATTLES_SCHEDULE_NOTES_2'"/>
+				</block>
 			</block>
 		</block>
 	</block>
@@ -5702,6 +5791,583 @@
 			<bind name="class" value="'$FontColorBlueish'"/>
 			<bind name="text" value="'IDS_PRIME_TIME_STATUS'"/>
 		</block>
+	</block>
+	<css name="$ContextGuidingTipTextMargins">
+		<width value="100%"/>
+		<marginTop value="16"/>
+		<marginLeft value="16"/>
+		<marginBottom value="12"/>
+		<marginRight value="16"/>
+	</css>
+	<block className="ContextGuidingTipPointerAnimation">
+		<styleClass value="$FullsizeAbsolute"/>
+		<bind name="colorTransform" value=" {	redMultiplier: 0,
+								greenMultiplier: 0,
+								blueMultiplier: 0,
+								alphaMultiplier: 0.5,
+								redOffset: 255,
+								greenOffset: 204,
+								blueOffset: 102,
+								alphaOffset: 0
+							}"/>
+		<style>
+			<hitTest value="false"/>
+		</style>
+		<block className="contextGuidingTipAnimation" type="native"/>
+	</block>
+	<block className="ContextGuidingTipPointerPanel_up">
+		<styleClass value="$FullsizeAbsolute"/>
+		<block>
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="context_guiding_tip_line_up" type="native">
+				<style>
+					<width value="50%"/>
+					<marginLeft value="1px"/>
+				</style>
+			</block>
+			<block>
+				<block>
+					<styleClass value="$FullsizeAbsolute"/>
+					<style>
+						<marginTop value="-7px"/>
+						<alpha value="3.5"/>
+						<marginLeft value="2px"/>
+						<marginRight value="2px"/>
+					</style>
+					<block className="BlurMapCustomOutbound">
+						<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+						<style>
+							<position value="absolute"/>
+							<width value="100%"/>
+							<height value="100%"/>
+							<hitTest value="false"/>
+						</style>
+						<bind name="visible" value="optionData.blurEnabled"/>
+						<block className="mc_blurmap5_feather" type="native">
+							<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
+							<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
+							<style>
+								<width value="110%"/>
+								<height value="110%"/>
+								<left value="-5%"/>
+								<top value="-5%"/>
+							</style>
+							<bind name="blurMap" value="0"/>
+						</block>
+					</block>
+				</block>
+				<block>
+					<style>
+						<position value="absolute"/>
+						<marginTop value="-19px"/>
+						<marginLeft value="11px"/>
+					</style>
+					<block className="ContextGuidingTipPointerAnimation">
+						<styleClass value="$FullsizeAbsolute"/>
+						<bind name="colorTransform" value=" {	redMultiplier: 0,
+								greenMultiplier: 0,
+								blueMultiplier: 0,
+								alphaMultiplier: 0.5,
+								redOffset: 255,
+								greenOffset: 204,
+								blueOffset: 102,
+								alphaOffset: 0
+							}"/>
+						<style>
+							<hitTest value="false"/>
+						</style>
+						<block className="contextGuidingTipAnimation" type="native"/>
+					</block>
+				</block>
+				<block className="context_guiding_tip_pointer_up" type="native">
+					<style>
+						<top value="-10px"/>
+					</style>
+				</block>
+			</block>
+			<block className="context_guiding_tip_line_up" type="native">
+				<style>
+					<width value="50%"/>
+					<marginRight value="1px"/>
+				</style>
+			</block>
+			<style>
+				<flow value="horizontal"/>
+			</style>
+		</block>
+		<block className="context_guiding_tip_panel_up" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+		</block>
+	</block>
+	<block className="ContextGuidingTipPointerPanel_down">
+		<styleClass value="$FullsizeAbsolute"/>
+		<block className="context_guiding_tip_panel_down" type="native">
+			<styleClass value="$Fullsize"/>
+		</block>
+		<block>
+			<styleClass value="$Fullsize"/>
+			<style>
+				<marginTop value="-2px"/>
+			</style>
+			<block className="context_guiding_tip_line_down" type="native">
+				<style>
+					<width value="50%"/>
+					<marginLeft value="1px"/>
+				</style>
+			</block>
+			<block>
+				<block>
+					<styleClass value="$FullsizeAbsolute"/>
+					<style>
+						<marginTop value="0px"/>
+						<alpha value="3.5"/>
+						<marginLeft value="2px"/>
+						<marginRight value="2px"/>
+					</style>
+					<block className="BlurMapCustomOutbound">
+						<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+						<style>
+							<position value="absolute"/>
+							<width value="100%"/>
+							<height value="100%"/>
+							<hitTest value="false"/>
+						</style>
+						<bind name="visible" value="optionData.blurEnabled"/>
+						<block className="mc_blurmap5_feather" type="native">
+							<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
+							<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
+							<style>
+								<width value="110%"/>
+								<height value="110%"/>
+								<left value="-5%"/>
+								<top value="-5%"/>
+							</style>
+							<bind name="blurMap" value="0"/>
+						</block>
+					</block>
+				</block>
+				<block>
+					<style>
+						<position value="absolute"/>
+						<marginTop value="22px"/>
+						<marginLeft value="11px"/>
+					</style>
+					<block className="ContextGuidingTipPointerAnimation">
+						<styleClass value="$FullsizeAbsolute"/>
+						<bind name="colorTransform" value=" {	redMultiplier: 0,
+								greenMultiplier: 0,
+								blueMultiplier: 0,
+								alphaMultiplier: 0.5,
+								redOffset: 255,
+								greenOffset: 204,
+								blueOffset: 102,
+								alphaOffset: 0
+							}"/>
+						<style>
+							<hitTest value="false"/>
+						</style>
+						<block className="contextGuidingTipAnimation" type="native"/>
+					</block>
+				</block>
+				<block className="context_guiding_tip_pointer_down" type="native"/>
+			</block>
+			<block className="context_guiding_tip_line_down" type="native">
+				<style>
+					<width value="50%"/>
+					<marginRight value="1px"/>
+				</style>
+			</block>
+			<style>
+				<flow value="horizontal"/>
+			</style>
+		</block>
+	</block>
+	<block className="ContextGuidingTipPointerPanel_right">
+		<styleClass value="$FullsizeAbsolute"/>
+		<block className="context_guiding_tip_panel_right" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+		</block>
+		<block>
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="context_guiding_tip_line_right" type="native">
+				<style>
+					<height value="50%"/>
+					<marginTop value="2px"/>
+					<right value="0px"/>
+				</style>
+			</block>
+			<block>
+				<style>
+					<right value="-10px"/>
+				</style>
+				<block>
+					<styleClass value="$FullsizeAbsolute"/>
+					<style>
+						<marginRight value="3px"/>
+						<alpha value="3.5"/>
+						<marginTop value="2px"/>
+						<marginBottom value="2px"/>
+					</style>
+					<block className="BlurMapCustomOutbound">
+						<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+						<style>
+							<position value="absolute"/>
+							<width value="100%"/>
+							<height value="100%"/>
+							<hitTest value="false"/>
+						</style>
+						<bind name="visible" value="optionData.blurEnabled"/>
+						<block className="mc_blurmap5_feather" type="native">
+							<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
+							<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
+							<style>
+								<width value="110%"/>
+								<height value="110%"/>
+								<left value="-5%"/>
+								<top value="-5%"/>
+							</style>
+							<bind name="blurMap" value="0"/>
+						</block>
+					</block>
+				</block>
+				<block>
+					<style>
+						<position value="absolute"/>
+						<marginTop value="11px"/>
+						<marginLeft value="22px"/>
+					</style>
+					<block className="ContextGuidingTipPointerAnimation">
+						<styleClass value="$FullsizeAbsolute"/>
+						<bind name="colorTransform" value=" {	redMultiplier: 0,
+								greenMultiplier: 0,
+								blueMultiplier: 0,
+								alphaMultiplier: 0.5,
+								redOffset: 255,
+								greenOffset: 204,
+								blueOffset: 102,
+								alphaOffset: 0
+							}"/>
+						<style>
+							<hitTest value="false"/>
+						</style>
+						<block className="contextGuidingTipAnimation" type="native"/>
+					</block>
+				</block>
+				<block className="context_guiding_tip_pointer_right" type="native"/>
+			</block>
+			<block className="context_guiding_tip_line_right" type="native">
+				<style>
+					<height value="50%"/>
+					<marginBottom value="2px"/>
+					<right value="0px"/>
+				</style>
+			</block>
+		</block>
+	</block>
+	<block className="ContextGuidingTipPointerPanel_left">
+		<styleClass value="$FullsizeAbsolute"/>
+		<block>
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="context_guiding_tip_line_left" type="native">
+				<style>
+					<height value="50%"/>
+					<marginTop value="2px"/>
+				</style>
+			</block>
+			<block>
+				<block>
+					<styleClass value="$FullsizeAbsolute"/>
+					<style>
+						<marginLeft value="-7px"/>
+						<alpha value="3.5"/>
+						<marginTop value="2px"/>
+						<marginBottom value="2px"/>
+					</style>
+					<block className="BlurMapCustomOutbound">
+						<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+						<style>
+							<position value="absolute"/>
+							<width value="100%"/>
+							<height value="100%"/>
+							<hitTest value="false"/>
+						</style>
+						<bind name="visible" value="optionData.blurEnabled"/>
+						<block className="mc_blurmap5_feather" type="native">
+							<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
+							<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
+							<style>
+								<width value="110%"/>
+								<height value="110%"/>
+								<left value="-5%"/>
+								<top value="-5%"/>
+							</style>
+							<bind name="blurMap" value="0"/>
+						</block>
+					</block>
+				</block>
+				<block>
+					<style>
+						<position value="absolute"/>
+						<marginTop value="11px"/>
+						<marginLeft value="-21px"/>
+					</style>
+					<block className="ContextGuidingTipPointerAnimation">
+						<styleClass value="$FullsizeAbsolute"/>
+						<bind name="colorTransform" value=" {	redMultiplier: 0,
+								greenMultiplier: 0,
+								blueMultiplier: 0,
+								alphaMultiplier: 0.5,
+								redOffset: 255,
+								greenOffset: 204,
+								blueOffset: 102,
+								alphaOffset: 0
+							}"/>
+						<style>
+							<hitTest value="false"/>
+						</style>
+						<block className="contextGuidingTipAnimation" type="native"/>
+					</block>
+				</block>
+				<block className="context_guiding_tip_pointer_left" type="native">
+					<style>
+						<left value="-10px"/>
+					</style>
+				</block>
+			</block>
+			<block className="context_guiding_tip_line_left" type="native">
+				<style>
+					<height value="50%"/>
+					<marginBottom value="1px"/>
+				</style>
+			</block>
+		</block>
+		<block className="context_guiding_tip_panel_left" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+		</block>
+	</block>
+	<block className="ContextGuidingTip">
+		<bind name="var" value="{inPort: true}"/>
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'shipOverview'"/>
+		<bind name="transition" value="shipOverview.enabled; shipOverview.enabled ? 0.4 : 0.25; {alpha: 1}; {alpha: 0}; {alpha: 1}; 2; !(shipOverview.enabled) &amp;&amp; !(inPort) ? 0.15 : 0.5"/>
+		<bind name="style" value="'hitTest'; !(shipOverview.enabled)"/>
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<bind name="var" value="{invisible: false}"/>
+		<bind name="visible" value="!invisible"/>
+		<bind name="catch" value="'evContextGuidingTipHide'; {invisible: true}"/>
+		<bind name="catch" value="'evContextGuidingTipUnHide'; {invisible: false}"/>
+		<style>
+			<position value="absolute"/>
+			<width value="340px"/>
+		</style>
+		<block className="DeclareBlurLayer">
+			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<bind name="visible" value="optionData.blurEnabled"/>
+			<block className="transparentPixel" type="native">
+				<bind name="blurLayer" value="0"/>
+			</block>
+			<style>
+				<position value="absolute"/>
+			</style>
+		</block>
+		<block className="mc_blurmap5" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<bind name="blurMap" value="0"/>
+		</block>
+		<block className="contrast_panel" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<bind name="visible" value="optionData.contrast"/>
+		</block>
+		<block>
+			<styleClass value="$FullsizeAbsolute"/>
+			<bind name="child" value="_direction ? _direction : 'no_item'; {}; {
+																up: 	'ContextGuidingTipPointerPanel_up',
+																down: 	'ContextGuidingTipPointerPanel_down',
+																left: 	'ContextGuidingTipPointerPanel_left',
+																right: 	'ContextGuidingTipPointerPanel_right',
+																no_item	:'EmptyItem'}"/>
+		</block>
+		<block>
+			<style>
+				<width value="100%"/>
+			</style>
+			<bind name="visible" value="_notification_desc != null &amp;&amp; _notification_header != null"/>
+			<block className="button_close" type="native">
+				<style>
+					<top value="16"/>
+					<right value="16"/>
+					<marginTop value="2px"/>
+					<position value="absolute"/>
+					<alpha value="0.9"/>
+				</style>
+				<bind name="dispatch" value="'click'; 'ContextGuidingTipClose'"/>
+				<bind name="action" value="'click'; 'buttonCloseClicked'; {notification_id:_notification_id}"/>
+			</block>
+			<block>
+				<styleClass value="$ContextGuidingTipTextMargins"/>
+				<block type="text">
+					<styleClass value="$TextDefaultBold19NM"/>
+					<styleClass value="$FontColorGolden"/>
+					<style>
+						<alpha value="0.9"/>
+						<width value="100%"/>
+						<marginRight value="16"/>
+					</style>
+					<bind name="text" value="(tr(_notification_header))"/>
+				</block>
+			</block>
+			<block>
+				<style>
+					<width value="100%"/>
+				</style>
+				<block className="HorizontalDivider">
+					<styleClass value="$PxHorizontalCorrection"/>
+					<style>
+						<width value="100%"/>
+						<height value="3px"/>
+					</style>
+					<block className="divider_h" type="native">
+						<styleClass value="$Fullsize"/>
+					</block>
+				</block>
+			</block>
+		</block>
+		<block>
+			<style>
+				<width value="100%"/>
+			</style>
+			<block className="inner_panel" type="native">
+				<styleClass value="$FullsizeAbsolute"/>
+				<style>
+					<marginLeft value="2px"/>
+					<marginRight value="2px"/>
+					<marginBottom value="3px"/>
+				</style>
+			</block>
+			<block>
+				<styleClass value="$ContextGuidingTipTextMargins"/>
+				<block type="text">
+					<styleClass value="$TextDefault17NM"/>
+					<style>
+						<alpha value="0.7"/>
+						<width value="100%"/>
+						<marginBottom value="8"/>
+					</style>
+					<bind name="text" value="_notification_desc == null ? (tr(_notification_header)) : (tr(_notification_desc))"/>
+				</block>
+			</block>
+		</block>
+	</block>
+	<block className="ContextGuidingTipHub">
+		<bind name="var" value="{reasonOnStage: _customOnStageEvent ? false : true, dhNotificationEnabled: false}"/>
+		<bind name="catch" value="'addedToStage'; 		!_customOnStageEvent ? {reasonOnStage: true}  : {}"/>
+		<bind name="catch" value="'removedFromStage'; 	!_customOnStageEvent ? {reasonOnStage: false} : {}"/>
+		<bind name="catch" value="'ContextGuidingReasonOpen'; {reasonOnStage: true}"/>
+		<bind name="catch" value="'ContextGuidingReasonClose'; {reasonOnStage: false}"/>
+		<bind name="var" value="{coachScreenActive: false}"/>
+		<bind name="collectionDH" value="CC.coach; 'coachCollection'"/>
+		<bind name="entityDH" value="'coachEntity'; coachCollection[0].id"/>
+		<bind name="watchDH" value="'coachScreenActive'; ['coachEntity.coach.evShow']; coachEntity.coach.show"/>
+		<bind name="catch" value="'evHideCoachScreen'; {coachScreenActive: false}"/>
+		<bind name="firstEntityDH" value="'dockStateEntity'; CC.dockState"/>
+		<bind name="watchDH" value="'dockStateName'; ['dockStateEntity.dockState.evUpdate']; dockStateEntity.dockState.stateName"/>
+		<bind name="primaryEntityDH" value="'notificationEntity'; CC.contextGuidingTip; _tooltipID"/>
+		<bind name="watch" value="'notificationEnabled'; dhNotificationEnabled &amp;&amp; reasonOnStage &amp;&amp; _extraCondition &amp;&amp; dockStateName == 'dock' &amp;&amp; !coachScreenActive"/>
+		<bind name="changeDispatch" value="notificationEnabled; notificationEnabled ? 'ContextGuidingTipOpen' : 'ContextGuidingTipClose'; {}; SC.Common.UBSCOPE_EVENT_DIRECTIONS.NONE"/>
+		<bind name="watchDH" value="'dhNotificationEnabled'; ['notificationEntity.contextGuidingTip.evActiveChanged'] ; notificationEntity.contextGuidingTip.active == true ? true : false "/>
+		<bind name="action" value="'ContextGuidingTipOpen'; 		'ContextGuidingTipOpen';	 							{ notification_id:_tooltipID }"/>
+		<bind name="action" value="'ContextGuidingTipClose'; 	'ContextGuidingTipClose';							 	{ notification_id:_tooltipID }"/>
+		<bind name="action" value="'ContextGuidingTipComplete';	'ContextGuidingTipComplete'; 							{ notification_id:_tooltipID }"/>
+		<bind name="action" value="'removedFromStage'; 			!_customOnStageEvent ? 'ContextGuidingTipClose' : '';	{ notification_id:_tooltipID }"/>
+		<styleClass value="$FullsizeAbsolute"/>
+		<bind name="popupNoCache" value="'ContextGuidingTip';
+								{
+									_notification_id:		_tooltipID,
+									_notification_header:	notificationEntity.contextGuidingTip.header,
+									_notification_desc:		notificationEntity.contextGuidingTip.desc,
+									_direction:				_tipPositioning == 'top'	?	'down' :
+															_tipPositioning == 'bottom'	?	'up' :
+															_tipPositioning == 'left'	?	'right'
+																						:	'left'
+								};
+
+								1;
+								{
+									type: 'lesta.unbound.bindings.popup.UbNativeReasonPopupSpacingComponent',
+									params:
+									{
+										directionsPriority: _keepOnNotFit ? [_tipPositioning] : [_tipPositioning, 'empty'],
+										reasonOffsetTop:	_offset,
+										reasonOffsetBottom: _offset,
+										reasonOffsetRight:	_offset,
+										reasonOffsetLeft:	_offset,
+
+										screenOffsetTop:	_tipPositioning == 'bottom'	? _screenOffset : 0,
+										screenOffsetBottom: _tipPositioning == 'top'	? _screenOffset : 0,
+										screenOffsetRight:	_tipPositioning == 'left'	? _screenOffset : 0,
+										screenOffsetLeft:	_tipPositioning == 'right'	? _screenOffset : 0
+									}
+								};
+								{
+									reason:
+									{
+
+
+
+										click:					{ 	action: _hideOnReasonClick ? 'hide' : 'none', 
+																	params: { duration:0.1, startProps: { alpha:1, x:0, y:0 }, finishProps: { alpha:0, x:0, y: -5 }}
+																}
+									},
+
+									reasonScope:
+									{
+										ContextGuidingTipOpen: 		{ 	action: 'show', 
+																		params: { duration:0.3, startProps: { alpha:0, x:0, y:10 }, finishProps: { alpha:1, x:0, y: 0 }, delay: _onShowDelay ? _onShowDelay : 0.5}},
+
+										ContextGuidingTipClose: 	{ 	action: 'hide',
+																		params: { duration:0.0, startProps: { alpha:1, x:0, y:0 }, finishProps: { alpha:0, x:0, y: -5 }}},
+
+										ContextGuidingTipComplete: 	{ 	action: 'hide',
+																		params: { duration:0.0, startProps: { alpha:1, x:0, y:0 }, finishProps: { alpha:0, x:0, y: -5 }}}
+
+									}
+								}
+	"/>
+	</block>
+	<block className="BattleChooserContextGuidingTip">
+		<bind name="var" value="{randomFightCGT : SC.Context_guiding_tip.TIP_TYPES.RANDOM_FIGHT_BTN}"/>
+		<bind name="firstEntityDH" value="'dockDataEntity'; CC.dockData"/>
+		<bind name="var" value="{wasBattleChooserOpened : false}"/>
+		<bind name="watchDH" value="'wasBattleChooserOpened'; ['dockDataEntity.dockData.evBattleChooserChanged'] ; dockDataEntity.dockData.battleChooserVisible || wasBattleChooserOpened ? true : false"/>
+		<bind name="watchDH" value="'battleChooserVisible'; ['dockDataEntity.dockData.evBattleChooserChanged'] ; dockDataEntity.dockData.battleChooserVisible"/>
+		<bind name="changeDispatch" value="wasBattleChooserOpened == battleChooserVisible; wasBattleChooserOpened ? 'ContextGuidingTipComplete' : ''; {_eventTooltipID: randomFightCGT}; SC.Common.UBSCOPE_EVENT_DIRECTIONS.DOWN"/>
+		<styleClass value="$FullsizeAbsolute"/>
+		<bind name="instance" value="'ContextGuidingTipHub'; battleChooserVisible ? {
+																	_tooltipID: randomFightCGT,
+																	_tipPositioning: 'bottom', 
+																	_extraCondition: true, 
+																	_offset: -3, 
+																	_screenOffset : 0,
+																	_customOnStageEvent : false
+																	}
+																: null
+	"/>
+	</block>
+	<block className="ContextGuidingTipModuleTreeElement">
+		<styleClass value="$FullsizeAbsolute"/>
+		<bind name="dispatch" value="'addedToStage'; 'evModulesScrollToIndexEvent'; {moduleScrollIndex: _moduleIndex}; SC.Common.UBSCOPE_EVENT_DIRECTIONS.UP; 0.05"/>
+		<bind name="dispatch" value="'evModuleMouseWheel'; 'evContextGuidingTipHide'; {invisible: true}; SC.Common.UBSCOPE_EVENT_DIRECTIONS.DOWN"/>
+		<bind name="dispatch" value="'evModuleMouseWheelReset'; 'evContextGuidingTipUnHide'; {invisible: false}; SC.Common.UBSCOPE_EVENT_DIRECTIONS.DOWN"/>
+		<bind name="primaryEntityDH" value="'notificationEntity'; CC.contextGuidingTip; _tooltipID"/>
+		<bind name="firstEntityDH" value="'dockEntity'; CC.dockDataMarker"/>
+		<bind name="watchDH" value="'inset'; ['dockEntity.insetComponent.evUpdate']; dockEntity.insetComponent.inset"/>
+		<bind name="watchDH" value="'dhNotificationEnabled'; ['notificationEntity.contextGuidingTip.evActiveChanged'] ; notificationEntity.contextGuidingTip.active &amp;&amp; inset == LobbyConstants.SHIP_MODULES "/>
+		<bind name="changeDispatch" value="dhNotificationEnabled; 'evModulesScrollToIndexEvent'; {moduleScrollIndex: _moduleIndex}; SC.Common.UBSCOPE_EVENT_DIRECTIONS.UP; true"/>
+		<bind name="instance" value=" 'ContextGuidingTipHub'; {
+												_tooltipID: _tooltipID,
+												_tipPositioning: _tipPositioning, 
+												_extraCondition: true,
+												_offset: _offset
+											}"/>
 	</block>
 	<block className="DefaultButton">
 		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
@@ -5957,14 +6623,12 @@
 		</block>
 	</block>
 	<block className="InfopanelButton">
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
 		<bind name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
 		<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
-		<bind name="dispatch" value="'mouseOver'; 'overInfopanelButton'; {infopanelButtonOverAlpha: 1}"/>
-		<bind name="dispatch" value="'mouseOut'; 'upInfopanelButton'; 	{infopanelButtonOverAlpha: 0.6}"/>
-		<bind name="dispatch" value="'mouseDown'; 'downInfopanelButton'; {infopanelButtonOverAlpha: 0.3}"/>
-		<bind name="catch" value="'upInfopanelButton'}"/>
-		<bind name="catch" value="'overInfopanelButton'"/>
-		<bind name="catch" value="'downInfopanelButton'"/>
+		<bind name="watch" value="'infopanelButtonOverAlpha';	(mouseDown)		? 0.3 :
+												(rollOver)		? 1
+																: 0.6"/>
 		<bind name="tooltip" value="'SimpleTooltip'; _tooltipIDS ? { tooltipText: _tooltipIDS } : null"/>
 		<bind name="style" value="'alpha'; infopanelButtonOverAlpha"/>
 		<bind name="name" value="_name"/>

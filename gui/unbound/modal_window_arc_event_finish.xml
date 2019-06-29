@@ -1263,361 +1263,6 @@
 			</style>
 		</block>
 	</block>
-	<block className="ArcEventPersonalResultsWindow">
-		<bind name="firstEntityDH" value="'arcEventEntity'; CC.arcEvent"/>
-		<bind name="watchDH" value="'sideId';['arcEventEntity.playerArcEventInfo.evSideChanged']; arcEventEntity.playerArcEventInfo.sideId"/>
-		<bind name="primaryEntityDH" value="'arcEventSide'; CC.arcEventSide; sideId"/>
-		<bind name="watchDH" value="'complexity'; ['arcEventSide.arcEventSide.evChanged']; arcEventSide.arcEventSide.complexity"/>
-		<styleClass value="$Fullsize"/>
-		<block>
-			<style>
-				<width value="100%"/>
-			</style>
-			<bind name="instance" value="'ArcEventHeader1'; { _headerText: 'IDS_ARC_EVENT_PERSONAL_RESULT_HEADER', _page: 1 }"/>
-		</block>
-		<block>
-			<style>
-				<width value="100%"/>
-			</style>
-			<bind name="instance" value="'ArcEventSideHeader'; {}"/>
-		</block>
-		<block>
-			<style>
-				<width value="100%"/>
-			</style>
-			<block>
-				<style>
-					<width value="580px"/>
-				</style>
-				<styleClass value="$MiddleAligned"/>
-				<bind name="instance" value="'ArcEventPlayerStat'; {}"/>
-			</block>
-		</block>
-		<block>
-			<styleClass value="$MiddleAligned"/>
-			<style>
-				<marginTop value="48px"/>
-			</style>
-			<block type="text">
-				<styleClass value="$TextDefault19NM"/>
-				<styleClass value="$ArcEventTextStyle"/>
-				<bind name="text" value="complexity &gt;= 0 ? tr('IDS_ARC_EVENT_SIDE_MODIFIER_COMPLEXITY_' + complexity) : ''"/>
-			</block>
-		</block>
-		<block>
-			<style>
-				<width value="100%"/>
-				<marginTop value="8px"/>
-			</style>
-			<bind name="instance" value="'ArcEventHeader2'; { _headerText: 'IDS_ARC_EVENT_DAILY_REWARD', _showUnderline: true}"/>
-		</block>
-		<block>
-			<style>
-				<width value="100%"/>
-				<marginTop value="24px"/>
-			</style>
-			<bind name="instance" value="'ArcEventPlayerProgress'; {}"/>
-		</block>
-		<block>
-			<style>
-				<width value="100%"/>
-				<marginTop value="64px"/>
-			</style>
-			<bind name="instance" value="'ArcEventHeader2'; { _headerText: 'IDS_ARC_EVENT_LOYALTY', _showUnderline: true}"/>
-		</block>
-		<block>
-			<style>
-				<width value="100%"/>
-				<marginTop value="24px"/>
-			</style>
-			<bind name="instance" value="'ArcEventPlayerLoyalty'; {}"/>
-		</block>
-		<block>
-			<styleClass value="$Fullsize"/>
-			<style>
-				<marginTop value="64px"/>
-			</style>
-			<bind name="instance" value="'ArcEventDecorFooter'; {_windowName: 'PERSONAL_RESULTS'}"/>
-		</block>
-	</block>
-	<block className="ArcEventPlayerStat">
-		<bind name="firstEntityDH" value="'arcEventEntity'; CC.arcEvent"/>
-		<bind name="watchDH" value="'sides';	[]; arcEventEntity.arcEvent.sides"/>
-		<bind name="watchDH" value="'sideId';['arcEventEntity.playerArcEventInfo.evSideChanged']; arcEventEntity.playerArcEventInfo.sideId"/>
-		<bind name="primaryEntityDH" value="'arcEventFirstSideEntity'; CC.arcEventSide; sides[0]"/>
-		<bind name="watchDH" value="'myDailyProgressLeft';	['arcEventFirstSideEntity.arcEventSide.evProgressChanged']; arcEventFirstSideEntity.arcEventSide.myDailyProgress"/>
-		<bind name="watchDH" value="'myDailyBattlesLeft';	['arcEventFirstSideEntity.arcEventSide.evProgressChanged']; arcEventFirstSideEntity.arcEventSide.myDailyBattles"/>
-		<bind name="watchDH" value="'myTotalBattlesLeft';	['arcEventFirstSideEntity.arcEventSide.evProgressChanged']; arcEventFirstSideEntity.arcEventSide.myTotalBattles"/>
-		<bind name="primaryEntityDH" value="'arcEventSecondSideEntity'; CC.arcEventSide; sides[1]"/>
-		<bind name="watchDH" value="'myDailyProgressRight';	['arcEventSecondSideEntity.arcEventSide.evProgressChanged']; arcEventSecondSideEntity.arcEventSide.myDailyProgress"/>
-		<bind name="watchDH" value="'myDailyBattlesRight';	['arcEventSecondSideEntity.arcEventSide.evProgressChanged']; arcEventSecondSideEntity.arcEventSide.myDailyBattles"/>
-		<bind name="watchDH" value="'myTotalBattlesRight';	['arcEventSecondSideEntity.arcEventSide.evProgressChanged']; arcEventSecondSideEntity.arcEventSide.myTotalBattles"/>
-		<bind name="watch" value="'rowArrayTeam';  	 [	{ title: 'IDS_PERSONAL_STAT_POINTS_FOR_TODAY', 		valueLeft: format(myDailyProgressLeft), 	valueRight: format(myDailyProgressRight)},
-										{ title: 'IDS_PERSONAL_STAT_BATTLES_TODAY', 		valueLeft: format(myDailyBattlesLeft),		valueRight: format(myDailyBattlesRight)},
-										{ title: 'IDS_PERSONAL_STAT_BATTLES_TOTAL',			valueLeft: format(myTotalBattlesLeft),		valueRight: format(myTotalBattlesRight)}]"/>
-		<style>
-			<width value="100%"/>
-		</style>
-		<bind name="repeat" value="rowArrayTeam; 'ArcEventPlayerStatRow'; { _sideRight: sides[0], _sideLeft: sides[1], _sideId: sideId }"/>
-	</block>
-	<block className="ArcEventPlayerStatRow">
-		<style>
-			<width value="100%"/>
-			<backgroundColor value="0x01000000"/>
-		</style>
-		<bind name="tooltip" value="'SimpleTooltip'; { tooltipText: tr(title + '_TOOLTIP') }; 0"/>
-		<block>
-			<style>
-				<width value="100%"/>
-				<marginTop value="16px"/>
-				<marginBottom value="16px"/>
-			</style>
-			<block type="text">
-				<style>
-					<marginLeft value="2px"/>
-				</style>
-				<bind name="class" value="(_sideRight == _sideId) ? '$Bold' : '$None'"/>
-				<styleClass value="$TextDefault17NM"/>
-				<styleClass value="$ArcEventTextStyle"/>
-				<bind name="text" value="valueLeft"/>
-			</block>
-			<block type="text">
-				<style>
-					<width value="100%"/>
-					<textAlign value="center"/>
-				</style>
-				<styleClass value="$TextDefault17NM"/>
-				<styleClass value="$ArcEventTextStyle"/>
-				<bind name="text" value="title"/>
-			</block>
-			<block type="text">
-				<style>
-					<textAlign value="right"/>
-					<marginRight value="2px"/>
-				</style>
-				<bind name="class" value="(_sideLeft == _sideId)	? '$Bold' : '$None'"/>
-				<styleClass value="$TextDefault17NM"/>
-				<styleClass value="$ArcEventTextStyle"/>
-				<bind name="text" value="valueRight"/>
-			</block>
-			<style>
-				<flow value="horizontal"/>
-			</style>
-		</block>
-		<block>
-			<style>
-				<width value="100%"/>
-			</style>
-			<bind name="instance" value="'BlackDivider1'; {}"/>
-		</block>
-	</block>
-	<block className="ArcEventPlayerProgress">
-		<bind name="primaryEntityDH" value="'arcProgressWithRewardsEntity'; CC.progressWithRewards; 'progress'"/>
-		<bind name="watchDH" value="'pointsArray';['arcProgressWithRewardsEntity.progressWithRewards.evChanged']; arcProgressWithRewardsEntity.progressWithRewards.pointsArray"/>
-		<bind name="watchDH" value="'pointsToNext';['arcProgressWithRewardsEntity.progressWithRewards.evChanged']; arcProgressWithRewardsEntity.progressWithRewards.pointsToNext"/>
-		<style>
-			<width value="100%"/>
-		</style>
-		<block>
-			<styleClass value="$MiddleAligned"/>
-			<block type="text">
-				<styleClass value="$TextDefault17NM"/>
-				<styleClass value="$ArcEventTextStyle"/>
-				<bind name="text" value="pointsToNext &gt; 0	? subst('IDS_ARC_EVENT_POINTS_TO_NEXT_REWARD', [], { pointsToReward: pointsToNext }, pointsToNext)
-											: 'IDS_ARC_EVENT_ALL_REWARDS_UNLOCKED'"/>
-			</block>
-		</block>
-		<block>
-			<styleClass value="$MiddleAligned"/>
-			<style>
-				<flow value="horizontal"/>
-				<marginTop value="40px"/>
-			</style>
-			<bind name="repeat" value="pointsArray; 'ArcEventPlayerProgressStep'; {}"/>
-		</block>
-	</block>
-	<block className="ArcEventPlayerProgressStep">
-		<bind name="primaryEntityDH" value="'arcProgressWithRewardsEntity'; CC.progressWithRewards; 'progress'"/>
-		<bind name="watchDH" value="'pointsArray';['arcProgressWithRewardsEntity.progressWithRewards.evChanged']; arcProgressWithRewardsEntity.progressWithRewards.pointsArray"/>
-		<bind name="watchDH" value="'pointsCurrent';['arcProgressWithRewardsEntity.progressWithRewards.evChanged']; arcProgressWithRewardsEntity.progressWithRewards.pointsCurrent"/>
-		<bind name="watchDH" value="'activeIndex';['arcProgressWithRewardsEntity.progressWithRewards.evChanged']; arcProgressWithRewardsEntity.progressWithRewards.activeIndex"/>
-		<bind name="watch" value="'isFull'; (activeIndex == 0) ? false : ($index &lt;= (activeIndex - 1))"/>
-		<bind name="watch" value="'pureProgress'; (activeIndex == 0) 			? ((pointsCurrent / pointsArray[$index]) * 10)
-																: ((pointsCurrent - pointsArray[$index - 1]) / (pointsArray[$index] - pointsArray[$index - 1])) * 10"/>
-		<bind name="watch" value="'progressValue'; 	(activeIndex == $index) 	? pureProgress :
-									isFull 						? 10
-																: 0"/>
-		<bind name="tooltip" value="'ArcEventEventProgressTooltip'; { _index: $index }"/>
-		<style>
-			<flow value="horizontal"/>
-			<height value="48px"/>
-			<backgroundColor value="0x01000000"/>
-			<marginLeft value="8px"/>
-			<marginRight value="8px"/>
-		</style>
-		<block>
-			<styleClass value="$MiddleVAligned"/>
-			<block className="indicator_progress_bar_dark_bg" type="native">
-				<style>
-					<width value="90px"/>
-					<height value="8px"/>
-				</style>
-			</block>
-			<block className="indicator_progress_bar_dark_mask" type="native">
-				<style>
-					<width value="90px"/>
-					<height value="8px"/>
-					<position value="absolute"/>
-				</style>
-				<bind name="value" value="progressValue"/>
-			</block>
-		</block>
-		<block>
-			<style>
-				<marginLeft value="16px"/>
-			</style>
-			<block>
-				<style>
-					<width value="48px"/>
-					<height value="48px"/>
-				</style>
-				<bind name="style" value="'backgroundImage'; (pointsCurrent &gt;= pointsArray[$index]) 	? 'url:../events/arc_event/personal_progress/progress_reward_1_full.png'
-																					: 'url:../events/arc_event/personal_progress/progress_reward_1_empty.png'"/>
-			</block>
-			<block>
-				<bind name="visible" value="(pointsCurrent &gt;= pointsArray[$index])"/>
-				<style>
-					<width value="32px"/>
-					<height value="32px"/>
-					<position value="absolute"/>
-					<top value="-24px"/>
-					<left value="32px"/>
-				</style>
-				<bind name="style" value="'backgroundImage'; 'url:../events/arc_event/personal_progress/icon_done_' + $index + '.png'"/>
-			</block>
-			<block>
-				<styleClass value="$MiddleAligned"/>
-				<style>
-					<marginTop value="8px"/>
-				</style>
-				<block type="text">
-					<styleClass value="$TextDefault17NM"/>
-					<styleClass value="$ArcEventTextStyle"/>
-					<bind name="text" value="pointsArray[$index]"/>
-				</block>
-			</block>
-		</block>
-	</block>
-	<block className="ArcEventEventProgressTooltip">
-		<bind name="primaryEntityDH" value="'arcProgressWithRewardsEntity'; CC.progressWithRewards; 'progress'"/>
-		<bind name="watchDH" value="'pointsArray';['arcProgressWithRewardsEntity.progressWithRewards.evChanged']; arcProgressWithRewardsEntity.progressWithRewards.pointsArray"/>
-		<bind name="watchDH" value="'pointsCurrent';['arcProgressWithRewardsEntity.progressWithRewards.evChanged']; arcProgressWithRewardsEntity.progressWithRewards.pointsCurrent"/>
-		<bind name="watch" value="'pointsForCurrentStep'; pointsCurrent &gt; pointsArray[_index] ? pointsArray[_index] : pointsCurrent"/>
-		<bind name="primaryEntityDH" value="'progressWithRewardsEntity'; CC.progressWithRewards; 'progress'"/>
-		<bind name="watchDH" value="'rewards';['progressWithRewardsEntity.progressWithRewards.evChanged']; progressWithRewardsEntity.progressWithRewards.rewards"/>
-		<styleClass value="$DefaultTooltipBehaviour"/>
-		<style>
-			<width value="360px"/>
-		</style>
-		<block className="DeclareBlurLayer">
-			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<block className="transparentPixel" type="native">
-				<bind name="blurLayer" value="0"/>
-			</block>
-			<style>
-				<position value="absolute"/>
-			</style>
-		</block>
-		<block className="BlurMap">
-			<bind name="visible" value="optionData.blurEnabled"/>
-			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
-			<style>
-				<hitTest value="false"/>
-			</style>
-			<styleClass value="$FullsizeAbsolute"/>
-			<block className="mc_blurmap_medium" type="native">
-				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
-				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
-				<styleClass value="$FullsizeAbsolute"/>
-				<bind name="blurMap" value="0"/>
-			</block>
-			<block className="inner_panel" type="native">
-				<style>
-					<alpha value="0.5"/>
-				</style>
-				<styleClass value="$FullsizeAbsolute"/>
-			</block>
-		</block>
-		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
-		<block className="contrast_panel" type="native">
-			<styleClass value="$FullsizeAbsolute"/>
-			<bind name="visible" value="optionData.contrast"/>
-		</block>
-		<block className="hint_panel" type="native">
-			<styleClass value="$FullsizeAbsolute"/>
-		</block>
-		<block type="text">
-			<style>
-				<width value="100%"/>
-			</style>
-			<styleClass value="$ArcEventTooltipMargins"/>
-			<styleClass value="$TextDefaultBold19NM"/>
-			<bind name="text" value="'IDS_ARC_EVENT_DAILY_REWARD'"/>
-		</block>
-		<block className="HorizontalDivider">
-			<styleClass value="$PxHorizontalCorrection"/>
-			<style>
-				<width value="100%"/>
-				<height value="3px"/>
-			</style>
-			<block className="divider_h" type="native">
-				<styleClass value="$Fullsize"/>
-			</block>
-		</block>
-		<block type="text">
-			<style>
-				<width value="100%"/>
-			</style>
-			<styleClass value="$ArcEventTooltipMargins"/>
-			<styleClass value="$TextDefault17NM"/>
-			<bind name="text" value="'IDS_ARC_EVENT_DAILY_REWARD_DESCR'"/>
-		</block>
-		<block className="HorizontalDivider">
-			<styleClass value="$PxHorizontalCorrection"/>
-			<style>
-				<width value="100%"/>
-				<height value="3px"/>
-			</style>
-			<block className="divider_h" type="native">
-				<styleClass value="$Fullsize"/>
-			</block>
-		</block>
-		<block>
-			<style>
-				<width value="100%"/>
-				<margin value="16px|8px"/>
-			</style>
-			<bind name="instance" value="'ArcEventEventLoyaltyPoints'; {_text: 'IDS_ARC_EVENT_LOYALTY_PROGRESS_COUNTER', _playerPointsCounter: pointsForCurrentStep, _totalPointsCounter: pointsArray[_index]}"/>
-		</block>
-		<block className="HorizontalDivider">
-			<styleClass value="$PxHorizontalCorrection"/>
-			<style>
-				<width value="100%"/>
-				<height value="3px"/>
-			</style>
-			<block className="divider_h" type="native">
-				<styleClass value="$Fullsize"/>
-			</block>
-		</block>
-		<block>
-			<style>
-				<marginBottom value="5px"/>
-				<marginLeft value="16px"/>
-			</style>
-			<bind name="repeat" value="[rewards[_index]]; 'RewardContainerTooltipItemAdapter'"/>
-		</block>
-	</block>
 	<css name="$Fullsize">
 		<width value="100%"/>
 		<height value="100%"/>
@@ -4146,6 +3791,43 @@
 			</block>
 		</block>
 	</block>
+	<block className="AchievementRenderer">
+		<bind name="controller" value="lesta.dialogs.controllers.CollectionController; 'achievements'; (_id ? _id : $value); 'achievement'"/>
+		<style>
+			<flow value="horizontal"/>
+			<width value="100%"/>
+		</style>
+		<block>
+			<bind name="instance" value="'AchievementIcon'; {_id: (_id ? _id : $value)}"/>
+		</block>
+		<block>
+			<styleClass value="$InfoBlockHorizontalIndent"/>
+			<style>
+				<marginLeft value="10px"/>
+				<marginTop value="-1px"/>
+			</style>
+			<block type="text">
+				<styleClass value="$TextHeaderWhiteBold"/>
+				<style>
+					<width value="100%"/>
+					<maxWidth value="222"/>
+					<textAlign value="left"/>
+				</style>
+				<bind name="class" value="'$FontColorWhite'"/>
+				<bind name="text" value="achievement.nameIDS"/>
+			</block>
+			<block type="text">
+				<styleClass value="$TextHeaderBigDefaultTech"/>
+				<style>
+					<marginTop value="-3px"/>
+					<maxWidth value="220"/>
+					<textAlign value="left"/>
+				</style>
+				<bind name="class" value="'$FontColorWhite'"/>
+				<bind name="text" value="achievement.subtypeIDS"/>
+			</block>
+		</block>
+	</block>
 	<block className="BlackDivider1">
 		<bind name="class" value="'$ArcEventBackgroundColorDark'"/>
 		<bind name="style" value="'width'; 	_vertical ? '1px' : '100%'"/>
@@ -4197,6 +3879,10 @@
 	<css name="$FontFamilyDefaultBold">
 		<fontFamily value="$WWSDefaultFontBold"/>
 		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+	</css>
+	<css name="$FontFamilyDefaultBoldTabs">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<dropShadowFilter value="0 90 0x000000 1 2 2 1"/>
 	</css>
 	<css name="$Bold">
 		<fontFamily value="$WWSDefaultFontBold"/>
@@ -4264,6 +3950,12 @@
 	<css name="$FontColorDefaultButtonUp">
 		<textColor value="0xc7e2e2"/>
 	</css>
+	<css name="$FontColorTabButtonDown">
+		<textColor value="0x999999"/>
+	</css>
+	<css name="$FontColorTabButtonSelectedUp">
+		<textColor value="0xAABFBF"/>
+	</css>
 	<css name="$FontColorComparePositive">
 		<textColor value="0x4CE8AA"/>
 	</css>
@@ -4313,7 +4005,7 @@
 		<fontSize value="60"/>
 	</css>
 	<css name="$LetterSpacingSmall">
-		<letterSpacing value="0.8"/>
+		<letterSpacing value="0"/>
 	</css>
 	<css name="$InvertedTextEffect">
 		<dropShadowFilter value="0 90 0xffffff 1.0 3.0 3.0 0.3"/>
@@ -4336,6 +4028,9 @@
 	</css>
 	<css name="$FontDropShadowWhite">
 		<dropShadowFilter value="0 90 0xffffff 1.0 3.0 3.0 0.3"/>
+	</css>
+	<css name="$BlockDropShadowTabText">
+		<dropShadowFilter value="0 90 0x000000 1 2 2 1"/>
 	</css>
 	<block className="DefaultButton">
 		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
@@ -4591,14 +4286,12 @@
 		</block>
 	</block>
 	<block className="InfopanelButton">
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
 		<bind name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
 		<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
-		<bind name="dispatch" value="'mouseOver'; 'overInfopanelButton'; {infopanelButtonOverAlpha: 1}"/>
-		<bind name="dispatch" value="'mouseOut'; 'upInfopanelButton'; 	{infopanelButtonOverAlpha: 0.6}"/>
-		<bind name="dispatch" value="'mouseDown'; 'downInfopanelButton'; {infopanelButtonOverAlpha: 0.3}"/>
-		<bind name="catch" value="'upInfopanelButton'}"/>
-		<bind name="catch" value="'overInfopanelButton'"/>
-		<bind name="catch" value="'downInfopanelButton'"/>
+		<bind name="watch" value="'infopanelButtonOverAlpha';	(mouseDown)		? 0.3 :
+												(rollOver)		? 1
+																: 0.6"/>
 		<bind name="tooltip" value="'SimpleTooltip'; _tooltipIDS ? { tooltipText: _tooltipIDS } : null"/>
 		<bind name="style" value="'alpha'; infopanelButtonOverAlpha"/>
 		<bind name="name" value="_name"/>
@@ -4881,7 +4574,7 @@
 							<left value="-58px"/>
 							<top value="-8px"/>
 						</style>
-						<bind name="style" value="'backgroundImage'; 'url:../events/arc_event/final_screen/arc_event_content_bg.png'"/>
+						<bind name="style" value="'backgroundImage'; 'url:../events/arc_event/final_screen/arc_event_content_bg.jpg'"/>
 					</block>
 					<block>
 						<style>
@@ -5009,18 +4702,32 @@
 					<marginTop value="32px"/>
 				</style>
 				<block type="text">
-					<styleClass value="$TextDefaultBold21NM"/>
+					<styleClass value="$TextDefault21NM"/>
 					<styleClass value="$ArcEventTextStyle"/>
 					<style>
 						<marginTop value="6px"/>
-						<marginRight value="12px"/>
+						<marginRight value="32px"/>
 					</style>
 					<bind name="text" value="'IDS_ARC_EVENT_FINAL_AWARDED_TO'"/>
 				</block>
-				<block type="text">
-					<styleClass value="$TextDefaultBold30NM"/>
-					<styleClass value="$ArcEventTextStyle"/>
-					<bind name="text" value="accountSimpleEntity.accountName.nickName"/>
+				<block>
+					<block type="text">
+						<styleClass value="$TextDefaultBold30NM"/>
+						<styleClass value="$ArcEventTextStyle"/>
+						<style>
+							<margin value="16px|0"/>
+						</style>
+						<bind name="text" value="accountSimpleEntity.accountName.nickName"/>
+					</block>
+					<block>
+						<bind name="colorTransform" value="{redOffset:119,greenOffset:44,blueOffset:-29}"/>
+						<style>
+							<width value="100%"/>
+							<position value="absolute"/>
+							<bottom value="-6px"/>
+						</style>
+						<bind name="instance" value="'BlackDivider1'; {}"/>
+					</block>
 				</block>
 				<style>
 					<flow value="horizontal"/>
@@ -5060,14 +4767,56 @@
 		<block>
 			<style>
 				<width value="100%"/>
-				<margin value="0|16px"/>
+				<marginTop value="16px"/>
 			</style>
-			<bind name="instance" value="'ArcEventPlayerLoyalty'; {}"/>
+			<bind name="instance" value="'ArcEventPlayerLoyalty'; { _isFinalScreen: true }"/>
+		</block>
+		<block>
+			<bind name="colorTransform" value="{redOffset:119,greenOffset:44,blueOffset:-29}"/>
+			<style>
+				<width value="100%"/>
+				<marginTop value="48px"/>
+			</style>
+			<bind name="instance" value="'ArcEventHeader2'; { _headerText: 'IDS_ARC_EVENT_FINAL_REWARD_HEADER', _isFinalScreen: true }"/>
 		</block>
 		<block>
 			<styleClass value="$MiddleAligned"/>
 			<style>
-				<marginTop value="48px"/>
+				<width value="640px"/>
+				<backgroundColor value="0x01000000"/>
+			</style>
+			<bind name="tooltip" value="'ArcEventFinalRewardTooltip'; {}"/>
+			<block type="text">
+				<styleClass value="$TextDefault17NM"/>
+				<styleClass value="$ArcEventTextStyle"/>
+				<style>
+					<marginLeft value="32px"/>
+					<marginTop value="40px"/>
+				</style>
+				<bind name="text" value="'IDS_ARC_EVENT_FINAL_REWARD_HEADER'"/>
+			</block>
+			<block>
+				<bind name="colorTransform" value="{redOffset:119,greenOffset:44,blueOffset:-29}"/>
+				<style>
+					<width value="100%"/>
+					<marginTop value="16px"/>
+				</style>
+				<bind name="instance" value="'BlackDivider1'; {}"/>
+			</block>
+			<block>
+				<style>
+					<position value="absolute"/>
+					<width value="217px"/>
+					<height value="121px"/>
+					<right value="16px"/>
+				</style>
+				<bind name="style" value="'backgroundImage'; 'url:../events/arc_event/final_screen/final_reward_issued.png'"/>
+			</block>
+		</block>
+		<block>
+			<styleClass value="$MiddleAligned"/>
+			<style>
+				<marginTop value="64px"/>
 				<marginBottom value="64px"/>
 			</style>
 			<block>
@@ -5233,6 +4982,95 @@
 				<styleClass value="$ArcEventTextStyle"/>
 				<bind name="text" value="accountSimpleEntity.accountName.nickName"/>
 			</block>
+		</block>
+	</block>
+	<block className="ArcEventFinalRewardTooltip">
+		<bind name="firstEntityDH" value="'arcEventEntity'; CC.arcEvent"/>
+		<bind name="watchDH" value="'guaranteedRewards'; []; arcEventEntity.arcFinalStats.rewards"/>
+		<styleClass value="$DefaultTooltipBehaviour"/>
+		<style>
+			<width value="360px"/>
+		</style>
+		<block className="DeclareBlurLayer">
+			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<bind name="visible" value="optionData.blurEnabled"/>
+			<block className="transparentPixel" type="native">
+				<bind name="blurLayer" value="0"/>
+			</block>
+			<style>
+				<position value="absolute"/>
+			</style>
+		</block>
+		<block className="BlurMap">
+			<bind name="visible" value="optionData.blurEnabled"/>
+			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<style>
+				<hitTest value="false"/>
+			</style>
+			<styleClass value="$FullsizeAbsolute"/>
+			<block className="mc_blurmap_medium" type="native">
+				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
+				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
+				<styleClass value="$FullsizeAbsolute"/>
+				<bind name="blurMap" value="0"/>
+			</block>
+			<block className="inner_panel" type="native">
+				<style>
+					<alpha value="0.5"/>
+				</style>
+				<styleClass value="$FullsizeAbsolute"/>
+			</block>
+		</block>
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<block className="contrast_panel" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+			<bind name="visible" value="optionData.contrast"/>
+		</block>
+		<block className="hint_panel" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+		</block>
+		<block type="text">
+			<styleClass value="$ArcEventTooltipMargins"/>
+			<styleClass value="$TextDefaultBold19NM"/>
+			<style>
+				<width value="100%"/>
+			</style>
+			<bind name="text" value="'IDS_ARC_EVENT_FINAL_REWARD_TOOLTIP_HEADER'"/>
+		</block>
+		<block className="HorizontalDivider">
+			<styleClass value="$PxHorizontalCorrection"/>
+			<style>
+				<width value="100%"/>
+				<height value="3px"/>
+			</style>
+			<block className="divider_h" type="native">
+				<styleClass value="$Fullsize"/>
+			</block>
+		</block>
+		<block type="text">
+			<styleClass value="$TextDefault17NM"/>
+			<styleClass value="$ArcEventTooltipMargins"/>
+			<style>
+				<width value="100%"/>
+			</style>
+			<bind name="text" value="'IDS_ARC_EVENT_FINAL_REWARD_TOOLTIP_DESCRIPTION')"/>
+		</block>
+		<block className="HorizontalDivider">
+			<styleClass value="$PxHorizontalCorrection"/>
+			<style>
+				<width value="100%"/>
+				<height value="3px"/>
+			</style>
+			<block className="divider_h" type="native">
+				<styleClass value="$Fullsize"/>
+			</block>
+		</block>
+		<block>
+			<styleClass value="$ArcEventTooltipMargins"/>
+			<style>
+				<width value="100%"/>
+			</style>
+			<bind name="repeat" value="guaranteedRewards; 'AchievementRenderer'; {}"/>
 		</block>
 	</block>
 </ui>

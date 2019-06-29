@@ -641,6 +641,10 @@
 		<fontFamily value="$WWSDefaultFontBold"/>
 		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
 	</css>
+	<css name="$FontFamilyDefaultBoldTabs">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<dropShadowFilter value="0 90 0x000000 1 2 2 1"/>
+	</css>
 	<css name="$Bold">
 		<fontFamily value="$WWSDefaultFontBold"/>
 	</css>
@@ -707,6 +711,12 @@
 	<css name="$FontColorDefaultButtonUp">
 		<textColor value="0xc7e2e2"/>
 	</css>
+	<css name="$FontColorTabButtonDown">
+		<textColor value="0x999999"/>
+	</css>
+	<css name="$FontColorTabButtonSelectedUp">
+		<textColor value="0xAABFBF"/>
+	</css>
 	<css name="$FontColorComparePositive">
 		<textColor value="0x4CE8AA"/>
 	</css>
@@ -756,7 +766,7 @@
 		<fontSize value="60"/>
 	</css>
 	<css name="$LetterSpacingSmall">
-		<letterSpacing value="0.8"/>
+		<letterSpacing value="0"/>
 	</css>
 	<css name="$InvertedTextEffect">
 		<dropShadowFilter value="0 90 0xffffff 1.0 3.0 3.0 0.3"/>
@@ -780,6 +790,92 @@
 	<css name="$FontDropShadowWhite">
 		<dropShadowFilter value="0 90 0xffffff 1.0 3.0 3.0 0.3"/>
 	</css>
+	<css name="$BlockDropShadowTabText">
+		<dropShadowFilter value="0 90 0x000000 1 2 2 1"/>
+	</css>
+	<css name="$TabButtonFontUp">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="15"/>
+		<marginText value="-3px|-3px|-6px|-5px"/>
+		<dropShadowFilter value="0 90 0x000000 1 2 2 1"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<block className="MainTabButton">
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
+		<bind name="watch" value="'tabBarSoundSet'; 'main_tab_' + _actionParams.inset"/>
+		<bind name="tooltip" value="'MouseInstructionTooltip'; _tooltipData ? { _isInBattle: _tooltipData.isInBattle,
+																_multiParagraphArray: _tooltipData.paragraphText ? [{ _paragraphText: _tooltipData.paragraphText }] : null,
+																_mouseInstructions: _tooltipData.mouseInstructions,
+																_maxWidth: 250,
+																_marginBottom: _tooltipData.marginBottom,
+																_leading: _tooltipData.leading,
+																_checkedLines: _tooltipData.checkedLines }
+															: null"/>
+		<style>
+			<height value="29px"/>
+		</style>
+		<bind name="style" value="'width'; _width ? _width : '143px'"/>
+		<block className="tab_bar_item_no_label" type="native">
+			<bind name="name" value="_name"/>
+			<bind name="soundSet" value="tabBarSoundSet"/>
+			<styleClass value="$FullsizeAbsolute"/>
+			<bind name="selected" value="_selected"/>
+			<bind name="enabled" value="_enabled"/>
+			<bind name="action" value="'buttonClick'; 	_action 	? _action : null; 	_actionParams 	? _actionParams : {}"/>
+			<bind name="request" value="'buttonClick'; 	_request 	? _request : null; 	_requestParams 	? _requestParams : {}"/>
+			<bind name="dispatch" value="'buttonClick'; 	_dispatch 	? _dispatch : null; _dispatchParams ? _dispatchParams : null"/>
+		</block>
+		<block>
+			<styleClass value="$MiddleAligned"/>
+			<style>
+				<hitTest value="false"/>
+			</style>
+			<block type="text">
+				<styleClass value="$TabButtonFontUp"/>
+				<style>
+					<textAlign value="center"/>
+					<multiline value="false"/>
+					<marginTop value="9px"/>
+				</style>
+				<bind name="class" value="(mouseDown || (_enabled == false))	? '$FontColorTabButtonDown' :
+												rollOver	? '$FontColorWhite' :
+												_selected	? '$FontColorDefaultButtonUp'
+															: '$FontColorTabButtonUp'"/>
+				<bind name="style" value="'alpha'; (_enabled == false) || mouseDown || rollOver || _selected ? 1 : 0.8"/>
+				<bind name="text" value="toUpperCase(tr(_label))"/>
+			</block>
+			<block>
+				<bind name="fade" value="((_newContentCounter &gt; 0) &amp;&amp; (_isNewMarker != true)); 0.15; {alpha: 0, top: 10}; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+				<style>
+					<position value="absolute"/>
+					<right value="-2px"/>
+					<top value="1px"/>
+				</style>
+				<block>
+					<style>
+						<position value="absolute"/>
+						<left value="0px"/>
+					</style>
+					<bind name="instance" value="'MarkerNewCounter'; { _newContentCounter: _newContentCounter }"/>
+				</block>
+			</block>
+			<block>
+				<bind name="fade" value="_isNewMarker; 0.15; {alpha: 0, top: 10}; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+				<style>
+					<position value="absolute"/>
+					<right value="-38px"/>
+					<top value="1px"/>
+				</style>
+				<bind name="instance" value="'MarkerNewAttention'; { }"/>
+			</block>
+			<style>
+				<flow value="horizontal"/>
+			</style>
+		</block>
+	</block>
 	<block className="MainTabSmallInstance">
 		<block className="tab_bar_item_small" type="native">
 			<bind name="name" value="'MainTabSmallInstance_' + _name"/>
@@ -794,21 +890,60 @@
 		</block>
 		<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: _tooltipIDS}"/>
 	</block>
-	<block className="MainTabNew">
-		<block className="tab_bar_item" type="native">
-			<bind name="name" value="_name"/>
+	<block className="NavigationProfileButton">
+		<style>
+			<width value="188px"/>
+		</style>
+		<block className="button_navigation_small_no_label" type="native">
+			<params>
+				<param name="toggle" value="false"/>
+			</params>
 			<style>
-				<height value="29px"/>
+				<width value="100%"/>
+				<marginBottom value="1px"/>
 			</style>
-			<bind name="style" value="'width'; _width"/>
-			<bind name="selected" value="_selected"/>
-			<bind name="action" value="'click'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
-			<bind name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
-			<bind name="dispatch" value="'buttonClick'; _dispatch ? _dispatch : null; _dispatchParams ? _dispatchParams : null"/>
-			<bind name="label" value="toUpperCase(tr(_label))"/>
-			<bind name="soundSet" value="'main_tab_' + _index"/>
+			<bind name="selected" value="_actionParams.page == _activePage"/>
+			<bind name="enabled" value="_actionParams.page != _activePage"/>
+			<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
 		</block>
-		<bind name="tooltip" value="'MouseInstructionTooltip'; {_multiParagraphArray:  [{_paragraphText: _tooltipIDS}], _maxWidth: 250, _isInBattle: _isInBattle}"/>
+		<block>
+			<style>
+				<width value="100%"/>
+				<position value="absolute"/>
+				<hitTest value="false"/>
+			</style>
+			<block type="text">
+				<styleClass value="$TextDefaultBoldNM"/>
+				<style>
+					<multiline value="false"/>
+					<marginLeft value="14px"/>
+					<marginTop value="13px"/>
+				</style>
+				<bind name="class" value=" (_actionParams.page == _activePage) ? '$FontColorAlmostBlack' : ''"/>
+				<bind name="class" value=" (_actionParams.page == _activePage) ? '$FontGlowFilterBrightStrong' : '$FontDropShadowFilter1'"/>
+				<bind name="text" value="toUpperCase(tr(_label))"/>
+			</block>
+			<block>
+				<style>
+					<marginLeft value="2px"/>
+					<marginTop value="4px"/>
+				</style>
+				<block>
+					<bind name="fade" value="_isNewMarker; 0.15; {alpha: 0, top: 10}; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+					<bind name="instance" value="'MarkerNewAttention'; { }"/>
+				</block>
+				<block>
+					<bind name="fade" value="((_newContentCounter &gt; 0) &amp;&amp; (_isNewMarker != true)); 0.15; {alpha: 0, top: 10}; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+					<style>
+						<position value="absolute"/>
+					</style>
+					<bind name="instance" value="'MarkerNewCounter'; { _newContentCounter: _newContentCounter }"/>
+				</block>
+			</block>
+			<style>
+				<flow value="horizontal"/>
+			</style>
+		</block>
 	</block>
 	<css name="$ConfirmationWindowWidth">
 		<width value="472px"/>
@@ -2715,6 +2850,43 @@
 			</block>
 		</block>
 	</block>
+	<block className="AchievementRenderer">
+		<bind name="controller" value="lesta.dialogs.controllers.CollectionController; 'achievements'; (_id ? _id : $value); 'achievement'"/>
+		<style>
+			<flow value="horizontal"/>
+			<width value="100%"/>
+		</style>
+		<block>
+			<bind name="instance" value="'AchievementIcon'; {_id: (_id ? _id : $value)}"/>
+		</block>
+		<block>
+			<styleClass value="$InfoBlockHorizontalIndent"/>
+			<style>
+				<marginLeft value="10px"/>
+				<marginTop value="-1px"/>
+			</style>
+			<block type="text">
+				<styleClass value="$TextHeaderWhiteBold"/>
+				<style>
+					<width value="100%"/>
+					<maxWidth value="222"/>
+					<textAlign value="left"/>
+				</style>
+				<bind name="class" value="'$FontColorWhite'"/>
+				<bind name="text" value="achievement.nameIDS"/>
+			</block>
+			<block type="text">
+				<styleClass value="$TextHeaderBigDefaultTech"/>
+				<style>
+					<marginTop value="-3px"/>
+					<maxWidth value="220"/>
+					<textAlign value="left"/>
+				</style>
+				<bind name="class" value="'$FontColorWhite'"/>
+				<bind name="text" value="achievement.subtypeIDS"/>
+			</block>
+		</block>
+	</block>
 	<block className="DogTagInHUD">
 		<styleClass value="$FullsizeAbsolute"/>
 		<style>
@@ -2731,9 +2903,6 @@
 	<block className="DogTagInHUDContent">
 		<styleClass value="$Fullsize"/>
 		<bind name="firstEntityDH" value="'selfPlayerEntity'; CC.accountSelf"/>
-		<bind name="watchDH" value="'dogTagList';['entityAccount.dogTagView.evComponentsChanged']; entityAccount.dogTagView.components"/>
-		<bind name="collectionDH" value="CC.dogTagComponent; 'dogtagview'+'ROOT'"/>
-		<bind name="collectionDesign" value="'DES_'+'dogtagview'+'ROOT'; 'dogtagview'; {'filter':(dogTagList.indexOf(toLowerCase($entity.dogTagComponent.id)) &gt; -1), 'sort':['dogTagComponent.categoryId']}; []"/>
 		<bind name="firstEntityDH" value="'selfAvatarEntity'; CC.playerAvatar"/>
 		<bind name="watchDH" value="'playerIsAlive'; ['selfAvatarEntity.playerAvatar.evIsAliveChanged']; selfAvatarEntity.playerAvatar.isAlive"/>
 		<bind name="watchDH" value="'killerId'; ['selfAvatarEntity.health.evKillerIdChanged']; selfAvatarEntity.health.killerId"/>
@@ -3591,8 +3760,6 @@
 		<bind name="primaryEntityDH" value="'playerEntity'; CC.accountSimple; _playerDbId"/>
 		<bind name="watchDH" value="'dogTagList';['playerEntity.dogTagView.evComponentsChanged']; playerEntity.dogTagView.components"/>
 		<bind name="name" value="'playerDogTag'"/>
-		<bind name="collectionDH" value="CC.dogTagComponent; 'dogtagview'+'ROOT'"/>
-		<bind name="collectionDesign" value="'DES_'+'dogtagview'+'ROOT'; 'dogtagview'; {'filter': dogTagList.length &amp;&amp; ((dogTagList.indexOf(toLowerCase($entity.dogTagComponent.id)) &gt; -1)), 'sort':['dogTagComponent.categoryId']}; []"/>
 		<bind name="watch" value="'size';	_size == 'big' 				? 512 : 
 							_size == 'medium' 			? 190 : 
 							_size == 'small' 			? 80 :
@@ -3600,7 +3767,7 @@
 														: 80"/>
 		<bind name="style" value="'width'; size + 'px'"/>
 		<bind name="style" value="'height'; size + 'px'"/>
-		<bind name="repeat" value="dogtagview; 'PlayerDogTagItem'; {_path: _size == 'small' 		? 'url:../dogTags/small/'  :
+		<bind name="repeat" value="dogTagList; 'PlayerDogTagItemByPK'; {_path: _size == 'small' 		? 'url:../dogTags/small/'  :
 														  _size == 'profile' 	? 'url:../dogTags/small/' :
 														  _size == 'medium' 	? 'url:../dogTags/medium/' :
 														  _size == 'big' 		? 'url:../dogTags/big/'
@@ -3653,9 +3820,8 @@
 		<bind name="watchDH" value="'iconPath'; ['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.iconPath"/>
 		<bind name="firstEntityDH" value="'selfPlayerEntity'; CC.accountSelf"/>
 		<bind name="watchDH" value="'selfPlayerDbId'; 		[]; selfPlayerEntity.accountSimple.dbId"/>
-		<bind name="watchDH" value="'selfPlayerName'; 		['selfPlayerEntity.accountName.evChanged']; selfPlayerEntity.accountName.name"/>
-		<bind name="watchDH" value="'selfPlayerNickName'; 	['selfPlayerEntity.accountName.evChanged']; selfPlayerEntity.accountName.nickName"/>
-		<bind name="watchDH" value="'clanId'; ['selfPlayerEntity.clanman.evClanIdChanged']; selfPlayerEntity.clanman.clanId"/>
+		<bind name="primaryEntityDH" value="'dogtagOwnerPlayerEntity'; CC.accountSimple; _playerDbId ? _playerDbId : selfPlayerDbId"/>
+		<bind name="watchDH" value="'clanId'; ['dogtagOwnerPlayerEntity.clanman.evClanIdChanged']; dogtagOwnerPlayerEntity.clanman.clanId"/>
 		<bind name="primaryEntityDH" value="'clanEntity'; CC.clan; clanId"/>
 		<bind name="watchDH" value="'clanTag'; ['clanEntity.clan.evTagChanged']; clanEntity.clan.tag"/>
 		<bind name="watchDH" value="'clanTagOffsetX';['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.clanTagOffsetX"/>
@@ -4227,6 +4393,53 @@
 			</block>
 		</block>
 	</block>
+	<block className="MarkerNewCounter">
+		<bind name="watch" value="'newContentCounter'; _newContentCounter == 0 ? 1 : _newContentCounter"/>
+		<style>
+			<height value="20px"/>
+			<hitTest value="false"/>
+		</style>
+		<block className="marker_new_content" type="native">
+			<styleClass value="$FullsizeAbsolute"/>
+		</block>
+		<block type="text">
+			<style>
+				<marginLeft value="8px"/>
+				<marginTop value="6px"/>
+				<marginRight value="8px"/>
+				<textAlign value="center"/>
+			</style>
+			<styleClass value="$TextDefault12NM"/>
+			<bind name="class" value="'$DropShadowDisabler'"/>
+			<bind name="text" value="newContentCounter"/>
+		</block>
+	</block>
+	<block className="MarkerNewAttention">
+		<style>
+			<backgroundImage value="symbol:marker_new_content_attention"/>
+			<width value="35px"/>
+			<height value="20px"/>
+			<hitTest value="false"/>
+		</style>
+	</block>
+	<block className="MarkerNewRewardsAnimate">
+		<bind name="appear" value="_startMarkerAnimationEvent; 0.3; 6; {alpha: 0}; {alpha: 1}"/>
+		<block>
+			<style>
+				<position value="absolute"/>
+				<right value="8px"/>
+				<top value="17px"/>
+			</style>
+			<block className="sparks" type="native"/>
+		</block>
+		<block>
+			<style>
+				<width value="32px"/>
+				<height value="32px"/>
+			</style>
+			<bind name="style" value="'backgroundImage'; _iconReward"/>
+		</block>
+	</block>
 	<block className="DefaultButton">
 		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
 		<bind name="watchDH" value="'operationsAccountLocked';	['resourceEntity.accountResource.evOperationsLockChanged'];	resourceEntity.accountResource.operationsLocked"/>
@@ -4481,14 +4694,12 @@
 		</block>
 	</block>
 	<block className="InfopanelButton">
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
 		<bind name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
 		<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
-		<bind name="dispatch" value="'mouseOver'; 'overInfopanelButton'; {infopanelButtonOverAlpha: 1}"/>
-		<bind name="dispatch" value="'mouseOut'; 'upInfopanelButton'; 	{infopanelButtonOverAlpha: 0.6}"/>
-		<bind name="dispatch" value="'mouseDown'; 'downInfopanelButton'; {infopanelButtonOverAlpha: 0.3}"/>
-		<bind name="catch" value="'upInfopanelButton'}"/>
-		<bind name="catch" value="'overInfopanelButton'"/>
-		<bind name="catch" value="'downInfopanelButton'"/>
+		<bind name="watch" value="'infopanelButtonOverAlpha';	(mouseDown)		? 0.3 :
+												(rollOver)		? 1
+																: 0.6"/>
 		<bind name="tooltip" value="'SimpleTooltip'; _tooltipIDS ? { tooltipText: _tooltipIDS } : null"/>
 		<bind name="style" value="'alpha'; infopanelButtonOverAlpha"/>
 		<bind name="name" value="_name"/>
@@ -6143,7 +6354,7 @@
 		appearDuration: 0.1,
 		appearOffset: 5.0,
 		disappearDelay: 0.0,
-		disappearDuration: 0.1,
+		disappearDuration: 0.0,
 		disappearOffset: -10.0,
 		tinyOffset: 0,
 		rightOffset: -10,
@@ -6950,7 +7161,7 @@
 																									: playercomponentsUnique :
 											dogInset == 1	? playercomponentsUnique.length &gt; 0		? playercomponentsUnique
 																									: playercomponents
-															: playercomponents"/>
+																				: playercomponents"/>
 		<style>
 			<width value="1280:1184,1920:1502aw"/>
 		</style>
@@ -6973,13 +7184,17 @@
 				</style>
 			</block>
 			<block>
-				<bind name="instance" value="'MainTabNew'; 	{_label: 'IDS_DOGTAG_PATCHES', 
-											_name: 'DogTagTabPatches', 
-											_index: 0, 
-											_width: '143px', 
-											_selected: dogInset == 0, 
-											_dispatch: 'changeDogInset', _dispatchParams: {dogInset: 0}, 
-											_tooltipIDS: 'IDS_DOGTAG_PATCHES_TOOLTIP', _isInBattle: false}"/>
+				<bind name="primaryEntityDH" value="'newPatchesEntity'; CC.newContent; SC.Common.CONTENT_CATEGORY.PATCHES"/>
+				<bind name="watchDH" value="'newPatchesCounter'; ['newPatchesEntity.newContent.evCountChanged']; newPatchesEntity.newContent.count"/>
+				<bind name="instance" value="'MainTabButton'; { 	_label: 'IDS_DOGTAG_PATCHES',
+												_name: 'DockSubMenuItem' + 0,
+												_paragraphText: 'IDS_DOGTAG_PATCHES_TOOLTIP',
+												_isInBattle: false,
+												_selected: (dogInset == 0),
+												_dispatch: 'changeDogInset',
+												_dispatchParams: {dogInset: 0},
+												_newContentCounter: newPatchesCounter
+												}"/>
 			</block>
 			<block className="divider_v" type="native">
 				<style>
@@ -6988,13 +7203,17 @@
 				</style>
 			</block>
 			<block>
-				<bind name="instance" value="'MainTabNew'; 	{_label: 'IDS_DOGTAG_EMBLEMS', 
-											_name: 'DogTagTabEmblems', 
-											_index: 1, 
-											_width: '143px', 
-											_selected: dogInset == 1, 
-											_dispatch: 'changeDogInset', _dispatchParams: {dogInset: 1}, 
-											_tooltipIDS: 'IDS_DOGTAG_EMBLEMS_TOOLTIP', _isInBattle: false}"/>
+				<bind name="primaryEntityDH" value="'newEmblemsEntity'; CC.newContent; SC.Common.CONTENT_CATEGORY.EMBLEMS"/>
+				<bind name="watchDH" value="'newEmblemsCounter'; ['newEmblemsEntity.newContent.evCountChanged']; newEmblemsEntity.newContent.count"/>
+				<bind name="instance" value="'MainTabButton'; { 	_label: 'IDS_DOGTAG_EMBLEMS',
+												_name: 'DockSubMenuItem' + 1,
+												_paragraphText: 'IDS_DOGTAG_EMBLEMS_TOOLTIP',
+												_isInBattle: false,
+												_selected: (dogInset == 1),
+												_dispatch: 'changeDogInset',
+												_dispatchParams: {dogInset: 1},
+												_newContentCounter: newEmblemsCounter
+												}"/>
 			</block>
 			<style>
 				<flow value="horizontal"/>
@@ -7097,7 +7316,7 @@
 								<height value="25px"/>
 							</style>
 						</block>
-						<bind name="repeat" value="dogInset == 0 ? dtcategories : null; 'DogTagCategoryItemRenderer'; {_curItemId: categoryEntityId, _lastcategory: dtcategories.length}"/>
+						<bind name="repeat" value="dogInset == 0 ? dtcategories : null; 'DogTagSubtypeTabButton'; {_curItemId: categoryEntityId, _lastcategory: dtcategories.length}"/>
 						<style>
 							<flow value="horizontal"/>
 						</style>
@@ -7127,35 +7346,81 @@
 			</style>
 		</block>
 	</block>
-	<block className="DogTagCategoryItemRenderer">
+	<block className="DogTagSubtypeTabButton">
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
+		<bind name="watch" value="'tabButtonSelected'; (_curItemId == id)"/>
 		<bind name="entityDH" value="'entity'; id"/>
 		<bind name="watchDH" value="'nameIds'; ['entity.dogTagCategory.evUpdate']; entity.dogTagCategory.nameIds"/>
 		<bind name="watchDH" value="'type'; ['entity.dogTagCategory.evUpdate']; entity.dogTagCategory.type"/>
 		<bind name="watchDH" value="'description'; ['entity.dogTagCategory.evUpdate']; entity.dogTagCategory.description"/>
+		<bind name="watch" value="'newContentType'; type == 0 ? SC.Common.CONTENT_CATEGORY.DOLLS : SC.Common.CONTENT_CATEGORY.SIGNS"/>
+		<bind name="primaryEntityDH" value="'newMarkerEntity'; CC.newContent; newContentType"/>
+		<bind name="watchDH" value="'newContentCounter'; ['newMarkerEntity.newContent.evCountChanged']; newMarkerEntity.newContent.count"/>
+		<bind name="watch" value="'tabBarSoundSet'; 'main_tab_' + $index"/>
+		<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: tr(toUpperCase('IDS_DOGTAG_PATCHES_DESCRIPTION_' + description))}"/>
 		<style>
+			<width value="145px"/>
 			<height value="25px"/>
 		</style>
-		<bind name="dispatch" value="'click'; 'dogTagCategoryChanged'; {categoryEntityId: id}"/>
-		<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: tr(toUpperCase('IDS_DOGTAG_PATCHES_DESCRIPTION_' + description))}"/>
 		<block>
-			<block className="tab_bar_item_small" type="native">
-				<bind name="name" value="'DogTagCategoryItemRenderer_' + $index"/>
+			<style>
+				<width value="100%"/>
+				<height value="100%"/>
+				<position value="absolute"/>
+			</style>
+			<block className="tab_bar_item_no_label" type="native">
+				<bind name="name" value="'DogTagSubtypeTabButton_' + $index"/>
 				<style>
-					<width value="143px"/>
-					<height value="25px"/>
+					<height value="100%"/>
 				</style>
-				<bind name="soundSet" value="'main_tab_'"/>
-				<bind name="selected" value="(_curItemId == id)"/>
-				<bind name="label" value="toUpperCase(tr('IDS_DOGTAG_PATCHES_' + nameIds))"/>
+				<bind name="style" value="'width'; (_lastcategory != ($index + 1)) ? '143px' : '145px'"/>
+				<bind name="selected" value="tabButtonSelected"/>
+				<bind name="dispatch" value="'buttonClick'; 'dogTagCategoryChanged'; {categoryEntityId: id}"/>
+				<bind name="soundSet" value="tabBarSoundSet"/>
 			</block>
 			<block>
 				<bind name="visible" value="(_lastcategory != ($index + 1))"/>
+				<style>
+					<hitTest value="false"/>
+				</style>
 				<block className="divider_v" type="native">
 					<style>
 						<height value="21px"/>
 						<marginTop value="2px"/>
 					</style>
 				</block>
+			</block>
+			<style>
+				<flow value="horizontal"/>
+			</style>
+		</block>
+		<block>
+			<styleClass value="$MiddleAligned"/>
+			<style>
+				<hitTest value="false"/>
+			</style>
+			<block type="text">
+				<styleClass value="$TextDefaultBoldNM"/>
+				<style>
+					<textAlign value="center"/>
+					<maxWidth value="143"/>
+					<multiline value="false"/>
+					<marginTop value="7px"/>
+				</style>
+				<bind name="class" value="mouseDown 			? '$FontColorTabButtonDown' :
+						rollOver 			? '$FontColorWhite' :
+						tabButtonSelected	? '$FontColorDefaultButtonUp'
+											: '$FontColorTabButtonUp'"/>
+				<bind name="text" value="toUpperCase(tr('IDS_DOGTAG_PATCHES_' + nameIds))"/>
+			</block>
+			<block>
+				<bind name="fade" value="(newContentCounter &gt; 0); 0.15; {alpha: 0, top: 10}; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+				<style>
+					<position value="absolute"/>
+					<top value="1px"/>
+					<right value="-23px"/>
+				</style>
+				<bind name="instance" value="'MarkerNewCounter'; { _newContentCounter: newContentCounter }"/>
 			</block>
 			<style>
 				<flow value="horizontal"/>
@@ -7227,7 +7492,7 @@
 		</style>
 		<bind name="tooltip" value="'DogTagComponentTooltip'; {_id: dogTagEntity.dogTagComponent.id, _canInstall: 'true'}"/>
 		<bind name="action" value="'click'; 'setDogTagComponent'; {entityId: id}"/>
-		<bind name="action" value="'click'; 'unmarkNewComponent'; { entityId: id }"/>
+		<bind name="action" value="'rollOver'; 'makeSeen'; { entityId: dogTagEntity.id }"/>
 		<bind name="soundSet" value="'exterior_item'"/>
 		<bind name="name" value="'DogTagComponentItemRenderer_' + gpName"/>
 		<block>
@@ -7290,6 +7555,16 @@
 				<bind name="visible" value="clanTagVisible"/>
 				<bind name="atlasText" value="clanTagVisible ?  (clanTag ? '[' + clanTag + ']' : '^') : '' ; '../fonts/small/' + clanTagFont; 0"/>
 			</block>
+		</block>
+		<block>
+			<bind name="watch" value="'isnotSeenItem'; dogTagEntity.newItem != null"/>
+			<bind name="fade" value="isnotSeenItem; 0.15; {alpha: 0, top: 10}; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+			<style>
+				<position value="absolute"/>
+				<right value="1px"/>
+				<top value="1px"/>
+			</style>
+			<bind name="instance" value="'MarkerNewAttention'; { }"/>
 		</block>
 	</block>
 	<block className="DogTagConfirmationModalWindow">

@@ -1311,6 +1311,10 @@
 		<fontFamily value="$WWSDefaultFontBold"/>
 		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
 	</css>
+	<css name="$FontFamilyDefaultBoldTabs">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<dropShadowFilter value="0 90 0x000000 1 2 2 1"/>
+	</css>
 	<css name="$Bold">
 		<fontFamily value="$WWSDefaultFontBold"/>
 	</css>
@@ -1377,6 +1381,12 @@
 	<css name="$FontColorDefaultButtonUp">
 		<textColor value="0xc7e2e2"/>
 	</css>
+	<css name="$FontColorTabButtonDown">
+		<textColor value="0x999999"/>
+	</css>
+	<css name="$FontColorTabButtonSelectedUp">
+		<textColor value="0xAABFBF"/>
+	</css>
 	<css name="$FontColorComparePositive">
 		<textColor value="0x4CE8AA"/>
 	</css>
@@ -1426,7 +1436,7 @@
 		<fontSize value="60"/>
 	</css>
 	<css name="$LetterSpacingSmall">
-		<letterSpacing value="0.8"/>
+		<letterSpacing value="0"/>
 	</css>
 	<css name="$InvertedTextEffect">
 		<dropShadowFilter value="0 90 0xffffff 1.0 3.0 3.0 0.3"/>
@@ -1449,6 +1459,9 @@
 	</css>
 	<css name="$FontDropShadowWhite">
 		<dropShadowFilter value="0 90 0xffffff 1.0 3.0 3.0 0.3"/>
+	</css>
+	<css name="$BlockDropShadowTabText">
+		<dropShadowFilter value="0 90 0x000000 1 2 2 1"/>
 	</css>
 	<block className="DefaultButton">
 		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
@@ -1704,14 +1717,12 @@
 		</block>
 	</block>
 	<block className="InfopanelButton">
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
 		<bind name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
 		<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
-		<bind name="dispatch" value="'mouseOver'; 'overInfopanelButton'; {infopanelButtonOverAlpha: 1}"/>
-		<bind name="dispatch" value="'mouseOut'; 'upInfopanelButton'; 	{infopanelButtonOverAlpha: 0.6}"/>
-		<bind name="dispatch" value="'mouseDown'; 'downInfopanelButton'; {infopanelButtonOverAlpha: 0.3}"/>
-		<bind name="catch" value="'upInfopanelButton'}"/>
-		<bind name="catch" value="'overInfopanelButton'"/>
-		<bind name="catch" value="'downInfopanelButton'"/>
+		<bind name="watch" value="'infopanelButtonOverAlpha';	(mouseDown)		? 0.3 :
+												(rollOver)		? 1
+																: 0.6"/>
 		<bind name="tooltip" value="'SimpleTooltip'; _tooltipIDS ? { tooltipText: _tooltipIDS } : null"/>
 		<bind name="style" value="'alpha'; infopanelButtonOverAlpha"/>
 		<bind name="name" value="_name"/>
@@ -1751,7 +1762,7 @@
 	</block>
 	<block className="ModalWindowPremiumAccountChoosePeriod">
 		<bind name="controller" value="lesta.dialogs.controllers.CollectionController; 'pricesAll'; PriceInfoSet.OP_BUY + premid; 'priceInfoSet'"/>
-		<bind name="collectionDH" value="CC.premiumItem; 'premiumPeriods'; 'byPremiumType.' + $root.selectedPremType"/>
+		<bind name="collectionDH" value="CC.premiumItem; 'premiumPeriods'; 'byPremiumType.' + 2"/>
 		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
 		<bind name="watchDH" value="'accountGold'; 	['resourceEntity.accountResource.evChangedGold']; resourceEntity.accountResource.gold"/>
 		<bind name="watchDH" value="'wowsPremBefore';['resourceEntity.accountResource.evChangedPrem']; resourceEntity.accountResource.wowsPremBefore"/>
@@ -1761,7 +1772,6 @@
 		<bind name="watchDH" value="'gold'; ['premItemEntity.premiumItem.evChanged']; premItemEntity.premiumItem.gold"/>
 		<bind name="watchDH" value="'cashbackGold'; ['premItemEntity.premiumItem.evChanged']; premItemEntity.premiumItem.cashbackGold"/>
 		<bind name="watch" value="'enoughResources'; selected &amp;&amp; (accountGold &gt;= gold)"/>
-		<bind name="watch" value="'commonPrem'; ($root.selectedPremType == 1) &amp;&amp; (wowsPremBefore &gt; 0) &amp;&amp; enoughResources"/>
 		<bind name="catch" value="'selectedItemChanged'"/>
 		<bind name="var" value="{windowAppearLag: 0.2}"/>
 		<styleClass value="$FullsizeAbsolute"/>
@@ -1811,11 +1821,29 @@
 			<block>
 				<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 1 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
 				<bind name="appear" value="'startHide'; 0.15; 1 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
-				<bind name="instance" value="'ModalWindowHeader'; { _header: 'IDS_PREMIUM_ACCOUNT_CHOOSE_PERIOD_HEADER', _headerWidth: '520px', _innerCloseButton: true }"/>
+				<bind name="instance" value="'ModalWindowHeader'; { _header: 'IDS_PREMIUM_ACCOUNT_PURCHASE_HEADER', _headerWidth: '520px'}"/>
 			</block>
 			<block>
 				<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 2 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
 				<bind name="appear" value="'startHide'; 0.15; 2 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+				<style>
+					<width value="100%"/>
+					<marginTop value="24px"/>
+					<marginBottom value="24px"/>
+				</style>
+				<block type="text">
+					<styleClass value="$TextDefault17NM"/>
+					<style>
+						<width value="100%"/>
+						<textAlign value="center"/>
+						<alpha value="0.8"/>
+					</style>
+					<bind name="text" value="'IDS_PREMIUM_ACCOUNT_SUBHEADER'"/>
+				</block>
+			</block>
+			<block>
+				<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 3 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
+				<bind name="appear" value="'startHide'; 0.15; 3 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
 				<style>
 					<width value="100%"/>
 				</style>
@@ -1846,8 +1874,8 @@
 				</block>
 			</block>
 			<block>
-				<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 5 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
-				<bind name="appear" value="'startHide'; 0.15; 5 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+				<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 6 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
+				<bind name="appear" value="'startHide'; 0.15; 6 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
 				<styleClass value="$MiddleAligned"/>
 				<block className="gradient_half_sphere" type="native">
 					<styleClass value="$MiddleAligned"/>
@@ -1862,22 +1890,8 @@
 				</block>
 			</block>
 			<block>
-				<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 6 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
-				<bind name="appear" value="'startHide'; 0.15; 6 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
-				<bind name="visible" value="commonPrem"/>
-				<style>
-					<marginTop value="32px"/>
-					<marginLeft value="9px"/>
-				</style>
-				<bind name="var" value="{isCheck: false}"/>
-				<bind name="catch" value="'click'; {isCheck: !isCheck}"/>
-				<bind name="instance" value="'CheckBox'; {	_maxTfWidth: 490,
-											switchProperty: isCheck,
-											label: 'IDS_PREMIUM_ACCOUNT_PERCENT_WARNING'}"/>
-			</block>
-			<block>
-				<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 6 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
-				<bind name="appear" value="'startHide'; 0.15; 6 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+				<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 7 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
+				<bind name="appear" value="'startHide'; 0.15; 7 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
 				<bind name="visible" value="enoughResources == true"/>
 				<style>
 					<marginTop value="32px"/>
@@ -1885,8 +1899,7 @@
 				<styleClass value="$MiddleAligned"/>
 				<block type="text">
 					<styleClass value="$TextDefault25NM"/>
-					<bind name="class" value="'$FontColorWhite'"/>
-					<bind name="text" value="($root.selectedPremType == 1) ? 'IDS_PURCHASE_PREMIUM_ACCOUNT_FOR' : 'IDS_PURCHASE_WOWS_ACCOUNT_FOR'"/>
+					<bind name="text" value="'IDS_PURCHASE_WOWS_ACCOUNT_FOR'"/>
 				</block>
 				<block>
 					<styleClass value="$MiddleVAligned"/>
@@ -1895,7 +1908,6 @@
 				</block>
 				<block type="text">
 					<styleClass value="$TextDefault25NM"/>
-					<bind name="class" value="'$FontColorWhite'"/>
 					<text value="IDS_QUESTION"/>
 				</block>
 				<style>
@@ -1903,8 +1915,8 @@
 				</style>
 			</block>
 			<block>
-				<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 6 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
-				<bind name="appear" value="'startHide'; 0.15; 6 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+				<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 7 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
+				<bind name="appear" value="'startHide'; 0.15; 7 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
 				<bind name="visible" value="(cashbackGold &gt; 0) &amp;&amp; (enoughResources == true)"/>
 				<style>
 					<marginTop value="16px"/>
@@ -1926,11 +1938,11 @@
 				</style>
 			</block>
 			<block>
-				<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 6 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
-				<bind name="appear" value="'startHide'; 0.15; 6 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+				<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 7 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
+				<bind name="appear" value="'startHide'; 0.15; 7 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
 				<bind name="visible" value="!enoughResources"/>
 				<style>
-					<marginTop value="36px"/>
+					<marginTop value="37px"/>
 				</style>
 				<styleClass value="$MiddleAligned"/>
 				<block className="icon_warning_orange" type="native">
@@ -1942,65 +1954,80 @@
 				<block type="text">
 					<styleClass value="$TextDefault17NM"/>
 					<bind name="class" value="'$FontColorUnready'"/>
-					<bind name="text" value="($root.selectedPremType == 1) ? 'IDS_NOT_ENOUGH_GOLD_TO_BUY_PREMIUM' : 'IDS_NOT_ENOUGH_GOLD_TO_BUY_PREMIUM_WOWS'"/>
+					<bind name="text" value="'IDS_NOT_ENOUGH_GOLD_TO_BUY_PREMIUM_WOWS'"/>
 				</block>
 				<style>
 					<flow value="horizontal"/>
 				</style>
 			</block>
 			<block>
-				<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 7 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
-				<bind name="appear" value="'startHide'; 0.15; 7 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+				<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 8 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
+				<bind name="appear" value="'startHide'; 0.15; 8 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
 				<style>
+					<width value="100%"/>
 					<marginTop value="24"/>
 				</style>
-				<styleClass value="$MiddleAligned"/>
-				<bind name="watch" value="'purchaseBtnEnabled'; 	($root.selectedPremType == 2)										? true 	:
-										 		($root.selectedPremType == 1) &amp;&amp; (isCheck || wowsPremBefore == 0)	? true
-										  																						: false"/>
 				<block>
-					<bind name="tooltip" value="'SimpleWarningTooltip'; purchaseBtnEnabled ? null : {_text: tr('IDS_PREMIUM_ACCOUNT_BUYBUTTON_DISABLED_WARNING')}"/>
-					<bind name="fade" value="(accountGold &gt;= gold); 0.15; {alpha: 0}; {alpha: 1, width: 150}; {alpha: 0, width: 0}"/>
-					<style>
-						<width value="150px"/>
-						<marginTop value="6px"/>
-						<marginRight value="40px"/>
-					</style>
-					<bind name="instance" value="'DefaultButton'; {	_name: 'Modal_window_action_Button' + 'IDS_PURCHASE_UPPER_CASE',
-													_enabled: purchaseBtnEnabled &amp;&amp; enoughResources, 
-													_label: toUpperCase(tr('IDS_PURCHASE_UPPER_CASE')),
-													_isTransactionBtn: true,
-													_focusIndex: 1,
-													_defaultFocused: true, 
-													_request: 'buyPremiumAccount',
-													_requestParams: { premId: premid }}"/>
-				</block>
-				<block>
-					<style>
-						<width value="150px"/>
-					</style>
-					<block className="DefaultButtonModal">
-						<styleClass value="$InfoLineBoundaries"/>
+					<styleClass value="$MiddleAligned"/>
+					<block>
+						<block>
+							<bind name="fade" value="(accountGold &gt;= gold); 0.15; {alpha: 0, width: 0}; {alpha: 1, width: 150}; {alpha: 0, width: 0}"/>
+							<style>
+								<width value="150px"/>
+								<marginTop value="6px"/>
+								<marginRight value="40px"/>
+							</style>
+							<bind name="instance" value="'DefaultButton'; {	_width: '150px',
+															_name: 'Modal_window_action_Button' + 'IDS_PURCHASE_UPPER_CASE',
+															_enabled: enoughResources, 
+															_label: toUpperCase(tr('IDS_PURCHASE_UPPER_CASE')),
+															_isTransactionBtn: true,
+															_focusIndex: 1,
+															_defaultFocused: true, 
+															_request: 'buyPremiumAccount',
+															_requestParams: { premId: premid }}"/>
+						</block>
+					</block>
+					<block>
 						<style>
-							<width value="100%"/>
+							<width value="150px"/>
 						</style>
-						<bind name="name" value="'Modal_window_action_Button' + 'IDS_CANCEL_UPPER_CASE'"/>
-						<block className="button_default" type="native">
+						<block className="DefaultButtonModal">
+							<styleClass value="$InfoLineBoundaries"/>
 							<style>
 								<width value="100%"/>
 							</style>
-							<bind name="label" value="'IDS_CANCEL_UPPER_CASE'"/>
-							<params>
-								<param name="name" value="btn_cancel"/>
-							</params>
-							<bind name="input"/>
-							<bind name="focus" value="2;false"/>
+							<bind name="name" value="'Modal_window_action_Button' + 'IDS_CANCEL_UPPER_CASE'"/>
+							<block className="button_default" type="native">
+								<style>
+									<width value="100%"/>
+								</style>
+								<bind name="label" value="'IDS_CANCEL_UPPER_CASE'"/>
+								<params>
+									<param name="name" value="btn_cancel"/>
+								</params>
+								<bind name="input"/>
+								<bind name="focus" value="2;false"/>
+							</block>
 						</block>
 					</block>
+					<style>
+						<flow value="horizontal"/>
+					</style>
 				</block>
-				<style>
-					<flow value="horizontal"/>
-				</style>
+				<block>
+					<style>
+						<position value="absolute"/>
+						<bottom value="6px"/>
+						<right value="1280:-270,1920:-370aw"/>
+					</style>
+					<bind name="instance" value="'InfopanelButton'; {_width: '150px',
+													_height: '29px',
+													_label: toUpperCase(tr('IDS_PREMIUM_ACCOUNT_WG')),
+													_request:'webBrowser', 
+													_requestParams: {url: URL.BUY_TOTAL_PREMIUM_IN_GAME},
+													_tooltipIDS: 'IDS_GO_TO_PREMSHOP_MOUSE_INSTRUCTION'}"/>
+				</block>
 			</block>
 		</block>
 	</block>
@@ -2016,16 +2043,26 @@
 		<bind name="watchDH" value="'cashbackGold'; ['premItemEntity.premiumItem.evChanged']; premItemEntity.premiumItem.cashbackGold"/>
 		<bind name="dispatch" value="'selected'+varChanged; selected ? 'selectedItemChanged' : null; { entityId: id }"/>
 		<bind name="dispatch" value="'addedToStage'; selected ? 'selectedItemChanged' : null; { entityId: id }"/>
-		<bind name="action" value="'click'; 'premiumSelectionChanged'; { id: premid }"/>
+		<bind name="action" value="'click'; accountGold &gt;= gold ? 'premiumSelectionChanged' : null; { id: premid }"/>
 		<bind name="appear" value="'addedToStage'; 0.15; 0.2 + $index * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
 		<bind name="appear" value="'startHide'; 0.15; $index * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
 		<style>
 			<width value="100%"/>
 			<height value="48px"/>
 		</style>
-		<block className="dock_submenu_item" type="native">
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
+		<block>
+			<bind name="visible" value="accountGold &gt;= gold"/>
 			<styleClass value="$FullsizeAbsolute"/>
-			<bind name="selected" value="selected"/>
+			<bind name="style" value="'alpha'; selected ? 0.5 : 0"/>
+			<bind name="transition" value="rollOver ; 0.15; {alpha: selected ? 0.5 : 0}; {alpha: 1.0}"/>
+			<block className="dock_submenu_item_bg" type="native">
+				<styleClass value="$FullsizeAbsolute"/>
+				<style>
+					<marginBottom value="-1px"/>
+				</style>
+				<bind name="transition" value="mouseDown; 0.03; {alpha: 1}; {alpha: 0.3}"/>
+			</block>
 		</block>
 		<block>
 			<style>
@@ -2047,7 +2084,6 @@
 		<block>
 			<bind name="visible" value="selected"/>
 			<style>
-				<hitTest value="false"/>
 				<position value="absolute"/>
 				<marginLeft value="12"/>
 			</style>
@@ -2066,7 +2102,6 @@
 				<bind name="name" value="'PremiumAccountPeriod_' + duration"/>
 				<style>
 					<marginLeft value="35px"/>
-					<hitTest value="false"/>
 				</style>
 				<styleClass value="$MiddleVAligned"/>
 				<block type="text">

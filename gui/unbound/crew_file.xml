@@ -3119,12 +3119,12 @@
 		<bind name="watch" value="'isNeedRetraining'; ((crew.shipID &amp;&amp; (crew.shipID != crew.specializationID)) &amp;&amp; !(shipInfo.isPremium) &amp;&amp; (shipInfo.group != 'upgradeableExclusive') &amp;&amp; (shipInfo.group != 'earlyAccess'))"/>
 		<bind name="name" value="'CrewShipPanelBlock'"/>
 		<styleClass value="$Fullsize"/>
+		<bind name="clickSplit"/>
+		<bind name="action" value="'left_click'; 'changeInset'; { inset: LobbyConstants.CREW}"/>
+		<bind name="menu" value="'CrewMenu'; {_crewId: crew.id, _dropDown: false, _fromCrewSelect: true }; null; 'crewMenuVisible'"/>
 		<block>
 			<styleClass value="$FullsizeAbsolute"/>
 			<bind name="transition" value="(mouseDown || crewMenuVisible || rollOver); 0.1; {alpha: 0}; {alpha: 1}"/>
-			<bind name="clickSplit"/>
-			<bind name="action" value="'left_click'; 'changeInset'; { inset: LobbyConstants.CREW}"/>
-			<bind name="menu" value="'CrewMenu'; {_crewId: crew.id, _dropDown: false, _fromCrewSelect: true }; null; 'crewMenuVisible'"/>
 			<bind name="tooltip" value="'CrewTooltip'; { _crewId: crew.id, _checkPenalty: false, _fromPort: true, _fromCrewSelect: true}"/>
 			<block className="dock_submenu_item_bg" type="native">
 				<style>
@@ -3207,6 +3207,24 @@
 													_tooltipTextPlayerResult: 'IDS_CREW_PLAYAER_POINTS_COUNTER', 
 													_tooltipTextTotalResult: 'IDS_CREW_TOTAL_POINTS_COUNTER' }"/>
 			</block>
+		</block>
+		<block>
+			<styleClass value="$FullsizeAbsolute"/>
+			<bind name="firstEntityDH" value="'dockEntity'; CC.dockDataMarker"/>
+			<bind name="watchDH" value="'inset'; ['dockEntity.insetComponent.evUpdate']; dockEntity.insetComponent.inset"/>
+			<bind name="instance" value="'ContextGuidingTipHub'; (inset == LobbyConstants.DOCK || 
+													inset == LobbyConstants.SHIP_MODULES || inset == LobbyConstants.SHIP_EXTERIOR) ? 
+																																		{
+																																			_tooltipID: SC.Context_guiding_tip.TIP_TYPES.DOCK_CREW,
+																																			_tipPositioning: 'left', 
+																																			_extraCondition: true, 
+																																			_offset: -3, 
+																																			_screenOffset : 0,
+																																			_hideOnReasonClick : true
+
+																																		}
+																																	: null
+		"/>
 		</block>
 	</block>
 	<block className="CrewShipPanelInnerBlock">
@@ -3678,6 +3696,10 @@
 		<fontFamily value="$WWSDefaultFontBold"/>
 		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
 	</css>
+	<css name="$FontFamilyDefaultBoldTabs">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<dropShadowFilter value="0 90 0x000000 1 2 2 1"/>
+	</css>
 	<css name="$Bold">
 		<fontFamily value="$WWSDefaultFontBold"/>
 	</css>
@@ -3744,6 +3766,12 @@
 	<css name="$FontColorDefaultButtonUp">
 		<textColor value="0xc7e2e2"/>
 	</css>
+	<css name="$FontColorTabButtonDown">
+		<textColor value="0x999999"/>
+	</css>
+	<css name="$FontColorTabButtonSelectedUp">
+		<textColor value="0xAABFBF"/>
+	</css>
 	<css name="$FontColorComparePositive">
 		<textColor value="0x4CE8AA"/>
 	</css>
@@ -3793,7 +3821,7 @@
 		<fontSize value="60"/>
 	</css>
 	<css name="$LetterSpacingSmall">
-		<letterSpacing value="0.8"/>
+		<letterSpacing value="0"/>
 	</css>
 	<css name="$InvertedTextEffect">
 		<dropShadowFilter value="0 90 0xffffff 1.0 3.0 3.0 0.3"/>
@@ -3816,6 +3844,9 @@
 	</css>
 	<css name="$FontDropShadowWhite">
 		<dropShadowFilter value="0 90 0xffffff 1.0 3.0 3.0 0.3"/>
+	</css>
+	<css name="$BlockDropShadowTabText">
+		<dropShadowFilter value="0 90 0x000000 1 2 2 1"/>
 	</css>
 	<block className="DefaultButton">
 		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
@@ -4071,14 +4102,12 @@
 		</block>
 	</block>
 	<block className="InfopanelButton">
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
 		<bind name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
 		<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
-		<bind name="dispatch" value="'mouseOver'; 'overInfopanelButton'; {infopanelButtonOverAlpha: 1}"/>
-		<bind name="dispatch" value="'mouseOut'; 'upInfopanelButton'; 	{infopanelButtonOverAlpha: 0.6}"/>
-		<bind name="dispatch" value="'mouseDown'; 'downInfopanelButton'; {infopanelButtonOverAlpha: 0.3}"/>
-		<bind name="catch" value="'upInfopanelButton'}"/>
-		<bind name="catch" value="'overInfopanelButton'"/>
-		<bind name="catch" value="'downInfopanelButton'"/>
+		<bind name="watch" value="'infopanelButtonOverAlpha';	(mouseDown)		? 0.3 :
+												(rollOver)		? 1
+																: 0.6"/>
 		<bind name="tooltip" value="'SimpleTooltip'; _tooltipIDS ? { tooltipText: _tooltipIDS } : null"/>
 		<bind name="style" value="'alpha'; infopanelButtonOverAlpha"/>
 		<bind name="name" value="_name"/>
@@ -4260,7 +4289,7 @@
 		appearDuration: 0.1,
 		appearOffset: 5.0,
 		disappearDelay: 0.0,
-		disappearDuration: 0.1,
+		disappearDuration: 0.0,
 		disappearOffset: -10.0,
 		tinyOffset: 0,
 		rightOffset: -10,
@@ -7666,23 +7695,59 @@
 		<bind name="primaryEntityDH" value="'shipEntity'; CC.ship; _shipId; 'evUpdate'"/>
 		<bind name="watchDH" value="'shipInfo'; ['shipEntity.ship.evUpdate', 'shipEntity.ship.evCurrentSkinChanged']; shipEntity.ship"/>
 		<bind name="watchDH" value="'shipInfo' + 'Slim'; ['shipEntity.slimClientComponent.evUpdate']; shipEntity.slimClientComponent"/>
-		<bind name="watch" value="'defaultButtonCostSmallData'; _isOwned 	? null
-															: !(_dependencyResearched || _isExplored) ? null
-															: !(_isExplored) &amp;&amp; (_expDeficit &lt;= 0) &amp;&amp; (_group == 'upgradeable' || _group == 'upgradeableExclusive') ? { _label: toUpperCase(tr('IDS_DO_RESEARCH')), priceInfo: (_totalCostXP == _explorePriceFinal ? _explorePrice : { finalPrice: _totalCostXP, currency: 'exp' }), _action: (isLazyLogin &amp;&amp; (shipInfo.level &gt; realmConstants.lazyAccountMaxShipTier)) ? null : 'researchShip', _actionParams: { shipId: _shipId }, _enabled: true, _showDiscountTag:true }
-															: (_isExplored) &amp;&amp; (_creditsDeficit &lt;= 0) &amp;&amp; !(_isPremium) ? { _label: toUpperCase(tr('IDS_DO_PURCHASE')), priceInfo: _buyPrice, _action: (isLazyLogin &amp;&amp; (shipInfo.level &gt; realmConstants.lazyAccountMaxShipTier)) ? null : 'purchaseShip', _actionParams: { shipId: _shipId }, _enabled: (_creditsDeficit &lt;= 0), _showDiscountTag:true }
-															: _isExplored &amp;&amp; _isPremium  &amp;&amp; (accountGold - _buyPriceFinal) &gt;= 0 ? { _label: toUpperCase(tr('IDS_DO_PURCHASE')), priceInfo: _buyPrice, _action: (isLazyLogin &amp;&amp; (shipInfo.level &gt; realmConstants.lazyAccountMaxShipTier)) ? null : 'purchaseShip', _actionParams: { shipId: _shipId }, _enabled: ((accountGold - _costGold) &gt;= 0), _showDiscountTag:true }
-															: null "/>
-		<bind name="watch" value="'priceTagWithLabelData'; _isOwned 	? null
-													: (!(_isExplored) &amp;&amp; !(_dependencyResearched)) || (!(_isExplored) &amp;&amp; _expDeficit &gt; 0)? { priceInfo: { finalPrice: _totalCostXP, currency: 'exp' }, _label: 'IDS_RESEARCH_COST', _small : true}
-													: _isExplored &amp;&amp; _creditsDeficit &gt; 0 &amp;&amp; !(_isPremium) ? { priceInfo: _buyPrice, _label: 'IDS_PURCHASE_COST', _small : true}
-													: _isExplored &amp;&amp; _isPremium &amp;&amp; (accountGold - _buyPriceFinal) &lt; 0 ? {priceInfo: _buyPrice, _label: 'IDS_PURCHASE_COST', _small : true }
-													: null"/>
-		<bind name="watch" value="'priceDeficitData'; _isOwned 	? null
-												: !(_dependencyResearched) ? null
-												: !(_isExplored) &amp;&amp; _expDeficit &gt; 0 ? { priceInfo: { finalPrice: _totalCostXP, currency: 'exp' }, _small : true, _tooltipText: 'IDS_TOOLTIP_NO_XP', _deficit: _expDeficit}
-												: _isExplored &amp;&amp; _creditsDeficit &gt; 0 &amp;&amp; !(_isPremium) ? { priceInfo: _buyPrice, _label: 'IDS_PURCHASE_COST', _small : true, _tooltipText: 'IDS_TOOLTIP_NO_CREDITS', _deficit: _creditsDeficit}
-												: _isExplored &amp;&amp; _isPremium &amp;&amp; (accountGold - _buyPriceFinal) &lt; 0 ? {priceInfo: _buyPrice, _label: 'IDS_PURCHASE_COST', _deficit: -(accountGold - _buyPriceFinal), _tooltipText: 'IDS_TOOLTIP_NO_GOLD', _small : true }
-												: null"/>
+		<bind name="watch" value="'goldDeficit'; (_buyPriceFinal - accountGold)"/>
+		<bind name="watch" value="'enoughGold'; goldDeficit &lt;= 0"/>
+		<bind name="watch" value="'enoughCredits'; _creditsDeficit &lt;= 0"/>
+		<bind name="watch" value="'isGoldCurrency'; _buyPrice.currency == 'gold'"/>
+		<bind name="watch" value="'defaultButtonCostSmallData';
+		_isOwned || !(_dependencyResearched	||  _isExplored) ? null : 
+												!(_isExplored) &amp;&amp;
+													(_expDeficit &lt;= 0) &amp;&amp;
+													(_group == 'upgradeable' || _group == 'upgradeableExclusive')		?   {   _label: toUpperCase(tr('IDS_DO_RESEARCH')),
+																																priceInfo: (_totalCostXP == _explorePriceFinal  ? _explorePrice 
+																																												: { finalPrice: _totalCostXP, currency: 'exp' }),
+																																_action: (isLazyLogin &amp;&amp; (shipInfo.level &gt; realmConstants.lazyAccountMaxShipTier)) ? null : 'researchShip',
+																																_actionParams: { shipId: _shipId },
+																																_enabled: true,
+																																_showDiscountTag:true
+																															}  :
+												_isExplored &amp;&amp; 
+													((!(_isPremium) &amp;&amp; enoughCredits) || (_isPremium &amp;&amp; enoughGold))	?	{	_label: toUpperCase(tr('IDS_DO_PURCHASE')),
+																																priceInfo: _buyPrice,
+																																_action: (isLazyLogin &amp;&amp; (shipInfo.level &gt; realmConstants.lazyAccountMaxShipTier)) ? null : 'purchaseShip',
+																																_actionParams: { shipId: _shipId },
+																																_enabled: isGoldCurrency ? enoughGold : enoughCredits,
+																																_showDiscountTag:true
+																															}  
+																														: 	null "/>
+		<bind name="watch" value="'priceTagWithLabelData';   _isOwned ? null : 
+											!(_isExplored) &amp;&amp; (!(_dependencyResearched) || (_expDeficit &gt; 0))		?	{
+																															priceInfo: { finalPrice: _totalCostXP, currency: _group == 'upgradeableExclusive' ? 'freexp' : 'exp' },
+																															_label: 'IDS_RESEARCH_COST', _small : true
+																														}	:
+											_isExplored &amp;&amp;
+											((!(_isPremium) &amp;&amp; !enoughCredits) || (_isPremium &amp;&amp; !enoughGold)) 		? 	{
+																															priceInfo: _buyPrice,
+																															_label: 'IDS_PURCHASE_COST',
+																															_small : true
+																														}
+																													: null"/>
+		<bind name="watch" value="'priceDeficitData'; _isOwned || !(_dependencyResearched) ? null : 
+									!(_isExplored) &amp;&amp; _expDeficit &gt; 0 											?   {
+																														priceInfo: { finalPrice: _totalCostXP, currency: _group == 'upgradeableExclusive' ? 'freexp' : 'exp' },
+																														_small : true,
+																														_tooltipText: 'IDS_TOOLTIP_NO_XP',
+																														_deficit: _expDeficit
+																													}	: 
+									_isExplored &amp;&amp; 
+										((!(_isPremium) &amp;&amp; !enoughCredits) || (_isPremium &amp;&amp; !enoughGold)) 		? 	{ 
+																														priceInfo: _buyPrice,
+																														_label: 'IDS_PURCHASE_COST',
+																														_small : true,
+																														_tooltipText: isGoldCurrency ? 'IDS_TOOLTIP_NO_GOLD' : 'IDS_TOOLTIP_NO_CREDITS',
+																														_deficit: isGoldCurrency ? goldDeficit : _creditsDeficit
+																													}
+																												: null"/>
 		<bind name="watch" value="'statusLineWithIconData'; (_dependencyResearched || _isExplored) 	? null
 																					: { _text: 'IDS_RESEARCH_PREVIOUS_SHIPS', _positive: false, _small: true, _maxWidth: 300}"/>
 		<block>
@@ -7702,66 +7767,16 @@
 				</style>
 				<bind name="action" value="'click'; (isLazyLogin &amp;&amp; (shipInfo.level &gt; realmConstants.lazyAccountMaxShipTier)) ? 'forceCreateAccount' : null"/>
 				<bind name="instance" value="'ButtonCostSpecial'; !!defaultButtonCostSmallData ? defaultButtonCostSmallData : null"/>
-				<bind name="var" value="{reasonOnStage: true, dhNotificationEnabled: false}"/>
-				<bind name="catch" value="'addedToStage'; {reasonOnStage: true}"/>
-				<bind name="catch" value="'removedFromStage';  {reasonOnStage: false}"/>
-				<bind name="var" value="{coachScreenActive: false}"/>
-				<bind name="collectionDH" value="CC.coach; 'coachCollection'"/>
-				<bind name="entityDH" value="'coachEntity'; coachCollection[0].id"/>
-				<bind name="watchDH" value="'coachScreenActive'; ['coachEntity.coach.evShow']; coachEntity.coach.show"/>
-				<bind name="catch" value="'evHideCoachScreen'; {coachScreenActive: false}"/>
-				<bind name="firstEntityDH" value="'dockStateEntity'; CC.dockState"/>
-				<bind name="watchDH" value="'dockStateName'; ['dockStateEntity.dockState.evUpdate']; dockStateEntity.dockState.stateName"/>
-				<bind name="primaryEntityDH" value="'nationTipEntity'; CC.contextGuidingTip; _isExplored ? 'ModulesToBuyBtn' : 'ModulesToExploreBtn'"/>
-				<bind name="watch" value="'notificationEnabled'; dhNotificationEnabled &amp;&amp; reasonOnStage &amp;&amp; true &amp;&amp; dockStateName == 'dock' &amp;&amp; !coachScreenActive"/>
-				<bind name="changeDispatch" value="notificationEnabled; notificationEnabled ? 'ContextGuidingTipOpen' : 'ContextGuidingTipClose'; {}; 2"/>
-				<bind name="watchDH" value="'dhNotificationEnabled'; ['nationTipEntity.contextGuidingTip.evActiveChanged'] ; nationTipEntity.contextGuidingTip.active == true ? true : false "/>
-				<bind name="popupNoCache" value="'ContextGuidingTip';
-								{
-									_notification_id:		_isExplored ? 'ModulesToBuyBtn' : 'ModulesToExploreBtn',
-									_notification_header:	nationTipEntity.contextGuidingTip.header,
-									_notification_desc:		nationTipEntity.contextGuidingTip.desc,
-									_direction:				'bottom' == 'top'	?	'down' :
-															'bottom' == 'bottom'	?	'up' :
-															'bottom' == 'left'	?	'right'
-																						:	'left'
-								};
+				<bind name="watch" value="'contextGuidingTipId'; _isExplored ? SC.Context_guiding_tip.TIP_TYPES.MODULES_BUY : SC.Context_guiding_tip.TIP_TYPES.MODULES_EXPLORE"/>
+				<bind name="instance" value="'ContextGuidingTipHub'; {
+												_tooltipID: contextGuidingTipId, 
+												_tipPositioning: 'bottom', 
+												_extraCondition: true, 
+												_offset: 5, 
+												_screenOffset : 0, 
+												_hideOnReasonClick :false
 
-								1;
-								{
-									type: 'lesta.unbound.bindings.popup.UbNativeReasonPopupSpacingComponent',
-									params:
-									{
-										directionsPriority:['bottom', 'empty'],
-										reasonOffsetTop:	5,
-										reasonOffsetBottom: 5,
-										reasonOffsetRight:	5,
-										reasonOffsetLeft:	5,
-
-										screenOffsetTop:	'bottom' == 'bottom'	? 0 : 0,
-										screenOffsetBottom: 'bottom' == 'top'	? 0 : 0,
-										screenOffsetRight:	'bottom' == 'left'	? 0 : 0,
-										screenOffsetLeft:	'bottom' == 'right'	? 0 : 0
-									}
-								};
-								{
-									reason:
-									{
-										removedFromStage: 		{ 	action:'hide', 								
-																	params: { duration:0.0, startProps: { alpha:1, x:0, y:0 }, finishProps: { alpha:0, x:0, y: -5 }}
-																},
-										click:					{ 	action: false ? 'hide' : 'none', 
-																	params: { duration:0.1, startProps: { alpha:1, x:0, y:0 }, finishProps: { alpha:0, x:0, y: -5 }}
-																}
-									},
-
-									reasonScope:
-									{
-										ContextGuidingTipOpen: 		{ action:'show', params: { duration:0.3, startProps: { alpha:0, x:0, y:10 }, finishProps: { alpha:1, x:0, y: 0 }, delay:0.3}},
-										ContextGuidingTipClose: 	{ action:'hide', params: { duration:0.0, startProps: { alpha:1, x:0, y:0 }, finishProps: { alpha:0, x:0, y: -5 }}}
-									}
-								}
-	"/>
+							}"/>
 			</block>
 			<block>
 				<bind name="visible" value="!defaultButtonCostSmallData"/>
@@ -8431,20 +8446,17 @@
 		<bind name="transition" value="_isNotExpanded; 0.15; {height: 80}; {height: 30}; {height: 80}"/>
 		<block>
 			<styleClass value="$Fullsize"/>
-			<bind name="instance" value="'CrewShipPanelBlock';		(_crewId &gt; 0)	? {_crewId: _crewId, _isNotExpanded: _isNotExpanded} : null"/>
+			<bind name="instance" value="'CrewShipPanelBlock';		(_crewId &gt; 0)	? { _crewId: _crewId, _isNotExpanded: _isNotExpanded } : null"/>
 			<bind name="instance" value="'CrewHireShipPanelBlock';	(_crewId == 0)	? {} : null "/>
 		</block>
 		<block>
+			<bind name="fade" value="(feature_13 == 'new'); 0.15; {alpha: 0, top: 10}; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
 			<style>
 				<position value="absolute"/>
-				<marginTop value="-6px"/>
+				<bottom value="18px"/>
+				<right value="5px"/>
 			</style>
-			<block className="icon_sticker_new" type="native">
-				<bind name="fade" value="feature_13 == 'new'; 0.15; {alpha: 0, top: 10}; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
-				<style>
-					<hitTest value="false"/>
-				</style>
-			</block>
+			<bind name="instance" value="'MarkerNewAttention'; {}"/>
 		</block>
 		<block>
 			<bind name="visible" value="_isNotExpanded == false"/>
@@ -8777,7 +8789,7 @@
 	<block className="GiftboxRewardExterior">
 		<bind name="primaryEntityDH" value="'exteriorEntity'; CC.exteriorConfig; rewardItem.id"/>
 		<bind name="watchDH" value="'exteriorConfig'; []; exteriorEntity.exteriorConfig"/>
-		<bind name="feature" value="14; ''"/>
+		<bind name="feature" value="14; 'click'"/>
 		<bind name="watch" value="'isExteriorFeatureNotAvailable'; feature_14 == 'locked'"/>
 		<bind name="watch" value="'_isPermoflage'; exteriorConfig.type == ExteriorTypes.CAMOUFLAGE &amp;&amp; exteriorConfig.isPermanent"/>
 		<bind name="tooltip" value="'ExteriorRewardTooltip'; { rewardItem: rewardItem}"/>
@@ -11899,6 +11911,43 @@
 			</block>
 		</block>
 	</block>
+	<block className="AchievementRenderer">
+		<bind name="controller" value="lesta.dialogs.controllers.CollectionController; 'achievements'; (_id ? _id : $value); 'achievement'"/>
+		<style>
+			<flow value="horizontal"/>
+			<width value="100%"/>
+		</style>
+		<block>
+			<bind name="instance" value="'AchievementIcon'; {_id: (_id ? _id : $value)}"/>
+		</block>
+		<block>
+			<styleClass value="$InfoBlockHorizontalIndent"/>
+			<style>
+				<marginLeft value="10px"/>
+				<marginTop value="-1px"/>
+			</style>
+			<block type="text">
+				<styleClass value="$TextHeaderWhiteBold"/>
+				<style>
+					<width value="100%"/>
+					<maxWidth value="222"/>
+					<textAlign value="left"/>
+				</style>
+				<bind name="class" value="'$FontColorWhite'"/>
+				<bind name="text" value="achievement.nameIDS"/>
+			</block>
+			<block type="text">
+				<styleClass value="$TextHeaderBigDefaultTech"/>
+				<style>
+					<marginTop value="-3px"/>
+					<maxWidth value="220"/>
+					<textAlign value="left"/>
+				</style>
+				<bind name="class" value="'$FontColorWhite'"/>
+				<bind name="text" value="achievement.subtypeIDS"/>
+			</block>
+		</block>
+	</block>
 	<block className="CrewSuperAbilitySlot">
 		<style>
 			<width value="360px"/>
@@ -12256,8 +12305,6 @@
 		<bind name="primaryEntityDH" value="'playerEntity'; CC.accountSimple; _playerDbId"/>
 		<bind name="watchDH" value="'dogTagList';['playerEntity.dogTagView.evComponentsChanged']; playerEntity.dogTagView.components"/>
 		<bind name="name" value="'playerDogTag'"/>
-		<bind name="collectionDH" value="CC.dogTagComponent; 'dogtagview'+'ROOT'"/>
-		<bind name="collectionDesign" value="'DES_'+'dogtagview'+'ROOT'; 'dogtagview'; {'filter': dogTagList.length &amp;&amp; ((dogTagList.indexOf(toLowerCase($entity.dogTagComponent.id)) &gt; -1)), 'sort':['dogTagComponent.categoryId']}; []"/>
 		<bind name="watch" value="'size';	_size == 'big' 				? 512 : 
 							_size == 'medium' 			? 190 : 
 							_size == 'small' 			? 80 :
@@ -12265,7 +12312,7 @@
 														: 80"/>
 		<bind name="style" value="'width'; size + 'px'"/>
 		<bind name="style" value="'height'; size + 'px'"/>
-		<bind name="repeat" value="dogtagview; 'PlayerDogTagItem'; {_path: _size == 'small' 		? 'url:../dogTags/small/'  :
+		<bind name="repeat" value="dogTagList; 'PlayerDogTagItemByPK'; {_path: _size == 'small' 		? 'url:../dogTags/small/'  :
 														  _size == 'profile' 	? 'url:../dogTags/small/' :
 														  _size == 'medium' 	? 'url:../dogTags/medium/' :
 														  _size == 'big' 		? 'url:../dogTags/big/'
@@ -12318,9 +12365,8 @@
 		<bind name="watchDH" value="'iconPath'; ['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.iconPath"/>
 		<bind name="firstEntityDH" value="'selfPlayerEntity'; CC.accountSelf"/>
 		<bind name="watchDH" value="'selfPlayerDbId'; 		[]; selfPlayerEntity.accountSimple.dbId"/>
-		<bind name="watchDH" value="'selfPlayerName'; 		['selfPlayerEntity.accountName.evChanged']; selfPlayerEntity.accountName.name"/>
-		<bind name="watchDH" value="'selfPlayerNickName'; 	['selfPlayerEntity.accountName.evChanged']; selfPlayerEntity.accountName.nickName"/>
-		<bind name="watchDH" value="'clanId'; ['selfPlayerEntity.clanman.evClanIdChanged']; selfPlayerEntity.clanman.clanId"/>
+		<bind name="primaryEntityDH" value="'dogtagOwnerPlayerEntity'; CC.accountSimple; _playerDbId ? _playerDbId : selfPlayerDbId"/>
+		<bind name="watchDH" value="'clanId'; ['dogtagOwnerPlayerEntity.clanman.evClanIdChanged']; dogtagOwnerPlayerEntity.clanman.clanId"/>
 		<bind name="primaryEntityDH" value="'clanEntity'; CC.clan; clanId"/>
 		<bind name="watchDH" value="'clanTag'; ['clanEntity.clan.evTagChanged']; clanEntity.clan.tag"/>
 		<bind name="watchDH" value="'clanTagOffsetX';['dogTagEntity.dogTagComponent.evUpdate']; dogTagEntity.dogTagComponent.clanTagOffsetX"/>

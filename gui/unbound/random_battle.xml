@@ -363,6 +363,10 @@
 		<fontFamily value="$WWSDefaultFontBold"/>
 		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
 	</css>
+	<css name="$FontFamilyDefaultBoldTabs">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<dropShadowFilter value="0 90 0x000000 1 2 2 1"/>
+	</css>
 	<css name="$Bold">
 		<fontFamily value="$WWSDefaultFontBold"/>
 	</css>
@@ -429,6 +433,12 @@
 	<css name="$FontColorDefaultButtonUp">
 		<textColor value="0xc7e2e2"/>
 	</css>
+	<css name="$FontColorTabButtonDown">
+		<textColor value="0x999999"/>
+	</css>
+	<css name="$FontColorTabButtonSelectedUp">
+		<textColor value="0xAABFBF"/>
+	</css>
 	<css name="$FontColorComparePositive">
 		<textColor value="0x4CE8AA"/>
 	</css>
@@ -478,7 +488,7 @@
 		<fontSize value="60"/>
 	</css>
 	<css name="$LetterSpacingSmall">
-		<letterSpacing value="0.8"/>
+		<letterSpacing value="0"/>
 	</css>
 	<css name="$InvertedTextEffect">
 		<dropShadowFilter value="0 90 0xffffff 1.0 3.0 3.0 0.3"/>
@@ -501,6 +511,9 @@
 	</css>
 	<css name="$FontDropShadowWhite">
 		<dropShadowFilter value="0 90 0xffffff 1.0 3.0 3.0 0.3"/>
+	</css>
+	<css name="$BlockDropShadowTabText">
+		<dropShadowFilter value="0 90 0x000000 1 2 2 1"/>
 	</css>
 	<css name="$Fullsize">
 		<width value="100%"/>
@@ -3138,6 +3151,43 @@
 			</block>
 			<block>
 				<bind name="mc" value="'slider_default'; ['valueChange']; ['value']; {maximum:_maximum, minimum:_minimum, step:_step, value:_value}"/>
+			</block>
+		</block>
+	</block>
+	<block className="AchievementRenderer">
+		<bind name="controller" value="lesta.dialogs.controllers.CollectionController; 'achievements'; (_id ? _id : $value); 'achievement'"/>
+		<style>
+			<flow value="horizontal"/>
+			<width value="100%"/>
+		</style>
+		<block>
+			<bind name="instance" value="'AchievementIcon'; {_id: (_id ? _id : $value)}"/>
+		</block>
+		<block>
+			<styleClass value="$InfoBlockHorizontalIndent"/>
+			<style>
+				<marginLeft value="10px"/>
+				<marginTop value="-1px"/>
+			</style>
+			<block type="text">
+				<styleClass value="$TextHeaderWhiteBold"/>
+				<style>
+					<width value="100%"/>
+					<maxWidth value="222"/>
+					<textAlign value="left"/>
+				</style>
+				<bind name="class" value="'$FontColorWhite'"/>
+				<bind name="text" value="achievement.nameIDS"/>
+			</block>
+			<block type="text">
+				<styleClass value="$TextHeaderBigDefaultTech"/>
+				<style>
+					<marginTop value="-3px"/>
+					<maxWidth value="220"/>
+					<textAlign value="left"/>
+				</style>
+				<bind name="class" value="'$FontColorWhite'"/>
+				<bind name="text" value="achievement.subtypeIDS"/>
 			</block>
 		</block>
 	</block>
@@ -6360,14 +6410,12 @@
 		</block>
 	</block>
 	<block className="InfopanelButton">
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
 		<bind name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
 		<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
-		<bind name="dispatch" value="'mouseOver'; 'overInfopanelButton'; {infopanelButtonOverAlpha: 1}"/>
-		<bind name="dispatch" value="'mouseOut'; 'upInfopanelButton'; 	{infopanelButtonOverAlpha: 0.6}"/>
-		<bind name="dispatch" value="'mouseDown'; 'downInfopanelButton'; {infopanelButtonOverAlpha: 0.3}"/>
-		<bind name="catch" value="'upInfopanelButton'}"/>
-		<bind name="catch" value="'overInfopanelButton'"/>
-		<bind name="catch" value="'downInfopanelButton'"/>
+		<bind name="watch" value="'infopanelButtonOverAlpha';	(mouseDown)		? 0.3 :
+												(rollOver)		? 1
+																: 0.6"/>
 		<bind name="tooltip" value="'SimpleTooltip'; _tooltipIDS ? { tooltipText: _tooltipIDS } : null"/>
 		<bind name="style" value="'alpha'; infopanelButtonOverAlpha"/>
 		<bind name="name" value="_name"/>
@@ -6696,27 +6744,29 @@
 					</style>
 				</block>
 				<block>
-					<bind name="name" value="'your_ship_id'"/>
-					<bind name="appear" value="'startShow'; 0.15; appearLag + 0.3; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
-					<bind name="appear" value="'startHide'; 0.15; disappearLag+0.3; {alpha: 1, top: 0}; {alpha: 0, top: 10}"/>
-					<bind name="tooltip" value="'SubTextTooltip'; {tooltipText: ('IDS_'+toUpperCase(shipInfo.subtype)+'_GOAL'), tooltipSubText: ('IDS_'+toUpperCase(shipInfo.subtype)+'_GOAL_DESCRIPTION')}"/>
-					<block type="text">
-						<style>
-							<alpha value="0.8"/>
-						</style>
-						<styleClass value="$TextHeaderBigWhite"/>
-						<bind name="text" value="'IDS_YOUR_SHIP'"/>
-					</block>
 					<block>
+						<bind name="name" value="'your_ship_id'"/>
+						<bind name="appear" value="'startShow'; 0.15; appearLag + 0.3; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
+						<bind name="appear" value="'startHide'; 0.15; disappearLag+0.3; {alpha: 1, top: 0}; {alpha: 0, top: 10}"/>
+						<bind name="tooltip" value="'SubTextTooltip'; {tooltipText: ('IDS_'+toUpperCase(shipInfo.subtype)+'_GOAL'), tooltipSubText: ('IDS_'+toUpperCase(shipInfo.subtype)+'_GOAL_DESCRIPTION')}"/>
+						<block type="text">
+							<style>
+								<alpha value="0.8"/>
+							</style>
+							<styleClass value="$TextHeaderBigWhite"/>
+							<bind name="text" value="'IDS_YOUR_SHIP'"/>
+						</block>
+						<block>
+							<style>
+								<marginLeft value="4px"/>
+								<backgroundColor value="0x01000000"/>
+							</style>
+							<bind name="instance" value="'ShipTitleWithIconAndSilhouette'; {_shipID : playerShipId}"/>
+						</block>
 						<style>
-							<marginLeft value="4px"/>
-							<backgroundColor value="0x01000000"/>
+							<flow value="horizontal"/>
 						</style>
-						<bind name="instance" value="'ShipTitleWithIconAndSilhouette'; {_shipID : playerShipId}"/>
 					</block>
-					<style>
-						<flow value="horizontal"/>
-					</style>
 				</block>
 			</block>
 		</block>
@@ -6734,6 +6784,8 @@
 					<width value="100%"/>
 					<align value="center"/>
 				</style>
+				<bind name="firstEntityDH" value="'clanCurrentSeasonEntity'; CC.clanBattleSeason; 'current'"/>
+				<bind name="watchDH" value="'isBrawl'; ['clanCurrentSeasonEntity.clanBattleSeason.evChanged']; clanCurrentSeasonEntity.clanBattleSeason.isBrawl"/>
 				<bind name="watch" value="'pveDifficultyPostfix'; operationIsHard ? '_hard' : ''"/>
 				<bind name="watch" value="'pveIconLabel'; (operationType == 'event' ? 'PVEBattle_event' : 'PVEBattle') + pveDifficultyPostfix"/>
 				<block>
@@ -6751,7 +6803,8 @@
 										(queueTypeIdent == 'PVE_BATTLE') &amp;&amp; (operationType == 'event')																?	'PVEBattle_event' :
 										queueTypeIdent == 'PVE_BATTLE'																												?	pveIconLabel :
 										queueTypeIdent == 'TRAINING_BATTLE'																											?	'TrainingBattle' :
-										queueTypeIdent == 'CLAN_BATTLE'																												?	'ClanBattle' :
+										queueTypeIdent == 'CLAN_BATTLE'																												?	isBrawl ? 'ClanBrawl'
+																																																: 'ClanBattle' :
 										queueTypeIdent == 'EVENT_BATTLE'																											?	'EventBattle'
 																																													:	'CooperativeBattle'"/>
 					</block>
@@ -6762,7 +6815,8 @@
 					<bind name="class" value="'$FontColorWhite'"/>
 					<bind name="text" value="rankedBattleStatus == RankedBattleStatus.ACCEPTED	? 	'IDS_RANKEDBATTLE' :
 							queueTypeIdent == 'RANDOM'							?	'IDS_RANDOMBATTLE' :
-							queueTypeIdent == 'CLAN_BATTLE'						?	'IDS_CLANBATTLE' :
+							queueTypeIdent == 'CLAN_BATTLE'						?	isBrawl ? 'IDS_CLAN_BRAWL'
+																							: 'IDS_CLANBATTLE' :
 							queueTypeIdent == 'TRAINING_BATTLE'					?	'IDS_TRAININGBATTLE' :
 							queueTypeIdent == 'PVE_BATTLE'						?	tr('IDS_' + toUpperCase(operationEntity.operation.gpName) + '_NAME') :
 							queueTypeIdent == 'EVENT_BATTLE'					?	'IDS_EVENTBATTLE'
@@ -6940,7 +6994,7 @@
 			<bind name="instance" value="'YourRank'; (rankedBattleStatus == RankedBattleStatus.ACCEPTED) ? {_rankedBattleStatus: rankedBattleStatus, appearLag: appearLag} : null"/>
 		</block>
 		<block>
-			<bind name="visible" value="queueTypeIdent == 'CLAN_BATTLE'"/>
+			<bind name="visible" value="queueTypeIdent == 'CLAN_BATTLE' &amp;&amp; !isBrawl"/>
 			<bind name="appear" value="'startShow'; 0.15; appearLag + 0.3; {alpha: 0, top: 10}; {alpha: 1, top: 0}"/>
 			<bind name="appear" value="'startHide'; 0.15; disappearLag+0.3; {alpha: 1, top: 0}; {alpha: 0, top: 10}"/>
 			<style>

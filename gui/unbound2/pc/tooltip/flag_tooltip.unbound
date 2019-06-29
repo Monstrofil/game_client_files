@@ -1,17 +1,17 @@
 (def constant FLAG_TOOLTIP_WIDTH 300px)
 
-(def element FlagTooltipUB2() layout=true dispatch_size_change=true
+(def element FlagTooltipUB2(__installed:bool, __id:number, __name:str, __shipId:number, __canUse:bool, __isRankSeasonTemp:bool, __isLeague:bool, __iconPath: str, __isNaval: bool, __optionData:dict) layout=true dispatch_size_change=true
 	(scope
-		(var _installed: bool = true)
-		(var _id: number = 0)
-		(var _name: str = '')
-		(var _shipId: number = 0)
-		(var _canUse: bool = true)
-		(var _isRankSeasonTemp: bool = true)
-		(var _isLeague: bool = true)
-		(var _iconPath: str = '')
-		(var _isNaval: bool = true)
-		(var _optionData: dict = {})
+		(var _installed: bool = "__installed")
+		(var _id: number = "__id")
+		(var _name: str = "__name")
+		(var _shipId: number = "__shipId")
+		(var _canUse: bool = "__canUse")
+		(var _isRankSeasonTemp: bool = "__isRankSeasonTemp")
+		(var _isLeague: bool = "__isLeague")
+		(var _iconPath: str = "__iconPath")
+		(var _isNaval: bool = "__isNaval")
+		(var _optionData: dict = "__optionData")
 		(var extraDescription: str = "tr('IDS_' + toUpper(_name) + '_EXTRA_DESCRIPTION')")
 	)
 

@@ -1293,6 +1293,89 @@
 			</block>
 		</block>
 	</block>
+	<css name="$TabButtonFontUp">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="15"/>
+		<marginText value="-3px|-3px|-6px|-5px"/>
+		<dropShadowFilter value="0 90 0x000000 1 2 2 1"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<block className="MainTabButton">
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
+		<bind name="watch" value="'tabBarSoundSet'; 'main_tab_' + _actionParams.inset"/>
+		<bind name="tooltip" value="'MouseInstructionTooltip'; _tooltipData ? { _isInBattle: _tooltipData.isInBattle,
+																_multiParagraphArray: _tooltipData.paragraphText ? [{ _paragraphText: _tooltipData.paragraphText }] : null,
+																_mouseInstructions: _tooltipData.mouseInstructions,
+																_maxWidth: 250,
+																_marginBottom: _tooltipData.marginBottom,
+																_leading: _tooltipData.leading,
+																_checkedLines: _tooltipData.checkedLines }
+															: null"/>
+		<style>
+			<height value="29px"/>
+		</style>
+		<bind name="style" value="'width'; _width ? _width : '143px'"/>
+		<block className="tab_bar_item_no_label" type="native">
+			<bind name="name" value="_name"/>
+			<bind name="soundSet" value="tabBarSoundSet"/>
+			<styleClass value="$FullsizeAbsolute"/>
+			<bind name="selected" value="_selected"/>
+			<bind name="enabled" value="_enabled"/>
+			<bind name="action" value="'buttonClick'; 	_action 	? _action : null; 	_actionParams 	? _actionParams : {}"/>
+			<bind name="request" value="'buttonClick'; 	_request 	? _request : null; 	_requestParams 	? _requestParams : {}"/>
+			<bind name="dispatch" value="'buttonClick'; 	_dispatch 	? _dispatch : null; _dispatchParams ? _dispatchParams : null"/>
+		</block>
+		<block>
+			<styleClass value="$MiddleAligned"/>
+			<style>
+				<hitTest value="false"/>
+			</style>
+			<block type="text">
+				<styleClass value="$TabButtonFontUp"/>
+				<style>
+					<textAlign value="center"/>
+					<multiline value="false"/>
+					<marginTop value="9px"/>
+				</style>
+				<bind name="class" value="(mouseDown || (_enabled == false))	? '$FontColorTabButtonDown' :
+												rollOver	? '$FontColorWhite' :
+												_selected	? '$FontColorDefaultButtonUp'
+															: '$FontColorTabButtonUp'"/>
+				<bind name="style" value="'alpha'; (_enabled == false) || mouseDown || rollOver || _selected ? 1 : 0.8"/>
+				<bind name="text" value="toUpperCase(tr(_label))"/>
+			</block>
+			<block>
+				<bind name="fade" value="((_newContentCounter &gt; 0) &amp;&amp; (_isNewMarker != true)); 0.15; {alpha: 0, top: 10}; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+				<style>
+					<position value="absolute"/>
+					<right value="-2px"/>
+					<top value="1px"/>
+				</style>
+				<block>
+					<style>
+						<position value="absolute"/>
+						<left value="0px"/>
+					</style>
+					<bind name="instance" value="'MarkerNewCounter'; { _newContentCounter: _newContentCounter }"/>
+				</block>
+			</block>
+			<block>
+				<bind name="fade" value="_isNewMarker; 0.15; {alpha: 0, top: 10}; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+				<style>
+					<position value="absolute"/>
+					<right value="-38px"/>
+					<top value="1px"/>
+				</style>
+				<bind name="instance" value="'MarkerNewAttention'; { }"/>
+			</block>
+			<style>
+				<flow value="horizontal"/>
+			</style>
+		</block>
+	</block>
 	<block className="MainTabSmallInstance">
 		<block className="tab_bar_item_small" type="native">
 			<bind name="name" value="'MainTabSmallInstance_' + _name"/>
@@ -1307,21 +1390,60 @@
 		</block>
 		<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: _tooltipIDS}"/>
 	</block>
-	<block className="MainTabNew">
-		<block className="tab_bar_item" type="native">
-			<bind name="name" value="_name"/>
+	<block className="NavigationProfileButton">
+		<style>
+			<width value="188px"/>
+		</style>
+		<block className="button_navigation_small_no_label" type="native">
+			<params>
+				<param name="toggle" value="false"/>
+			</params>
 			<style>
-				<height value="29px"/>
+				<width value="100%"/>
+				<marginBottom value="1px"/>
 			</style>
-			<bind name="style" value="'width'; _width"/>
-			<bind name="selected" value="_selected"/>
-			<bind name="action" value="'click'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
-			<bind name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
-			<bind name="dispatch" value="'buttonClick'; _dispatch ? _dispatch : null; _dispatchParams ? _dispatchParams : null"/>
-			<bind name="label" value="toUpperCase(tr(_label))"/>
-			<bind name="soundSet" value="'main_tab_' + _index"/>
+			<bind name="selected" value="_actionParams.page == _activePage"/>
+			<bind name="enabled" value="_actionParams.page != _activePage"/>
+			<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
 		</block>
-		<bind name="tooltip" value="'MouseInstructionTooltip'; {_multiParagraphArray:  [{_paragraphText: _tooltipIDS}], _maxWidth: 250, _isInBattle: _isInBattle}"/>
+		<block>
+			<style>
+				<width value="100%"/>
+				<position value="absolute"/>
+				<hitTest value="false"/>
+			</style>
+			<block type="text">
+				<styleClass value="$TextDefaultBoldNM"/>
+				<style>
+					<multiline value="false"/>
+					<marginLeft value="14px"/>
+					<marginTop value="13px"/>
+				</style>
+				<bind name="class" value=" (_actionParams.page == _activePage) ? '$FontColorAlmostBlack' : ''"/>
+				<bind name="class" value=" (_actionParams.page == _activePage) ? '$FontGlowFilterBrightStrong' : '$FontDropShadowFilter1'"/>
+				<bind name="text" value="toUpperCase(tr(_label))"/>
+			</block>
+			<block>
+				<style>
+					<marginLeft value="2px"/>
+					<marginTop value="4px"/>
+				</style>
+				<block>
+					<bind name="fade" value="_isNewMarker; 0.15; {alpha: 0, top: 10}; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+					<bind name="instance" value="'MarkerNewAttention'; { }"/>
+				</block>
+				<block>
+					<bind name="fade" value="((_newContentCounter &gt; 0) &amp;&amp; (_isNewMarker != true)); 0.15; {alpha: 0, top: 10}; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+					<style>
+						<position value="absolute"/>
+					</style>
+					<bind name="instance" value="'MarkerNewCounter'; { _newContentCounter: _newContentCounter }"/>
+				</block>
+			</block>
+			<style>
+				<flow value="horizontal"/>
+			</style>
+		</block>
 	</block>
 	<css name="$TextMouseDisable">
 		<mouseChildren value="false"/>
@@ -1340,6 +1462,10 @@
 	<css name="$FontFamilyDefaultBold">
 		<fontFamily value="$WWSDefaultFontBold"/>
 		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+	</css>
+	<css name="$FontFamilyDefaultBoldTabs">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<dropShadowFilter value="0 90 0x000000 1 2 2 1"/>
 	</css>
 	<css name="$Bold">
 		<fontFamily value="$WWSDefaultFontBold"/>
@@ -1407,6 +1533,12 @@
 	<css name="$FontColorDefaultButtonUp">
 		<textColor value="0xc7e2e2"/>
 	</css>
+	<css name="$FontColorTabButtonDown">
+		<textColor value="0x999999"/>
+	</css>
+	<css name="$FontColorTabButtonSelectedUp">
+		<textColor value="0xAABFBF"/>
+	</css>
 	<css name="$FontColorComparePositive">
 		<textColor value="0x4CE8AA"/>
 	</css>
@@ -1456,7 +1588,7 @@
 		<fontSize value="60"/>
 	</css>
 	<css name="$LetterSpacingSmall">
-		<letterSpacing value="0.8"/>
+		<letterSpacing value="0"/>
 	</css>
 	<css name="$InvertedTextEffect">
 		<dropShadowFilter value="0 90 0xffffff 1.0 3.0 3.0 0.3"/>
@@ -1479,6 +1611,9 @@
 	</css>
 	<css name="$FontDropShadowWhite">
 		<dropShadowFilter value="0 90 0xffffff 1.0 3.0 3.0 0.3"/>
+	</css>
+	<css name="$BlockDropShadowTabText">
+		<dropShadowFilter value="0 90 0x000000 1 2 2 1"/>
 	</css>
 	<block className="DefaultButton">
 		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
@@ -1734,14 +1869,12 @@
 		</block>
 	</block>
 	<block className="InfopanelButton">
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
 		<bind name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
 		<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
-		<bind name="dispatch" value="'mouseOver'; 'overInfopanelButton'; {infopanelButtonOverAlpha: 1}"/>
-		<bind name="dispatch" value="'mouseOut'; 'upInfopanelButton'; 	{infopanelButtonOverAlpha: 0.6}"/>
-		<bind name="dispatch" value="'mouseDown'; 'downInfopanelButton'; {infopanelButtonOverAlpha: 0.3}"/>
-		<bind name="catch" value="'upInfopanelButton'}"/>
-		<bind name="catch" value="'overInfopanelButton'"/>
-		<bind name="catch" value="'downInfopanelButton'"/>
+		<bind name="watch" value="'infopanelButtonOverAlpha';	(mouseDown)		? 0.3 :
+												(rollOver)		? 1
+																: 0.6"/>
 		<bind name="tooltip" value="'SimpleTooltip'; _tooltipIDS ? { tooltipText: _tooltipIDS } : null"/>
 		<bind name="style" value="'alpha'; infopanelButtonOverAlpha"/>
 		<bind name="name" value="_name"/>
@@ -1923,13 +2056,13 @@
 							<marginRight value="2px"/>
 						</style>
 						<block>
-							<bind name="instance" value="'MainTabNew'; 	{_name: itemTabBarCrosshair_0, 
-														_width: '220px', 
-														_selected: inset == 0,
-														_dispatch: 'changeCrosshairType', _dispatchParams: {inset: 0, _searchState: 0}, 
-														_label: 'IDS_STATIC_CROSSHAIRS', 
-														_index: 0, 
-														_tooltipIDS: 'IDS_USE_STATIC_CROSSHAIRS', _isInBattle: false}"/>
+							<bind name="instance" value="'MainTabButton'; 	{_name: itemTabBarCrosshair_0, 
+															_width: '220px', 
+															_selected: inset == 0,
+															_dispatch: 'changeCrosshairType', _dispatchParams: {inset: 0, _searchState: 0}, 
+															_label: 'IDS_STATIC_CROSSHAIRS', 
+															_index: 0, 
+															_paragraphText: 'IDS_USE_STATIC_CROSSHAIRS', _isInBattle: false}"/>
 						</block>
 						<block className="divider_v" type="native">
 							<style>
@@ -1938,13 +2071,13 @@
 							</style>
 						</block>
 						<block>
-							<bind name="instance" value="'MainTabNew'; 	{_name: itemTabBarCrosshair_1, 
-														_width: '220px', 
-														_selected: inset == 1,
-														_dispatch: 'changeCrosshairType', _dispatchParams: {inset: 1, _searchState: 0}, 
-														_label: 'IDS_DYNAMIC_CROSSHAIRS', 
-														_index: 1, 
-														_tooltipIDS: 'IDS_USE_DYNAMIC_CROSSHAIRS', _isInBattle: false}"/>
+							<bind name="instance" value="'MainTabButton'; 	{_name: itemTabBarCrosshair_1, 
+															_width: '220px', 
+															_selected: inset == 1,
+															_dispatch: 'changeCrosshairType', _dispatchParams: {inset: 1, _searchState: 0}, 
+															_label: 'IDS_DYNAMIC_CROSSHAIRS', 
+															_index: 1, 
+															_paragraphText: 'IDS_USE_DYNAMIC_CROSSHAIRS', _isInBattle: false}"/>
 						</block>
 						<style>
 							<flow value="horizontal"/>

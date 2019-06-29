@@ -2017,6 +2017,7 @@
 		<bind name="watchDH" value="'cbs_startTime'; ['clanCurrentSeasonEntity.clanBattleSeason.evChanged']; clanCurrentSeasonEntity.clanBattleSeason.startTime"/>
 		<bind name="watchDH" value="'cbs_shipLevelMin'; ['clanCurrentSeasonEntity.clanBattleSeason.evChanged']; clanCurrentSeasonEntity.clanBattleSeason.shipLevelMin"/>
 		<bind name="watchDH" value="'cbs_shipLevelMax'; ['clanCurrentSeasonEntity.clanBattleSeason.evChanged']; clanCurrentSeasonEntity.clanBattleSeason.shipLevelMax"/>
+		<bind name="watchDH" value="'cbs_isBrawl'; ['clanCurrentSeasonEntity.clanBattleSeason.evChanged']; clanCurrentSeasonEntity.clanBattleSeason.isBrawl"/>
 		<bind name="timeFormat" value="cbs_startTime; 'hh:mm'; 'localStartTime'; true"/>
 		<bind name="timeFormat" value="cbs_startTime; 'hh:mm'; 'startTime'; false"/>
 		<bind name="watch" value="'textClass'; _useWhiteColor ? '$TextDefault17NM' : '$TextDefault17NMTech'"/>
@@ -2036,46 +2037,68 @@
 			<style>
 				<width value="100%"/>
 				<leading value="-2"/>
-				<marginTop value="24px"/>
+				<marginTop value="16px"/>
 			</style>
 			<styleClass value="$TextDefault17NM"/>
-			<bind name="watch" value="'shipsRestrictionString';		cbs_shipLevelMin == cbs_shipLevelMax			?	'IDS_CLAN_BATTLES_ALLOWED_SHIPS_SINGLE' :
-													cbs_shipLevelMin &lt;= 1 &amp;&amp; cbs_shipLevelMax &lt; 10	?	'IDS_CLAN_BATTLES_ALLOWED_SHIPS_TO' :
-													cbs_shipLevelMin &gt; 1 &amp;&amp; cbs_shipLevelMax &gt;= 10	?	'IDS_CLAN_BATTLES_ALLOWED_SHIPS_FROM' :
-																										'IDS_CLAN_BATTLES_ALLOWED_SHIPS_FROM_TO'"/>
+			<bind name="watch" value="'battleType'; cbs_isBrawl ? 'BRAWL' : 'BATTLES'"/>
+			<bind name="watch" value="'shipsRestrictionString';		cbs_shipLevelMin == cbs_shipLevelMax			?	'IDS_CLAN_' + battleType + '_ALLOWED_SHIPS_SINGLE' :
+													cbs_shipLevelMin &lt;= 1 &amp;&amp; cbs_shipLevelMax &lt; 10	?	'IDS_CLAN_' + battleType + '_ALLOWED_SHIPS_TO' :
+													cbs_shipLevelMin &gt; 1 &amp;&amp; cbs_shipLevelMax &gt;= 10	?	'IDS_CLAN_' + battleType + '_ALLOWED_SHIPS_FROM' :
+																										'IDS_CLAN_' + battleType + '_ALLOWED_SHIPS_FROM_TO'"/>
 			<bind name="text" value="subst(shipsRestrictionString, [], {levelMin: RDigits.rdigits[cbs_shipLevelMin], levelMax: RDigits.rdigits[cbs_shipLevelMax]})"/>
 		</block>
 		<block>
 			<style>
 				<width value="100%"/>
 				<alpha value="0.5"/>
-				<marginTop value="64px"/>
+				<marginTop value="16px"/>
 			</style>
-			<block type="text">
-				<styleClass value="$TextDefault17NM"/>
+			<block>
+				<bind name="visible" value="cbs_isBrawl != true"/>
 				<style>
 					<width value="100%"/>
-					<leading value="-2"/>
 				</style>
-				<bind name="text" value="'IDS_CLAN_BATTLES_SCHEDULE_NOTES_1'"/>
+				<block type="text">
+					<styleClass value="$TextDefault17NM"/>
+					<style>
+						<width value="100%"/>
+						<leading value="-2"/>
+						<marginTop value="16px"/>
+					</style>
+					<bind name="text" value="'IDS_CLAN_BATTLES_SCHEDULE_NOTES_1'"/>
+				</block>
+				<block type="text">
+					<styleClass value="$TextDefault17NM"/>
+					<style>
+						<width value="100%"/>
+						<leading value="-2"/>
+						<marginTop value="16px"/>
+					</style>
+					<bind name="text" value="'IDS_CLAN_BATTLES_SCHEDULE_NOTES_2'"/>
+				</block>
+				<block type="text">
+					<styleClass value="$TextDefault17NM"/>
+					<style>
+						<width value="100%"/>
+						<leading value="-2"/>
+						<marginTop value="16px"/>
+					</style>
+					<bind name="text" value="'IDS_CLAN_BATTLES_SCHEDULE_NOTES_3'"/>
+				</block>
 			</block>
-			<block type="text">
-				<styleClass value="$TextDefault17NM"/>
+			<block>
+				<bind name="visible" value="cbs_isBrawl == true"/>
 				<style>
 					<width value="100%"/>
-					<leading value="-2"/>
-					<marginTop value="24px"/>
 				</style>
-				<bind name="text" value="'IDS_CLAN_BATTLES_SCHEDULE_NOTES_2'"/>
-			</block>
-			<block type="text">
-				<styleClass value="$TextDefault17NM"/>
-				<style>
-					<width value="100%"/>
-					<leading value="-2"/>
-					<marginTop value="24px"/>
-				</style>
-				<bind name="text" value="'IDS_CLAN_BATTLES_SCHEDULE_NOTES_3'"/>
+				<block type="text">
+					<styleClass value="$TextDefault17NM"/>
+					<style>
+						<width value="100%"/>
+						<leading value="-2"/>
+					</style>
+					<bind name="text" value="'IDS_CLAN_BATTLES_SCHEDULE_NOTES_2'"/>
+				</block>
 			</block>
 		</block>
 	</block>
@@ -2180,6 +2203,10 @@
 		<fontFamily value="$WWSDefaultFontBold"/>
 		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
 	</css>
+	<css name="$FontFamilyDefaultBoldTabs">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<dropShadowFilter value="0 90 0x000000 1 2 2 1"/>
+	</css>
 	<css name="$Bold">
 		<fontFamily value="$WWSDefaultFontBold"/>
 	</css>
@@ -2246,6 +2273,12 @@
 	<css name="$FontColorDefaultButtonUp">
 		<textColor value="0xc7e2e2"/>
 	</css>
+	<css name="$FontColorTabButtonDown">
+		<textColor value="0x999999"/>
+	</css>
+	<css name="$FontColorTabButtonSelectedUp">
+		<textColor value="0xAABFBF"/>
+	</css>
 	<css name="$FontColorComparePositive">
 		<textColor value="0x4CE8AA"/>
 	</css>
@@ -2295,7 +2328,7 @@
 		<fontSize value="60"/>
 	</css>
 	<css name="$LetterSpacingSmall">
-		<letterSpacing value="0.8"/>
+		<letterSpacing value="0"/>
 	</css>
 	<css name="$InvertedTextEffect">
 		<dropShadowFilter value="0 90 0xffffff 1.0 3.0 3.0 0.3"/>
@@ -2318,6 +2351,9 @@
 	</css>
 	<css name="$FontDropShadowWhite">
 		<dropShadowFilter value="0 90 0xffffff 1.0 3.0 3.0 0.3"/>
+	</css>
+	<css name="$BlockDropShadowTabText">
+		<dropShadowFilter value="0 90 0x000000 1 2 2 1"/>
 	</css>
 	<block className="DefaultButton">
 		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
@@ -2573,14 +2609,12 @@
 		</block>
 	</block>
 	<block className="InfopanelButton">
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
 		<bind name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
 		<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
-		<bind name="dispatch" value="'mouseOver'; 'overInfopanelButton'; {infopanelButtonOverAlpha: 1}"/>
-		<bind name="dispatch" value="'mouseOut'; 'upInfopanelButton'; 	{infopanelButtonOverAlpha: 0.6}"/>
-		<bind name="dispatch" value="'mouseDown'; 'downInfopanelButton'; {infopanelButtonOverAlpha: 0.3}"/>
-		<bind name="catch" value="'upInfopanelButton'}"/>
-		<bind name="catch" value="'overInfopanelButton'"/>
-		<bind name="catch" value="'downInfopanelButton'"/>
+		<bind name="watch" value="'infopanelButtonOverAlpha';	(mouseDown)		? 0.3 :
+												(rollOver)		? 1
+																: 0.6"/>
 		<bind name="tooltip" value="'SimpleTooltip'; _tooltipIDS ? { tooltipText: _tooltipIDS } : null"/>
 		<bind name="style" value="'alpha'; infopanelButtonOverAlpha"/>
 		<bind name="name" value="_name"/>
@@ -2870,6 +2904,7 @@
 		<block className="ModalWindowClanBattlesScheduleContent">
 			<bind name="firstEntityDH" value="'clanCurrentSeasonEntity'; CC.clanBattleSeason; 'current'"/>
 			<bind name="watchDH" value="'cbs_finishTime'; ['clanCurrentSeasonEntity.clanBattleSeason.evChanged']; clanCurrentSeasonEntity.clanBattleSeason.finishTime"/>
+			<bind name="watchDH" value="'isBrawl'; ['clanCurrentSeasonEntity.clanBattleSeason.evChanged']; clanCurrentSeasonEntity.clanBattleSeason.isBrawl"/>
 			<bind name="countdown" value="cbs_finishTime; 'seasonFinishTimeText'; 'HIGHEST,WITH_DAYS'; 'timeoutEvent'"/>
 			<bind name="var" value="{ windowAppearLag: 0.8 }"/>
 			<styleClass value="$MiddleAligned"/>
@@ -2888,7 +2923,7 @@
 					<style>
 						<width value="100%"/>
 					</style>
-					<bind name="instance" value="'ModalWindowHeaderFullSize';{ 	_windowName: 'IDS_CLAN_BATTLES_SCHEDULE', 
+					<bind name="instance" value="'ModalWindowHeaderFullSize';{ 	_windowName: isBrawl ? 'IDS_CLAN_BRAWL_SCHEDULE' : 'IDS_CLAN_BATTLES_SCHEDULE', 
 															_paddingRight: '0px', _paddingLeft: '0px', 
 															_backButtonText: 'IDS_RETURN_TO_BATTLETYPE_CHOOSER', 
 															_request: 'returnToBattleTypeChooserClanBattlesSchedule'
@@ -3099,6 +3134,7 @@
 	<block className="ModalWindowClanBattlesScheduleContent">
 		<bind name="firstEntityDH" value="'clanCurrentSeasonEntity'; CC.clanBattleSeason; 'current'"/>
 		<bind name="watchDH" value="'cbs_finishTime'; ['clanCurrentSeasonEntity.clanBattleSeason.evChanged']; clanCurrentSeasonEntity.clanBattleSeason.finishTime"/>
+		<bind name="watchDH" value="'isBrawl'; ['clanCurrentSeasonEntity.clanBattleSeason.evChanged']; clanCurrentSeasonEntity.clanBattleSeason.isBrawl"/>
 		<bind name="countdown" value="cbs_finishTime; 'seasonFinishTimeText'; 'HIGHEST,WITH_DAYS'; 'timeoutEvent'"/>
 		<bind name="var" value="{ windowAppearLag: 0.8 }"/>
 		<styleClass value="$MiddleAligned"/>
@@ -3117,7 +3153,7 @@
 				<style>
 					<width value="100%"/>
 				</style>
-				<bind name="instance" value="'ModalWindowHeaderFullSize';{ 	_windowName: 'IDS_CLAN_BATTLES_SCHEDULE', 
+				<bind name="instance" value="'ModalWindowHeaderFullSize';{ 	_windowName: isBrawl ? 'IDS_CLAN_BRAWL_SCHEDULE' : 'IDS_CLAN_BATTLES_SCHEDULE', 
 															_paddingRight: '0px', _paddingLeft: '0px', 
 															_backButtonText: 'IDS_RETURN_TO_BATTLETYPE_CHOOSER', 
 															_request: 'returnToBattleTypeChooserClanBattlesSchedule'

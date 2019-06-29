@@ -63,6 +63,23 @@
 		ARRAY <of> PLANE_WAYPOINT </of>
 	</PLANE_PATH>
 
+	<TEAM_INFO>
+		FIXED_DICT
+		<Properties>
+			<teamId><Type>TEAM_ID</Type></teamId>
+			<detonation><Type>BOOL</Type></detonation>
+			<friendlyFire><Type>BOOL</Type></friendlyFire>
+		</Properties>
+	</TEAM_INFO>
+
+	<TEAMS_DEF>
+		FIXED_DICT
+		<Properties>
+			<data><Type>ARRAY<of>TEAM_INFO</of></Type></data>
+		</Properties>
+		<implementedBy>TeamsDef.converter</implementedBy>
+	</TEAMS_DEF>
+
 	<BATTLE_DEF>
 		FIXED_DICT
 		<Properties>
@@ -268,7 +285,7 @@
 			<type><Type>UINT8</Type></type>
 			<id><Type>TARGET_ID</Type></id> <!-- PLANE_ID or ENTITY_ID -->
 			<position><Type>VECTOR3</Type></position>
-			<teamId><Type>INT8</Type></teamId>
+			<teamId><Type>TEAM_ID</Type></teamId>
 			<angle><Type>UINT8</Type></angle>
 		</Properties>
 		<implementedBy>GoalDef.converter</implementedBy>
@@ -592,7 +609,7 @@
 			<nextControlPoint><Type>INT8</Type></nextControlPoint>
 			<controlPointType><Type>UINT8</Type></controlPointType>
 			<timerName><Type>STRING</Type></timerName>
-			<teamId><Type>INT8</Type></teamId>
+			<teamId><Type>TEAM_ID</Type></teamId>
 			<progress><Type>ARRAY<of>FLOAT</of><size>2</size></Type></progress>
 			<neutralProgress><Type>FLOAT</Type></neutralProgress>
 			<invaderTeam><Type>TEAM_ID</Type></invaderTeam>
@@ -638,13 +655,21 @@
 		</Properties>
 	</ZONE_RESOURCE_STATE>
 
+	<ZONE_TEAM_STATE>
+		FIXED_DICT
+		<Properties>
+			<teamId><Type>TEAM_ID</Type></teamId>
+			<state><Type>UINT8</Type></state>
+		</Properties>
+	</ZONE_TEAM_STATE>
+
 	<INTERACTIVE_ZONE_STATE>
 		FIXED_DICT
 		<Properties>
 			<name><Type>STRING</Type></name>
 			<radius><Type>FLOAT</Type></radius>
-			<team0State><Type>UINT8</Type></team0State>
-			<team1State><Type>UINT8</Type></team1State>
+			<state><Type>UINT8</Type></state>
+			<teamsStates><Type>ARRAY<of>ZONE_TEAM_STATE</of></Type></teamsStates>
 			<type><Type>UINT8</Type></type>
 			<ownerId><Type>ENTITY_ID</Type></ownerId>
 			<position><Type>VECTOR2</Type></position>
@@ -686,15 +711,6 @@
 		</Properties>
 	</KILL_SPECIFIC_SHIP_MISSION_STATE>
 
-	<DESTROY_BUILDING_MISSION_STATE>
-		FIXED_DICT
-		<Properties>
-			<reward><Type>INT16</Type></reward>
-			<penalty><Type>INT16</Type></penalty>
-			<buildingType><Type>STRING</Type></buildingType>
-		</Properties>
-	</DESTROY_BUILDING_MISSION_STATE>
-
 	<SUPPRESS_BUILDING_MISSION_STATE>
 		FIXED_DICT
 		<Properties>
@@ -723,15 +739,22 @@
 		</Properties>
 	</HOLD_CONTROL_POINT_MISSION_STATE>
 
+	<TEAM_SCORE>
+		FIXED_DICT
+		<Properties>
+			<teamId><Type>TEAM_ID</Type></teamId>
+			<score><Type>UINT16</Type></score>
+		</Properties>
+	</TEAM_SCORE>
+
 	<MISSIONS_STATE>
 		FIXED_DICT
 		<Properties>
 			<hold><Type>ARRAY<of>HOLD_CONTROL_POINT_MISSION_STATE</of></Type></hold>
 			<capture><Type>ARRAY<of>CAPTURE_CONTROL_POINT_MISSION_STATE</of></Type></capture>
-			<destroy><Type>ARRAY<of>DESTROY_BUILDING_MISSION_STATE</of></Type></destroy>
 			<suppress><Type>ARRAY<of>SUPPRESS_BUILDING_MISSION_STATE</of></Type></suppress>
 			<kill><Type>ARRAY<of>KILL_SPECIFIC_SHIP_MISSION_STATE</of></Type></kill>
-			<teamsScore><Type>ARRAY<of>UINT16</of></Type></teamsScore>
+			<teamsScore><Type>ARRAY<of>TEAM_SCORE</of></Type></teamsScore>
 			<teamWinScore><Type>UINT16</Type></teamWinScore>
 			<teamLoseScore><Type>UINT16</Type></teamLoseScore>
 		</Properties>
@@ -873,7 +896,7 @@
 			<id><Type>ENTITY_ID</Type></id>
 			<className><Type>STRING</Type></className>
 			<name><Type>STRING</Type></name>
-			<teamId><Type>INT8</Type></teamId>
+			<teamId><Type>TEAM_ID</Type></teamId>
 		</Properties>
 	</BATTLE_LOGIC_ENTITY_STATE>
 
@@ -946,15 +969,14 @@
 		FIXED_DICT
 		<Properties>
 			<attentionMarkers><Type>ARRAY<of>ATTENTION_MARKER_STATE</of></Type></attentionMarkers>
-			<!--<buildings> <Type>ATTENTION_MARKERS_STATE</Type> <AllowNone>true</AllowNone> </buildings>-->
-			<clientAnimations><Type>CLIENT_ANIMATION_STATE</Type><AllowNone>true</AllowNone></clientAnimations>
-			<controlPoints><Type>ARRAY<of>CONTROL_POINT_STATE</of></Type> <AllowNone>true</AllowNone> </controlPoints>
+			<clientAnimations><Type>CLIENT_ANIMATION_STATE</Type></clientAnimations>
+			<controlPoints><Type>ARRAY<of>CONTROL_POINT_STATE</of></Type></controlPoints>
 			<entityStates><Type>ARRAY<of>ENTITY_STATE_STATE</of></Type></entityStates>
 			<expectedActions><Type>EXPECTED_ACTION_STATE</Type></expectedActions>
 			<interactiveZones> <Type>ARRAY<of>INTERACTIVE_ZONE_STATE</of></Type></interactiveZones>
 			<weather> <Type>WEATHER_STATE</Type></weather>
 			<keyObjects><Type>ARRAY<of>KEY_OBJECT_STATE</of></Type></keyObjects>
-			<missions> <Type>MISSIONS_STATE</Type> <AllowNone>true</AllowNone> </missions>
+			<missions> <Type>MISSIONS_STATE</Type> </missions>
 			<resources> <Type> ARRAY <of> RESOURCE_STATE </of> </Type> </resources>
 			<successStoryProgress> <Type>ARRAY<of>SUCCESS_STORY_PROGRESS_STATE</of></Type>  </successStoryProgress>
 			<screenplayMessage> <Type> SCREENPLAY_MESSAGE_STATE </Type> </screenplayMessage>
@@ -963,8 +985,6 @@
 			<entities><Type>ARRAY<of>BATTLE_LOGIC_ENTITY_STATE</of></Type></entities>
 			<effects><Type>ARRAY<of>EFFECT_STATE</of></Type></effects>
 			<drop><Type>DROP_STATE</Type></drop>
-			<!--<triggers> <Type>TRIGGERS_STATE</Type> <AllowNone>true</AllowNone> </triggers>-->
-			<!--<routes> <Type>ROUTES_STATE</Type> <AllowNone>true</AllowNone> </routes>-->
 		</Properties>
 	</BATTLE_LOGIC_STATE>
 
@@ -1174,17 +1194,6 @@
 		</Properties>
 	</ENTITY_EFFECT_STATE>
 
-	<LINKAGE_INFO>
-		FIXED_DICT
-		<Properties>
-			<mailBox><Type>MAILBOX</Type></mailBox>
-			<realm><Type>STRING</Type></realm>
-			<clusterKey><Type>STRING</Type></clusterKey>
-			<gameBranch><Type>STRING</Type></gameBranch>
-		</Properties>
-		<AllowNone> true </AllowNone>
-	</LINKAGE_INFO>
-
 	<LINKAGE_FRAGMENTS>
 		FIXED_DICT
 		<Properties>
@@ -1233,4 +1242,20 @@
 		<Type>BLOB</Type>
 		<implementedBy>MsgPackCustomConverter.converter</implementedBy>
 	</MSGPACK_BLOB>
+
+	<PLAYER_DIGEST>
+		FIXED_DICT
+		<Properties>
+			<dbId><Type>DB_ID</Type></dbId>
+			<nickname><Type>STRING</Type></nickname>
+			<accLevel><Type>UINT8</Type></accLevel>
+			<rankInfo><Type>UINT32</Type></rankInfo>
+			<lastGameTime><Type>UINT32</Type></lastGameTime>
+			<dogTag><Type>STRING</Type></dogTag>
+			<isTeamKiller><Type>UINT8</Type></isTeamKiller>
+			<masterId><Type>UINT8</Type></masterId>
+			<suspended><Type>UINT8</Type></suspended>
+		</Properties>
+		<implementedBy>PlayerDigestDef.converter</implementedBy>
+	</PLAYER_DIGEST>
 </root>

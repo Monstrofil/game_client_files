@@ -1335,7 +1335,7 @@
 		<bind name="instance" value=" isHeader ? 'StatItemHeader' : 'StatRow'; {header: header, title:title, value:value, statData: statData, hintVehicleId: hintVehicleId}"/>
 	</block>
 	<block className="StatItemHeader">
-		<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: title + '_TOOLTIP_PROFILE'}"/>
+		<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: title + '_TOOLTIP'}"/>
 		<style>
 			<backgroundColor value="0x01000000"/>
 		</style>
@@ -1775,7 +1775,7 @@
 					<bind name="class" value="'$Bold'"/>
 					<bind name="text" value="'IDS_GAME_PLAYED'"/>
 				</block>
-				<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_GAME_PLAYED' + '_TOOLTIP_PROFILE'}"/>
+				<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_GAME_PLAYED' + '_TOOLTIP'}"/>
 			</block>
 			<block className="ProfilePlayerPercentEfficiency">
 				<block className="DeclareBlurLayer">
@@ -1821,7 +1821,7 @@
 					<bind name="class" value="'$Bold'"/>
 					<bind name="text" value="'IDS_VICTORY_PERCENT'"/>
 				</block>
-				<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_VICTORY_PERCENT' + '_TOOLTIP_PROFILE'}"/>
+				<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_VICTORY_PERCENT' + '_TOOLTIP'}"/>
 			</block>
 			<block className="ProfilePlayerPercentEfficiency">
 				<block className="DeclareBlurLayer">
@@ -1867,7 +1867,7 @@
 					<bind name="class" value="'$Bold'"/>
 					<bind name="text" value="'IDS_EXPERIENCE_C_AVERAGE'"/>
 				</block>
-				<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_EXPERIENCE_C_AVERAGE' + '_TOOLTIP_PROFILE'}"/>
+				<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_EXPERIENCE_C_AVERAGE' + '_TOOLTIP'}"/>
 			</block>
 			<block className="ProfilePlayerPercentEfficiency">
 				<block className="DeclareBlurLayer">
@@ -1913,7 +1913,7 @@
 					<bind name="class" value="'$Bold'"/>
 					<bind name="text" value="'IDS_MAX_SHIPS_PER_BATTLE'"/>
 				</block>
-				<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_MAX_SHIPS_PER_BATTLE' + '_TOOLTIP_PROFILE'}"/>
+				<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_MAX_SHIPS_PER_BATTLE' + '_TOOLTIP'}"/>
 			</block>
 			<block className="ProfilePlayerPercentEfficiency">
 				<block className="DeclareBlurLayer">
@@ -1959,7 +1959,7 @@
 					<bind name="class" value="'$Bold'"/>
 					<bind name="text" value="'IDS_DESTROY_RATIO'"/>
 				</block>
-				<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_DESTROY_RATIO' + '_TOOLTIP_PROFILE'}"/>
+				<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_DESTROY_RATIO' + '_TOOLTIP'}"/>
 			</block>
 			<style>
 				<flow value="horizontal"/>
@@ -2134,7 +2134,7 @@
 			</style>
 			<bind name="repeat" value="battlesByNation.diagram; 'CircleDiagramItem'; {currentItemId: currentItemId, showGamesPlayed: showGamesPlayed}"/>
 			<block>
-				<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_GAME_PLAYED_TOOLTIP_PROFILE'}"/>
+				<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_GAME_PLAYED_TOOLTIP'}"/>
 				<bind name="transition" value="showGamesPlayed; 0.2; {alpha: 0}; {alpha: 1}"/>
 				<style>
 					<position value="absolute"/>
@@ -2172,7 +2172,7 @@
 			</style>
 			<bind name="repeat" value="battlesByShipType.diagram; 'CircleDiagramItem'; {currentItemId: currentItemId, showGamesPlayed: showGamesPlayed}"/>
 			<block>
-				<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_GAME_PLAYED_TOOLTIP_PROFILE'}"/>
+				<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_GAME_PLAYED_TOOLTIP'}"/>
 				<bind name="transition" value="showGamesPlayed; 0.2; {alpha: 0}; {alpha: 1}"/>
 				<style>
 					<position value="absolute"/>
@@ -2763,7 +2763,7 @@
 		<block>
 			<style>
 				<width value="100%"/>
-				<marginTop value="128px"/>
+				<marginTop value="64px"/>
 			</style>
 			<bind name="instance" value="'ArcEventSideResultsProgress'; {}"/>
 		</block>
@@ -2814,6 +2814,30 @@
 			<bind name="style" value="'backgroundImage'; 'url:../events/arc_event/team_progress/progress_bg.png'"/>
 		</block>
 		<block>
+			<styleClass value="$FullsizeAbsolute"/>
+			<block>
+				<style>
+					<width value="120px"/>
+					<position value="absolute"/>
+					<left value="0px"/>
+					<marginTop value="-30px"/>
+				</style>
+				<bind name="instance" value="'ArcEventSideModifier'; { _sideId: sides[0]}"/>
+			</block>
+			<block>
+				<style>
+					<width value="120px"/>
+					<position value="absolute"/>
+					<right value="0px"/>
+					<marginTop value="-30px"/>
+				</style>
+				<bind name="instance" value="'ArcEventSideModifier'; { _sideId: sides[1]}"/>
+			</block>
+			<style>
+				<flow value="horizontal"/>
+			</style>
+		</block>
+		<block>
 			<styleClass value="$MiddleAligned"/>
 			<style>
 				<position value="absolute"/>
@@ -2822,24 +2846,31 @@
 			<block type="text">
 				<styleClass value="$TextDefaultBold30NM"/>
 				<styleClass value="$ArcEventTextStyle"/>
-				<style>
-					<marginRight value="24px"/>
-					<marginLeft value="24px"/>
-				</style>
 				<bind name="text" value="'IDS_ARC_EVENT_SIDE_RESULTS_REWARD'"/>
 			</block>
 			<block>
 				<style>
+					<marginTop value="6px"/>
 					<width value="100%"/>
 				</style>
-				<bind name="instance" value="'ArcEventHeaderUnderline'; {}"/>
+				<bind name="instance" value="'BlackDivider1'; {}"/>
+			</block>
+			<block>
+				<style>
+					<position value="absolute"/>
+					<width value="25px"/>
+					<height value="50px"/>
+					<top value="-10px"/>
+					<left value="-25px"/>
+				</style>
+				<bind name="style" value="'backgroundImage'; 'url:../events/arc_event/team_progress/icon_focus_5.png'"/>
 			</block>
 			<block>
 				<styleClass value="$MiddleAligned"/>
 				<style>
 					<width value="150px"/>
 					<height value="150px"/>
-					<marginTop value="37px"/>
+					<marginTop value="30px"/>
 				</style>
 				<bind name="style" value="'backgroundImage'; 'url:../events/arc_event/team_progress/progress_reward.png'"/>
 			</block>
@@ -2861,31 +2892,6 @@
 					<right value="60px"/>
 				</style>
 				<bind name="instance" value="'ArcEventSideResultsProgressRight'; { _side: sides[1]}"/>
-			</block>
-			<style>
-				<flow value="horizontal"/>
-			</style>
-		</block>
-		<block>
-			<styleClass value="$FullsizeAbsolute"/>
-			<style>
-				<top value="-98px"/>
-			</style>
-			<block>
-				<style>
-					<width value="120px"/>
-					<position value="absolute"/>
-					<left value="0px"/>
-				</style>
-				<bind name="instance" value="'ArcEventSideModifier'; { _sideId: sides[0]}"/>
-			</block>
-			<block>
-				<style>
-					<width value="120px"/>
-					<position value="absolute"/>
-					<right value="0px"/>
-				</style>
-				<bind name="instance" value="'ArcEventSideModifier'; { _sideId: sides[1]}"/>
 			</block>
 			<style>
 				<flow value="horizontal"/>
@@ -4143,7 +4149,7 @@
 							<width value="100%"/>
 							<textAlign value="center"/>
 						</style>
-						<text value="15"/>
+						<text value="20"/>
 					</block>
 				</block>
 			</block>
@@ -7195,6 +7201,43 @@
 			</block>
 		</block>
 	</block>
+	<block className="AchievementRenderer">
+		<bind name="controller" value="lesta.dialogs.controllers.CollectionController; 'achievements'; (_id ? _id : $value); 'achievement'"/>
+		<style>
+			<flow value="horizontal"/>
+			<width value="100%"/>
+		</style>
+		<block>
+			<bind name="instance" value="'AchievementIcon'; {_id: (_id ? _id : $value)}"/>
+		</block>
+		<block>
+			<styleClass value="$InfoBlockHorizontalIndent"/>
+			<style>
+				<marginLeft value="10px"/>
+				<marginTop value="-1px"/>
+			</style>
+			<block type="text">
+				<styleClass value="$TextHeaderWhiteBold"/>
+				<style>
+					<width value="100%"/>
+					<maxWidth value="222"/>
+					<textAlign value="left"/>
+				</style>
+				<bind name="class" value="'$FontColorWhite'"/>
+				<bind name="text" value="achievement.nameIDS"/>
+			</block>
+			<block type="text">
+				<styleClass value="$TextHeaderBigDefaultTech"/>
+				<style>
+					<marginTop value="-3px"/>
+					<maxWidth value="220"/>
+					<textAlign value="left"/>
+				</style>
+				<bind name="class" value="'$FontColorWhite'"/>
+				<bind name="text" value="achievement.subtypeIDS"/>
+			</block>
+		</block>
+	</block>
 	<block className="BlackDivider1">
 		<bind name="class" value="'$ArcEventBackgroundColorDark'"/>
 		<bind name="style" value="'width'; 	_vertical ? '1px' : '100%'"/>
@@ -7246,6 +7289,10 @@
 	<css name="$FontFamilyDefaultBold">
 		<fontFamily value="$WWSDefaultFontBold"/>
 		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+	</css>
+	<css name="$FontFamilyDefaultBoldTabs">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<dropShadowFilter value="0 90 0x000000 1 2 2 1"/>
 	</css>
 	<css name="$Bold">
 		<fontFamily value="$WWSDefaultFontBold"/>
@@ -7313,6 +7360,12 @@
 	<css name="$FontColorDefaultButtonUp">
 		<textColor value="0xc7e2e2"/>
 	</css>
+	<css name="$FontColorTabButtonDown">
+		<textColor value="0x999999"/>
+	</css>
+	<css name="$FontColorTabButtonSelectedUp">
+		<textColor value="0xAABFBF"/>
+	</css>
 	<css name="$FontColorComparePositive">
 		<textColor value="0x4CE8AA"/>
 	</css>
@@ -7362,7 +7415,7 @@
 		<fontSize value="60"/>
 	</css>
 	<css name="$LetterSpacingSmall">
-		<letterSpacing value="0.8"/>
+		<letterSpacing value="0"/>
 	</css>
 	<css name="$InvertedTextEffect">
 		<dropShadowFilter value="0 90 0xffffff 1.0 3.0 3.0 0.3"/>
@@ -7385,6 +7438,9 @@
 	</css>
 	<css name="$FontDropShadowWhite">
 		<dropShadowFilter value="0 90 0xffffff 1.0 3.0 3.0 0.3"/>
+	</css>
+	<css name="$BlockDropShadowTabText">
+		<dropShadowFilter value="0 90 0x000000 1 2 2 1"/>
 	</css>
 	<css name="$TextDockBig">
 		<fontFamily value="$WWSDefaultFontBold"/>
@@ -7960,14 +8016,12 @@
 		</block>
 	</block>
 	<block className="InfopanelButton">
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
 		<bind name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
 		<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
-		<bind name="dispatch" value="'mouseOver'; 'overInfopanelButton'; {infopanelButtonOverAlpha: 1}"/>
-		<bind name="dispatch" value="'mouseOut'; 'upInfopanelButton'; 	{infopanelButtonOverAlpha: 0.6}"/>
-		<bind name="dispatch" value="'mouseDown'; 'downInfopanelButton'; {infopanelButtonOverAlpha: 0.3}"/>
-		<bind name="catch" value="'upInfopanelButton'}"/>
-		<bind name="catch" value="'overInfopanelButton'"/>
-		<bind name="catch" value="'downInfopanelButton'"/>
+		<bind name="watch" value="'infopanelButtonOverAlpha';	(mouseDown)		? 0.3 :
+												(rollOver)		? 1
+																: 0.6"/>
 		<bind name="tooltip" value="'SimpleTooltip'; _tooltipIDS ? { tooltipText: _tooltipIDS } : null"/>
 		<bind name="style" value="'alpha'; infopanelButtonOverAlpha"/>
 		<bind name="name" value="_name"/>
@@ -8310,10 +8364,7 @@
 												_width: '170px',  
 												_label: 'IDS_ARC_EVENT_LEADER_BOARD',
 												_request:'webBrowser', 
-												_requestParams: { url: URL.EVENT_LEADER_BOARD_IN_GAME }, 
-												_iconWidth: '18px', 
-												_iconHeight: '18px', 
-												_backgroundImage: 'url:../service_kit/icons/icon_leader_board.png', 
+												_requestParams: { url: URL.EVENT_LEADER_BOARD_IN_GAME },
 												_tooltipIDS: 'IDS_ARC_EVENT_LEADER_BOARD_TOOLTIP'}"/>
 			</block>
 		</block>

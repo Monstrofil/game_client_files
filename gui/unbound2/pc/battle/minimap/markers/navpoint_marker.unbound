@@ -1,0 +1,19 @@
+(def element MapNavpointMarker (_entityId:number, _mapScale:number, _itemScale:number, _scaleRatio:number) layout=true
+	(scope
+		(macro BASE_MAP_MARKER_PARAMS)
+
+		(var timer:gfx = "$datahub.getSingleComponent(CC.timer)")
+
+		(var prevItem:gfx = "entity.navpoint.prev.ref" (event "entity.navpoint.evPrevChanged"))
+		(var prevPosition:gfx = "prevItem.mapPosition.position" (event "entity.evAdded"))
+		(var currentPosition:gfx = "entity.mapPosition.position" (event "entity.evAdded"))
+	)
+
+	(.graphics
+		(bindcall clear (event "timer.evInfrequent") (bind trigger "scaleRatio"))
+
+		(bindcall lineStyle "1" "entity.navpoint.color" "0.6" (event "timer.evInfrequent") (bind trigger "scaleRatio"))
+		(bindcall moveTo "currentPosition.x * scaleRatio" "currentPosition.y * scaleRatio" (event "timer.evInfrequent") (bind trigger "scaleRatio"))
+		(bindcall lineTo "prevPosition.x * scaleRatio" "prevPosition.y * scaleRatio" (event "timer.evInfrequent") (bind trigger "scaleRatio"))
+	)
+)

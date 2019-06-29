@@ -1,0 +1,131 @@
+(def constant EPICENTER_POINTS_SETTINGS
+    {
+        NEUTRAL: {
+            STROKE_COLOR: 0xFFFFFF,
+            COLORS: [0xFFFFFF, 0xFFFFFF, 0xFFFFFF],
+            ALPHAS: [0.16, 0.13, 0.10],
+            RATIOS: [0, 160, 255]
+        },
+        ALLY: {
+            STROKE_COLOR: 0x4CE8AA,
+            COLORS: [0x4CE8AA, 0x4CE8AA, 0x4CE8AA],
+            ALPHAS: [0.35, 0.33, 0.28],
+            RATIOS: [0, 160, 255]
+        },
+        ENEMY: {
+            STROKE_COLOR: 0xFF3300,
+            COLORS: [0xFF3300, 0xFF3300, 0xFF3300],
+            ALPHAS: [0.35, 0.33, 0.28],
+            RATIOS: [0, 160, 255]
+        }
+    }
+)
+
+
+(def element MapEpicenterMarker (_entityId:number, _mapScale:number, _itemScale:number, _scaleRatio:number) layout=true
+    (scope
+        (macro BASE_MAP_MARKER_PARAMS)
+    )
+
+    (controller $Repeat renderer='MapEpicenterCircle' 
+        (bind count "entity.epicenter.points.ref.items.length")
+        (args _scaleRatio="scaleRatio")
+        (exprs
+            (scope
+                (bind scaleRatio "scaleRatio")
+            )
+        )
+    )
+
+    (macro BIND_FAIR_SCALE "itemScale / mapScale")
+)
+
+
+(def element MapEpicenterCircle (_scaleRatio:number) layout=true
+    (scope
+        (var scaleRatio:number = "_scaleRatio")
+
+        (var collection:gfx = "$datahub.getCollection(CC.capturePoint)")
+        (var entity:gfx = "collection.items[$index]")   
+
+        (var circleRadius:number = "entity.circle.radius * scaleRatio" (event "entity.circle.evRadiusChanged"))
+        (var circleInnerRadius:number = "entity.circle.innerRadius * scaleRatio" (event "entity.circle.evInnerRadiusChanged"))
+    )
+
+    (style (position = "absolute"))
+
+    (element MapEpicenterCircleItem 
+        _entityId="entity.id" _circleRadius="circleRadius" _circleInnerRadius="circleInnerRadius"
+        (scope
+            (bind circleRadius "circleRadius")
+            (bind circleInnerRadius "circleInnerRadius")
+        )
+    )
+)
+
+(def element MapEpicenterCircleItem (_entityId:number, _circleRadius:number, _circleInnerRadius:number) layout=true
+    (scope
+        (var circleRadius:number = "_circleRadius")
+        (var circleInnerRadius:number = "_circleInnerRadius")
+
+        (var entity:gfx = "$datahub.getEntity(_entityId)")
+
+        (var captureProgress:number = "entity.progress.value" (event "entity.progress.evChanged"))
+        (var invaderRelation:str = "entity.capturePoint.invaderRelation == 1 ? 'ally' : 'enemy'" (event "entity.capturePoint.evInvaderChanged"))
+        (var isCaptureInProgress:bool = "entity.capturePoint.bothInside || (captureProgress != 0)" (event "entity.capturePoint.evBothInsideChanged"))
+
+        (macro VAR_RELATION "entity")
+    )
+
+    
+    
+    
+    (block
+        (style (position = "absolute"))        
+        (controller $Sector
+            (offset = "-90")
+            (bind colors "EPICENTER_POINTS_SETTINGS[toUpper(relation)].COLORS")
+            (bind alphas "EPICENTER_POINTS_SETTINGS[toUpper(relation)].ALPHAS")
+            (bind ratios "EPICENTER_POINTS_SETTINGS[toUpper(relation)].RATIOS")
+            (bind arc "360 * (1 - captureProgress) * (invaderRelation == 'ally' ? -1 : 1)")
+            (bind radius "circleRadius")
+            (bind innerRadius "circleInnerRadius")
+        )
+    )
+
+    
+    
+    
+    (block
+        (style (position = "absolute"))
+        (controller $Sector
+            (arc = "360")
+            (offset = "0")
+
+            (bind radius "circleRadius")
+            (bind colors "[0xFFFFFF]")
+            (bind alphas "[0]")
+            (bind ratios "[0]")
+
+            (bind lineThickness "2")
+            (bind lineAlpha "0.4")
+            (bind lineColor "EPICENTER_POINTS_SETTINGS[toUpper(relation)].STROKE_COLOR")
+        )
+    )
+
+    
+    
+    
+    (block
+        (style (position = "absolute"))
+        (alpha = 0.3)
+        
+        (controller $Sector
+            (offset = "-90")
+            (bind color "EPICENTER_POINTS_SETTINGS[toUpper(invaderRelation)].STROKE_COLOR")
+            (bind arc "360 * captureProgress * (invaderRelation == 'ally' ? 1 : -1)")
+            (bind radius "circleRadius + 1")
+            (bind innerRadius "circleInnerRadius + 1")
+        )
+    )
+)

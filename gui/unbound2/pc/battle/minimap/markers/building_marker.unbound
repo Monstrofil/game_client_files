@@ -1,0 +1,71 @@
+(def constant BUILDING_TYPE_SYMBOL_NAME "{
+    CoastalArtillery: 'ground_artillery_type_1',
+    AntiAircraft: 'ground_air_defence',
+    SensorTower: 'ground_radar',
+    Complex: 'ground_artillery_type_1',
+    Military: 'ground_supply',
+    RayTower: 'ground_tower',
+    AirBase: 'ground_airbase',
+    Generator: 'ground_supply',
+    SpaceStation: 'ground_station'
+}")
+
+(def element MapBuildingMarker (_entityId:number, _mapScale:number, _itemScale:number, _scaleRatio:number) layout=true
+    (scope
+        (macro BASE_MAP_MARKER_PARAMS)
+
+        (var markerScale:number = "itemScale / mapScale")
+
+        (var building:gfx = "entity.building")
+        (var isSuppressed:bool = "building.isSuppressed" (event "building.evSuppressionChanged"))
+
+        (var healthComponent:gfx = "entity.health" (event "entity.evAdded"))
+        (var isAlive:bool = "healthComponent.isAlive" (event "healthComponent.evIsAliveChanged"))
+
+        (var mapVisible:bool = "entity.visibility.mapVisible" (event "entity.visibility.evChanged"))
+
+        
+        
+
+        (macro VAR_RELATION "entity")
+
+        (var symbolName:str = "BUILDING_TYPE_SYMBOL_NAME[building.type]")
+        (var suppressedStr:str = "isSuppressed ? '_suppressed' : ''")
+        (var relationStr:str = "'_' + (relation == RELATION_NAMES.OWN ? RELATION_NAMES.NEUTRAL : relation)")
+        (var markerIcon:str =
+			"!(mapVisible) 
+                ? 'symbol:minimap_' + symbolName + '_last_visible'
+                : isAlive
+                    ? 'symbol:minimap_' + symbolName + suppressedStr + relationStr
+                    : 'symbol:minimap_' + symbolName + '_dead'")
+    )
+
+    (macro BIND_FAIR_SCALE "markerScale")
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    (block
+		(style
+			(bind backgroundImage "markerIcon")
+		)
+	)
+)
+
+(def element MapMarkerBuildingRanges (_entityId:number, _mapScale:number) layout=true
+    (scope
+        (var mapScale:number = "_mapScale")
+    )
+    (macro MINIMAP_MARKER_RANGES "_entityId")
+)

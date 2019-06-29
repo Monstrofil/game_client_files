@@ -1,0 +1,554 @@
+(def constant FIRE_ICON_SCALE "26.0/44.0")
+
+(def constant BAR_IMAGE_WIDTH "186")
+(def constant BAR_IMAGE_HEIGHT "48")
+
+(def constant HEALTH_ANI_DELAY "0.6")
+(def constant HEALTH_ANI_MIN "0.3")
+(def constant HEALTH_ANI_MAX "1.3")
+
+(def constant SHIP_HP_TRANSFORM_COLORS   {
+	WHITE:          { redMultiplier:1,greenMultiplier:1,blueMultiplier:1,alphaMultiplier:1,redOffset:50,greenOffset:50,blueOffset:50,alphaOffset:0 },
+	GREEN:          { redMultiplier:1,greenMultiplier:1,blueMultiplier:1,alphaMultiplier:1,redOffset:-150,greenOffset:50,blueOffset:-15,alphaOffset:0 },
+	YELLOW:         { redMultiplier:1,greenMultiplier:1,blueMultiplier:1,alphaMultiplier:1,redOffset:255,greenOffset:-10,blueOffset:-255,alphaOffset:0 },
+	RED:            { redMultiplier:1,greenMultiplier:1,blueMultiplier:1,alphaMultiplier:1,redOffset:255,greenOffset:-100,blueOffset:-220,alphaOffset:0 },
+	BLACK:          { redMultiplier:1,greenMultiplier:1,blueMultiplier:1,alphaMultiplier:1,redOffset:255,greenOffset:-100,blueOffset:-220,alphaOffset:0 },
+	POSITIVE_REGEN: { redMultiplier:1,greenMultiplier:1,blueMultiplier:1,alphaMultiplier:1,redOffset:-150,greenOffset:50,blueOffset:-15,alphaOffset:-100 },
+	NEGATIVE_DPS:   { redMultiplier:1,greenMultiplier:1,blueMultiplier:1,alphaMultiplier:1,redOffset:255,greenOffset:255,blueOffset:255,alphaOffset:-60 },
+	MAX_REGEN:      { redMultiplier:1,greenMultiplier:1,blueMultiplier:1,alphaMultiplier:1,redOffset:50,greenOffset:50,blueOffset:50,alphaOffset:-200 }
+})
+
+(def css $TextHealth ()
+    (fontFamily = '$WWSDefaultFont')
+    (extends $FontSizeDefault)
+    (extends $FontColorWhite)
+    (extends $BlockDropShadowFilter3)
+)
+
+(def css $TextHealthBold ()
+    (fontFamily = '$WWSDefaultFontBold')
+    (extends $FontSizeDefault)
+    (extends $FontColorWhite)
+    (extends $BlockDropShadowFilter3)
+)
+
+
+
+(def macro HEALTH_PERCENT_AND_ALIVE(entity:expression)
+	(var healthComponent:gfx = "entity.health" (event "entity.evAdded"))
+	(var maxHealth:number = "healthComponent.max")
+	(var healthValue:number = "healthComponent.value" (event "healthComponent.evValueChanged") (event "healthComponent.evIsAliveChanged"))
+	(var healthPercent:number = "entity ? healthValue / maxHealth : 0")
+	(var isAlive:bool = "healthComponent.isAlive" (event "healthComponent.evIsAliveChanged"))
+)
+
+(def element OwnShipHealth() layout=true
+
+	(scope
+		(var stageWidth:number = 100px)
+        (var stageHeight:number = 100px)
+	)
+		
+	(style
+		(position = "absolute")
+		(bind width "stageWidth")
+		(bind height "stageHeight")
+	)
+	
+	(element OwnShipHealthContainer
+		(style
+			(position = "absolute")
+			(bind bottom "224")
+			(bind left "11")
+		)
+	)
+)
+(def element OwnShipHealthContainer() layout=true
+	(scope
+		(var playerAvatarEntity:gfx = "$datahub.getSingleEntity(CC.playerAvatar)")
+		(var playerAvatarId:number = "playerAvatarEntity.avatar.id")
+		
+		(var cameraEntity:gfx = "$datahub.getSingleEntity(CC.camera)")
+		(var currentVehicle:number = "cameraEntity.camera.observedShipId" (event "cameraEntity.camera.evObservedShipChanged"))
+		(var observedAvatarId:number = "cameraEntity.camera.observedAvatarId" (event "cameraEntity.camera.evObservedAvatarIdChanged"))
+		
+		(var isSelfObserved:bool = "playerAvatarId == observedAvatarId")
+		
+		(var observedAvatarEntity:gfx = "$datahub.getPrimaryEntity(CC.avatar, observedAvatarId)")
+		(var entityId:number = "observedAvatarEntity ? observedAvatarEntity.id : 0")
+		(var shipInfoEntityId:number = "observedAvatarEntity ? observedAvatarEntity.vehicleInfo.shipInfoEntityId : 0")
+
+		(var showHealthBar:bool = "shipInfoEntityId != null")
+        
+	)
+	
+	(visible = "showHealthBar")
+	
+	(style
+		(width = 220)
+	)
+	
+	(controller $Animation 
+		(bindcall play
+			duration=0.15
+			killAll=true
+			from={alpha: 0, visible: false}
+			to={alpha: 1, visible: true}
+			reverse="!showHealthBar"
+			(bind trigger "showHealthBar")
+		)
+	)
+	
+	(hblock
+		(style
+			(width = 100%)
+			(align = "center")
+		)
+		
+		(element HotkeyIndicator "Cmd.CMD_SHIP_PARAMS" toggle=false fxOnDown=true
+			(style
+                (position = "absolute")
+                (top = 0px)
+                (left = 0px)
+            )
+            (bind visible "isSelfObserved")
+		)
+		
+		
+		(controller $Instance renderer='OwnHealthBar'
+        	(args _entityId="entityId")
+        	(bindcall recreate (bind trigger "entityId"))   		
+        )
+		
+		
+
+	)
+
+	(hblock
+		(element ShipLabel _entityId="entityId" _shipInfoEntityId="shipInfoEntityId"
+			(scope 
+				(bind entityId "entityId") 
+				(bind shipInfoEntityId "shipInfoEntityId")
+			)
+			(style
+				(minWidth = 135)
+			)
+		)
+		(element ShipHealthLabel _entityId="entityId"
+			(scope (bind entityId "entityId"))
+		)
+	)
+)
+
+(def element ShipLabel(_entityId:number = 0, _shipInfoEntityId:number = 0) layout=true
+	(scope
+		(var entityId:number = "_entityId")
+		(var shipInfoEntityId:number = "_shipInfoEntityId")
+		
+		(var entity:gfx = "$datahub.getEntity(entityId)")
+		
+		(var shipInfo:gfx = "$datahub.getEntity(shipInfoEntityId)")
+		(var levelRome:str = "shipInfo.ship.levelRome")
+		(var nameIDS:str = "shipInfo.ship.nameIDS")
+		
+		(var subType:str = "shipInfo.ship.subtype")
+        (var shipType:str = "toLower(subType)")
+	)
+	(name = 'ship_name')
+	(style 
+		(flow = "Flow.HORIZONTAL")
+		(align = "middle")
+	)
+
+	(block
+		(element HealthBarShipMarkerIconSimple _entityId="entityId" _shipType="shipType"
+			(scope
+				(bind entityId "entityId")	
+				(bind shipType "shipType")
+			)
+		)
+	)
+	
+	(tf 
+		(class $TextHealthBold)
+		(class $FontEnableReadability)
+		(bind text "levelRome + ' ' + toUpper(tr(nameIDS))")
+	)
+)
+
+(def element ShipHealthLabel (_entityId:number=0) layout=true
+	(scope
+		(var entityId:number = "_entityId")
+		(var entity:gfx =  "$datahub.getEntity(entityId)")
+
+		(macro HEALTH_PERCENT_AND_ALIVE "entity")
+	)
+
+	(style 
+		(flow = 0)
+		(align = "middle")
+	)
+
+	(tf 
+		(class $TextHealthBold)
+		(class $FontEnableReadability)
+		(bind class "healthPercent > 0.8 ? '$FontColorHealth' : healthPercent > 0.3 ? '$FontColorWarning' : '$FontColorCritical'")
+		(bind text "formatSeparator(healthValue)")
+	)
+
+	(tf 
+		(style
+			(marginLeft = -4px)
+		)
+		(class $TextHealth)
+		(class $FontEnableReadability)
+		(bind text "'/' + formatSeparator(maxHealth)")
+	)
+)
+
+(def element OwnHealthBar (_entityId:number = 0) layout=true
+    (name = 'vehicle_hp_text')
+	(scope
+		(var entityId:number = "_entityId")
+		(var entity:gfx = "$datahub.getEntity(entityId)")
+
+		(var isAlive:bool = "entity.health.isAlive" (event "entity.health.evIsAliveChanged"))
+		
+		(var shipInfoEntityId:number = "entity ? entity.vehicleInfo.shipInfoEntityId : 0")
+        (var shipInfo:gfx = "$datahub.getEntity(shipInfoEntityId)")
+        (var shortName:str = "shipInfo.ship.shortName")
+	)
+	
+	(style 
+		(width = "BAR_IMAGE_WIDTH")
+		(height = "BAR_IMAGE_HEIGHT")
+	)
+	
+	
+	(block
+		(style 
+			(width = "100%") (height = "100%") (position = "absolute")
+            (backgroundSize = "crop")
+            (bind backgroundImage "'url:../ship_bars/'  +  shortName  +  (isAlive  ?  '_h_bg.png'  :  '_h_bgdead.png')")
+        )
+	)
+    
+	(block 
+		(bind visible "isAlive")
+    
+		(style 
+			(height = 100%)
+			(width = 100%)
+			(position = "absolute")
+		)
+    
+		(element OwnHealthBarRegenInstance _entityId="entityId" (scope (bind entityId "entityId")))
+		(element OwnHealthBarFX _entityId="entityId" (scope (bind entityId "entityId")))
+	)
+    
+	(element OwnHealthBarValue _entityId="entityId" (scope (bind entityId "entityId")))
+	(controller $Instance renderer = 'FireFloodBar'
+		(bind enabled "isAlive")
+		(args _entityId="entityId")
+		(exprs
+			(scope
+				(bind entityId "entityId")
+			)
+		)		
+	)
+)
+
+(def element OwnHealthBarRegenInstance (_entityId:number = 0) layout=true
+	(scope
+		(var entityId:number = "_entityId")
+		(var entity:gfx =  "$datahub.getEntity(entityId)")
+	)
+	(style
+		(height = 100%)
+		(width = 100%)
+	)
+	
+	(controller $Instance renderer='OwnHealthBarRegen'
+		(bind enabled "entity.hasComponent(CC.regeneration)")
+		(args 
+			_entityId="entityId"
+		)
+		(exprs
+			(scope
+				(bind entityId "entityId" )
+			)
+		)
+	)
+)
+
+(def element OwnHealthBarRegen (_entityId:number = 0) layout=true
+	(scope
+		(var barImageWidth:number = "BAR_IMAGE_WIDTH")
+		(var entityId:number = "_entityId")
+		(var entity:gfx =  "$datahub.getEntity(entityId)")
+
+		(var shipInfoEntityId:number = "entity.vehicleInfo.shipInfoEntityId")
+		(var shipInfo:gfx = "$datahub.getEntity(shipInfoEntityId)")
+		(var shortName:str = "shipInfo.ship.shortName")
+
+		(var maxHealth:number = "entity.health.max")
+		(var barVisibleLeft:number = "shipInfo.shipBarConfig.left")
+		(var barVisibleWidth:number = "barImageWidth - shipInfo.shipBarConfig.right - shipInfo.shipBarConfig.left")
+		
+		(var regenComponent:gfx = "entity.regeneration" (event "entity.evAdded"))
+		(var regenValue:number = "regenComponent.value" (event "regenComponent.evChanged"))
+		(var regenPercent:number = "regenComponent.maxValue / maxHealth" (event "regenComponent.evChanged"))
+		(var resultWidth:number = "ceil(barVisibleWidth * regenPercent + barVisibleLeft)")
+	)
+
+	(style 
+		(width = "resultWidth")
+		(height = "100%")
+		(position = "absolute")
+		(backgroundSize = "crop")
+		(bind backgroundImage "'url:../ship_bars/'  +  shortName  +  '_h.png'")
+	)
+
+	(controller $Animation
+        (bindcall play  duration = "HEALTH_ANI_MIN"
+                        killAll=true
+                        watch = false
+                        easing="Easing.quad_in"
+                        to = "{ width: resultWidth }"
+                        (event "regenComponent.evChanged")
+        )
+    )
+	
+	(bind colorTransform "regenValue > 0 ? SHIP_HP_TRANSFORM_COLORS.POSITIVE_REGEN : SHIP_HP_TRANSFORM_COLORS.MAX_REGEN")
+) 
+
+(def element OwnHealthBarFX(_entityId:number = 0) layout=true
+	(scope
+		(var barImageWidth:number = "BAR_IMAGE_WIDTH")
+		(var entityId:number = "_entityId")
+		(var entity:gfx =  "$datahub.getEntity(entityId)")
+		(var shipInfoEntityId:number = "entity ? entity.vehicleInfo.shipInfoEntityId : 0")
+        
+		(var shipInfo:gfx = "$datahub.getEntity(shipInfoEntityId)")
+		(var shortName:str = "shipInfo.ship.shortName")
+		(var barVisibleLeft:number = "shipInfo.shipBarConfig.left")
+		(var barVisibleWidth:number = "barImageWidth - shipInfo.shipBarConfig.right - shipInfo.shipBarConfig.left")
+
+		(macro HEALTH_PERCENT_AND_ALIVE "entity")
+
+		(var resultWidth:number = "ceil(barVisibleWidth * healthPercent + barVisibleLeft)")
+		(var healthDelta:number = "entity.health.delta" (event "entity.health.evDeltaChanged"))
+	)
+
+	(style 
+		(width = "resultWidth")
+		(height = "100%")
+		(position = "absolute")
+		(backgroundSize = "crop")
+        (bind backgroundImage "'url:../ship_bars/'  +  shortName  +  '_h.png'")
+	)
+	
+	(controller $Animation
+		(bindcall play  delay = "healthDelta >=0 ? 0 : HEALTH_ANI_DELAY"
+                        duration = "healthDelta >=0 ? HEALTH_ANI_DELAY : min(HEALTH_ANI_MAX, max(HEALTH_ANI_MIN, abs(healthDelta/maxHealth)*10))"
+						killAll=true
+						watch = false
+						easing="Easing.quad_in"
+						to = "{ width: resultWidth }"
+						(event "entity.health.evChanged")
+		)
+	)
+	
+	(bind colorTransform "healthDelta >= 0 ? SHIP_HP_TRANSFORM_COLORS.POSITIVE_REGEN : SHIP_HP_TRANSFORM_COLORS.WHITE")
+)
+
+(def element OwnHealthBarValue (_entityId:number = 0) layout=true
+	(scope
+		(var cameraEntity:gfx = "$datahub.getSingleEntity(CC.camera)")
+		
+		(var barImageWidth:number = "BAR_IMAGE_WIDTH")
+		(var entityId:number = "_entityId")
+		(var entity:gfx =  "$datahub.getEntity(entityId)")
+		(var shipInfoEntityId:number = "entity ? entity.vehicleInfo.shipInfoEntityId : 0")
+
+		(var shipInfo:gfx = "$datahub.getEntity(shipInfoEntityId)")
+		(var shortName:str = "shipInfo.ship.shortName")
+		(var barVisibleLeft:number = "shipInfo.shipBarConfig.left")
+		(var barVisibleWidth:number = "barImageWidth - shipInfo.shipBarConfig.right - shipInfo.shipBarConfig.left")
+		
+		(macro HEALTH_PERCENT_AND_ALIVE "entity")
+
+		(var resultWidth:number = "ceil(barVisibleWidth * healthPercent + barVisibleLeft)")
+		(var healthDelta:number = "entity.health.delta" (event "entity.health.evDeltaChanged"))
+	)
+	
+	(style 
+		(width = "resultWidth")
+		(height = "100%")
+		(position = "absolute")
+		(backgroundSize = "crop")
+		(bind backgroundImage "'url:../ship_bars/'  +  shortName  +  '_h.png'")
+	)
+	
+	(controller $Animation
+		(bindcall play  
+						delay= "healthDelta >=0 ? HEALTH_ANI_DELAY : 0"
+						duration = "healthDelta >=0 ? HEALTH_ANI_MAX : HEALTH_ANI_MIN"
+						killAll=true
+						watch = false
+						easing="Easing.quad_in"
+						to = "{ width: resultWidth }"
+						(event "healthComponent.evChanged")
+		)
+		
+		(bindcall play  
+						delay= "0"
+						duration = "HEALTH_ANI_MIN"
+						killAll=true
+						watch = false
+						easing="Easing.quad_in"
+						to = "{ width: resultWidth }"
+						(event "healthComponent.evIsAliveChanged")
+		)
+	)
+
+	(bind colorTransform "healthPercent > 0.8 ? SHIP_HP_TRANSFORM_COLORS.GREEN : healthPercent > 0.3 ? SHIP_HP_TRANSFORM_COLORS.YELLOW : SHIP_HP_TRANSFORM_COLORS.RED")
+)
+
+(def element FireFloodBar (_entityId:number = 0) layout=true
+	(scope
+		(var entityId:number = "_entityId")
+		(var entity:gfx =  "$datahub.getEntity(entityId)")
+	)
+	
+	(style
+		(left = "-13px")
+		(top = "12px") 
+	)
+
+	(class $FullsizeAbsolute)
+
+	(controller $Repeat renderer = 'FireItem'
+		(bind count "entity.burnModule.coordArray.length")
+		(args _entityId = "entityId")
+		(exprs
+			(scope
+				(bind entityId "entityId")
+			)
+		)
+	)
+
+	(controller $Repeat renderer = 'FloodItem'
+		(bind count "entity.floodModule.coordArray.length")
+		(args _entityId = "entityId")
+		(exprs
+			(scope
+				(bind entityId "entityId")
+			)
+		)
+	)
+
+)
+
+(def element FireItem (_entityId:number = 0) layout=true
+	(scope
+		(var entityId:number = "_entityId")
+		(var entity:gfx = "$datahub.getEntity(entityId)")
+		(var shipInfo:gfx = "$datahub.getEntity(entity.vehicleInfo.shipInfoEntityId)")
+
+		(var barLeft:number = "shipInfo.shipBarConfig.left")
+		(var barSize:number = "BAR_IMAGE_WIDTH - shipInfo.shipBarConfig.right - shipInfo.shipBarConfig.left")
+		(var burnPos:number = "entity.burnModule.coordArray[$index]")
+		(var burnFlag:number = "entity.burnModule.burnFlag" (event "entity.burnModule.evBurnFlagChanged"))
+
+		(var enabled:bool = "burnFlag & (1 << $index)")
+	)
+	(bind name "'fireNodeIndicator_HP_Fire_Burn_' + ($index + 1)")
+
+	(style 
+		(position = "absolute")
+		(width = "26px")
+		(height = "26px")
+		(bind left "barLeft + (barSize * burnPos)")
+		(backgroundImage = 'bitmap:icon_fire_small')
+		
+		(top = "enabled ? 0 : 6")
+	)
+	(scaleX = "FIRE_ICON_SCALE")
+	(scaleY = "FIRE_ICON_SCALE")
+	
+	(visible = "enabled")
+	(alpha = "enabled")
+    
+	(controller $Animation
+		(bindcall play  duration = 0.3 
+						from = { visible:0, alpha:0, top:6px }
+						to = { visible:1, alpha:1, top:0px } 
+						(bind enabled "enabled")
+		)
+		(bindcall play  duration = 0.3 
+						from = { visible:1 }
+						to = { visible:0, alpha:0 } 
+						(bind enabled "!enabled")
+		)
+	)
+)
+
+(def element FloodItem (_entityId:number = 0) layout=true
+	(scope
+		(var entityId:number = "_entityId")
+		(var entity:gfx = "$datahub.getEntity(entityId)")
+		(var shipInfo:gfx = "$datahub.getEntity(entity.vehicleInfo.shipInfoEntityId)")
+
+		(var barLeft:number = "shipInfo.shipBarConfig.left")
+		(var barSize:number = "BAR_IMAGE_WIDTH - shipInfo.shipBarConfig.right - shipInfo.shipBarConfig.left")
+		(var pos:number = "entity.floodModule.coordArray[$index]")
+		(var burnFlag:number = "entity.floodModule.burnFlag" (event "entity.floodModule.evBurnFlagChanged"))
+
+		(var enabled:bool = "burnFlag & (1 << $index)")
+	)
+
+	(style
+		(position = "absolute")
+		(width = "27px")
+		(height = "27px")
+		(top = "enabled ? 22 : 28")
+		(bind left "barLeft + (barSize * pos)")
+		(backgroundImage = 'bitmap:icon_personal_lock_flooding')
+
+	)
+
+	(visible = "enabled")
+	(alpha = "enabled")
+
+	(controller $Animation
+		(bindcall play  duration = 0.3
+						from = { visible:0, alpha:0, top:28px }
+						to = { visible:1, alpha:1, top:22px }
+						(bind enabled "enabled")
+		)
+		(bindcall play  duration = 0.3
+						from = { visible:1 }
+						to = { visible:0, alpha:0 }
+						(bind enabled "!enabled")
+		)
+	)
+)
+
+(def element HealthBarShipMarkerIconSimple(_entityId:number, _shipType:str) layout=true
+	(scope
+		(var entityId:number = "_entityId")
+		(var shipType:str = "_shipType")
+		(var entity:gfx = "$datahub.getEntity(entityId)")
+		
+		(var icon:str = "RELATION_NAMES.OWN + '_' + shipType + '_small'")
+	)
+	(bind name "icon")
+	(block
+		(style
+			(width = "21px")
+			(height = "11px")
+			(bind backgroundImage "'bitmap:' + icon")
+		)
+	)
+)
