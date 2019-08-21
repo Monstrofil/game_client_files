@@ -35,6 +35,10 @@
         (var itemScale:number = "scaleIndex < LIST_ICON_SCALES.length ? LIST_ICON_SCALES[scaleIndex] : LIST_ICON_SCALES[LIST_MAP_SCALES.length - 1]")
         (var scaleRatio:number = "MINIMAP_ASSETS_SIZE * mapScale")
 
+        (var mapBorderScale:number = "minimapEntity.mapBorder.ratio")
+        (var mapBorderMarginX:number = "- scaleRatio * minimapEntity.mapBorder.relativeMargin.x")
+        (var mapBorderMarginY:number = "- scaleRatio * minimapEntity.mapBorder.relativeMargin.y")
+
         (event evMouseOverMap)
         (event evMouseOutMap)
         (event evMouseMoveMap)
@@ -70,11 +74,15 @@
                 (bind left "-scaleRatio / 2")
             )
 
-            (element MinimapBG _scaleRatio="scaleRatio" _mapScale="mapScale"
-                (scope 
+            (element MinimapBG _scaleRatio="scaleRatio" _mapScale="mapScale" _mapBorderScale="mapBorderScale" _mapBorderMarginX="mapBorderMarginX" _mapBorderMarginY="mapBorderMarginY"
+                (scope
                     (bind scaleRatio "scaleRatio")
                     (bind mapScale "mapScale")
+                    (bind mapBorderScale "mapBorderScale")
+                    (bind mapBorderMarginX "mapBorderMarginX")
+                    (bind mapBorderMarginY "mapBorderMarginY")
                 )
+                (macro MASK)
             )
 
             (block
@@ -153,10 +161,13 @@
     )
 )
 
-(def element MinimapBG (_scaleRatio:number, _mapScale:number) layout=true
+(def element MinimapBG (_scaleRatio:number, _mapScale:number, _mapBorderScale:number, _mapBorderMarginX:number, _mapBorderMarginY:number) layout=true
     (scope
         (var scaleRatio:number = "_scaleRatio")
         (var mapScale:number = "_mapScale")
+		(var mapBorderScale:number = "_mapBorderScale")
+		(var mapBorderMarginX:number = "_mapBorderMarginX")
+		(var mapBorderMarginY:number = "_mapBorderMarginY")
 
         (var battleDataEntityCollection:gfx = "$datahub.getCollection(CC.battleData)")
 		(var battleDataEntity:gfx = "battleDataEntityCollection.items[0]")
@@ -186,6 +197,10 @@
 		(style
             (backgroundSize = "cover")
             (bind backgroundImage "'url:' + mapEntity.map.minimapPath")
+			(bind width "scaleRatio * mapBorderScale")
+			(bind height "scaleRatio * mapBorderScale")
+			(bind left "mapBorderMarginX * mapBorderScale")
+			(bind top "mapBorderMarginY * mapBorderScale")
         )
 	)
 
@@ -274,15 +289,11 @@
         (event evSwitchOptionsPanel)
         (var isInfotip:bool = "$event.isVisible" watch=false init=false (event "evSwitchOptionsPanel"))
         (var isTooltip:bool = "rollOver && !(isInfotip)")
-
-        
-        
-        
         
         (var mouse:gfx = "$datahub.getSingleComponent(CC.mouse)")
         (var isMouseActive:bool = "mouse.active" (event "mouse.evActiveChanged"))
     )
-    (dispatch evSwitchOptionsPanel args="{isVisible: false}" (bind trigger "isMouseActive") (bind enabled "!(isMouseActive)"))
+    (dispatch evSwitchOptionsPanel args="{isVisible: false}" (bind trigger "isMouseActive"))
 
     
     (block

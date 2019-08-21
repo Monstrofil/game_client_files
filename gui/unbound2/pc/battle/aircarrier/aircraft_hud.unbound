@@ -21,9 +21,9 @@
 		(var aircarrier:gfx = "ownCarrierEntity.aircarrier")
 		(var activeSquadron:number = "aircarrier.activeSquadron" (event "aircarrier.evStateChanged"))
 		(var squadronCameraMode:str = "aircarrier.squadronCameraMode" (event "aircarrier.evSquadronCameraModeChanged"))
+		(var canLaunchSquadrons:bool = "aircarrier.canLaunchSquadrons" (event "aircarrier.evCanLaunchSquadronsChanged"))
 
-		(var airDefenseFocusEntity:gfx =  "$datahub.getSingleEntity(CC.airDefenseFocus)")
-		(var airDefenseFocusActive:bool = "airDefenseFocusEntity.airDefenseFocus.active" (event "airDefenseFocusEntity.airDefenseFocus.evActiveChanged"))
+		(var selectedSquadronId:number = "aircarrier.selectedSquadron" (event "aircarrier.evSelectedSquadronChanged"))
 
 		(var currentSquadronEntity:gfx = "$datahub.getPrimaryEntity(CC.ownSquadron, activeSquadron)")
 		(var ownSquadron:gfx = "currentSquadronEntity.ownSquadron")
@@ -42,6 +42,10 @@
 		(var isFlying:bool = "flightState == AIRPLANE_FLIGHT_STATE_FLY")
 		(var showCarrierPanel:bool = "!isOnNoAvatarCamera && !isDeathCamera && !lastAttackStartedState")
 
+		(var battleStateEntity:gfx = "$datahub.getSingleEntity(CC.battleState)")
+		(var battleState:number = "battleStateEntity.battleState.battleState" (event "battleStateEntity.battleState.evBattleStateChanged"))
+
+		(var isShowReturnAnimation:bool = "isOnNoAvatarCamera && isAlive && !lastAttackStartedState")
 	)
 
 	
@@ -50,8 +54,8 @@
 	(class $FullsizeAbsolute)
 
 	(controller $Animation
-		(bindcall play duration=0.08 delay=0 from={alpha:0, visible:0} to={alpha:1, visible:1} killAll=true (bind enabled "!(tacticalMap || airDefenseFocusActive)"))
-		(bindcall play duration=0.08 delay=0 from={alpha:1, visible:1} to={alpha:0, visible:0} killAll=true (bind enabled  "(tacticalMap || airDefenseFocusActive)"))
+		(bindcall play duration=0.08 delay=0 from={alpha:0, visible:0} to={alpha:1, visible:1} killAll=true (bind enabled "!(tacticalMap)"))
+		(bindcall play duration=0.08 delay=0 from={alpha:1, visible:1} to={alpha:0, visible:0} killAll=true (bind enabled  "(tacticalMap)"))
 	)
 
 	(block
@@ -74,6 +78,7 @@
 	(controller $Instance renderer='AircraftCentralHud'
 		(bind enabled "isOnSquadron")
 	)
+
 	(block
 		(style
 			(position = "absolute")
@@ -92,17 +97,43 @@
 		(element AircraftDeathTimer)
 	)
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	(block
+		(style
+            (position = "absolute")
+            (width = 100%)
+            (align = "center")
+			(bottom = 92px)
+		)
+		(visible = "isShowReturnAnimation")
+
+		(controller $Animation
+        	(bindcall play duration=0.08 delay=0.08 from={alpha:0, visible:0, bottom:87} to={alpha:1, visible:1, bottom:92} killAll=true (bind enabled "isShowReturnAnimation"))
+        	(bindcall play duration=0.08 delay=0.08 from={alpha:1, visible:1, bottom:92} to={alpha:0, visible:0, bottom:87} killAll=true (bind enabled "!isShowReturnAnimation"))
+        )
+
+		(element AircraftCarrierPanelReturnInstruction)
+	)
+
+
+	(block
+		(style
+            (position = "absolute")
+            (width = 100%)
+            (align = "center")
+            (bottom = 117px)
+        )
+
+        (controller $Instance renderer='AircraftCarrierPanelInstruction'
+            (args __selectedSquadronEntityId = "selectedSquadronId")
+            (exprs
+                (scope
+                    (bind _selectedSquadronEntityId "selectedSquadronId")
+                    (bind _isOnSquadronAndAlive "!isOnNoAvatarCamera && !isDeathCamera")
+                )
+            )
+            (bind enabled "(activeSquadron == ActiveSquadron.NONE && battleState==0 && canLaunchSquadrons)")
+        )
+	)
 
 	(block
 		(style

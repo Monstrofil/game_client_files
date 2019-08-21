@@ -32,6 +32,7 @@
 	</css>
 	<css name="$TextDefaultNM">
 		<fontFamily value="$WWSDefaultFont"/>
+		<leading value="-3"/>
 		<mouseEnabled value="false"/>
 		<mouseChildren value="false"/>
 		<fontSize value="15"/>
@@ -92,6 +93,7 @@
 	</css>
 	<css name="$TextDefault21NM">
 		<fontFamily value="$WWSDefaultFont"/>
+		<leading value="-4"/>
 		<mouseEnabled value="false"/>
 		<mouseChildren value="false"/>
 		<fontSize value="21"/>
@@ -207,6 +209,24 @@
 		<fontSize value="60"/>
 		<marginText value="-3px|-4px|-20px|-15px"/>
 		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextWithoutGlow17NM">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFont"/>
+		<fontSize value="17"/>
+		<marginText value="-3px|-4px|-7px|-6px"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextWithoutGlowBold23NM">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<fontSize value="23"/>
+		<marginText value="-3px|-3px|-9px|-6px"/>
 		<selectable value="false"/>
 		<textColor value="0xFFFFFF"/>
 	</css>
@@ -378,8 +398,8 @@
 		</style>
 	</block>
 	<block className="BlurMap">
-		<bind name="visible" value="optionData.blurEnabled"/>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<bind name="visible" value="optionData.blurEnabled"/>
 		<style>
 			<hitTest value="false"/>
 		</style>
@@ -398,8 +418,8 @@
 		</block>
 	</block>
 	<block className="BlurMapLow">
-		<bind name="visible" value="optionData.blurEnabled"/>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<bind name="visible" value="optionData.blurEnabled"/>
 		<style>
 			<hitTest value="false"/>
 		</style>
@@ -487,6 +507,23 @@
 		<marginTop value="12"/>
 		<marginLeft value="12"/>
 		<marginRight value="12"/>
+	</css>
+	<css name="$DragScrollerStyleVertical">
+		<scrollbarController value="lesta.unbound.style.UbScrollingControllerDrag"/>
+		<wheelScrollSpeed value="100"/>
+		<flow value="vertical"/>
+		<height value="100%f"/>
+		<mouseEnabledWhileScroll value="false"/>
+		<scrollbar value="ModernScrollBar"/>
+		<overflow value="scroll"/>
+	</css>
+	<css name="$DragScrollerStyleHorizonal">
+		<scrollbarController value="lesta.unbound.style.UbScrollingControllerDrag"/>
+		<wheelScrollSpeed value="0"/>
+		<flow value="horizontal"/>
+		<width value="100%f"/>
+		<mouseEnabledWhileScroll value="true"/>
+		<overflow value="scroll"/>
 	</css>
 	<css name="$TextNano">
 		<fontFamily value="$WWSDefaultFont"/>

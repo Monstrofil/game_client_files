@@ -118,10 +118,10 @@
 						<value>	0.1294 0.2549 0.3686 0.4471	</value>
 					</fogColor>
 					<fogCubeLodMin>
-						<value>	8.7310	</value>
+						<value>	6.0000	</value>
 					</fogCubeLodMin>
 					<fogCubeLodMax>
-						<value>	6.7500	</value>
+						<value>	6.0000	</value>
 					</fogCubeLodMax>
 					<fogCubeVerticalScale>
 						<value>	8.2610	</value>
@@ -198,11 +198,14 @@
 				</Bloom>
 				<Tonemapping>
 					<settings>
+						<operatorType>
+							<value>	2	</value>
+						</operatorType>
 						<eyeDarkLimit>
-							<value>	0.1600	</value>
+							<value>	1.0000	</value>
 						</eyeDarkLimit>
 						<eyeLightLimit>
-							<value>	0.7000	</value>
+							<value>	4.0000	</value>
 						</eyeLightLimit>
 						<middleGray>
 							<value>	0.5200	</value>
@@ -210,30 +213,12 @@
 						<whitePoint>
 							<value>	6.5000	</value>
 						</whitePoint>
-						<shoulderStrength>
-							<value>	0.2900	</value>
-						</shoulderStrength>
-						<linearStrength>
-							<value>	0.4000	</value>
-						</linearStrength>
-						<linearAngle>
-							<value>	0.1000	</value>
-						</linearAngle>
-						<toeStrength>
-							<value>	0.2000	</value>
-						</toeStrength>
-						<toeNumerator>
-							<value>	0.0100	</value>
-						</toeNumerator>
-						<toeDenominator>
-							<value>	0.2300	</value>
-						</toeDenominator>
-						<filmicOperator>
-							<value>	true	</value>
-						</filmicOperator>
-						<applyToLuminance>
-							<value>	true	</value>
-						</applyToLuminance>
+						<contrast>
+							<value>	0.1500	</value>
+						</contrast>
+						<whiteClip>
+							<value>	5.0000	</value>
+						</whiteClip>
 					</settings>
 				</Tonemapping>
 				<Environment>
@@ -242,19 +227,16 @@
 							<value>	1.0000	</value>
 						</skyLumMultiplier>
 						<sunlightLumMultiplier>
-							<value>	2.0000	</value>
+							<value>	1.0000	</value>
 						</sunlightLumMultiplier>
 						<ambientLumMultiplier>
-							<value>	5.3000	</value>
+							<value>	1.0000	</value>
 						</ambientLumMultiplier>
 					</settings>
 				</Environment>
 			</HDR>
 			<PBS>
 				<settings>
-					<REM>
-						<value>	content/location/skybox/38_Canada/lightcube/Default/REM.dds	</value>
-					</REM>
 					<PMREM>
 						<value>	content/location/skybox/38_Canada/lightcube/Default/PMREM.dds	</value>
 					</PMREM>
@@ -288,19 +270,67 @@
 						</colorCorrectLookupTexture>
 					</settings>
 				</Common>
-				<DOF>
+				<ColorGrading>
 					<settings>
-						<dofFocusDistance>
-							<value>	100.0000	</value>
-						</dofFocusDistance>
-						<dofFocusRange>
-							<value>	100.0000	</value>
-						</dofFocusRange>
+						<maxLogLuminance>
+							<value>	0	</value>
+						</maxLogLuminance>
+						<shadowsMaxRelLuminance>
+							<value>	0.0900	</value>
+						</shadowsMaxRelLuminance>
+						<highlightsMinRelLuminance>
+							<value>	0.5000	</value>
+						</highlightsMinRelLuminance>
+						<colorSaturationGlobal>
+							<value>	0.0000	</value>
+						</colorSaturationGlobal>
+						<colorContrastGlobal>
+							<value>	1.0000	</value>
+						</colorContrastGlobal>
+						<colorGainGlobal>
+							<value>	1.0000 1.0000 1.0000	</value>
+						</colorGainGlobal>
+						<colorOffsetGlobal>
+							<value>	0.0000 0.0000 0.0000	</value>
+						</colorOffsetGlobal>
+						<colorSaturationShadows>
+							<value>	0.0000	</value>
+						</colorSaturationShadows>
+						<colorContrastShadows>
+							<value>	1.0000	</value>
+						</colorContrastShadows>
+						<colorGainShadows>
+							<value>	1.0000 1.0000 1.0000	</value>
+						</colorGainShadows>
+						<colorOffsetShadows>
+							<value>	0.0000 0.0000 0.0000	</value>
+						</colorOffsetShadows>
+						<colorSaturationMidtones>
+							<value>	0.0000	</value>
+						</colorSaturationMidtones>
+						<colorContrastMidtones>
+							<value>	1.0000	</value>
+						</colorContrastMidtones>
+						<colorGainMidtones>
+							<value>	1.0000 1.0000 1.0000	</value>
+						</colorGainMidtones>
+						<colorOffsetMidtones>
+							<value>	0.0000 0.0000 0.0000	</value>
+						</colorOffsetMidtones>
+						<colorSaturationHighlights>
+							<value>	0.0000	</value>
+						</colorSaturationHighlights>
+						<colorContrastHighlights>
+							<value>	1.0000	</value>
+						</colorContrastHighlights>
+						<colorGainHighlights>
+							<value>	1.0000 1.0000 1.0000	</value>
+						</colorGainHighlights>
+						<colorOffsetHighlights>
+							<value>	0.0000 0.0000 0.0000	</value>
+						</colorOffsetHighlights>
 					</settings>
-				</DOF>
-				<ScreenBlur>
-					<settings />
-				</ScreenBlur>
+				</ColorGrading>
 				<RadialBlur>
 					<settings />
 				</RadialBlur>
@@ -737,16 +767,16 @@
 				user_name="Snow">
 			<settings>
 				<effect>
-					<value>	sfx/snow.xml	</value>
+					<value>	particles/snow.xml	</value>
 				</effect>
 				<uiBrightnessMultiplier>
-					<value>	2.1000	</value>
+					<value>	1.0000	</value>
 				</uiBrightnessMultiplier>
 				<minSmokeTracerBrightness>
-					<value>	1.1000	</value>
+					<value>	1.9000	</value>
 				</minSmokeTracerBrightness>
 				<maxSmokeTracerBrightness>
-					<value>	3.0000	</value>
+					<value>	3.8000	</value>
 				</maxSmokeTracerBrightness>
 			</settings>
 			<Fog>
@@ -758,7 +788,7 @@
 						<value>	1.0000	</value>
 					</fogSkyDistanceMultiplier>
 					<fogDensityHighHeight>
-						<value>	152.6670	</value>
+						<value>	38.9110	</value>
 					</fogDensityHighHeight>
 					<fogDensityHigh>
 						<value>	0.9990	</value>
@@ -770,13 +800,13 @@
 						<value>	0.0000	</value>
 					</fogStart>
 					<fogColor>
-						<value>	0.3835 0.5546 0.5900 0.0400	</value>
+						<value>	0.2482 0.2949 0.3400 0.0500	</value>
 					</fogColor>
 					<fogCubeLodMin>
-						<value>	2.9160	</value>
+						<value>	1.2490	</value>
 					</fogCubeLodMin>
 					<fogCubeLodMax>
-						<value>	2.9160	</value>
+						<value>	2.2970	</value>
 					</fogCubeLodMax>
 					<fogCubeVerticalScale>
 						<value>	1.0000	</value>
@@ -826,13 +856,13 @@
 							<value>	true	</value>
 						</enabled>
 						<brightThreshold>
-							<value>	4.1400	</value>
+							<value>	0.5000	</value>
 						</brightThreshold>
 						<overBloom>
-							<value>	1.7000	</value>
+							<value>	0.2000	</value>
 						</overBloom>
 						<factor>
-							<value>	0.6400	</value>
+							<value>	0.2000	</value>
 						</factor>
 						<mipWeight0>
 							<value>	0.1500	</value>
@@ -853,11 +883,14 @@
 				</Bloom>
 				<Tonemapping>
 					<settings>
+						<operatorType>
+							<value>	2	</value>
+						</operatorType>
 						<eyeDarkLimit>
-							<value>	0.1600	</value>
+							<value>	1.0000	</value>
 						</eyeDarkLimit>
 						<eyeLightLimit>
-							<value>	0.7000	</value>
+							<value>	4.0000	</value>
 						</eyeLightLimit>
 						<middleGray>
 							<value>	0.6000	</value>
@@ -865,51 +898,30 @@
 						<whitePoint>
 							<value>	8.6400	</value>
 						</whitePoint>
-						<shoulderStrength>
-							<value>	0.2100	</value>
-						</shoulderStrength>
-						<linearStrength>
-							<value>	0.4500	</value>
-						</linearStrength>
-						<linearAngle>
-							<value>	0.1000	</value>
-						</linearAngle>
-						<toeStrength>
-							<value>	0.2000	</value>
-						</toeStrength>
-						<toeNumerator>
-							<value>	0.0100	</value>
-						</toeNumerator>
-						<toeDenominator>
-							<value>	0.1700	</value>
-						</toeDenominator>
-						<filmicOperator>
-							<value>	true	</value>
-						</filmicOperator>
-						<applyToLuminance>
-							<value>	true	</value>
-						</applyToLuminance>
+						<contrast>
+							<value>	4.0000	</value>
+						</contrast>
+						<whiteClip>
+							<value>	5.0000	</value>
+						</whiteClip>
 					</settings>
 				</Tonemapping>
 				<Environment>
 					<settings>
 						<skyLumMultiplier>
-							<value>	3.0000	</value>
+							<value>	1.0000	</value>
 						</skyLumMultiplier>
 						<sunlightLumMultiplier>
 							<value>	1.0000	</value>
 						</sunlightLumMultiplier>
 						<ambientLumMultiplier>
-							<value>	5.3000	</value>
+							<value>	1.0000	</value>
 						</ambientLumMultiplier>
 					</settings>
 				</Environment>
 			</HDR>
 			<PBS>
 				<settings>
-					<REM>
-						<value>	content/location/skybox/38_Canada/lightcube/Snow/REM.dds	</value>
-					</REM>
 					<PMREM>
 						<value>	content/location/skybox/38_Canada/lightcube/Snow/PMREM.dds	</value>
 					</PMREM>
@@ -917,7 +929,7 @@
 				<SphericalHarmonics>
 					<settings>
 						<harmonics>
-							<value>	mmEXPszyST659WA+iQQmPuIyXD6H0nY+lAM9PcGDbT0GtX09sVEnPfQTWD1FHmo9evANPWNGOT2lmkw9/lkcPSrvQj0GtFA9Fp2Au4DDsruYJde7k16JPLHwrzzERbs8bUOuvL5h3ryZ8/28	</value>
+							<value>	zzcjPnfVWD6LMHI+vHo0PvcybT7GtoM+A6FRPUvJgj2ZJ4s9hVE2PeP+bT1jnYE92GwlPR4GWD33SW492S9EPd2rbz1K93096eAuuwbCf7s/cZ+7VG2WPICyxDxub9I8+PirvOm+1bwX2vC8	</value>
 						</harmonics>
 					</settings>
 				</SphericalHarmonics>
@@ -943,19 +955,67 @@
 						</colorCorrectLookupTexture>
 					</settings>
 				</Common>
-				<DOF>
+				<ColorGrading>
 					<settings>
-						<dofFocusDistance>
-							<value>	100.0000	</value>
-						</dofFocusDistance>
-						<dofFocusRange>
-							<value>	100.0000	</value>
-						</dofFocusRange>
+						<maxLogLuminance>
+							<value>	0	</value>
+						</maxLogLuminance>
+						<shadowsMaxRelLuminance>
+							<value>	0.0900	</value>
+						</shadowsMaxRelLuminance>
+						<highlightsMinRelLuminance>
+							<value>	0.5000	</value>
+						</highlightsMinRelLuminance>
+						<colorSaturationGlobal>
+							<value>	0.0000	</value>
+						</colorSaturationGlobal>
+						<colorContrastGlobal>
+							<value>	1.0000	</value>
+						</colorContrastGlobal>
+						<colorGainGlobal>
+							<value>	1.0000 1.0000 1.0000	</value>
+						</colorGainGlobal>
+						<colorOffsetGlobal>
+							<value>	0.0000 0.0000 0.0000	</value>
+						</colorOffsetGlobal>
+						<colorSaturationShadows>
+							<value>	0.0000	</value>
+						</colorSaturationShadows>
+						<colorContrastShadows>
+							<value>	1.0000	</value>
+						</colorContrastShadows>
+						<colorGainShadows>
+							<value>	1.0000 1.0000 1.0000	</value>
+						</colorGainShadows>
+						<colorOffsetShadows>
+							<value>	0.0000 0.0000 0.0000	</value>
+						</colorOffsetShadows>
+						<colorSaturationMidtones>
+							<value>	0.0000	</value>
+						</colorSaturationMidtones>
+						<colorContrastMidtones>
+							<value>	1.0000	</value>
+						</colorContrastMidtones>
+						<colorGainMidtones>
+							<value>	1.0000 1.0000 1.0000	</value>
+						</colorGainMidtones>
+						<colorOffsetMidtones>
+							<value>	0.0000 0.0000 0.0000	</value>
+						</colorOffsetMidtones>
+						<colorSaturationHighlights>
+							<value>	0.0000	</value>
+						</colorSaturationHighlights>
+						<colorContrastHighlights>
+							<value>	1.0000	</value>
+						</colorContrastHighlights>
+						<colorGainHighlights>
+							<value>	1.0000 1.0000 1.0000	</value>
+						</colorGainHighlights>
+						<colorOffsetHighlights>
+							<value>	0.0000 0.0000 0.0000	</value>
+						</colorOffsetHighlights>
 					</settings>
-				</DOF>
-				<ScreenBlur>
-					<settings />
-				</ScreenBlur>
+				</ColorGrading>
 				<RadialBlur>
 					<settings />
 				</RadialBlur>
@@ -1311,7 +1371,7 @@
 							<value>	19.4470	</value>
 						</pitch>
 						<color>
-							<value>	0.9176 0.8392 0.7373 1.0000	</value>
+							<value>	1.9000 1.7395 1.5390 1.0000	</value>
 						</color>
 						<ambient>
 							<value>	0.3412 0.3922 0.4824 1.0000	</value>
@@ -1395,19 +1455,19 @@
 					<value>	null	</value>
 				</effect>
 				<uiBrightnessMultiplier>
-					<value>	3.5000	</value>
+					<value>	1.5000	</value>
 				</uiBrightnessMultiplier>
 				<minSmokeTracerBrightness>
-					<value>	1.1000	</value>
+					<value>	1.9000	</value>
 				</minSmokeTracerBrightness>
 				<maxSmokeTracerBrightness>
-					<value>	2.5000	</value>
+					<value>	3.3000	</value>
 				</maxSmokeTracerBrightness>
 			</settings>
 			<Fog>
 				<settings>
 					<fogDensityMultiplier>
-						<value>	0.2500	</value>
+						<value>	0.1500	</value>
 					</fogDensityMultiplier>
 					<fogSkyDistanceMultiplier>
 						<value>	1.0000	</value>
@@ -1431,7 +1491,7 @@
 						<value>	5.3300	</value>
 					</fogCubeLodMin>
 					<fogCubeLodMax>
-						<value>	6.5870	</value>
+						<value>	6.0000	</value>
 					</fogCubeLodMax>
 					<fogCubeVerticalScale>
 						<value>	1.0000	</value>
@@ -1508,11 +1568,14 @@
 				</Bloom>
 				<Tonemapping>
 					<settings>
+						<operatorType>
+							<value>	2	</value>
+						</operatorType>
 						<eyeDarkLimit>
-							<value>	0.1600	</value>
+							<value>	1.0000	</value>
 						</eyeDarkLimit>
 						<eyeLightLimit>
-							<value>	1.7000	</value>
+							<value>	4.0000	</value>
 						</eyeLightLimit>
 						<middleGray>
 							<value>	0.7500	</value>
@@ -1520,30 +1583,12 @@
 						<whitePoint>
 							<value>	8.5300	</value>
 						</whitePoint>
-						<shoulderStrength>
-							<value>	0.2500	</value>
-						</shoulderStrength>
-						<linearStrength>
-							<value>	0.5500	</value>
-						</linearStrength>
-						<linearAngle>
-							<value>	0.1100	</value>
-						</linearAngle>
-						<toeStrength>
-							<value>	0.2000	</value>
-						</toeStrength>
-						<toeNumerator>
-							<value>	0.0100	</value>
-						</toeNumerator>
-						<toeDenominator>
-							<value>	0.3500	</value>
-						</toeDenominator>
-						<filmicOperator>
-							<value>	true	</value>
-						</filmicOperator>
-						<applyToLuminance>
-							<value>	true	</value>
-						</applyToLuminance>
+						<contrast>
+							<value>	5.0000	</value>
+						</contrast>
+						<whiteClip>
+							<value>	-5.5000	</value>
+						</whiteClip>
 					</settings>
 				</Tonemapping>
 				<Environment>
@@ -1552,19 +1597,16 @@
 							<value>	1.0000	</value>
 						</skyLumMultiplier>
 						<sunlightLumMultiplier>
-							<value>	2.5000	</value>
+							<value>	1.0000	</value>
 						</sunlightLumMultiplier>
 						<ambientLumMultiplier>
-							<value>	5.3000	</value>
+							<value>	1.0000	</value>
 						</ambientLumMultiplier>
 					</settings>
 				</Environment>
 			</HDR>
 			<PBS>
 				<settings>
-					<REM>
-						<value>	content/location/skybox/38_Canada/lightcube/Cloudy/REM.dds	</value>
-					</REM>
 					<PMREM>
 						<value>	content/location/skybox/38_Canada/lightcube/Cloudy/PMREM.dds	</value>
 					</PMREM>
@@ -1572,7 +1614,7 @@
 				<SphericalHarmonics>
 					<settings>
 						<harmonics>
-							<value>	7v9zPmOZiD5DFK8+v/M8PnllVj7JMpM+25ucPVTBlz1mX6w9aXXOPesvwz3liLU9dG8GPdlxAT0TwQc9/7MDParQCT07Vzw9+58lOw68DjsTXt+5hMIAPab3Hj0nZ2c9jTkoPGP7TDyy2x08	</value>
+							<value>	ZuRmPnHGgj58VK0+E7lIPvGTYz5pS50+EbGTPWJ2jj0fZKI9fIivPTnApj1KLJ89IE5DPelGOz2wfUE9ugJNPQA6TT1qtXw9iGKQOqulfTocDqy6M75nPCQu0DzDv0s9m7PKO2Og+Dvp7H47	</value>
 						</harmonics>
 					</settings>
 				</SphericalHarmonics>
@@ -1598,19 +1640,67 @@
 						</colorCorrectLookupTexture>
 					</settings>
 				</Common>
-				<DOF>
+				<ColorGrading>
 					<settings>
-						<dofFocusDistance>
-							<value>	100.0000	</value>
-						</dofFocusDistance>
-						<dofFocusRange>
-							<value>	100.0000	</value>
-						</dofFocusRange>
+						<maxLogLuminance>
+							<value>	0	</value>
+						</maxLogLuminance>
+						<shadowsMaxRelLuminance>
+							<value>	0.0900	</value>
+						</shadowsMaxRelLuminance>
+						<highlightsMinRelLuminance>
+							<value>	0.5000	</value>
+						</highlightsMinRelLuminance>
+						<colorSaturationGlobal>
+							<value>	0.0000	</value>
+						</colorSaturationGlobal>
+						<colorContrastGlobal>
+							<value>	1.0000	</value>
+						</colorContrastGlobal>
+						<colorGainGlobal>
+							<value>	1.0000 1.0000 1.0000	</value>
+						</colorGainGlobal>
+						<colorOffsetGlobal>
+							<value>	0.0000 0.0000 0.0000	</value>
+						</colorOffsetGlobal>
+						<colorSaturationShadows>
+							<value>	0.0000	</value>
+						</colorSaturationShadows>
+						<colorContrastShadows>
+							<value>	1.0000	</value>
+						</colorContrastShadows>
+						<colorGainShadows>
+							<value>	1.0000 1.0000 1.0000	</value>
+						</colorGainShadows>
+						<colorOffsetShadows>
+							<value>	0.0000 0.0000 0.0000	</value>
+						</colorOffsetShadows>
+						<colorSaturationMidtones>
+							<value>	0.0000	</value>
+						</colorSaturationMidtones>
+						<colorContrastMidtones>
+							<value>	1.0000	</value>
+						</colorContrastMidtones>
+						<colorGainMidtones>
+							<value>	1.0000 1.0000 1.0000	</value>
+						</colorGainMidtones>
+						<colorOffsetMidtones>
+							<value>	0.0000 0.0000 0.0000	</value>
+						</colorOffsetMidtones>
+						<colorSaturationHighlights>
+							<value>	0.0000	</value>
+						</colorSaturationHighlights>
+						<colorContrastHighlights>
+							<value>	1.0000	</value>
+						</colorContrastHighlights>
+						<colorGainHighlights>
+							<value>	1.0000 1.0000 1.0000	</value>
+						</colorGainHighlights>
+						<colorOffsetHighlights>
+							<value>	0.0000 0.0000 0.0000	</value>
+						</colorOffsetHighlights>
 					</settings>
-				</DOF>
-				<ScreenBlur>
-					<settings />
-				</ScreenBlur>
+				</ColorGrading>
 				<RadialBlur>
 					<settings />
 				</RadialBlur>
@@ -1732,7 +1822,7 @@
 							<value>	true	</value>
 						</maskScreenSpace>
 						<lightShaftsIntensity>
-							<value>	0.7600	</value>
+							<value>	0.0840	</value>
 						</lightShaftsIntensity>
 						<lightShaftsTintColor>
 							<value>	1.0000 1.0000 1.0000	</value>
@@ -1842,7 +1932,7 @@
 							<value>	1.8900 4.0500 5.4000 4.4000	</value>
 						</rgbAbsorption>
 						<sunGlitterIntensity>
-							<value>	0.0440	</value>
+							<value>	0.0110	</value>
 						</sunGlitterIntensity>
 						<sunGlitterGlossiness>
 							<value>	0.7000	</value>
@@ -1966,7 +2056,7 @@
 							<value>	19.4470	</value>
 						</pitch>
 						<color>
-							<value>	0.9176 0.8392 0.7373 1.0000	</value>
+							<value>	4.1000 3.3134 2.3109 1.0000	</value>
 						</color>
 						<ambient>
 							<value>	0.3412 0.3922 0.4824 1.0000	</value>

@@ -1,4 +1,8 @@
 
+(def constant PI 3.141592)
+(def constant HALF_PI 1.570796)
+
+
 (def constant C_NEUTRAL 0xfff1f1f1)
 (def constant C_ENEMY 0xfffe4d2a)
 (def constant C_ENEMY_INVERT 0xFF330012)
@@ -16,27 +20,28 @@
 (def constant C_ERROR 0xFFFF4400)
 (def constant C_DARK_33 0x33333333) 
 
-(def constant HOTKEY_BUTTON_SIZE 16)
+(def constant HOTKEY_BUTTON_SIZE 17)
 
-(def constant EventDirection { 	
+(def constant EventDirection {
 								NONE:	0,
 								UP:		1,
-								DOWN: 	2								
+								DOWN: 	2
 								})
 
-(def constant RELATION_NAMES    { 	
+(def constant RELATION_NAMES    {
 								OWN:	'own',
 								ALLY:	'ally',
 								ENEMY:  'enemy',
-								NEUTRAL: 'neutral'								
+								NEUTRAL: 'neutral'
 								})
-								
-(def constant SHIP_TYPE   {   
+
+(def constant SHIP_TYPE   {
 								DESTROYER: 'Destroyer',
 								CRUISER: 'Cruiser',
 								BATTLESHIP: 'Battleship',
 								AIR_CARRIER: 'AirCarrier',
-								AUXILIARY: 'Auxiliary'     
+								AUXILIARY: 'Auxiliary',
+                               	SUBMARINE  : 'Submarine'
 								})
 
 (def constant GameMode {
@@ -48,7 +53,7 @@
 								MEGABASE: 9,
 								FORTS: 10,
 								STANDARD_DOMINATION: 11,
-								EPICENTER: 12, 
+								EPICENTER: 12,
 								ASSAULT_DEFENSE: 13,
 								PVE: 14
 								})
@@ -64,7 +69,7 @@
 		SNAKETAIL           :8,
 		SPECTATOR		    :9,
 		REPLAY_FPC          :10,
-	
+
 		DOCKFLAGS		    :19,
 		DOCKENSIGN		    :20,
 		DOCKLOOTBOX         :21,
@@ -77,6 +82,19 @@
 								TORPEDO: 2,
 								AIRPLANES: 3,
 								AIRDEFENSE: 4
+								})
+
+(def constant DangerType {
+								COLLISION: 0,
+								TORPEDO: 1,
+								PLANE: 2,
+								PLANE_FIGHTER: 3,
+								SHIP: 4
+								})
+
+(def constant DangerDistance {
+								NEAR: 'near',
+								FAR: 'far'
 								})
 
 (def constant SquadronAmmoType {
@@ -120,6 +138,15 @@
 								AUXILIARY: 5
 							})
 
+
+(def constant PlaneSquadronTypes {
+                                FIGHTER: 0,
+                                BOMBER_HE: 1,
+                                BOMBER_AP: 2,
+                                TORPEDO: 3,
+                                TORPEDO_DEEPWATER: 4
+                            })
+
 (def constant PlaneAmmoTypes	{
 									PROJECTILE: 0,
 									BOMB_HE: 1,
@@ -132,6 +159,13 @@
 								STARTED: 0,
 								COUNTDOWN: 1,
 								WAITING: 2
+								})
+
+(def constant AirDefenseSectorState {
+								DEFAULT: 'default',
+								ACTIVATING: 'activating',
+								DEACTIVATING: 'deactivating',
+								COOLDOWN: 'cooldown'
 								})
 
 (def constant XXS 2px)
@@ -147,3 +181,29 @@
 (def constant XXL 128px)
 (def constant XXLXL 192px)
 (def constant XXXL 256px)
+
+(def constant GunRotationState {
+	AIMED:		1,
+	AIMING:		2,
+	CANT_AIM:	3
+})
+
+(def constant GunReloadState {
+	COMPLETE:		0,
+	IN_PROGRESS:	1
+})
+
+(def constant HitLocationState {
+	NORMAL:		0,
+	DAMAGED:	1,
+	CRIT:		2,
+	DEAD:		3,
+	DETONATED:	4
+})
+
+(def constant SquadronCameraModes {
+								DEFAULT : 'default',
+								LAST_SQUADRON_ATTACK_START : 'lastSquadronAttackStart',
+								LAST_SQUADRON_ATTACKED    : 'lastSquadronAttacked',
+								SQUADRON_DEAD  : 'squadronDead'
+								})

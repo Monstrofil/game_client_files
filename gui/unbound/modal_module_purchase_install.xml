@@ -168,8 +168,8 @@
 		</style>
 	</block>
 	<block className="BlurMap">
-		<bind name="visible" value="optionData.blurEnabled"/>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<bind name="visible" value="optionData.blurEnabled"/>
 		<style>
 			<hitTest value="false"/>
 		</style>
@@ -188,8 +188,8 @@
 		</block>
 	</block>
 	<block className="BlurMapLow">
-		<bind name="visible" value="optionData.blurEnabled"/>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<bind name="visible" value="optionData.blurEnabled"/>
 		<style>
 			<hitTest value="false"/>
 		</style>
@@ -277,6 +277,23 @@
 		<marginTop value="12"/>
 		<marginLeft value="12"/>
 		<marginRight value="12"/>
+	</css>
+	<css name="$DragScrollerStyleVertical">
+		<scrollbarController value="lesta.unbound.style.UbScrollingControllerDrag"/>
+		<wheelScrollSpeed value="100"/>
+		<flow value="vertical"/>
+		<height value="100%f"/>
+		<mouseEnabledWhileScroll value="false"/>
+		<scrollbar value="ModernScrollBar"/>
+		<overflow value="scroll"/>
+	</css>
+	<css name="$DragScrollerStyleHorizonal">
+		<scrollbarController value="lesta.unbound.style.UbScrollingControllerDrag"/>
+		<wheelScrollSpeed value="0"/>
+		<flow value="horizontal"/>
+		<width value="100%f"/>
+		<mouseEnabledWhileScroll value="true"/>
+		<overflow value="scroll"/>
 	</css>
 	<css name="$TextNano">
 		<fontFamily value="$WWSDefaultFont"/>
@@ -1194,9 +1211,9 @@
 		</block>
 	</block>
 	<block className="ModalWindowHeaderFullSize">
-		<bind name="style" value="'paddingTop';		_paddingTop   ? _paddingTop   : '720:20,2160:100ah'"/>
-		<bind name="style" value="'paddingRight';	_paddingRight ? _paddingRight : '1280:20,1920:46aw'"/>
-		<bind name="style" value="'paddingLeft'; 	_paddingLeft  ? _paddingLeft  : '1280:20,1920:46aw'"/>
+		<bind name="style" value="'paddingTop';		_paddingTop		? _paddingTop	:	'720:20,2160:100ah'"/>
+		<bind name="style" value="'paddingRight';	_paddingRight	? _paddingRight	:	'1280:20,1920:46aw'"/>
+		<bind name="style" value="'paddingLeft'; 	_paddingLeft	? _paddingLeft	:	'1280:20,1920:46aw'"/>
 		<style>
 			<width value="100%"/>
 		</style>
@@ -1204,7 +1221,7 @@
 			<bind name="visible" value="_hideBackButton != true"/>
 			<style>
 				<position value="absolute"/>
-				<marginTop value="-3px"/>
+				<top value="-5px"/>
 			</style>
 			<bind name="instance" value="'BackButton'; { _text: _backButtonText,
 										_event: _event, _eventData: _eventData,
@@ -1213,7 +1230,7 @@
 		</block>
 		<block>
 			<bind name="visible" value="_windowName != null"/>
-			<styleClass value="$MiddleAligned"/>
+			<bind name="class" value="_leftAligned ? '$None' : '$MiddleAligned' "/>
 			<block type="text">
 				<styleClass value="$TextDefaultBold21NM"/>
 				<bind name="text" value="toUpperCase(tr(_windowName))"/>
@@ -1224,7 +1241,7 @@
 			<style>
 				<position value="absolute"/>
 				<right value="4"/>
-				<top value="2"/>
+				<top value="3px"/>
 			</style>
 			<block className="ModalWindowCloseIcon">
 				<style>
@@ -1279,6 +1296,33 @@
 			<bind name="visible" value="_hideDivider != true"/>
 			<style>
 				<width value="100%"/>
+				<marginTop value="720:12,1080:16ah"/>
+			</style>
+			<block className="HorizontalDivider">
+				<styleClass value="$PxHorizontalCorrection"/>
+				<style>
+					<width value="100%"/>
+					<height value="3px"/>
+				</style>
+				<block className="divider_h" type="native">
+					<styleClass value="$Fullsize"/>
+				</block>
+			</block>
+		</block>
+	</block>
+	<block className="ModalWindowHeaderFullSizeFakeBlock">
+		<bind name="style" value="'paddingTop';		_paddingTop		? _paddingTop	:	'720:20,2160:100ah'"/>
+		<style>
+			<alpha value="0"/>
+			<hitTest value="false"/>
+		</style>
+		<block type="text">
+			<styleClass value="$TextDefaultBold21NM"/>
+			<bind name="text" value="'Fake offset block'"/>
+		</block>
+		<block>
+			<style>
+				<width value="10px"/>
 				<marginTop value="720:12,1080:16ah"/>
 			</style>
 			<block className="HorizontalDivider">
@@ -1509,19 +1553,25 @@
 			<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
 		</block>
 	</block>
+	<css name="$ResizeableButtonLabelWithoutAlignment">
+		<marginLeft value="16px"/>
+		<marginRight value="16px"/>
+	</css>
 	<block className="DefaultButtonCostMedium">
 		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
 		<bind name="watchDH" value="'operationsAccountLocked';	['resourceEntity.accountResource.evOperationsLockChanged'];	resourceEntity.accountResource.operationsLocked"/>
 		<bind name="tooltip" value="'DiscountTooltip'; priceInfo.basePrice &amp;&amp; (priceInfo.finalPrice != priceInfo.basePrice) ? { priceInfo: priceInfo, _isExternal: _isExternal } : null"/>
 		<style>
-			<width value="100%"/>
+			<width value="1px"/>
 		</style>
+		<bind name="style" value="'width'; _width ? _width : '100%'"/>
 		<bind name="style" value="'height'; _height ? _height : 'auto'"/>
 		<bind name="name" value="_name ? _name : null"/>
 		<block className="button_default_no_label" type="native">
 			<style>
-				<width value="100%"/>
+				<width value="1px"/>
 			</style>
+			<bind name="style" value="'width'; _width ? _width : '100%'"/>
 			<bind name="style" value="'height'; _height ? _height : 'auto'"/>
 			<bind name="focus" value="_focusIndex; _defaultFocused"/>
 			<bind name="enabled" value="_enabled &amp;&amp; (_isTransactionBtn ? !(operationsAccountLocked) : true)"/>
@@ -1531,7 +1581,7 @@
 			<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
 			<bind name="selected" value="_selected"/>
 			<block>
-				<styleClass value="$MiddleAligned"/>
+				<bind name="class" value="_width ? '$ResizeableButtonLabelWithoutAlignment' : '$MiddleAligned'"/>
 				<style>
 					<marginTop value="3px"/>
 					<marginBottom value="4px"/>
@@ -1559,6 +1609,15 @@
 						<marginLeft value="8px"/>
 					</style>
 					<block className="icon_out_grey" type="native"/>
+				</block>
+				<block>
+					<bind name="fade" value="_isNewMarker; 0.15; {alpha: 0, top: 10}; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+					<style>
+						<position value="absolute"/>
+						<right value="-35px"/>
+						<top value="-4px"/>
+					</style>
+					<bind name="instance" value="'MarkerNewAttention'; { }"/>
 				</block>
 				<style>
 					<flow value="horizontal"/>
@@ -1758,6 +1817,52 @@
 					<flow value="horizontal"/>
 				</style>
 			</block>
+		</block>
+	</block>
+	<block className="ImageButton">
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
+		<bind name="request" value="'click'; _request &amp;&amp; _enabled ? _request : null; _requestParams ? _requestParams : {}"/>
+		<bind name="action" value="'click'; _action &amp;&amp; _enabled ? _action : null; _actionParams ? _actionParams : {}"/>
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController; null; 'ct_'"/>
+		<bind name="var" value="{ 
+		ctRollOver: {
+			redMultiplier: 1,
+			greenMultiplier: 1,
+			blueMultiplier: 1,
+			alphaMultiplier: 1,
+			redOffset: 30,
+			greenOffset: 30,
+			blueOffset: 30,
+			alphaOffset: 0
+		}
+	}"/>
+		<bind name="var" value="{ 
+		ctMouseDown: {
+			redMultiplier: 1,
+			greenMultiplier: 1,
+			blueMultiplier: 1,
+			alphaMultiplier: 1,
+			redOffset: -30,
+			greenOffset: -30,
+			blueOffset: -30,
+			alphaOffset: 0
+		}
+	}"/>
+		<bind name="colorTransform" value="	_enabled &amp;&amp; (ct_mouseDown)	? ctMouseDown :
+							_enabled &amp;&amp; (ct_rollOver)	? ctRollOver
+														: {}"/>
+		<bind name="style" value="'width'; _width ? _width : '50px'"/>
+		<bind name="style" value="'height'; _height ? _height : '50px'"/>
+		<block>
+			<bind name="name" value="_name"/>
+			<bind name="style" value="'width'; _width ? _width : '50px'"/>
+			<bind name="style" value="'height'; _height ? _height : '50px'"/>
+			<style>
+				<backgroundStretchX value="true"/>
+				<backgroundStretchY value="true"/>
+			</style>
+			<bind name="style" value="'alpha'; _alpha != null ? _alpha : 1.0"/>
+			<bind name="style" value="'backgroundImage'; _backgroundImage"/>
 		</block>
 	</block>
 	<block className="ModalWindowPurchaseAndInstallModule">

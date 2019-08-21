@@ -45,18 +45,14 @@
 		<element name="smokeIndicator" class="SmokeIndicator" url="central_feedback.swf" autoPerfTestGroup="indicators"/>
 		<element name="atbaOffIndicator" class="atbaOffIndicator" url="central_feedback.swf" autoPerfTestGroup="indicators"/>
 		
-		<!-- shipdoll elements -->
-		<element name="frustumClip" class="FrustumClip" url="ship_doll.swf" autoPerfTestGroup="shipDoll">
-			<properties alpha='1'/>
-		</element>
-		<element name="compassClip" class="CompassClip" url="ship_doll.swf" autoPerfTestGroup="shipDoll"/>
-		<element name="shipDollClip" class="DollClip" url="ship_doll.swf" autoPerfTestGroup="shipDoll">
-			<properties showAllGuns="true"/>
-		</element>
-		<element name="alarmClipCompass" class="AlarmClip" url="dangers.swf">
+		<element name="alarmClipCompass" class="AlarmClip" url="dangers.swf" enabled="false"> <!-- NEED ONLY FOR SWF RESOURCES -->
 			<properties dangerClipClassName='AlarmSignalClip'/>
 		</element>
-		<element name="gunRotatorClips" class="GunRotationsClip" url="ship_doll.swf" autoPerfTestGroup="shipDoll"/>
+
+		<element name="compass" class="lesta.unbound2.UbElement" elementName="CompassContainer" url="ship_doll.swf" autoPerfTestGroup="shipDoll" enabled="true">
+			<properties hitTest = "false"/>
+		</element>
+
 		<element name="headerPlayersNum" class="HeaderPlayerNum" url="battle_stats.swf" autoPerfTestGroup="header"/>
 
 		<element name="fpsPanel" class="lesta.unbound2.UbElement" elementName="FpsPanel" url="battle_stats.swf">
@@ -108,8 +104,6 @@
 		<element name="unboundMinimap" class="lesta.unbound2.UbElement" elementName="BattleMinimapUb2" url="minimap.swf">
 			<properties hitTest = "true"/>
 		</element>
-		
-		<element name="expectedAction" class="ExpectedActionContainerClip" url="tutorial.swf"/>
 		<element name="tasksContainer" class="flash.display.Sprite" url="task_manager.swf">
 			<properties x='9' y='18' />
 		</element>
@@ -137,23 +131,22 @@
 		<element name="ubStatsPanel" class="lesta.libs.unbound.UnboundElement" url="battle_stats.swf" autoPerfTest="false">
 			<properties config='../unbound/battle_stats.xml' rootElementId='BattleStats' hitTest = "true"/>
 		</element>
+
+		<element name="expectedAction" class="ExpectedActionContainerClip" url="tutorial.swf"/>
+
 		<element name="ubQuickCommandsPanel" class="lesta.libs.unbound.UnboundElement" url="quick_commands.swf" autoPerfTest="false">
 			<properties config='../unbound/modal_quick_commands.xml' rootElementId='ModalWindowQuickCommands' hitTest = "true"/>
 		</element>
 		<element name="ubQuickCommandsPanelMini" class="lesta.libs.unbound.UnboundElement" url="quick_commands.swf" autoPerfTest="false">
 			<properties config='../unbound/modal_quick_commands_small.xml' rootElementId='ModalWindowQuickCommandsSmall' hitTest = "true"/>
 		</element>
-		<element name="ubAirDefenseFocusPanel" class="lesta.libs.unbound.UnboundElement" url="quick_commands.swf" autoPerfTest="false">
-			<properties config='../unbound/modal_air_defense_focus.xml' rootElementId='ModalWindowAirDefenseFocus' hitTest = "true"/>
-		</element>
 	</elementList>
 	
 	<controllers>
 		<controller class="lesta.dialogs.battle_window_controllers.CruiseController" clips="indicatorSpeed,indicatorAngle,indicatorDepth"/>
 		<controller class="lesta.dialogs.battle_window_controllers.IndicatorsController" clips="logPlayerState,logEvent,indicatorGunsLocked,indicatorCollisionText,atbaOffIndicator,smokeIndicator,repairIndicator,evacuationIndicator,dangerousStateIndicator,localWeatherIndicator"/>
-		<controller class="lesta.dialogs.battle_window_controllers.CompassController" clips="shipDollClip.shipDoll,compassClip.compass,gunRotatorClips,frustumClip,alarmClipCompass"/>
 		<controller class="lesta.dialogs.battle_window_controllers.HeaderController" clips="headerPlayersNum,battleTimer,helpHint,prebattleText,captureBase,battleProgress,gameVersion,observedPlayerLabel"/>
-		<controller class="lesta.dialogs.battle_window_controllers.GunsStateController" clips="barReloadContainer,shipDollClip.shipDoll,gunRotatorClips"/>      
+		<controller class="lesta.dialogs.battle_window_controllers.GunsStateController" clips="barReloadContainer"/>
 		<controller class="lesta.dialogs.battle_window_controllers.GunMarkersController" clips="!gunMarkerPlaceholder,gunMarkerPlaceholder.mainGunMarker,gunMarkerPlaceholder.torpedoGunMarker,gunMarkerPlaceholder.lockedIndicator"/>
 		<controller name="crosshair" class="lesta.dialogs.battle_window_controllers.CrosshairController" clips="crosshairDefault,crosshairFPS,crosshairLocked"/>
 		<controller class="lesta.dialogs.battle_window_controllers.FlyOffMessageController" clips="flyOffDamage"/>      
@@ -178,7 +171,7 @@
 		
 		<controller name="quickCommandsController" class="lesta.dialogs.battle_window_controllers.QuickCommandsPanelController" clips="ubQuickCommandsPanel"/>
 		<controller name="quickCommandsMiniController" class="lesta.dialogs.battle_window_controllers.QuickCommandsMiniPanelController" clips="ubQuickCommandsPanelMini"/>
-  		<controller class="lesta.dialogs.battle_window_controllers.AirDefenseFocusPanelController" clips="ubAirDefenseFocusPanel"/>
+
 	</controllers>
 	
 	<animation>

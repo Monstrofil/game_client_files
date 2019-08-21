@@ -1,0 +1,832 @@
+(def constant GUN_ROTATOR_RADIUS 80)
+(def constant COMPASS_SIZE 200)
+
+(def constant ShipDollAirDefense {
+	R_MAX: 98.5,
+	R_MIN: 63,
+	COLOR_ACTIVATING: 0x4CE8AA,
+	COLOR_DEACTIVATING: 0xFF9933,
+	COLOR_COOLDOWN: 0xFF9933, 
+	COLOR_BLINK: 0xffffff,
+	COLOR_OFF : 0xe5e5e5,
+	ALPHA: 0.2,
+	COOLDOWN_ALPHA: 0.2,
+	BLINK_ALPHA: 1,
+	ALPHA_BORDER: 0.6,
+
+	TEXT_COUNTDOWN_RADIUS: 42,
+	TEXT_STRENGTH_RADIUS: 42
+})
+
+(def element CompassContainer () layout=true dispatch_size_change=true
+	(scope
+		(var selfAvatarEntity:gfx =  "$datahub.getSingleEntity(CC.playerAvatar)")
+		(var isAlive:bool = "selfAvatarEntity.health.isAlive"  (event "selfAvatarEntity.health.evIsAliveChanged"))
+	)
+	(style
+		(position = "absolute")
+		(bind width "COMPASS_SIZE")
+		(bind height "COMPASS_SIZE")
+	)
+
+	(controller $Instance renderer='CompassContainerInstance'
+		(bind enabled "isAlive")
+	)
+)
+
+(def element CompassContainerInstance () layout=true
+	(scope
+		(var aircarrierEntity:gfx = "$datahub.getSingleEntity(CC.aircarrier)")
+		(var squadronCameraMode:str = "aircarrierEntity.aircarrier.squadronCameraMode" (event "aircarrierEntity.aircarrier.evSquadronCameraModeChanged"))
+		(var isLastLookCamera:bool = "squadronCameraMode != SquadronCameraModes.DEFAULT")
+	)
+	(style
+		(position = "absolute")
+		(bind width "COMPASS_SIZE")
+		(bind height "COMPASS_SIZE")
+	)
+
+	(element Compass
+		(style (position = "absolute"))
+	)
+
+	(element ShipDollAirDefenseSectors
+		(style
+			(position = "absolute")
+			(top = 100px)
+			(left = 100px)
+		)
+	)
+
+	(element ShipDoll
+		(style
+			(position = "absolute")
+			(top = 100px)
+			(left = 100px)
+		)
+		(bind visible "aircarrierEntity == null || !isLastLookCamera")
+	)
+
+	(element Frustum "200"
+		(style (position = "absolute"))
+	)
+
+	(element GunsRotator
+		(style (position = "absolute"))
+	)
+
+	(element CrosshairRotatorLock)
+)
+
+(def element Compass () layout=true
+	(scope
+		(var compassEntity:gfx = "$datahub.getSingleEntity(CC.compass)")
+		(var compassRotation:number = "compassEntity.compass.compassRotation" (event "compassEntity.compass.evCompassRotationChanged"))
+	)
+
+	(class $FullsizeAbsolute)
+	(style (top = "50%") (left = "50%"))
+
+	(block
+		(style
+			(backgroundImage = "'bitmap:compass_bg'")
+			(position = "absolute")
+			(top = "-50%") (left = "-50%")
+		)
+	)
+	(bind rotation "compassRotation")
+)
+
+(def element Frustum () layout=true
+	(scope
+		(var cameraEntity:gfx = "$datahub.getSingleEntity(CC.camera)")
+		(var frustumAngle:number = "cameraEntity.camera.frustumAngle" (event "cameraEntity.camera.evFrustumAngleChanged"))
+		(var cameraMode:number = "cameraEntity.camera.mode" (event "cameraEntity.camera.evModeChanged"))
+		(var showFrustum:number = "cameraMode == CameraMode.SNAKETAIL || CameraMode.PLANETRACKER" )
+	)
+
+	(mc frustumClip
+		(bind visible "showFrustum")
+		(.frustum
+			(bind width "tan(frustumAngle/2) * COMPASS_SIZE")
+		)
+	)
+)
+
+(def element ShipDoll () layout=true
+	(scope
+		(var compassEntity:gfx = "$datahub.getSingleEntity(CC.compass)")
+		(var shipDollRotation:number = "compassEntity.compass.shipDollRotation" (event "compassEntity.compass.evShipDollRotationChanged"))
+		(var weapons:gfx = "$datahub.getCollection(CC.weapon)")
+
+		(var avatarEntity:gfx = "$datahub.getSingleEntity(CC.playerAvatar)")
+		(var shipType:str = "avatarEntity.avatar.ship.ref.ship.subtype")
+		(var isAircarrier:bool = "avatarEntity.avatar.ship.ref.ship.subtype == SHIP_TYPE.AIR_CARRIER")
+		(var isSubmarine:bool = "avatarEntity.avatar.ship.ref.ship.subtype == SHIP_TYPE.SUBMARINE")
+
+		(var ownCarrierEntity:gfx = "$datahub.getSingleEntity(CC.aircarrier)")
+		(var activeSquadron:number = "ownCarrierEntity.aircarrier.activeSquadron" (event "ownCarrierEntity.aircarrier.evStateChanged"))
+		(var ownSquadronEntity:gfx = "$datahub.getPrimaryEntity(CC.ownSquadron, activeSquadron)")
+		(var isOnPlane:bool = "isAircarrier && (activeSquadron != -1)")
+		(var subColName:str = "'bySquadron.'+ownSquadronEntity.squadron.id" (event "ownCarrierEntity.aircarrier.evStateChanged"))
+		(var aircraftCol:gfx = "$datahub.getCollection(CC.aircraft)")
+		(var hpCollection:gfx = "aircraftCol.getChildByPath(subColName)" (event "aircraftCol.evAdded") (event "aircraftCol.evRemoved"))
+		(var hpCount:number = "hpCollection.items.length" (event "hpCollection.evAdded") (event "hpCollection.evRemoved"))
+		(var attackerSize:number = "ownSquadronEntity.ownSquadron.attackerSize")
+		(var numAttackers:number = "attackerSize ? ceil(hpCount/attackerSize) : 1")
+
+		(var dollIcon:str = "	isOnPlane && hpCount>0	? subst('symbol:mc_compass_planes_doll_%d', [numAttackers]) :
+								isAircarrier			? 'symbol:compass_aircraftcarrier_doll' :
+								isSubmarine				? 'symbol:compass_submarine_doll'
+														: 'symbol:compass_default_doll'")
+
+		(var squadronCameraMode:str = "ownCarrierEntity.aircarrier.squadronCameraMode" (event "ownCarrierEntity.aircarrier.evSquadronCameraModeChanged"))
+		(var lastLookSquadronCamera:bool = "squadronCameraMode == SquadronCameraModes.SQUADRON_DEAD || squadronCameraMode == SquadronCameraModes.LAST_SQUADRON_ATTACKED")
+	)
+	(style (bind backgroundImage "dollIcon"))
+	(bind visible "lastLookSquadronCamera == false")
+	(bind rotation "shipDollRotation")
+	(block
+		(style (position = "absolute"))
+
+		(controller $Repeat renderer='ShipDollGunsList' layout=false
+			(bind count "weapons.items.length")
+			(args
+				collection = "weapons"
+			)
+		)
+	)
+)
+
+(def element ShipDollGunsList (collection:gfx) layout=true
+	(scope
+		(var weaponEntity:gfx = "collection.items[$index]")
+
+		(var guns_cols:number = "3")
+		(var guns_rows:number = "7")
+		(var guns_width:number = "25")
+		(var guns_height:number = "82")
+	)
+	(controller $Repeat renderer='ShipDollGun' layout=false
+		(bind count "weaponEntity.weapon.guns.length")
+		(args
+			weaponEntityId = "weaponEntity.id"
+			gunEntityId = "weaponEntity.weapon.guns[$index]"
+		)
+	)
+)
+
+
+(def element ShipDollGun (weaponEntityId:number, gunEntityId:number) layout=true
+	(scope
+		(var weaponEntity:gfx = "$datahub.getEntity(weaponEntityId)")
+		(var gunEntity:gfx = "$datahub.getEntity(gunEntityId)")
+		(var weaponType:number = "weaponEntity.weapon.type")
+        (var weaponIsSelected:bool = "weaponEntity.selection.value" (event "weaponEntity.selection.evChanged"))
+        (var timerEntity:gfx = "$datahub.getSingleEntity(CC.timer)")
+
+		(var battleDataEntity:gfx = "$datahub.getSingleEntity(CC.battleData)")
+		(var battleState:number = "battleDataEntity.battleState.battleState" (event "battleDataEntity.battleState.evBattleStateChanged"))
+		(var battleStarted:bool = "battleState == BattleState.STARTED")
+
+		(var vehicleCollection:gfx = "$datahub.getCollection(CC.selfVehicle)")
+		(var vehicleEntity:gfx = "vehicleCollection.firstEntity")
+		(var gunYaw:number = "gunEntity.gun.gunYaw" (event "timerEntity.timer.evFrequent"))
+
+		(var compassEntity:gfx = "$datahub.getSingleEntity(CC.compass)")
+		(var shipDollRotation:number = "compassEntity.compass.shipDollRotation" (event "compassEntity.compass.evShipDollRotationChanged"))
+		(var compassRotation:number = "compassEntity.compass.compassRotation" (event "compassEntity.compass.evCompassRotationChanged"))
+
+		(var rotationState:number = "gunEntity.gun.rotationState" (event "gunEntity.gun.evRotationStateChanged"))
+		(var isAiming:bool = "rotationState != GunRotationState.AIMED" )
+		(var cantAim:bool = "rotationState == GunRotationState.CANT_AIM")
+		(var isReloading:bool = "gunEntity.hasComponent(CC.countDown)" (event "gunEntity.gun.evReloadStateChanged"))
+		(var healthState:number = "gunEntity.gun.healthState" (event "gunEntity.gun.evHealthStateChanged"))
+		(var isCrit:bool = "healthState == HitLocationState.CRIT")
+		(var isDead:bool = "healthState == HitLocationState.DEAD")
+
+		(var weaponTypes:array = [
+				'ShipDollArtillery',
+				'ShipDollDeadGun',
+				'ShipDollTorpedo'
+			]
+		)
+
+		
+		
+		(var guns_rows:number = "7")
+		(var guns_cols:number = "3")
+		(var guns_width:number = "25")
+		(var guns_height:number = "82")
+		(var stepColumns:number = "guns_width / (guns_cols - 1)")
+		(var stepRows:number = "guns_height / (guns_rows - 1)")
+
+		(var gunLocalX:number = "stepColumns * (guns_cols - 1 - gunEntity.gun.y) - 13")
+		(var gunLocalY:number = "stepRows * gunEntity.gun.x - 34")
+
+		(var gunRotation:number = "radToGrad(gunEntity.gun.gunYaw) - shipDollRotation + compassRotation" (event "timerEntity.timer.evFrequent"))
+	)
+
+	(style (position = "absolute"))
+	(bind alpha "(cantAim || !(weaponIsSelected) || !battleStarted) && !isCrit && !isDead ? 0.5 : 1")
+
+	(bind rotation "gunRotation")
+	(bind y "gunLocalY")
+	(bind x "gunLocalX")
+
+	(controller $Instance
+		(bind renderer "!(isDead) ? weaponTypes[weaponType] : weaponTypes[1]")
+		(exprs
+			(scope
+				(bind _gunEntityId "gunEntityId")
+				(bind _isCrit "isCrit")
+				(bind _isReloading "isReloading")
+				(bind _cantAim "cantAim")
+				(bind _isAiming "isAiming")
+				(bind _textRotation "-(shipDollRotation + gunRotation)")
+				(bind _weaponIsSelected "weaponIsSelected")
+			)
+		)
+	)
+)
+
+(def element ShipDollArtillery () layout=true
+	(scope
+		(var _gunEntityId:number = 0)
+		(var _isCrit:bool = false)
+		(var _isReloading:bool = false)
+		(var _cantAim:bool = false)
+		(var _isAiming:bool = false)
+		(var _textRotation:number = 0)
+		(var _weaponIsSelected:bool = false)
+
+		(var gunEntity:gfx = "$datahub.getEntity(_gunEntityId)")
+		(var positionId:number = "gunEntity ? gunEntity.gun.positionID + 1 : 0")
+
+		(var battleDataEntity:gfx = "$datahub.getSingleEntity(CC.battleData)")
+		(var battleState:number = "battleDataEntity.battleState.battleState" (event "battleDataEntity.battleState.evBattleStateChanged"))
+		(var battleStarted:bool = "battleState == BattleState.STARTED")
+
+		(var itemIcon:str = "!(_weaponIsSelected) && !_isCrit							? 'grey' :
+							_isCrit														? 'crit_red' :
+							(_isReloading || _cantAim || _isAiming || !battleStarted)	? 'yellow'
+																						: 'green'")
+	)
+
+	(style 
+		(position = "absolute")
+		(width = "24px") (height = "24px")
+		(bind backgroundImage "'symbol:compass_indicator_mg_doll_' + itemIcon")
+	)
+
+	(block
+		(bind rotation "round(_textRotation)")
+		(class $FullsizeAbsolute)
+
+		(block
+			(class $FullsizeAbsolute)
+			(style
+				(top = "-50%") (left = "-50%")
+				(align = "center|middle")
+			)
+
+			(tf
+				(bind class "_isCrit ? '$FontColorDefault' : '$None'")
+				(class $ShipDollGunText)
+				(bind text "positionId")
+			)
+		)
+	)
+)
+
+(def element ShipDollTorpedo () layout=true
+	(scope
+		(var _gunEntityId:number = 0)
+		(var _isCrit:bool = false)
+		(var _isReloading:bool = false)
+		(var _cantAim:bool = false)
+		(var _isAiming:bool = false)
+		(var _textRotation:number = 0)
+		(var _weaponIsSelected:bool = false)
+
+		(var gunEntity:gfx = "$datahub.getEntity(_gunEntityId)")
+		(var positionId:number = "gunEntity ? gunEntity.gun.positionID + 1 : 0")
+
+		(var battleDataEntity:gfx = "$datahub.getSingleEntity(CC.battleData)")
+		(var battleState:number = "battleDataEntity.battleState.battleState" (event "battleDataEntity.battleState.evBattleStateChanged"))
+		(var battleStarted:bool = "battleState == BattleState.STARTED")
+
+		(var itemIcon:str = "	!(_weaponIsSelected) && !_isCrit			? 'grey' :
+								_isCrit 									? 'crit_red' :
+								(_isReloading || _cantAim || _isAiming)		? 'yellow'
+																			: 'green'")
+	)
+
+	(style 
+		(position = "absolute")
+		(width = "24px") (height = "24px")
+		(bind backgroundImage "'symbol:compass_indicator_torp_doll_' + itemIcon")
+	)
+
+	(block
+		(bind rotation "round(_textRotation)")
+		(class $FullsizeAbsolute)
+
+		(block
+			(class $FullsizeAbsolute)
+			(style
+				(top = "-50%") (left = "-50%")
+				(align = "center|middle")
+			)
+
+			(tf
+				(bind class "_isCrit ? '$FontColorDefault' : '$None'")
+				(class $ShipDollGunText)
+				(bind text "positionId")
+			)
+		)
+	)
+)
+
+(def element ShipDollDeadGun () layout=true
+	(scope
+		(var _gunEntityId:number = 0)
+		(var _isCrit:bool = false)
+		(var _isReloading:bool = false)
+		(var _cantAim:bool = false)
+		(var _isAiming:bool = false)
+		(var _weaponIsSelected:bool = false)
+		(var _textRotation:number = 0)
+
+		(var gunEntity:gfx = "$datahub.getEntity(_gunEntityId)")
+		(var positionId:number = "gunEntity ? gunEntity.gun.positionID + 1 : 0")
+	)
+
+	(style
+		(position = "absolute")
+		(width = "24px") (height = "24px")
+		(bind backgroundImage "'symbol:compass_indicator_mg_doll_dead'")
+	)
+
+)
+
+(def element GunsRotator () layout=true
+	(scope
+		(var weaponCollection:gfx = "$datahub.getCollection(CC.weapon)")
+		(var cross:gfx = "$datahub.getSingleEntity(CC.crosshair)")
+		(var isAlive:bool = "cross.health.isAlive" (event "cross.health.evKilled"))
+		(var compassEntity:gfx = "$datahub.getSingleEntity(CC.compass)")
+        (var shipDollRotation:number = "compassEntity.compass.shipDollRotation" (event "compassEntity.compass.evShipDollRotationChanged"))
+	)
+
+	(style
+		(position = "absolute")
+		(top = 100px)
+		(left = 100px)
+	)
+
+	(bind visible "isAlive")
+	(bind rotation "shipDollRotation")
+
+	(controller $Repeat renderer='GunsRotatorList' count="weaponCollection.items.length")
+
+)
+
+
+(def element CrosshairRotatorLock () layout=true
+	(scope
+		(var cross:gfx = "$datahub.getSingleEntity(CC.crosshair)")
+		(var isAlive:bool = "cross.health.isAlive" (event "cross.health.evKilled"))
+		(var lockRelativeShipYaw:number = "radToGrad(cross.aimLock.lockRelativeShipYaw)" (event "cross.aimLock.evLockRelativeShipYawChanged"))
+		(var angleLock:bool = "cross.aimLock.angleLock" (event "cross.aimLock.evAngleLockChanged"))
+		(var sectorLock:bool = "cross.aimLock.sectorLock" (event "cross.aimLock.evSectorLockChanged"))
+		(var observeLock:bool = "cross.aimLock.observeLock" (event "cross.aimLock.evObserveLockChanged"))
+		(var compassEntity:gfx = "$datahub.getSingleEntity(CC.compass)")
+		(var shipDollRotation:number = "compassEntity.compass.shipDollRotation" (event "compassEntity.compass.evShipDollRotationChanged"))
+		(var compassRotation:number = "compassEntity.compass.compassRotation" (event "compassEntity.compass.evCompassRotationChanged"))
+
+		(var battleDataEntity:gfx = "$datahub.getSingleEntity(CC.battleData)")
+		(var battleState:number = "battleDataEntity.battleState.battleState" (event "battleDataEntity.battleState.evBattleStateChanged"))
+		(var battleStarted:bool = "battleState == BattleState.STARTED")
+		(var isVisible:bool = "isAlive && battleStarted && (angleLock || sectorLock || observeLock)")
+	)
+	(style
+		(position = "absolute")
+		(top = 100px)
+		(left = 100px)
+	)
+
+	(bind rotation "lockRelativeShipYaw + compassRotation" (bind enabled "isVisible && lockRelativeShipYaw!=0"))
+	(block
+		(class $FullsizeAbsolute)
+		(style
+			(bottom = "GUN_ROTATOR_RADIUS")
+		)
+		(alpha = "isVisible ? 1 : 0")
+		(bind rotation "-(lockRelativeShipYaw + compassRotation)" (bind enabled "isVisible && lockRelativeShipYaw!=0"))
+		(controller $Animation
+ 			(bindcall play duration=0.2 from={ alpha:0, scaleX: 1.5, scaleY:1.5 } to={ alpha:1, scaleX:1, scaleY:1 } killAll=true (bind enabled "isVisible"))
+ 			(bindcall play duration=0.2 to={ alpha:0, scaleX: 1.5, scaleY:1.5  } killAll=true (bind enabled "!isVisible"))
+ 		)
+		(mc compass_indicator_mg_aim)
+	)
+)
+
+(def element GunsRotatorList () layout=true
+	(scope
+		(var timerEntity:gfx = "$datahub.getSingleEntity(CC.timer)")
+		(var weaponCollection:gfx = "$datahub.getCollection(CC.weapon)")
+		(var weaponEntity:gfx = "weaponCollection.items[$index]")
+		(var selectedComponent:gfx = "weaponEntity.selection")
+		(var weaponIsSelected:bool = "selectedComponent.value" (event "selectedComponent.evChanged"))
+		(var gunList:array = "weaponEntity.weapon.guns" (event "weaponEntity.weapon.evShoot") (event "weaponEntity.weapon.evIsOutOfDistChanged"))
+
+		(var compassEntity:gfx = "$datahub.getSingleEntity(CC.compass)")
+		(var aimedGunEntityId:number = "compassEntity.compass.aimedGunEntityId" (event "compassEntity.compass.evAimedGunEntityIdChanged"))
+	)
+	(style (position = "absolute"))
+
+	(bind visible "weaponIsSelected")
+	(controller $Animation
+		(bindcall play duration=0.15 from={ alpha:0 } to={ alpha:1 } (bind enabled "weaponIsSelected"))
+		(bindcall play duration=0.15 from={ alpha:1 } to={ alpha:0 } (bind enabled "!weaponIsSelected"))
+	)
+
+	
+	(block
+		(controller $Repeat renderer='GunsRotatorItem' count="gunList.length"
+			(exprs
+				(scope
+					(bind _gunEntityId "gunList[$index]")
+				)
+			)
+		)
+	)
+	
+	(element GunsRotatorItemAimed
+		(bind visible "aimedGunEntityId != -1")
+		(scope
+			(bind _gunEntityId "aimedGunEntityId" (bind enabled "aimedGunEntityId != -1"))
+		)
+	)
+)
+
+(def element GunsRotatorItem () layout=true
+	(scope
+		(var _gunEntityId:number = null)
+
+		(var timerEntity:gfx = "$datahub.getSingleEntity(CC.timer)")
+		(var compassEntity:gfx = "$datahub.getSingleEntity(CC.compass)")
+		(var shipDollRotation:number = "compassEntity.compass.shipDollRotation" (event "compassEntity.compass.evShipDollRotationChanged"))
+		(var compassRotation:number = "compassEntity.compass.compassRotation" (event "compassEntity.compass.evCompassRotationChanged"))
+		(var gunEntity:gfx = "$datahub.getEntity(_gunEntityId)")
+		(var aimYaw:number = "gunEntity ? gunEntity.gun.aimYaw - shipDollRotation + compassRotation: 0" (event "timerEntity.timer.evFrequent"))
+	)
+
+	(bind rotation "aimYaw")
+	(style (position = "absolute"))
+
+	(controller $Instance renderer='GunsRotatorItemRenderer'
+		(exprs
+			(scope
+				(bind _gunEntityId "_gunEntityId")
+			)
+		)
+	)
+)
+
+(def element GunsRotatorItemAimed () layout=true
+	(scope
+		(var _gunEntityId:number = null)
+		(var gunEntity:gfx = "$datahub.getEntity(_gunEntityId)")
+		(var compassEntity:gfx = "$datahub.getSingleEntity(CC.compass)")
+		(var shipDollRotation:number = "compassEntity.compass.shipDollRotation" (event "compassEntity.compass.evShipDollRotationChanged"))
+		(var compassRotation:number = "compassEntity.compass.compassRotation" (event "compassEntity.compass.evCompassRotationChanged"))
+		(var aimYaw:number = "gunEntity ? gunEntity.gun.aimYaw - shipDollRotation + compassRotation : 0" (event "gunEntity.gun.evRotationStateChanged"))
+	)
+	(bind rotation "aimYaw")
+	(style (position = "absolute"))
+	(controller $Instance renderer='GunsRotatorItemRenderer'
+		(exprs
+			(scope
+				(bind _gunEntityId "_gunEntityId")
+				(bind isAimPoint "true")
+			)
+		)
+	)
+)
+
+(def element GunsRotatorItemRenderer () layout=true
+	(scope
+		(var battleDataEntity:gfx = "$datahub.getSingleEntity(CC.battleData)")
+		(var battleState:number = "battleDataEntity.battleState.battleState" (event "battleDataEntity.battleState.evBattleStateChanged"))
+
+		(var timerEntity:gfx = "$datahub.getSingleEntity(CC.timer)")
+
+		(var _gunEntityId:number = 0)
+		(var gunEntity:gfx = "$datahub.getEntity(_gunEntityId)")
+
+		
+		(var healthState:number = "gunEntity.gun.healthState" (event "gunEntity.gun.evHealthStateChanged"))
+		(var rotationState:number = "gunEntity.gun.rotationState" (event "gunEntity.gun.evRotationStateChanged"))
+		(var isReloading:bool = "gunEntity.gun.reloadState == GunReloadState.IN_PROGRESS" (event "gunEntity.gun.evReloadStateChanged"))
+
+		(var cantAim:bool = "rotationState == 3" )
+		(var isAiming:bool = "rotationState != 1")
+		(var isCrit:bool = "healthState == 2")
+		(var isVisible:bool = "(rotationState != 1) || isCrit || isReloading")
+		(var isDead:bool = "healthState == 3")
+
+		(var isAimPoint:bool = false)
+
+		(var itemIcon:str = "	isCrit									? 'crit_red' :
+								(isReloading || cantAim || isAiming)	? 'yellow'
+																		: 'green'")
+	)
+
+	(bind visible "battleState == 0 && !(isDead)")
+	(bind alpha "cantAim ? 0.5 : 1")
+	(style 
+		(position = "absolute")
+		(bottom = "GUN_ROTATOR_RADIUS")
+	)
+	(block
+		(bind visible "(isVisible && !(isAimPoint)) || (!(isVisible) && isAimPoint)")
+		(style
+			(bind backgroundImage "'symbol:compass_indicator_mg_aim_' + itemIcon")
+		)
+	)
+)
+
+(def element ShipDollAirDefenseSectors() layout=true
+	(scope
+		(var sectorsCol:gfx = "$datahub.getCollection(CC.airDefenseSector)")
+		(var compassEntity:gfx = "$datahub.getSingleEntity(CC.compass)")
+		(var shipDollRotation:number = "compassEntity.compass.shipDollRotation" (event "compassEntity.compass.evShipDollRotationChanged"))
+
+		(var avatarEntity:gfx = "$datahub.getSingleEntity(CC.playerAvatar)")
+		(var shipType:str = "avatarEntity.avatar.ship.ref.ship.subtype")
+		(var isAircarrier:bool = "shipType == SHIP_TYPE.AIR_CARRIER")
+		(var ownCarrierEntity:gfx = "$datahub.getSingleEntity(CC.aircarrier)")
+		(var activeSquadron:number = "ownCarrierEntity.aircarrier.activeSquadron" (event "ownCarrierEntity.aircarrier.evStateChanged"))
+		(var isOnPlane:bool = "isAircarrier && (activeSquadron != -1)")
+		(var squadronCameraMode:str = "ownCarrierEntity.aircarrier.squadronCameraMode" (event "ownCarrierEntity.aircarrier.evSquadronCameraModeChanged"))
+		(var lastLookSquadronCamera:bool = "squadronCameraMode == SquadronCameraModes.SQUADRON_DEAD || squadronCameraMode == SquadronCameraModes.LAST_SQUADRON_ATTACKED")
+	)
+	(bind rotation "shipDollRotation - 90")
+
+	(bind visible "!(isOnPlane || lastLookSquadronCamera)")
+
+	
+	(controller $Repeat renderer='AirDefenseSectorRenderer'
+		(bind count "sectorsCol.items.length")
+		(args
+			col = "sectorsCol"
+		)
+		(exprs
+			(scope
+				(bind _textRotation "-shipDollRotation+90")
+			)
+		)
+	)
+	
+	(controller $Repeat renderer='AirDefenseSectorBorderRenderer' layout=false (bind count "sectorsCol.items.length") (args col = "sectorsCol"))
+)
+
+(def element AirDefenseSectorBorderRenderer(col:gfx) layout=true
+	(scope
+		(var sectorEntity:gfx = "col.items[$index]")
+		(var arc:number = "sectorEntity.airDefenseSector.arc")
+		(var angle:number = "sectorEntity.airDefenseSector.angle")
+		(var sectorState:str = "sectorEntity.airDefenseSector.state" (event "sectorEntity.airDefenseSector.evStateChanged"))
+
+		(var controlEntity:gfx = "$datahub.getPrimaryEntity(CC.simpleControl, 1)")	
+		(var atbaSwitchedOn:bool =  "controlEntity.simpleControl.enabled" (event "controlEntity.simpleControl.evChanged"))
+
+		(var sectorColor:number = "atbaSwitchedOn ?
+								   (sectorState == AirDefenseSectorState.ACTIVATING ? ShipDollAirDefense.COLOR_ACTIVATING :
+								   sectorState == AirDefenseSectorState.COOLDOWN ? 	ShipDollAirDefense.COLOR_COOLDOWN :
+								   sectorState == AirDefenseSectorState.DEFAULT ? ShipDollAirDefense.COLOR_COOLDOWN
+								   												 :	ShipDollAirDefense.COLOR_DEACTIVATING)
+								   : ShipDollAirDefense.COLOR_OFF"
+								   												 )
+
+		(var borderColor:number = "atbaSwitchedOn ?
+								   (sectorState == AirDefenseSectorState.ACTIVATING ? ShipDollAirDefense.COLOR_ACTIVATING :
+								   sectorState == AirDefenseSectorState.COOLDOWN ? ShipDollAirDefense.COLOR_COOLDOWN :
+								   sectorState == AirDefenseSectorState.DEFAULT ? ShipDollAirDefense.COLOR_COOLDOWN
+								   												 :	ShipDollAirDefense.COLOR_ACTIVATING)
+								   : ShipDollAirDefense.COLOR_OFF"
+						   												 )
+
+		(var deltaR:number = "ShipDollAirDefense.R_MAX - ShipDollAirDefense.R_MIN")
+		(var sectorRadius:number = "ShipDollAirDefense.R_MIN")
+		(var isStrong:bool = "sectorState == AirDefenseSectorState.ACTIVATING")
+		(var isCooldown:bool = "sectorState == AirDefenseSectorState.COOLDOWN")
+		(var isDeactivating:bool = "sectorState == AirDefenseSectorState.DEACTIVATING")
+
+		(var anim:gfx = "sectorEntity.airDefenseSectorAnimation")
+		(controller $Animation
+			
+			(bindcall play
+				duration= "sectorEntity.countDown.duration"
+				from="{ sectorRadius: isStrong || isCooldown ? ShipDollAirDefense.R_MIN : ShipDollAirDefense.R_MAX - deltaR * anim.percentFrom}"
+				to=	 "{ sectorRadius: isStrong || isCooldown ? ShipDollAirDefense.R_MIN : ShipDollAirDefense.R_MAX - deltaR * anim.percentTo}"
+				watch=false init=false (bind enabled "sectorState == AirDefenseSectorState.COOLDOWN") (event "anim.evStartAnimation")
+			)
+		)
+	)
+
+	(bind visible "!isCooldown")
+	(block
+		(bind rotation "angle - 90")
+		(block
+			(style
+				(position = "absolute")
+				(height = "ShipDollAirDefense.R_MAX - ShipDollAirDefense.R_MIN")
+				(width = 2)
+				(bind backgroundColor "0xFF000000 + borderColor")
+				(left = -1)
+				(bottom = "ShipDollAirDefense.R_MIN")
+			)
+		)
+	)
+	
+	(block
+		(class $FullsizeAbsolute)
+		(bind visible "!isDeactivating")
+		(controller $Sector
+			(bind offset "angle")
+			(bind color "sectorColor")
+			(bind arc "arc")
+			(bind radius "sectorRadius + 2")
+			(bind innerRadius "sectorRadius")
+		)
+	)
+	(alpha = "sectorState == AirDefenseSectorState.DEFAULT ? 0 : ShipDollAirDefense.ALPHA_BORDER")
+	
+	(controller $Animation
+		(bindcall play duration=0.2 from={ alpha:0 } to="{ alpha: sectorState == AirDefenseSectorState.DEFAULT ? 0 : ShipDollAirDefense.ALPHA_BORDER }" killAll=true (bind trigger "sectorState == AirDefenseSectorState.DEFAULT"))
+	)
+)
+
+
+(def element AirDefenseSectorRenderer(col:gfx) layout=true
+	(scope
+		(var _textRotation:number = 0)
+		(var sectorEntity:gfx = "col.items[$index]")
+		(var anim:gfx = "sectorEntity.airDefenseSectorAnimation")
+		(var arc:number = "sectorEntity.airDefenseSector.arc")
+		(var angle:number = "sectorEntity.airDefenseSector.angle")
+		(var sectorState:str = "sectorEntity.airDefenseSector.state" (event "sectorEntity.airDefenseSector.evStateChanged"))
+		(var isCooldown:bool = "sectorState == AirDefenseSectorState.COOLDOWN")
+		(var wasPrior:bool = "sectorEntity.airDefenseSector.wasPrior" (event "sectorEntity.airDefenseSector.evWasPriorChanged"))
+
+		(var controlEntity:gfx = "$datahub.getPrimaryEntity(CC.simpleControl, 1)")	
+		(var atbaSwitchedOn:bool =  "controlEntity.simpleControl.enabled" (event "controlEntity.simpleControl.evChanged"))
+
+		(var sectorColor:number = "atbaSwitchedOn ?
+									(sectorState == AirDefenseSectorState.ACTIVATING ?  ShipDollAirDefense.COLOR_ACTIVATING :
+									sectorState == AirDefenseSectorState.COOLDOWN    ? 	ShipDollAirDefense.COLOR_COOLDOWN
+																				     :	ShipDollAirDefense.COLOR_DEACTIVATING)
+								    : ShipDollAirDefense.COLOR_OFF"
+								   												 )
+		(var sectorRadius:number = "sectorEntity.airDefenseSector.state == AirDefenseSectorState.COOLDOWN ? ShipDollAirDefense.R_MAX : 1")
+
+		(var innerRadius:number = "ShipDollAirDefense.R_MIN")
+		(var deltaR:number = "ShipDollAirDefense.R_MAX - ShipDollAirDefense.R_MIN")
+		(var blinkAlpha:number = 0)
+
+		(var textRotationLocal:number = "round(angle + arc / 2 + 90)")
+		(var timerEntity:gfx = "$datahub.getSingleEntity(CC.timer)")
+
+		(var timeLeft:number = "isCooldown ? (sectorEntity.countDown ? sectorEntity.countDown.endTime - timerEntity.timer.currentTime : 0) : anim.allPhasesEndTime - timerEntity.timer.currentTime" (event "timerEntity.timer.evFrequent"))
+		(var timeLeftDigits:number = "timeLeft < 10 ? 1 : 0")
+
+		(var strength:number = 1)
+		(var strengthPercent:number = "(sectorState == AirDefenseSectorState.COOLDOWN || sectorState == AirDefenseSectorState.DEFAULT) ? 100 : round(strength * 100)")
+
+		(var cameraEntity:gfx = "$datahub.getSingleEntity(CC.camera)")
+		(var altVision:bool = "cameraEntity.camera.altVision" (event "cameraEntity.camera.evAltVisionChanged"))
+		(var textClassName:str = "atbaSwitchedOn ?
+									(isCooldown ? '$TextColorHUDWarningPC' : '$TextColorHUDPositivePC')
+								  : '$TextColorHUDNeutral'"
+								  )
+		(controller $Animation
+			
+			(bindcall play
+				duration= "sectorEntity.countDown.remain"
+				from="{ sectorRadius: ShipDollAirDefense.R_MIN + deltaR * (anim.percentFrom + ((anim.percentTo - anim.percentFrom) * (sectorEntity.countDown.duration - sectorEntity.countDown.remain) / sectorEntity.countDown.duration)),
+						innerRadius: ShipDollAirDefense.R_MIN,
+						strength: anim.valueFrom + ((anim.valueTo - anim.valueFrom) * (sectorEntity.countDown.duration - sectorEntity.countDown.remain) / sectorEntity.countDown.duration)}"
+				to=	"{ sectorRadius: ShipDollAirDefense.R_MIN + deltaR * anim.percentTo, innerRadius: ShipDollAirDefense.R_MIN, strength: anim.valueTo}"
+				watch=false init="anim.isAnimationStarted" (event "anim.evStartAnimation")
+			)
+			
+			(bindcall play duration=0.6 from="{blinkAlpha : 0.6}" to="{blinkAlpha:0}" watch=false init=false (event "anim.evStartBlink"))
+			
+			(bindcall play
+				duration= "sectorEntity.countDown.duration"
+				from="{ sectorRadius: ShipDollAirDefense.R_MAX, innerRadius: ShipDollAirDefense.R_MIN}"
+				to=	 "{ sectorRadius: ShipDollAirDefense.R_MAX, innerRadius: ShipDollAirDefense.R_MIN}"
+				watch=false init="anim.isAnimationStarted" (bind enabled "isCooldown")
+			)
+		)
+	)
+	(class $FullsizeAbsolute)
+
+	(block
+
+		(alpha = "sectorState == AirDefenseSectorState.DEFAULT ? 0 : 1")
+
+		
+		(controller $Animation
+			(bindcall play duration= 0.6 from={ alpha:0 } to= { alpha:1 } watch=false init=false  (bind enabled "isCooldown"))
+
+			(bindcall play duration= 0.3 from={ alpha:0 } to= { alpha:1 } watch=false init=false killAll=true (bind enabled "sectorState == AirDefenseSectorState.ACTIVATING || sectorState == AirDefenseSectorState.DEACTIVATING"))
+			(bindcall play duration= 0.6 to= { alpha:0 } watch=false init=false  killAll=true  (bind enabled "sectorState == AirDefenseSectorState.DEFAULT"))
+		)
+
+		(block
+			(bind visible "sectorState == AirDefenseSectorState.ACTIVATING || sectorState == AirDefenseSectorState.COOLDOWN || sectorState == AirDefenseSectorState.DEFAULT")
+			(bind alpha "isCooldown ? ShipDollAirDefense.COOLDOWN_ALPHA : ShipDollAirDefense.ALPHA")
+			(class $FullsizeAbsolute)
+			
+			(controller $Sector
+				(bind offset "angle")
+				(bind color "sectorColor")
+				(bind arc "arc")
+				(bind radius "sectorRadius")
+				(bind innerRadius "innerRadius")
+			)
+		)
+	)
+
+	
+	(block
+		(class $FullsizeAbsolute)
+		(bind alpha "blinkAlpha")
+		(bind visible "sectorState != AirDefenseSectorState.DEACTIVATING")
+		(controller $Sector
+			(bind offset "angle")
+			(bind color "ShipDollAirDefense.COLOR_BLINK")
+			(bind arc "arc")
+			(bind radius "ShipDollAirDefense.R_MAX")
+			(bind innerRadius "ShipDollAirDefense.R_MIN")
+		)
+	)
+
+	(block
+		(class $FullsizeAbsolute)
+
+		(bind rotation "textRotationLocal")
+
+		
+		(block
+        	(class $FullsizeAbsolute)
+
+			(alpha = "sectorState == AirDefenseSectorState.DEFAULT ? 0 : 1")
+
+			
+			(controller $Animation
+				(bindcall play duration= 0.3 from={ alpha:0 } to= { alpha:1 } watch=false init=false  killAll=true  (bind enabled "isCooldown"))
+				(bindcall play duration= 0.3 from={ alpha:0 } to= { alpha:1 } watch=false init=false killAll=true (bind enabled "sectorState == AirDefenseSectorState.ACTIVATING || sectorState == AirDefenseSectorState.DEACTIVATING"))
+				(bindcall play duration= 0.3 to= { alpha:0 } watch=false init=false  killAll=true  (bind enabled "sectorState == AirDefenseSectorState.DEFAULT"))
+			)
+
+			(style
+				(align = "center|middle")
+				(bottom = "ShipDollAirDefense.TEXT_COUNTDOWN_RADIUS")
+			)
+			(bind visible "(sectorState == AirDefenseSectorState.ACTIVATING && !altVision) || (isCooldown && wasPrior && !altVision)")
+			(bind rotation "_textRotation - textRotationLocal")
+			(tf
+				(class $TextDefaultBold13NM)
+				(style
+					(fontSize = 15)
+				)
+				(bind class "textClassName")
+				(bind text "countdownFormat(timeLeft, timeLeftDigits, false)")
+			)
+		)
+
+		
+		(block
+			(class $FullsizeAbsolute)
+			(style
+				(align = "center|middle")
+				(bottom = "ShipDollAirDefense.TEXT_STRENGTH_RADIUS")
+			)
+			(bind visible "altVision")
+			(bind rotation "_textRotation - textRotationLocal")
+			(tf
+				(class $TextDefaultBold13NM)
+				(style
+					(fontSize = 15)
+				)
+				(class $TextColorHUDNeutral)
+				(bind text "subst('%d%',[strengthPercent])")
+			)
+		)
+	)
+)

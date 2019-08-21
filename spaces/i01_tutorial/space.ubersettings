@@ -56,7 +56,14 @@
 				</settings>
 			</LightMapper>
 			<SeaGeneral>
-				<settings />
+				<settings>
+					<neonSea>
+						<value>	false	</value>
+					</neonSea>
+					<drawSea>
+						<value>	true	</value>
+					</drawSea>
+				</settings>
 				<Reflection>
 					<settings />
 				</Reflection>
@@ -80,6 +87,12 @@
 				<uiBrightnessMultiplier>
 					<value>	3.0000	</value>
 				</uiBrightnessMultiplier>
+				<minSmokeTracerBrightness>
+					<value>	1.8000	</value>
+				</minSmokeTracerBrightness>
+				<maxSmokeTracerBrightness>
+					<value>	1.8000	</value>
+				</maxSmokeTracerBrightness>
 			</settings>
 			<Fog>
 				<settings>
@@ -87,10 +100,10 @@
 						<value>	0.2500	</value>
 					</fogDensityMultiplier>
 					<fogSkyDistanceMultiplier>
-						<value>	23.2390	</value>
+						<value>	15.0000	</value>
 					</fogSkyDistanceMultiplier>
 					<fogDensityHighHeight>
-						<value>	133.1670	</value>
+						<value>	20.1670	</value>
 					</fogDensityHighHeight>
 					<fogDensityHigh>
 						<value>	0.9410	</value>
@@ -102,7 +115,7 @@
 						<value>	15.0000	</value>
 					</fogStart>
 					<fogColor>
-						<value>	0.0426 0.1347 0.2510 0.2902	</value>
+						<value>	0.0176 0.0587 0.1100 0.5900	</value>
 					</fogColor>
 					<fogCubeLodMin>
 						<value>	1.8100	</value>
@@ -119,6 +132,9 @@
 					<fogShipInfluence>
 						<value>	1.0000	</value>
 					</fogShipInfluence>
+					<fogBinocularsInfluenceOnParticles>
+						<value>	1.0000	</value>
+					</fogBinocularsInfluenceOnParticles>
 				</settings>
 			</Fog>
 			<Wind>
@@ -143,10 +159,10 @@
 						<value>	2	</value>
 					</version>
 					<adaptationSpeed>
-						<value>	92.4000	</value>
+						<value>	100.0000	</value>
 					</adaptationSpeed>
 					<avgLumUpdateInterval>
-						<value>	0.7100	</value>
+						<value>	0.5000	</value>
 					</avgLumUpdateInterval>
 				</settings>
 				<Bloom>
@@ -155,13 +171,13 @@
 							<value>	true	</value>
 						</enabled>
 						<brightThreshold>
-							<value>	1.7200	</value>
+							<value>	0.5000	</value>
 						</brightThreshold>
 						<overBloom>
-							<value>	4.6500	</value>
+							<value>	0.5000	</value>
 						</overBloom>
 						<factor>
-							<value>	1.0000	</value>
+							<value>	0.5000	</value>
 						</factor>
 						<mipWeight0>
 							<value>	0.9700	</value>
@@ -182,51 +198,36 @@
 				</Bloom>
 				<Tonemapping>
 					<settings>
+						<operatorType>
+							<value>	2	</value>
+						</operatorType>
 						<eyeDarkLimit>
-							<value>	0.1000	</value>
+							<value>	1.0000	</value>
 						</eyeDarkLimit>
 						<eyeLightLimit>
-							<value>	1.5000	</value>
+							<value>	4.0000	</value>
 						</eyeLightLimit>
 						<middleGray>
-							<value>	0.5000	</value>
+							<value>	0.3000	</value>
 						</middleGray>
 						<whitePoint>
-							<value>	9.5500	</value>
+							<value>	10.0000	</value>
 						</whitePoint>
-						<shoulderStrength>
-							<value>	0.1500	</value>
-						</shoulderStrength>
-						<linearStrength>
-							<value>	0.5600	</value>
-						</linearStrength>
-						<linearAngle>
-							<value>	0.1500	</value>
-						</linearAngle>
-						<toeStrength>
-							<value>	0.4000	</value>
-						</toeStrength>
-						<toeNumerator>
-							<value>	0.0100	</value>
-						</toeNumerator>
-						<toeDenominator>
-							<value>	0.5100	</value>
-						</toeDenominator>
-						<filmicOperator>
-							<value>	true	</value>
-						</filmicOperator>
-						<applyToLuminance>
-							<value>	false	</value>
-						</applyToLuminance>
+						<contrast>
+							<value>	5.0000	</value>
+						</contrast>
+						<whiteClip>
+							<value>	1.0000	</value>
+						</whiteClip>
 					</settings>
 				</Tonemapping>
 				<Environment>
 					<settings>
 						<skyLumMultiplier>
-							<value>	5.7500	</value>
+							<value>	1.0000	</value>
 						</skyLumMultiplier>
 						<sunlightLumMultiplier>
-							<value>	2.0000	</value>
+							<value>	1.0000	</value>
 						</sunlightLumMultiplier>
 						<ambientLumMultiplier>
 							<value>	1.0000	</value>
@@ -236,9 +237,6 @@
 			</HDR>
 			<PBS>
 				<settings>
-					<REM>
-						<value>	content/location/skybox/i01_tutorial/lightcube/Default/REM.dds	</value>
-					</REM>
 					<PMREM>
 						<value>	content/location/skybox/i01_tutorial/lightcube/Default/PMREM.dds	</value>
 					</PMREM>
@@ -246,7 +244,7 @@
 				<SphericalHarmonics>
 					<settings>
 						<harmonics>
-							<value>	FxINPiiWTj6V2ms+RAvDPTVpIj7Dg1U+6s55PcGxjj1k1nA9OW4oPi0QQz5qtxo+xXO2PQFO8D1n/N49vs3ePIM+ET2aKA49mCFpvAc+jbwqap68U4OaPSx5oj31CIA9wXsrPY9DLD3wRcw8	</value>
+							<value>	OQESPkZbWz5W84E+usXYPb3mNz7DD3U+PYuBPbccmj0LXIg9E+kpPujwSj6rSSc+C7DLPcUNCj5dugM+r7H7PDm5LD1XnjI9SeJYvAaahrxsQ5e8ncafPWuerz0UaZQ9LosVPRbHEj1mBZ48	</value>
 						</harmonics>
 					</settings>
 				</SphericalHarmonics>
@@ -342,10 +340,10 @@
 							<value>	0.9020	</value>
 						</lensColorGradientScale>
 						<haloWidth>
-							<value>	0.3490	</value>
+							<value>	0.1190	</value>
 						</haloWidth>
 						<haloIntensity>
-							<value>	2.0000	</value>
+							<value>	0.2500	</value>
 						</haloIntensity>
 						<haloFadePow>
 							<value>	0.0010	</value>
@@ -357,10 +355,10 @@
 							<value>	0.0000	</value>
 						</haloCenterFadeOffset>
 						<haloCenterFadeScale>
-							<value>	179.3370	</value>
+							<value>	15.8100	</value>
 						</haloCenterFadeScale>
 						<chromaticDistortion>
-							<value>	0.0210	</value>
+							<value>	0.0150	</value>
 						</chromaticDistortion>
 						<dirtAmount>
 							<value>	0.2680	</value>
@@ -406,7 +404,7 @@
 							<value>	true	</value>
 						</maskScreenSpace>
 						<lightShaftsIntensity>
-							<value>	0.8310	</value>
+							<value>	0.2500	</value>
 						</lightShaftsIntensity>
 						<lightShaftsTintColor>
 							<value>	1.0000 1.0000 1.0000	</value>
@@ -542,6 +540,64 @@
 						</settings>
 					</SeaShadows>
 				</Optics>
+				<Underwater>
+					<settings>
+						<sunRefraction>
+							<value>	0.9100	</value>
+						</sunRefraction>
+						<causticsIntensity>
+							<value>	0.0000	</value>
+						</causticsIntensity>
+						<causticsScale>
+							<value>	0.4000	</value>
+						</causticsScale>
+						<causticsSpeed>
+							<value>	0.3000	</value>
+						</causticsSpeed>
+						<causticsDepthFading>
+							<value>	2.0000	</value>
+						</causticsDepthFading>
+						<underwaterAbsorptionInvKoef>
+							<value>	20.0000	</value>
+						</underwaterAbsorptionInvKoef>
+						<underwaterFarAbsorption>
+							<value>	1.0000	</value>
+						</underwaterFarAbsorption>
+						<underwaterScatterKoef>
+							<value>	0.1000	</value>
+						</underwaterScatterKoef>
+						<underwaterShaftsAmount>
+							<value>	0.0150	</value>
+						</underwaterShaftsAmount>
+						<highlightColor>
+							<value>	0.0000 1.0000 0.0000	</value>
+						</highlightColor>
+						<highlightCellSize>
+							<value>	4.0000	</value>
+						</highlightCellSize>
+						<highlightMinUnderwaterHeight>
+							<value>	-28.0000	</value>
+						</highlightMinUnderwaterHeight>
+						<highlightLineWidth>
+							<value>	2.0000	</value>
+						</highlightLineWidth>
+						<highlightLineIntensity>
+							<value>	2.0000	</value>
+						</highlightLineIntensity>
+						<highlightDepthFade>
+							<value>	150.0000	</value>
+						</highlightDepthFade>
+						<highlightHeightFade>
+							<value>	0.0600	</value>
+						</highlightHeightFade>
+						<highlightSpeed>
+							<value>	600.0000	</value>
+						</highlightSpeed>
+						<highlightZoneWidth>
+							<value>	60.0000	</value>
+						</highlightZoneWidth>
+					</settings>
+				</Underwater>
 				<Simulation>
 					<settings>
 						<seaLevel>
@@ -582,7 +638,7 @@
 							<value>	26.0000	</value>
 						</pitch>
 						<color>
-							<value>	0.8863 0.6157 0.3686 1.0000	</value>
+							<value>	2.0000 1.3870 0.8200 1.0000	</value>
 						</color>
 						<ambient>
 							<value>	0.2353 0.3922 0.5961 1.0000	</value>
@@ -644,10 +700,10 @@
 							<value>	true	</value>
 						</isCIESkyEnabled>
 						<cieSkyType>
-							<value>	1.8270	</value>
+							<value>	2.0000	</value>
 						</cieSkyType>
 						<cieSkyLuminance>
-							<value>	0.7000	</value>
+							<value>	1.0000	</value>
 						</cieSkyLuminance>
 						<cieSkySaturation>
 							<value>	0.8000	</value>

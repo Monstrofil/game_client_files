@@ -307,7 +307,8 @@
 		FIXED_DICT
 		<Properties>
 			<pos>        	<Type>VECTOR3</Type>	</pos>
-			<dir>        	<Type>VECTOR3</Type>	</dir>
+            <pitch>         <Type>FLOAT</Type>	    </pitch>
+            <speed>         <Type>FLOAT</Type>	    </speed>
 			<tarPos>     	<Type>VECTOR3</Type>	</tarPos>
 			<shotID>     	<Type>UINT16</Type>		</shotID>
 			<gunBarrelID>	<Type>UINT8</Type>		</gunBarrelID>
@@ -800,6 +801,7 @@
 			<targetValueAchieved><Type>UINT8</Type></targetValueAchieved>
 			<closeTime><Type>UINT8</Type></closeTime>
 			<taskPool><Type>STRING</Type></taskPool>
+			<showOnHUD><Type>BOOL</Type></showOnHUD>
 		</Properties>
 		<AllowNone>true</AllowNone>
 	</TASKS_STATE>
@@ -1258,4 +1260,14 @@
 		</Properties>
 		<implementedBy>PlayerDigestDef.converter</implementedBy>
 	</PLAYER_DIGEST>
+
+	<MAP_BORDER>
+		FIXED_DICT
+		<Properties>
+			<paramsId><Type>GAMEPARAMS_ID</Type></paramsId>
+			<position><Type>VECTOR3</Type></position>
+		</Properties>
+		<implementedBy>MapBorderDef.converter</implementedBy>
+		<AllowNone> true </AllowNone>
+	</MAP_BORDER>
 </root>

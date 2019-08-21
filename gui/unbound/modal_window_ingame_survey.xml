@@ -168,8 +168,8 @@
 		</style>
 	</block>
 	<block className="BlurMap">
-		<bind name="visible" value="optionData.blurEnabled"/>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<bind name="visible" value="optionData.blurEnabled"/>
 		<style>
 			<hitTest value="false"/>
 		</style>
@@ -188,8 +188,8 @@
 		</block>
 	</block>
 	<block className="BlurMapLow">
-		<bind name="visible" value="optionData.blurEnabled"/>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<bind name="visible" value="optionData.blurEnabled"/>
 		<style>
 			<hitTest value="false"/>
 		</style>
@@ -277,6 +277,23 @@
 		<marginTop value="12"/>
 		<marginLeft value="12"/>
 		<marginRight value="12"/>
+	</css>
+	<css name="$DragScrollerStyleVertical">
+		<scrollbarController value="lesta.unbound.style.UbScrollingControllerDrag"/>
+		<wheelScrollSpeed value="100"/>
+		<flow value="vertical"/>
+		<height value="100%f"/>
+		<mouseEnabledWhileScroll value="false"/>
+		<scrollbar value="ModernScrollBar"/>
+		<overflow value="scroll"/>
+	</css>
+	<css name="$DragScrollerStyleHorizonal">
+		<scrollbarController value="lesta.unbound.style.UbScrollingControllerDrag"/>
+		<wheelScrollSpeed value="0"/>
+		<flow value="horizontal"/>
+		<width value="100%f"/>
+		<mouseEnabledWhileScroll value="true"/>
+		<overflow value="scroll"/>
 	</css>
 	<css name="$TextNano">
 		<fontFamily value="$WWSDefaultFont"/>
@@ -1194,9 +1211,9 @@
 		</block>
 	</block>
 	<block className="ModalWindowHeaderFullSize">
-		<bind name="style" value="'paddingTop';		_paddingTop   ? _paddingTop   : '720:20,2160:100ah'"/>
-		<bind name="style" value="'paddingRight';	_paddingRight ? _paddingRight : '1280:20,1920:46aw'"/>
-		<bind name="style" value="'paddingLeft'; 	_paddingLeft  ? _paddingLeft  : '1280:20,1920:46aw'"/>
+		<bind name="style" value="'paddingTop';		_paddingTop		? _paddingTop	:	'720:20,2160:100ah'"/>
+		<bind name="style" value="'paddingRight';	_paddingRight	? _paddingRight	:	'1280:20,1920:46aw'"/>
+		<bind name="style" value="'paddingLeft'; 	_paddingLeft	? _paddingLeft	:	'1280:20,1920:46aw'"/>
 		<style>
 			<width value="100%"/>
 		</style>
@@ -1204,7 +1221,7 @@
 			<bind name="visible" value="_hideBackButton != true"/>
 			<style>
 				<position value="absolute"/>
-				<marginTop value="-3px"/>
+				<top value="-5px"/>
 			</style>
 			<bind name="instance" value="'BackButton'; { _text: _backButtonText,
 										_event: _event, _eventData: _eventData,
@@ -1213,7 +1230,7 @@
 		</block>
 		<block>
 			<bind name="visible" value="_windowName != null"/>
-			<styleClass value="$MiddleAligned"/>
+			<bind name="class" value="_leftAligned ? '$None' : '$MiddleAligned' "/>
 			<block type="text">
 				<styleClass value="$TextDefaultBold21NM"/>
 				<bind name="text" value="toUpperCase(tr(_windowName))"/>
@@ -1224,7 +1241,7 @@
 			<style>
 				<position value="absolute"/>
 				<right value="4"/>
-				<top value="2"/>
+				<top value="3px"/>
 			</style>
 			<block className="ModalWindowCloseIcon">
 				<style>
@@ -1293,6 +1310,33 @@
 			</block>
 		</block>
 	</block>
+	<block className="ModalWindowHeaderFullSizeFakeBlock">
+		<bind name="style" value="'paddingTop';		_paddingTop		? _paddingTop	:	'720:20,2160:100ah'"/>
+		<style>
+			<alpha value="0"/>
+			<hitTest value="false"/>
+		</style>
+		<block type="text">
+			<styleClass value="$TextDefaultBold21NM"/>
+			<bind name="text" value="'Fake offset block'"/>
+		</block>
+		<block>
+			<style>
+				<width value="10px"/>
+				<marginTop value="720:12,1080:16ah"/>
+			</style>
+			<block className="HorizontalDivider">
+				<styleClass value="$PxHorizontalCorrection"/>
+				<style>
+					<width value="100%"/>
+					<height value="3px"/>
+				</style>
+				<block className="divider_h" type="native">
+					<styleClass value="$Fullsize"/>
+				</block>
+			</block>
+		</block>
+	</block>
 	<block className="DropdownInfotip">
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'shipOverview'"/>
 		<bind name="transition" value="shipOverview.enabled; shipOverview.enabled ? 0.4 : 0.25; {alpha: 1}; {alpha: 0}; {alpha: 1}; 2; !(shipOverview.enabled) &amp;&amp; !(inPort) ? 0.15 : 0.5"/>
@@ -1317,8 +1361,8 @@
 				</style>
 			</block>
 			<block className="BlurMap">
-				<bind name="visible" value="optionData.blurEnabled"/>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+				<bind name="visible" value="optionData.blurEnabled"/>
 				<style>
 					<hitTest value="false"/>
 				</style>
@@ -1840,8 +1884,8 @@
 			</style>
 		</block>
 		<block className="BlurMap">
-			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<style>
 				<hitTest value="false"/>
 			</style>
@@ -1963,12 +2007,16 @@
 		<bind name="style" value="'marginBottom'; _marginBottom ? _marginBottom : '16px'"/>
 		<bind name="class" value="_middleAligned ? '$MiddleAligned' : ''"/>
 		<bind name="watch" value="'textItem'; _isTextInValue ? $value : _paragraphText"/>
+		<bind name="style" value="'width'; _width ? _width : 'auto'"/>
 		<block type="text">
 			<styleClass value="$TextDefaultNM"/>
 			<bind name="class" value="_class"/>
 			<bind name="style" value="'leading'; _leading ? _leading : 0"/>
 			<bind name="style" value="'textAlign'; _textAlign ? _textAlign : 'left'"/>
-			<bind name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 300"/>
+			<bind name="style" value="'maxWidth'; _maxWidth	? _maxWidth :
+									_width	? 3000
+											: 300"/>
+			<bind name="style" value="'width'; _width ? _width : 'auto'"/>
 			<bind name="substitute" value="_substitute.imageOffset ? _substitute.imageOffset : 0;
 							_substitute.map ? _substitute.map : {}; (_toUpperCase ? toUpperCase(tr(textItem)) : textItem)"/>
 		</block>
@@ -1984,12 +2032,14 @@
 	<block className="CheckBox">
 		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
 		<bind name="watch" value="'isEnabled'; _disabled != true"/>
+		<bind name="style" value="'alpha'; isEnabled ? 1 : 0.7"/>
 		<block className="checkbox_no_label" type="native">
 			<styleClass value="$FullsizeAbsolute"/>
 			<bind name="enabled" value="isEnabled"/>
-			<bind name="selected" value="switchProperty"/>
+			<bind name="selected" value="isEnabled ? switchProperty : false"/>
 		</block>
 		<block type="text">
+			<bind name="style" value="'alpha'; isEnabled ? 1 : 0.4"/>
 			<styleClass value="$TextHeaderBigDefault"/>
 			<style>
 				<marginLeft value="23px"/>
@@ -1997,7 +2047,7 @@
 				<hitTest value="false"/>
 			</style>
 			<bind name="style" value="'maxWidth'; _maxTfWidth ? _maxTfWidth : 300"/>
-			<bind name="transition" value="(rollOver &amp;&amp; !mouseDown) &amp;&amp; isEnabled; 0.15; {alpha: 0.8}; {alpha: 1}; {alpha: 0.8}; 2"/>
+			<bind name="transition" value="(rollOver &amp;&amp; !mouseDown) &amp;&amp; isEnabled; 0.07; {alpha: 0.8}; {alpha: 1}; {alpha: 0.8}; 2"/>
 			<bind name="text" value="label"/>
 		</block>
 	</block>
@@ -2279,43 +2329,6 @@
 			</style>
 		</block>
 	</block>
-	<block className="ScoreRatioCounter">
-		<style>
-			<flow value="horizontal"/>
-		</style>
-		<block>
-			<bind name="tooltip" value="'SimpleTooltip'; _tooltipTextPlayerResult ? { tooltipText: _tooltipTextPlayerResult } : null"/>
-			<bind name="style" value="'alpha'; (_playerPointsCounter == 0) ? 0.5 : 1"/>
-			<block type="text">
-				<bind name="class" value="'$TextHeaderWhiteBold'"/>
-				<bind name="text" value="_playerPointsCounter"/>
-			</block>
-		</block>
-		<block>
-			<bind name="tooltip" value="'SimpleTooltip'; _tooltipTextTotalResult ? { tooltipText: _tooltipTextTotalResult } : null"/>
-			<style>
-				<alpha value="0.7"/>
-			</style>
-			<block type="text">
-				<style>
-					<marginTop value="1px"/>
-				</style>
-				<bind name="class" value="'$TextHeaderBold'"/>
-				<bind name="text" value="'/'"/>
-			</block>
-			<block type="text">
-				<style>
-					<marginTop value="2px"/>
-					<marginLeft value="-1px"/>
-				</style>
-				<bind name="class" value="'$TextHeaderBold'"/>
-				<bind name="text" value="_totalPointsCounter"/>
-			</block>
-			<style>
-				<flow value="horizontal"/>
-			</style>
-		</block>
-	</block>
 	<block className="PlayerNameAndClanTag">
 		<bind name="watch" value="'clanTagColor'; ('0xff' + _clanTagColor)"/>
 		<bind name="watch" value="'haveClanTag'; _clanTag != null &amp;&amp;
@@ -2565,6 +2578,43 @@
 			</block>
 		</block>
 	</block>
+	<block className="StatusLine">
+		<style>
+			<flow value="horizontal"/>
+		</style>
+		<bind name="style" value="'width'; _width ? _width : 'auto'"/>
+		<bind name="watch" value="'textColor';	_unifiedStatus == SC.Ui_styles.UNIFIED_STATUS.ATTENTION			? SC.Ui_styles.SERVICE_COLORS.ORANGE :
+									_unifiedStatus == SC.Ui_styles.UNIFIED_STATUS.DATE_ATTENTION	? SC.Ui_styles.SERVICE_COLORS.ORANGE :
+									_unifiedStatus == SC.Ui_styles.UNIFIED_STATUS.CHECK				? SC.Ui_styles.SERVICE_COLORS.YELLOW :
+									_unifiedStatus == SC.Ui_styles.UNIFIED_STATUS.NEGATIVE			? SC.Ui_styles.SERVICE_COLORS.RED	:
+									_unifiedStatus == SC.Ui_styles.UNIFIED_STATUS.WARNING			? SC.Ui_styles.SERVICE_COLORS.RED	:
+									_unifiedStatus == SC.Ui_styles.UNIFIED_STATUS.DEFAULT			? SC.Ui_styles.SERVICE_COLORS.WHITE
+																									: SC.Ui_styles.SERVICE_COLORS.WHITE"/>
+		<bind name="watch" value="'textAlpha';	textColor == SC.Ui_styles.SERVICE_COLORS.ORANGE	? 1 :
+									textColor == SC.Ui_styles.SERVICE_COLORS.YELLOW	? 1 :
+									textColor == SC.Ui_styles.SERVICE_COLORS.RED		? 1
+																							: 0.9"/>
+		<block>
+			<style>
+				<width value="19px"/>
+				<height value="19px"/>
+				<marginTop value="-3px"/>
+				<marginLeft value="-3px"/>
+				<marginBottom value="-7px"/>
+				<marginRight value="5px"/>
+				<backgroundSize value="cover"/>
+			</style>
+			<bind name="style" value="'backgroundImage'; 'url:../service_kit/unified_status_icons/icon_' + _unifiedStatus + '.png'"/>
+		</block>
+		<block type="text">
+			<bind name="style" value="'width'; _width ? _width : 'auto'"/>
+			<bind name="class" value="_textClass ? _textClass : '$TextDefaultNM'"/>
+			<bind name="style" value="'leading'; _leading ? _leading : -3"/>
+			<bind name="style" value="'alpha'; textAlpha"/>
+			<bind name="style" value="'textColor'; textColor"/>
+			<bind name="text" value="_text"/>
+		</block>
+	</block>
 	<block className="CarouselFilters">
 		<bind name="stageSize"/>
 		<bind name="watch" value="'isFourRowsEnabled'; (stageHeight != null) ? (stageHeight &gt; (720 + 160)) : true"/>
@@ -2586,8 +2636,7 @@
 		<block>
 			<bind name="name" value="'CarouselFiltersButton'"/>
 			<block className="button_carousel_filters" type="native">
-				<bind name="tooltip" value="'CarouselFiltersInfotip'; {	AppliedFiltersCounter: AppliedFiltersCounter,
-														_isSmallCarouselView: isSmallCarouselView,
+				<bind name="tooltip" value="'CarouselFiltersInfotip'; {	_isSmallCarouselView: isSmallCarouselView,
 														_isFilteredShipsHided: isFilteredShipsHided}; TooltipBehaviour.verticalInfotipSwitch; null; 'carouselFiltersInfotipIsVIsible'"/>
 				<bind name="tooltip" value="'MouseInstructionTooltip'; { _mouseInstructions: [{_type: 'left', _instructionText: 'IDS_TOOLTIP_CAROUSEL_FILTERS'}], _maxWidth: 240 }"/>
 				<bind name="selected" value="carouselFiltersInfotipIsVIsible"/>
@@ -2639,11 +2688,12 @@
 				<bind name="watch" value="'rankedFilterVisible'; selectedBattle.type == BattleTypes.RANKED_BATTLE"/>
 				<bind name="watch" value="'eventFilterVisible'; selectedBattle.type == BattleTypes.EVENT_BATTLE"/>
 				<bind name="watch" value="'clanFilterVisible'; selectedBattle.type == BattleTypes.CLAN_BATTLE"/>
-				<bind name="watch" value="'battleTypeFilterVisible'; pveFilterVisible || trainingFilterVisible || rankedFilterVisible || eventFilterVisible || clanFilterVisible"/>
-				<bind name="instance" value="'AppliedBattleTypeFilter'; battleTypeFilterVisible ? {}	: null"/>
+				<bind name="watch" value="'battleTypeFilterVisible'; pveFilterVisible || trainingFilterVisible || rankedFilterVisible ||
+													eventFilterVisible || clanFilterVisible"/>
+				<bind name="instance" value="'AppliedHardSystemFilter'; battleTypeFilterVisible ? {}	: null"/>
 			</block>
 			<block>
-				<bind name="instance" value="'AppliedFilter'; {_filterType: 'shipName', shipNameFilterInfotipSelected: shipNameFilterInfotipSelected, _panelEntityId: panelEntity.id}"/>
+				<bind name="instance" value="'AppliedFilterText'; {shipNameFilterInfotipSelected: shipNameFilterInfotipSelected, _panelEntityId: panelEntity.id}"/>
 				<bind name="instance" value="'AppliedFilter'; {_filterType: 'level', _panelEntityId: panelEntity.id}"/>
 				<bind name="instance" value="'AppliedFilter'; {_filterType: 'shipType', _panelEntityId: panelEntity.id}"/>
 				<bind name="instance" value="'AppliedFilter'; {_filterType: 'nation', _panelEntityId: panelEntity.id}"/>
@@ -2688,8 +2738,8 @@
 				</style>
 			</block>
 			<block className="BlurMap">
-				<bind name="visible" value="optionData.blurEnabled"/>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+				<bind name="visible" value="optionData.blurEnabled"/>
 				<style>
 					<hitTest value="false"/>
 				</style>
@@ -2742,7 +2792,7 @@
 					</style>
 					<styleClass value="$TextHeaderBold"/>
 					<bind name="class" value="'$FontColorBlueish'"/>
-					<bind name="text" value="'IDS_FILTERS'"/>
+					<text value="IDS_FILTERS"/>
 				</block>
 				<block>
 					<style>
@@ -2763,10 +2813,8 @@
 				</block>
 				<block>
 					<bind name="visible" value="isSearchingShipByName"/>
-					<bind name="collectionDH" value="CC.shipFilterItem; 'shipNameFilters'+'ROOT'"/>
-					<bind name="collectionDesign" value="'DES_'+'shipNameFilters'+'ROOT'; 'shipNameFilters'; {'filter':$entity.shipFilterItem.type == 'shipName'}; []"/>
 					<bind name="firstEntityDH" value="'panelEntity'; CC.filterPanelComponent"/>
-					<bind name="watchDH" value="'searchStr'; ['panelEntity.shipRestrictions.evUpdate']; panelEntity.shipRestrictions.selectedFiltersData[shipNameFilters[0].id]"/>
+					<bind name="watchDH" value="'searchStr'; ['panelEntity.filterPanelComponent.evUpdate']; panelEntity.filterPanelComponent.searchString"/>
 					<style>
 						<width value="284px"/>
 						<position value="absolute"/>
@@ -2785,7 +2833,7 @@
 					<bind name="watch" value="'strForSearch'; inputStr"/>
 					<bind name="catch" value="'TextInputWithCancel.inputStrChanged'"/>
 					<bind name="changeDispatch" value="strForSearch; 'strForChanged'"/>
-					<bind name="action" value="'strForChanged'; 'setFilterValue' ; {type: 'shipName', field: 'IDS_SHIP_NAME_FILTER', value: strForSearch, ident: 0}"/>
+					<bind name="action" value="'strForChanged'; 'setSearchString' ; {value: strForSearch}"/>
 				</block>
 				<block>
 					<style>
@@ -2818,10 +2866,10 @@
 				</block>
 				<block>
 					<bind name="firstEntityDH" value="'panelEntity'; CC.filterPanelComponent"/>
-					<bind name="instance" value="'FilterBlock'; {_title: 'IDS_LEVEL', _filterType: 'level', needDivider: false, _panelEntityId: panelEntity.id, _ident: 0}"/>
-					<bind name="instance" value="'FilterBlock'; {_title: 'IDS_CLASS', _filterType: 'shipType', needDivider: true, _panelEntityId: panelEntity.id, _ident: 0}"/>
-					<bind name="instance" value="'FilterBlock'; {_title: 'IDS_NATION', _filterType: 'nation', needDivider: true, _panelEntityId: panelEntity.id, _ident: 0}"/>
-					<bind name="instance" value="'FilterBlock'; {_title: 'IDS_SPECIAL', _filterType: 'special', needDivider: true, _panelEntityId: panelEntity.id, _ident: 0}"/>
+					<bind name="instance" value="'FilterBlock'; {_title: 'IDS_LEVEL', _filterType: 'level', needDivider: false, _panelEntityId: panelEntity.id, _ident: 0, _inCarousel: true}"/>
+					<bind name="instance" value="'FilterBlock'; {_title: 'IDS_CLASS', _filterType: 'shipType', needDivider: true, _panelEntityId: panelEntity.id, _ident: 0, _inCarousel: true}"/>
+					<bind name="instance" value="'FilterBlock'; {_title: 'IDS_NATION', _filterType: 'nation', needDivider: true, _panelEntityId: panelEntity.id, _ident: 0, _inCarousel: true}"/>
+					<bind name="instance" value="'FilterBlock'; {_title: 'IDS_SPECIAL', _filterType: 'special', needDivider: true, _panelEntityId: panelEntity.id, _ident: 0, _inCarousel: true}"/>
 					<style>
 						<flow value="horizontal"/>
 					</style>
@@ -2894,18 +2942,16 @@
 							<bind name="collectionDH" value="CC.userPrefs; 'userPrefsCollection'"/>
 							<bind name="entityDH" value="'userPrefsEntity'; userPrefsCollection[0].id"/>
 							<bind name="watchDH" value="'userPrefs'; ['userPrefsEntity.userPrefs.evUserPrefsChanged']; userPrefsEntity.userPrefs.userPrefs"/>
-							<bind name="watch" value="'_curItemIndex';	(userPrefs.shipCarouselSortIndex == null) 	? 0 		: userPrefs.shipCarouselSortIndex"/>
-							<bind name="watch" value="'_direction';		(userPrefs.shipCarouselSortReverse == null) ? false 	: userPrefs.shipCarouselSortReverse"/>
-							<bind name="action" value="'shipSortChanged'; 'setUserPref' ; {value: _curItemIndex, name: 'shipCarouselSortIndex'}"/>
-							<bind name="catch" value="'ItemChooser.shipsSortSelected'"/>
+							<bind name="watchDH" value="'_direction'; ['panelEntity.filterPanelComponent.evUpdate']; panelEntity.filterPanelComponent.reverse"/>
+							<bind name="watchDH" value="'_curItemIndex'; ['panelEntity.filterPanelComponent.evUpdate']; panelEntity.filterPanelComponent.sortFieldIndex"/>
 							<bind name="watchDH" value="'shipSorter'; ['panelEntity.filterPanelComponent.evUpdate']; panelEntity.filterPanelComponent.sortFields"/>
+							<bind name="catch" value="'ItemChooser.shipsSortSelected'"/>
 							<bind name="instance" value="'ItemChooser'; {	_items: [shipSorter[0].ids, shipSorter[1].ids, shipSorter[2].ids, shipSorter[3].ids], curIndex: _curItemIndex, curDirection: _direction,
 															_choosedItemRenderer: 'BluishTextChoosedItemRenderer', _listItemRenderer: 'TextListItemRenderer',
 															onItemSelectedEvent: 'shipsSortSelected', _itemChooserTooltipText: 'IDS_HINT_SHIP_CAROUSEL_SORT'}"/>
 							<bind name="changeDispatch" value="_curItemIndex; 'shipSortChanged'"/>
 							<bind name="changeDispatch" value="_direction; 'shipSortChanged'"/>
-							<bind name="action" value="'shipSortChanged'; 'setSortOrder'; {sortPriority: shipSorter[_curItemIndex].field, reverse: _direction}"/>
-							<bind name="action" value="'shipSortChanged'; 'setUserPref' ; {value: _direction, name: 'shipCarouselSortReverse'}"/>
+							<bind name="action" value="'shipSortChanged'; 'setSortOrder'; {sortFieldIndex: _curItemIndex, reverse: _direction}"/>
 						</block>
 						<style>
 							<flow value="horizontal"/>
@@ -3063,7 +3109,7 @@
 				<marginRight value="13px"/>
 				<marginTop value="10px"/>
 			</style>
-			<bind name="instance" value="'FilterBlock'; {_title: _title, _filterType: _filterType, needDivider: false, _panelEntityId: panelEntity.id, _ident: 0}}"/>
+			<bind name="instance" value="'FilterBlock'; {_title: _title, _filterType: _filterType, needDivider: false, _panelEntityId: panelEntity.id, _ident: 0, _inCarousel: true}"/>
 		</block>
 		<block className="dock_panel_pin" type="native">
 			<bind name="style" value="'alpha'; _arrow != 'top' ? '0.5' : '0'"/>
@@ -3078,9 +3124,7 @@
 	</block>
 	<block className="CarouselAppliedFilterShipNameInfotip">
 		<bind name="firstEntityDH" value="'panelEntity'; CC.filterPanelComponent"/>
-		<bind name="collectionDH" value="CC.shipFilterItem; 'shipNameFilters'+'ROOT'"/>
-		<bind name="collectionDesign" value="'DES_'+'shipNameFilters'+'ROOT'; 'shipNameFilters'; {'filter':$entity.shipFilterItem.type == 'shipName'}; []"/>
-		<bind name="watchDH" value="'searchStr'; ['panelEntity.shipRestrictions.evUpdate']; panelEntity.shipRestrictions.selectedFiltersData[shipNameFilters[0].id]"/>
+		<bind name="watchDH" value="'searchStr'; ['panelEntity.filterPanelComponent.evUpdate']; panelEntity.filterPanelComponent.searchString"/>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'shipOverview'"/>
 		<bind name="transition" value="shipOverview.enabled; shipOverview.enabled ? 0.4 : 0.25; {alpha: 1}; {alpha: 0}; {alpha: 1}; 2; !(shipOverview.enabled) &amp;&amp; !(inPort) ? 0.15 : 0.5"/>
 		<bind name="style" value="'hitTest'; !(shipOverview.enabled)"/>
@@ -3149,7 +3193,7 @@
 			<bind name="catch" value="'TextInputWithCancel.inputStrChanged'"/>
 			<bind name="changeDispatch" value="strForSearch; 'strForChanged'"/>
 			<bind name="catch" value="'TextInputWithCancel.shipSearchCancelled'; {inputStr: ''}"/>
-			<bind name="action" value="'strForChanged'; 'setFilterValue' ; {type: 'shipName', field: 'IDS_SHIP_NAME_FILTER', value: strForSearch, ident: 0}"/>
+			<bind name="action" value="'strForChanged'; 'setSearchString' ; {value: strForSearch}"/>
 			<bind name="dispatch" value="'TextInputWithCancel.shipSearchCancelled'; 'Tooltip.Close'; {}; false; 0.1"/>
 		</block>
 		<block className="dock_panel_pin" type="native">
@@ -3185,7 +3229,7 @@
 				<marginLeft value="30px"/>
 				<marginRight value="6px"/>
 			</style>
-			<bind name="repeat" value="filters; 'FilterItem'; {_panelEntityId: _panelEntityId, _ident: _ident, _tooltipPrefix: _tooltipPrefix}"/>
+			<bind name="repeat" value="filters; 'FilterItem'; {_panelEntityId: _panelEntityId, _ident: _ident, _tooltipPrefix: _tooltipPrefix, _inCarousel: _inCarousel}"/>
 		</block>
 		<block>
 			<bind name="visible" value="needDivider == true"/>
@@ -3204,20 +3248,22 @@
 		<bind name="entityDH" value="'entity'; id"/>
 		<bind name="entityDH" value="'panelEntity'; _panelEntityId"/>
 		<bind name="watchDH" value="'_value'; ['panelEntity.shipRestrictions.evUpdate']; isIn(entity.id, panelEntity.shipRestrictions.selectedFilters)"/>
+		<bind name="watchDH" value="'_enabledFilters'; ['panelEntity.filterPanelComponent.evUpdate']; panelEntity.filterPanelComponent.enabledFilters"/>
 		<bind name="watchDH" value="'_filterType'; ['entity.shipFilterItem.evUpdate']; entity.shipFilterItem.type"/>
 		<bind name="watchDH" value="'_field'; ['entity.shipFilterItem.evUpdate']; entity.shipFilterItem.field"/>
+		<bind name="watch" value="'_enabled'; isIn(id, _enabledFilters)"/>
 		<bind name="instance" value="(_filterType == 'level')	? 'ShipLevelCheckBox'	:
                     (_filterType == 'shipType')	? 'ShipClassCheckBox'	:
                     (_filterType == 'nation')	? (_field != 'Events' ? 'ShipNationCheckBox' : 'EmptyItem') :
                     (_filterType == 'special')	? 'ShipSpecialCheckBox'
-                                          		: 'FilterCheckBox'; {_filterType: _filterType, value: _value, field: _field, _ident: _ident, _tooltipPrefix: _tooltipPrefix}"/>
+                                          		: 'FilterCheckBox'; {_filterType: _filterType, value: _value, field: _field, _ident: _ident, _tooltipPrefix: _tooltipPrefix, _disabled: _inCarousel ? ! _enabled : false}"/>
 	</block>
 	<block className="FilterCheckBox">
 		<style>
 			<marginRight value="44px"/>
 			<marginBottom value="8px"/>
 		</style>
-		<bind name="instance" value="'CheckBox'; {switchProperty: value, label: field, _maxTfWidth: 150}"/>
+		<bind name="instance" value="'CheckBox'; {switchProperty: value, label: field, _maxTfWidth: 150, _disabled: _disabled}"/>
 		<bind name="action" value="'left_click'; 'setFilterValue' ; {type: _filterType, field: field, value: !value, ident: _ident}"/>
 		<bind name="clickSplit"/>
 	</block>
@@ -3227,20 +3273,28 @@
 			<marginBottom value="8px"/>
 			<width value="80px"/>
 		</style>
-		<bind name="action" value="'left_click'; 'setFilterValue' ; {type: _filterType, field: field, value: !value, ident: _ident}"/>
+		<bind name="action" value="'left_click'; _disabled ? null : 'setFilterValue' ; {type: _filterType, field: field, value: !value, ident: _ident}"/>
 		<bind name="clickSplit"/>
 		<bind name="watch" value="'tooltipPrefix'; _tooltipPrefix ? _tooltipPrefix : 'IDS_'"/>
-		<bind name="tooltip" value="'SimpleTooltip'; { tooltipText: subst(tooltipPrefix + 'HINT_CHECKBOX_FILTER_LEVEL', [], {level: field}) }"/>
-		<bind name="instance" value="'CheckBox'; {switchProperty: !!(value), label: ShipLevels.RLEVELS[field], _maxTfWidth: 150}"/>
+		<bind name="tooltip" value="'SimpleTooltip'; _disabled			? null
+														: { tooltipText: subst(tooltipPrefix + 'HINT_CHECKBOX_FILTER_LEVEL', [], {level: field})}"/>
+		<bind name="tooltip" value="'SimpleWarningTooltip'; _disabled 	? { _text: subst('IDS_HINT_CHECKBOX_FILTER_LEVEL_NOT_AVAILABLE', [], {level: field})}
+														: null"/>
+		<bind name="instance" value="'CheckBox'; {switchProperty: !!(value), label: ShipLevels.RLEVELS[field], _maxTfWidth: 150, _disabled: _disabled}"/>
 	</block>
 	<block className="ShipClassCheckBox">
 		<bind name="visible" value="field != ShipTypes.Submarine"/>
 		<bind name="name" value="'CarouselCheckBox_' + _filterType + '_' + field"/>
 		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
-		<bind name="action" value="'left_click'; 'setFilterValue' ; {type: _filterType, field: field, value: !value, ident: _ident}"/>
+		<bind name="watch" value="'isEnabled'; _disabled != true"/>
+		<bind name="action" value="'left_click'; _disabled ? null : 'setFilterValue' ; {type: _filterType, field: field, value: !value, ident: _ident}"/>
 		<bind name="clickSplit"/>
 		<bind name="watch" value="'tooltipPrefix'; _tooltipPrefix ? _tooltipPrefix : 'IDS_'"/>
-		<bind name="tooltip" value="'SimpleTooltip'; { tooltipText: tooltipPrefix + 'HINT_CHECKBOX_FILTER_CLASS_' + toUpperCase(field) }"/>
+		<bind name="tooltip" value="'SimpleTooltip';			isEnabled	? { tooltipText: toUpperCase(tooltipPrefix + 'HINT_CHECKBOX_FILTER_CLASS_' + field)}
+														: null"/>
+		<bind name="tooltip" value="'SimpleWarningTooltip';	isEnabled	? null
+														: { _text: tr(toUpperCase('IDS_HINT_CHECKBOX_FILTER_CLASS_NOT_AVAILABLE_' + field))}"/>
+		<bind name="style" value="'alpha'; isEnabled ? 1 : 0.7"/>
 		<style>
 			<marginBottom value="8px"/>
 			<width value="80px"/>
@@ -3250,17 +3304,19 @@
 		<block className="checkbox_no_label" type="native">
 			<styleClass value="$FullsizeAbsolute"/>
 			<bind name="selected" value="!!(value)"/>
+			<bind name="enabled" value="isEnabled"/>
 		</block>
 		<block>
 			<style>
 				<marginTop value="5px"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="transition" value="rollOver &amp;&amp; !mouseDown; 0.15; {alpha: 0.8}; {alpha: 1}; {alpha: 0.8}; 2"/>
+			<bind name="transition" value="rollOver &amp;&amp; !mouseDown &amp;&amp; isEnabled; 0.07; {alpha: 0.8}; {alpha: 1}; {alpha: 0.8}; 2"/>
 			<bind name="style" value="'marginLeft'; 	field == ShipTypes.Submarine 	? '29px' :
 									field == ShipTypes.Destroyer 	? '24px'
 																	: '27px'"/>
 			<block className="icon_ship" type="native">
+				<bind name="style" value="'alpha'; isEnabled ? 1 : 0.4"/>
 				<bind name="gotoAndStop!" value="field"/>
 			</block>
 		</block>
@@ -3268,10 +3324,15 @@
 	<block className="ShipNationCheckBox">
 		<bind name="name" value="'CarouselCheckBox_' + _filterType + '_' + field"/>
 		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
-		<bind name="action" value="'left_click'; 'setFilterValue' ; {type: _filterType, field: field, value: !value, ident: _ident}"/>
-		<bind name="watch" value="'tooltipPrefix'; _tooltipPrefix ? _tooltipPrefix : 'IDS_'"/>
-		<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: tr(tooltipPrefix + 'HINT_CHECKBOX_FILTER_NATION_') +  tr(toUpperCase(field))}"/>
+		<bind name="action" value="'left_click'; _disabled ? null : 'setFilterValue' ; {type: _filterType, field: field, value: !value, ident: _ident}"/>
 		<bind name="clickSplit"/>
+		<bind name="watch" value="'tooltipPrefix'; _tooltipPrefix ? _tooltipPrefix : 'IDS_'"/>
+		<bind name="tooltip" value="'SimpleTooltip';			isEnabled	? { tooltipText: tr(toUpperCase(tooltipPrefix + 'HINT_CHECKBOX_FILTER_NATION_' + field))}
+														: null"/>
+		<bind name="tooltip" value="'SimpleWarningTooltip';	isEnabled	? null
+														: { _text: tr(toUpperCase('IDS_HINT_CHECKBOX_FILTER_NATION_NOT_AVAILABLE_' + field))}"/>
+		<bind name="watch" value="'isEnabled'; _disabled != true"/>
+		<bind name="style" value="'alpha'; isEnabled ? 1 : 0.7"/>
 		<style>
 			<marginBottom value="8px"/>
 			<width value="80px"/>
@@ -3280,57 +3341,72 @@
 		<block className="checkbox_no_label" type="native">
 			<styleClass value="$FullsizeAbsolute"/>
 			<bind name="selected" value="!!(value)"/>
+			<bind name="enabled" value="isEnabled"/>
 		</block>
 		<block>
 			<style>
 				<marginLeft value="27px"/>
 				<hitTest value="false"/>
 			</style>
-			<bind name="transition" value="rollOver &amp;&amp; !mouseDown; 0.15; {alpha: 0.8}; {alpha: 1}; {alpha: 0.8}; 2"/>
+			<bind name="style" value="'alpha'; isEnabled ? 1 : 0.4"/>
+			<bind name="transition" value="(rollOver &amp;&amp; !mouseDown) &amp;&amp; isEnabled; 0.07; {alpha: 0.8}; {alpha: 1}; {alpha: 0.8}; 2"/>
 			<bind name="instance" value="'NationFlagsTiny'; {shipCountry: field}"/>
 		</block>
 	</block>
 	<block className="ShipSpecialCheckBox">
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; field == 'IDS_RANKED_BATTLES' ? 'rankedBattlesSeason' : null"/>
 		<bind name="collectionDH" value="CC.clubsCommon; 'clubsCommonCollection'"/>
 		<bind name="entityDH" value="'clubsCommonEntity'; clubsCommonCollection[0].id"/>
 		<bind name="watchDH" value="'clubBattlesSeasonId'; ['clubsCommonEntity.clubsCommon.evRulesChanged']; clubsCommonEntity.clubsCommon.seasonId"/>
 		<bind name="watchDH" value="'clubBattlesSeasonStage'; ['clubsCommonEntity.clubsCommon.evRulesChanged']; clubsCommonEntity.clubsCommon.stage"/>
+		<bind name="collectionDH" value="CC.ownShip; 'shipsWithSnowflakes'+'ROOT'"/>
+		<bind name="collectionDesign" value="'DES_'+'shipsWithSnowflakes'+'ROOT'; 'shipsWithSnowflakes'; {'filter':$entity.ownShip.bonusTags.length &gt; 0}; []"/>
 		<bind name="name" value="'CarouselCheckBox_' + _filterType + '_' + field"/>
 		<bind name="feature" value="13; ''"/>
 		<bind name="feature" value="16; ''"/>
 		<bind name="feature" value="19; ''"/>
-		<bind name="watch" value="'isVisible';	(field == 'IDS_RANKED_BATTLES'	&amp;&amp;	(feature_16 == 'locked' || rankedBattlesSeason.denyReason &amp; RBDeny.NO_SEASON))			? false :
-								(field == 'IDS_CLUB_BATTLES'	&amp;&amp;	(feature_19 == 'locked' || clubBattlesSeasonId &lt;= 0 || clubBattlesSeasonStage != 2))	? false :
-								((field == 'IDS_WITH_COMMANDER'	||	field == 'IDS_WITHOUT_COMMANDER') &amp;&amp; feature_13 == 'locked')							? false
-																																							: true"/>
-		<bind name="visible" value="isVisible"/>
-		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
-		<bind name="action" value="'left_click'; 'setFilterValue' ; {type: _filterType, field: field, value: !value, ident: _ident}"/>
+		<bind name="watch" value="'isEnabled'; _disabled != true"/>
+		<bind name="watch" value="'isVisible';	(field == 'IDS_RANKED_BATTLES'		&amp;&amp;	(feature_16 == 'locked' || rankedBattlesSeason.denyReason &amp; RBDeny.NO_SEASON))			? false :
+								(field == 'IDS_CLUB_BATTLES'		&amp;&amp;	(feature_19 == 'locked' || clubBattlesSeasonId &lt;= 0 || clubBattlesSeasonStage != 2))	? false :
+								((field == 'IDS_WITH_COMMANDER'		||	field == 'IDS_WITHOUT_COMMANDER') &amp;&amp; feature_13 == 'locked')							? false :
+								((field == 'IDS_SNOWFLAKES_FILTER' 	|| field == 'IDS_PARAGON_BONUS')	&amp;&amp; _disabled)												? false
+																																								: true"/>
+		<bind name="watch" value="'tooltipTextType'; ((field == 'IDS_SELECTED_BY_USER')	? 'SELECTED_BY_USER'	:
+									(field == 'IDS_FILTER_PREMIUM')		? 'PREMIUM'				:
+									(field == 'IDS_WITH_COMMANDER')		? 'WITH_COMMANDER'		:
+									(field == 'IDS_WITHOUT_COMMANDER')	? 'WITHOUT_COMMANDER'	:
+									(field == 'IDS_FILTER_ELITE')		? 'ELITE'				:
+									(field == 'IDS_FILTER_NOT_ELITE')	? 'NOT_ELITE'			:
+									(field == 'IDS_RANKED_BATTLES')		? 'RANKED'				:
+									(field == 'IDS_PVE_BATTLES')		? 'PVE'					:
+									(field == 'IDS_CLUB_BATTLES')		? 'CLUB'				:
+									(field == 'IDS_PROMO_FILTER')		? 'SHARE'				:
+									(field == 'IDS_PARAGON_BONUS')		? 'PARAGON_BONUS'		:
+									(field == 'IDS_SNOWFLAKES_FILTER')	? 'SNOWFLAKES'
+																		: 'UNKNOWN')}"/>
+		<bind name="tooltip" value="'SimpleTooltip';			isEnabled	? { tooltipText: tr('IDS_HINT_CHECKBOX_FILTER_' + tooltipTextType)}
+														: null"/>
+		<bind name="tooltip" value="'SimpleWarningTooltip';	isEnabled	? null
+														: { _text: tr('IDS_HINT_CHECKBOX_FILTER_NOT_AVAILABLE_' + tooltipTextType)}"/>
+		<bind name="action" value="'left_click'; isEnabled ? 'setFilterValue' : null; {type: _filterType, field: field, value: !value, ident: _ident}"/>
 		<bind name="clickSplit"/>
-		<bind name="tooltip" value="'SimpleTooltip'; {tooltipText:	((field == 'IDS_SELECTED_BY_USER') 	? 'IDS_HINT_CHECKBOX_FILTER_SELECTED_BY_USER':
-													(field == 'IDS_FILTER_PREMIUM') 	? 'IDS_HINT_CHECKBOX_FILTER_PREMIUM':
-													(field == 'IDS_WITH_COMMANDER') 	? 'IDS_HINT_CHECKBOX_FILTER_WITH_COMMANDER':
-													(field == 'IDS_WITHOUT_COMMANDER') 	? 'IDS_HINT_CHECKBOX_FILTER_WITHOUT_COMMANDER':
-													(field == 'IDS_FILTER_ELITE')	 	? 'IDS_HINT_CHECKBOX_FILTER_ELITE'	:
-													(field == 'IDS_FILTER_NOT_ELITE')	? 'IDS_HINT_CHECKBOX_FILTER_NOT_ELITE':
-													(field == 'IDS_RANKED_BATTLES')		? 'IDS_HINT_CHECKBOX_FILTER_RANKED':
-													(field == 'IDS_PVE_BATTLES')		? 'IDS_HINT_CHECKBOX_FILTER_PVE'	:
-													(field == 'IDS_CLUB_BATTLES')		? 'IDS_HINT_CHECKBOX_FILTER_CLUB'	:
-													(field == 'IDS_PROMO_FILTER')		? 'IDS_HINT_CHECKBOX_FILTER_SHARE'	:
-													'UNKNOWN_FILTER_TYPE')}"/>
+		<bind name="visible" value="isVisible"/>
 		<style>
 			<marginBottom value="8px"/>
 			<width value="80px"/>
 			<height value="21px"/>
 			<flow value="horizontal"/>
 		</style>
+		<bind name="style" value="'alpha'; isEnabled ? 1 : 0.7"/>
 		<block className="checkbox_no_label" type="native">
 			<styleClass value="$FullsizeAbsolute"/>
 			<bind name="selected" value="!!(value)"/>
+			<bind name="enabled" value="isEnabled"/>
 		</block>
 		<block>
-			<bind name="transition" value="rollOver &amp;&amp; !mouseDown; 0.15; {alpha: 0.8}; {alpha: 1}; {alpha: 0.8}; 2"/>
+			<bind name="style" value="'alpha'; isEnabled ? 1 : 0.4"/>
+			<bind name="transition" value="rollOver &amp;&amp; !mouseDown &amp;&amp; isEnabled; 0.15; {alpha: 0.8}; {alpha: 1}; {alpha: 0.8}; 2"/>
 			<style>
 				<marginTop value="-2px"/>
 				<marginLeft value="27px"/>
@@ -3345,10 +3421,13 @@
 													IDS_CLUB_BATTLES: 'ClubIcon',
 													IDS_PROMO_FILTER: 'ShareIcon',
 													IDS_WITH_COMMANDER: 'WithCrewIcon',
-													IDS_WITHOUT_COMMANDER: 'WithoutCrewIcon'}"/>
+													IDS_WITHOUT_COMMANDER: 'WithoutCrewIcon',
+													IDS_PARAGON_BONUS: 'ParagonBonusTagIcon',
+													IDS_SNOWFLAKES_FILTER: 'SnowflakesIcon'
+													}"/>
 		</block>
 	</block>
-	<block className="AppliedBattleTypeFilter">
+	<block className="AppliedHardSystemFilter">
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'rankedBattlesSeason'"/>
 		<bind name="firstEntityDH" value="'enterBattleEntity'; CC.enterBattle"/>
 		<bind name="watchDH" value="'selectedBattle'; ['enterBattleEntity.enterBattle.evBattleTypesChanged']; enterBattleEntity.enterBattle.selectedBattle"/>
@@ -3395,7 +3474,8 @@
 			<flow value="horizontal"/>
 		</style>
 		<bind name="appear" value="'addedToStage'; 0.15; 0; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 2"/>
-		<bind name="tooltip" value="'SimpleTooltip'; selectedBattle.type != BattleTypes.CLAN_BATTLE ? {tooltipText: tr(toUpperCase('IDS_CAROUSEL_' + selectedBattle.type + '_FILTER'))} : null"/>
+		<bind name="tooltip" value="'SimpleTooltip'; selectedBattle.type != BattleTypes.CLAN_BATTLE	? {tooltipText: tr(toUpperCase('IDS_CAROUSEL_' + selectedBattle.type + '_FILTER'))}
+																					: null"/>
 		<block className="button_dock_bg" type="native">
 			<styleClass value="$FullsizeAbsolute"/>
 			<bind name="gotoAndStop!" value="'down'"/>
@@ -3470,9 +3550,9 @@
 				<bind name="class" value="_disableReset ? '$TinyFilterMargins' : '$HugeFilterMargins'"/>
 				<block>
 					<bind name="visible" value="_filterType == 'level'"/>
-					<styleClass value="$MiddleVAligned"/>
 					<style>
 						<hitTest value="false"/>
+						<marginTop value="1px"/>
 					</style>
 					<bind name="repeat" value="reduceAppliedValues(selectedItems_shipFilterItem_field); 'ShipLevelRome'"/>
 					<style>
@@ -3485,10 +3565,10 @@
 					<style>
 						<hitTest value="false"/>
 					</style>
-					<bind name="repeat" value="selectedItems; (_filterType == 'shipName')	? 'CarouselSortingText'
-											:(_filterType == 'shipType')	? 'ShipTypeIcon'
-											:(_filterType == 'nation')		? 'TinyNationFlag'
-											:(_filterType == 'special')		? 'SpecialSortingIcon'
+					<bind name="repeat" value="selectedItems;	(_filterType == 'shipName')	? 'CarouselSortingText' :
+												(_filterType == 'shipType')	? 'ShipTypeIcon' :
+												(_filterType == 'nation')	? 'TinyNationFlag' :
+												(_filterType == 'special')	? 'SpecialSortingIcon'
 																			: 'CarouselSortingText'"/>
 					<style>
 						<flow value="horizontal"/>
@@ -3497,7 +3577,6 @@
 				<block>
 					<style>
 						<height value="100%"/>
-						<marginLeft value="0px"/>
 					</style>
 					<bind name="visible" value="_needDivider == true"/>
 					<block className="VerticalDivider">
@@ -3519,10 +3598,68 @@
 					<block>
 						<bind name="transition" value="((rollOver &amp;&amp; !mouseDown) || mouseDown) || appliedFiltersInfotipSelected || shipNameFilterInfotipSelected; 0.15; {alpha: 0}; {alpha: 0.7}"/>
 						<bind name="action" value="'click'; 'resetFilterType' ; {type: _filterType, ident: 0}"/>
-						<styleClass value="$MiddleVAligned"/>
 						<block className="button_close" type="native">
 							<style>
 								<marginRight value="1px"/>
+								<marginTop value="8px"/>
+							</style>
+							<bind name="name" value="'CarouselFilterClose_' + _filterType"/>
+							<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_HINT_RESET_FILTER'}"/>
+						</block>
+					</block>
+				</block>
+				<style>
+					<flow value="horizontal"/>
+				</style>
+			</block>
+		</block>
+	</block>
+	<block className="AppliedFilterText">
+		<bind name="visible" value="searchStr.length &gt; 0"/>
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
+		<bind name="entityDH" value="'panelEntity'; _panelEntityId"/>
+		<bind name="watchDH" value="'searchStr'; ['panelEntity.filterPanelComponent.evUpdate']; panelEntity.filterPanelComponent.searchString"/>
+		<bind name="transition" value="(rollOver &amp;&amp; !mouseDown) || appliedFiltersInfotipSelected || shipNameFilterInfotipSelected; 0.15; {alpha: 0.7}; {alpha: 1}"/>
+		<bind name="appear" value="'addedToStage'; 0.15; 0; {alpha: 0, top: 10}; {alpha: 0.7, top: 0}; 2"/>
+		<style>
+			<height value="30px"/>
+		</style>
+		<block className="button_dock_bg" type="native">
+			<bind name="gotoAndStop!" value="'down'"/>
+			<bind name="transition" value="((rollOver &amp;&amp; !mouseDown) || (mouseDown)) || appliedFiltersInfotipSelected || shipNameFilterInfotipSelected; 0.15; {alpha: 0}; {alpha: 0.7}"/>
+			<style>
+				<height value="100%"/>
+			</style>
+			<bind name="tooltip" value="'CarouselAppliedFilterShipNameInfotip'; {};	 TooltipBehaviour.verticalInfotip; null; 'shipNameFIlterInfotipSelected'"/>
+			<bind name="changeDispatch" value="shipNameFilterInfotipSelected; 'shipNameFIlterInfotipSelectedChanged';{shipNameFilterInfotipSelected: shipNameFilterInfotipSelected}"/>
+			<block>
+				<style>
+					<height value="100%"/>
+					<marginTop value="1px"/>
+				</style>
+				<bind name="class" value="'$HugeFilterMargins'"/>
+				<block>
+					<styleClass value="$MiddleVAligned"/>
+					<style>
+						<hitTest value="false"/>
+					</style>
+					<bind name="instance" value="'CarouselSortingText'; {}"/>
+					<style>
+						<flow value="horizontal"/>
+					</style>
+				</block>
+				<block>
+					<style>
+						<height value="100%"/>
+						<width value="12px"/>
+					</style>
+					<block>
+						<bind name="transition" value="((rollOver &amp;&amp; !mouseDown) || mouseDown) || appliedFiltersInfotipSelected || shipNameFilterInfotipSelected; 0.15; {alpha: 0}; {alpha: 0.7}"/>
+						<bind name="action" value="'click'; 'setSearchString' ; {value:''}"/>
+						<block className="button_close" type="native">
+							<style>
+								<marginRight value="1px"/>
+								<marginTop value="8px"/>
 							</style>
 							<bind name="name" value="'CarouselFilterClose_' + _filterType"/>
 							<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_HINT_RESET_FILTER'}"/>
@@ -3559,7 +3696,9 @@
 				</style>
 				<bind name="transition" value="rollOver &amp;&amp; !mouseDown; 0.15; {alpha: 0.7}; {alpha: 1}"/>
 				<block type="text">
-					<styleClass value="$MiddleVAligned"/>
+					<style>
+						<marginTop value="2px"/>
+					</style>
 					<styleClass value="$TextHeaderBigDefault"/>
 					<bind name="text" value="'IDS_RESET_ALL_FILTERS'"/>
 				</block>
@@ -3590,9 +3729,7 @@
 	</block>
 	<block className="CarouselSortingText">
 		<bind name="firstEntityDH" value="'panelEntity'; CC.filterPanelComponent"/>
-		<bind name="collectionDH" value="CC.shipFilterItem; 'shipNameFilters'+'ROOT'"/>
-		<bind name="collectionDesign" value="'DES_'+'shipNameFilters'+'ROOT'; 'shipNameFilters'; {'filter':$entity.shipFilterItem.type == 'shipName'}; []"/>
-		<bind name="watchDH" value="'searchStr'; ['panelEntity.shipRestrictions.evUpdate']; panelEntity.shipRestrictions.selectedFiltersData[shipNameFilters[0].id]"/>
+		<bind name="watchDH" value="'searchStr'; ['panelEntity.filterPanelComponent.evUpdate']; panelEntity.filterPanelComponent.searchString"/>
 		<style>
 			<flow value="horizontal"/>
 		</style>
@@ -3650,7 +3787,28 @@
 								IDS_CLUB_BATTLES: 'ClubIcon',
 								IDS_PROMO_FILTER: 'ShareIcon',
 								IDS_WITH_COMMANDER: 'WithCrewIcon',
-								IDS_WITHOUT_COMMANDER: 'WithoutCrewIcon'}"/>
+								IDS_WITHOUT_COMMANDER: 'WithoutCrewIcon',
+								IDS_PARAGON_BONUS: 'ParagonBonusTagIcon',
+                                IDS_SNOWFLAKES_FILTER: 'SnowflakesIcon'
+								}"/>
+	</block>
+	<block className="ParagonBonusTagIcon">
+		<style>
+			<height value="21px"/>
+			<width value="39px"/>
+			<backgroundColor value="0x01000000"/>
+		</style>
+		<block>
+			<style>
+				<position value="absolute"/>
+				<hitTest value="false"/>
+				<height value="39px"/>
+				<width value="39px"/>
+				<top value="-9px"/>
+				<left value="-2px"/>
+			</style>
+			<bind name="style" value="'backgroundImage'; 'url:../service_kit/bonus_tags/bonus_paragon.png'"/>
+		</block>
 	</block>
 	<block className="NotEliteIcon">
 		<block className="icon_filters" type="native">
@@ -3690,10 +3848,28 @@
 	</block>
 	<block className="ShareIcon">
 		<style>
+			<height value="21px"/>
+			<width value="39px"/>
+			<backgroundColor value="0x01000000"/>
+		</style>
+		<block>
+			<style>
+				<position value="absolute"/>
+				<hitTest value="false"/>
+				<height value="39px"/>
+				<width value="39px"/>
+				<top value="-9px"/>
+				<left value="-2px"/>
+			</style>
+			<bind name="style" value="'backgroundImage'; 'url:../service_kit/bonus_tags/bonus_exp.png'"/>
+		</block>
+	</block>
+	<block className="SnowflakesIcon">
+		<style>
 			<marginTop value="1px"/>
 		</style>
 		<block className="icon_filters" type="native">
-			<bind name="gotoAndStop!" value="'share'"/>
+			<bind name="gotoAndStop!" value="'snowflakes'"/>
 		</block>
 	</block>
 	<block className="RankedIcon">
@@ -4001,19 +4177,25 @@
 			<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
 		</block>
 	</block>
+	<css name="$ResizeableButtonLabelWithoutAlignment">
+		<marginLeft value="16px"/>
+		<marginRight value="16px"/>
+	</css>
 	<block className="DefaultButtonCostMedium">
 		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
 		<bind name="watchDH" value="'operationsAccountLocked';	['resourceEntity.accountResource.evOperationsLockChanged'];	resourceEntity.accountResource.operationsLocked"/>
 		<bind name="tooltip" value="'DiscountTooltip'; priceInfo.basePrice &amp;&amp; (priceInfo.finalPrice != priceInfo.basePrice) ? { priceInfo: priceInfo, _isExternal: _isExternal } : null"/>
 		<style>
-			<width value="100%"/>
+			<width value="1px"/>
 		</style>
+		<bind name="style" value="'width'; _width ? _width : '100%'"/>
 		<bind name="style" value="'height'; _height ? _height : 'auto'"/>
 		<bind name="name" value="_name ? _name : null"/>
 		<block className="button_default_no_label" type="native">
 			<style>
-				<width value="100%"/>
+				<width value="1px"/>
 			</style>
+			<bind name="style" value="'width'; _width ? _width : '100%'"/>
 			<bind name="style" value="'height'; _height ? _height : 'auto'"/>
 			<bind name="focus" value="_focusIndex; _defaultFocused"/>
 			<bind name="enabled" value="_enabled &amp;&amp; (_isTransactionBtn ? !(operationsAccountLocked) : true)"/>
@@ -4023,7 +4205,7 @@
 			<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
 			<bind name="selected" value="_selected"/>
 			<block>
-				<styleClass value="$MiddleAligned"/>
+				<bind name="class" value="_width ? '$ResizeableButtonLabelWithoutAlignment' : '$MiddleAligned'"/>
 				<style>
 					<marginTop value="3px"/>
 					<marginBottom value="4px"/>
@@ -4051,6 +4233,15 @@
 						<marginLeft value="8px"/>
 					</style>
 					<block className="icon_out_grey" type="native"/>
+				</block>
+				<block>
+					<bind name="fade" value="_isNewMarker; 0.15; {alpha: 0, top: 10}; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+					<style>
+						<position value="absolute"/>
+						<right value="-35px"/>
+						<top value="-4px"/>
+					</style>
+					<bind name="instance" value="'MarkerNewAttention'; { }"/>
 				</block>
 				<style>
 					<flow value="horizontal"/>
@@ -4250,6 +4441,52 @@
 					<flow value="horizontal"/>
 				</style>
 			</block>
+		</block>
+	</block>
+	<block className="ImageButton">
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
+		<bind name="request" value="'click'; _request &amp;&amp; _enabled ? _request : null; _requestParams ? _requestParams : {}"/>
+		<bind name="action" value="'click'; _action &amp;&amp; _enabled ? _action : null; _actionParams ? _actionParams : {}"/>
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController; null; 'ct_'"/>
+		<bind name="var" value="{ 
+		ctRollOver: {
+			redMultiplier: 1,
+			greenMultiplier: 1,
+			blueMultiplier: 1,
+			alphaMultiplier: 1,
+			redOffset: 30,
+			greenOffset: 30,
+			blueOffset: 30,
+			alphaOffset: 0
+		}
+	}"/>
+		<bind name="var" value="{ 
+		ctMouseDown: {
+			redMultiplier: 1,
+			greenMultiplier: 1,
+			blueMultiplier: 1,
+			alphaMultiplier: 1,
+			redOffset: -30,
+			greenOffset: -30,
+			blueOffset: -30,
+			alphaOffset: 0
+		}
+	}"/>
+		<bind name="colorTransform" value="	_enabled &amp;&amp; (ct_mouseDown)	? ctMouseDown :
+							_enabled &amp;&amp; (ct_rollOver)	? ctRollOver
+														: {}"/>
+		<bind name="style" value="'width'; _width ? _width : '50px'"/>
+		<bind name="style" value="'height'; _height ? _height : '50px'"/>
+		<block>
+			<bind name="name" value="_name"/>
+			<bind name="style" value="'width'; _width ? _width : '50px'"/>
+			<bind name="style" value="'height'; _height ? _height : '50px'"/>
+			<style>
+				<backgroundStretchX value="true"/>
+				<backgroundStretchY value="true"/>
+			</style>
+			<bind name="style" value="'alpha'; _alpha != null ? _alpha : 1.0"/>
+			<bind name="style" value="'backgroundImage'; _backgroundImage"/>
 		</block>
 	</block>
 	<block className="ArcEventHeader3">
@@ -5070,8 +5307,8 @@
 			</style>
 		</block>
 		<block className="BlurMap">
-			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<style>
 				<hitTest value="false"/>
 			</style>
@@ -5166,21 +5403,22 @@
 	</block>
 	<block className="ArcEventEventLoyaltyPoints">
 		<style>
+			<flow value="horizontal"/>
 			<width value="100%"/>
 			<marginTop value="8px"/>
 			<marginBottom value="8px"/>
 		</style>
 		<block type="text">
+			<style>
+				<width value="100%"/>
+			</style>
 			<styleClass value="$TextDefault17NM"/>
 			<bind name="text" value="_text"/>
 		</block>
 		<block>
-			<style>
-				<position value="absolute"/>
-				<right value="0px"/>
-				<marginTop value="-8px"/>
-			</style>
-			<bind name="instance" value="'ScoreRatioCounter'; { _playerPointsCounter: _playerPointsCounter, _totalPointsCounter: _totalPointsCounter }"/>
+			<bind name="instance" value="'DefaultDividedCounter'; {	_curValueTextClass: '$TextDefaultBold17NM',
+													_curValue: _playerPointsCounter,
+													_maxValue: _totalPointsCounter}"/>
 		</block>
 	</block>
 	<block className="ArcEventSideModifier">
@@ -5259,8 +5497,8 @@
 			</style>
 		</block>
 		<block className="BlurMap">
-			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<style>
 				<hitTest value="false"/>
 			</style>
@@ -5438,8 +5676,8 @@
 			</style>
 		</block>
 		<block className="BlurMap">
-			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<style>
 				<hitTest value="false"/>
 			</style>
@@ -5795,8 +6033,8 @@
 				</style>
 			</block>
 			<block className="BlurMap">
-				<bind name="visible" value="optionData.blurEnabled"/>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+				<bind name="visible" value="optionData.blurEnabled"/>
 				<style>
 					<hitTest value="false"/>
 				</style>
@@ -5850,8 +6088,8 @@
 				</style>
 			</block>
 			<block className="BlurMap">
-				<bind name="visible" value="optionData.blurEnabled"/>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+				<bind name="visible" value="optionData.blurEnabled"/>
 				<style>
 					<hitTest value="false"/>
 				</style>
@@ -6125,12 +6363,13 @@
 			</block>
 			<block type="text">
 				<bind name="visible" value="_subheaderText"/>
-				<styleClass value="$TextDefault17NM"/>
+				<styleClass value="$TextDefaultNM"/>
 				<bind name="class" value="_subheaderClass ? _subheaderClass : '$None'"/>
 				<style>
 					<width value="100%"/>
 					<leading value="-3"/>
-					<marginTop value="16px"/>
+					<marginTop value="8px"/>
+					<alpha value="0.9"/>
 				</style>
 				<bind name="text" value="_subheaderText"/>
 			</block>
@@ -6153,7 +6392,7 @@
 				<width value="100%"/>
 				<margin value="16px"/>
 			</style>
-			<bind name="repeat" value="_multiParagraphArray; 'RepeatParagraphItemNM'; {_maxWidth: _maxWidth, _marginBottom: _marginBottom, _leading: (_leading ? _leading : -3)}"/>
+			<bind name="repeat" value="_multiParagraphArray; 'RepeatParagraphItemNM'; {_maxWidth: _maxWidth, _marginBottom: _marginBottom, _leading: (_leading ? _leading : 0)}"/>
 		</block>
 	</block>
 	<block className="AccountCompletionRewardTooltip">
@@ -6172,8 +6411,8 @@
 			</style>
 		</block>
 		<block className="BlurMap">
-			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<style>
 				<hitTest value="false"/>
 			</style>
@@ -6721,8 +6960,8 @@
 			</style>
 		</block>
 		<block className="BlurMap">
-			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<style>
 				<hitTest value="false"/>
 			</style>
@@ -6972,8 +7211,8 @@
 			</style>
 		</block>
 		<block className="BlurMap">
-			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<style>
 				<hitTest value="false"/>
 			</style>
@@ -7326,8 +7565,8 @@
 				</style>
 			</block>
 			<block className="BlurMap">
-				<bind name="visible" value="optionData.blurEnabled"/>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+				<bind name="visible" value="optionData.blurEnabled"/>
 				<style>
 					<hitTest value="false"/>
 				</style>
@@ -7561,7 +7800,7 @@
 		</block>
 		<block>
 			<style>
-				<marginTop value="-2px"/>
+				<marginTop value="-3px"/>
 			</style>
 			<bind name="visible" value="(levelfilters.length &gt; 0)"/>
 			<bind name="repeat" value="reduceAppliedValues(levelfilters_shipFilterItem_field); 'ShipLevelRome'"/>
@@ -7572,7 +7811,7 @@
 		<block>
 			<bind name="visible" value="	(levelfilters.length &gt; 0)				&amp;&amp;
 						(
-							(shipTypeFiltersEnabled)		||
+							(shipTypeFiltersEnabled)			||
                         	(nationfilters.length &gt; 0)			||
 							(isShipFilterRestrictionsVisible)
 						)"/>
@@ -7766,45 +8005,66 @@
 	<block className="ParamsModifierItem">
 		<style>
 			<width value="100%"/>
-			<flow value="horizontal"/>
 			<marginBottom value="16px"/>
 		</style>
 		<bind name="style" value="'paddingTop'; (_shrinkHeight == true) ? '-8px' : '0'"/>
-		<block type="text">
-			<styleClass value="$TextDefaultNM"/>
+		<bind name="watch" value="'textColor';	category == 'positive'	? 0xFF4CE8AA :
+								category == 'negative'	? 0xFFFF6600
+														: 0xFFFFFFFF"/>
+		<block>
 			<style>
-				<leading value="-3"/>
-				<alpha value="0.8"/>
 				<width value="100%"/>
 			</style>
-			<bind name="text" value="attributeIDS"/>
-		</block>
-		<block type="text">
+			<block type="text">
+				<bind name="class" value="_fontClass ? _fontClass : '$TextDefaultNM'"/>
+				<style>
+					<leading value="-3"/>
+					<alpha value="0.8"/>
+					<width value="100%"/>
+				</style>
+				<bind name="text" value="attributeIDS"/>
+			</block>
+			<block type="text">
+				<bind name="class" value="_fontClass ? _fontClass : '$TextDefaultNM'"/>
+				<style>
+					<marginLeft value="12px"/>
+				</style>
+				<bind name="style" value="'textColor'; textColor"/>
+				<bind name="substitute" value="5;	{	'[battleship]'	: 'battleship_small_own',
+										'[aircarrier]'	: 'carrier_small_own',
+										'[destroyer]'	: 'destroyer_small_own',
+										'[submarine]'	: 'submarine_small_own'
+									}; measuredValue"/>
+			</block>
+			<block type="text">
+				<bind name="class" value="_fontClass ? _fontClass : '$TextDefaultNM'"/>
+				<style>
+					<marginLeft value="4px"/>
+				</style>
+				<bind name="style" value="'alpha'; category == 'positive' ? 0.65 : 0.8"/>
+				<bind name="style" value="'textColor'; textColor"/>
+				<bind name="text" value="measure"/>
+			</block>
 			<style>
-				<marginLeft value="12px"/>
+				<flow value="horizontal"/>
 			</style>
-			<styleClass value="$TextDefaultNM"/>
-			<bind name="class" value="category == 'positive' ? '$FontColorComparePositive' : 
-					 category == 'negative'	? '$FontColorCompareNegative'
-					 						: '$FontColorDefault'"/>
-			<bind name="substitute" value="5; {
-								 '[battleship]' : 'battleship_small_own',
-								  '[aircarrier]' : 'carrier_small_own',
-								   '[cruiser]' : 'cruiser_small_own',
-								   '[destroyer]' : 'destroyer_small_own',
-								   '[submarine]' : 'submarine_small_own'
-								   }; measuredValue"/>
 		</block>
-		<block type="text">
+		<block>
+			<bind name="visible" value="_dottedDivider ? true : false"/>
 			<style>
-				<marginLeft value="4px"/>
+				<width value="100%"/>
+				<marginTop value="1px"/>
+				<alpha value="0.5"/>
 			</style>
-			<styleClass value="$TextDefaultNM"/>
-			<bind name="style" value="'alpha'; category == 'positive' ? 0.65 : 0.8"/>
-			<bind name="class" value="category == 'positive' ? '$FontColorComparePositive' : 
-					 category == 'negative'	? '$FontColorCompareNegative'
-					 						: '$FontColorDefault'"/>
-			<bind name="text" value="measure"/>
+			<block className="DottedLine">
+				<style>
+					<backgroundImage value="symbol:dotted_line"/>
+					<backgroundRepeatX value="true"/>
+					<width value="100%"/>
+					<height value="1px"/>
+					<alpha value="0.5"/>
+				</style>
+			</block>
 		</block>
 	</block>
 	<block className="ParamsModifierList">
@@ -7815,19 +8075,19 @@
 			<style>
 				<width value="100%"/>
 			</style>
-			<bind name="repeat" value="_attributesPositive; 'ParamsModifierItem'; {_shrinkHeight: _shrinkHeight}"/>
+			<bind name="repeat" value="_attributesPositive; 'ParamsModifierItem'; {_shrinkHeight: _shrinkHeight, _dottedDivider: _dottedDivider, _fontClass: _fontClass}"/>
 		</block>
 		<block>
 			<style>
 				<width value="100%"/>
 			</style>
-			<bind name="repeat" value="_attributesNegative; 'ParamsModifierItem'; {_shrinkHeight: _shrinkHeight}"/>
+			<bind name="repeat" value="_attributesNegative; 'ParamsModifierItem'; {_shrinkHeight: _shrinkHeight, _dottedDivider: _dottedDivider, _fontClass: _fontClass}"/>
 		</block>
 		<block>
 			<style>
 				<width value="100%"/>
 			</style>
-			<bind name="repeat" value="_attributesNeutral; 'ParamsModifierItem'; {_shrinkHeight: _shrinkHeight}"/>
+			<bind name="repeat" value="_attributesNeutral; 'ParamsModifierItem'; {_shrinkHeight: _shrinkHeight, _dottedDivider: _dottedDivider, _fontClass: _fontClass}"/>
 		</block>
 	</block>
 	<css name="$TextDefault12NM">
@@ -7862,6 +8122,7 @@
 	</css>
 	<css name="$TextDefaultNM">
 		<fontFamily value="$WWSDefaultFont"/>
+		<leading value="-3"/>
 		<mouseEnabled value="false"/>
 		<mouseChildren value="false"/>
 		<fontSize value="15"/>
@@ -7922,6 +8183,7 @@
 	</css>
 	<css name="$TextDefault21NM">
 		<fontFamily value="$WWSDefaultFont"/>
+		<leading value="-4"/>
 		<mouseEnabled value="false"/>
 		<mouseChildren value="false"/>
 		<fontSize value="21"/>
@@ -8037,6 +8299,24 @@
 		<fontSize value="60"/>
 		<marginText value="-3px|-4px|-20px|-15px"/>
 		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextWithoutGlow17NM">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFont"/>
+		<fontSize value="17"/>
+		<marginText value="-3px|-4px|-7px|-6px"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextWithoutGlowBold23NM">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<fontSize value="23"/>
+		<marginText value="-3px|-3px|-9px|-6px"/>
 		<selectable value="false"/>
 		<textColor value="0xFFFFFF"/>
 	</css>
@@ -8270,8 +8550,8 @@
 			</style>
 		</block>
 		<block className="BlurMap">
-			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<style>
 				<hitTest value="false"/>
 			</style>

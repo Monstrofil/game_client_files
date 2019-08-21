@@ -818,8 +818,8 @@
 			</style>
 		</block>
 		<block className="BlurMap">
-			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<style>
 				<hitTest value="false"/>
 			</style>
@@ -914,21 +914,22 @@
 	</block>
 	<block className="ArcEventEventLoyaltyPoints">
 		<style>
+			<flow value="horizontal"/>
 			<width value="100%"/>
 			<marginTop value="8px"/>
 			<marginBottom value="8px"/>
 		</style>
 		<block type="text">
+			<style>
+				<width value="100%"/>
+			</style>
 			<styleClass value="$TextDefault17NM"/>
 			<bind name="text" value="_text"/>
 		</block>
 		<block>
-			<style>
-				<position value="absolute"/>
-				<right value="0px"/>
-				<marginTop value="-8px"/>
-			</style>
-			<bind name="instance" value="'ScoreRatioCounter'; { _playerPointsCounter: _playerPointsCounter, _totalPointsCounter: _totalPointsCounter }"/>
+			<bind name="instance" value="'DefaultDividedCounter'; {	_curValueTextClass: '$TextDefaultBold17NM',
+													_curValue: _playerPointsCounter,
+													_maxValue: _totalPointsCounter}"/>
 		</block>
 	</block>
 	<block className="ArcEventSideModifier">
@@ -1007,8 +1008,8 @@
 			</style>
 		</block>
 		<block className="BlurMap">
-			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<style>
 				<hitTest value="false"/>
 			</style>
@@ -1186,8 +1187,8 @@
 			</style>
 		</block>
 		<block className="BlurMap">
-			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<style>
 				<hitTest value="false"/>
 			</style>
@@ -1392,11 +1393,15 @@
 				</style>
 			</block>
 			<block>
+				<style>
+					<marginTop value="7px"/>
+				</style>
 				<bind name="visible" value="(playerPointsCounter != null) || (totalPointsCounter != null)"/>
-				<bind name="instance" value="'ScoreRatioCounter'; { 	_playerPointsCounter: format(playerPointsCounter), 
-													_totalPointsCounter: format(totalPointsCounter),
-													_tooltipTextPlayerResult: tooltipTextPlayerResult, 
-													_tooltipTextTotalResult: tooltipTextTotalResult }"/>
+				<bind name="instance" value="'DefaultDividedCounter'; {	_curValueTextClass: '$TextDefaultBold21NM',
+														_curValue: format(playerPointsCounter),
+														_curValueTooltipText: tooltipTextPlayerResult,
+														_maxValue: format(totalPointsCounter),
+														_maxValueTooltipText: tooltipTextTotalResult}"/>
 			</block>
 			<block>
 				<bind name="visible" value="currency != null"/>
@@ -2610,8 +2615,8 @@
 			</style>
 		</block>
 		<block className="BlurMap">
-			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<style>
 				<hitTest value="false"/>
 			</style>
@@ -2682,45 +2687,66 @@
 	<block className="ParamsModifierItem">
 		<style>
 			<width value="100%"/>
-			<flow value="horizontal"/>
 			<marginBottom value="16px"/>
 		</style>
 		<bind name="style" value="'paddingTop'; (_shrinkHeight == true) ? '-8px' : '0'"/>
-		<block type="text">
-			<styleClass value="$TextDefaultNM"/>
+		<bind name="watch" value="'textColor';	category == 'positive'	? 0xFF4CE8AA :
+								category == 'negative'	? 0xFFFF6600
+														: 0xFFFFFFFF"/>
+		<block>
 			<style>
-				<leading value="-3"/>
-				<alpha value="0.8"/>
 				<width value="100%"/>
 			</style>
-			<bind name="text" value="attributeIDS"/>
-		</block>
-		<block type="text">
+			<block type="text">
+				<bind name="class" value="_fontClass ? _fontClass : '$TextDefaultNM'"/>
+				<style>
+					<leading value="-3"/>
+					<alpha value="0.8"/>
+					<width value="100%"/>
+				</style>
+				<bind name="text" value="attributeIDS"/>
+			</block>
+			<block type="text">
+				<bind name="class" value="_fontClass ? _fontClass : '$TextDefaultNM'"/>
+				<style>
+					<marginLeft value="12px"/>
+				</style>
+				<bind name="style" value="'textColor'; textColor"/>
+				<bind name="substitute" value="5;	{	'[battleship]'	: 'battleship_small_own',
+										'[aircarrier]'	: 'carrier_small_own',
+										'[destroyer]'	: 'destroyer_small_own',
+										'[submarine]'	: 'submarine_small_own'
+									}; measuredValue"/>
+			</block>
+			<block type="text">
+				<bind name="class" value="_fontClass ? _fontClass : '$TextDefaultNM'"/>
+				<style>
+					<marginLeft value="4px"/>
+				</style>
+				<bind name="style" value="'alpha'; category == 'positive' ? 0.65 : 0.8"/>
+				<bind name="style" value="'textColor'; textColor"/>
+				<bind name="text" value="measure"/>
+			</block>
 			<style>
-				<marginLeft value="12px"/>
+				<flow value="horizontal"/>
 			</style>
-			<styleClass value="$TextDefaultNM"/>
-			<bind name="class" value="category == 'positive' ? '$FontColorComparePositive' : 
-					 category == 'negative'	? '$FontColorCompareNegative'
-					 						: '$FontColorDefault'"/>
-			<bind name="substitute" value="5; {
-								 '[battleship]' : 'battleship_small_own',
-								  '[aircarrier]' : 'carrier_small_own',
-								   '[cruiser]' : 'cruiser_small_own',
-								   '[destroyer]' : 'destroyer_small_own',
-								   '[submarine]' : 'submarine_small_own'
-								   }; measuredValue"/>
 		</block>
-		<block type="text">
+		<block>
+			<bind name="visible" value="_dottedDivider ? true : false"/>
 			<style>
-				<marginLeft value="4px"/>
+				<width value="100%"/>
+				<marginTop value="1px"/>
+				<alpha value="0.5"/>
 			</style>
-			<styleClass value="$TextDefaultNM"/>
-			<bind name="style" value="'alpha'; category == 'positive' ? 0.65 : 0.8"/>
-			<bind name="class" value="category == 'positive' ? '$FontColorComparePositive' : 
-					 category == 'negative'	? '$FontColorCompareNegative'
-					 						: '$FontColorDefault'"/>
-			<bind name="text" value="measure"/>
+			<block className="DottedLine">
+				<style>
+					<backgroundImage value="symbol:dotted_line"/>
+					<backgroundRepeatX value="true"/>
+					<width value="100%"/>
+					<height value="1px"/>
+					<alpha value="0.5"/>
+				</style>
+			</block>
 		</block>
 	</block>
 	<block className="ParamsModifierList">
@@ -2731,19 +2757,19 @@
 			<style>
 				<width value="100%"/>
 			</style>
-			<bind name="repeat" value="_attributesPositive; 'ParamsModifierItem'; {_shrinkHeight: _shrinkHeight}"/>
+			<bind name="repeat" value="_attributesPositive; 'ParamsModifierItem'; {_shrinkHeight: _shrinkHeight, _dottedDivider: _dottedDivider, _fontClass: _fontClass}"/>
 		</block>
 		<block>
 			<style>
 				<width value="100%"/>
 			</style>
-			<bind name="repeat" value="_attributesNegative; 'ParamsModifierItem'; {_shrinkHeight: _shrinkHeight}"/>
+			<bind name="repeat" value="_attributesNegative; 'ParamsModifierItem'; {_shrinkHeight: _shrinkHeight, _dottedDivider: _dottedDivider, _fontClass: _fontClass}"/>
 		</block>
 		<block>
 			<style>
 				<width value="100%"/>
 			</style>
-			<bind name="repeat" value="_attributesNeutral; 'ParamsModifierItem'; {_shrinkHeight: _shrinkHeight}"/>
+			<bind name="repeat" value="_attributesNeutral; 'ParamsModifierItem'; {_shrinkHeight: _shrinkHeight, _dottedDivider: _dottedDivider, _fontClass: _fontClass}"/>
 		</block>
 	</block>
 	<block className="ArcEventSideResultsWindow">
@@ -3280,8 +3306,8 @@
 			</style>
 		</block>
 		<block className="BlurMap">
-			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<style>
 				<hitTest value="false"/>
 			</style>
@@ -4841,8 +4867,8 @@
 		</style>
 	</block>
 	<block className="BlurMap">
-		<bind name="visible" value="optionData.blurEnabled"/>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<bind name="visible" value="optionData.blurEnabled"/>
 		<style>
 			<hitTest value="false"/>
 		</style>
@@ -4861,8 +4887,8 @@
 		</block>
 	</block>
 	<block className="BlurMapLow">
-		<bind name="visible" value="optionData.blurEnabled"/>
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<bind name="visible" value="optionData.blurEnabled"/>
 		<style>
 			<hitTest value="false"/>
 		</style>
@@ -4950,6 +4976,23 @@
 		<marginTop value="12"/>
 		<marginLeft value="12"/>
 		<marginRight value="12"/>
+	</css>
+	<css name="$DragScrollerStyleVertical">
+		<scrollbarController value="lesta.unbound.style.UbScrollingControllerDrag"/>
+		<wheelScrollSpeed value="100"/>
+		<flow value="vertical"/>
+		<height value="100%f"/>
+		<mouseEnabledWhileScroll value="false"/>
+		<scrollbar value="ModernScrollBar"/>
+		<overflow value="scroll"/>
+	</css>
+	<css name="$DragScrollerStyleHorizonal">
+		<scrollbarController value="lesta.unbound.style.UbScrollingControllerDrag"/>
+		<wheelScrollSpeed value="0"/>
+		<flow value="horizontal"/>
+		<width value="100%f"/>
+		<mouseEnabledWhileScroll value="true"/>
+		<overflow value="scroll"/>
 	</css>
 	<css name="$TextNano">
 		<fontFamily value="$WWSDefaultFont"/>
@@ -5867,9 +5910,9 @@
 		</block>
 	</block>
 	<block className="ModalWindowHeaderFullSize">
-		<bind name="style" value="'paddingTop';		_paddingTop   ? _paddingTop   : '720:20,2160:100ah'"/>
-		<bind name="style" value="'paddingRight';	_paddingRight ? _paddingRight : '1280:20,1920:46aw'"/>
-		<bind name="style" value="'paddingLeft'; 	_paddingLeft  ? _paddingLeft  : '1280:20,1920:46aw'"/>
+		<bind name="style" value="'paddingTop';		_paddingTop		? _paddingTop	:	'720:20,2160:100ah'"/>
+		<bind name="style" value="'paddingRight';	_paddingRight	? _paddingRight	:	'1280:20,1920:46aw'"/>
+		<bind name="style" value="'paddingLeft'; 	_paddingLeft	? _paddingLeft	:	'1280:20,1920:46aw'"/>
 		<style>
 			<width value="100%"/>
 		</style>
@@ -5877,7 +5920,7 @@
 			<bind name="visible" value="_hideBackButton != true"/>
 			<style>
 				<position value="absolute"/>
-				<marginTop value="-3px"/>
+				<top value="-5px"/>
 			</style>
 			<bind name="instance" value="'BackButton'; { _text: _backButtonText,
 										_event: _event, _eventData: _eventData,
@@ -5886,7 +5929,7 @@
 		</block>
 		<block>
 			<bind name="visible" value="_windowName != null"/>
-			<styleClass value="$MiddleAligned"/>
+			<bind name="class" value="_leftAligned ? '$None' : '$MiddleAligned' "/>
 			<block type="text">
 				<styleClass value="$TextDefaultBold21NM"/>
 				<bind name="text" value="toUpperCase(tr(_windowName))"/>
@@ -5897,7 +5940,7 @@
 			<style>
 				<position value="absolute"/>
 				<right value="4"/>
-				<top value="2"/>
+				<top value="3px"/>
 			</style>
 			<block className="ModalWindowCloseIcon">
 				<style>
@@ -5966,6 +6009,33 @@
 			</block>
 		</block>
 	</block>
+	<block className="ModalWindowHeaderFullSizeFakeBlock">
+		<bind name="style" value="'paddingTop';		_paddingTop		? _paddingTop	:	'720:20,2160:100ah'"/>
+		<style>
+			<alpha value="0"/>
+			<hitTest value="false"/>
+		</style>
+		<block type="text">
+			<styleClass value="$TextDefaultBold21NM"/>
+			<bind name="text" value="'Fake offset block'"/>
+		</block>
+		<block>
+			<style>
+				<width value="10px"/>
+				<marginTop value="720:12,1080:16ah"/>
+			</style>
+			<block className="HorizontalDivider">
+				<styleClass value="$PxHorizontalCorrection"/>
+				<style>
+					<width value="100%"/>
+					<height value="3px"/>
+				</style>
+				<block className="divider_h" type="native">
+					<styleClass value="$Fullsize"/>
+				</block>
+			</block>
+		</block>
+	</block>
 	<block className="DropdownInfotip">
 		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'shipOverview'"/>
 		<bind name="transition" value="shipOverview.enabled; shipOverview.enabled ? 0.4 : 0.25; {alpha: 1}; {alpha: 0}; {alpha: 1}; 2; !(shipOverview.enabled) &amp;&amp; !(inPort) ? 0.15 : 0.5"/>
@@ -5990,8 +6060,8 @@
 				</style>
 			</block>
 			<block className="BlurMap">
-				<bind name="visible" value="optionData.blurEnabled"/>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+				<bind name="visible" value="optionData.blurEnabled"/>
 				<style>
 					<hitTest value="false"/>
 				</style>
@@ -6513,8 +6583,8 @@
 			</style>
 		</block>
 		<block className="BlurMap">
-			<bind name="visible" value="optionData.blurEnabled"/>
 			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<bind name="visible" value="optionData.blurEnabled"/>
 			<style>
 				<hitTest value="false"/>
 			</style>
@@ -6636,12 +6706,16 @@
 		<bind name="style" value="'marginBottom'; _marginBottom ? _marginBottom : '16px'"/>
 		<bind name="class" value="_middleAligned ? '$MiddleAligned' : ''"/>
 		<bind name="watch" value="'textItem'; _isTextInValue ? $value : _paragraphText"/>
+		<bind name="style" value="'width'; _width ? _width : 'auto'"/>
 		<block type="text">
 			<styleClass value="$TextDefaultNM"/>
 			<bind name="class" value="_class"/>
 			<bind name="style" value="'leading'; _leading ? _leading : 0"/>
 			<bind name="style" value="'textAlign'; _textAlign ? _textAlign : 'left'"/>
-			<bind name="style" value="'maxWidth'; _maxWidth ? _maxWidth : 300"/>
+			<bind name="style" value="'maxWidth'; _maxWidth	? _maxWidth :
+									_width	? 3000
+											: 300"/>
+			<bind name="style" value="'width'; _width ? _width : 'auto'"/>
 			<bind name="substitute" value="_substitute.imageOffset ? _substitute.imageOffset : 0;
 							_substitute.map ? _substitute.map : {}; (_toUpperCase ? toUpperCase(tr(textItem)) : textItem)"/>
 		</block>
@@ -6657,12 +6731,14 @@
 	<block className="CheckBox">
 		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
 		<bind name="watch" value="'isEnabled'; _disabled != true"/>
+		<bind name="style" value="'alpha'; isEnabled ? 1 : 0.7"/>
 		<block className="checkbox_no_label" type="native">
 			<styleClass value="$FullsizeAbsolute"/>
 			<bind name="enabled" value="isEnabled"/>
-			<bind name="selected" value="switchProperty"/>
+			<bind name="selected" value="isEnabled ? switchProperty : false"/>
 		</block>
 		<block type="text">
+			<bind name="style" value="'alpha'; isEnabled ? 1 : 0.4"/>
 			<styleClass value="$TextHeaderBigDefault"/>
 			<style>
 				<marginLeft value="23px"/>
@@ -6670,7 +6746,7 @@
 				<hitTest value="false"/>
 			</style>
 			<bind name="style" value="'maxWidth'; _maxTfWidth ? _maxTfWidth : 300"/>
-			<bind name="transition" value="(rollOver &amp;&amp; !mouseDown) &amp;&amp; isEnabled; 0.15; {alpha: 0.8}; {alpha: 1}; {alpha: 0.8}; 2"/>
+			<bind name="transition" value="(rollOver &amp;&amp; !mouseDown) &amp;&amp; isEnabled; 0.07; {alpha: 0.8}; {alpha: 1}; {alpha: 0.8}; 2"/>
 			<bind name="text" value="label"/>
 		</block>
 	</block>
@@ -6952,43 +7028,6 @@
 			</style>
 		</block>
 	</block>
-	<block className="ScoreRatioCounter">
-		<style>
-			<flow value="horizontal"/>
-		</style>
-		<block>
-			<bind name="tooltip" value="'SimpleTooltip'; _tooltipTextPlayerResult ? { tooltipText: _tooltipTextPlayerResult } : null"/>
-			<bind name="style" value="'alpha'; (_playerPointsCounter == 0) ? 0.5 : 1"/>
-			<block type="text">
-				<bind name="class" value="'$TextHeaderWhiteBold'"/>
-				<bind name="text" value="_playerPointsCounter"/>
-			</block>
-		</block>
-		<block>
-			<bind name="tooltip" value="'SimpleTooltip'; _tooltipTextTotalResult ? { tooltipText: _tooltipTextTotalResult } : null"/>
-			<style>
-				<alpha value="0.7"/>
-			</style>
-			<block type="text">
-				<style>
-					<marginTop value="1px"/>
-				</style>
-				<bind name="class" value="'$TextHeaderBold'"/>
-				<bind name="text" value="'/'"/>
-			</block>
-			<block type="text">
-				<style>
-					<marginTop value="2px"/>
-					<marginLeft value="-1px"/>
-				</style>
-				<bind name="class" value="'$TextHeaderBold'"/>
-				<bind name="text" value="_totalPointsCounter"/>
-			</block>
-			<style>
-				<flow value="horizontal"/>
-			</style>
-		</block>
-	</block>
 	<block className="PlayerNameAndClanTag">
 		<bind name="watch" value="'clanTagColor'; ('0xff' + _clanTagColor)"/>
 		<bind name="watch" value="'haveClanTag'; _clanTag != null &amp;&amp;
@@ -7236,6 +7275,43 @@
 				<bind name="class" value="'$FontColorWhite'"/>
 				<bind name="text" value="achievement.subtypeIDS"/>
 			</block>
+		</block>
+	</block>
+	<block className="StatusLine">
+		<style>
+			<flow value="horizontal"/>
+		</style>
+		<bind name="style" value="'width'; _width ? _width : 'auto'"/>
+		<bind name="watch" value="'textColor';	_unifiedStatus == SC.Ui_styles.UNIFIED_STATUS.ATTENTION			? SC.Ui_styles.SERVICE_COLORS.ORANGE :
+									_unifiedStatus == SC.Ui_styles.UNIFIED_STATUS.DATE_ATTENTION	? SC.Ui_styles.SERVICE_COLORS.ORANGE :
+									_unifiedStatus == SC.Ui_styles.UNIFIED_STATUS.CHECK				? SC.Ui_styles.SERVICE_COLORS.YELLOW :
+									_unifiedStatus == SC.Ui_styles.UNIFIED_STATUS.NEGATIVE			? SC.Ui_styles.SERVICE_COLORS.RED	:
+									_unifiedStatus == SC.Ui_styles.UNIFIED_STATUS.WARNING			? SC.Ui_styles.SERVICE_COLORS.RED	:
+									_unifiedStatus == SC.Ui_styles.UNIFIED_STATUS.DEFAULT			? SC.Ui_styles.SERVICE_COLORS.WHITE
+																									: SC.Ui_styles.SERVICE_COLORS.WHITE"/>
+		<bind name="watch" value="'textAlpha';	textColor == SC.Ui_styles.SERVICE_COLORS.ORANGE	? 1 :
+									textColor == SC.Ui_styles.SERVICE_COLORS.YELLOW	? 1 :
+									textColor == SC.Ui_styles.SERVICE_COLORS.RED		? 1
+																							: 0.9"/>
+		<block>
+			<style>
+				<width value="19px"/>
+				<height value="19px"/>
+				<marginTop value="-3px"/>
+				<marginLeft value="-3px"/>
+				<marginBottom value="-7px"/>
+				<marginRight value="5px"/>
+				<backgroundSize value="cover"/>
+			</style>
+			<bind name="style" value="'backgroundImage'; 'url:../service_kit/unified_status_icons/icon_' + _unifiedStatus + '.png'"/>
+		</block>
+		<block type="text">
+			<bind name="style" value="'width'; _width ? _width : 'auto'"/>
+			<bind name="class" value="_textClass ? _textClass : '$TextDefaultNM'"/>
+			<bind name="style" value="'leading'; _leading ? _leading : -3"/>
+			<bind name="style" value="'alpha'; textAlpha"/>
+			<bind name="style" value="'textColor'; textColor"/>
+			<bind name="text" value="_text"/>
 		</block>
 	</block>
 	<block className="BlackDivider1">
@@ -7526,8 +7602,8 @@
 				</style>
 			</block>
 			<block className="BlurMap">
-				<bind name="visible" value="optionData.blurEnabled"/>
 				<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+				<bind name="visible" value="optionData.blurEnabled"/>
 				<style>
 					<hitTest value="false"/>
 				</style>
@@ -7808,19 +7884,25 @@
 			<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
 		</block>
 	</block>
+	<css name="$ResizeableButtonLabelWithoutAlignment">
+		<marginLeft value="16px"/>
+		<marginRight value="16px"/>
+	</css>
 	<block className="DefaultButtonCostMedium">
 		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
 		<bind name="watchDH" value="'operationsAccountLocked';	['resourceEntity.accountResource.evOperationsLockChanged'];	resourceEntity.accountResource.operationsLocked"/>
 		<bind name="tooltip" value="'DiscountTooltip'; priceInfo.basePrice &amp;&amp; (priceInfo.finalPrice != priceInfo.basePrice) ? { priceInfo: priceInfo, _isExternal: _isExternal } : null"/>
 		<style>
-			<width value="100%"/>
+			<width value="1px"/>
 		</style>
+		<bind name="style" value="'width'; _width ? _width : '100%'"/>
 		<bind name="style" value="'height'; _height ? _height : 'auto'"/>
 		<bind name="name" value="_name ? _name : null"/>
 		<block className="button_default_no_label" type="native">
 			<style>
-				<width value="100%"/>
+				<width value="1px"/>
 			</style>
+			<bind name="style" value="'width'; _width ? _width : '100%'"/>
 			<bind name="style" value="'height'; _height ? _height : 'auto'"/>
 			<bind name="focus" value="_focusIndex; _defaultFocused"/>
 			<bind name="enabled" value="_enabled &amp;&amp; (_isTransactionBtn ? !(operationsAccountLocked) : true)"/>
@@ -7830,7 +7912,7 @@
 			<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
 			<bind name="selected" value="_selected"/>
 			<block>
-				<styleClass value="$MiddleAligned"/>
+				<bind name="class" value="_width ? '$ResizeableButtonLabelWithoutAlignment' : '$MiddleAligned'"/>
 				<style>
 					<marginTop value="3px"/>
 					<marginBottom value="4px"/>
@@ -7858,6 +7940,15 @@
 						<marginLeft value="8px"/>
 					</style>
 					<block className="icon_out_grey" type="native"/>
+				</block>
+				<block>
+					<bind name="fade" value="_isNewMarker; 0.15; {alpha: 0, top: 10}; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+					<style>
+						<position value="absolute"/>
+						<right value="-35px"/>
+						<top value="-4px"/>
+					</style>
+					<bind name="instance" value="'MarkerNewAttention'; { }"/>
 				</block>
 				<style>
 					<flow value="horizontal"/>
@@ -8059,6 +8150,52 @@
 			</block>
 		</block>
 	</block>
+	<block className="ImageButton">
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
+		<bind name="request" value="'click'; _request &amp;&amp; _enabled ? _request : null; _requestParams ? _requestParams : {}"/>
+		<bind name="action" value="'click'; _action &amp;&amp; _enabled ? _action : null; _actionParams ? _actionParams : {}"/>
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController; null; 'ct_'"/>
+		<bind name="var" value="{ 
+		ctRollOver: {
+			redMultiplier: 1,
+			greenMultiplier: 1,
+			blueMultiplier: 1,
+			alphaMultiplier: 1,
+			redOffset: 30,
+			greenOffset: 30,
+			blueOffset: 30,
+			alphaOffset: 0
+		}
+	}"/>
+		<bind name="var" value="{ 
+		ctMouseDown: {
+			redMultiplier: 1,
+			greenMultiplier: 1,
+			blueMultiplier: 1,
+			alphaMultiplier: 1,
+			redOffset: -30,
+			greenOffset: -30,
+			blueOffset: -30,
+			alphaOffset: 0
+		}
+	}"/>
+		<bind name="colorTransform" value="	_enabled &amp;&amp; (ct_mouseDown)	? ctMouseDown :
+							_enabled &amp;&amp; (ct_rollOver)	? ctRollOver
+														: {}"/>
+		<bind name="style" value="'width'; _width ? _width : '50px'"/>
+		<bind name="style" value="'height'; _height ? _height : '50px'"/>
+		<block>
+			<bind name="name" value="_name"/>
+			<bind name="style" value="'width'; _width ? _width : '50px'"/>
+			<bind name="style" value="'height'; _height ? _height : '50px'"/>
+			<style>
+				<backgroundStretchX value="true"/>
+				<backgroundStretchY value="true"/>
+			</style>
+			<bind name="style" value="'alpha'; _alpha != null ? _alpha : 1.0"/>
+			<bind name="style" value="'backgroundImage'; _backgroundImage"/>
+		</block>
+	</block>
 	<css name="$TextDefault12NM">
 		<fontFamily value="$WWSDefaultFont"/>
 		<mouseEnabled value="false"/>
@@ -8091,6 +8228,7 @@
 	</css>
 	<css name="$TextDefaultNM">
 		<fontFamily value="$WWSDefaultFont"/>
+		<leading value="-3"/>
 		<mouseEnabled value="false"/>
 		<mouseChildren value="false"/>
 		<fontSize value="15"/>
@@ -8151,6 +8289,7 @@
 	</css>
 	<css name="$TextDefault21NM">
 		<fontFamily value="$WWSDefaultFont"/>
+		<leading value="-4"/>
 		<mouseEnabled value="false"/>
 		<mouseChildren value="false"/>
 		<fontSize value="21"/>
@@ -8266,6 +8405,24 @@
 		<fontSize value="60"/>
 		<marginText value="-3px|-4px|-20px|-15px"/>
 		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextWithoutGlow17NM">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFont"/>
+		<fontSize value="17"/>
+		<marginText value="-3px|-4px|-7px|-6px"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextWithoutGlowBold23NM">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<fontSize value="23"/>
+		<marginText value="-3px|-3px|-9px|-6px"/>
 		<selectable value="false"/>
 		<textColor value="0xFFFFFF"/>
 	</css>

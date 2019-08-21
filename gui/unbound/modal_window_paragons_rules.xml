@@ -1,0 +1,2312 @@
+
+<ui>
+	<css name="$Fullsize">
+		<width value="100%"/>
+		<height value="100%"/>
+	</css>
+	<css name="$FullsizeAbsolute">
+		<width value="100%"/>
+		<position value="absolute"/>
+		<height value="100%"/>
+	</css>
+	<css name="$FullWidth">
+		<width value="100%"/>
+	</css>
+	<css name="$MiddleAligned">
+		<marginLeft value="-50%"/>
+		<left value="50%"/>
+	</css>
+	<css name="$MiddleAlignedAbsolutely">
+		<position value="absolute"/>
+		<marginLeft value="-50%"/>
+		<left value="50%"/>
+	</css>
+	<css name="$MiddleVAligned">
+		<top value="50%"/>
+		<marginTop value="-50%"/>
+	</css>
+	<css name="$EyeLevelVAligned">
+		<top value="720:360,2160:900ah"/>
+		<marginTop value="-50%"/>
+	</css>
+	<css name="$MiddleVAlignedAbsolutely">
+		<position value="absolute"/>
+		<top value="50%"/>
+		<marginTop value="-50%"/>
+	</css>
+	<css name="$MiddleVHAbsolutely">
+		<position value="absolute"/>
+		<top value="50%"/>
+		<marginLeft value="-50%"/>
+		<marginTop value="-50%"/>
+		<left value="50%"/>
+	</css>
+	<css name="$AlignRight">
+		<position value="absolute"/>
+		<right value="0"/>
+	</css>
+	<css name="$MouseDisable">
+		<hitTest value="false"/>
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+	</css>
+	<css name="$InfoLineBoundaries">
+		<marginTop value="6px"/>
+		<marginBottom value="6px"/>
+	</css>
+	<css name="$InfoBlockHorizontalIndent">
+		<width value="100%"/>
+		<marginLeft value="12px"/>
+		<marginRight value="12px"/>
+	</css>
+	<css name="$InfoBlockIndent">
+		<width value="100%"/>
+		<marginTop value="9px"/>
+		<marginLeft value="12px"/>
+		<marginBottom value="9px"/>
+		<marginRight value="12px"/>
+	</css>
+	<css name="$InfoBlockHorizontalIndentNoWidth">
+		<marginLeft value="12px"/>
+		<marginRight value="12px"/>
+	</css>
+	<css name="$DockPanelMargins">
+		<marginLeft value="13px"/>
+		<marginRight value="13px"/>
+	</css>
+	<css name="$InfoBlockIndentNoWidth">
+		<marginBottom value="9px"/>
+		<marginTop value="9px"/>
+		<marginLeft value="12px"/>
+		<marginRight value="12px"/>
+	</css>
+	<css name="$TextInputEnterButton">
+		<right value="2px"/>
+		<top value="50%"/>
+		<height value="25px"/>
+		<width value="52px"/>
+		<position value="absolute"/>
+		<marginTop value="-11px"/>
+	</css>
+	<css name="$TextAreaEnterButton">
+		<position value="absolute"/>
+		<height value="25px"/>
+		<right value="2px"/>
+		<width value="52px"/>
+		<bottom value="0px"/>
+	</css>
+	<css name="$DefaultScrollBar">
+		<wheelScrollSpeed value="15"/>
+		<scrollbarController value="lesta.unbound.style.UbScrollingControllerModern"/>
+		<scrollArea value="ModernScrollArea"/>
+		<scrollbar value="ModernScrollBar"/>
+		<scrollbarTrackMode value="scrollToCursor"/>
+	</css>
+	<css name="$None"/>
+	<css name="$PxHorizontalCorrection">
+		<marginLeft value="1px"/>
+		<marginRight value="1px"/>
+	</css>
+	<css name="$PxIndent">
+		<marginTop value="1px"/>
+		<marginBottom value="1px"/>
+		<marginLeft value="1px"/>
+		<marginRight value="1px"/>
+	</css>
+	<css name="$BottomMenu">
+		<position value="absolute"/>
+		<bottom value="0px"/>
+		<width value="100%"/>
+		<height value="30px"/>
+	</css>
+	<block className="HorizontalDivider">
+		<styleClass value="$PxHorizontalCorrection"/>
+		<style>
+			<width value="100%"/>
+			<height value="3px"/>
+		</style>
+		<block className="divider_h" type="native">
+			<styleClass value="$Fullsize"/>
+		</block>
+	</block>
+	<css name="$ModernizationAndConsumScrollBar">
+		<wheelScrollSpeed value="15"/>
+		<scrollbarController value="lesta.unbound.style.UbScrollingControllerModern"/>
+		<scrollArea value="ModernScrollArea"/>
+		<scrollbar value="ModernScrollBarSimple"/>
+		<scrollbarTrackMode value="scrollToCursor"/>
+	</css>
+	<block className="VerticalDivider">
+		<style>
+			<height value="100%"/>
+			<width value="3px"/>
+		</style>
+		<block className="divider_v" type="native">
+			<styleClass value="$Fullsize"/>
+		</block>
+	</block>
+	<block className="TableDivider">
+		<style>
+			<backgroundImage value="symbol:dotted_line"/>
+			<backgroundRepeatX value="true"/>
+			<width value="100%"/>
+			<height value="1px"/>
+			<alpha value="0.1"/>
+		</style>
+	</block>
+	<block className="Underline">
+		<bind name="style" value="'backgroundColor'; (rollOver &amp;&amp; !mouseDown) ? '0xFFFFFFFF' : '0x00856933'"/>
+		<bind name="transition" value="(rollOver &amp;&amp; !mouseDown) == true; 0.3; {scaleX : 0, alpha : 0}; {scaleX : 1, alpha :1}"/>
+		<style>
+			<backgroundColor value="0xFFFFFFFF"/>
+			<position value="absolute"/>
+			<height value="1px"/>
+			<width value="100%"/>
+			<bottom value="0px"/>
+			<marginLeft value="2px"/>
+			<marginRight value="2px"/>
+		</style>
+	</block>
+	<block className="BlurMap">
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<bind name="visible" value="optionData.blurEnabled"/>
+		<style>
+			<hitTest value="false"/>
+		</style>
+		<styleClass value="$FullsizeAbsolute"/>
+		<block className="mc_blurmap_medium" type="native">
+			<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
+			<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
+			<styleClass value="$FullsizeAbsolute"/>
+			<bind name="blurMap" value="0"/>
+		</block>
+		<block className="inner_panel" type="native">
+			<style>
+				<alpha value="0.5"/>
+			</style>
+			<styleClass value="$FullsizeAbsolute"/>
+		</block>
+	</block>
+	<block className="BlurMapLow">
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<bind name="visible" value="optionData.blurEnabled"/>
+		<style>
+			<hitTest value="false"/>
+		</style>
+		<styleClass value="$FullsizeAbsolute"/>
+		<block className="mc_blurmap5" type="native">
+			<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
+			<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
+			<styleClass value="$FullsizeAbsolute"/>
+			<bind name="blurMap" value="0"/>
+		</block>
+		<block className="inner_panel" type="native">
+			<style>
+				<alpha value="0.2"/>
+			</style>
+			<styleClass value="$FullsizeAbsolute"/>
+		</block>
+	</block>
+	<block className="BlurMapNotifications">
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<bind name="visible" value="optionData.blurEnabled"/>
+		<style>
+			<position value="absolute"/>
+			<width value="100%"/>
+			<height value="100%"/>
+		</style>
+		<block className="mc_blurmap5_feather" type="native">
+			<bind name="fade" value="_start; 0.3; {alpha: 0, top: 10}; {alpha: 1, top:0 }; {alpha: 0, top: -20}; 1; 0.15"/>
+			<style>
+				<width value="100%"/>
+				<height value="100%"/>
+			</style>
+			<bind name="blurMap" value="0"/>
+		</block>
+	</block>
+	<block className="DeclareBlurLayer">
+		<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+		<bind name="visible" value="optionData.blurEnabled"/>
+		<block className="transparentPixel" type="native">
+			<bind name="blurLayer" value="0"/>
+		</block>
+		<style>
+			<position value="absolute"/>
+		</style>
+	</block>
+	<css name="$ContextMenuListItem">
+		<width value="100%"/>
+		<height value="29px"/>
+	</css>
+	<css name="$ContextMenuListItemContent">
+		<width value="198px"/>
+		<marginLeft value="6px"/>
+		<marginRight value="6px"/>
+	</css>
+	<css name="$ContextMenuDimentions">
+		<width value="210px"/>
+	</css>
+	<block className="DropShadow">
+		<styleClass value="$FullsizeAbsolute"/>
+		<styleClass value="$MouseDisable"/>
+		<block className="drop_shadow" type="native">
+			<styleClass value="$Fullsize"/>
+			<style>
+				<position value="absolute"/>
+				<marginTop value="-2px"/>
+				<marginRight value="-6px"/>
+				<marginBottom value="-10px"/>
+				<marginLeft value="-6px"/>
+			</style>
+		</block>
+	</block>
+	<block className="EmptyItem">
+		<bind name="visible" value="false"/>
+	</block>
+	<block className="DottedLine">
+		<style>
+			<backgroundImage value="symbol:dotted_line"/>
+			<backgroundRepeatX value="true"/>
+			<width value="100%"/>
+			<height value="1px"/>
+			<alpha value="0.5"/>
+		</style>
+	</block>
+	<css name="$ContentIndents">
+		<marginBottom value="12"/>
+		<marginTop value="12"/>
+		<marginLeft value="12"/>
+		<marginRight value="12"/>
+	</css>
+	<css name="$DragScrollerStyleVertical">
+		<scrollbarController value="lesta.unbound.style.UbScrollingControllerDrag"/>
+		<wheelScrollSpeed value="100"/>
+		<flow value="vertical"/>
+		<height value="100%f"/>
+		<mouseEnabledWhileScroll value="false"/>
+		<scrollbar value="ModernScrollBar"/>
+		<overflow value="scroll"/>
+	</css>
+	<css name="$DragScrollerStyleHorizonal">
+		<scrollbarController value="lesta.unbound.style.UbScrollingControllerDrag"/>
+		<wheelScrollSpeed value="0"/>
+		<flow value="horizontal"/>
+		<width value="100%f"/>
+		<mouseEnabledWhileScroll value="true"/>
+		<overflow value="scroll"/>
+	</css>
+	<block className="ModalWindowRulesContent">
+		<bind name="var" value="{windowAppearLag: 0.17}"/>
+		<style>
+			<width value="600px"/>
+			<height value="100%f"/>
+		</style>
+		<bind name="style" value="'width'; _width ? _width : '600px'"/>
+		<block>
+			<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 1 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
+			<bind name="appear" value="'startHide'; 0.15; 1 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+			<style>
+				<width value="100%"/>
+				<marginTop value="64"/>
+			</style>
+			<bind name="instance" value="'ModalWindowHeader'; { _header: 'IDS_MODAL_WINDOW_' + toUpperCase(tr(_prefix)) + '_RULES_HEADER', _headerWidth: '100%'}"/>
+		</block>
+		<block>
+			<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 2 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
+			<bind name="appear" value="'startHide'; 0.15; 2 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+			<styleClass value="$DefaultScrollBar"/>
+			<style>
+				<height value="100%f"/>
+				<width value="100%"/>
+				<overflow value="scroll"/>
+			</style>
+			<block>
+				<style>
+					<width value="100%"/>
+					<marginTop value="40px"/>
+					<marginRight value="16px"/>
+				</style>
+				<bind name="repeat" value="_rules; 'ModalWindowRulesContentItem'; {_prefix: toUpperCase(tr(_prefix))}"/>
+			</block>
+		</block>
+		<block>
+			<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 3 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
+			<bind name="appear" value="'startHide'; 0.15; 3 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+			<style>
+				<width value="100%"/>
+				<marginBottom value="16"/>
+			</style>
+			<block className="HorizontalDivider">
+				<styleClass value="$PxHorizontalCorrection"/>
+				<style>
+					<width value="100%"/>
+					<height value="3px"/>
+				</style>
+				<block className="divider_h" type="native">
+					<styleClass value="$Fullsize"/>
+				</block>
+			</block>
+		</block>
+		<block>
+			<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 3 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
+			<bind name="appear" value="'startHide'; 0.15; 3 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+			<styleClass value="$MiddleAligned"/>
+			<style>
+				<width value="129px"/>
+				<marginBottom value="64"/>
+			</style>
+			<block className="DefaultButtonModal">
+				<styleClass value="$InfoLineBoundaries"/>
+				<style>
+					<width value="100%"/>
+				</style>
+				<bind name="name" value="'Modal_window_action_Button' + 'IDS_CLOSE_UPPER_CASE'"/>
+				<block className="button_default" type="native">
+					<style>
+						<width value="100%"/>
+					</style>
+					<bind name="label" value="'IDS_CLOSE_UPPER_CASE'"/>
+					<params>
+						<param name="name" value="btn_cancel"/>
+					</params>
+					<bind name="input"/>
+					<bind name="focus" value="1;false"/>
+				</block>
+			</block>
+		</block>
+	</block>
+	<block className="ModalWindowRulesContentItem">
+		<bind name="appear" value="'addedToStage'; 0.15; windowAppearLag + 2.5 * 0.075; {alpha: 0, top: 10}; {alpha: 1, top: 0}; 1"/>
+		<bind name="appear" value="'startHide'; 0.15; 2.5 * 0.055; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+		<bind name="var" value="{windowAppearLag: 0.17 + $index*0.1}"/>
+		<bind name="watch" value="'textBase'; 'IDS_MODAL_WINDOW_' + _prefix + '_RULES_PARAGRAPH_' + tr($index+1)"/>
+		<style>
+			<width value="100%"/>
+		</style>
+		<block>
+			<style>
+				<width value="100%"/>
+				<marginBottom value="64px"/>
+			</style>
+			<block>
+				<bind name="visible" value="_imagePath != 'none'"/>
+				<style>
+					<width value="192px"/>
+					<height value="192px"/>
+					<backgroundSize value="cover"/>
+					<marginBottom value="-18px"/>
+					<marginTop value="-18px"/>
+					<marginLeft value="-18px"/>
+					<marginRight value="24"/>
+				</style>
+				<bind name="style" value="'backgroundImage'; _imagePath"/>
+			</block>
+			<block>
+				<style>
+					<width value="100%"/>
+					<alpha value="0.85"/>
+					<marginBottom value="-10px"/>
+				</style>
+				<bind name="style" value="'marginLeft'; _imagePath != 'none' ? 0 : '198px'"/>
+				<block>
+					<bind name="visible" value="_header != 'none'"/>
+					<style>
+						<width value="100%"/>
+						<marginBottom value="24px"/>
+					</style>
+					<block type="text">
+						<styleClass value="$TextWithoutGlowBold23NM"/>
+						<bind name="text" value="textBase + '_HEADER'"/>
+					</block>
+				</block>
+				<bind name="repeat" value="_textTypes; 'ModalWindowParagonRulesItemWrapper'; {_text: textBase + '_TEXT_'}"/>
+			</block>
+			<style>
+				<flow value="horizontal"/>
+			</style>
+		</block>
+	</block>
+	<block className="ModalWindowParagonRulesItemWrapper">
+		<style>
+			<width value="100%"/>
+		</style>
+		<bind name="child" value="$value; 
+		$value == 0	? {_paragraphText: _text+($index+1), 	_class: '$TextWithoutGlow17NM', 	_marginBottom: '24px', _width: '100%'} 
+					: {_text: _text+($index+1), 			_textClass: '$TextWithoutGlow17NM', _bulletType: ($value == 2 ? 'none' : ' • ')}; 
+		'RepeatParagraphItemNM'; 'ListWithBulletsElement'; 'ListWithBulletsElement'"/>
+	</block>
+	<css name="$TextDefault12NM">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="12"/>
+		<marginText value="-3px|-3px|-6px|-5px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefault13NM">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="13"/>
+		<marginText value="-3px|-3px|-6px|-5px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultBold13NM">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="13"/>
+		<marginText value="-3px|-3px|-6px|-5px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultNM">
+		<fontFamily value="$WWSDefaultFont"/>
+		<leading value="-3"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="15"/>
+		<marginText value="-3px|-3px|-6px|-5px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultBoldNM">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="15"/>
+		<marginText value="-3px|-3px|-6px|-5px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefault17NM">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="17"/>
+		<marginText value="-3px|-4px|-7px|-6px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultBold17NM">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="17"/>
+		<marginText value="-3px|-3px|-7px|-6px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefault19NM">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="19"/>
+		<marginText value="-3px|-3px|-7px|-5px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultBold19NM">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="19"/>
+		<marginText value="-3px|-3px|-8px|-6px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefault21NM">
+		<fontFamily value="$WWSDefaultFont"/>
+		<leading value="-4"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="21"/>
+		<marginText value="-3px|-3px|-8px|-7px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultBold21NM">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="21"/>
+		<marginText value="-3px|-3px|-8px|-7px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultBold23NM">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="23"/>
+		<marginText value="-3px|-3px|-9px|-6px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefault25NM">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="25"/>
+		<marginText value="-3px|-3px|-9px|-8px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultBold25NM">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="25"/>
+		<marginText value="-3px|-3px|-9px|-8px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefault27NM">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="27"/>
+		<marginText value="-3px|-3px|-10px|-8px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultBold30NM">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="30"/>
+		<marginText value="-3px|-4px|-11px|-8px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultBold36NM">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="36"/>
+		<marginText value="-3px|-4px|-12px|-10px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultBold40NM">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="40"/>
+		<marginText value="-3px|-4px|-13px|-10px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultBold46NM">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="46"/>
+		<marginText value="-3px|-4px|-12px|-10px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultBold50NM">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="50"/>
+		<marginText value="-3px|-4px|-15px|-13px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultBold60NM">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="60"/>
+		<marginText value="-3px|-4px|-20px|-15px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextWithoutGlow17NM">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFont"/>
+		<fontSize value="17"/>
+		<marginText value="-3px|-4px|-7px|-6px"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextWithoutGlowBold23NM">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<fontSize value="23"/>
+		<marginText value="-3px|-3px|-9px|-6px"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$ConfirmationWindowWidth">
+		<width value="472px"/>
+	</css>
+	<css name="$ModalWindowDefaultWidth">
+		<width value="472px"/>
+	</css>
+	<css name="$ModalWindowLargeCostMargins">
+		<marginLeft value="5px"/>
+		<marginRight value="4px"/>
+	</css>
+	<css name="$SelectTypeListItem">
+		<width value="100%"/>
+		<height value="74px"/>
+	</css>
+	<css name="$SelectTypeListItemIndent">
+		<marginBottom value="15px"/>
+		<marginTop value="15px"/>
+		<marginLeft value="21px"/>
+		<marginRight value="21px"/>
+	</css>
+	<block className="ModalWindowOkCancelRequest">
+		<style>
+			<flow value="horizontal"/>
+			<marginTop value="15px"/>
+		</style>
+		<block>
+			<bind name="appear" value="'startShow'; 0.15; 0.60; {alpha: 0, top: 5}; {alpha: 1, top: 0}"/>
+			<bind name="appear" value="'startHide'; 0.15; 0.45; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
+			<styleClass value="$InfoLineBoundaries"/>
+			<style>
+				<width value="129px"/>
+				<marginRight value="20px"/>
+			</style>
+			<bind name="instance" value="'DefaultButton'; {	_width: '129px', _request: _request, _requestParams: _requestParams, _enabled: true, _isTransactionBtn: true,
+											_containerName: ('Modal_window_action_Button' + _okLabel), _label: _okLabel,
+											_focusIndex: 1, _defaultFocused: true,
+											_name: 'btn_ok'}"/>
+		</block>
+		<block>
+			<style>
+				<width value="129px"/>
+			</style>
+			<bind name="appear" value="'startShow'; 0.15; 0.45; {alpha: 0, top: 5}; {alpha: 1, top: 0}"/>
+			<bind name="appear" value="'startHide'; 0.15; 0.45; {alpha: 1, top: 0}; {alpha: 0, top: -10}"/>
+			<block className="DefaultButtonModal">
+				<styleClass value="$InfoLineBoundaries"/>
+				<style>
+					<width value="100%"/>
+				</style>
+				<bind name="name" value="'Modal_window_action_Button' + _cancelLabel"/>
+				<block className="button_default" type="native">
+					<style>
+						<width value="100%"/>
+					</style>
+					<bind name="label" value="_cancelLabel"/>
+					<params>
+						<param name="name" value="btn_cancel"/>
+					</params>
+					<bind name="input"/>
+					<bind name="focus" value="2;false"/>
+				</block>
+			</block>
+		</block>
+	</block>
+	<block className="ModalWindowUniversalHeader">
+		<style>
+			<marginBottom value="720:32,1080:64ah"/>
+		</style>
+		<bind name="style" value="'width'; _headerWidth ? _headerWidth : '100%'"/>
+		<block>
+			<bind name="visible" value="_header != null"/>
+			<style>
+				<width value="100%"/>
+			</style>
+			<block type="text">
+				<style>
+					<width value="100%"/>
+					<textAlign value="center"/>
+					<marginTop value="12px"/>
+				</style>
+				<styleClass value="$TextDefaultBold21NM"/>
+				<bind name="text" value="toUpperCase(tr(_header))"/>
+			</block>
+			<block>
+				<style>
+					<width value="100%"/>
+					<marginTop value="720:9,1080:11ah"/>
+				</style>
+				<block className="HorizontalDivider">
+					<styleClass value="$PxHorizontalCorrection"/>
+					<style>
+						<width value="100%"/>
+						<height value="3px"/>
+					</style>
+					<block className="divider_h" type="native">
+						<styleClass value="$Fullsize"/>
+					</block>
+				</block>
+			</block>
+		</block>
+		<block>
+			<bind name="visible" value="!_hideBackButton"/>
+			<style>
+				<position value="absolute"/>
+				<top value="7px"/>
+			</style>
+			<bind name="instance" value="'BackButton'; {_text: 'IDS_RETURN_TO_DOCK', _action: 'btn_cancel'}"/>
+		</block>
+		<block>
+			<bind name="visible" value="!_hideCloseButton"/>
+			<style>
+				<position value="absolute"/>
+			</style>
+			<bind name="style" value="'right'; _innerCloseButton ? '60px' : '8px'"/>
+			<block className="ModalWindowCloseIcon">
+				<style>
+					<position value="absolute"/>
+					<right value="0px"/>
+					<top value="13px"/>
+					<flow value="horizontal"/>
+				</style>
+				<bind name="name" value="'btn_cancel'"/>
+				<bind name="input"/>
+				<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_CLOSE'}; 0"/>
+				<block>
+					<styleClass value="$MiddleVAligned"/>
+					<style>
+						<backgroundColor value="0x01000000"/>
+					</style>
+					<bind name="dispatch" value="'mouseOver'; 'overEscapeButton'"/>
+					<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
+					<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
+					<block>
+						<bind name="soundSet" value="'default_button'"/>
+						<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
+						<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
+						<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
+						<style>
+							<alpha value="0.8"/>
+						</style>
+						<bind name="style" value="'alpha'; EscapeButtonOverAlpha"/>
+						<bind name="instance" value="'HotkeyWithText'; {_text: 'ESC'}"/>
+					</block>
+					<block>
+						<style>
+							<marginTop value="3px"/>
+						</style>
+						<block className="button_close" type="native">
+							<bind name="catch" value="'overEscapeButton'; {CrossButtonStates: 'over'}"/>
+							<bind name="catch" value="'upEscapeButton'; {CrossButtonStates: 'up'}"/>
+							<bind name="catch" value="'downEscapeButton'; {CrossButtonStates: 'down'}"/>
+							<params>
+								<param name="focusable" value="false"/>
+							</params>
+							<bind name="gotoAndPlay!" value="CrossButtonStates"/>
+						</block>
+					</block>
+					<style>
+						<flow value="horizontal"/>
+					</style>
+				</block>
+			</block>
+		</block>
+	</block>
+	<block className="ModalWindowHeader">
+		<style>
+			<marginBottom value="3px"/>
+		</style>
+		<bind name="style" value="'width'; _headerWidth ? _headerWidth : '450px'"/>
+		<block>
+			<style>
+				<marginBottom value="9px"/>
+				<width value="100%"/>
+			</style>
+			<block type="text">
+				<styleClass value="$TextLargeHeaderBold"/>
+				<bind name="class" value="_isAlignLeft ? '$None' : '$MiddleAligned'"/>
+				<bind name="text" value="toUpperCase(tr(_header))"/>
+			</block>
+			<block>
+				<styleClass value="$AlignRight"/>
+				<bind name="style" value="'right'; _innerCloseButton ? '60px' : '0px'"/>
+				<block className="ModalWindowCloseIcon">
+					<style>
+						<position value="absolute"/>
+						<right value="-50px"/>
+						<top value="11px"/>
+						<flow value="horizontal"/>
+					</style>
+					<bind name="name" value="'btn_cancel'"/>
+					<bind name="input"/>
+					<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_CLOSE'}; 0"/>
+					<block>
+						<styleClass value="$MiddleVAligned"/>
+						<style>
+							<backgroundColor value="0x01000000"/>
+						</style>
+						<bind name="dispatch" value="'mouseOver'; 'overEscapeButton'"/>
+						<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
+						<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
+						<block>
+							<bind name="soundSet" value="'default_button'"/>
+							<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
+							<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
+							<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
+							<style>
+								<alpha value="0.8"/>
+							</style>
+							<bind name="style" value="'alpha'; EscapeButtonOverAlpha"/>
+							<bind name="instance" value="'HotkeyWithText'; {_text: 'ESC'}"/>
+						</block>
+						<block>
+							<style>
+								<marginTop value="3px"/>
+							</style>
+							<block className="button_close" type="native">
+								<bind name="catch" value="'overEscapeButton'; {CrossButtonStates: 'over'}"/>
+								<bind name="catch" value="'upEscapeButton'; {CrossButtonStates: 'up'}"/>
+								<bind name="catch" value="'downEscapeButton'; {CrossButtonStates: 'down'}"/>
+								<params>
+									<param name="focusable" value="false"/>
+								</params>
+								<bind name="gotoAndPlay!" value="CrossButtonStates"/>
+							</block>
+						</block>
+						<style>
+							<flow value="horizontal"/>
+						</style>
+					</block>
+				</block>
+			</block>
+		</block>
+		<block>
+			<bind name="visible" value="_hideDivider != true"/>
+			<style>
+				<width value="100%"/>
+				<position value="absolute"/>
+				<bottom value="-3"/>
+			</style>
+			<block className="HorizontalDivider">
+				<styleClass value="$PxHorizontalCorrection"/>
+				<style>
+					<width value="100%"/>
+					<height value="3px"/>
+				</style>
+				<block className="divider_h" type="native">
+					<styleClass value="$Fullsize"/>
+				</block>
+			</block>
+		</block>
+	</block>
+	<block className="ModalWindowHeaderConfirmation">
+		<style>
+			<marginBottom value="3px"/>
+			<width value="100%"/>
+		</style>
+		<block>
+			<style>
+				<marginBottom value="9px"/>
+				<width value="100%"/>
+			</style>
+			<block>
+				<styleClass value="$MiddleAligned"/>
+				<block className="icon_warning_grey_big" type="native">
+					<style>
+						<marginTop value="6px"/>
+					</style>
+				</block>
+				<block type="text">
+					<styleClass value="$TextLargeHeaderBold"/>
+					<text value="IDS_CONFIRMATION"/>
+				</block>
+				<style>
+					<flow value="horizontal"/>
+				</style>
+			</block>
+			<block className="ModalWindowCloseIcon">
+				<style>
+					<position value="absolute"/>
+					<right value="-70px"/>
+					<top value="9px"/>
+					<flow value="horizontal"/>
+				</style>
+				<bind name="name" value="'btn_cancel'"/>
+				<bind name="input"/>
+				<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_CLOSE'}; 0"/>
+				<block>
+					<styleClass value="$MiddleVAligned"/>
+					<style>
+						<backgroundColor value="0x01000000"/>
+					</style>
+					<bind name="dispatch" value="'mouseOver'; 'overEscapeButton'"/>
+					<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
+					<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
+					<block>
+						<bind name="soundSet" value="'default_button'"/>
+						<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
+						<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
+						<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
+						<style>
+							<alpha value="0.8"/>
+						</style>
+						<bind name="style" value="'alpha'; EscapeButtonOverAlpha"/>
+						<bind name="instance" value="'HotkeyWithText'; {_text: 'ESC'}"/>
+					</block>
+					<block>
+						<style>
+							<marginTop value="3px"/>
+						</style>
+						<block className="button_close" type="native">
+							<bind name="catch" value="'overEscapeButton'; {CrossButtonStates: 'over'}"/>
+							<bind name="catch" value="'upEscapeButton'; {CrossButtonStates: 'up'}"/>
+							<bind name="catch" value="'downEscapeButton'; {CrossButtonStates: 'down'}"/>
+							<params>
+								<param name="focusable" value="false"/>
+							</params>
+							<bind name="gotoAndPlay!" value="CrossButtonStates"/>
+						</block>
+					</block>
+					<style>
+						<flow value="horizontal"/>
+					</style>
+				</block>
+			</block>
+		</block>
+		<block>
+			<style>
+				<width value="100%"/>
+			</style>
+			<block className="HorizontalDivider">
+				<styleClass value="$PxHorizontalCorrection"/>
+				<style>
+					<width value="100%"/>
+					<height value="3px"/>
+				</style>
+				<block className="divider_h" type="native">
+					<styleClass value="$Fullsize"/>
+				</block>
+			</block>
+		</block>
+	</block>
+	<block className="ModalWindowHeaderNoEsc">
+		<style>
+			<marginBottom value="3px"/>
+			<width value="450px"/>
+		</style>
+		<bind name="style" value="'width'; _headerWidth ? _headerWidth : '450px'"/>
+		<block>
+			<style>
+				<marginBottom value="9px"/>
+				<width value="100%"/>
+			</style>
+			<block type="text">
+				<styleClass value="$MiddleAligned"/>
+				<styleClass value="$TextHeader"/>
+				<bind name="class" value="'$FontSizeHeader5'"/>
+				<bind name="class" value="'$Bold'"/>
+				<bind name="class" value="'$FontColorWhite'"/>
+				<bind name="text" value="toUpperCase(tr(_header))"/>
+			</block>
+		</block>
+		<block>
+			<style>
+				<width value="100%"/>
+				<marginRight value="-12px"/>
+				<marginLeft value="-12px"/>
+			</style>
+			<block className="HorizontalDivider">
+				<styleClass value="$PxHorizontalCorrection"/>
+				<style>
+					<width value="100%"/>
+					<height value="3px"/>
+				</style>
+				<block className="divider_h" type="native">
+					<styleClass value="$Fullsize"/>
+				</block>
+			</block>
+		</block>
+	</block>
+	<block className="ModalWindowHeaderWithIcon">
+		<style>
+			<marginBottom value="3px"/>
+		</style>
+		<bind name="style" value="'width'; _headerWidth ? _headerWidth : '450px'"/>
+		<block>
+			<style>
+				<marginBottom value="9px"/>
+				<width value="100%"/>
+			</style>
+			<block>
+				<styleClass value="$MiddleAligned"/>
+				<block className="icons_modal_window_heading" type="native">
+					<styleClass value="$MiddleVAligned"/>
+					<style>
+						<marginRight value="3px"/>
+					</style>
+					<bind name="gotoAndStop!" value="_type"/>
+				</block>
+				<block type="text">
+					<styleClass value="$TextLargeHeaderBold"/>
+					<bind name="text" value="toUpperCase(tr(_header))"/>
+				</block>
+				<style>
+					<flow value="horizontal"/>
+				</style>
+			</block>
+			<block>
+				<bind name="visible" value="_showInnerCloseButton"/>
+				<styleClass value="$AlignRight"/>
+				<block className="ModalWindowCloseIcon">
+					<style>
+						<position value="absolute"/>
+						<right value="-50px"/>
+						<top value="9px"/>
+						<flow value="horizontal"/>
+					</style>
+					<bind name="name" value="'btn_cancel'"/>
+					<bind name="input"/>
+					<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_CLOSE'}; 0"/>
+					<block>
+						<styleClass value="$MiddleVAligned"/>
+						<style>
+							<backgroundColor value="0x01000000"/>
+						</style>
+						<bind name="dispatch" value="'mouseOver'; 'overEscapeButton'"/>
+						<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
+						<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
+						<block>
+							<bind name="soundSet" value="'default_button'"/>
+							<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
+							<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
+							<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
+							<style>
+								<alpha value="0.8"/>
+							</style>
+							<bind name="style" value="'alpha'; EscapeButtonOverAlpha"/>
+							<bind name="instance" value="'HotkeyWithText'; {_text: 'ESC'}"/>
+						</block>
+						<block>
+							<style>
+								<marginTop value="3px"/>
+							</style>
+							<block className="button_close" type="native">
+								<bind name="catch" value="'overEscapeButton'; {CrossButtonStates: 'over'}"/>
+								<bind name="catch" value="'upEscapeButton'; {CrossButtonStates: 'up'}"/>
+								<bind name="catch" value="'downEscapeButton'; {CrossButtonStates: 'down'}"/>
+								<params>
+									<param name="focusable" value="false"/>
+								</params>
+								<bind name="gotoAndPlay!" value="CrossButtonStates"/>
+							</block>
+						</block>
+						<style>
+							<flow value="horizontal"/>
+						</style>
+					</block>
+				</block>
+			</block>
+		</block>
+		<block>
+			<style>
+				<width value="100%"/>
+			</style>
+			<block className="HorizontalDivider">
+				<styleClass value="$PxHorizontalCorrection"/>
+				<style>
+					<width value="100%"/>
+					<height value="3px"/>
+				</style>
+				<block className="divider_h" type="native">
+					<styleClass value="$Fullsize"/>
+				</block>
+			</block>
+		</block>
+	</block>
+	<block className="ModalWindowHeaderOptionalIcon">
+		<style>
+			<marginBottom value="3px"/>
+		</style>
+		<bind name="style" value="'width'; _headerWidth ? _headerWidth : '100%'"/>
+		<block>
+			<style>
+				<marginBottom value="9px"/>
+				<width value="100%"/>
+			</style>
+			<block>
+				<styleClass value="$MiddleAligned"/>
+				<block className="icon_warning_grey_big" type="native">
+					<bind name="visible" value="_showIcon"/>
+					<style>
+						<marginTop value="6px"/>
+					</style>
+				</block>
+				<block type="text">
+					<styleClass value="$TextLargeHeaderBold"/>
+					<bind name="text" value="toUpperCase(tr(_header))"/>
+				</block>
+				<style>
+					<flow value="horizontal"/>
+				</style>
+			</block>
+			<block>
+				<bind name="visible" value="_showInnerCloseButton"/>
+				<styleClass value="$AlignRight"/>
+				<block className="ModalWindowCloseIcon">
+					<style>
+						<position value="absolute"/>
+						<right value="-50px"/>
+						<top value="9px"/>
+						<flow value="horizontal"/>
+					</style>
+					<bind name="name" value="'btn_cancel'"/>
+					<bind name="input"/>
+					<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_CLOSE'}; 0"/>
+					<block>
+						<styleClass value="$MiddleVAligned"/>
+						<style>
+							<backgroundColor value="0x01000000"/>
+						</style>
+						<bind name="dispatch" value="'mouseOver'; 'overEscapeButton'"/>
+						<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
+						<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
+						<block>
+							<bind name="soundSet" value="'default_button'"/>
+							<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
+							<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
+							<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
+							<style>
+								<alpha value="0.8"/>
+							</style>
+							<bind name="style" value="'alpha'; EscapeButtonOverAlpha"/>
+							<bind name="instance" value="'HotkeyWithText'; {_text: 'ESC'}"/>
+						</block>
+						<block>
+							<style>
+								<marginTop value="3px"/>
+							</style>
+							<block className="button_close" type="native">
+								<bind name="catch" value="'overEscapeButton'; {CrossButtonStates: 'over'}"/>
+								<bind name="catch" value="'upEscapeButton'; {CrossButtonStates: 'up'}"/>
+								<bind name="catch" value="'downEscapeButton'; {CrossButtonStates: 'down'}"/>
+								<params>
+									<param name="focusable" value="false"/>
+								</params>
+								<bind name="gotoAndPlay!" value="CrossButtonStates"/>
+							</block>
+						</block>
+						<style>
+							<flow value="horizontal"/>
+						</style>
+					</block>
+				</block>
+			</block>
+		</block>
+		<block>
+			<style>
+				<width value="100%"/>
+			</style>
+			<block className="HorizontalDivider">
+				<styleClass value="$PxHorizontalCorrection"/>
+				<style>
+					<width value="100%"/>
+					<height value="3px"/>
+				</style>
+				<block className="divider_h" type="native">
+					<styleClass value="$Fullsize"/>
+				</block>
+			</block>
+		</block>
+	</block>
+	<block className="ModalWindowHeaderFullSize">
+		<bind name="style" value="'paddingTop';		_paddingTop		? _paddingTop	:	'720:20,2160:100ah'"/>
+		<bind name="style" value="'paddingRight';	_paddingRight	? _paddingRight	:	'1280:20,1920:46aw'"/>
+		<bind name="style" value="'paddingLeft'; 	_paddingLeft	? _paddingLeft	:	'1280:20,1920:46aw'"/>
+		<style>
+			<width value="100%"/>
+		</style>
+		<block>
+			<bind name="visible" value="_hideBackButton != true"/>
+			<style>
+				<position value="absolute"/>
+				<top value="-5px"/>
+			</style>
+			<bind name="instance" value="'BackButton'; { _text: _backButtonText,
+										_event: _event, _eventData: _eventData,
+										_action: _action, _actionParams: _actionParams,
+										_request: _request, _requestParams: _requestParams }"/>
+		</block>
+		<block>
+			<bind name="visible" value="_windowName != null"/>
+			<bind name="class" value="_leftAligned ? '$None' : '$MiddleAligned' "/>
+			<block type="text">
+				<styleClass value="$TextDefaultBold21NM"/>
+				<bind name="text" value="toUpperCase(tr(_windowName))"/>
+			</block>
+		</block>
+		<block>
+			<bind name="visible" value="_hideCloseIcon != true"/>
+			<style>
+				<position value="absolute"/>
+				<right value="4"/>
+				<top value="3px"/>
+			</style>
+			<block className="ModalWindowCloseIcon">
+				<style>
+					<position value="absolute"/>
+					<right value="0px"/>
+					<top value="0px"/>
+					<flow value="horizontal"/>
+				</style>
+				<bind name="name" value="'btn_cancel'"/>
+				<bind name="input"/>
+				<bind name="tooltip" value="'SimpleTooltip'; {tooltipText: 'IDS_CLOSE'}; 0"/>
+				<block>
+					<styleClass value="$MiddleVAligned"/>
+					<style>
+						<backgroundColor value="0x01000000"/>
+					</style>
+					<bind name="dispatch" value="'mouseOver'; 'overEscapeButton'"/>
+					<bind name="dispatch" value="'mouseOut'; 'upEscapeButton'"/>
+					<bind name="dispatch" value="'mouseDown'; 'downEscapeButton'"/>
+					<block>
+						<bind name="soundSet" value="'default_button'"/>
+						<bind name="catch" value="'overEscapeButton'; {EscapeButtonOverAlpha: 1}"/>
+						<bind name="catch" value="'upEscapeButton'; {EscapeButtonOverAlpha: 0.8}"/>
+						<bind name="catch" value="'downEscapeButton'; {EscapeButtonOverAlpha: 0.4}"/>
+						<style>
+							<alpha value="0.8"/>
+						</style>
+						<bind name="style" value="'alpha'; EscapeButtonOverAlpha"/>
+						<bind name="instance" value="'HotkeyWithText'; {_text: 'ESC'}"/>
+					</block>
+					<block>
+						<style>
+							<marginTop value="3px"/>
+						</style>
+						<block className="button_close" type="native">
+							<bind name="catch" value="'overEscapeButton'; {CrossButtonStates: 'over'}"/>
+							<bind name="catch" value="'upEscapeButton'; {CrossButtonStates: 'up'}"/>
+							<bind name="catch" value="'downEscapeButton'; {CrossButtonStates: 'down'}"/>
+							<params>
+								<param name="focusable" value="false"/>
+							</params>
+							<bind name="gotoAndPlay!" value="CrossButtonStates"/>
+						</block>
+					</block>
+					<style>
+						<flow value="horizontal"/>
+					</style>
+				</block>
+			</block>
+		</block>
+		<block>
+			<bind name="visible" value="_hideDivider != true"/>
+			<style>
+				<width value="100%"/>
+				<marginTop value="720:12,1080:16ah"/>
+			</style>
+			<block className="HorizontalDivider">
+				<styleClass value="$PxHorizontalCorrection"/>
+				<style>
+					<width value="100%"/>
+					<height value="3px"/>
+				</style>
+				<block className="divider_h" type="native">
+					<styleClass value="$Fullsize"/>
+				</block>
+			</block>
+		</block>
+	</block>
+	<block className="ModalWindowHeaderFullSizeFakeBlock">
+		<bind name="style" value="'paddingTop';		_paddingTop		? _paddingTop	:	'720:20,2160:100ah'"/>
+		<style>
+			<alpha value="0"/>
+			<hitTest value="false"/>
+		</style>
+		<block type="text">
+			<styleClass value="$TextDefaultBold21NM"/>
+			<bind name="text" value="'Fake offset block'"/>
+		</block>
+		<block>
+			<style>
+				<width value="10px"/>
+				<marginTop value="720:12,1080:16ah"/>
+			</style>
+			<block className="HorizontalDivider">
+				<styleClass value="$PxHorizontalCorrection"/>
+				<style>
+					<width value="100%"/>
+					<height value="3px"/>
+				</style>
+				<block className="divider_h" type="native">
+					<styleClass value="$Fullsize"/>
+				</block>
+			</block>
+		</block>
+	</block>
+	<css name="$TextNano">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="13"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$TextSecondary">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="13"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$TextSecondaryNoFilter">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFont"/>
+		<fontSize value="13"/>
+		<selectable value="false"/>
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$TextSecondaryBold">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="13"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$TextDefault">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="15"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$TextDefaultBold">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<fontSize value="15"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$TextHeaderBold">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="17"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$TextHeader">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="19"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$TextHeaderWhite">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="19"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextHeaderHugeWhite">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="30"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextHeaderBigDefault">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="17"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$TextHeaderBigTeamKiller">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="17"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFF96CA"/>
+	</css>
+	<css name="$TextHeaderBigNegative">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="17"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFF6600"/>
+	</css>
+	<css name="$TextHeaderBigWhite">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="17"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextAccent">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="25"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$TextAccentBold">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="25"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$TextAccentSecond">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="60"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$TextHeaderUnready">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFont"/>
+		<fontSize value="25"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFF9933"/>
+	</css>
+	<css name="$TextDefaultWhite">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFont"/>
+		<fontSize value="15"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultWhiteBold">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<fontSize value="15"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextSmallCompareNegative">
+		<fontFamily value="$WWSDefaultFont"/>
+		<textColor value="0xFF6600"/>
+		<fontSize value="15"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+	</css>
+	<css name="$TextSmallWhite">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="13"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextSmallGold">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="13"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFCC66"/>
+	</css>
+	<css name="$TextDefaultExpSmall">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="13"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$TextSmallNegative">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="13"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFF6600"/>
+	</css>
+	<css name="$TextTurquoiseQuests">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFont"/>
+		<fontSize value="17"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0x00cccc"/>
+	</css>
+	<css name="$TextLargeHeader">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="21"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextLargeHeaderBold">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="21"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextLargeHeaderBlack">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFont"/>
+		<fontSize value="21"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0x08222a"/>
+	</css>
+	<css name="$TextThumbelina">
+		<fontFamily value="$WWSDefaultFont"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="7"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextAccentWhite">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFont"/>
+		<fontSize value="25"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextDefaultTech">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFont"/>
+		<fontSize value="15"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0x9CBABA"/>
+	</css>
+	<css name="$TextHeaderBigDefaultTech">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$WWSDefaultFont"/>
+		<fontSize value="17"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0x9CBABA"/>
+	</css>
+	<css name="$BlackLabel">
+		<mouseChildren value="false"/>
+		<mouseEnabled value="false"/>
+		<fontFamily value="$ZurichCondensedBold"/>
+		<fontSize value="13"/>
+		<selectable value="false"/>
+		<textColor value="0x08222a"/>
+	</css>
+	<css name="$TextHeaderWhiteBold">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="19"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$ResultsReward">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="60"/>
+		<letterSpacing value="-3"/>
+		<marginRight value="2px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$TextAccentGreyBold">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<textColor value="0xDDDDDD"/>
+		<fontSize value="60"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+	</css>
+	<css name="$TextAccentBoldAccountLevel">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<textColor value="0xFFFFFF"/>
+		<fontSize value="50"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+	</css>
+	<css name="$TextAccentBoldAccountLevel1">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<textColor value="0xFFFFFF"/>
+		<fontSize value="36"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+	</css>
+	<css name="$TextAccentBoldAccountLevel2">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<textColor value="0xFFFFFF"/>
+		<fontSize value="30"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+	</css>
+	<block className="DefaultButton">
+		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
+		<bind name="watchDH" value="'operationsAccountLocked';	['resourceEntity.accountResource.evOperationsLockChanged'];	resourceEntity.accountResource.operationsLocked"/>
+		<bind name="style" value="'width'; _width ? _width : '100%'"/>
+		<bind name="name" value="_containerName ? _containerName : null"/>
+		<block className="button_default" type="native">
+			<bind name="style" value="'width'; _width ? _width : '100%'"/>
+			<bind name="label" value="_label"/>
+			<bind name="focus" value="_focusIndex; _defaultFocused"/>
+			<bind name="focusable" value="_focusIndex ? true : false"/>
+			<bind name="enabled" value="_enabled &amp;&amp; (_isTransactionBtn ? !(operationsAccountLocked) : true)"/>
+			<bind name="event" value="'buttonClick'; _method ? _method : null"/>
+			<bind name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
+			<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams"/>
+			<bind name="name" value="_name ? _name : null"/>
+			<bind name="input"/>
+			<block>
+				<bind name="visible" value="_isExternal == true"/>
+				<style>
+					<position value="absolute"/>
+					<top value="7px"/>
+					<right value="4px"/>
+					<hitTest value="false"/>
+				</style>
+				<block className="icon_out_grey" type="native"/>
+			</block>
+		</block>
+	</block>
+	<block className="DefaultButtonBig">
+		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
+		<bind name="watchDH" value="'operationsAccountLocked';	['resourceEntity.accountResource.evOperationsLockChanged'];	resourceEntity.accountResource.operationsLocked"/>
+		<bind name="style" value="'width'; _width ? _width : '100%'"/>
+		<bind name="name" value="_containerName ? _containerName : null"/>
+		<block className="button_default_big" type="native">
+			<style>
+				<width value="100%"/>
+			</style>
+			<bind name="name" value="_name ? _name : null"/>
+			<bind name="input"/>
+			<bind name="label" value="_label"/>
+			<bind name="enabled" value="_enabled &amp;&amp; (_isTransactionBtn ? !(operationsAccountLocked) : true)"/>
+			<bind name="event" value="'buttonClick'; _method ? _method : null"/>
+			<bind name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
+			<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
+		</block>
+	</block>
+	<css name="$ResizeableButtonLabelWithoutAlignment">
+		<marginLeft value="16px"/>
+		<marginRight value="16px"/>
+	</css>
+	<block className="DefaultButtonCostMedium">
+		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
+		<bind name="watchDH" value="'operationsAccountLocked';	['resourceEntity.accountResource.evOperationsLockChanged'];	resourceEntity.accountResource.operationsLocked"/>
+		<bind name="tooltip" value="'DiscountTooltip'; priceInfo.basePrice &amp;&amp; (priceInfo.finalPrice != priceInfo.basePrice) ? { priceInfo: priceInfo, _isExternal: _isExternal } : null"/>
+		<style>
+			<width value="1px"/>
+		</style>
+		<bind name="style" value="'width'; _width ? _width : '100%'"/>
+		<bind name="style" value="'height'; _height ? _height : 'auto'"/>
+		<bind name="name" value="_name ? _name : null"/>
+		<block className="button_default_no_label" type="native">
+			<style>
+				<width value="1px"/>
+			</style>
+			<bind name="style" value="'width'; _width ? _width : '100%'"/>
+			<bind name="style" value="'height'; _height ? _height : 'auto'"/>
+			<bind name="focus" value="_focusIndex; _defaultFocused"/>
+			<bind name="enabled" value="_enabled &amp;&amp; (_isTransactionBtn ? !(operationsAccountLocked) : true)"/>
+			<bind name="dispatch" value="'buttonClick'; _dispatchEvent ? _dispatchEvent : null"/>
+			<bind name="event" value="'buttonClick'; _method ? _method : null"/>
+			<bind name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
+			<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
+			<bind name="selected" value="_selected"/>
+			<block>
+				<bind name="class" value="_width ? '$ResizeableButtonLabelWithoutAlignment' : '$MiddleAligned'"/>
+				<style>
+					<marginTop value="3px"/>
+					<marginBottom value="4px"/>
+					<hitTest value="false"/>
+				</style>
+				<bind name="style" value="'alpha'; _enabled ? 1 : 0.55"/>
+				<block type="text">
+					<styleClass value="$TextDefaultBold"/>
+					<bind name="class" value="'$FontColorDefaultButtonUp'"/>
+					<bind name="class" value="_enabled ? '$None' : '$FontColorAlmostBlack'"/>
+					<bind name="text" value="_label"/>
+				</block>
+				<block>
+					<bind name="visible" value="priceInfo.finalPrice &gt; 0"/>
+					<style>
+						<marginLeft value="4px"/>
+					</style>
+					<styleClass value="$MiddleVAligned"/>
+					<bind name="instance" value="'PriceTag'; priceInfo.finalPrice &gt; 0 ? {priceInfo: priceInfo, _showDiscountTag: _showDiscountTag } : null"/>
+				</block>
+				<block>
+					<bind name="visible" value="_isExternal == true"/>
+					<style>
+						<marginTop value="2px"/>
+						<marginLeft value="8px"/>
+					</style>
+					<block className="icon_out_grey" type="native"/>
+				</block>
+				<block>
+					<bind name="fade" value="_isNewMarker; 0.15; {alpha: 0, top: 10}; {alpha: 1, top: 0}; {alpha: 0, top: -10}; 2"/>
+					<style>
+						<position value="absolute"/>
+						<right value="-35px"/>
+						<top value="-4px"/>
+					</style>
+					<bind name="instance" value="'MarkerNewAttention'; { }"/>
+				</block>
+				<style>
+					<flow value="horizontal"/>
+				</style>
+			</block>
+		</block>
+	</block>
+	<block className="ButtonCostSpecial">
+		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
+		<bind name="watchDH" value="'operationsAccountLocked';	['resourceEntity.accountResource.evOperationsLockChanged'];	resourceEntity.accountResource.operationsLocked"/>
+		<style>
+			<width value="130px"/>
+		</style>
+		<block className="button_default_always_hover" type="native">
+			<style>
+				<width value="100%"/>
+			</style>
+			<bind name="enabled" value="(_enabled &amp;&amp; !(operationsAccountLocked))"/>
+			<bind name="event" value="'buttonClick'; _method ? _method : null"/>
+			<bind name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
+			<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
+			<bind name="input"/>
+			<bind name="label" value="_label"/>
+		</block>
+	</block>
+	<block className="DefaultButtonCostSmall">
+		<bind name="firstEntityDH" value="'resourceEntity'; CC.accountResource"/>
+		<bind name="watchDH" value="'operationsAccountLocked';	['resourceEntity.accountResource.evOperationsLockChanged'];	resourceEntity.accountResource.operationsLocked"/>
+		<bind name="tooltip" value="'DiscountTooltip'; priceInfo.basePrice &amp;&amp; (priceInfo.finalPrice != priceInfo.basePrice) ? { priceInfo: priceInfo } : null"/>
+		<block className="button_default_no_label_small" type="native">
+			<bind name="enabled" value="(_enabled &amp;&amp; !(operationsAccountLocked))"/>
+			<bind name="event" value="'buttonClick'; _method ? _method : null"/>
+			<bind name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
+			<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
+			<block>
+				<style>
+					<marginBottom value="1px"/>
+					<marginRight value="18px"/>
+					<marginLeft value="18px"/>
+					<hitTest value="false"/>
+				</style>
+				<bind name="style" value="'alpha'; _enabled ? 1 : 0.55"/>
+				<block type="text">
+					<styleClass value="$TextSecondaryBold"/>
+					<bind name="class" value="'$FontColorDefaultButtonUp'"/>
+					<bind name="class" value="_enabled ? '$None' : '$FontColorAlmostBlack'"/>
+					<bind name="text" value="_label"/>
+				</block>
+				<block>
+					<styleClass value="$MiddleVAligned"/>
+					<style>
+						<marginLeft value="2px"/>
+					</style>
+					<bind name="instance" value="'PriceTag'; priceInfo.finalPrice &gt; 0 ? {priceInfo: priceInfo, _small: true, _showDiscountTag: _showDiscountTag} : null"/>
+				</block>
+				<style>
+					<flow value="horizontal"/>
+				</style>
+			</block>
+		</block>
+	</block>
+	<block className="ButtonSpecial">
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
+		<bind name="name" value="_name"/>
+		<block className="button_special_no_label" type="native">
+			<bind name="soundSet" value="'hard_button'"/>
+			<bind name="enabled" value="_enabled"/>
+			<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
+			<bind name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
+			<bind name="style" value="'width'; _width ? _width : '100%f'"/>
+			<bind name="focus" value="_focusIndex; _defaultFocused"/>
+			<bind name="focusable" value="_focusIndex ? true : false"/>
+			<block>
+				<bind name="class" value="_width ? '$MiddleAligned' : '$None'"/>
+				<style>
+					<width value="100%f"/>
+				</style>
+				<block type="text">
+					<style>
+						<marginRight value="18px"/>
+						<marginLeft value="18px"/>
+						<marginTop value="3px"/>
+						<marginBottom value="4px"/>
+						<hitTest value="false"/>
+					</style>
+					<bind name="class" value="_enabled 	? '$FontDropShadowFilter1' 	: '$FontDropShadowWhite'"/>
+					<bind name="class" value="_enabled 	? rollOver &amp;&amp; !(mouseDown) 	? '$FontColorDefault' 
+																	: '$FontColorSpecialButton'
+										: '$FontColorAlmostBlack'"/>
+					<styleClass value="$TextDefaultBold"/>
+					<bind name="text" value="_label"/>
+				</block>
+			</block>
+		</block>
+	</block>
+	<block className="DockButton">
+		<style>
+			<width value="100%"/>
+		</style>
+		<block className="button_dock" type="native">
+			<bind name="name" value="_name"/>
+			<style>
+				<width value="100%"/>
+				<height value="30px"/>
+			</style>
+			<bind name="enabled" value="_enabled"/>
+			<block type="text">
+				<styleClass value="$TextDefaultBold"/>
+				<styleClass value="$MiddleAligned"/>
+				<style>
+					<marginTop value="3px"/>
+					<mouseEnabled value="false"/>
+					<mouseChildren value="false"/>
+				</style>
+				<bind name="style" value="'alpha'; _enabled ? 1 : 0.55"/>
+				<bind name="text" value="_label"/>
+			</block>
+		</block>
+	</block>
+	<block className="ResizableButtonDock">
+		<style>
+			<width value="100%f"/>
+		</style>
+		<bind name="watch" value="'enabled'; _enabled != false"/>
+		<bind name="name" value="_name"/>
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController; null; 'resizableButtonDock_'"/>
+		<bind name="clickSplit"/>
+		<bind name="request" value="'left_click'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
+		<bind name="action" value="'left_click'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
+		<bind name="transition" value="resizableButtonDock_rollOver &amp;&amp; !(resizableButtonDock_mouseDown) &amp;&amp; enabled; 0.1; {alpha: 0.65}; {alpha: 1}; {alpha: 0.65}"/>
+		<bind name="soundOn" value="'left_click'; 'press'; 'default_button'"/>
+		<block>
+			<styleClass value="$FullsizeAbsolute"/>
+			<style>
+				<marginLeft value="-10px"/>
+				<marginRight value="-10px"/>
+				<marginBottom value="-9px"/>
+				<marginTop value="-10px"/>
+			</style>
+			<bind name="style" value="'hitTest'; enabled"/>
+			<block className="button_dock_bg" type="native">
+				<styleClass value="$Fullsize"/>
+				<bind name="gotoAndStop!" value="'down'"/>
+			</block>
+		</block>
+		<block type="text">
+			<style>
+				<hitTest value="false"/>
+				<mouseEnabled value="false"/>
+				<mouseChildren value="false"/>
+			</style>
+			<bind name="style" value="'alpha'; enabled ? 1 : 0.65"/>
+			<styleClass value="$TextDefaultBoldNM"/>
+			<bind name="class" value="'$FontColorBlueish'"/>
+			<bind name="text" value="_label"/>
+		</block>
+	</block>
+	<block className="InfopanelButton">
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
+		<bind name="request" value="'buttonClick'; _request ? _request : null; _requestParams ? _requestParams : {}"/>
+		<bind name="action" value="'buttonClick'; _action ? _action : null; _actionParams ? _actionParams : {}"/>
+		<bind name="watch" value="'infopanelButtonOverAlpha';	(mouseDown)		? 0.3 :
+												(rollOver)		? 1
+																: 0.6"/>
+		<bind name="tooltip" value="'SimpleTooltip'; _tooltipIDS ? { tooltipText: _tooltipIDS } : null"/>
+		<bind name="style" value="'alpha'; infopanelButtonOverAlpha"/>
+		<bind name="name" value="_name"/>
+		<block className="button_infopanel_no_label" type="native">
+			<bind name="style" value="'width'; _width ? _width : '150px'"/>
+			<bind name="style" value="'height'; _height ? _height : '40px'"/>
+			<block>
+				<styleClass value="$Fullsize"/>
+				<style>
+					<hitTest value="false"/>
+				</style>
+				<block>
+					<bind name="visible" value="_backgroundImage != null"/>
+					<bind name="style" value="'width'; _iconWidth"/>
+					<bind name="style" value="'height'; _iconHeight"/>
+					<styleClass value="$MiddleVAligned"/>
+					<style>
+						<marginLeft value="8px"/>
+						<backgroundStretchX value="true"/>
+						<backgroundStretchY value="true"/>
+					</style>
+					<bind name="style" value="'backgroundImage'; _backgroundImage"/>
+				</block>
+				<block>
+					<styleClass value="$MiddleVAligned"/>
+					<styleClass value="$MiddleAlignedAbsolutely"/>
+					<block type="text">
+						<styleClass value="$TextDefaultBoldNM"/>
+						<bind name="text" value="toUpperCase(tr(_label))"/>
+					</block>
+				</block>
+				<style>
+					<flow value="horizontal"/>
+				</style>
+			</block>
+		</block>
+	</block>
+	<block className="ImageButton">
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController"/>
+		<bind name="request" value="'click'; _request &amp;&amp; _enabled ? _request : null; _requestParams ? _requestParams : {}"/>
+		<bind name="action" value="'click'; _action &amp;&amp; _enabled ? _action : null; _actionParams ? _actionParams : {}"/>
+		<bind name="controller" value="lesta.unbound.controls.UbInteractiveController; null; 'ct_'"/>
+		<bind name="var" value="{ 
+		ctRollOver: {
+			redMultiplier: 1,
+			greenMultiplier: 1,
+			blueMultiplier: 1,
+			alphaMultiplier: 1,
+			redOffset: 30,
+			greenOffset: 30,
+			blueOffset: 30,
+			alphaOffset: 0
+		}
+	}"/>
+		<bind name="var" value="{ 
+		ctMouseDown: {
+			redMultiplier: 1,
+			greenMultiplier: 1,
+			blueMultiplier: 1,
+			alphaMultiplier: 1,
+			redOffset: -30,
+			greenOffset: -30,
+			blueOffset: -30,
+			alphaOffset: 0
+		}
+	}"/>
+		<bind name="colorTransform" value="	_enabled &amp;&amp; (ct_mouseDown)	? ctMouseDown :
+							_enabled &amp;&amp; (ct_rollOver)	? ctRollOver
+														: {}"/>
+		<bind name="style" value="'width'; _width ? _width : '50px'"/>
+		<bind name="style" value="'height'; _height ? _height : '50px'"/>
+		<block>
+			<bind name="name" value="_name"/>
+			<bind name="style" value="'width'; _width ? _width : '50px'"/>
+			<bind name="style" value="'height'; _height ? _height : '50px'"/>
+			<style>
+				<backgroundStretchX value="true"/>
+				<backgroundStretchY value="true"/>
+			</style>
+			<bind name="style" value="'alpha'; _alpha != null ? _alpha : 1.0"/>
+			<bind name="style" value="'backgroundImage'; _backgroundImage"/>
+		</block>
+	</block>
+	<css name="$TextMouseDisable">
+		<mouseChildren value="false"/>
+		<selectable value="false"/>
+		<mouseEnabled value="false"/>
+	</css>
+	<css name="$MouseEnable">
+		<hitTest value="true"/>
+		<mouseChildren value="true"/>
+		<mouseEnabled value="true"/>
+	</css>
+	<css name="$FontFamilyDefault">
+		<fontFamily value="$WWSDefaultFont"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+	</css>
+	<css name="$FontFamilyDefaultBold">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+	</css>
+	<css name="$FontFamilyDefaultBoldTabs">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<dropShadowFilter value="0 90 0x000000 1 2 2 1"/>
+	</css>
+	<css name="$Bold">
+		<fontFamily value="$WWSDefaultFontBold"/>
+	</css>
+	<css name="$FontColorDefault">
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$FontColorGrey">
+		<textColor value="0xDDDDDD"/>
+	</css>
+	<css name="$FontColorStrongGrey">
+		<textColor value="0x636363"/>
+	</css>
+	<css name="$FontColorWhite">
+		<textColor value="0xFFFFFF"/>
+	</css>
+	<css name="$FontColorBlueish">
+		<textColor value="0x9CBABA"/>
+	</css>
+	<css name="$FontColorStrongBlueish">
+		<textColor value="0x758b8b"/>
+	</css>
+	<css name="$FontColorDarkBlueish">
+		<textColor value="0x2B393A"/>
+	</css>
+	<css name="$FontColorSpecialButton">
+		<textColor value="0xFFE8D3"/>
+	</css>
+	<css name="$FontColorTurquoise">
+		<textColor value="0x00cccc"/>
+	</css>
+	<css name="$FontColorBuoyancy">
+		<textColor value="0x13C9F7"/>
+	</css>
+	<css name="$FontColorHealth">
+		<textColor value="0x4ce8aa"/>
+	</css>
+	<css name="$FontColorGolden">
+		<textColor value="0xFFCC66"/>
+	</css>
+	<css name="$FontColorGold">
+		<textColor value="0xFFCC66"/>
+	</css>
+	<css name="$FontColorFreeExp">
+		<textColor value="0xCCFF99"/>
+	</css>
+	<css name="$FontColorExp">
+		<textColor value="0xEEEEEE"/>
+	</css>
+	<css name="$FontColorUnready">
+		<textColor value="0xFF9933"/>
+	</css>
+	<css name="$FontColorAlmostBlack">
+		<textColor value="0x08222a"/>
+	</css>
+	<css name="$FontColorTeamkiller">
+		<textColor value="0xFF96CA"/>
+	</css>
+	<css name="$FontColorTTK">
+		<textColor value="0xc8751c"/>
+	</css>
+	<css name="$FontColorParty">
+		<textColor value="0x00cccc"/>
+	</css>
+	<css name="$FontColorDefaultButtonUp">
+		<textColor value="0xc7e2e2"/>
+	</css>
+	<css name="$FontColorTabButtonDown">
+		<textColor value="0x999999"/>
+	</css>
+	<css name="$FontColorTabButtonSelectedUp">
+		<textColor value="0xAABFBF"/>
+	</css>
+	<css name="$FontColorComparePositive">
+		<textColor value="0x4CE8AA"/>
+	</css>
+	<css name="$FontColorCompareNegative">
+		<textColor value="0xFF6600"/>
+	</css>
+	<css name="$FontColorMercenaries">
+		<textColor value="0x4ce8aa"/>
+	</css>
+	<css name="$FontSizeThumbelina">
+		<fontSize value="7"/>
+	</css>
+	<css name="$FontSizeNano">
+		<fontSize value="11"/>
+	</css>
+	<css name="$FontSizeSmall">
+		<fontSize value="13"/>
+	</css>
+	<css name="$FontSizeDefault">
+		<fontSize value="15"/>
+	</css>
+	<css name="$FontSizeLarge">
+		<fontSize value="17"/>
+	</css>
+	<css name="$FontSizeHeader6">
+		<fontSize value="19"/>
+	</css>
+	<css name="$FontSizeHeader5">
+		<fontSize value="21"/>
+	</css>
+	<css name="$FontSizeHeader4">
+		<fontSize value="23"/>
+	</css>
+	<css name="$FontSizeHeader3">
+		<fontSize value="25"/>
+	</css>
+	<css name="$FontSizeHeader2">
+		<fontSize value="30"/>
+	</css>
+	<css name="$FontSizeHeader1">
+		<fontSize value="36"/>
+	</css>
+	<css name="$FontAccentSize2">
+		<fontSize value="50"/>
+	</css>
+	<css name="$FontAccentSize1">
+		<fontSize value="60"/>
+	</css>
+	<css name="$LetterSpacingSmall">
+		<letterSpacing value="0"/>
+	</css>
+	<css name="$InvertedTextEffect">
+		<dropShadowFilter value="0 90 0xffffff 1.0 3.0 3.0 0.3"/>
+		<textColor value="0x08222a"/>
+	</css>
+	<css name="$FontGlowFilterBright">
+		<dropShadowFilter value="1 90 0xffffff 0.3 5.0 3.0 0.9 2"/>
+	</css>
+	<css name="$BlockGlowFilterBright">
+		<dropShadowFilter value="1 90 0xffffff 0.3 4.0 3.0 0.2 2"/>
+	</css>
+	<css name="$GlowDisabler">
+		<dropShadowFilter value="0 0 0x000000 0 0 0 0 0"/>
+	</css>
+	<css name="$DropShadowDisabler">
+		<dropShadowFilter value="0 0 0x000000 0 0 0 0 0"/>
+	</css>
+	<css name="$FontDropShadowFilter1">
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+	</css>
+	<css name="$FontDropShadowWhite">
+		<dropShadowFilter value="0 90 0xffffff 1.0 3.0 3.0 0.3"/>
+	</css>
+	<css name="$BlockDropShadowTabText">
+		<dropShadowFilter value="0 90 0x000000 1 2 2 1"/>
+	</css>
+	<block className="ModalWindowParagonRules">
+		<bind name="firstEntityDH" value="'userTaskEntity'; CC.userTask"/>
+		<bind name="watchDH" value="'currentUserTaskFlag'; ['userTaskEntity.userTask.evFlagChanged']; userTaskEntity.userTask.flag"/>
+		<bind name="watch" value="'isSeenParagonInShipTree'; currentUserTaskFlag &amp; UserTasksFlags.KNOWS_ABOUT_PARAGONS_IN_SHIP_TREE"/>
+		<bind name="action" value="'addedToStage'; !(isSeenParagonInShipTree) ? 'ServerUIDataUSS.setUserTaskExecuted' : null; {taskId: UserTasksFlags.KNOWS_ABOUT_PARAGONS_IN_SHIP_TREE}"/>
+		<styleClass value="$FullsizeAbsolute"/>
+		<block className="DeclareBlurLayer">
+			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<bind name="visible" value="optionData.blurEnabled"/>
+			<block className="transparentPixel" type="native">
+				<bind name="blurLayer" value="0"/>
+			</block>
+			<style>
+				<position value="absolute"/>
+			</style>
+		</block>
+		<block className="BlurMapCustom">
+			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<styleClass value="$FullsizeAbsolute"/>
+			<style>
+				<hitTest value="false"/>
+			</style>
+			<bind name="visible" value="optionData.blurEnabled"/>
+			<block className="mc_blurmap5" type="native">
+				<bind name="appear" value="'startShow'; 0.3; 0; {alpha: 0}; {alpha: 1}"/>
+				<bind name="appear" value="'startHide'; 0.15; 0; {alpha: 1}; {alpha: 0}"/>
+				<styleClass value="$Fullsize"/>
+				<bind name="blurMap" value="0"/>
+			</block>
+		</block>
+		<block>
+			<bind name="appear" value="'startShow'; 0.3; 0.1; 	{alpha: 0}; {alpha: 1}"/>
+			<bind name="appear" value="'startHide'; 0.15; 0.45; 	{alpha: 1}; {alpha: 0}"/>
+			<styleClass value="$FullsizeAbsolute"/>
+			<bind name="controller" value="lesta.dialogs.controllers.EntitySingletonController; 'optionData'"/>
+			<block className="contrast_panel" type="native">
+				<styleClass value="$FullsizeAbsolute"/>
+				<bind name="visible" value="optionData.contrast"/>
+			</block>
+			<block className="modal_panel" type="native">
+				<styleClass value="$FullsizeAbsolute"/>
+			</block>
+		</block>
+		<bind name="watch" value="'rules'; 		[{	_imagePath: 'url:../paragons/rules/1.png',
+							 		_textTypes: [
+							 			0,
+							 			2,
+							 			1,
+							 			1,
+							 			1,
+							 			1
+							 		]
+							 	},
+								{	_imagePath: 'url:../paragons/rules/2.png',
+									_textTypes: [
+										0,
+										0
+									]
+								},
+					 			{	_imagePath: 'url:../paragons/rules/3.png',
+					 		 		_textTypes: [
+					 		 			0,
+					 		 			0
+					 		 		]
+					 		 	}]"/>
+		<block>
+			<styleClass value="$MiddleAligned"/>
+			<styleClass value="$MiddleVAligned"/>
+			<style>
+				<height value="100%f"/>
+			</style>
+			<bind name="instance" value="'ModalWindowRulesContent'; {_prefix: 'paragon', _rules: rules, _width: '800px'}"/>
+		</block>
+	</block>
+</ui>

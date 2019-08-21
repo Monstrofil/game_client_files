@@ -100,13 +100,15 @@
 
         (var isCaptureInProgress:bool = "bothInside || captureProgress > 0 || neutralProgress" (event "progressComponent.evChanged") (event "entity.capturePoint.evBothInsideChanged"))
 
-        (var capturedBarSymbol:str = "isCaptureInProgress   ? (relation == 'ally'   ? 'symbol:capture_base_bar_green_centered' 
-                                                                                    : 'symbol:capture_base_bar_red_centered') + (isLargeBase ? '_expensive' : '')
-                                                            : ''")
-        
-        (var barSymbol:str = "isCaptureInProgress   ? (barRelation == 'ally'    ? 'symbol:capture_base_bar_green_centered' 
-                                                                                : 'symbol:capture_base_bar_red_centered') + (isLargeBase ? '_expensive' : '')
-                                                    : ''")
+        (var capturedBarSymbol:str = "isCaptureInProgress   ?   relation == 'ally'  ? 'symbol:capture_base_bar_green_centered' :
+                                                                relation == 'enemy' ? 'symbol:capture_base_bar_red_centered'
+                                                                                    : 'symbol:empty'
+                                                            : 'symbol:empty'")
+
+        (var barSymbol:str = "isCaptureInProgress   ?   barRelation == 'ally'   ? 'symbol:capture_base_bar_green_centered' :
+                                                        barRelation == 'enemy'  ? 'symbol:capture_base_bar_red_centered'
+                                                                                : 'symbol:empty'
+                                                    : 'symbol:empty'")
 
         (var indicatorSymbol:str = "(relation == 'neutral' || isCaptureInProgress   ? 'symbol:capture_base_bar_dark_centered' :
                                     relation == 'ally'                              ? 'symbol:capture_base_captured_ally_centered' :
@@ -157,7 +159,7 @@
             (bind visible "relation != 'neutral' && isCaptureInProgress")
             (style
                 (position = "absolute")
-                (bind backgroundImage "capturedBarSymbol")                    
+                (bind backgroundImage "capturedBarSymbol ? capturedBarSymbol + (isLargeBase ? '_expensive' : '') : ''")                    
             )
         )
 
@@ -177,7 +179,7 @@
             (block
                 (style
                     (position = "absolute")
-                    (bind backgroundImage "barSymbol")                    
+                    (bind backgroundImage "barSymbol ? barSymbol + (isLargeBase ? '_expensive' : '') : ''")                    
                 )
             )
         )
