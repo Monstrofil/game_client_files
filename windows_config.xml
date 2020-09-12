@@ -1,29 +1,21 @@
-<!--
-
-
-	NOTA BENE: YOU MUST RUN wows\source\UI\tools\GenerateWinManagerImports.py in order to make changes work
-
-	This file is used to generate wows\source\scripts\client\gui\Scaleform\GeneratedWindowManagerImports.py
-	which is used to get real python class based on its name.
-
-
--->
 <windows_config.xml>
 	<window>
 		<name>Login</name>
 		<python_class>LoginWindow</python_class>
-		<as3_class>lesta.dialogs.Login</as3_class>
+		<config>../unbound/login.xml</config>
+		<root_element_id>Login</root_element_id>
 		<swf_url>login.swf</swf_url>
 		<statistics_event>wnd:login</statistics_event>
+		<hideAllBelow>true</hideAllBelow>
 		<!--bitmaps>../ports/arpeggio.png, ../ports/chinaarpeggio.png</bitmaps-->
 	</window>
 
 	<window>
-		<name>GuideBrowserWindow</name>
+		<name>BrowserWindowContainer</name>
 		<python_class>lobby.GuideBrowserWindow</python_class>
 		<hideTime>0.77</hideTime>
-		<config>../unbound/browser_window.xml</config>
-		<root_element_id>GuideBrowserWindow</root_element_id>
+		<consume_events>false</consume_events>
+		<root_element_id>BrowserWindowContainer</root_element_id>
 		<statistics_event>wnd:browser</statistics_event>
 	</window>
 
@@ -31,8 +23,7 @@
 		<name>GuideBrowserWindowPortSound</name>
 		<python_class>lobby.GuideBrowserWindow</python_class>
 		<hideTime>0.77</hideTime>
-		<config>../unbound/browser_window.xml</config>
-		<root_element_id>GuideBrowserWindow</root_element_id>
+		<root_element_id>BrowserWindowContainer</root_element_id>
 		<statistics_event>wnd:browser</statistics_event>
 	</window>
 
@@ -48,7 +39,6 @@
 	<window>
 		<name>FakeDock</name>
 		<python_class>Dock</python_class>
-		<config>../unbound/fake_elements.xml</config>
 		<root_element_id>FakeDock</root_element_id>
 		<drawWorld>True</drawWorld>
 		<release>hold_with_suspend</release>
@@ -58,71 +48,84 @@
 	<window>
 		<name>ModalWindowBattleTypeChooser</name>
 		<hideTime>0.15</hideTime>
-		<config>../unbound/modal_battle_type_chooser.xml</config>
 		<root_element_id>ModalWindowBattleTypeChooser</root_element_id>
 		<consume_events>false</consume_events>
+		<canBecomeTop>false</canBecomeTop>
 	</window>
 
 	<window>
 		<name>ModalWindowPVEOperationChooser</name>
 		<hideTime>0.15</hideTime>
-		<config>../unbound/modal_pve_operation_chooser.xml</config>
 		<root_element_id>ModalWindowPVEOperationChooser</root_element_id>
 		<consume_events>false</consume_events>
+		<canBecomeTop>false</canBecomeTop>
 	</window>
 
 	<window>
 		<name>ChatNotificationsPanel</name>
-		<config>../unbound/chat_notifications_panel.xml</config>
 		<root_element_id>ChatNotificationsPanel</root_element_id>
 		<consume_events>false</consume_events>
+		<canBecomeTop>false</canBecomeTop>
 		<stealLayers>true</stealLayers>
 	</window>
 
 	<window>
 		<name>ShipTTXPanelDock</name>
-		<config>../unbound/ship_ttx_panel.xml</config>
 		<root_element_id>ShipTTXPanelDock</root_element_id>
 		<consume_events>false</consume_events>
+		<canBecomeTop>false</canBecomeTop>
 	</window>
 
 	<window>
 		<name>ShipsCarouselPanel</name>
-		<config>../unbound/ships_carousel_panel.xml</config>
 		<root_element_id>ShipsCarouselPanelContainer</root_element_id>
 		<consume_events>false</consume_events>
+		<canBecomeTop>false</canBecomeTop>
 	</window>
 
 	<window>
 		<name>ExtendedSystemLogWindow</name>
-		<config>../unbound/modal_extended_system_message.xml</config>
 		<root_element_id>ExtendedSystemLogWindow</root_element_id>
 		<hideTime>1</hideTime>
 		<statistics_event>wnd:systemLog.extended</statistics_event>
+		<canBecomeTop>false</canBecomeTop>
 	</window>
 
 	<window>
 		<name>UnavailableExtendedSystemLogWindow</name>
-		<config>../unbound/modal_extended_system_message.xml</config>
 		<root_element_id>UnavailableExtendedSystemLogWindow</root_element_id>
 		<statistics_event>wnd:systemLog.unavailable</statistics_event>
 		<hideTime>0.3</hideTime>
+		<canBecomeTop>false</canBecomeTop>
 	</window>
 
 	<window>
 		<name>LoadingBattle</name>
 		<python_class>BattleLoading</python_class>
 		<swf_url>battle_loading.swf</swf_url>
-		<config>../unbound/battle_loading.xml</config>
 		<root_element_id>BattleLoading</root_element_id>
 		<cursorLock>True</cursorLock>
 		<statistics_event>wnd:battle.loading</statistics_event>
 	</window>
 
 	<window>
+		<name>LoadingFirstBattle</name>
+		<python_class>BattleLoading</python_class>
+		<config>../unbound/first_battle_loading.xml</config>
+		<root_element_id>LoadingFirstBattle</root_element_id>
+		<statistics_event>wnd:battle.firstLoading</statistics_event>
+	</window>
+
+	<window>
+		<name>FirstBattleChooseShip</name>
+		<config>../unbound/first_battle_choose_ship.xml</config>
+		<root_element_id>FirstBattleChooseShip</root_element_id>
+		<statistics_event>wnd:dock.chooseShip</statistics_event>
+	</window>
+
+	<window>
 		<name>FakeLoadingBattle</name>
 		<swf_url>battle_loading.swf</swf_url>
-		<config>../unbound/fake_elements.xml</config>
 		<root_element_id>FakeBattleLoading</root_element_id>
 		<cursorLock>True</cursorLock>
 	</window>
@@ -138,27 +141,23 @@
 
 	<window>
 		<name>BattleMarkers</name>
-		<config>../unbound/markers.xml</config>
 		<root_element_id>ShipMarkersContainer</root_element_id>
 		<consume_events>false</consume_events>
 	</window>
 
 	<window>
 		<name>CommandMappingEditWindow</name>
-		<config>../unbound/edit_controls.xml</config>
 		<root_element_id>CommandMappingEditWindow</root_element_id>
 	</window>
 
 	<window>
 		<name>MainHUD</name>
-		<config>../unbound/main_hud.xml</config>
 		<root_element_id>MainHUDContainer</root_element_id>
 		<consume_events>false</consume_events>
 	</window>
 
 	<window>
 		<name>BattleCrosshair</name>
-		<config>../unbound/crosshair.xml</config>
 		<root_element_id>CrosshairContainer</root_element_id>
 		<consume_events>false</consume_events>
 		<cursorLock>True</cursorLock>
@@ -180,12 +179,12 @@
 		<swf_url>results_screen.swf</swf_url>
 		<showTime>1</showTime>
 		<hideTime>1</hideTime>
+		<canBecomeTop>True</canBecomeTop>
 		<statistics_event>wnd:battle.results</statistics_event>
 	</window>
 
 	<window>
 		<name>InGameSurveyWindow</name>
-		<config>../unbound/modal_window_ingame_survey.xml</config>
 		<root_element_id>InGameSurveyWindow</root_element_id>
 		<showTime>1</showTime>
 		<hideTime>0.6</hideTime>
@@ -193,15 +192,7 @@
 	</window>
 
 	<window>
-		<name>PostBattle</name>
-		<python_class>PostBattleWindow</python_class>
-		<swf_url>post_battle.swf</swf_url>
-		<drawWorld>True</drawWorld>
-	</window>
-
-	<window>
 		<name>LobbyMenu</name>
-		<config>../unbound/lobby_menu.xml</config>
 		<root_element_id>LobbyMenu</root_element_id>
 		<hideTime>0.3</hideTime>
 		<statistics_event>wnd:menu.lobby</statistics_event>
@@ -209,7 +200,6 @@
 
 	<window>
 		<name>GameMenu</name>
-		<config>../unbound/game_menu.xml</config>
 		<root_element_id>GameMenu</root_element_id>
 		<hideTime>0.3</hideTime>
 		<statistics_event>wnd:menu.battle</statistics_event>
@@ -225,14 +215,12 @@
 	<window>
 		<name>RandomBattle</name>
 		<python_class>RandomBattle</python_class>
-		<config>../unbound/random_battle.xml</config>
 		<root_element_id>RandomBattleWindow</root_element_id>
 		<statistics_event>wnd:battle.balancer</statistics_event>
 	</window>
 
 	<window>
 		<name>FakeRandomBattle</name>
-		<config>../unbound/fake_elements.xml</config>
 		<root_element_id>FakeRandomBattle</root_element_id>
 	</window>
 
@@ -247,7 +235,6 @@
 		<name>LoginQueue</name>
 		<python_class>LoginQueue</python_class>
 		<hideTime>0.45</hideTime>
-		<config>../unbound/login_queue.xml</config>
 		<root_element_id>LoginQueue</root_element_id>
 		<statistics_event>wnd:login.queue</statistics_event>
 	</window>
@@ -255,7 +242,6 @@
     <window>
         <name>MasterChanger</name>
         <hideTime>0.45</hideTime>
-        <config>../unbound/modal_master_changer.xml</config>
         <root_element_id>ModalMasterChanger</root_element_id>
 		<statistics_event>wnd:modal.masterChanger</statistics_event>
     </window>
@@ -263,14 +249,12 @@
     <window>
 		<name>ModalWindowConvertExp</name>
 		<hideTime>0.6</hideTime>
-		<config>../unbound/modal_window_convert_exp.xml</config>
 		<root_element_id>ModalWindowConvertExp</root_element_id>
 		<statistics_event>wnd:convert.exp</statistics_event>
 	</window>
 
 	<window>
 		<name>CrewFile</name>
-		<config>../unbound/crew_file.xml</config>
 		<hideTime>0.7</hideTime>
 		<root_element_id>CrewFile</root_element_id>
 		<statistics_event>wnd:crew.file</statistics_event>
@@ -278,7 +262,6 @@
 
 	<window>
 		<name>ModalWindowHireCrew</name>
-		<config>../unbound/modal_crew_hire.xml</config>
 		<hideTime>0.7</hideTime>
 		<root_element_id>ModalWindowHireCrew</root_element_id>
 		<statistics_event>wnd:crew.hire</statistics_event>
@@ -286,7 +269,6 @@
 
 	<window>
 		<name>ModalWindowAssignCrew</name>
-		<config>../unbound/modal_crew_assign.xml</config>
 		<hideTime>0.7</hideTime>
 		<root_element_id>ModalWindowAssignCrew</root_element_id>
 		<statistics_event>wnd:crew.assign</statistics_event>
@@ -294,7 +276,6 @@
 
 	<window>
 		<name>ModalWindowRetrainCrew</name>
-		<config>../unbound/modal_crew_retrain.xml</config>
 		<hideTime>0.7</hideTime>
 		<root_element_id>ModalWindowRetrainCrew</root_element_id>
 		<statistics_event>wnd:crew.retrain</statistics_event>
@@ -302,7 +283,6 @@
 
 	<window>
 		<name>ModalWindowCrewFastTraining</name>
-		<config>../unbound/modal_crew_fast_training.xml</config>
 		<hideTime>0.7</hideTime>
 		<root_element_id>ModalWindowCrewFastTraining</root_element_id>
 		<statistics_event>wnd:crew.fastRetrain</statistics_event>
@@ -310,7 +290,6 @@
 
 	<window>
 		<name>ModalWindowCrewPenaltyCompensation</name>
-		<config>../unbound/modal_crew_penalty_compensation.xml</config>
 		<hideTime>0.7</hideTime>
 		<root_element_id>ModalWindowCrewPenaltyCompensation</root_element_id>
 		<statistics_event>wnd:crew.penaltyCompensation</statistics_event>
@@ -318,7 +297,6 @@
 
 	<window>
 		<name>ModalWindowTutorial</name>
-		<config>../unbound/modal_tutorial.xml</config>
 		<hideTime>0.7</hideTime>
 		<root_element_id>ModalWindowTutorial</root_element_id>
 		<statistics_event>wnd:tutorial</statistics_event>
@@ -326,7 +304,6 @@
 
 	<window>
 		<name>ModalWindowFireCrew</name>
-		<config>../unbound/modal_crew_fire.xml</config>
 		<hideTime>0.7</hideTime>
 		<root_element_id>ModalWindowFireCrew</root_element_id>
 		<statistics_event>wnd:crew.fire</statistics_event>
@@ -334,23 +311,13 @@
 
 	<window>
 		<name>ModalWindowBuyExterior</name>
-		<config>../unbound/modal_exterior_buy.xml</config>
 		<hideTime>0.7</hideTime>
 		<root_element_id>ModalWindowBuyExterior</root_element_id>
 		<statistics_event>wnd:exterior.buy</statistics_event>
 	</window>
 
 	<window>
-		<name>ModalWindowUninstallExterior</name>
-		<config>../unbound/modal_exterior_uninstall.xml</config>
-		<hideTime>0.7</hideTime>
-		<root_element_id>ModalWindowUninstallExterior</root_element_id>
-		<statistics_event>wnd:exterior.uninstall</statistics_event>
-	</window>
-
-	<window>
 		<name>ModalWindowCreateClub</name>
-		<config>../unbound/modal_club_create.xml</config>
 		<hideTime>0.6</hideTime>
 		<root_element_id>ModalWindowCreateClub</root_element_id>
 		<statistics_event>wnd:club.create</statistics_event>
@@ -358,7 +325,6 @@
 
 	<window>
 		<name>ModalWindowRenameClub</name>
-		<config>../unbound/modal_club_rename.xml</config>
 		<hideTime>0.6</hideTime>
 		<root_element_id>ModalWindowRenameClub</root_element_id>
 		<statistics_event>wnd:club.rename</statistics_event>
@@ -366,7 +332,6 @@
 
 	<window>
 		<name>ModalWindowLeaveClub</name>
-		<config>../unbound/modal_club_leave.xml</config>
 		<hideTime>0.6</hideTime>
 		<root_element_id>ModalWindowLeaveClub</root_element_id>
 		<statistics_event>wnd:club.leave</statistics_event>
@@ -374,7 +339,6 @@
 
 	<window>
 		<name>ModalWindowChangeClubLeader</name>
-		<config>../unbound/modal_club_change_leader.xml</config>
 		<hideTime>0.6</hideTime>
 		<root_element_id>ModalWindowChangeClubLeader</root_element_id>
 		<statistics_event>wnd:club.changeLeader</statistics_event>
@@ -382,7 +346,6 @@
 
 	<window>
 		<name>ModalWindowDivisionNotReady</name>
-		<config>../unbound/modal_division_not_ready.xml</config>
 		<hideTime>0.7</hideTime>
 		<root_element_id>ModalWindowDivisionNotReady</root_element_id>
 		<statistics_event>wnd:division.notReady</statistics_event>
@@ -390,14 +353,13 @@
 	
 	<window>
 		<name>ModalWindowChoosePrimeTime</name>
-		<config>../unbound/modal_cvc_choose_prime_time.xml</config>
 		<hideTime>0.7</hideTime>
 		<root_element_id>ModalWindowChoosePrimeTime</root_element_id>
+		<statistics_event>wnd:clan.choose_prime_time</statistics_event>
 	</window>
 
 	<window>
 		<name>ModalWindowExpandBarracks</name>
-		<config>../unbound/modal_crew_expandbarracks.xml</config>
 		<hideTime>0.7</hideTime>
 		<root_element_id>ModalWindowExpandBarracks</root_element_id>
 		<statistics_event>wnd:crew.expandBarracks</statistics_event>
@@ -405,7 +367,6 @@
 
 	<window>
 		<name>ModalWindowFreeSkillPoints</name>
-		<config>../unbound/modal_crew_freeskillpoints.xml</config>
 		<hideTime>0.7</hideTime>
 		<root_element_id>ModalWindowFreeSkillPoints</root_element_id>
 		<statistics_event>wnd:crew.freeSkillPoints</statistics_event>
@@ -413,7 +374,6 @@
 
 	<window>
 		<name>ModalWindowLearnSkill</name>
-		<config>../unbound/modal_crew_learnskill.xml</config>
 		<hideTime>0.7</hideTime>
 		<root_element_id>ModalWindowLearnSkill</root_element_id>
 		<statistics_event>wnd:crew.learnSkill</statistics_event>
@@ -421,9 +381,7 @@
 
 	<window>
 		<name>ModalWindowShipIsElite</name>
-		<python_class>ModalWindow</python_class>
 		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_ship_elite.xml</config>
 		<root_element_id>ModalWindowShipIsElite</root_element_id>
 		<statistics_event>wnd:ship.isElite</statistics_event>
 	</window>
@@ -431,7 +389,6 @@
 	<window>
 		<name>ModalWindowResearchShip</name>
 		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_ship_research.xml</config>
 		<root_element_id>ModalWindowResearchShip</root_element_id>
 		<statistics_event>wnd:ship.research</statistics_event>
 	</window>
@@ -439,15 +396,14 @@
 	<window>
 		<name>ModalWindowAccountLevelUp</name>
 		<hideTime>0.6</hideTime>
-		<config>../unbound/modal_account_level_up.xml</config>
 		<root_element_id>ModalWindowAccountLevelUp</root_element_id>
+		<canBecomeTop>true</canBecomeTop>
 		<statistics_event>wnd:account.levelUp</statistics_event>
 	</window>
 
 	<window>
 		<name>ModalGameFirstEntrance</name>
 		<hideTime>0.6</hideTime>
-		<config>../unbound/modal_game_first_entrance.xml</config>
 		<root_element_id>ModalGameFirstEntrance</root_element_id>
 		<statistics_event>wnd:modal.greeting</statistics_event>
 	</window>
@@ -455,7 +411,6 @@
 	<window>
 		<name>ModalWindowPremiumAccount</name>
 		<hideTime>0.4</hideTime>
-		<config>../unbound/modal_account_premium.xml</config>
 		<root_element_id>ModalWindowPremiumAccount</root_element_id>
 		<statistics_event>wnd:account.premium</statistics_event>
 	</window>
@@ -463,7 +418,6 @@
 	<window>
 		<name>ModalWindowPremiumAccountChoosePeriod</name>
 		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_account_premium_choose_period.xml</config>
 		<root_element_id>ModalWindowPremiumAccountChoosePeriod</root_element_id>
 		<statistics_event>wnd:account.premium</statistics_event>
 	</window>
@@ -471,23 +425,13 @@
 	<window>
 		<name>ModalWindowResearchModule</name>
 		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_module_research.xml</config>
 		<root_element_id>ModalWindowResearchModule</root_element_id>
 		<statistics_event>wnd:module.research</statistics_event>
 	</window>
 
 	<window>
-		<name>ModalWindowPurchaseModule</name>
-		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_module_purchase.xml</config>
-		<root_element_id>ModalWindowPurchaseModule</root_element_id>
-		<statistics_event>wnd:module.buy</statistics_event>
-	</window>
-
-	<window>
 		<name>ModalWindowPurchaseAndInstallModule</name>
 		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_module_purchase_install.xml</config>
 		<root_element_id>ModalWindowPurchaseAndInstallModule</root_element_id>
 		<statistics_event>wnd:module.buyAndInstall</statistics_event>
 	</window>
@@ -495,200 +439,16 @@
 	<window>
 		<name>ModalWindowConvertGold</name>
 		<hideTime>0.77</hideTime>
-		<config>../unbound/modal_convert_gold.xml</config>
 		<root_element_id>ModalWindowConvertGold</root_element_id>
 		<statistics_event>wnd:convert.gold</statistics_event>
 	</window>
 
 	<window>
-		<name>WaitingScreenDockReload</name>
-		<python_class>ModalWindow</python_class>
-		<hideTime>2.0</hideTime>
-		<config>../unbound/modal_window_reload_dock.xml</config>
-		<root_element_id>WaitingScreenDockReload</root_element_id>
-	</window>
-
-	<window>
-		<name>ModalWindowBuySlots</name>
-		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_buyslots.xml</config>
-		<root_element_id>ModalWindowBuySlots</root_element_id>
-		<statistics_event>wnd:slots.buy</statistics_event>
-	</window>
-
-	<window>
-		<name>ModalWindowResearchShip</name>
-		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_ship_research.xml</config>
-		<root_element_id>ModalWindowResearchShip</root_element_id>
-		<statistics_event>wnd:ship.research</statistics_event>
-	</window>
-
-	<window>
-		<name>ModalWindowPurchaseShip</name>
-		<hideTime>0.84</hideTime>
-		<config>../unbound/modal_ship_purchase.xml</config>
-		<root_element_id>ModalWindowPurchaseShip</root_element_id>
-		<statistics_event>wnd:ship.buy</statistics_event>
-	</window>
-
-	<window>
-		<name>ModalWindowSellShip</name>
-		<python_class>ModalWindow</python_class>
-		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_ship_sell.xml</config>
-		<root_element_id>ModalWindowSellShip</root_element_id>
-		<statistics_event>wnd:ship.sell</statistics_event>
-	</window>
-
-	<window>
-		<name>ModalWindowBuyConsume</name>
-		<python_class>ModalWindow</python_class>
-		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_consumable_purchase.xml</config>
-		<root_element_id>ModalWindowConsumablePurchase</root_element_id>
-		<statistics_event>wnd:consumable.buy</statistics_event>
-	</window>
-
-	<window>
-		<name>ModalWindowModernizations</name>
-		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_modernizations.xml</config>
-		<root_element_id>ModalWindowModernizations</root_element_id>
-		<statistics_event>wnd:modernizations</statistics_event>
-	</window>
-
-	<window>
-		<name>QuestsAndRibbonsFancyAnimationWindow</name>
-		<python_class>ModalWindow</python_class>
-		<swf_url>fancy_animations.swf</swf_url>
-		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_window_fancy_animation.xml</config>
-		<root_element_id>ModalWindowFancyAnimation</root_element_id>
-		<statistics_event>wnd:fancy.ribbons</statistics_event>
-	</window>
-
-	<window>
-		<name>RankedBattlesFancyAnimationWindow</name>
-		<python_class>ModalWindow</python_class>
-		<swf_url>fancy_animations.swf</swf_url>
-		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_window_fancy_animation.xml</config>
-		<root_element_id>ModalWindowFancyAnimation</root_element_id>
-		<statistics_event>wnd:fancy.ranked</statistics_event>
-	</window>
-
-	<window>
-		<name>SimpleModalWindow</name>
-		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_window_simple.xml</config>
-		<root_element_id>SimpleModalWindow</root_element_id>
-		<statistics_event>wnd:modal.notification</statistics_event>
-	</window>
-
-	<window>
-		<name>EULAConfirmation</name>
-		<hideTime>0.7</hideTime>
-		<config>../unbound/login.xml</config>
-		<root_element_id>EULAConfirmation</root_element_id>
-		<statistics_event>wnd:eula</statistics_event>
-	</window>
-
-	<window>
-		<name>ReplayWindow</name>
-		<hideTime>0.7</hideTime>
-		<config>../unbound/replay.xml</config>
-		<root_element_id>Replay</root_element_id>
-		<statistics_event>wnd:replay</statistics_event>
-	</window>
-
-	<window>
-		<name>QuestWindow</name>
-		<hideTime>0.7</hideTime>
-		<config>../unbound/quest_window.xml</config>
-		<root_element_id>QuestWindow</root_element_id>
-		<statistics_event>wnd:sse</statistics_event>
-	</window>
-
-	<window>
-		<name>QuestWindowExtended</name>
-		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_sse.xml</config>
-		<root_element_id>QuestWindowExtended</root_element_id>
-		<statistics_event>wnd:sse.extended</statistics_event>
-	</window>
-
-	<window>
-		<name>ModalWindowRankChanged</name>
-		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_rank_changed.xml</config>
-		<root_element_id>ModalWindowRankChanged</root_element_id>
-		<statistics_event>wnd:ranked.rankChanged</statistics_event>
-	</window>
-
-	<window>
-		<name>ModalWindowSeasonResults</name>
-		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_season_results.xml</config>
-		<root_element_id>ModalWindowSeasonResults</root_element_id>
-		<statistics_event>wnd:ranked.seasonResults</statistics_event>
-	</window>
-
-	<window>
-		<name>ModalWindowClubRate</name>
-		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_club_rate.xml</config>
-		<root_element_id>ModalWindowClubRate</root_element_id>
-		<statistics_event>wnd:club.rate</statistics_event>
-	</window>
-
-	<window>
-		<name>ModalCvCSeasonEnds</name>
-		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_cvc_season_ends.xml</config>
-		<root_element_id>ModalCvCSeasonEnds</root_element_id>
-		<statistics_event>wnd:clan.seasonEnd</statistics_event>
-	</window>
-
-	<window>
-		<name>ModalWindowVote</name>
-		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_window_vote.xml</config>
-		<root_element_id>ModalWindowVote</root_element_id>
-		<statistics_event>wnd:club.vote</statistics_event>
-	</window>
-
-	<window>
-		<name>ModalWindowKickClubLeader</name>
-		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_kick_leader.xml</config>
-		<root_element_id>ModalWindowKickClubLeader</root_element_id>
-		<statistics_event>wnd:club.leader</statistics_event>
-	</window>
-
-	<window>
-		<name>LegalInfo</name>
-		<hideTime>0.8</hideTime>
-		<config>../unbound/login.xml</config>
-		<root_element_id>LegalInfo</root_element_id>
-		<statistics_event>wnd:legalInfo</statistics_event>
-	</window>
-
-	<window>
-		<name>WaitingScreenTransaction</name>
-		<hideTime>0.6</hideTime>
-		<config>../unbound/modal_waiting_transaction.xml</config>
-		<root_element_id>WaitingScreenTransaction</root_element_id>
-		<statistics_event>wnd:modal.waitTransaction</statistics_event>
-	</window>
-
-
-	<window>
-		<name>ModalWindowSelectNation</name>
-		<hideTime>0.9</hideTime>
-		<config>../unbound/modal_start_intromission.xml</config>
-		<root_element_id>ModalWindowSelectNation</root_element_id>
-		<statistics_event>wnd:intromission.start</statistics_event>
+		<name>BackgroundModalWindowPort</name>
+		<hideTime>0.3</hideTime>
+		<config>../unbound/modal_select_port.xml</config>
+		<root_element_id>BackgroundModalWindowPort</root_element_id>
+		<statistics_event>wnd:select.port</statistics_event>
 	</window>
 
 	<window>
@@ -697,28 +457,169 @@
 		<hideTime>0.6</hideTime>
 		<config>../unbound/modal_select_port.xml</config>
 		<root_element_id>ModalWindowSelectPort</root_element_id>
-		<statistics_event>wnd:select.port</statistics_event>
 	</window>
+
+	<window>
+		<name>ModalWindowReloadPort</name>
+		<hideTime>0.25</hideTime>
+		<config>../unbound/modal_select_port.xml</config>
+		<root_element_id>ModalWindowReloadPort</root_element_id>
+	</window>
+
+	<window>
+		<name>ModalWaitLoading</name>
+		<hideTime>1</hideTime>
+		<config>../unbound/modal_window_wait_loading.xml</config>
+		<root_element_id>ModalWaitLoading</root_element_id>
+	</window>
+
+	<window>
+		<name>ModalWindowBuySlots</name>
+		<hideTime>0.7</hideTime>
+		<root_element_id>ModalWindowBuySlots</root_element_id>
+		<statistics_event>wnd:slots.buy</statistics_event>
+	</window>
+
+	<window>
+		<name>ModalWindowResearchShip</name>
+		<hideTime>0.7</hideTime>
+		<root_element_id>ModalWindowResearchShip</root_element_id>
+		<statistics_event>wnd:ship.research</statistics_event>
+	</window>
+
+	<window>
+		<name>ModalWindowPurchaseShip</name>
+		<hideTime>0.84</hideTime>
+		<root_element_id>ModalWindowPurchaseShip</root_element_id>
+		<statistics_event>wnd:ship.buy</statistics_event>
+	</window>
+
+	<window>
+		<name>ModalWindowSellShip</name>
+		<hideTime>0.7</hideTime>
+		<root_element_id>ModalWindowSellShip</root_element_id>
+		<statistics_event>wnd:ship.sell</statistics_event>
+	</window>
+
+	<window>
+		<name>ModalWindowModernizations</name>
+		<hideTime>0.7</hideTime>
+		<root_element_id>ModalWindowModernizations</root_element_id>
+		<statistics_event>wnd:modernizations</statistics_event>
+	</window>
+
+	<window>
+		<name>SimpleModalWindow</name>
+		<hideTime>0.7</hideTime>
+		<root_element_id>SimpleModalWindow</root_element_id>
+		<statistics_event>wnd:modal.notification</statistics_event>
+	</window>
+
+	<window>
+		<name>EULAConfirmation</name>
+		<hideTime>0.7</hideTime>
+		<root_element_id>EULAConfirmation</root_element_id>
+		<statistics_event>wnd:eula</statistics_event>
+	</window>
+
+	<window>
+		<name>ReplayWindow</name>
+		<hideTime>0.7</hideTime>
+		<root_element_id>Replay</root_element_id>
+		<statistics_event>wnd:replay</statistics_event>
+	</window>
+
+	<window>
+		<name>ReplayLeechWindow</name>
+		<hideTime>0.7</hideTime>
+		<config>../unbound/replay_leech_window.xml</config>
+		<root_element_id>ReplayLeechWindow</root_element_id>
+		<statistics_event>wnd:replayLeechWindow</statistics_event>
+	</window>
+
+	<window>
+		<name>ModalWindowSse</name>
+		<hideTime>0.7</hideTime>
+		<config>../unbound/modal_sse_2019.xml</config>
+		<root_element_id>ModalWindowSse</root_element_id>
+		<statistics_event>wnd:sse</statistics_event>
+		<drawWorld>false</drawWorld>
+	</window>
+
+	<window>
+		<name>ModalWindowPostBattleSSE</name>
+		<hideTime>0.7</hideTime>
+		<config>../unbound/modal_postbattle_sse.xml</config>
+		<root_element_id>ModalWindowPostBattleSSE</root_element_id>
+		<statistics_event>wnd:sse.postbattle</statistics_event>
+	</window>
+
+	<window>
+		<name>ModalWindowRankChanged</name>
+		<hideTime>0.7</hideTime>
+		<root_element_id>ModalWindowRankChanged</root_element_id>
+		<statistics_event>wnd:ranked.rankChanged</statistics_event>
+	</window>
+
+	<window>
+		<name>ModalWindowSeasonResults</name>
+		<hideTime>0.7</hideTime>
+		<root_element_id>ModalWindowSeasonResults</root_element_id>
+		<statistics_event>wnd:ranked.seasonResults</statistics_event>
+	</window>
+
+	<window>
+		<name>ModalWindowClubRate</name>
+		<hideTime>0.7</hideTime>
+		<root_element_id>ModalWindowClubRate</root_element_id>
+		<statistics_event>wnd:club.rate</statistics_event>
+	</window>
+
+	<window>
+		<name>ModalCvCSeasonEnds</name>
+		<hideTime>0.7</hideTime>
+		<root_element_id>ModalCvCSeasonEnds</root_element_id>
+		<statistics_event>wnd:clan.seasonEnd</statistics_event>
+	</window>
+
+	<window>
+		<name>ModalWindowVote</name>
+		<hideTime>0.7</hideTime>
+		<root_element_id>ModalWindowVote</root_element_id>
+		<statistics_event>wnd:club.vote</statistics_event>
+	</window>
+
+	<window>
+		<name>ModalWindowKickClubLeader</name>
+		<hideTime>0.7</hideTime>
+		<root_element_id>ModalWindowKickClubLeader</root_element_id>
+		<statistics_event>wnd:club.leader</statistics_event>
+	</window>
+
+	<window>
+		<name>WaitingScreenTransaction</name>
+		<hideTime>0.6</hideTime>
+		<root_element_id>WaitingScreenTransaction</root_element_id>
+		<statistics_event>wnd:modal.waitTransaction</statistics_event>
+	</window>
+
+
 	<window>
 		<name>ModalWindowPromoCompleteAccount</name>
 		<hideTime>0.6</hideTime>
-		<config>../unbound/modal_complete_account.xml</config>
 		<root_element_id>ModalWindowPromoCompleteAccount</root_element_id>
 		<statistics_event>wnd:account.complete_promo</statistics_event>
 	</window>
 	<window>
-		<name>ModalWindowCompleteAccount</name>
+		<name>ModalCoachWindowCompleteAccount</name>
 		<hideTime>0.6</hideTime>
-		<config>../unbound/modal_complete_account.xml</config>
-		<root_element_id>ModalWindowCompleteAccount</root_element_id>
-		<statistics_event>wnd:account.complete</statistics_event>
+		<root_element_id>ModalCoachWindowCompleteAccount</root_element_id>
 	</window>
 	<window>
-		<name>ModalWindowIntromissionQueue</name>
-		<hideTime>0.9</hideTime>
-		<config>../unbound/modal_window_intromission_queue.xml</config>
-		<root_element_id>ModalWindowIntromissionQueue</root_element_id>
-		<statistics_event>wnd:intromission.queue</statistics_event>
+		<name>ModalWindowCompleteAccount</name>
+		<hideTime>0.6</hideTime>
+		<root_element_id>ModalWindowCompleteAccount</root_element_id>
+		<statistics_event>wnd:account.complete</statistics_event>
 	</window>
 
 	<!--- PremiumShop window was completely removed
@@ -727,14 +628,12 @@
 		<python_class>lobby.PremiumShopWindow</python_class>-->
 		<!---<isOverlay>True</isOverlay>-->
 		<!---<<hideTime>0.77</hideTime>-->
-	<!---<	<config>../unbound/premium_shop_window.xml</config>
-		<root_element_id>PremiumShopWindow</root_element_id>
+	<!---<	<root_element_id>PremiumShopWindow</root_element_id>
 	</window>-->
 
 	<window>
 		<name>ModalWindowSelectCrosshair</name>
 		<hideTime>0.6</hideTime>
-		<config>../unbound/modal_select_crosshair.xml</config>
 		<root_element_id>ModalWindowSelectCrosshair</root_element_id>
 		<bitmaps>
 			../bg/crosshair/crosshair_screen_dark.jpg,
@@ -750,7 +649,6 @@
 	<window>
 		<name>ModalWindowCampaigns</name>
 		<hideTime>0.4</hideTime>
-		<config>../unbound/modal_window_campaigns.xml</config>
 		<root_element_id>ModalWindowCampaigns</root_element_id>
 		<bitmaps>
 			../bg/campaign/campaign_bg.jpg,
@@ -764,7 +662,6 @@
 	<window>
 		<name>ModalWindowCampaignDone</name>
 		<hideTime>0.6</hideTime>
-		<config>../unbound/modal_window_campaign_done.xml</config>
 		<root_element_id>ModalWindowCampaignDone</root_element_id>
 		<statistics_event>wnd:campaign.done</statistics_event>
 	</window>
@@ -772,7 +669,6 @@
 	<window>
 		<name>ModalWindowPurchaseLootbox</name>
 		<hideTime>0.6</hideTime>
-		<config>../unbound/modal_purchase_lootbox.xml</config>
 		<root_element_id>ModalWindowPurchaseLootbox</root_element_id>
 		<statistics_event>wnd:lootbox.buy</statistics_event>
 	</window>
@@ -780,7 +676,6 @@
 	<window>
 		<name>ModalWindowPurchaseLootboxChance</name>
 		<hideTime>0.9</hideTime>
-		<config>../unbound/modal_purchase_lootbox_chance.xml</config>
 		<root_element_id>ModalWindowPurchaseLootboxChance</root_element_id>
 		<statistics_event>wnd:lootbox.chance</statistics_event>
 	</window>
@@ -788,7 +683,6 @@
 	<window>
 		<name>ModalWindowForceCreateAccount</name>
 		<hideTime>0.4</hideTime>
-		<config>../unbound/modal_force_create_account.xml</config>
 		<root_element_id>ModalWindowForceCreateAccount</root_element_id>
 		<statistics_event>wnd:account.forceCreate</statistics_event>
 	</window>
@@ -796,7 +690,6 @@
 	<window>
 		<name>ModalWindowViewCollectionObject</name>
 		<hideTime>0.5</hideTime>
-		<config>../unbound/modal_view_object.xml</config>
 		<root_element_id>ModalWindowViewCollectionObject</root_element_id>
 		<statistics_event>wnd:collection.object.view</statistics_event>
 	</window>
@@ -804,7 +697,6 @@
 	<window>
 		<name>ModalWindowBuyCollectionObject</name>
 		<hideTime>0.5</hideTime>
-		<config>../unbound/modal_buy_object.xml</config>
 		<root_element_id>ModalWindowBuyCollectionObject</root_element_id>
 		<statistics_event>wnd:collection.object.buy</statistics_event>
 	</window>
@@ -812,7 +704,6 @@
 	<window>
 		<name>ModalWindowCollectionFullyCollected</name>
 		<hideTime>0.5</hideTime>
-		<config>../unbound/modal_collection_fully_collected.xml</config>
 		<root_element_id>ModalWindowCollectionFullyCollected</root_element_id>
 		<statistics_event>wnd:collection.full</statistics_event>
 	</window>
@@ -820,7 +711,6 @@
 	<window>
 		<name>ModalWindowSubAlbumFullyCollected</name>
 		<hideTime>0.5</hideTime>
-		<config>../unbound/modal_sub_album_fully_collected.xml</config>
 		<root_element_id>ModalWindowSubAlbumFullyCollected</root_element_id>
 		<statistics_event>wnd:collection.subAlbumFull</statistics_event>
 	</window>
@@ -828,26 +718,25 @@
 	<window>
 		<name>ModalMilestoneScreen</name>
 		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_window_milestone.xml</config>
 		<root_element_id>ModalMilestoneScreen</root_element_id>
+		<statistics_event>wnd:event.milestone</statistics_event>
 	</window>
 
 	<window>
 		<name>ModalEventScreen</name>
 		<hideTime>1</hideTime>
-		<config>../unbound/modal_window_arc_event_daily_choice.xml</config>
 		<root_element_id>ModalEventScreen</root_element_id>
 		<statistics_event>wnd:splash.event</statistics_event>
 		<bitmaps>
 			../events/arc_event/common/arc_event_bg_default.jpg,
 			../events/arc_event/common/arc_event_content_bg.png
 		</bitmaps>
+		<statistics_event>wnd:event.screen</statistics_event>
 	</window>
 	
 	<window>
 		<name>ModalWindowArcEventSideEntrance</name>
 		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_window_arc_event_side_entrance.xml</config>
 		<root_element_id>ModalWindowArcEventSideEntrance</root_element_id>
 		<bitmaps>
 			../events/arc_event/common/arc_event_bg_default.jpg,
@@ -859,35 +748,35 @@
 			../events/arc_event/rules/rules_column_header_4.png,
 			../events/arc_event/rules/rules_column_header_5.png
 		</bitmaps>
+		<statistics_event>wnd:event.entrance</statistics_event>
 	</window>
 
 	<window>
 		<name>ModalWindowArcEventResult</name>
 		<hideTime>0.5</hideTime>
-		<config>../unbound/modal_window_arc_event_postbattle_result.xml</config>
 		<root_element_id>ModalWindowArcEventResult</root_element_id>
 		<bitmaps>
 			../events/arc_event/common/arc_event_bg_default.jpg,
 			../events/arc_event/final_screen/arc_event_content_bg.jpg,
 			../events/arc_event/final_screen/arc_event_content_bg_noise_mask.png
 		</bitmaps>
+		<statistics_event>wnd:event.results</statistics_event>
 	</window>
 
 	<window>
 		<name>ModalWindowArcEventFinish</name>
 		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_window_arc_event_finish.xml</config>
 		<root_element_id>ModalWindowArcEventFinish</root_element_id>
 		<bitmaps>
 			../events/arc_event/common/arc_event_bg_default.jpg,
 			../events/arc_event/final_screen/arc_event_content_bg.jpg
 		</bitmaps>
+		<statistics_event>wnd:event.finish</statistics_event>
 	</window>
 
 	<window>
 		<name>ModalWindowPVEOperationInfo</name>
 		<hideTime>0.15</hideTime>
-		<config>../unbound/modal_pve_operation_info.xml</config>
 		<root_element_id>ModalWindowPVEOperationInfo</root_element_id>
 		<statistics_event>wnd:operation.info</statistics_event>
 	</window>
@@ -895,7 +784,6 @@
 	<window>
 		<name>ModalWindowPVEResults</name>
 		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_pve_results.xml</config>
 		<root_element_id>ModalWindowPVEResults</root_element_id>
 		<statistics_event>wnd:operation.results</statistics_event>
 	</window>
@@ -903,7 +791,6 @@
 	<window>
 		<name>ModalWindowUnfreezeShip</name>
 		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_unfreeze_ship_pve.xml</config>
 		<root_element_id>ModalWindowUnfreezeShip</root_element_id>
 		<statistics_event>wnd:ship.unfreeze</statistics_event>
 	</window>
@@ -911,7 +798,6 @@
 	<window>
 		<name>ModalWindowClanBattleResults</name>
 		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_cvc_battle_results.xml</config>
 		<root_element_id>ModalCvCBattleResults</root_element_id>
 		<statistics_event>wnd:clan.results</statistics_event>
 	</window>
@@ -919,15 +805,22 @@
 	<window>
 		<name>ModalWindowClanBattlesSchedule</name>
 		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_cvc_battles_schedule.xml</config>
 		<root_element_id>ModalWindowClanBattlesSchedule</root_element_id>
+		<statistics_event>wnd:clan.schedule</statistics_event>
 	</window>
 
 	<window>
 		<name>WaitingWindowWithText</name>
 		<hideTime>0.6</hideTime>
-		<config>../unbound/modal_window_waiting.xml</config>
 		<root_element_id>WaitingWindowWithText</root_element_id>
+		<statistics_event>wnd:modal.wait</statistics_event>
+	</window>
+
+	<window>
+		<name>ModalWindowWait</name>
+		<hideTime>0.6</hideTime>
+		<config>../unbound/modal_window_wait.xml</config>
+		<root_element_id>ModalWindowWait</root_element_id>
 		<statistics_event>wnd:modal.wait</statistics_event>
 	</window>
 
@@ -935,7 +828,6 @@
 		<name>ModalWindowTrainingRoomsList</name>
 		<hideTime>0.6</hideTime>
         <swf_url>login.swf</swf_url>
-		<config>../unbound/modal_training_rooms_list.xml</config>
 		<root_element_id>ModalWindowTrainingRoomsList</root_element_id>
 		<statistics_event>wnd:training.rooms</statistics_event>
 	</window>
@@ -943,7 +835,6 @@
 	<window>
 		<name>ModalWindowTrainingRoom</name>
 		<hideTime>0.6</hideTime>
-		<config>../unbound/modal_training_room.xml</config>
 		<root_element_id>ModalWindowTrainingRoom</root_element_id>
 		<statistics_event>wnd:training.create</statistics_event>
 	</window>
@@ -951,7 +842,6 @@
 	<window>
 		<name>ModalWindowTrainingRoomPasswordEnter</name>
 		<hideTime>0.6</hideTime>
-		<config>../unbound/modal_training_room_pwd_enter.xml</config>
 		<root_element_id>ModalWindowTrainingRoomPasswordEnter</root_element_id>
 		<statistics_event>wnd:training.password</statistics_event>
 	</window>
@@ -959,7 +849,6 @@
 	<window>
 		<name>ModalWindowPurchaseEventLootbox</name>
 		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_purchase_event_lootbox.xml</config>
 		<root_element_id>ModalWindowPurchaseEventLootbox</root_element_id>
 		<statistics_event>wnd:lootbox.event</statistics_event>
 	</window>
@@ -967,7 +856,6 @@
 	<window>
 		<name>ModalWindowFeatureSplash</name>
 		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_feature_splash.xml</config>
 		<root_element_id>ModalWindowFeatureSplash</root_element_id>
 		<statistics_event>wnd:splash.feature</statistics_event>
 	</window>
@@ -975,7 +863,6 @@
 	<window>
 		<name>ModalWindowReplays</name>
 		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_window_replays.xml</config>
 		<root_element_id>ModalWindowReplays</root_element_id>
 		<statistics_event>wnd:replays.select</statistics_event>
 	</window>
@@ -983,7 +870,6 @@
 	<window>
 		<name>CoachScreenBasicTutorials</name>
 		<hideTime>0.5</hideTime>
-		<config>../unbound/modal_coach_screen_basic_tutorials.xml</config>
 		<root_element_id>CoachScreenBasicTutorials</root_element_id>
 		<statistics_event>wnd:coach</statistics_event>
 	</window>
@@ -991,15 +877,14 @@
 	<window>
 		<name>ModalWindowDogTag</name>
 		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_dogtags.xml</config>
 		<root_element_id>ModalWindowDogTag</root_element_id>
+		<swf_url>dog_tag_masks.swf</swf_url>
 		<statistics_event>wnd:dogTag.change</statistics_event>
 	</window>
 
 	<window>
 		<name>ModalWindowRenameReplays</name>
 		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_window_replays_rename.xml</config>
 		<root_element_id>ModalWindowRenameReplays</root_element_id>
 		<statistics_event>wnd:replays.rename</statistics_event>
 	</window>
@@ -1007,15 +892,14 @@
 	<window>
 		<name>ModalWindowShowDogTag</name>
 		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_show_dogtag.xml</config>
 		<root_element_id>ModalWindowShowDogTag</root_element_id>
+		<swf_url>dog_tag_masks.swf</swf_url>
 		<statistics_event>wnd:dogTag.show</statistics_event>
 	</window>
 
 	<window>
 		<name>ModalWindowPromoscreen</name>
 		<hideTime>0.9</hideTime>
-		<config>../unbound/modal_window_promoscreen.xml</config>
 		<root_element_id>ModalWindowPromoscreen</root_element_id>
 		<statistics_event>wnd:splash.promo</statistics_event>
 	</window>
@@ -1023,7 +907,6 @@
 	<window>
 		<name>ModalWindowConfirmationDogTag</name>
 		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_dogtags.xml</config>
 		<root_element_id>DogTagConfirmationModalWindow</root_element_id>
 		<statistics_event>wnd:dogTag.confirm</statistics_event>
 	</window>
@@ -1031,7 +914,6 @@
 	<window>
 		<name>ModalWindowLeaveReplay</name>
 		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_window_leave_replay.xml</config>
 		<root_element_id>ModalWindowLeaveReplay</root_element_id>
 		<statistics_event>wnd:replays.leave</statistics_event>
 	</window>
@@ -1039,7 +921,6 @@
 	<window>
 		<name>ModalWindowAlmanacs</name>
 		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_window_almanacs.xml</config>
 		<root_element_id>ModalWindowAlmanacs</root_element_id>
 		<statistics_event>wnd:calendar.leave</statistics_event>
 	</window>
@@ -1047,15 +928,19 @@
 	<window>
 		<name>ModalWindowAircraftCarrierTutorial</name>
 		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_window_aircraft_carrier_tutorial.xml</config>
 		<root_element_id>ModalWindowAircraftCarrierTutorial</root_element_id>
 		<!--<statistics_event>wnd:replays.leave</statistics_event>-->
 	</window>
 
 	<window>
+		<name>ModalWindowSubmarineTutorial</name>
+		<hideTime>0.7</hideTime>
+		<root_element_id>ModalWindowSubmarineTutorial</root_element_id>
+	</window>
+
+	<window>
 		<name>ModalWindowOpenAllLootBoxes</name>
 		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_window_open_all_loot_boxes.xml</config>
 		<root_element_id>ModalWindowOpenAllLootBoxes</root_element_id>
 		<statistics_event>wnd:lootboxes.openall</statistics_event>
 	</window>
@@ -1063,41 +948,26 @@
 	<window>
 		<name>ModalWindowRewardContainer</name>
 		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_reward_container.xml</config>
 		<root_element_id>ModalWindowRewardContainer</root_element_id>
 		<statistics_event>wnd:player.rewards</statistics_event>
 	</window>
 
 	<window>
-		<name>ModalWindowAccountLevelling</name>
-		<python_class>lobby.ModalWindowAccountLevelling</python_class>
-		<hideTime>0.6</hideTime>
-		<config>../unbound/modal_account_levelling.xml</config>
-		<root_element_id>ModalWindowAccountLevelling</root_element_id>
-	</window>
-
-	<window>
-		<name>ModalWindowAccountLevellingAboutRange</name>
-		<python_class>lobby.ModalWindowAccountLevellingAboutRange</python_class>
-		<hideTime>0.6</hideTime>
-		<config>../unbound/modal_account_levelling.xml</config>
-		<root_element_id>ModalWindowAccountLevellingAboutRange</root_element_id>
+		<name>ModalWindowUICompendium</name>
+		<hideTime>0.7</hideTime>
+		<root_element_id>ModalWindowUICompendium</root_element_id>
 	</window>
 
 	<window>
 		<name>ModalWindowLevelInfo</name>
-		<python_class>ModalWindow</python_class>
 		<hideTime>0.6</hideTime>
-		<config>../unbound/modal_account_level_info.xml</config>
 		<root_element_id>ModalWindowLevelInfo</root_element_id>
 		<statistics_event>wnd:account.levelInfo</statistics_event>
 	</window>
 
 	<window>
 		<name>ModalWindowRewardInfo</name>
-		<python_class>ModalWindow</python_class>
 		<hideTime>0.6</hideTime>
-		<config>../unbound/modal_account_reward_info.xml</config>
 		<root_element_id>ModalWindowRewardInfo</root_element_id>
 		<statistics_event>wnd:account.rewardInfo</statistics_event>
 	</window>
@@ -1105,7 +975,6 @@
 	<window>
 		<name>ModalWindowRewardContainer</name>
 		<hideTime>0.7</hideTime>
-		<config>../unbound/modal_reward_container.xml</config>
 		<root_element_id>ModalWindowRewardContainer</root_element_id>
 		<statistics_event>wnd:player.rewards</statistics_event>
 	</window>
@@ -1113,7 +982,6 @@
 	<window>
 		<name>ModalWindowRankedRules</name>
 		<hideTime>0.15</hideTime>
-		<config>../unbound/modal_ranked_rules.xml</config>
 		<root_element_id>ModalWindowRankedRules</root_element_id>
 		<statistics_event>wnd:ranked.rules</statistics_event>
 	</window>
@@ -1121,14 +989,13 @@
 	<window>
 		<name>ModalWindowEventRules</name>
 		<hideTime>0.2</hideTime>
-		<config>../unbound/modal_window_event_rules.xml</config>
 		<root_element_id>ModalWindowEventRules</root_element_id>
+		<statistics_event>wnd:event.rules</statistics_event>
 	</window>
 
 	<window>
 		<name>ModalWindowParagonsDropBranch</name>
 		<hideTime>0.5</hideTime>
-		<config>../unbound/modal_window_paragons_drop_branch.xml</config>
 		<root_element_id>ModalWindowParagonsDropBranch</root_element_id>
 		<statistics_event>wnd:account.paragons_drop_branch</statistics_event>
 	</window>
@@ -1136,7 +1003,6 @@
 	<window>
 		<name>ModalWindowParagonsDropBranchConfirmation</name>
 		<hideTime>0.5</hideTime>
-		<config>../unbound/modal_window_paragons_drop_branch_confirmation.xml</config>
 		<root_element_id>ModalWindowParagonsDropBranchConfirmation</root_element_id>
 		<statistics_event>wnd:account.paragons_drop_branch_confirmation</statistics_event>
 	</window>
@@ -1144,31 +1010,73 @@
 	<window>
 		<name>ModalWindowParagonsIntro</name>
 		<hideTime>0.4</hideTime>
-		<config>../unbound/modal_window_paragons_intro.xml</config>
 		<root_element_id>ModalWindowParagonsIntro</root_element_id>
 		<statistics_event>wnd:account.paragons_intro</statistics_event>
 	</window>
 
 	<window>
-		<name>ModalWindowDevPriceTags</name>
-		<hideTime>0.4</hideTime>
-		<config>../unbound/modal_window_dev_price_tags.xml</config>
-		<root_element_id>ModalWindowDevPriceTags</root_element_id>
-	</window>
-
-	<window>
 		<name>ModalWindowParagonRules</name>
 		<hideTime>0.4</hideTime>
-		<config>../unbound/modal_window_paragons_rules.xml</config>
 		<root_element_id>ModalWindowParagonRules</root_element_id>
 		<statistics_event>wnd:account.paragon_rules</statistics_event>
 	</window>
 
+	<window>
+		<name>ModalWindowPostbattleRewards</name>
+		<hideTime>0.4</hideTime>
+		<root_element_id>ModalWindowPostbattleRewards</root_element_id>
+		<statistics_event>wnd:battle.rewards</statistics_event>
+	</window>
+
+	<window>
+		<name>ShipyardBrowserWindow</name>
+		<python_class>lobby.GuideBrowserWindow</python_class>
+		<hideTime>0.2</hideTime>
+		<root_element_id>BrowserWindowContainer</root_element_id>
+		<statistics_event>wnd:shipyard</statistics_event>
+	</window>
+
+	<window>
+		<name>ModalWindowSceneScreenshotTexture</name>
+		<hideTime>0.1</hideTime>
+		<root_element_id>ModalWindowSceneScreenshotTexture</root_element_id>
+		<drawWorld>True</drawWorld>
+	</window>
+
+	<window>
+		<name>ModalWindowEconomyExplanation</name>
+		<hideTime>0.6</hideTime>
+		<root_element_id>ModalWindowEconomyExplanation</root_element_id>
+		<canBecomeTop>True</canBecomeTop>
+		<statistics_event>wnd:battle.economy_explanation</statistics_event>
+	</window>
+
+	<window>
+		<name>ModalWindowShipsBranchesFeatures</name>
+		<hideTime>0.6</hideTime>
+		<root_element_id>ModalWindowShipsBranchesFeatures</root_element_id>
+		<drawWorld>True</drawWorld>
+		<statistics_event>wnd:branch_description</statistics_event>
+	</window>
+
+	<window>
+		<name>ModalWindowControlBlocker</name>
+		<root_element_id>ModalWindowControlBlocker</root_element_id>
+		<drawWorld>True</drawWorld>
+	</window>
+
+	<window>
+		<name>PromoVideo</name>
+		<hideTime>0.9</hideTime>
+		<root_element_id>PromoVideoWindow</root_element_id>
+		<statistics_event>wnd:dock.promo_video</statistics_event>
+	</window>
+
+	<window>
+		<name>ModalWindowPartnersInfo</name>
+		<hideTime>0.6</hideTime>
+		<root_element_id>ModalWindowPartnersInfo</root_element_id>
+		<statistics_event>wnd:legalInfo</statistics_event>
+	</window>
+
 </windows_config.xml>
-<!--
-
-
-	NOTA BENE: YOU MUST RUN wows\source\UI\tools\GenerateWinManagerImports.py in order to make changes work
-
-
--->

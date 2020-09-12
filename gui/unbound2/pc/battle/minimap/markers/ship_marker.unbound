@@ -107,8 +107,7 @@
     (scope
         (macro SHIP_MARKER_ICON_DATA "_entityId")
 
-        (var aircarrierCollection:gfx = "$datahub.getCollection(CC.aircarrier)")
-        (var aircarrierEntity:gfx = "aircarrierCollection.items[0]")
+        (var aircarrierEntity:gfx = "$datahub.getSingleEntity(CC.aircarrier)")
         (var squadronCameraMode:bool = "aircarrierEntity.aircarrier.activeSquadron != -1" (event "aircarrierEntity.aircarrier.evStateChanged"))
 
         (var visibilityPostfix:str = "mapVisible && !(worldVisible) ? '_invis'
@@ -116,14 +115,14 @@
 
 		(var markerIcon:str = 
 			"!(mapVisible) && !(worldVisible)
-                ? shipType + '_last_vis'
-                : isAlive 
+                ? (isAlive ? shipType + '_last_vis' : shipType + '_dead')
+                : isAlive
                     ? isSelf
                         ? (squadronCameraMode ? 'self_alive_on_squadron' : 'self_alive')
                         : isAlly
                             ? isInSameDivision
                                 ? shipType + '_division'
-                                : tkStatus 
+                                : tkStatus
                                     ? shipType + '_teamkiller' + visibilityPostfix
                                     : shipType + '_ally' + visibilityPostfix
                             : shipType + '_enemy' + visibilityPostfix
@@ -133,6 +132,7 @@
     )
 
     (block
+        (bind name "worldVisible ? 'map_marker_ship_' + entity.avatar.id : ''")
 		(style (bind backgroundImage "shipType ? 'symbol:' + toLower('minimap_' + markerIcon) : ''"))
 	)
 )
@@ -141,10 +141,16 @@
     (scope
         (macro SHIP_MARKER_ICON_DATA "_entityId")
         (var shipName:str = "avatarComponent.ship.ref.ship.nameUpper")
+        (var spectatorEntity:gfx = "$datahub.getSingleEntity(CC.spectator)")
+        (var isSpectator:bool = "spectatorEntity != null")
 
         (var textColor:number =
             "!(mapVisible) && !(worldVisible)
-                ? SHIP_NAMES_COLORS['LAST_VIS']
+                ? isSpectator
+                    ? isAlly
+                        ? SHIP_NAMES_COLORS['ALLY']
+                        : SHIP_NAMES_COLORS['ENEMY']
+                    : SHIP_NAMES_COLORS['LAST_VIS']
                 : isAlive 
                     ? isAlly
                         ? isInSameDivision

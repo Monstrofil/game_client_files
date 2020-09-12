@@ -1,0 +1,102 @@
+(def element CrosshairBinocular() layout=true
+	(scope
+        (var stageComponent:gfx = "$datahub.getSingleEntity(CC.stage).stage")
+        (var stageWidth:number = "stageComponent.width" (event "stageComponent.evStageSizeChanged"))
+        (var stageHeight:number = "stageComponent.height" (event "stageComponent.evStageSizeChanged"))
+
+        (var crosshairOptions:gfx = "$datahub.getSingleEntity(CC.crosshairOptions).crosshairOptions")
+        (var isDynamic:bool = "crosshairOptions.isDynamic" (event "crosshairOptions.evIsDynamicChanged"))
+        (var selectedStaticCrosshairId:number = "crosshairOptions.selectedStaticCrosshairId" (event "crosshairOptions.evSelectedStaticCrosshairIdChanged"))
+        (var selectedDynamicCrosshairId:number = "crosshairOptions.selectedDynamicCrosshairId" (event "crosshairOptions.evSelectedDynamicCrosshairIdChanged"))
+
+        (var currentCrosshairId:number = "isDynamic ? selectedDynamicCrosshairId : selectedStaticCrosshairId")
+
+        (var crosshairView:gfx = "$datahub.getPrimaryEntity(CC.crosshairBinocularView, currentCrosshairId).crosshairBinocularView")
+        (var crosshairRenderer:str = "crosshairView.renderer")
+    )
+    (style
+        (position = "absolute")
+        (bind width "stageWidth")
+        (bind height "stageHeight")
+    )
+
+	(controller $Instance
+        (bind renderer "crosshairRenderer == '' ? 'CrosshairBinocularDefaultRenderer' : crosshairRenderer")
+        (exprs
+            (scope
+                (bind _crosshairId "currentCrosshairId")
+            )
+        )
+    )
+)
+
+(def element CrosshairPreviewPanel() layout=true dispatch_size_change=true
+	(scope
+		(var stageComponent:gfx = "$datahub.getSingleEntity(CC.stage).stage")
+        (var stageWidth:number = "stageComponent.width" (event "stageComponent.evStageSizeChanged"))
+        (var stageHeight:number = "stageComponent.height" (event "stageComponent.evStageSizeChanged"))
+
+		(var _crosshairId:number = 0)
+	)
+	(style
+		(bind width "stageWidth")
+		(bind height "stageHeight")
+	)
+
+	(controller $Instance
+		(bind renderer "'CrosshairBinocularDefaultRenderer'")
+		(exprs
+			(scope
+				(bind _crosshairId "_crosshairId")
+			)
+		)
+	)
+)
+
+(def element CrosshairBinocularDefaultRenderer() layout=true
+	(scope
+		(var _crosshairId:number = 0)
+		(var _crosshair:gfx = "$datahub.getPrimaryEntity(CC.crosshairBinocularView, _crosshairId)")
+        (var _textureIds:array = "_crosshair.crosshairBinocularView.textureIds")
+	)
+	(style
+		(width = 100%)
+		(height = 100%)
+	)
+
+	(controller $Repeat renderer='CrosshairBinocularDefaultTextureRenderer'
+		(bind count "_textureIds.length")
+		(args __textureIds="_textureIds")
+		(exprs
+			(scope
+				(bind _textureIds "_textureIds")
+			)
+		)
+	)
+)
+
+(def element CrosshairBinocularDefaultTextureRenderer(__textureIds:array) layout=true dispatch_size_change=true
+	(scope
+		(var _textureIds:array = "__textureIds")
+		(var textureId:number = "_textureIds[$index]")
+		(var texture:gfx = "$datahub.getPrimaryEntity(CC.crosshairTexture, textureId)")
+		(var path:str = "'url:'+texture.crosshairTexture.path")
+	)
+	(style
+		(position = "absolute")
+		(width = 100%)
+		(height = 100%)
+	)
+
+	(block
+		(style
+			(position = "absolute")
+			(width = 100%)
+			(height = 100%)
+			(bind top "texture.crosshairTexture.y")
+			(bind left "texture.crosshairTexture.x")
+			(bind backgroundImage "path")
+			(backgroundSize = "align")
+		)
+	)
+)

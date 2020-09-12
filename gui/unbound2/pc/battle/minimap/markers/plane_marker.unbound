@@ -1,13 +1,12 @@
-(def constant PLANE_TYPE_TO_STR
-    [
-        ['scout', 'scout'],
-        ['bomber', 'bomber_AP'],
-        ['torpedo', 'torpedo_deepwater'],
-        ['fighter', 'catapult_fighter'],
-        ['emptybomber', ''],
-        ['auxiliary', 'auxiliary']
-    ]
-)
+
+(def constant PLANE_TYPE_TO_STR [
+    'scout',
+    'bomber',
+    'torpedo',
+    'fighter',
+    'emptybomber',
+    'auxiliary'
+])
 
 (def element MapSquadronMarker (_entityId:number, _mapScale:number, _itemScale:number, _scaleRatio:number) layout=true
     (scope
@@ -53,9 +52,11 @@
 
         (var planeTypeInt:number = "planeEntity.plane.planeType")
         (var ammoType:number = "planeEntity.plane.ammoType")
-        (var isExtendedPlaneType:bool = "planeEntity.plane.isConsumable || planeEntity.squadron.isFighter || ammoType == PlaneAmmoTypes.BOMB_AP || ammoType == PlaneAmmoTypes.TORPEDO_DEEPWATER")
-        (var planeType:str = "isExtendedPlaneType ? PLANE_TYPE_TO_STR[planeTypeInt][1] : PLANE_TYPE_TO_STR[planeTypeInt][0]")
-
+        (var ammoPostfix:str = "ammoType == SC.Common.PLANE_AMMO_TYPES.BOMB_AP || ammoType == SC.Common.PLANE_AMMO_TYPES.PROJECTILE_AP  ? '_AP' :
+                                ammoType == SC.Common.PLANE_AMMO_TYPES.TORPEDO_DEEPWATER                                                ? '_deepwater'
+                                                                                                                                        : ''")
+        (var planeType:str = "planeEntity.plane.isConsumable || planeEntity.squadron.isFighter  ? 'catapult_fighter'
+                                                                                                : PLANE_TYPE_TO_STR[planeTypeInt] + ammoPostfix")
         (var ownerEntity:gfx = "planeEntity.squadron.owner.ref")
         (var ownerAvatar:gfx = "ownerEntity.avatar")
 

@@ -236,19 +236,16 @@
         (var coordMargin:number = "-4 - (mapScale < 2 ? mapScale : 2) * 3")
 
         (var letters:array = "[ 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J' ]")
-        (var reverseLetters:array = "[ 'J', 'I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A' ]")
-
         (var digits:array = "[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]")
-        (var reverseDigits:array = "[ 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 ]")
 
         (var currentVertical:array = "  angleToRotate == 0          ? letters :
                                         angleToRotate == 90         ? digits :
-                                        abs(angleToRotate) == 180   ? reverseLetters
-                                                                    : reverseDigits")
+                                        abs(angleToRotate) == 180   ? letters.reversed
+                                                                    : digits.reversed")
 
         (var currentHorizontal:array = "angleToRotate == 0          ? digits :
-                                        angleToRotate == 90         ? reverseLetters :
-                                        abs(angleToRotate) == 180   ? reverseDigits
+                                        angleToRotate == 90         ? letters.reversed :
+                                        abs(angleToRotate) == 180   ? digits.reversed
                                                                     : letters")
     )
 

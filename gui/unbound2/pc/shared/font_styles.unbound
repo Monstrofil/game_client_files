@@ -46,6 +46,26 @@
 	
 )
 
+(def css $TacticalGridText ()
+	(fontFamily = '$WWSDefaultFont')
+	(fontSize = 13)
+	(textColor = 0xFFFFFF)
+)
+
+(def css $TacticalMapHelpTextTitle ()
+	(fontFamily = '$ZurichCondensedBold')
+	(fontSize = 17)
+	(textColor = 0xEEEEEE)
+)
+
+(def css $TacticalMapHelpText ()
+	(fontFamily = '$ZurichCondensed')
+	(fontSize = 15)
+	(textColor = 0xCCCCCC)
+	(maxWidth = 300)
+)
+
+
 (def css $FontFamilyDefault ()
 	(fontFamily = '$WWSDefaultFont')
 	(extends $FontDropShadowFilter1)
@@ -149,6 +169,8 @@
 (def css $FontColorMercenaries ()
 	(textColor = 0x4ce8aa))
 
+(def css $TextColorWarning ()
+	(textColor = "C_WARNING"))
 
 (def css $TextColorNeutral ()
 	(textColor = "C_NEUTRAL"))
@@ -375,7 +397,29 @@
 	(marginBottom = -6px)
 )
 
+(def css $TextDefault21NM ()
+	(extends $FontFamilyDefault)
+	(extends $FontColorWhite)
+	
+	(fontSize = 21)
+	(marginLeft = -3px)
+	(marginRight = -3px)
+	(marginTop = -8px)
+	(marginBottom = -7px)
+)
+
 (def css $TextDefaultBold21NM ()
+	(extends $FontFamilyDefaultBold)
+	(extends $FontColorWhite)
+	
+	(fontSize = 21)
+	(marginLeft = -3px)
+	(marginRight = -3px)
+	(marginTop = -8px)
+	(marginBottom = -7px)
+)
+
+(def css $TextDefaultBold23NM ()
 	(extends $FontFamilyDefaultBold)
 	(extends $FontColorWhite)
 	
@@ -396,4 +440,36 @@
 	(marginRight = -3px)
 	(marginTop = -10px)
 	(marginBottom = -8px)
+)
+
+(def css $TextHUD16Bold()
+	(extends $TextHUDBold)
+	(fontSize = 16))
+
+(def css $TextHUD24Bold()
+	(extends $TextHUDBold)
+	(fontSize = 24))
+
+(def css $TextHUD22Bold ()
+	(extends $TextHUDBold)
+	(fontSize = 22)
+)
+
+(def css $TextDefaultBold27NM ()
+	(extends $FontFamilyDefaultBold)
+	(extends $FontColorWhite)
+	
+
+	(fontSize = 27)
+	(marginLeft = -3px)
+	(marginRight = -3px)
+	(marginTop = -10px)
+	(marginBottom = -8px)
+)
+
+(def css $QuickCommandNameText ()
+	(fontFamily = $WWSDefaultFont)
+	(dropShadowFilter = { distance: 1, angle: 90, color: 0x08222a, alpha: 0.5, blurX: 2.0, blurY: 2.0, strength: 1.0, quality: 2 })
+	(fontSize = 18)
+	(textColor = 0xEEEEEE)
 )

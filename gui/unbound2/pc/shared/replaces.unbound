@@ -7,11 +7,12 @@
 )
 
 (def macro SHIP_CLASS_STR (shipComponent:expression)
-	(var shipClass:str =    "(shipComponent.subtype == SHIP_TYPE.CRUISER) 	? tr('IDS_CRUISER') :
-	                        (shipComponent.subtype == SHIP_TYPE.AIR_CARRIER)	? tr('IDS_AIRCARRIER') :
-	                        (shipComponent.subtype == SHIP_TYPE.BATTLESHIP) ? tr('IDS_BATTLESHIP') : 
-	                        (shipComponent.subtype == SHIP_TYPE.AUXILIARY) 	? tr('IDS_AUXILIARY')
-	                                                            : tr('IDS_DESTROYER')"
+	(var shipClass:str =    "(shipComponent.subtype == ShipTypes.CRUISER) 		? tr('IDS_CRUISER') :
+	                        (shipComponent.subtype == ShipTypes.AIRCARRIER)		? tr('IDS_AIRCARRIER') :
+							(shipComponent.subtype == ShipTypes.BATTLESHIP) 	? tr('IDS_BATTLESHIP') : 
+	                        (shipComponent.subtype == ShipTypes.AUXILIARYSHIP) 	? tr('IDS_AUXILIARY') :
+	                        (shipComponent.subtype == ShipTypes.SUBMARINE)		? tr('IDS_SUBMARINE') 
+	                                                            				: tr('IDS_DESTROYER')"
     )			
 )
 
@@ -151,21 +152,6 @@
 	(bind visible "hudVisible")
 )
 
-(def macro MOUSE_OVER_SCOPE ()
-	(scope
-		(var isMouseOver:bool = false)
-	    (event evMouseOver)
-	    (event evMouseOut)
-	    (bind isMouseOver true on='evMouseOver' init=false )
-	    (bind isMouseOver false on='evMouseOut' init=false )
-    )
-)
-
-(def macro MOUSE_LMB_EXTERNAL_CALL (externalMethod:str, methodArgs:expression)
-	(bindcall externalCall "$event.buttonIdx == 0 ? externalMethod : ''" "methodArgs" init=false watch=false on='click')
-)
-
-
 (def macro PULL_SHIP (shipId:expression)
     (scope
 		(var shipEntity:gfx = "$datahub.getPrimaryEntity(CC.ship, shipId)")
@@ -198,6 +184,10 @@
 	)
 )
 
+(def macro MOUSE_LMB_EXTERNAL_CALL (externalMethod:str, methodArgs:expression, enabled:expression = "true")
+	(bindcall externalCall "$event.buttonIdx == 0 && enabled ? externalMethod : ''" "methodArgs" init=false watch=false on='click')
+)
+
 (def macro MOUSE_HANDLER_SCOPE (_prefix:expression='')
     (event name="_prefix + 'evMouseOver'")
     (event name="_prefix + 'evMouseOut'")
@@ -225,4 +215,10 @@
 
         (macro MOUSE_EVENTS_DISPATCHER "_prefix")
     )
+)
+
+(def macro HUMAN_READABLE_COUNTDOWN_SCOPE (remainTime:expression)
+	(var formatDigitsNumber:number = "remainTime < 9.9 ? 1 : 0")
+	(var isShowMinutes:bool = "round(remainTime) > 59")
+	(var countdownText:str = "countdownFormat(remainTime, formatDigitsNumber, isShowMinutes, false)")
 )

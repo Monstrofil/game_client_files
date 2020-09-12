@@ -1,14 +1,12 @@
 (def constant RECEIVED_DAMAGE_LIFETIME 3.0)
-
 (def constant CDangerDist {
 	FAR: 260,
 	NEAR: 230,
 	INNER: 190
 })
-
 (def constant DANGER_HIDE_DURATION 0.3)
 
-(def element CentralDangersContainer() layout=true
+(def element CentralDangersContainer () layout=true
 	(scope
 		(var stageComponent:gfx = "$datahub.getSingleEntity(CC.stage).stage")
 		(var stageWidth:number = "stageComponent.width" (event "stageComponent.evStageSizeChanged"))
@@ -16,11 +14,6 @@
 
 		(var avatar:gfx = "$datahub.getSingleEntity(CC.playerAvatar)")
 		(var isAlive:bool = "avatar.health.isAlive" (event "avatar.health.evIsAliveChanged"))
-
-		(var farDist:number = "CDangerDist.FAR")
-		(var nearDist:number = "CDangerDist.NEAR")
-		(var innerDist:number = "CDangerDist.INNER")
-
 		(var ownCarrierEntity:gfx = "$datahub.getSingleEntity(CC.aircarrier)")
 		(var activeSquadron:number = "ownCarrierEntity ? ownCarrierEntity.aircarrier.activeSquadron : -1" (event "ownCarrierEntity.aircarrier.evStateChanged"))
 		(var dangersCollectionPath:str = "activeSquadron == -1 ? 'shipDangers' : 'aircraftDangers'")
@@ -28,10 +21,21 @@
 		(var cameraEntity:gfx = "$datahub.getSingleEntity(CC.camera)")
 		(var cameraMode:number = "cameraEntity.camera.mode" (event "cameraEntity.camera.evModeChanged"))
 
-		(var nearEntity:gfx = "$datahub.getSingleEntity(CC.nearestEnemyIndication)")
-		(var showNearestEnemy:bool = "nearEntity && nearEntity.nearestEnemyIndication ? nearEntity.nearestEnemyIndication.showNearestEnemy : false" (event "nearEntity.nearestEnemyIndication.evShowNearestEnemyChanged"))
+		(var nearestEnemyIndication:gfx = "$datahub.getSingleComponent(CC.nearestEnemyIndication)")
+		(var showNearestEnemy:bool = "nearestEnemyIndication ? nearestEnemyIndication.showNearestEnemy : false" (event "nearestEnemyIndication.evShowNearestEnemyChanged"))
 
+		(var visibleDangers:gfx = "$datahub.getCollection(CC.visibleDanger)")
+		(var searchPointCollection:gfx = "visibleDangers.getChildByPath('submarineSearchPoints')")
+
+		(var hydrophoneEntity:gfx = "$datahub.getSingleEntity(CC.hydrophoneIndication)")
+		(var countSectors:number = "hydrophoneEntity.hydrophoneIndication.countSectors" (event "hydrophoneEntity.hydrophoneIndication.evCountSectorsChanged"))
+		(var isNearVisible:bool = "hydrophoneEntity.hydrophoneIndication.isEnemyNear" (event "hydrophoneEntity.hydrophoneIndication.evIsEnemyNearChanged"))
+		(var timerEntity:gfx = "$datahub.getSingleEntity(CC.timer)")
+		(var relativeCameraYaw:number = "radToGrad(-cameraEntity.camera.yaw) - 90" (event "timerEntity.timer.evFrequent"))
+
+		(var isTactical:bool = "cameraEntity.camera.isTactical" (event "cameraEntity.camera.evTacticalStateChanged"))
 	)
+
 	(style
 		(position = "absolute")
 		(bind width "stageWidth")
@@ -41,13 +45,22 @@
 
 	(block
 		(class $FullsizeAbsolute)
-		(bind visible "isAlive && cameraMode != CameraMode.TACTICALMAP && cameraMode != CameraMode.SHELLTRACKER")
+		(bind visible "isAlive && !isTactical && cameraMode != CameraMode.SHELLTRACKER")
+
 		(block
 			(class $FullsizeAbsolute)
 			(controller $Instance renderer='NearEnemyItemContainer'
 				(bind enabled "showNearestEnemy")
 			)
 		)
+
+		(block
+			(class $FullsizeAbsolute)
+			(controller $Repeat (renderer='SubmarineSearchPointItemContainer')
+				(bind count "searchPointCollection.items.length" (event "searchPointCollection.evAdded") (event "searchPointCollection.evRemoved"))
+			)
+		)
+
 		(block
 			(bind visible "activeSquadron == -1")
 			(class $FullsizeAbsolute)
@@ -56,16 +69,16 @@
 
 		(block
 			(class $FullsizeAbsolute)
-			(element DangerItemContainer
+			(element DangerItemContainer "dangersCollectionPath"
 				(scope
-					(bind _collectionPath "dangersCollectionPath")
+					(bind collectionPath "dangersCollectionPath")
 				)
 			)
 		)
 	)
 )
 
-(def element ReceivedDamageContainer() layout=true
+(def element ReceivedDamageContainer () layout=true
 	(scope
 		(var battleDataEntity:gfx = "$datahub.getSingleEntity(CC.battleData)")
 		(var damageDanger:gfx = "battleDataEntity.damageDanger" (event "battleDataEntity.evAdded"))
@@ -78,12 +91,12 @@
 	)
 )
 
-(def element DangerItemContainer() layout=true
+(def element DangerItemContainer (_collectionPath:str) layout=true
 	(scope
 		(event evHide)
-		(var _collectionPath:str = '')
+		(var collectionPath:str = "_collectionPath")
 		(var visibleDangersCol:gfx = "$datahub.getCollection(CC.visibleDanger)")
-		(var currentDangersCol:gfx = "_collectionPath && _collectionPath!='' ? visibleDangersCol.getChildByPath(_collectionPath) : null")
+		(var currentDangersCol:gfx = "collectionPath && collectionPath != '' ? visibleDangersCol.getChildByPath(collectionPath) : null")
 	)
 	(class $FullsizeAbsolute)
 
@@ -108,16 +121,13 @@
 	)
 )
 
-(def element NearEnemyItemContainer() layout=true
+(def element SubmarineSearchPointItemContainer () layout=true
 	(scope
-		(var avatar:gfx = "$datahub.getSingleEntity(CC.playerAvatar)")
-		(var isAlive:bool = "avatar.health.isAlive" (event "avatar.health.evIsAliveChanged"))
-		(var ownCarrierEntity:gfx = "$datahub.getSingleEntity(CC.aircarrier)")
-		(var activeSquadron:number = "ownCarrierEntity ? ownCarrierEntity.aircarrier.activeSquadron : -1" (event "ownCarrierEntity.aircarrier.evStateChanged"))
-		(var isOnPlane:bool = "activeSquadron != -1")
-
-		(var nearEntity:gfx = "$datahub.getSingleEntity(CC.nearestEnemyIndication)")
-		(var angle:number = "nearEntity.nearestEnemyIndication.angleToNearestEnemy" (event "nearEntity.nearestEnemyIndication.evYawToNearestEnemyChanged"))
+		(var visibleDangers:gfx = "$datahub.getCollection(CC.visibleDanger)")
+		(var searchPointCol:gfx = "visibleDangers.getChildByPath('submarineSearchPoints')")
+		(var submarineSearchPointEntity:gfx = "searchPointCol.items[$index]" (event "searchPointCol.evUpdated") (event "searchPointCol.evMoved") (event "searchPointCol.evAdded") (event "searchPointCol.evRemoved"))
+		(var visibleDanger:gfx = "submarineSearchPointEntity.visibleDanger" (event "submarineSearchPointEntity.evAdded") (event "submarineSearchPointEntity.evRemoved"))
+		(var angle:number = "radToGrad(visibleDanger.yaw)" (event "visibleDanger.evYawUpdated"))
 
 		(var timerEntity:gfx = "$datahub.getSingleEntity(CC.timer)")
 		(var cameraEntity:gfx = "$datahub.getSingleEntity(CC.camera)")
@@ -126,7 +136,65 @@
 
 	(class $FullsizeAbsolute)
 
-	(bind visible "isAlive || isOnPlane")
+	(block
+		(class $FullsizeAbsolute)
+		(style
+			(top = 50%) (left = 50%)
+			(position = "absolute")
+		)
+		(bind rotation "-cameraAngle")
+		(block
+			(style (top = 50%) (left = 50%))
+			(bind rotation "angle")
+			(block
+				(style
+					(position = "absolute")
+					(marginLeft = -50%)
+					(marginTop = -50%)
+				)
+				(element SubmarineSearchPointItem)
+			)
+		)
+	)
+)
+
+(def element SubmarineSearchPointItem () layout=true
+	(style
+		(position = "absolute")
+		(top = "-CDangerDist.NEAR")
+	)
+	(block
+		(style
+			(position  = "absolute")
+			(hcenter = 0)
+			(width = 340)
+			(height = 96)
+			(backgroundSize = "cover")
+			(backgroundImage = 'bitmap:icon_danger_submarine_search_point_near')
+		)
+	)
+)
+
+(def element NearEnemyItemContainer () layout=true
+	(scope
+		(var avatar:gfx = "$datahub.getSingleEntity(CC.playerAvatar)")
+		(var isAlive:bool = "avatar.health.isAlive" (event "avatar.health.evIsAliveChanged"))
+
+		(var ownCarrierEntity:gfx = "$datahub.getSingleEntity(CC.aircarrier)")
+		(var activeSquadron:number = "ownCarrierEntity ? ownCarrierEntity.aircarrier.activeSquadron : -1" (event "ownCarrierEntity.aircarrier.evStateChanged"))
+		(var isOnPlane:bool = "activeSquadron != -1")
+
+		(var nearestEnemyIndication:gfx = "$datahub.getSingleComponent(CC.nearestEnemyIndication)")
+		(var angle:number = "nearestEnemyIndication.angleToNearestEnemy" (event "nearestEnemyIndication.evYawToNearestEnemyChanged"))
+
+		(var timerEntity:gfx = "$datahub.getSingleEntity(CC.timer)")
+		(var cameraEntity:gfx = "$datahub.getSingleEntity(CC.camera)")
+		(var cameraAngle:number = "radToGrad(cameraEntity.camera.yaw)" (event "timerEntity.timer.evFrequent"))
+	)
+
+	(class $FullsizeAbsolute)
+
+	(bind visible "isAlive && !(isOnPlane)")
 	(block
 		(class $FullsizeAbsolute)
 		(style
@@ -138,7 +206,7 @@
 			(style (top = 50%) (left = 50%))
 			(rotation = "angle")
 			(controller $Animation
-				(bindcall play duration=0.2 from="{rotation: angle - nearEntity.nearestEnemyIndication.animationAngleDelta}" to="{rotation: angle}" init=false killAll=true)
+				(bindcall play duration=0.2 from="{rotation: angle - nearestEnemyIndication.animationAngleDelta}" to="{rotation: angle}" init=false killAll=true)
 			)
 			(block
 				(style
@@ -170,7 +238,7 @@
 )
 
 
-(def element DangerItem(defCol:gfx) layout=true
+(def element DangerItem (defCol:gfx) layout=true
 	(scope
 		(event evHide)
 		(var _col:gfx = "defCol")
@@ -209,7 +277,7 @@
 )
 
 
-(def element DangerItemFX(_entityId:number) layout=true
+(def element DangerItemFX (_entityId:number) layout=true
 	(scope
 		(var dangerEntity:gfx = "$datahub.getEntity(_entityId)")
 		(var dangerType:number = "dangerEntity.visibleDanger.type" (event "dangerEntity.visibleDanger.evChanged"))
@@ -236,7 +304,7 @@
     )
 )
 
-(def element SimpleDangerItem(dangerEntityId:number, hideAnim:bool) layout=true
+(def element SimpleDangerItem (dangerEntityId:number, hideAnim:bool) layout=true
 	(scope
 		(var _dangerEntityId:number = "dangerEntityId")
 		(var dangerEntity:gfx = "$datahub.getEntity(_dangerEntityId)")
@@ -246,10 +314,9 @@
 		(var dist:str = "simpleDanger.dist" (event "simpleDanger.evChanged"))
 		(var shipSubtype:str =  "dangerEntity.avatar.ship.ref.ship.subtype")
 
-		(var type:str = "	 	dangerType == DangerType.TORPEDO ? 'torpedo' :
-								dangerType == DangerType.SHIP	? toLowerCase(shipSubtype)
-																: 'plane'"
-																)
+		(var type:str = "	 	dangerType == DangerType.TORPEDO	? 'torpedo' :
+								dangerType == DangerType.SHIP		? toLowerCase(shipSubtype)
+																	: 'plane'")
 
 		(var startY:number = "dist == DangerDistance.NEAR ? -CDangerDist.NEAR : -CDangerDist.FAR")
 		(var angle:number = "radToGrad(visibleDanger.yaw)" (event "dangerEntity.visibleDanger.evYawUpdated"))
@@ -284,6 +351,8 @@
 					(height = 32px)
 					(marginLeft = -50%)
 					(bind backgroundImage "'bitmap:icon_danger_' + type + '_' + dist")
+					(hcenter = 0)
+					(vcenter = 0)
 				)
 			)
 		)
@@ -291,7 +360,7 @@
 
 )
 
-(def element CollisionDangerItem(dangerEntityId:number, hideAnim:bool) layout=true
+(def element CollisionDangerItem (dangerEntityId:number, hideAnim:bool) layout=true
 	(scope
 		(var _dangerEntityId:number = "dangerEntityId")
 		(var dangerEntity:gfx = "$datahub.getEntity(_dangerEntityId)")
@@ -367,7 +436,7 @@
 	)
 )
 
-(def element ReceievedDamageFX(yaw:number) layout=true
+(def element ReceievedDamageFX (yaw:number) layout=true
 	(scope
 		(var cameraEntity:gfx = "$datahub.getSingleEntity(CC.camera)")
 		(var timerEntity:gfx = "$datahub.getSingleEntity(CC.timer)")
@@ -404,5 +473,4 @@
 		(mc received_damage_indicator_clip)
 	)
 )
-
 

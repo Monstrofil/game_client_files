@@ -114,47 +114,53 @@
 )
 
 (def element ShipInfoTabHeader () layout=true
-	(scope
-		(var _shipId:number = 0)
-		(var _isNotMyShip:bool = false)
-		(var _inSideCompare:bool = false)
-		(var _fromCrew:bool = false)
+    (scope
+        (var _shipId:number = 0)
+        (var _isNotMyShip:bool = false)
+        (var _inSideCompare:bool = false)
+        (var _fromCrew:bool = false)
 
-		(var playerShipEntity:gfx = "$datahub.getPrimaryEntity(CC.ownShip, _shipId)")
-		(var isOwned:bool = "playerShipEntity != null")
-	)
-	
-	(macro PULL_SHIP "_shipId")
-	(macro PULL_USI "playerShipEntity")
-		
-	(scope
+        (var playerShipEntity:gfx = "$datahub.getPrimaryEntity(CC.ownShip, _shipId)")
+        (var isOwned:bool = "playerShipEntity != null")
+    )
+    
+    (macro PULL_SHIP "_shipId")
+    (macro PULL_USI "playerShipEntity")
+        
+    (scope
         (macro SHIP_CLASS_STR "shipComponent")
-	)
-	
-	(block
-		(style
-			(position = "absolute")
-			(width = 100%)
-			(height = 184)
-			(align = "center")
-			
-		)
-	
-		
-		(element NationFlagsBig
-			(scope
-				(bind shipCountry "shipComponent.flagName")
-			)
-			(style
-				(position = "absolute")
-				(width = 300)
-				(height = 184)
-				
-			)
-			(alpha = 0.5)
-		)	
-		
-		
+        (var shipType:str = "   shipComponent.uiSpecial  ? '_special' :
+                                shipComponent.isFarming  ? '_premium' :
+                             upgradableShipInfo.isElite  ? '_elite'
+                                                         : ''")
+
+        (var shipIconPath:str = "'url:../service_kit/ship_classes/icon_default_' + toLower(shipComponent.subtype) + shipType + '.png'")
+    )
+    
+    (block
+        (style
+            (position = "absolute")
+            (width = 100%)
+            (height = 184)
+            (align = "center")
+            
+        )
+    
+        
+        (element NationFlagsBig
+            (scope
+                (bind shipCountry "shipComponent.flagName")
+            )
+            (style
+                (position = "absolute")
+                (width = 300)
+                (height = 184)
+                
+            )
+            (alpha = 0.5)
+        )   
+        
+        
         (block 
             (style
                 (width = 214px) 
@@ -165,85 +171,62 @@
                 
             )
         )
-		
-	)
-	
-	
-	(block
-		(style
-			
-			(marginTop = 7px) (marginBottom = 8px)
-		)
-		(class $InfoBlockHorizontalIndent)
-		
-		(hblock
-			(style (height = 25))
-			
-			(block
-				
-				(style
-					(width = 29)
-					(height = 29)
-				)
-				
-				(mc icon_wreath
-					(style
-                        (hcenter = 0)
-                        (vcenter = 1)
-                        (position = "absolute")
-                    )
-				
-                    (bind visible "(upgradableShipInfo.isElite || shipComponent.isPremium || shipComponent.uiSpecial) && !_isNotMyShip")
-                    (bindcall gotoAndStop "(shipComponent.isPremium || shipComponent.uiSpecial) ? 'premium' : 'elite'")
+        
+    )
+    
+    
+    (block
+        (style
+            
+            (marginTop = 7px) (marginBottom = 8px)
+        )
+        (class $InfoBlockHorizontalIndent)
+        
+        (hblock
+            (style (height = 25))
+            
+            (block
+                (style
+                    (width = 27)
+                    (height = 27)
+                    (marginTop = 2px)
+                    (bind backgroundImage "shipIconPath")
                 )
-                
-                (mc icon_ship
-                    (style
-                        (hcenter = 0)
-                        (vcenter = 0)
-                        (position = "absolute")
-                    )
-                
-                    (bindcall gotoAndStop "_fromCrew 	? (isOwned ? ((shipComponent.isPremium || shipComponent.uiSpecial) ? shipComponent.subtype + '_P' : shipComponent.subtype) : shipComponent.subtype + '_U')
-                                                    : _inSideCompare && _isNotMyShip ? shipComponent.subtype
-                                                    : ((shipComponent.isPremium || shipComponent.uiSpecial) ? shipComponent.subtype + '_P' : shipComponent.subtype)"
-                    )
-                )				
-			)
+            )
 
-			
-			(block
-
-				
-				
-				(element InvertableTextLine
-					(scope
-						(bind _text "shipComponent ? (shipComponent.levelRome) + ' ' + toUpper(tr(shipComponent.nameIDS + '_FULL')) : ''")
-						(bind _invert "_fromCrew ? !isOwned : false")
-						(bind _normalClass "(shipComponent.isPremium || shipComponent.uiSpecial) && !_isNotMyShip ? '$TextShipHeaderNameGolden21' : '$TextShipHeaderNameNormal21'")
-						(bind _invertedClass "'$TextShipHeaderNameBlack21'")
-					)
-				)
-			)
-		)
-		
-		
-	    (block
-	        (alpha = 0.8)
+            
+            (block
+                
+                
+                
+                (element InvertableTextLine
+                    (scope
+                        (bind _text "shipComponent ? (shipComponent.levelRome) + ' ' + toUpper(tr(shipComponent.nameIDS + '_FULL')) : ''")
+                        (bind _invert "_fromCrew ? !isOwned : false")
+                        (bind _normalClass "(shipComponent.isFarming || shipComponent.uiSpecial) && !_isNotMyShip ? '$TextShipHeaderNameGolden21' : '$TextShipHeaderNameNormal21'")
+                        (bind _invertedClass "'$TextShipHeaderNameBlack21'")
+                    )
+                )
+            )
+        )
+        
+        
+        (block
+            (alpha = 0.8)
             (style
                 
             )
-	        
-			(element InvertableTextLine
+            
+            (element InvertableTextLine
                 (scope
                     (bind _text "subst('IDS_SHIP_LEVEL', [], {_shipClass: shipClass, _shipLevel: shipComponent.levelRome})")
                     (bind _invert "_fromCrew ? !isOwned : false")
-                    (bind _normalClass "shipComponent.isPremium && !_isNotMyShip ? '$TextShipLinePremium' : '$TextShipLineNormal'")
+                    (bind _normalClass "(shipComponent.isFarming || shipComponent.uiSpecial) && !_isNotMyShip ? '$TextShipLinePremium' : '$TextShipLineNormal'")
                     (bind _invertedClass "'$TextShipLineBlack'")
                 )
             )
-	    )
-	)
+        )
+    )
 )
 
 (def element TitleDefaultMockup()
@@ -520,19 +503,19 @@
 
 )
 (def element ShipDescription() layout=true
-	(scope
-		(var _shipNameIDS:str = '') 
+    (scope
+        (var _shipNameIDS:str = '') 
         (var _needShowProjectYear:bool = false) 
         (var _isPaperShip:bool = false)
         (var _peculiarity:str = '')
-	)
-	
-	(style
-		
-		
-		
-	)
-	
+    )
+    
+    (style
+        
+        
+        
+    )
+    
     (class $InfoBlockIndent)
     (block 
         (bind visible "_peculiarity == 'default' && _needShowProjectYear")
@@ -777,36 +760,36 @@
     )
     
     (block
-		(style
-			(width = 100%)
-			
-			(align = "center")
-		)
-	    (rotation = -6)
-	    (pivotX = "TOOLTIP_SHIP_MAX_WIDTH/2")
-	    (pivotY = "80/2")
-	              
-		(block
-			(style
-				(backgroundImage = 'symbol:coming_soon_frame')
-				(backgroundSize = "fill")
-				
-			)
-			(tf
-				(class $TextAccentBold)
-				(class $FontColorWhite)
-				(style
-				   (marginTop = 2px)
-				   (marginBottom = 2px)
-				   (marginLeft = 10px)
-				   (marginRight = 10)
-				)
-				
-				(bind text "_showTestSampleLabel ? toUpper(tr('IDS_TEST_SAMPLE')) : toUpper(tr('IDS_UNAVAILABLE_TO_DISPLAY_SOON'))")					
-			)
-		)
-	
-	)
+        (style
+            (width = 100%)
+            
+            (align = "center")
+        )
+        (rotation = -6)
+        (pivotX = "TOOLTIP_SHIP_MAX_WIDTH/2")
+        (pivotY = "80/2")
+                  
+        (block
+            (style
+                (backgroundImage = 'symbol:coming_soon_frame')
+                (backgroundSize = "fill")
+                
+            )
+            (tf
+                (class $TextAccentBold)
+                (class $FontColorWhite)
+                (style
+                   (marginTop = 2px)
+                   (marginBottom = 2px)
+                   (marginLeft = 10px)
+                   (marginRight = 10)
+                )
+                
+                (bind text "_showTestSampleLabel ? toUpper(tr('IDS_TEST_SAMPLE')) : toUpper(tr('IDS_UNAVAILABLE_TO_DISPLAY_SOON'))")                    
+            )
+        )
+    
+    )
 )
 (def element ShipResearchBlock() layout=true
 

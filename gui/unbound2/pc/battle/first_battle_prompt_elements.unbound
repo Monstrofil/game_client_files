@@ -1,0 +1,231 @@
+
+
+(def constant TUTORIAL_HINTS_TYPES [
+	{tutorialHintRenderer: 'CasualTutorialHintRenderer'},
+	{tutorialHintRenderer: 'MovementPromptRenderer'}
+])
+
+(def constant TUTORIAL_SCENARIO 'FIRST_BATTLE')
+
+(def element TutorialHint() layout=true
+	(scope
+		(var stageComponent:gfx = "$datahub.getSingleEntity(CC.stage).stage")
+		(var stageWidth:number = "stageComponent.width" (event "stageComponent.evStageSizeChanged"))
+		(var stageHeight:number = "stageComponent.height" (event "stageComponent.evStageSizeChanged"))
+
+		(var battleInfo:gfx = "$datahub.getSingleComponent(CC.battleInfo)")
+
+		(var tutorialCollection:gfx = "$datahub.getCollection(CC.tutorialContextHint)")
+		(var tutorialEntity:gfx = "$datahub.getSingleEntity(CC.tutorialContextHint)" (event "tutorialCollection.evAdded") (event "tutorialCollection.evRemoved"))
+	
+		(var entityId:number = "tutorialEntity ? tutorialEntity.id : 0")
+		(var isContextHint:bool = "(entityId > 0) && (battleInfo.scenario == TUTORIAL_SCENARIO)")
+	)
+
+	(style (position = "absolute") (bind width "stageWidth") (bind height "stageHeight") (align = "center") (paddingTop = 32%))
+
+	(controller $Instance (renderer = 'TutorialHintAdapter') 
+		(bind enabled "isContextHint")
+		(args
+			_entityId = "entityId"
+		)
+		(exprs
+			(scope
+				(bind entityId "entityId")
+			)
+		)
+	)
+)
+
+(def element TutorialHintAdapter(_entityId:number = "0") layout=true
+	(scope
+		(var entityId:number = "_entityId")
+
+		(event evAddedToStage)
+
+		(var tutorialEntity:gfx = "$datahub.getEntity(entityId)")
+		(var type:number = "tutorialEntity.tutorialContextHint.type")
+
+		(var timeToLive:gfx = "tutorialEntity.timeToLive" (event "tutorialEntity.evAdded"))
+
+		(var tutorialTypes:dict = "TUTORIAL_HINTS_TYPES[type]")
+	)
+
+	(dispatch evAddedToStage on=addedToStage)
+
+	(block
+		(class $FullsizeAbsolute)
+		(style (top = 50%) (left = 50%))
+
+		(block
+			(class $FullsizeAbsolute)
+			(style
+				(backgroundImage = "'symbol:black_background'")
+				(backgroundSize = "fill") (top = -50%) (left = -50%)
+			)
+		)
+
+		(controller $Animation
+			(bindcall play 	from="{scaleX:1, scaleY:1, alpha:0.0}"
+							to="{scaleX:1.5, scaleY:1.8, alpha:0.25}"
+							duration=0.25
+							(event "evAddedToStage")
+			)
+		)
+
+		(controller $Animation
+			(bindcall play 	from="{alpha:0.25}"
+							to="{alpha:0}"
+							duration=0.25
+							delay=0.26
+							(event "evAddedToStage")
+			)
+		)
+	)
+
+	(block
+		(alpha = 0)
+		(class $FullsizeAbsolute)
+		(style (top = 50%) (left = 50%))
+
+		(block
+			(class $FullsizeAbsolute)
+			(style (top = -50%) (left = -50%) (padding = [24, 24, 24, 24]) (backgroundImage = "'symbol:black_background'") (backgroundSize = "fill"))
+
+			(controller $Instance (bind renderer "tutorialTypes.tutorialHintRenderer"))
+		)
+
+		(controller $Animation
+			(bindcall play 	from="{scaleX:0.8, scaleY:0.8, alpha:0.0}"
+							to="{scaleX:1.2, scaleY:1.2, alpha:0.5}"
+							duration=0.25
+							delay=0.26
+							(event "evAddedToStage")
+			)
+		)
+
+		(controller $Animation
+			(bindcall play 	from="{scaleX:1.2, scaleY:1.2, alpha:0.5}"
+							to="{scaleX:1, scaleY:1, alpha:1}"
+							duration=0.25
+							delay=0.75
+							(event "evAddedToStage")
+			)
+		)
+
+		(controller $Animation
+			(bindcall play 	from="{alpha:1.0}"
+							to="{alpha:0.0}"
+							duration=0.25
+							delay=0.35
+							(event "timeToLive.evRemove")
+			)
+		)
+	)
+
+	(block
+		(alpha = 0)
+		(style (padding = [24, 24, 24, 24]))
+
+		(controller $Instance (bind renderer "tutorialTypes.tutorialHintRenderer"))
+	)
+)
+
+(def element MovementPromptRenderer() layout=true
+	(scope
+		(var tutorialContextHint:gfx = "$datahub.getSingleComponent(CC.tutorialContextHint)")
+		(var keys:array = "tutorialContextHint.keys")
+	)
+
+	(style (flow = "Flow.HORISONTAL") (align = "center|middle"))
+
+	(element HotkeyIndicatorLarge "keys[0]")
+
+	(tf	
+		(class $TextDefault21NM)
+		(class $DropShadowDisabler)
+		(style (maxWidth = 200) (marginLeft = "12px") (marginRight = "32px"))
+		(bind text "'IDS_FIRST_BATTLE_PROMPT_FASTER'")
+	)
+
+	(element HotkeyIndicatorLarge "keys[1]")
+
+	(tf	
+		(class $TextDefault21NM)
+		(class $DropShadowDisabler)
+		(style (maxWidth = 200) (marginLeft = "12px") (marginRight = "32px"))
+		(bind text "'IDS_FIRST_BATTLE_PROMPT_SLOWER'")
+	)
+
+	(element HotkeyIndicatorLarge "keys[2]")
+
+	(tf
+		(class $TextDefault27NM)
+		(class $DropShadowDisabler)
+		(style (marginLeft = 1px) (marginTop = 12px) (marginRight = 1px))
+		(bind text "','")
+	)
+
+	(element HotkeyIndicatorLarge "keys[3]")
+
+	(tf	
+		(class $TextDefault21NM)
+		(class $DropShadowDisabler)
+		(style (maxWidth = 200) (marginLeft = "12px"))
+		(bind text "'IDS_FIRST_BATTLE_PROMPT_LEFT_RIGHT'")
+	)
+)
+
+(def element CasualTutorialHintRenderer() layout=true
+	(scope
+		(var tutorialContextHint:gfx = "$datahub.getSingleComponent(CC.tutorialContextHint)")
+		(var keys:array = "tutorialContextHint.keys")
+		(var messageIDS:str = "tutorialContextHint.messageIDS")
+	)
+
+	(style (flow = "Flow.HORISONTAL") (align = "center|middle"))
+
+	(hblock
+		(style (marginRight = "4px"))
+		(controller $Repeat renderer='HotkeyAdapter'
+			(bind count "keys.length")
+			(args
+				_commandId = "keys[$index]"
+			)
+
+			(exprs
+				(scope
+					(bind commandId "keys[$index]")
+					(bind keysLength "keys.length")
+				)
+			)
+		)
+	)
+
+	(tf
+		(class $TextDefault21NM)
+		(class $DropShadowDisabler)
+		(style (maxWidth = 200))
+		(bind text "messageIDS")
+	)
+)
+
+(def element HotkeyAdapter(_commandId:number = "0") layout=true
+	(scope
+		(var commandId:number = "_commandId")
+		(var keysLength:number = 0)
+		(var isComma:bool = "($index != keysLength - 1) && (keysLength != 1)")
+	)
+
+	(style (flow = "Flow.HORISONTAL") (align = "center|middle") (marginRight = "12px"))
+
+	(element HotkeyIndicatorLarge "commandId")
+
+	(tf	
+		(bind visible "isComma")
+		(class $TextDefault27NM)
+		(class $DropShadowDisabler)
+		(style (position = "absolute") (top = 12px) (right = -10px))
+		(bind text "','")
+	)
+)

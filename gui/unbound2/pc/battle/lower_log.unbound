@@ -1,0 +1,224 @@
+(def constant LOWER_LOR_MAX_WIDTH 560)
+(def constant LOWER_LOG_MESSAGE_HEIGHT 30)
+(def constant LOWER_LOG_LOW_RESOLUTION_HEIGHT 20)
+(def constant LOWER_LOG_MESSAGE_MARGIN 4)
+
+(def constant LOWER_LOG_MESSAGE_RENDERERS ['LowerLogSignleLine', 'LowerLogModifierAppliedMessage'])
+
+
+(def element LowerLog() layout=true dispatch_size_change=true
+    (scope
+        (var messagesCollection:gfx = "$datahub.getCollection(CC.lowerLogMessage)")
+		(var stageComponent:gfx = "$datahub.getSingleComponent(CC.stage)")
+		(var stageWidth:number = "stageComponent.width" (event "stageComponent.evStageSizeChanged"))
+		(var stageHeight:number = "stageComponent.height" (event "stageComponent.evStageSizeChanged"))
+		(var isHighResolution:bool = "stageHeight >= 1080" (event "stageComponent.evStageSizeChanged"))
+    )
+
+	(style
+		(bind height "isHighResolution ? LOWER_LOG_MESSAGE_HEIGHT * 3 + LOWER_LOG_MESSAGE_MARGIN * 2 : LOWER_LOG_LOW_RESOLUTION_HEIGHT * 2 + LOWER_LOG_MESSAGE_MARGIN")
+	)
+
+	(name = 'LowerLog')
+
+	(block
+		(style
+			(position = "absolute")
+			(bind top  "isHighResolution ? (LOWER_LOG_MESSAGE_HEIGHT + LOWER_LOG_MESSAGE_MARGIN)/2 : 0") 
+		)	
+	
+		(controller $Repeat renderer='LowerLogMessage'
+			(bind count "messagesCollection.items.length" watch=false (event "messagesCollection.evAdded"))
+			(bindcall removeChildAt "$event[1]" (event "messagesCollection.evRemoved"))
+		)
+	)
+)
+
+
+(def element LowerLogMessage() layout=true dispatch_size_change=true
+	(scope
+		(var messagesCollection:gfx = "$datahub.getCollection(CC.lowerLogMessage)")
+		(var message:gfx = "messagesCollection.items[$index]" watch=false)
+		(var indexTo:number = "message.lowerLogMessage.indexTo" (event "messagesCollection.evAdded")(event "messagesCollection.evRemoved")(event "message.lowerLogMessage.evMove")(event "message.lowerLogMessage.evShow"))
+		(var indexFrom:number = "message.lowerLogMessage.indexFrom" (event "message.lowerLogMessage.evMove"))
+		(var lowerLogItemName:str = "message.lowerLogMessage.itemRendererId ? LOWER_LOG_MESSAGE_RENDERERS[message.lowerLogMessage.itemRendererId] : LOWER_LOG_MESSAGE_RENDERERS[SC.Common.LOWER_LOG_ITEM_RENDERERS.DEFAULT]")
+
+		
+		(var stageComponent:gfx = "$datahub.getSingleComponent(CC.stage)")
+		(var stageHeight:number = "stageComponent.height" (event "stageComponent.evStageSizeChanged"))
+		(var messageHeight:number = "stageHeight < 1080 ? LOWER_LOG_LOW_RESOLUTION_HEIGHT : LOWER_LOG_MESSAGE_HEIGHT") 
+	)
+	(style
+		(position = "absolute")
+		(bind top "indexTo * messageHeight"(event "messagesCollection.evAdded")(event "messagesCollection.evRemoved"))
+		(maxWidth = "LOWER_LOR_MAX_WIDTH")
+	)
+
+	(controller $Animation
+		(bindcall play
+			duration = "$event[1]"
+			delay = "0"
+			from="{top:indexFrom * messageHeight}"
+			to="{top:indexTo * messageHeight}"
+			watch=false
+			killAll=false
+			(bind enabled "true")
+			(event "message.lowerLogMessage.evMove")
+		)
+
+		(bindcall play
+			duration = "$event[1]"
+			delay = "0"
+			from="{alpha:0}"
+			to="{alpha:1}"
+			watch=false
+			killAll=false
+			(bind enabled "true")
+			(event "message.lowerLogMessage.evShow")
+		)
+
+		(bindcall play
+			duration = "$event[1]"
+			delay = "0"
+			to="{alpha:0}"
+			watch=false
+			killAll=false
+			(bind enabled "true")
+			(event "message.lowerLogMessage.evHide")
+		)
+	)
+
+	(controller $Instance (renderer="lowerLogItemName")
+		(args
+			_message = "message"
+		)
+	)
+)
+
+(def element LowerLogSignleLine (_message:gfx) layout=true
+	(scope
+		(var message:gfx = "_message" watch=false)
+		
+		(var textIDS:str = "message.lowerLogMessage.text")
+		(var substituteMap:gfx = "message.lowerLogMessage.substitutes ? message.lowerLogMessage.substitutes : {}")
+		(var color:number = "message.lowerLogMessage.color")
+		(var icon:str = "message.lowerLogMessage.icon")
+
+		(var stageComponent:gfx = "$datahub.getSingleComponent(CC.stage)")
+		(var stageWidth:number = "stageComponent.width" (event "stageComponent.evStageSizeChanged"))
+		(var stageHeight:number = "stageComponent.height" (event "stageComponent.evStageSizeChanged"))
+
+		(var messageHeight:number = "stageHeight < 1080 ? LOWER_LOG_LOW_RESOLUTION_HEIGHT : LOWER_LOG_MESSAGE_HEIGHT") 
+	)
+	(style
+		(marginLeft = "-50%")
+		(bind height "messageHeight")
+	)
+
+	(hblock
+		(style
+			(marginLeft = "30")
+			(marginRight = "30")
+			(marginTop = "4")
+		)
+		
+		(block
+			(style 
+				(marginRight = "S")
+				(width = "30")
+				(height = "30")
+				(marginTop = -50%)
+				(backgroundSize = "fill")
+				(bind backgroundImage "icon ? 'url:../' + icon + '.png' : ''")
+			)
+
+			(bind visible "icon != ''")
+		)
+
+		(tf
+			(bind class "stageWidth > 1280 ? '$TextDefaultBoldNM19' : '$TextDefaultBoldNM17'")
+			(style 
+				(textAlign = "center")
+				(bind textColor "color ? color : null")
+				(marginTop = -50%)
+			)
+			(bindcall substitute imageOffset="6"  substitutionMap="substituteMap" 	sourceText="textIDS"  postfix='' init=true)
+		)
+	)
+)
+
+(def element LowerLogModifierAppliedMessage (_message:gfx) layout=true
+	(scope
+		(var stageComponent:gfx = "$datahub.getSingleComponent(CC.stage)")
+		(var stageWidth:number = "stageComponent.width" (event "stageComponent.evStageSizeChanged"))
+		(var stageHeight:number = "stageComponent.height" (event "stageComponent.evStageSizeChanged"))
+
+		(var message:gfx = "_message" watch=false)
+		(var icon:str = "message.lowerLogMessage.icon")
+		(var color:number = "message.lowerLogMessage.color")
+		(var textIDS:str = "message.lowerLogMessage.text")
+		(var secondaryIDS:str = "message.lowerLogMessage.extraText")
+
+		(var isHighResolution:bool = "stageHeight >= 1080" (event "stageComponent.evStageSizeChanged"))
+	)
+
+	(style 
+		(bind height "isHighResolution ? LOWER_LOG_MESSAGE_HEIGHT * 2 + LOWER_LOG_MESSAGE_MARGIN : LOWER_LOG_LOW_RESOLUTION_HEIGHT * 2 + LOWER_LOG_MESSAGE_MARGIN")
+		(marginLeft = "-50%")
+	)
+
+	(hblock	
+		(style			
+			(height = "100%")
+			(backgroundSize = "fill")
+			(bind backgroundImage "'url:../central_log/lower_log_bg_9scale.png'")
+			(scale9Grid = "[4, 4, 2, 4]")
+		)
+
+		(block
+			(style 
+				(marginLeft = "SXS")
+				(marginRight = "SXS")
+				(backgroundImage = "'url:../' + icon + '.png'")
+				(backgroundSize = "fill")
+				
+				(bind width "isHighResolution ? 44 : 36")
+				(bind height "isHighResolution ? 44 : 36")
+				(bind marginTop "isHighResolution ? 10 : XS")
+				(bind marginBottom "isHighResolution ? 10 : XS")
+			)
+		)
+
+		(block
+			(style
+				(marginRight = "20")
+			)
+
+			(block
+				(style
+					(bind marginTop "isHighResolution ? M : S")
+				)
+
+				(tf
+					(bind class "isHighResolution ? '$TextDefaultBoldNM19' : '$TextDefaultBoldNM17'")
+					(style
+						(bind textColor "color ? color : null")
+					)
+
+					(bind text "textIDS")
+				)
+			)
+
+			(block
+				(style 
+					(bind marginTop "isHighResolution ? S : 6")
+				)
+				
+				(tf
+					(bind class "isHighResolution ? '$TextDefaultNM' : '$TextDefaultNM13'")					
+					(bind text "secondaryIDS")
+				)
+			)
+		)
+	)
+)

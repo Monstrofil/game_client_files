@@ -10,7 +10,6 @@
 		(var _rewardReasons:dict = {}) 
 		(var _isPRMP:bool = false) 
 		(var _inSideCompare:bool = false)
-		(var _inIntromissionWindow:bool = false)
 
 		(var playerShipEntity:gfx = "$datahub.getPrimaryEntity(CC.ownShip, _shipId)")
 		(var isOwned:bool = "playerShipEntity != null")
@@ -23,7 +22,7 @@
 	(scope
 		
 		(var showStats:bool = "!(shipComponent.isEventLike) || isOwned")
-		(var showLabelComingSoon:bool = "shipComponent.isEventLike && (shipComponent.group != 'event')")
+		(var showLabelComingSoon:bool = "shipComponent.group == SC.Ships.SHIP_GROUPS.DEMO_WITHOUT_STATS")
 		(var isEventLike:bool = "shipComponent.isEventLike" )
 		
 		
@@ -72,7 +71,7 @@
 		)
 		
 		(block
-			(bind visible "!_inSideCompare && !_inIntromissionWindow")
+			(bind visible "!_inSideCompare")
 			(style 
 				(width = 100%)
 				

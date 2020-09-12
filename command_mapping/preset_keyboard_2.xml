@@ -215,21 +215,27 @@
 			<VALUE key="KEY_Q"/>
 		</CRUISE_ANGLE_LEFT>
 
+		<!-- Submarine -->
 		<CMD_MOVE_UP context="submarine" type="hold">
-			<VALUE key="KEY_E" mods="KEY_LCONTROL"/>
+			<VALUE key="KEY_F" mods="KEY_LCONTROL"/>
 		</CMD_MOVE_UP>
 
 		<CMD_MOVE_DOWN context="submarine" type="hold">
-			<VALUE key="KEY_Q" mods="KEY_LCONTROL"/>
+			<VALUE key="KEY_C" mods="KEY_LCONTROL"/>
 		</CMD_MOVE_DOWN>
 
 		<CRUISE_DEEP_UP context="submarine" type="hold">
-			<VALUE key="KEY_E"/>
+			<VALUE key="KEY_Q"/>
 		</CRUISE_DEEP_UP>
 
 		<CRUISE_DEEP_DOWN context="submarine" type="hold">
-			<VALUE key="KEY_Q"/>
+			<VALUE key="KEY_E"/>
 		</CRUISE_DEEP_DOWN>
+
+
+		<CMD_START_ACOUSTIC context="submarine" type="hold">
+			<VALUE key="KEY_SPACE"/>
+		</CMD_START_ACOUSTIC>
 
 		<CMD_SHIP_PARAMS context="alive" type="hold">
 			<VALUE key="KEY_H"/>
@@ -239,21 +245,14 @@
 			<VALUE key="KEY_P"/>
 		</CMD_SWITCH_ATBA_AIRDEFENSE>
 
-		<CMD_SELECT_TORPEDO_GROUP_0 context="submarine">
+
+		<CMD_PINGER_GUN_0 context="submarine">
 			<VALUE key="KEY_1"/>
-		</CMD_SELECT_TORPEDO_GROUP_0>
+		</CMD_PINGER_GUN_0>
 
-		<CMD_SELECT_TORPEDO_GROUP_1 context="submarine">
+		<CMD_SUBMARINE_TORPEDO context="submarine">
 			<VALUE key="KEY_2"/>
-		</CMD_SELECT_TORPEDO_GROUP_1>
-
-		<CMD_SELECT_TORPEDO_GROUP_2 context="submarine">
-			<VALUE key="KEY_3"/>
-		</CMD_SELECT_TORPEDO_GROUP_2>
-
-		<CMD_SELECT_TORPEDO_GROUP_3 context="submarine">
-			<VALUE key="KEY_4"/>
-		</CMD_SELECT_TORPEDO_GROUP_3>
+		</CMD_SUBMARINE_TORPEDO>
 
 
 		<CMD_QUICK_TACTIC context="alive">
@@ -500,6 +499,21 @@
 			<VALUE key="KEY_COMMA" mods="KEY_LCONTROL"/>
 		</CMD_REPLAY_REWIND_X2>
 
+		<CMD_REPLAY_TAKE_SNAPSHOT context="replay">
+			<VALUE key="KEY_F5"/>
+		</CMD_REPLAY_TAKE_SNAPSHOT>
+
+		<CMD_REPLAY_LOAD_LAST_TAKEN_SNAPSHOT context="replay">
+			<VALUE key="KEY_F8"/>
+		</CMD_REPLAY_LOAD_LAST_TAKEN_SNAPSHOT>
+
+		<CMD_REPLAY_LOAD_PREVIOUS_SNAPSHOT context="replay">
+			<VALUE key="KEY_F6"/>
+		</CMD_REPLAY_LOAD_PREVIOUS_SNAPSHOT>
+
+		<CMD_REPLAY_LOAD_NEXT_SNAPSHOT context="replay">
+			<VALUE key="KEY_F7"/>
+		</CMD_REPLAY_LOAD_NEXT_SNAPSHOT>
 
 		<!--<tactical>-->
 		<MAP_RECT_ATTENTION context="tactical" type="doubleTap">
@@ -602,6 +616,13 @@
 			<VALUE key="KEY_PGDN"/>
 		</CMD_ZOOM_OUT>
 
+        <CMD_FREE_CAMERA_SPHERE_INCREASE context="replay" type="hold">
+			<VALUE key="KEY_PGUP" mods="KEY_LSHIFT"/>
+		</CMD_FREE_CAMERA_SPHERE_INCREASE>
+
+		<CMD_FREE_CAMERA_SPHERE_DECREASE context="replay" type="hold">
+			<VALUE key="KEY_PGDN" mods="KEY_LSHIFT"/>
+		</CMD_FREE_CAMERA_SPHERE_DECREASE>
 
 		<!--<fake>-->
 		<CMD_ESC context="fake">

@@ -1,0 +1,187 @@
+(def constant PLANE_ICON_NAMES [
+	'planes_hangar_rocket_HE', 
+	'planes_hangar_bomb_HE', 
+	'planes_hangar_bomb_AP', 
+	'planes_hangar_torpedo', 
+	'planes_hangar_torpedo_deepwater', 
+	'planes_hangar_rocket_AP'
+])
+
+(def element HangarItemRenderer(col:gfx) layout=true
+	(scope
+		(event evMouseOver)
+		(event evMouseOut)
+		(var squadronEntity:gfx = "col.items[$index]" (event "col.evAdded") (event "col.evRemoved") (event "col.evUpdated"))
+		(var ammoType:number = "squadronEntity.plane.ammoType")
+		(var curPlanesInHangar:number = "squadronEntity.hangar.planeCount" 	(event "squadronEntity.hangar.evChanged"))
+		(var planeIconPath:str = "'url:../aircraft/hangar_icons/' + PLANE_ICON_NAMES[ammoType] + '.png'")
+
+		(var isRollOver:bool = false)
+		(bind isRollOver true  init=false (event "evMouseOver"))
+		(bind isRollOver false init=false (event "evMouseOut"))
+	)
+
+	(style
+		(width = 32px) (top = 26px)
+		(bind marginLeft "$index == 0 ? 16 : 14")
+	)
+
+	(block
+		(style (position = "absolute") (left = -129) (bottom = 24px))
+		(bind alpha "isRollOver ? 0 : 0")
+		(bind visible "isRollOver")
+		(controller $Animation layout=false
+			(bindcall play duration=0.1 delay=0.1 to={alpha:1} killAll=true (bind enabled "isRollOver"))
+		)
+		(controller $Instance renderer='HangarItemTooltip'
+			(bind enabled "isRollOver")
+			(exprs
+				(scope
+					(bind _squadronEntityId  "squadronEntity.id")
+					(bind _planeIconPath  "planeIconPath")
+				)
+			)
+		)
+	)
+
+	(block
+		(style
+			(position = "absolute") (width = 30px) (height = 30px) (left = 1px)
+			(bind backgroundImage "planeIconPath")
+		)
+
+		(bind alpha "(curPlanesInHangar > 0 ? 1 : 0.5)")
+	)
+
+	(block
+		(style (position = "absolute") (top = -6px))
+		(element PlaneReloadProgressAndAttackersBar
+			(scope
+				(bind _squadronEntityId "squadronEntity.id")
+				(bind _width 30)
+			)
+		)
+	)
+
+	
+	(block
+		(style (position = "absolute") (width = 30) (height = 50)(backgroundColor = 0x00FFFFFF) (bottom = -30))
+		(dispatch evMouseOver on='rollOver')
+		(dispatch evMouseOut on='rollOut')
+	)
+)
+
+(def element HangarItemTooltip() layout=true
+	(scope
+		(var _squadronEntityId:number = -1)
+		(var _planeIconPath:str = '')
+		(var squadronEntity:gfx = "_squadronEntityId > -1 ? $datahub.getEntity(_squadronEntityId) : null")
+		(var hangar:gfx = "squadronEntity.hangar")
+		(var planeCount:number = "hangar.planeCount")
+		(var maxPlanesInSquadron:number = "squadronEntity.health.max")
+		(var maxPlaneCount:number = "hangar.maxPlaneCount")
+		(var timeToRestore:number = "hangar.timeToRestore" (event "hangar.evChanged"))
+		(var ammoType:number = "squadronEntity.plane.ammoType")
+		(var planesInAttacker:number = "squadronEntity.ownSquadron.attackerSize")
+		(var numAttakers:number = "maxPlanesInSquadron ? floor(maxPlanesInSquadron / planesInAttacker) : 0")
+
+		(var squadronType:str = " 		ammoType == SC.Common.PLANE_AMMO_TYPES.PROJECTILE			?  tr('IDS_DOCK_AMMO_TITLE_FIGHTER'):
+										ammoType == SC.Common.PLANE_AMMO_TYPES.PROJECTILE_AP		?  tr('IDS_DOCK_AMMO_TITLE_FIGHTER_AP'):
+										ammoType == SC.Common.PLANE_AMMO_TYPES.BOMB_HE 				?  tr('IDS_DOCK_AMMO_TITLE_DIVE'):
+										ammoType == SC.Common.PLANE_AMMO_TYPES.BOMB_AP				?  tr('IDS_DOCK_AMMO_TITLE_DIVE_AP'):
+										ammoType == SC.Common.PLANE_AMMO_TYPES.TORPEDO				?  tr('IDS_DOCK_AMMO_TITLE_BOMBER'):
+										ammoType == SC.Common.PLANE_AMMO_TYPES.TORPEDO_DEEPWATER	?  tr('IDS_DOCK_AMMO_TITLE_BOMBER_DEEPWATER')
+																									:  ''")
+
+		(var attributesNeutral:array ="[	{attributeIDS: 'IDS_HANGAR_SQUADRON_PLANES_CURRENT',		measuredValue: planeCount,			measure: ''},
+											{attributeIDS: 'IDS_HANGAR_SQUADRON_PLANES_MAX',			measuredValue: maxPlanesInSquadron,	measure: ''},
+											{attributeIDS: 'IDS_HANGAR_SQUADRON_PLANES_TIME_RESTORE',	measuredValue: timeToRestore,		measure: 'IDS_SECOND'},
+											{attributeIDS: 'IDS_HANGAR_SIZE',							measuredValue: maxPlaneCount,		measure: ''},
+											{attributeIDS: 'IDS_HANGAR_SQUADRON_NUM_ATTACKERS',			measuredValue: numAttakers,			measure: ''},
+											{attributeIDS: 'IDS_HANGAR_SQUADRON_PLANES_IN_ATTACKER',	measuredValue: planesInAttacker,	measure: ''}]"
+											)
+	)
+
+	(style (width = 290px))
+	(mouseChildren = false)
+	(mouseEnabled = false)
+
+	(block
+		(class $FullsizeAbsolute)
+		(element HangarItemTooltipBackground _isInBattle = true)
+	)
+
+	
+	(block
+		(style (width = 100%) (marginTop = 14px) (marginLeft = 2px) (marginRight = 2px) (marginBottom = 2px))
+		(hblock
+			(style (marginLeft = "SXS") (marginRight = "SXS") (width = 100%) (marginBottom = "S"))
+			(block
+				(style
+					(width = 30px) (height = 30px)
+					(bind backgroundImage "_planeIconPath")
+				)
+			)
+			(tf
+				(style (marginLeft = "SXS") (width = 100%)(marginTop = 2px))
+				(alpha = 1)
+				(class $TextDefaultBold18NM)
+				(macro TFMouseEnabled value=false)
+				(bind text "squadronType")
+			)
+		)
+		(block
+			(style (width = 100%))
+			(element HorizontalDivider)
+		)
+		(block
+			(style (width = 100%))
+			
+			(mc inner_panel
+				(alpha = 1)
+				(class $FullsizeAbsolute)
+			)
+			(block
+				(style (width = 100%) (paddingLeft = "SXS") (paddingRight = "SXS") (paddingTop = 18px) (paddingBottom = "-XS"))
+				(controller $Repeat renderer='ParamsModifierItem' layout=false
+					(bind count "attributesNeutral.length")
+					(args
+						_shrinkHeight = true
+					)
+					(exprs
+						(scope
+							(bind _dataItem "attributesNeutral[$index]")
+						)
+					)
+				)
+			)
+		)
+	)
+)
+
+(def element HangarItemTooltipBackground(_isInBattle:bool = false) layout=true
+	(scope
+		(var optionDataEntity:gfx = "$datahub.getsingleEntity(CC.optionData)")
+		(var blurEnabled:bool = "optionDataEntity.optionData.blurEnabled" (event "optionDataEntity.optionData.evBlurEnabledChanged"))
+		(var contrast:bool = "optionDataEntity.optionData.contrast" (event "optionDataEntity.optionData.evContrastChanged"))
+	)
+	(class $FullsizeAbsolute)
+	(block
+		(class $FullsizeAbsolute)
+		
+		
+		
+	)
+	(mc contrast_panel
+		(class $FullsizeAbsolute)
+		(alpha = 1)
+		(bind visible "(contrast == true || _isInBattle == true)")
+	)
+	(block
+		(class $FullsizeAbsolute)
+		(bind visible "!_isInBattle")
+		(mc hint_panel
+			(class $FullsizeAbsolute)
+		)
+	)
+)

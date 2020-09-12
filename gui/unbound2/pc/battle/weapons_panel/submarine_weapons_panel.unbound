@@ -1,0 +1,43 @@
+(def element SubmarineWeaponsPanel () layout=true
+    (scope        
+        (var atbaEntity:gfx = "$datahub.getSingleEntity(CC.atbaControl)")
+        (var torpedoWeaponGroup:gfx = "$datahub.getPrimaryEntity(CC.weapon, WeaponType.TORPEDO)")
+
+        (var consumablesCollection:gfx = "$datahub.getCollection(CC.battleConsumable)")
+		(var shipConsumablesCollection:gfx = "consumablesCollection.getChildByPath('shipConsumables')")
+
+        (var avatarEntity:gfx = "$datahub.getSingleEntity(CC.playerAvatar)")
+		(var isAlive:bool = "avatarEntity.health.isAlive" (event "avatarEntity.health.evIsAliveChanged"))
+    )
+
+    (macro WEAPON_PANEL_ANIMATION "isAlive")
+
+    (style
+        (flow = "Flow.HORIZONTAL")
+    )
+    
+    (block
+        (style (marginRight = "PANEL_GROUP_MARGIN"))  
+        (controller $Instance renderer='SlotPingerGun')
+    )
+
+    (block
+        (style (marginRight = "PANEL_GROUP_MARGIN"))  
+        (controller $Instance renderer='SlotSubmarineTorpedo'
+            (args "torpedoWeaponGroup.id")
+        )
+    )
+
+    
+    (controller $Instance renderer='ConsumableWeaponGroup'
+        (bind enabled "shipConsumablesCollection.items.length > 0")
+        (args
+            isAircarrier = "false"
+        )
+        (exprs
+            (scope
+                (bind _collection "shipConsumablesCollection")
+            )
+        )
+    )
+)

@@ -4,16 +4,9 @@
 (def element ShipModulesStatesUB2() layout=true
 
 	(scope
-		(var selfVehicleEntity:gfx = "$datahub.getSingleEntity(CC.selfVehicle)")
-		(var ownCarrierEntity:gfx = "$datahub.getSingleEntity(CC.aircarrier)")
-		(var activeSquadron:number = "ownCarrierEntity ? ownCarrierEntity.aircarrier.activeSquadron : -1" (event "ownCarrierEntity.aircarrier.evStateChanged"))
-		(var isOnPlane:bool =  "activeSquadron != -1")
-
 		(var avatar:gfx = "$datahub.getSingleEntity(CC.playerAvatar)")
-		(var isAlive:bool = "avatar.health.isAlive" (event "avatar.health.evIsAliveChanged"))
+		(var isAlive:bool = "avatar.playerAvatar.isAlive" (event "avatar.playerAvatar.evIsAliveChanged"))
 	)
-
-	(bind visible "!isOnPlane")
 
 	(block
 		(style (position = "absolute") (left = "-MODULE_ICON_WIDTH/2-4") (top = "-MODULE_ICON_HEIGHT"))
@@ -24,6 +17,9 @@
 (def element ShipModulesList () layout=true
 	(scope
 		(var selfVehicleEntity:gfx = "$datahub.getSingleEntity(CC.selfVehicle)")
+		(var ownCarrierEntity:gfx = "$datahub.getSingleEntity(CC.aircarrier)")
+		(var activeSquadron:number = "ownCarrierEntity ? ownCarrierEntity.aircarrier.activeSquadron : -1" (event "ownCarrierEntity.aircarrier.evStateChanged"))
+		(var isOnPlane:bool =  "activeSquadron != -1")
 	)
 	(hblock
 		(style (width = 400) (align = "center"))
@@ -32,23 +28,68 @@
 			(args
 				damageModuleList = "selfVehicleEntity.damageModuleList"
 			)
+			(bind enabled "!isOnPlane")
 		)
-		(element ShipModifierRenderer ownerId="selfVehicleEntity.vehicle.id" isNegative=false)
+
+		(controller $Instance renderer='ShipCurrentModifierList' layout=true)
 	)
 )
 
-(def element ShipModifierRenderer (ownerId:number, isNegative:bool) layout=true
+(def element ShipCurrentModifierList() layout = true
 	(scope
-		(var shipModifiersCountEntity:gfx = "$datahub.getSingleEntity(CC.shipModifiersCount)")
+		(var prefsEntity:gfx = "$datahub.getSingleEntity(CC.prefsMarker)")
+    	(var altVisionMode:number = "prefsEntity.prefsBattle.altVisionMode" (event "prefsEntity.prefsBattle.evUpdate"))
+
+    	(var cameraEntity:gfx = "$datahub.getSingleEntity(CC.camera)")
+    	(var altVision:bool = "cameraEntity.camera.altVision" (event "cameraEntity.camera.evAltVisionChanged"))
+    	(var isAltVisionMode:bool = "altVision || altVisionMode >= AltVisionMode.ENABLED")
+
+		(var selfVehicleEntity:gfx = "$datahub.getSingleEntity(CC.selfVehicle)")
+		(var selfVehicleId:number = "selfVehicleEntity.vehicle.id" watch=false)
+		(var allShipModifiersCollection:gfx = "$datahub.getCollection(CC.shipModifier)")
+		(var vehicleModifiersCollection:gfx = "allShipModifiersCollection.getChildByPath('byOwner.' + selfVehicleId)" (event "allShipModifiersCollection.evChildAdded") (event "allShipModifiersCollection.evChildRemoved"))		
+		(var damageModuleListCount:number = "selfVehicleEntity.damageModuleList.value.length" (event "selfVehicleEntity.damageModuleList.evValueChanged"))
+	)
+
+	(block
+			
+		(bind visible "!isAltVisionMode")
+
+		(controller $Instance renderer='ShipModifierRenderer' layout=false
+			(args
+				isNegative="false"
+			)
+		)
+	)
+
+	(hblock
+		(bind visible "isAltVisionMode")
+
+		(controller $Repeat renderer='OneShipModifierRenderer' layout=false
+			(bind count "vehicleModifiersCollection.items.length" (event "vehicleModifiersCollection.evAdded") (event "vehicleModifiersCollection.evRemoved"))
+			(bind enabled "vehicleModifiersCollection != null")
+			(args
+				collection="vehicleModifiersCollection"
+				isNegative=false
+			)
+		)
+		
+	)
+)
+
+(def element ShipModifierRenderer (isNegative:bool) layout=true
+	(scope
+		(var shipModifiersCountEntityCollection:gfx = "$datahub.getCollection(CC.shipModifiersCount)")
+		(var shipModifiersCountEntity:gfx = "$datahub.getSingleEntity(CC.shipModifiersCount)" (event "shipModifiersCountEntityCollection.evAdded") (event "shipModifiersCountEntityCollection.evRemoved"))
 		(var shipModifiersCountComponent:gfx = "shipModifiersCountEntity.shipModifiersCount")
 		(var modifiersCount:number = "shipModifiersCountComponent.count"	(event "shipModifiersCountComponent.evCountChanged"))
-		
-		
+		(var hasModifiers:bool = "modifiersCount > 0")
 
-		(var widthAnimated:number = "modifiersCount > 0 ? MODULE_ICON_WIDTH + 4 : 0" watch=false)
+		(var widthAnimated:number = "hasModifiers ? MODULE_ICON_WIDTH + 4 : 0" watch=false)
+		(var iconPath:str = "'url:../powerups/icon_ship_modifier_common.png'")
 		(controller $Animation
-			(bindcall play duration=0.15 from="{widthAnimated:0}" to="{widthAnimated:MODULE_ICON_WIDTH + 4}" (bind enabled "modifiersCount > 0"))
-			(bindcall play duration=0.15 to="{widthAnimated:0}" (bind enabled "!(modifiersCount > 0)"))
+			(bindcall play duration=0.15 from="{widthAnimated:0}" to="{widthAnimated:MODULE_ICON_WIDTH + 4}" (bind enabled "hasModifiers"))
+			(bindcall play duration=0.15 to="{widthAnimated:0}" (bind enabled "!hasModifiers"))
 		)
 	)
 
@@ -60,6 +101,7 @@
 	)
 
 	(block
+		(class $FullsizeAbsolute)
 		(style
 			(position = "absolute")
 			(bind left "widthAnimated/2")
@@ -69,17 +111,17 @@
 		(visible = "modifiersCount > 0 ? 1 : 0")
 
 		(controller $Animation
-			(bindcall play duration=0.15 from={alpha:0, visible:0} to={alpha:1, visible: 1} (bind enabled "modifiersCount > 0"))
-			(bindcall play duration=0.15 to={alpha:0, visible: 0} (bind enabled "!(modifiersCount > 0)"))
+			(bindcall play duration=0.15 from={alpha:0, visible:0} to={alpha:1, visible: 1} (bind enabled "hasModifiers"))
+			(bindcall play duration=0.15 to={alpha:0, visible: 0} (bind enabled "!hasModifiers"))
         )
 
 		(block
-			(style (left = "MODULE_ICON_WIDTH/2") (top = "MODULE_ICON_HEIGHT/2  - 2"))
 			(class $FullsizeAbsolute)
+			(style (left = "MODULE_ICON_WIDTH/2") (top = "MODULE_ICON_HEIGHT/2  - 2"))
 
 			(controller $Animation
-				(bindcall play duration=0.15 from={alpha:0, visible:0, scaleX:3, scaleY:3} to={alpha:1, visible: 1, scaleX:1, scaleY:1} (bind enabled "modifiersCount > 0"))
-				(bindcall play duration=0.15 to={alpha:0, visible: 0, scaleX:0, scaleY:0} init=true (bind enabled "!(modifiersCount > 0)"))
+				(bindcall play duration=0.15 from={alpha:0, visible:0, scaleX:3, scaleY:3} to={alpha:1, visible: 1, scaleX:1, scaleY:1} (bind enabled "hasModifiers"))
+				(bindcall play duration=0.15 to={alpha:0, visible: 0, scaleX:0, scaleY:0} init=true (bind enabled "!hasModifiers"))
 
 				(bindcall play duration=0.15 delay=0.00 from={scaleX:1, scaleY:1} to={scaleX:2, scaleY:2} (event "shipModifiersCountComponent.evCountChanged"))
 				(bindcall play duration=0.15 delay=0.15 from={scaleX:2, scaleY:2} to={scaleX:0.8, scaleY:0.8} (event "shipModifiersCountComponent.evCountChanged"))
@@ -88,6 +130,7 @@
 			)
 
 			(block
+
 				(class $FullsizeAbsolute)
 				(style (position = "absolute") (left = "-MODULE_ICON_WIDTH/2") (top = "-MODULE_ICON_HEIGHT/2"))
 				(block
@@ -95,20 +138,31 @@
 						(position = "absolute")
 						(width = "MODULE_ICON_WIDTH")
 						(height = "MODULE_ICON_HEIGHT")
-						(backgroundImage = 'bitmap:icon_state_panel_powerup_positive')
+						(bind backgroundImage "iconPath")
 					)
+
+					(bind colorTransform "{ redOffset:-30,greenOffset:-30,blueOffset:-30}")
 				)
-				
-				(tf
-					(bind visible "modifiersCount > 0")
+
+				(block
 					(style
 						(position = "absolute")
-						(right = "-45") (top = "MODULE_ICON_HEIGHT-21")
+						(bottom = "0")
+						(right = "0")
 					)
-					(class $TextDefaultBoldNM)
-
-					(bind text "'x' + modifiersCount")
+				
+					
+					(tf
+						(bind visible "modifiersCount > 0")
+						(class $TextDefaultBoldNM)
+						(class $FontDropShadowFilterStrong)
+						(style
+							(textAlign = "right")
+						)
+						(bind text "'x' + modifiersCount")
+					)
 				)
+
 				
 				
 				
@@ -120,7 +174,97 @@
 	)
 )
 
-(def element DamagedModuleItem(damageModuleList:gfx) layout=true
+(def element OneShipModifierRenderer (collection:gfx, isNegative:bool) layout=true
+	(scope
+
+		(var modifierEntity:gfx = "collection.items[$index]")
+		(var shipModifierComponent:gfx = "modifierEntity.shipModifier")
+		(var iconPath:str = "'url:../powerups/icon_ship_modifier_' + shipModifierComponent.name + '.png'")
+		
+		(var modifiersCount:number = "shipModifierComponent.level"	(event "shipModifierComponent.evLevelChanged"))
+		(var hasModifiers:bool = "modifiersCount > 0")
+		(var isMaxCount:bool = "modifiersCount >= shipModifierComponent.maxLevel")
+		(var modifiersString:str = "!isMaxCount ? ('x' + modifiersCount) : 'IDS_SHIP_MODIFIER_PARAM_LEVEL_MAX'")
+
+		(var widthAnimated:number = "modifiersCount > 0 ? MODULE_ICON_WIDTH + 4 : 0" watch=false)
+		(controller $Animation
+			(bindcall play duration=0.15 from="{widthAnimated:0}" to="{widthAnimated:MODULE_ICON_WIDTH + 4}" (bind enabled "hasModifiers"))
+			(bindcall play duration=0.15 to="{widthAnimated:0}" (bind enabled "!hasModifiers"))
+		)
+	)
+
+	(style
+		(width = "modifiersCount > 0 ? MODULE_ICON_WIDTH + 4 : 0")
+		(bind width "widthAnimated" init=false)
+		(height = "MODULE_ICON_HEIGHT")
+	)
+
+	(block
+		(class $FullsizeAbsolute)
+		(style
+			(bind left "widthAnimated/2")
+		)
+
+		(alpha = "modifiersCount > 0 ? 1 : 0")
+		(visible = "modifiersCount > 0 ? 1 : 0")
+
+		(controller $Animation
+			(bindcall play duration=0.15 from={alpha:0, visible:0} to={alpha:1, visible: 1} (bind enabled "hasModifiers"))
+			(bindcall play duration=0.15 to={alpha:0, visible: 0} (bind enabled "!hasModifiers"))
+        )
+
+		(block		
+			(class $FullsizeAbsolute)
+			(style (left = "MODULE_ICON_WIDTH/2") (top = "MODULE_ICON_HEIGHT/2 - 2")(height = "MODULE_ICON_HEIGHT"))
+
+			(controller $Animation
+				(bindcall play duration=0.15 from={alpha:0, visible:0, scaleX:3, scaleY:3} to={alpha:1, visible: 1, scaleX:1, scaleY:1} (bind enabled "hasModifiers"))
+				(bindcall play duration=0.15 to={alpha:0, visible: 0, scaleX:0, scaleY:0} init=true (bind enabled "!hasModifiers"))
+
+				(bindcall play duration=0.15 delay=0.00 from={scaleX:1, scaleY:1} to={scaleX:2, scaleY:2} (event "shipModifierComponent.evLevelChanged"))
+				(bindcall play duration=0.15 delay=0.15 from={scaleX:2, scaleY:2} to={scaleX:0.8, scaleY:0.8} (event "shipModifierComponent.evLevelChanged"))
+				(bindcall play duration=0.10 delay=0.30 from={scaleX:0.8, scaleY:0.8} to={scaleX:1.1, scaleY:1.1} (event "shipModifierComponent.evLevelChanged"))
+				(bindcall play duration=0.15 delay=0.40 from={scaleX:1.1, scaleY:1.1} to={scaleX:1, scaleY:1} (event "shipModifierComponent.evLevelChanged"))
+			)
+
+			(block
+				(class $FullsizeAbsolute)
+				(style (position = "absolute") (left = "-MODULE_ICON_WIDTH/2") (top = "-MODULE_ICON_HEIGHT/2"))
+				(block
+					(style
+						(position = "absolute")
+						(width = "MODULE_ICON_WIDTH")
+						(height = "MODULE_ICON_HEIGHT")
+						(bind backgroundImage "iconPath")
+					)
+
+					(bind colorTransform "{ redOffset:-30,greenOffset:-30,blueOffset:-30}")
+				)
+				
+				(block
+					(style
+						(position = "absolute")
+						(bottom = "0")
+						(right = "0")
+					)
+				
+					
+					(tf
+						(bind visible "modifiersCount > 0")
+						(class $TextDefaultBoldNM)
+						(class $FontDropShadowFilterStrong)
+						(style
+							(textAlign = "right")
+						)
+						(bind text "modifiersString")
+					)
+				)
+			)
+		)
+	)
+)
+
+(def element DamagedModuleItem (damageModuleList:gfx) layout=true
 
 	(scope
 		(var prefsEntity:gfx = "$datahub.getSingleEntity(CC.prefsMarker)")
@@ -185,14 +329,14 @@
 							(bind _moduleState "moduleState")
 						)
 					)
-					(bind enabled "(moduleId >=0 && moduleId<=4) || moduleId == 6 || moduleId==7")
+					(bind enabled "(moduleId >=0 && moduleId<=4) || moduleId == ModuleIds.TORPEDO_TUBE || moduleId==ModuleIds.PATH_CONTROL || moduleId==ModuleIds.DEPTH_CHARGE_GUN")
 				)
 
 				(controller $Instance renderer='BurnStateIcon' layout=false
-					(bind enabled "moduleId == 10")
+					(bind enabled "moduleId == ModuleIds.BURN")
 				)
 				(controller $Instance renderer='FloodStateIcon' layout=false
-					(bind enabled "moduleId == 11")
+					(bind enabled "moduleId == ModuleIds.FLOOD")
 				)
 				(bind alpha "isAltVisionMode ? 0.5 : 1")
 			)
@@ -202,7 +346,7 @@
 				(block
 					
 					(mc 'flash.display.Sprite'
-                    	(style (position = "absolute")(width = 0px) (height = 0px))
+                    	(style (position = "absolute"))
                     	(alpha = 0.3)
                     	(controller $Sector
                     		(bind color 0x000000)
@@ -214,7 +358,7 @@
                     )
 					
 					(mc 'flash.display.Sprite'
-						(style (position = "absolute")(width = 0px) (height = 0px))
+						(style (position = "absolute"))
 						(alpha = 0.5)
 						(controller $Sector
 							(bind color 0xFF3500)

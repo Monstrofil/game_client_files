@@ -1,0 +1,173 @@
+(def constant PANEL_APPEAR_Y_OFFSET 15)
+(def constant PANEL_ITEM_MARGIN 5)
+(def constant PANEL_GROUP_MARGIN 15)
+
+(def macro WEAPON_PANEL_ANIMATION (isVisible:expression)
+	(alpha = "isVisible ? 1 : 0")
+	(visible = "isVisible ? true : false")
+	(controller $Animation layout=false
+		(bindcall play 	duration=0.2
+						from="{ alpha: 0, visible: 1, y: PANEL_APPEAR_Y_OFFSET }" 
+						to="{ alpha: 1, visible: 1, y: 0 }"
+						killAll=true 
+						(bind enabled "isVisible")
+		)
+		(bindcall play 	duration=0.2
+						from="{ alpha: 1, visible: 1, y: 0 }" 
+						to="{ alpha: 0, visible: 0, y: PANEL_APPEAR_Y_OFFSET }" 
+						killAll=true 
+						(bind enabled "!(isVisible)")
+		)
+	)
+)
+
+(def element ShipWeaponsPanel () layout=true dispatch_size_change=true
+	(scope
+		(var atbaEntity:gfx = "$datahub.getPrimaryEntity(CC.weapon, WeaponType.ATBA)")
+		(var artilleryWeaponGroup:gfx = "$datahub.getPrimaryEntity(CC.weapon, WeaponType.ARTILLERY)")
+		(var torpedoWeaponGroup:gfx = "$datahub.getPrimaryEntity(CC.weapon, WeaponType.TORPEDO)")
+		(var depthChargesWeaponGroup:gfx = "$datahub.getPrimaryEntity(CC.weapon, WeaponType.DEPTH_CHARGES)")
+		(var aircarrierSqudronsCollection:gfx = "$datahub.getCollection(CC.ownSquadron)")
+		(var consumablesCollection:gfx = "$datahub.getCollection(CC.battleConsumable)")
+		(var shipConsumablesCollection:gfx = "consumablesCollection.getChildByPath('shipConsumables')")
+
+		(var battleInfoComponent:gfx = "$datahub.getSingleComponent(CC.battleInfo)")
+		(var battleType:str = "battleInfoComponent.battleType")
+		(var clientBuildInfoComponent:gfx = "$datahub.getSingleComponent(CC.clientBuildInfo)")
+		(var isDevModeEnabled:bool = "clientBuildInfoComponent.isDevModeEnabled")
+		(var depthChargesSlotVisible:bool = "battleType == BattleTypes.EVENT_BATTLE || isDevModeEnabled")
+
+		
+		(var aircarrierComponent:gfx = "$datahub.getSingleComponent(CC.aircarrier)")
+		(var squadronCameraMode:str = "aircarrierComponent.squadronCameraMode" (event "aircarrierComponent.evSquadronCameraModeChanged"))
+		(var activeSquadron:number = "aircarrierComponent.activeSquadron" (event "aircarrierComponent.evStateChanged"))
+
+		(var avatarEntity:gfx = "$datahub.getSingleEntity(CC.playerAvatar)")
+		(var isAircarrier:bool = "avatarEntity.avatar.ship.ref.ship.subtype == ShipTypes.AIRCARRIER")
+		(var isSubmarine:bool = "avatarEntity.avatar.ship.ref.ship.subtype == ShipTypes.SUBMARINE")
+		(var isAlive:bool = "avatarEntity.health.isAlive" (event "avatarEntity.health.evIsAliveChanged"))
+
+		(var showPanel:bool = "	isAlive 
+								&& (aircarrierComponent == null || activeSquadron == ActiveSquadron.NONE) 
+								&& (aircarrierComponent == null || squadronCameraMode == SquadronCameraModes.DEFAULT)
+								&& !(isSubmarine)")
+	)
+
+	(macro WEAPON_PANEL_ANIMATION "showPanel")
+
+	(hblock
+		(block
+			(style
+				(position = "absolute")
+				(left = "-SLOT_ATBA_ICON_WIDTH - PANEL_GROUP_MARGIN")
+			)
+			(controller $Instance renderer='ATBAIndicator'
+				(bind enabled "atbaEntity")
+				(args "atbaEntity.id")
+			)
+		)
+
+		
+		(hblock
+			(style (marginRight = "PANEL_GROUP_MARGIN"))
+			(bind visible "artilleryWeaponGroup || !(isSubmarine) || aircarrierSqudronsCollection.items.length > 0")
+
+			(controller $Instance renderer='ArtilleryWeaponGroup'
+				(bind enabled "artilleryWeaponGroup")
+				(args "artilleryWeaponGroup.id")
+				(exprs
+					(style
+						(bind marginRight "torpedoWeaponGroup ? PANEL_GROUP_MARGIN : 0")
+					)
+				)
+			)
+
+			(controller $Instance renderer='SlotTorpedo'
+				(bind enabled "torpedoWeaponGroup && !(isSubmarine)")
+				(args
+					entityId = "torpedoWeaponGroup.id"
+				)
+			)
+
+			(block
+				(controller $Instance renderer='SlotDepthCharges'
+					(bind enabled "depthChargesWeaponGroup && depthChargesSlotVisible")
+					(args
+						entityId = "depthChargesWeaponGroup.id"
+					)
+					(exprs
+						(style (marginLeft = "PANEL_GROUP_MARGIN"))
+					)
+				)
+			)
+			
+			(controller $Instance renderer='AirCarrierWeaponGroup'
+				(bind enabled "aircarrierSqudronsCollection.items.length > 0")
+				(args
+					_collection = "aircarrierSqudronsCollection"
+				)
+			)
+		)
+
+		
+		(controller $Instance renderer='ConsumableWeaponGroup'
+			(bind enabled "shipConsumablesCollection.items.length > 0")
+			(args
+				isAircarrier = "isAircarrier"
+			)
+			(exprs
+				(scope
+					(bind _collection "shipConsumablesCollection")
+				)
+			)
+		)
+	)
+)
+
+(def element ArtilleryWeaponGroup (entityId:number) layout=true
+	(scope
+		(var groupEntity:gfx = "$datahub.getEntity(entityId)")
+	)
+	(style
+		(flow = "Flow.HORIZONTAL")
+	)
+	(controller $Repeat renderer='SlotArtilleryRenderer' layout=true
+		(bind count "groupEntity.weaponControl.ammoTypes.length")
+		(args "entityId" "groupEntity.weaponControl.ammoTypes.length")
+	)
+)
+
+(def element AirCarrierWeaponGroup (_collection:gfx) layout=true
+	(style
+		(flow = "Flow.HORIZONTAL")
+	)
+	(controller $Repeat renderer='SlotAirCarrierWeaponRenderer' layout=false
+		(bind count "_collection.items.length" (event "_collection.evAdded") (event "_collection.evRemoved"))
+		(args
+			col = "_collection"
+			totalCount = "_collection.items.length"
+		)
+	)
+)	
+
+(def element ConsumableWeaponGroup (isAircarrier:bool = false) layout=true
+	(scope
+		(var _collection:gfx = null)
+	)
+	(style
+		(flow = "Flow.HORIZONTAL")
+	)
+	(controller $Repeat renderer='SlotConsumableRenderer' layout=true
+		(bind count "_collection.items.length" init=false (bind enabled "_collection !=null") (event "_collection.evAdded") (event "_collection.evRemoved"))
+		(args
+			isAircarrier = "isAircarrier"
+			totalCount = "_collection.items.length"
+		)
+		(exprs
+			(scope
+				(bind col "_collection")
+			)
+		)
+	)
+)
+

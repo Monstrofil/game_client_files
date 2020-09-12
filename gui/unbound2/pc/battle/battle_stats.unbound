@@ -1,0 +1,115 @@
+(def element BattleStatsContainer () layout=true dispatch_size_change=true
+	(element TeamResourcesIndicatorsWrapper)
+)
+
+(def element TeamResourcesIndicatorsWrapper () layout=true
+    (scope
+        (var avatarEntity:gfx = "$datahub.getSingleEntity(CC.playerAvatar)")
+        (var resourcesCollection:gfx = "$datahub.getCollection(CC.resource)")
+        (var playerResources:gfx = "resourcesCollection.getChildByPath('byOwnerId.' + avatarEntity.id)" (event "resourcesCollection.evAdded"))
+        (var isEnabled:bool = "playerResources != null ? playerResources.items.length != 0 : false")
+    )
+
+    (controller $Instance renderer='TeamEarnedResourcesIndicator'
+        (bind enabled "isEnabled")
+        (args
+            teamId = "avatarEntity.avatar.teamId"
+        )
+    )
+)
+
+(def element TeamEarnedResourcesIndicator (teamId:number) layout=true
+	(scope
+
+		(var resourcesCollection:gfx = "$datahub.getCollection(CC.resource)")
+
+		
+		(var teamResourceId:str = "'' + ResourceTypes.FILTHIOR + '_team_' + teamId")
+		(var teamResource:gfx = "$datahub.getPrimaryEntity(CC.resource, teamResourceId)" (event "resourcesCollection.evAdded"))
+        (var teamValue:number = "teamResource.progress.value" (event "teamResource.progress.evChanged"))
+		(var currentValue:number = "teamValue" watch=false)
+
+		
+		(var savedTeamResourceId:str = "'' + ResourceTypes.FILTHIOR_SAVED + '_team_' + teamId")
+		(var savedTeamResource:gfx = "$datahub.getPrimaryEntity(CC.resource, savedTeamResourceId)" (event "resourcesCollection.evAdded"))
+        (var savedTeamValue:number = "savedTeamResource ? savedTeamResource.progress.value : 0" (event "savedTeamResource.progress.evChanged"))
+		(var savedValue:number = "savedTeamValue" watch=false)
+		
+        (controller $Animation
+            (bindcall play  duration=0.3
+                            to="{ currentValue: teamValue }"
+                            watch=false
+                            (bind trigger "teamValue")                   
+            )
+			(bindcall play  duration=0.3
+                            to="{ savedValue: savedTeamValue }"
+                            watch=false
+                            (bind trigger "savedTeamValue")                   
+            )
+        )
+	)
+
+
+	(hblock
+		(style
+			(align = "center|middle")
+		)
+		(block
+			(style
+				(position = "absolute")
+				(width = "200px")
+				(right = "60")
+				(paddingRight = "-6px")
+			)
+
+			(tf
+				(class $TextDefault17NM)
+				(style
+					(marginTop = "3px")
+					(marginBottom = "1px")
+					(width = "100%")
+					(textAlign = "right")
+				)
+				(bind text "'IDS_TEAM_RESOURCES'")
+			)
+			(tf
+				(class $TextDefaultBold27NM)
+				(style
+					(width = "100%")
+					(textAlign = "right")
+				)
+				(bind text "formatSeparator(round(currentValue))")
+			)
+		)
+
+		(block
+			(style
+				(width = "60px") (height = "60px")
+				(backgroundImage = 'url:../events/halloween19/icon_filth_hud.png')
+			)
+		)
+		(block
+			(style
+				(position = "absolute")
+				(width = "200px")
+				(left = "60")
+			)
+			(tf
+				(class $TextDefault17NM)
+				(style
+					(textAlign = "left")
+					(marginTop = 3px)
+					(marginBottom = 1px)
+				)
+				(bind text "'IDS_PORTAL_RESOURCES'")
+			)
+			(tf
+				(class $TextDefaultBold27NM)
+				(style
+					(textAlign = "left")
+				)
+				(bind text "formatSeparator(round(savedValue))")
+			)
+		)
+	)
+)

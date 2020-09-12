@@ -9,7 +9,7 @@
 		<lodMode>	0	</lodMode>
 		<noResize>	true	</noResize>
 		<mipCount>	3	</mipCount>
-		<format>	DXT1	</format>
+		<format>	DXT5	</format>
 	</rule>
 	<rule>
 		<pattern>	.*(lightMapIndirection).*	</pattern>
@@ -17,6 +17,13 @@
 		<noResize>	true	</noResize>
 		<mipCount>	1	</mipCount>
 		<format>	A8R8G8B8	</format>
+	</rule>
+	<rule>
+		<pattern>	.*(forest_tintmap).*	</pattern>
+		<lodMode>	0	</lodMode>
+		<noResize>	true	</noResize>
+		<mipCount>	1	</mipCount>
+		<format>	DXT5	</format>
 	</rule>
 	<rule>
 		<pattern>	.*(font).* </pattern>
@@ -69,6 +76,24 @@
 		<format>	DXT1	</format>
 	</rule>
 	<rule>
+		<pattern>	.*(_blend\.).*	</pattern>
+		<lodMode>	1	</lodMode>
+		<streamingStrategy> 2 </streamingStrategy>
+		<format>	DXT5	</format>
+	</rule>
+	<rule>
+		<pattern>	.*(_od\.).*	</pattern>
+		<lodMode>	1	</lodMode>
+		<streamingStrategy> 2 </streamingStrategy>
+		<format>	DXT5	</format>
+	</rule>	
+	<rule>
+		<pattern>	.*(_rnb\.).*	</pattern>
+		<lodMode>	3	</lodMode>
+		<streamingStrategy> 2 </streamingStrategy>
+		<format>	BC7	</format>
+	</rule>
+	<rule>
 		<pattern> .*(system/maps).* </pattern>
 		<lodMode>	0	</lodMode>
 		<format>	DXT1	</format>
@@ -100,6 +125,12 @@
 				<streamingStrategy> 1 </streamingStrategy>
 			</rule>
 			<rule>
+				<pattern>	.*(_mvea\.).*	</pattern>
+				<lodMode>	0	</lodMode>
+				<format>	BC7	</format>
+				<streamingStrategy> 0 </streamingStrategy>
+			</rule>
+			<rule>
 				<pattern>	.*(_foam\.).*	</pattern>
 				<lodMode>	0	</lodMode>
 				<format>	DXT1	</format>
@@ -110,6 +141,11 @@
 				<lodMode>	1	</lodMode>
 				<format>	DXT5	</format>
 				<streamingStrategy> 0 </streamingStrategy>
+			</rule>
+			<rule>
+				<pattern>	.*(_a\.|_a_[0-9]+\.).*	</pattern>
+				<lodMode>	1	</lodMode>
+				<format>	DXT1	</format>
 			</rule>
 		</directory>
 		<directory>
@@ -155,17 +191,17 @@
 	<rule>
 		<pattern> .*(imposters_albedo\.).* </pattern>
 		<lodMode>	0	</lodMode>
-		<format>	DXT5	</format>
+		<format>	BC7	</format>
 	</rule>
 	<rule>
 		<pattern> .*(imposters_material\.).* </pattern>
 		<lodMode>	0	</lodMode>
-		<format>	DXT5	</format>
+		<format>	BC7	</format>
 	</rule>
 	<rule>
 		<pattern> .*(imposters_normals\.).* </pattern>
 		<lodMode>	0	</lodMode>
-		<format>	DXT5	</format>
+		<format>	A8R8G8B8	</format>
 	</rule>
 	<directory>
 		<path>	content/gameplay/common/flags	</path>
@@ -249,4 +285,18 @@
 			<format> A8R8G8B8 </format>
 		</rule>
 	</directory>
+	
+	<!-- Texture Arrays rules -->
+	<rule>
+		<pattern>	.*(_tiles_rnao\.).*	</pattern>
+		<lodMode>	1	</lodMode>
+		<format>	DXT5	</format>
+		<streamingStrategy> 0 </streamingStrategy>
+	</rule>	
+	<rule>
+		<pattern>	.*(_tiles_ah\.).*	</pattern>
+		<lodMode>	1	</lodMode>
+		<format>	DXT5	</format>
+		<streamingStrategy> 0 </streamingStrategy>
+	</rule>
 </texture_detail_levels.xml>

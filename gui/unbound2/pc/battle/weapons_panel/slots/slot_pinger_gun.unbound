@@ -1,0 +1,235 @@
+(def element SlotPingerGun () layout=true
+	(scope
+		(var weaponEntity:gfx = "$datahub.getPrimaryEntity(CC.weapon, WeaponType.PINGER)")
+		(var commandId:number = "weaponEntity.simpleControl.commandId")
+
+		(var weaponGroupIsSelected:bool = "weaponEntity.selection.value" (event "weaponEntity.selection.evChanged"))
+
+		(var selectedIndex:number = "weaponEntity.weaponControl.selectedIndex" (event "weaponEntity.weaponControl.evSelectedIndexChanged"))
+		(var pingEnergyCost:number = "weaponEntity.weaponControl.ammoTypes[selectedIndex]")
+
+		(var _width:number = "SLOT_SIZE")
+		(var _height:number = "SLOT_SIZE")
+
+		(var countdown:gfx = "weaponEntity && weaponEntity.hasComponent(CC.countDown) ? weaponEntity.countDown : null" (event "weaponEntity.evAdded") (event "weaponEntity.evRemoved"))
+		(var remainTime:number = "countdown ? countdown.remain : 0" (event "countdown.evRemainChanged"))
+		(var percentPassed:number = "countdown ? remainTime / countdown.duration : 1")
+
+		(var showAmmoReload:bool = "countdown != null")
+
+		(var selfVehicleEntity:gfx = "$datahub.getSingleEntity(CC.selfVehicle)")
+		(var energyValue:number = "selfVehicleEntity.energy.value" (event "selfVehicleEntity.energy.evValueChanged"))
+		
+		(var notEnoughEnergy:bool = "energyValue < pingEnergyCost")
+
+		(macro MOUSE_HANDLER_SCOPE)
+	)
+
+	(style
+		(flow = "Flow.HORIZONTAL")
+	)
+
+	(macro MOUSE_EVENTS_DISPATCHER)
+
+	
+	(block
+		(controller $Instance renderer='PingerGunStatesSwitcher'
+			(exprs
+				(scope
+					(bind selectedIndex "selectedIndex" )
+				)
+			)
+		)
+		(macro MOUSE_LMB_EXTERNAL_CALL 'direct.action' "['weaponsPanel.buttonPressed', [WeaponType.PINGER, 0]]")
+	)
+
+	
+	(block
+		(style
+			(width = "_width")
+			(height = "_height")
+		)
+
+		(macro MOUSE_LMB_EXTERNAL_CALL 'direct.action' "['weaponsPanel.buttonPressed', [WeaponType.PINGER, 0]]")
+
+		(mc 'lesta.libs.unbound2.BattleHintBridgeMC'
+			(bindcall showBattleTooltip "BattleHintType.PINGER" init=false watch=false (event "evMouseOver"))
+			(bindcall hideBattleTooltip init=false (event "evMouseOut"))
+		)
+
+		(element PingerGunStates
+			(style
+				(position = "absolute")
+				(width = "_width")
+				(height = "_height")
+			)
+
+			(scope
+				(bind selectedIndex "selectedIndex") 
+				(bind notEnoughEnergy "notEnoughEnergy")
+			)
+		)
+
+		(element SlotItem
+			(scope
+				(bind _itemImageUrl "notEnoughEnergy ? 'symbol:empty' : 'url:../battle_hud/weapons_panel/guns/pinger/weapon_panel_acoustic_ping.png'")
+
+				(bind _isSelected "weaponGroupIsSelected")
+				(bind _width "_width")
+				(bind _height "_height")
+			)
+		)
+
+		
+		(element SlotReloadBar
+			(scope
+				(bind _atWork "false")
+				(bind _percentPassed "percentPassed")
+				(bind _remainTime "remainTime")
+			)
+			(class $FullsizeAbsolute)
+			(bind visible "showAmmoReload")
+		)
+
+		(controller $FxInstance lifetime=0.5
+			(bind renderer "'SlotWorkStartedFX'")
+			(bindcall create (event "weaponEntity.weapon.evReloadEnded"))
+		)
+
+		(element HotkeyIndicator "commandId"
+			(scope
+				(bind toggled "weaponGroupIsSelected")
+				(bind enabled "weaponGroupIsSelected")
+			)
+			(style
+				(position = "absolute")
+				(hcenter = 0px)
+				(bottom = "-HOTKEY_BUTTON_SIZE")
+			)
+		)
+	)
+)
+
+(def element PingerGunStates () layout=true
+	(scope
+		(var selectedIndex:number = 0)
+		(var notEnoughEnergy:bool = false)
+		(var bitmapIndexes:array = "[2, 1]")
+	)
+
+	(block
+		(style
+			(position = "absolute")
+		)
+		(controller $Repeat renderer='PingerGunState'
+			(bind count "bitmapIndexes.length")
+			(args
+				bitmapIndexes="bitmapIndexes"
+			)
+			(exprs
+				(scope
+					(bind selectedIndex "selectedIndex")
+					(bind notEnoughEnergy "notEnoughEnergy")
+				)
+			)
+		)
+	)
+
+	(block
+		(style
+			(position = "absolute")
+			(width = "SLOT_SIZE")
+			(height = "SLOT_SIZE")
+			(backgroundColor = "0x01000000")
+		)
+		(isMask = true)
+	)
+)
+
+(def element PingerGunState (bitmapIndexes:array) layout=true
+	(scope
+		(var selectedIndex:number = 0)
+		(var notEnoughEnergy:bool = false)
+		(var isSelected:bool = "selectedIndex == $index")
+		(var miniIndicatorIndex:number = "bitmapIndexes[bitmapIndexes.length - $index - 1]")
+		(var iconState:str = "notEnoughEnergy ? 'disabled_' : 'normal_'")
+	)
+
+	(alpha = "isSelected ? 1 : 0")
+
+	(style
+		(position = "absolute")
+		(width = "SLOT_SIZE")
+		(height = "SLOT_SIZE")
+		(bind backgroundImage "'url:../battle_hud/weapons_panel/guns/pinger/weapon_panel_acoustic_ping_range_' + iconState + bitmapIndexes[$index] + '.png'")
+	)
+
+	(controller $Animation
+		(bindcall play 	duration=0.25
+						easing="Easing.cubic_in"
+						from="{alpha: 0}"
+						to="{alpha: 1}"
+						killAll=true
+						reverse="!(isSelected)"
+						(bind trigger "isSelected")
+		)
+	)
+)
+
+(def element PingerGunStatesSwitcher () layout=true
+	(scope
+		(var selectedIndex:number = 0)
+		(var bitmapIndexes:array = "[3, 1]")
+
+		(var _width:number = 20)
+		(var _height:number = "SLOT_SIZE")
+
+		(macro MOUSE_HANDLER_SCOPE)
+	)
+	(macro MOUSE_EVENTS_DISPATCHER)
+	
+	(style
+		(bind width "_width")
+		(bind height "_height")
+		(align = "center|middle")
+		(marginRight = "3")
+	)
+
+	(controller $Repeat renderer='PingerGunStateMini'
+		(bind count "bitmapIndexes.length")
+		(args
+			bitmapIndexes="bitmapIndexes"
+		)
+		(exprs
+			(scope
+				(bind selectedIndex "selectedIndex")
+			)
+		)
+	)
+	
+	(element SlotMouseOverAnimationFrame
+		(scope
+			(bind isEnabled "rollOver")
+			(bind _width "_width + 8")
+			(bind _height "SLOT_FX_SIZE")
+		)
+		(style
+			(position = "absolute")
+		)
+	)
+)
+
+(def element PingerGunStateMini (bitmapIndexes:array) layout=true
+	(scope
+		(var selectedIndex:number = -1)
+		(var isSelected:bool = "selectedIndex == $index")
+		(var imageName:str = "isSelected ? 'normal_' : 'inactive_'")
+	)
+	(bind alpha "isSelected ? 1 : 0.5")
+	(style
+		(width = 16)
+		(height = 16)
+		(bind marginBottom "$index != bitmapIndexes.length - 1 ? 8 : 0")
+		(bind backgroundImage "'url:../battle_hud/weapons_panel/guns/torpedo/weapon_panel_torpedo_range_mini_' + imageName + bitmapIndexes[$index] + '.png'")
+	)
+)

@@ -1,0 +1,193 @@
+(def constant DC_GUN_INFO_MARGIN 1)
+
+(def element SlotDepthCharges (entityId:number) layout=true
+	(scope
+		(var weaponEntity:gfx = "$datahub.getEntity(entityId)")
+		(var commandId:number = "weaponEntity.simpleControl.commandId")
+		(var state:number = "weaponEntity.depthChargesControl.state" (event "weaponEntity.depthChargesControl.evStateChanged"))
+		(var weaponGroupIsSelected:bool = "weaponEntity.selection.value" (event "weaponEntity.selection.evChanged"))
+
+		(var isDestroyed:bool = "state == SC.Battle.DEPTH_CHARGES_STATE.DESTROYED")
+		(var itemImageUrl:str = "isDestroyed ? 'url:../consumables/ammo_depth_charges_empty.png' : 'url:../consumables/ammo_depth_charges.png'")
+
+		(var atWork:bool = "state == SC.Battle.DEPTH_CHARGES_STATE.WORKING")
+
+		(var _width:number = "SLOT_SIZE")
+		(var _height:number = "SLOT_SIZE")
+
+		(var countdown:gfx = "weaponEntity && weaponEntity.hasComponent(CC.countDown) ? weaponEntity.countDown : null" (event "weaponEntity.evAdded") (event "weaponEntity.evRemoved"))		
+		(var remainTime:number = "countdown ? countdown.remain : 0" (event "countdown.evRemainChanged"))
+		(var percentPassed:number = "countdown ? remainTime / countdown.duration : 1")
+
+		(var showReload:bool = "countdown != null && !(isDestroyed)")
+
+		(macro MOUSE_HANDLER_SCOPE)
+	)
+
+	(bind name "'button_depth_charges'")
+
+	(style
+		(width = "_width")
+		(height = "_height")
+	)
+
+	(block
+		(class $FullsizeAbsolute)
+
+		(macro MOUSE_EVENTS_DISPATCHER)
+
+		(macro MOUSE_LMB_EXTERNAL_CALL 'direct.action' "['battle.shootDepthCharges', [ ]]")
+
+		(mc 'lesta.libs.unbound2.BattleHintBridgeMC'
+			(bindcall showBattleTooltip "BattleHintType.DEPTH_CHARGES" init=false watch=false (event "evMouseOver"))
+			(bindcall hideBattleTooltip init=false (event "evMouseOut"))
+		)
+
+		(element SlotItem
+			(scope
+				(bind _itemImageUrl "itemImageUrl")
+				(bind _width "_width")
+				(bind _height "_height")
+				(bind _isSelected "weaponGroupIsSelected")
+			)
+		)
+
+		
+		(element SlotReloadBar
+			(scope
+				(bind _atWork "atWork")
+				(bind _percentPassed "percentPassed")
+				(bind _remainTime "remainTime")
+			)
+			(class $FullsizeAbsolute)
+			(bind visible "showReload")
+		)
+
+        
+        (block
+			(class $FullsizeAbsolute)
+            (controller $FxInstance lifetime=0.5
+                (bind renderer "'SlotWorkStartedFX'")
+                (args
+					accented="true"
+				)
+                (bindcall create (event "weaponEntity.weapon.evReloadEnded"))
+            )
+
+            
+ 			(controller $FxInstance lifetime=0.5
+				(bind renderer "!(atWork) && (countdown == null) ? 'SlotWorkStartedFX' : 'EmptyElement'")
+				(bindcall create (bind trigger "atWork"))
+			)
+
+			(controller $FxInstance lifetime=0.5
+				(bind renderer "!(atWork) ? 'SlotReloadStartedFX' : 'EmptyElement'")
+				(bindcall create (event "weaponEntity.weapon.evReloadStarted"))
+			)
+        )
+
+		(element HotkeyIndicator "commandId" "true"
+			(scope
+				(bind toggled "weaponGroupIsSelected")
+				(bind enabled "!isDestroyed")
+			)
+			(style
+				(position = "absolute")
+				(hcenter = 0px)
+				(bottom = "-HOTKEY_BUTTON_SIZE")
+			)
+		)
+
+		
+		(block
+			(style
+				(position = "absolute")
+				(left = "-(SLOT_FX_SIZE - SLOT_SIZE) / 2")
+				(top = "-(SLOT_FX_SIZE - SLOT_SIZE) / 2")
+			)
+			(bind visible "atWork")
+			(block
+				(style
+					(backgroundImage = 'url:../battle_hud/weapons_panel/slot/weapon_panel_slot_stroke_green.png')
+					(backgroundSize = "fill")
+					(width = "SLOT_FX_SIZE")
+					(height = "SLOT_FX_SIZE")
+				)
+			)
+			(controller $Animation
+				(play duration=1.0
+								from={alpha: 1}
+								to={alpha: 0.3}
+								repeatCount=-1
+								killAll=true
+				)
+				(bind enabled "atWork")
+			)
+		)
+
+		(element DepthChargesInfo
+			(bind visible "!isDestroyed")
+		)
+	)
+)
+(def element DepthChargesInfo () layout=true
+	(scope
+		(var depthChargePackColl:gfx = "$datahub.getCollection(CC.depthChargePack)")
+		(var width:number = "depthChargePackColl.items.length ? ceil((SLOT_SIZE - (DC_GUN_INFO_MARGIN * (depthChargePackColl.items.length-1))) / depthChargePackColl.items.length) : 0")
+	)
+	(style
+		(position = "absolute")
+        (top = -7px)
+        (left = -2px)
+		(flow = "Flow.HORIZONTAL")
+	)
+
+	(controller $Repeat renderer='DepthChargePackRenderer'
+		(count = "depthChargePackColl.items.length" (event "depthChargePackColl.evAdded") (event "depthChargePackColl.evRemoved"))
+		(args _collection = "depthChargePackColl")
+		(exprs
+			(scope
+				(bind _width "width")
+			)
+		)
+    )
+)
+
+(def element DepthChargePackRenderer (_collection:gfx) layout=true
+	(scope
+		(var _width:number = 0)
+
+		(var entity:gfx = "_collection.items[$index]")
+
+		(var countdown:gfx = "entity && entity.hasComponent(CC.countDown) ? entity.countDown : null" (event "entity.evAdded") (event "entity.evRemoved"))		
+		(var remainTime:number = "countdown ? countdown.remain : 0" (event "countdown.evRemainChanged"))
+		(var percentPassed:number = "countdown ? remainTime / countdown.duration : 0")
+
+		(var isRestoring:bool = "entity.depthChargePack.isRestoring" (event "entity.depthChargePack.evIsRestoringChanged"))
+		(var isEmpty:bool = "entity.depthChargePack.isEmpty" (event "entity.depthChargePack.evIsEmptyChanged"))
+	)
+
+	(style
+		(height = 2px) (marginLeft = 0px) (marginRight = "DC_GUN_INFO_MARGIN")
+		(bind width "_width")
+	)
+
+	(mc hud_bar_bg_sliced
+ 		(style
+ 			(height = 4px)
+ 			(bind width "_width")
+ 		)
+ 	)
+
+	(block
+		(bind visible "!(isEmpty) || isRestoring")
+		(style
+			(position = "absolute")
+			(top = 1px)
+			(left = 1px)
+			(height = 2px)
+			(bind width "(_width - 2) * (1 - percentPassed)")
+		)
+		(bind class "isRestoring ? '$ColorStatePlaneHalfHP' : '$ColorStatePlaneFullHP'")
+	)
+)

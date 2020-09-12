@@ -1,0 +1,33 @@
+(def constant DEPTH_STATE_NAME_LIFETIME 4)
+(def constant DEPTH_INDICATOR_RULLER_SEGMENT_HEIGHT 5)
+
+(def element SubmarineHud () layout=true
+    (scope
+        (var avatarEntity:gfx = "$datahub.getSingleEntity(CC.playerAvatar)")
+		(var isAlive:bool = "avatarEntity.health.isAlive" (event "avatarEntity.health.evIsAliveChanged"))
+    )
+
+	(class $FullsizeAbsolute)
+
+    
+    (block
+        (class $FullsizeAbsolute)
+        (style (align = "center|middle"))
+
+        (element DepthControlNew
+            (bind visible "isAlive")
+        )
+    )
+
+    
+    (block
+        (class $FullsizeAbsolute)
+        (style (align = "center|bottom"))
+        (element SubmarineWeaponsPanel
+            (style
+                (marginBottom = "28px")
+            )
+        )
+    )
+)
+

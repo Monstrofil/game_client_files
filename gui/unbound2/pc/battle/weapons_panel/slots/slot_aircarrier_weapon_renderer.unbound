@@ -1,0 +1,97 @@
+
+(def element SlotAirCarrierWeaponRenderer (col:gfx, totalCount:number) layout=true
+	(scope
+		
+		(var squadronEntity:gfx = "col.items[$index]" (event "col.evUpdated") (event "col.evMoved") (event "col.evAdded") (event "col.evRemoved"))
+		(var carrierEntity:gfx = "$datahub.getSingleEntity(CC.aircarrier)")
+		(var aircarrier:gfx = "carrierEntity.aircarrier")
+		(var isSelected:bool = "aircarrier.selectedSquadron == squadronEntity.ownSquadron.id" (event "aircarrier.evSelectedSquadronChanged"))
+		(var ammoType:number = "squadronEntity.plane.ammoType")
+		(var squadronID:number = "squadronEntity.ownSquadron.id")
+		(var curPlanesInHangar:number = "squadronEntity.hangar.planeCount" (event "squadronEntity.hangar.evChanged"))
+		(var maxSquadPlanes:number = "squadronEntity.health.max")
+		(var curSquadPlanes:number = "squadronEntity.health.value" (event "squadronEntity.health.evValueChanged"))
+
+		(var consumePostfix:str = "curSquadPlanes == 0 ? '_empty' : ''")
+		(var itemImageUrl:str = "'url:../aircraft/planetype_' + ammoType + consumePostfix + '.png'")
+
+		(var cmdEntity:gfx =  "$datahub.getPrimaryEntity(CC.commandMappingCommandName, 'CMD_SQUADRON_' + $index)")
+		(var commandId:number = "cmdEntity.commandMappingCommand.id" (event "cmdEntity.commandMappingCommand.evChanged"))
+
+		(var timerEntity:gfx = "$datahub.getSingleEntity(CC.timer)")
+		(var canLaunchSquadrons:bool = "aircarrier.canLaunchSquadrons" (event "aircarrier.evCanLaunchSquadronsChanged"))
+		(var canLaunchRemainTimestamp:number = "aircarrier.canLaunchTimestamp - timerEntity.timer.currentTime" (event "aircarrier.evCanLaunchTimestampChanged") (event "timerEntity.timer.evInfrequent"))
+
+		(var _width:number = "SLOT_SIZE")
+		(var _height:number = "SLOT_SIZE")
+
+		(macro MOUSE_HANDLER_SCOPE)
+	)
+
+	(style
+		(width = "_width")
+		(height = "_height")
+		(bind marginRight "($index + 1) != totalCount ? PANEL_ITEM_MARGIN : 0")
+	)
+
+	(block
+		(class $FullsizeAbsolute)
+
+		(macro MOUSE_EVENTS_DISPATCHER)
+
+		(macro MOUSE_LMB_EXTERNAL_CALL 'direct.action' "['aircarrier.selectSquadron', [squadronID]]")
+
+		(mc 'lesta.libs.unbound2.BattleHintBridgeMC'
+			(bindcall showBattleTooltip "BattleHintType.SQUADRON" "ammoType" init=false watch=false (event "evMouseOver"))
+			(bindcall hideBattleTooltip init=false (event "evMouseOut"))
+		)
+
+		(element SlotItem
+			(scope
+				(bind _itemImageUrl "itemImageUrl")
+				(bind _width "_width")
+				(bind _height "_height")
+				(bind _isSelectable true)
+				(bind _isSelected "isSelected")
+				(bind _selectedAnimation false)
+			)
+		)
+
+		
+		(element SlotReloadBar
+			(scope
+				(bind _atWork "false")
+				(bind _percentPassed "0")
+				(bind _remainTime "canLaunchRemainTimestamp")
+			)
+			(class $FullsizeAbsolute)
+			(bind visible "!(canLaunchSquadrons)")
+		)
+	)
+
+	
+	(element HotkeyIndicator "commandId" toggle=true fxOnDown=true
+		(scope
+			(bind commandId "commandId")
+			(bind enabled "curSquadPlanes != 0")
+			(bind toggled "isSelected")
+		)
+		(style
+			(bottom = "-HOTKEY_BUTTON_SIZE")
+			(position = "absolute")
+			(hcenter = "0px")
+		)
+		(bind visible "commandId != 0")
+	)
+
+	
+	(block
+		(style (position = "absolute") (top = -6px))
+		(element PlaneReloadProgressAndAttackersBar
+			(scope
+				(bind _squadronEntityId "squadronEntity.id")
+				(bind _width "_width")
+			)
+		)
+	)
+)

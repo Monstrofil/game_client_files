@@ -1,0 +1,70 @@
+
+(def element SquadronWeaponsPanel () layout=true
+	(scope
+		(var selfAvatarEntity:gfx =  "$datahub.getSingleEntity(CC.playerAvatar)")
+		(var isAlive:bool = "selfAvatarEntity.health.isAlive"  (event "selfAvatarEntity.health.evIsAliveChanged"))
+		(var _activeSquadron:number = -1)
+		(var currentSquadronEntity:gfx = "$datahub.getPrimaryEntity(CC.ownSquadron, _activeSquadron)")
+		(var squadronComponent:gfx = "currentSquadronEntity.squadron")
+		(var battleConsumableCol:gfx = "$datahub.getCollection(CC.battleConsumable)")
+		(var squadronConsumablesCol:gfx = "battleConsumableCol.getChildByPath('bySquadron.' + squadronComponent.id)")
+		(var ownSquadronCol:gfx = "$datahub.getCollection(CC.ownSquadron)")
+	)
+
+	(class $FullsizeAbsolute)
+
+	(macro WEAPON_PANEL_ANIMATION "_activeSquadron != ActiveSquadron.NONE")
+
+	(hblock
+		(style
+			(position = "absolute")
+			(bottom = "28px")
+			(hcenter = "0px")
+		)
+
+		(element SlotSquadronWeapon
+			(scope
+				(bind _activeSquadron "_activeSquadron")
+			)
+			(style
+				(marginRight = "PANEL_GROUP_MARGIN")
+			)
+		)
+
+		(hblock
+			(controller $Repeat renderer='SlotConsumableRenderer' layout=false
+				(bind count "squadronConsumablesCol.items.length" (event "squadronConsumablesCol.evAdded") (event "squadronConsumablesCol.evRemoved"))
+				(args
+					isAircarrier = "false"
+					totalCount = "squadronConsumablesCol.items.length"
+				)
+				(exprs
+					(scope
+						(bind col "squadronConsumablesCol")
+					)
+				)
+			)
+		)
+
+		(element SlotSquadronReturn
+			(scope
+				(bind _activeSquadron "_activeSquadron")
+			)
+			(style
+				(marginLeft = "PANEL_GROUP_MARGIN")
+			)
+		)
+
+		
+		(hblock
+			(style (position = "absolute") (left = 100%) (bottom = "SLOT_SIZE/2") (paddingLeft = 10px))
+			(bind visible "isAlive")
+			(controller $Repeat renderer='HangarItemRenderer' layout=false
+				(bind count "ownSquadronCol.items.length" (event "ownSquadronCol.evAdded") (event "ownSquadronCol.evRemoved"))
+				(args
+					col = "ownSquadronCol"
+				)
+			)
+		)
+	)
+)

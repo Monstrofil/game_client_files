@@ -7,12 +7,8 @@
 (def constant AIRPLANE_FLIGHT_STATE_IN_LAND_QUEUE 6)
 (def constant AIRPLANE_FLIGHT_STATE_LANDING 7)
 
-(def constant SQUADRON_CAMERA_DEFAULT 'default')
-(def constant SQUADRON_CAMERA_LAST_ATTACK_START 'lastSquadronAttackStart')
-(def constant SQUADRON_CAMERA_LAST_ATTACKED 'lastSquadronAttacked')
-(def constant SQUADRON_CAMERA_DEAD 'squadronDead')
 
-(def element AircraftHud() layout=true
+(def element AircraftHud () layout=true
 	(scope
 		(var cameraEntity:gfx = "$datahub.getSingleEntity(CC.camera)")
 		(var tacticalMap:bool = "cameraEntity.camera.isTactical" (event "cameraEntity.camera.evTacticalStateChanged"))
@@ -25,6 +21,7 @@
 
 		(var selectedSquadronId:number = "aircarrier.selectedSquadron" (event "aircarrier.evSelectedSquadronChanged"))
 
+
 		(var currentSquadronEntity:gfx = "$datahub.getPrimaryEntity(CC.ownSquadron, activeSquadron)")
 		(var ownSquadron:gfx = "currentSquadronEntity.ownSquadron")
 		(var flightState:number = "ownSquadron.state" (event "ownSquadron.evStateChanged"))
@@ -33,9 +30,9 @@
 		(var timeToLive:number = "avatar.playerAvatar.timeToLive" (event "avatar.playerAvatar.evWillDieSoon"))
 		(var isAlive:bool = "avatar.health.isAlive" (event "avatar.health.evIsAliveChanged"))
 
-		(var isOnSquadron:bool = "activeSquadron != -1 && squadronCameraMode == SQUADRON_CAMERA_DEFAULT")
-		(var isOnNoAvatarCamera:bool = "squadronCameraMode != SQUADRON_CAMERA_DEFAULT")
-		(var lastAttackStartedState:bool = "squadronCameraMode == SQUADRON_CAMERA_LAST_ATTACK_START")
+		(var isOnSquadron:bool = "activeSquadron != -1 && squadronCameraMode == SquadronCameraModes.DEFAULT")
+		(var isOnNoAvatarCamera:bool = "squadronCameraMode != SquadronCameraModes.DEFAULT")
+		(var lastAttackStartedState:bool = "squadronCameraMode == SquadronCameraModes.LAST_SQUADRON_ATTACK_START")
 
 		(var isTimerToDieVisible:bool = "isOnSquadron && timeToLive != 0")
 		(var isDeathCamera:bool = "!(isOnSquadron || isAlive)")
@@ -47,9 +44,6 @@
 
 		(var isShowReturnAnimation:bool = "isOnNoAvatarCamera && isAlive && !lastAttackStartedState")
 	)
-
-	
-	
 
 	(class $FullsizeAbsolute)
 
@@ -63,8 +57,8 @@
 			(top = "isFlying ? 0 : 5")
 		)
 		(class $FullsizeAbsolute)
-		(alpha = "isFlying && showCarrierPanel? 1 : 0")
-		(visible = "isFlying && showCarrierPanel? 1 : 0")
+		(alpha = "isFlying && showCarrierPanel ? 1 : 0")
+		(visible = "isFlying && showCarrierPanel ? 1 : 0")
 
 		(controller $Animation
 			(bindcall play duration=0.1 delay=0.18 from={alpha:0, visible:0, top:5} to={alpha:1, visible:1, top:0} killAll=true (bind enabled "isFlying && showCarrierPanel"))
@@ -82,7 +76,6 @@
 	(block
 		(style
 			(position = "absolute")
-			
 			(left = 50%)
 			(marginTop = 50%)
 			(bottom = "isTimerToDieVisible ? 180 : 175")
@@ -135,18 +128,10 @@
         )
 	)
 
-	(block
-		(style
-			(position = "absolute")
-			(bottom = 0px) (left = 50%)
+	(element SquadronWeaponsPanel
+		(scope
+			(bind _activeSquadron "activeSquadron")
 		)
-		
-		(bind visible "showCarrierPanel")
-		
-		
-		
-		
-		(element AircraftCarrierWeaponsPanel)
 	)
 
 	

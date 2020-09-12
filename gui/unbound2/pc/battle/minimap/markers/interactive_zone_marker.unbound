@@ -113,8 +113,9 @@
     (scope
         (var entity:gfx = "$datahub.getEntity(_entityId)")
 
-        (var resourceType:str = "entity.resourceHolder.resourceType")
-        (var loading:bool = "entity.resourceHolder.loading")
+        (var resourceHolder:gfx = "entity.resourceHolder" (event "entity.evAdded"))
+        (var resourceName:str = "resourceHolder.resourceName")
+        (var loading:bool = "resourceHolder.loading")
     )
 
     (style
@@ -124,7 +125,7 @@
     (block
         (style
             (position = "absolute") (top = "-13px") (left = "-13px")
-            (bind backgroundImage "'bitmap:scenario_minimap_marker_' + toLower(resourceType) + (loading ? '_gathering' : '_unloading')")
+            (bind backgroundImage "'bitmap:scenario_minimap_marker_' + toLower(resourceName) + (loading ? '_gathering' : '_unloading')")
         )
     )
 )
@@ -145,7 +146,7 @@
     (block
         (style
             (position = "absolute") (top = "-15px") (left = "-15px")
-            (bind backgroundImage "'bitmap:icon_powerup_' + markerName + '_small'")
+            (bind backgroundImage "'url:../powerups/icon_marker_' + markerName+ '_small.png'")
         )
     )
 )

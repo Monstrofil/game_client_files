@@ -1,0 +1,86 @@
+
+(def element SlotSubmarineTorpedo (entityId:number) layout=true
+	(scope
+		(var weaponEntity:gfx = "$datahub.getEntity(entityId)")
+		(var commandId:number = "weaponEntity.simpleControl.commandId")
+
+		(var value:str = "weaponEntity.weaponControl.ammoTypes[0]")
+
+		(var weaponGroupIsSelected:bool = "weaponEntity.selection.value" (event "weaponEntity.selection.evChanged"))
+
+		(var countAliveGuns:bool = "weaponEntity.gunsCount.countAliveGuns" (event "weaponEntity.gunsCount.evChanged"))
+		(var countActiveGuns:bool = "weaponEntity.gunsCount.countActiveGuns" (event "weaponEntity.gunsCount.evChanged"))
+
+		(var itemImagePostfix:str = "countAliveGuns == 0	? '_inactive' :
+									 countActiveGuns == 0	? '_disabled'
+									 						: ''")
+		(var itemImageUrl:str = "'url:../consumables/ammo_' + toLower(value) + itemImagePostfix + '.png'")
+
+		(var _width:number = "SLOT_SIZE")
+		(var _height:number = "SLOT_SIZE")
+
+		(var countdown:gfx = "weaponEntity && weaponEntity.hasComponent(CC.countDown) ? weaponEntity.countDown : null" (event "weaponEntity.evAdded") (event "weaponEntity.evRemoved"))		
+		(var remainTime:number = "countdown ? countdown.remain : 0" (event "countdown.evRemainChanged"))
+		(var percentPassed:number = "countdown ? remainTime / countdown.duration : 1")
+
+		(var showReload:bool = "countdown != null")
+
+		(macro MOUSE_HANDLER_SCOPE)
+	)
+
+	(bind name "'button_submarine_torpedo'")
+
+	(style
+		(width = "_width")
+		(height = "_height")
+	)
+
+	(block
+		(class $FullsizeAbsolute)
+
+		(macro MOUSE_EVENTS_DISPATCHER)
+
+		(macro MOUSE_LMB_EXTERNAL_CALL 'direct.action' "['weaponsPanel.buttonPressed', [WeaponType.TORPEDO, 0]]")
+
+		(mc 'lesta.libs.unbound2.BattleHintBridgeMC'
+			(bindcall showBattleTooltip "BattleHintType.SUBMARINE_TORPEDO" init=false watch=false (event "evMouseOver"))
+			(bindcall hideBattleTooltip init=false (event "evMouseOut"))
+		)
+
+		(element SlotItem
+			(scope
+				(bind _itemImageUrl "itemImageUrl")
+				(bind _width "_width")
+				(bind _height "_height")
+				(bind _isSelected "weaponGroupIsSelected")
+			)
+		)
+
+		
+		(element SlotReloadBar
+			(scope
+				(bind _atWork "false")
+				(bind _percentPassed "percentPassed")
+				(bind _remainTime "remainTime")
+			)
+			(class $FullsizeAbsolute)
+			(bind visible "showReload")
+		)
+
+		(controller $FxInstance lifetime=0.5
+			(bind renderer "'SlotWorkStartedFX'")
+			(bindcall create (event "weaponEntity.weapon.evReloadEnded"))
+		)
+
+		(element HotkeyIndicator "commandId" "true"
+			(scope
+				(bind toggled "weaponGroupIsSelected")
+			)
+			(style
+				(position = "absolute")
+				(hcenter = 0px)
+				(bottom = "-HOTKEY_BUTTON_SIZE")
+			)
+		)
+	)
+)

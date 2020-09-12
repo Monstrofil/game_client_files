@@ -114,6 +114,7 @@ Each entry corresponds to a profiler marker in C++ code
 	<entry id="CPU_Collision_Physics_Prepare" unit="1" count="0" />
 	<entry id="CPU_Collision_Physics_Simulate" unit="1" count="0" />
 	<entry id="CPU_Collision_Physics_Apply" unit="1" count="0" />
+	<entry id="CPU_Update_FXSystem_MaxBatchSize" unit="0" count="0" />
 	<entry id="CPU_Update_FXSystem_TasksCount" unit="0" count="0" />
 	<entry id="CPU_Update_FXSystem_TasksCountInvisible" unit="0" count="0" />	
 	<entry id="CPU_Update_FXSystem_Worker" unit="1" count="0" />
@@ -121,12 +122,15 @@ Each entry corresponds to a profiler marker in C++ code
 	<entry id="CPU_Update_FXSystem_BeginUpdate" unit="1" count="0" />
 	<entry id="CPU_Update_FXSystem_FlushQueue" unit="1" count="0" />
 	<entry id="CPU_Update_FXSystem_FinishUpdate" unit="1" count="0" />
+	<entry id="CPU_Update_FXSystem_SyncEffects" unit="1" count="0" />
 	<entry id="CPU_Update_FXSystem_Sort" unit="1" count="0" />
 	<entry id="CPU_Update_FXSystem_Visibility" unit="1" count="0" />
 	<entry id="CPU_Update_FXSystem_WaitForInvisible" unit="1" count="0" />	
 	<entry id="CPU_Update_Effect_Manager" unit="1" count="0" />
 	<entry id="CPU_Update_Weather" unit="1" count="0" />
+	<entry id="CPU_Update_UI_CircularSectors" unit="1" count="0" />
 	<entry id="CPU_Draw" unit="1" count="0" />
+	<entry id="CPU_Draw_RenderFrame" unit="1" count="0" />
 	<entry id="CPU_Draw_BlendCubeMap" unit="1" count="0" />
 	<entry id="CPU_Draw_GenerateRipplesMap" unit="1" count="0" />
 	<entry id="CPU_Draw_LineHelper" unit="1" count="0" />
@@ -135,6 +139,7 @@ Each entry corresponds to a profiler marker in C++ code
 	<entry id="CPU_Draw_PyModel_Pass_Shadows" unit="1" count="1" />
 	<entry id="CPU_Draw_PyModel_Damage_Update" unit="1" count="0" />
 	<entry id="CPU_Draw_PyModel_Damage_Update_UpdateTexture" unit="1" count="0" />
+	<entry id="CPU_Draw_PyModel_Debug" unit="1" count="1" />
 	<entry id="CPU_Draw_Decals" unit="1" count="0" />
 	<entry id="CPU_Draw_FX" unit="1" count="0" />
 	<entry id="CPU_Draw_FX_TasksCount" unit="0" count="0" />
@@ -149,6 +154,7 @@ Each entry corresponds to a profiler marker in C++ code
 	<entry id="CPU_Draw_FX_BuildGeometryData" unit="1" count="0" />
 	<entry id="CPU_Draw_FX_BuildBatches" unit="1" count="0" />
 	<entry id="CPU_Draw_FX_UpdateRenderBuffer" unit="1" count="0" />
+	<entry id="CPU_Draw_FX_GrowIndexBuffer" unit="1" count="0" />
 	<entry id="CPU_Draw_Lighting_BeginUpdate" unit="1" count="0" />
 	<entry id="CPU_Draw_Lighting_FinishUpdate" unit="1" count="0" />
 	<entry id="CPU_Draw_Lighting_FinishUpdate_UpdateRenderResources" unit="1" count="0" />
@@ -169,15 +175,36 @@ Each entry corresponds to a profiler marker in C++ code
 	<entry id="CPU_Draw_Sea" unit="1" count="0" />
 	<entry id="CPU_Draw_Sea_Underwater" unit="1" count="0" />
 	<entry id="CPU_Draw_Sky" unit="1" count="0" />
-	<entry id="CPU_Draw_Pass_HDR_Resolve" unit="1" count="0" />
+	<entry id="CPU_Draw_Pass_HDR_Resolve" unit="1" count="0" />	
+	<entry id="CPU_Draw_Pass_PostProcessing" unit="1" count="0" />
+	<entry id="CPU_Draw_Pass_PostProcessing_Collect" unit="1" count="0" />
+	<entry id="CPU_Draw_Pass_PostProcessing_Draw" unit="1" count="0" />
 	<entry id="CPU_Draw_Pass_Shadows" unit="1" count="0" />
+	<entry id="CPU_Draw_Pass_Shadows_Collect" unit="1" count="0" />
+	<entry id="CPU_Draw_Pass_Shadows_Draw" unit="1" count="0" />
 	<entry id="CPU_Draw_Pass_ZPrePass" unit="1" count="0" />
+	<entry id="CPU_Draw_Pass_ZPrePass_Collect" unit="1" count="0" />
+	<entry id="CPU_Draw_Pass_ZPrePass_Draw" unit="1" count="0" />
 	<entry id="CPU_Draw_Pass_Opaque" unit="1" count="0" />
+	<entry id="CPU_Draw_Pass_Opaque_Collect" unit="1" count="0" />
+	<entry id="CPU_Draw_Pass_Opaque_Draw" unit="1" count="0" />
 	<entry id="CPU_Draw_Pass_Reflection" unit="1" count="0" />
+	<entry id="CPU_Draw_Pass_Reflection_Collect" unit="1" count="0" />
+	<entry id="CPU_Draw_Pass_Reflection_Draw" unit="1" count="0" />
 	<entry id="CPU_Draw_Pass_Transparent" unit="1" count="0" />
+	<entry id="CPU_Draw_Pass_Transparent_Collect" unit="1" count="0" />
+	<entry id="CPU_Draw_Pass_Transparent_Draw" unit="1" count="0" />
+	<entry id="CPU_Draw_Pass_SemiTransparentShadows" unit="1" count="0" />
+	<entry id="CPU_Draw_Pass_SemiTransparentShadows_Collect" unit="1" count="0" />
+	<entry id="CPU_Draw_Pass_SemiTransparentShadows_Draw" unit="1" count="0" />
+	<entry id="CPU_Draw_Pass_Debug" unit="1" count="0" />
+	<entry id="CPU_Draw_Pass_GUI" unit="1" count="0" />
+	<entry id="CPU_Draw_Submit_Passes" unit="1" count="0" />
 	<entry id="CPU_Draw_ShimmerChannel" unit="1" count="0" />
 	<entry id="CPU_Draw_SurfaceChannel" unit="1" count="0" />
 	<entry id="CPU_Draw_SortedChannel" unit="1" count="0" />
+	<entry id="CPU_Draw_EarlyTransparentChannel" unit="1" count="0" />
+	<entry id="CPU_Draw_WaterOccluderChannel" unit="1" count="0" />
 	<entry id="CPU_Draw_VisualDrawItem_Sorted" unit="1" count="0" />
 	<entry id="CPU_Draw_VisualDrawItem_Unsorted" unit="1" count="0" />	
 	<entry id="CPU_Draw_Queue_Landscape" unit="1" count="0" />
@@ -193,11 +220,22 @@ Each entry corresponds to a profiler marker in C++ code
 	<entry id="CPU_Draw_UI_TA_CastShadows_Objects" unit="1" count="0" />
 	<entry id="CPU_Draw_UI_TA_Total" unit="1" count="0" />
 	<entry id="CPU_Draw_UI_Render" unit="1" count="0" />
+	<entry id="GPUDeviceSubmission_blockUntilNoJobs" unit="1" count="0" />
+	<entry id="GPUDeviceSubmission_blockUntilSignalled" unit="1" count="0" />
+	<entry id="GPUDeviceSubmission_AwaitingGPUSubmitWork" unit="1" count="0" />
+	<entry id="GPUDeviceSubmission_doSubmitList" unit="1" count="0" />
+	<entry id="GPUDeviceSubmission_doInvokeCallbackJob" unit="1" count="0" />
+	<entry id="GPUDeviceSubmission_nextFrame" unit="1" count="0" />
+	<entry id="GPUDeviceSubmission_doNextFrameJob" unit="1" count="0" />
+	<entry id="GPUDeviceSubmission_commandListsInCacheCount" unit="0" count="0" />	
+	<entry id="GPUDeviceSubmission_commandListsCacheSize_KB" unit="0" count="0" />
+	<entry id="GPUDeviceSubmission_deleteStaleCommandListsCount" unit="0" count="0" />
+	<entry id="CPU_Throttle_GPU_Submit" unit="1" count="0" />
 	<entry id="Scene_Decals_Visible" unit="0" count="0" />
 	<entry id="Scene_Decals_Drawn" unit="0" count="0" />
 	<entry id="Scene_Visible_Landscape" unit="0" count="0" />
 	<entry id="Scene_Visible_Models" unit="0" count="0" />
-	<entry id="Scene_Visible_PrimitiveGroup" unit="0" count="0" />	
+	<entry id="Scene_Visible_Primitives" unit="0" count="0" />	
 	<entry id="Global_Memory_Process_Size_Win" unit="2" count="0" />
 	<entry id="Global_Memory_Process_Size_BW" unit="2" count="0" />
 	<entry id="Global_Virtual_Memory_Win" unit="2" count="0" />
@@ -221,9 +259,11 @@ Each entry corresponds to a profiler marker in C++ code
 	<entry id="GPU_Terrain" unit="1" count="0" />
 	<entry id="GPU_Sea_Draw" unit="1" count="0" />
 	<entry id="GPU_Sea_Draw_Underwater" unit="1" count="0" />
+	<entry id="GPU_Sea_Draw_Underwater_Highlight" unit="1" count="0" />
 	<entry id="GPU_Reflection_Screen_Space" unit="1" count="0" />
 	<entry id="GPU_Reflection_Resolve_MSAA" unit="1" count="0" />
 	<entry id="GPU_Reflection_Build_Mips" unit="1" count="0" />
+	<entry id="GPU_Reflection_AntiLeaking" unit="1" count="0" />
 	<entry id="GPU_Deform_Particles" unit="1" count="0" />
 	<entry id="GPU_Surface_Particles" unit="1" count="0" />
 	<entry id="GPU_Shimmer_Particles" unit="1" count="0" />
@@ -231,16 +271,27 @@ Each entry corresponds to a profiler marker in C++ code
 	<entry id="GPU_Particles" unit="1" count="0" />
 	<entry id="GPU_Particles_Shadows" unit="1" count="0" />
 	<entry id="GPU_Particles_Reflection" unit="1" count="0" />
+	<entry id="GPU_SortedChannel" unit="1" count="0" />
+	<entry id="GPU_EarlyTransparentChannel" unit="1" count="0" />
+	<entry id="GPU_WaterOccluderChannel" unit="1" count="0" />
 	<entry id="GPU_Draw_Decals" unit="1" count="0" />
 	<entry id="GPU_Trees" unit="1" count="0" />
 	<entry id="GPU_Sky" unit="1" count="0" />
 	<entry id="GPU_Console" unit="1" count="0" />
 	<entry id="GPU_Shadows_Cast_Dynamic" unit="1" count="0" />
+	<entry id="GPU_Pass_Shadows" unit="1" count="0" />
 	<entry id="GPU_Pass_BlendCubeMap" unit="1" count="0" />
 	<entry id="GPU_Pass_GenerateRipplesMap" unit="1" count="0" />
 	<entry id="GPU_Pass_Lighting" unit="1" count="0" />
 	<entry id="GPU_Pass_ZPrePass" unit="1" count="0" />
 	<entry id="GPU_Pass_Main" unit="1" count="0" />
+	
+	<entry id="CPU_Draw_Pass_Opaque_Collect_ManyObjects" unit="1" count="0" />
+	<entry id="GPU_Pass_Main_ManyObjects" unit="1" count="0" />
+	<entry id="CPU_Draw_Pass_Shadows_Collect_ManyObjects" unit="1" count="0" />
+	<entry id="GPU_Shadows_Draw_ManyObjects" unit="1" count="0" />
+	<entry id="ManyObjects_Instances" unit="0" count="0" />
+	
 	<!-- [WWSD-41244]
 	<entry id="GPU_Pass_Main_Map_Models" unit="1" count="0" />
 	<entry id="GPU_Pass_Main_Ship_Models" unit="1" count="0" />
@@ -249,16 +300,31 @@ Each entry corresponds to a profiler marker in C++ code
 	<entry id="GPU_Pass_Transparent" unit="1" count="0" />
 	<entry id="GPU_Pass_HDR_Resolve" unit="1" count="0" />
 	<entry id="GPU_Pass_PostProcessing" unit="1" count="0" />
+	<entry id="GPU_Pass_GUI" unit="1" count="0" />
+	
 	<entry id="GPU_Pass_MSAA_Resolve" unit="1" count="0" />
+	<entry id="GPU_Pass_MSAA_Resolve_ZPrePass" unit="1" count="0" />
+	<entry id="GPU_Pass_MSAA_Resolve_Opaque" unit="1" count="0" />
+	<entry id="GPU_Pass_MSAA_Resolve_Transparent" unit="1" count="0" />
+	<entry id="GPU_Pass_MSAA_Resolve_PostProcessing" unit="1" count="0" />
 	
 	<entry id="GPU_Pass_PostProcessing_Colorblind" unit="1" count="0" />
 	<entry id="GPU_Pass_PostProcessing_Resolve" unit="1" count="0" />
 	<entry id="GPU_Pass_PostProcessing_FXAA" unit="1" count="0" />
 	<entry id="GPU_Pass_PostProcessing_LensFlare" unit="1" count="0" />
-	<entry id="GPU_Pass_PostProcessing_LightShafts" unit="1" count="0" />		
+	<entry id="GPU_Pass_PostProcessing_LightShafts" unit="1" count="0" />
+	<entry id="GPU_Pass_PostProcessing_TXAA" unit="1" count="0" />
+	<entry id="GPU_Pass_PostProcessing_Sharpen" unit="1" count="0" />
+
+	<entry id="CPU_SpatialUI_Update" unit="1" count="1" />
+	<entry id="CPU_SpatialUI_DrawCalls" unit="0" count="1" />	
+	<entry id="CPU_Draw_SpatialUI" unit="1" count="1" />
+	<entry id="GPU_Draw_SpatialUI" unit="1" count="1" />
 	
-	<entry id="GPU_GUI" unit="1" count="0" />
+	<entry id="GPU_GUI_Begin" unit="1" count="0" />
+	<entry id="GPU_GUI_Finish" unit="1" count="0" />
 	<entry id="GPU_Total" unit="1" count="0" />
+	<entry id="GPU_Total_RenderPasses" unit="1" count="0" />
 	<entry id="GPU_UI_AimDrawer" unit="1" count="0" />
 	<entry id="GPU_UI_PA_Total" unit="1" count="0" />
 	<entry id="GPU_UI_TA_Total" unit="1" count="0" />
@@ -269,6 +335,7 @@ Each entry corresponds to a profiler marker in C++ code
 	<entry id="GPU_UI_Decals" unit="1" count="0" />
 	<entry id="GPU_UI_Render" unit="1" count="0" />
 	<entry id="GPU_Draw_Flags" unit="1" count="0" />
+	<entry id="GPU_Draw_Flags_Buffering" unit="1" count="0" />
 	<entry id="GPU_Draw_LineHelper" unit="1" count="0" />
 	<entry id="GPU_Pass_Copy_BackBuffer" unit="1" count="0" />
 
@@ -282,6 +349,7 @@ Each entry corresponds to a profiler marker in C++ code
 	<entry id="GPU_HDR_Bloom_Accumulate" unit="1" count="0" />
 	
 	<entry id="SoundSystem_Initialization" unit="1" count="0" />
+	<entry id="SoundManager_update" unit="1" count="0" />
 	<entry id="SoundSystem_Initialization_Python" unit="1" count="0" />
 	<entry id="SoundSystem_Bank_Loading" unit="1" count="0" />
 	<entry id="SoundSystem_Starvation" unit="0" count="0" />
@@ -364,6 +432,7 @@ Each entry corresponds to a profiler marker in C++ code
 	
 	<entry id="GPU_Particles_ScreenCoverage" unit="0" count="0" />
 	<entry id="GPU_Pixels_Drawn_Particles" unit="0" count="0" />
+	<entry id="GPU_Pixels_Drawn_Pass_Shadows" unit="0" count="0" />
 	<entry id="GPU_Pixels_Drawn_Pass_ZPrePass" unit="0" count="0" />
 	<entry id="GPU_Pixels_Drawn_Pass_Main" unit="0" count="0" />
 	<entry id="GPU_Pixels_Drawn_Pass_Main_Models" unit="0" count="0" />
@@ -507,6 +576,16 @@ Each entry corresponds to a profiler marker in C++ code
 	<entry id="CPU_Draw_WorldApp_EnableDraw" unit="1" count="0" />
 	<entry id="CPU_Draw_WorldApp_Flags" unit="1" count="0" />
 	<entry id="CPU_Draw_WorldApp_Main" unit="1" count="0" />
+	
+	<entry id="CommandList_Shadows_CapacityDiff_KB" unit="3" count="0" />
+	<entry id="CommandList_ZPrepass_CapacityDiff_KB" unit="3" count="0" />
+	<entry id="CommandList_Opaque_CapacityDiff_KB" unit="3" count="0" />
+	<entry id="CommandList_Reflection_CapacityDiff_KB" unit="3" count="0" />
+	<entry id="CommandList_Sea_CapacityDiff_KB" unit="3" count="0" />
+	<entry id="CommandList_SemiTransparent_CapacityDiff_KB" unit="3" count="0" />
+	<entry id="CommandList_SemiTransparentShadows_CapacityDiff_KB" unit="3" count="0" />
+	<entry id="CommandList_PostProcessing_CapacityDiff_KB" unit="3" count="0" />
+	<entry id="CommandList_GUI_CapacityDiff_KB" unit="3" count="0" />	
 
 	<entry id="IO_Open_Count" unit="0" count="0" />
 	<entry id="IO_Read_Count" unit="0" count="0" />
@@ -515,24 +594,29 @@ Each entry corresponds to a profiler marker in C++ code
 	<entry id="IO_Read_Size_MB" unit="2" count="0" />
 </entries>
 <memgroups>
-	<entry id='WWISE' path="client\source\lib\wwisesound" />
-	<entry id='ResMgr' path="client\source\lib\resmgr" />
-	<entry id='Scalefrom' path="client\source\lib\scaleform" />
-	<entry id='Vivox' path="client\source\lib\vivox_client" />
-	<entry id='Particle' path="client\source\lib\particle" />
-	<entry id='Client' path="client\source\client" />
-	<entry id='Script' path="client\source\lib\pyscript" />
-	<entry id='Duplo' path="client\source\lib\duplo" />
-	<entry id='WGScene' path="client\source\lib\wargaming\scene" />
-	<entry id='Moo' path="client\source\lib\moo" />
-	<entry id='RenderDX9' path="client\source\lib\render_device_d3d9" />
-	<entry id='Terrain' path="client\source\lib\terrain" />
-	<entry id='Romp' path="client\source\lib\romp" />
-	<entry id='Chunk' path="client\source\lib\chunk" />
-	<entry id='CSTDMF' path="client\source\lib\cstdmf" />
-	<entry id='LestaUI' path="wows\source\lib\lesta\ui" />
-	<entry id='Physics' path="client\source\lib\physics2" />
-	<entry id='Physics' path="wows\source\lib\lesta\physics" />
-	<entry id='GameLogic' path="wows\source\lib\lesta\gamelogic" />
+	<entry id='WWISE'		path="client\source\lib\wwisesound" />
+	<entry id='ResMgr'		path="client\source\lib\resmgr" />
+	<entry id='Scalefrom'	path="client\source\lib\scaleform" />
+	<entry id='Vivox'		path="client\source\lib\vivox_client" />
+	<entry id='Particle'	path="client\source\lib\particle" />
+	<entry id='Client'		path="client\source\lib\bwclient" />
+	<entry id='Script'		path="client\source\lib\pyscript" />
+	<entry id='Script'		path="client\source\lib\script" />
+	<entry id='Duplo'		path="client\source\lib\duplo" />
+	<entry id='Moo'			path="client\source\lib\moo" />
+	<entry id='Render'		path="client\source\lib\ari" />
+	<entry id='Render'		path="client\source\lib\ari_device_d3d_common" />
+	<entry id='Render'		path="client\source\lib\ari_device_d3d11" />
+	<entry id='Render'		path="client\source\lib\wgfx" />
+	<entry id='Terrain'		path="client\source\lib\terrain" />
+	<entry id='Romp'		path="client\source\lib\romp" />
+	<entry id='Chunk'		path="client\source\lib\chunk" />
+	<entry id='CSTDMF'		path="client\source\lib\cstdmf" />
+	<entry id='LestaUI'		path="wows\source\lib\lesta\ui" />
+	<entry id='Physics'		path="client\source\lib\physics2" />
+	<entry id='Physics'		path="wows\source\lib\lesta\physics" />
+	<entry id='GameLogic'	path="wows\source\lib\lesta\gamelogic" />
+	<entry id='Lesta'		path="wows\source\lib\lesta" />
+	<entry id='Web'			path="wows\source\lib\web_render" />
 </memgroups>
 </profiler_config.xml>

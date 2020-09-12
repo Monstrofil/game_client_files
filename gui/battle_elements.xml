@@ -8,52 +8,43 @@
 		\tools\wows_ui_tools\auto_draw_perf_test\generate_elements_list.py
 -->
 	<elementList forceHideAll="false">
-		<element name="ubBinoculars" class="lesta.libs.unbound.UnboundElement" url="crosshairs.swf">
-			<properties config='../unbound/binoculars.xml' rootElementId='BinocularsBackground'/>
-		</element>
+		<element name="ubBinoculars" class="lesta.unbound2.UbElement" elementName="BinocularsBackground" url="crosshairs.swf"/>
 		<element name="fireScreenEffect" class="FullscreenFireEffectClip" url="fullscreen_effects.swf"/>
 		<element name="suffocationScreenEffect" class="FullscreenSuffocationEffectClip" url="fullscreen_effects.swf"/>
-		<element name="placeHolderGuidesManager" class="flash.display.MovieClip" url="guide.swf"/>
-		<element name="markersContainer" class="flash.display.Sprite" url="gui_slots.swf">
+		<element name="markersContainer" class="flash.display.Sprite" url="gui_slots.swf,scenario_markers.swf">
 			<properties x='0' y='0'/>
 			<properties hitTest = "true"/>
 		</element>
-		<element name="weaponsPanel" class="WeaponsPanelClip" url="weapons_panel.swf" autoPerfTestGroup="weapons">
-			<properties hitTest = "true"/>
-		</element>
-		
+
 		<element name="unboundShipStateBars" class="lesta.unbound2.UbElement" elementName="OwnShipHealth" url="ship_state.swf" autoPerfTestGroup="shipInfo">
 			<properties hitTest = "true"/>
 		</element>
-		
-		<element name="indicatorSpeed" class="CriuseSpeedIndicator" url="cruise_control.swf"/>
-		<element name="indicatorAngle" class="CriuseAngleIndicator" url="cruise_control.swf"/>
-		<element name="indicatorDepth" class="CriuseDepthIndicator" url="cruise_control.swf"/>
-		<element name="logPlayerState" class="EventLog" url="central_feedback.swf" autoPerfTestGroup="logs">
-			<properties itemRendererName="[MessageListItemRendererForCenterIndicatorsLogsLarge]" antiSpam="true" blinkTimer="0" enabled="true" listItemRendererDethTime="3" listItemRendererLifeTime="5000" messageBufferLength="2" messageBufferOverflowDeathTime="1" scrollBarStep="1" scrollPosition="left" textDisplayFlow="bottom-up" tweenTime="0.3" tweenListItemRenderer="true" hasSubstitution="true" lineSpacing="-8"/>
+
+		<element name="ubIndicatorSpeed" class="lesta.unbound2.UbElement" elementName="SpeedControl"/>
+		<element name="ubIndicatorAngle" class="lesta.unbound2.UbElement" elementName="AngleControl"/>
+
+
+		<element name="logPlayerStateUB2" class="lesta.unbound2.UbElement" elementName="LowerLog" autoPerfTestGroup="logs">
+			<properties hitTest = "false"/>
 		</element>
 
 		<element name="battleProgress" class="BattleProgressClip" url="battle_stats.swf"/>
+		<element name="unboundBattleStats" class="lesta.unbound2.UbElement" elementName="BattleStatsContainer" url="battle_stats.swf">
+			<properties hitTest = "false"/>
+		</element>
+		
 		<element name="logEvent" class="EventLog" url="central_feedback.swf" autoPerfTestGroup="logs">
 			<properties itemRendererName="[MessageListItemRendererForVictoryPointLogs,MessageListItemRendererForVictoryPointKillsLog,MessageListItemRendererForTeamkillEvent,MessageListItemRendererForThirdParty,MessageListItemRendererWithStatus]" antiSpam="true" blinkTimer="0" enabled="true" listItemRendererDethTime="3" listItemRendererLifeTime="12000" messageBufferLength="1" messageBufferOverflowDeathTime="1" scrollBarStep="1" scrollPosition="left" textDisplayFlow="bottom-up" tweenTime="0.3" tweenListItemRenderer="true" hasSubstitution="true" lineSpacing="0" width="600"/>
 		</element>
 		<element name="unboundDeathList" class="lesta.unbound2.UbElement" elementName="DeathLogContainer" url="central_feedback.swf" autoPerfTestGroup="logs">
 			<properties hitTest = "false"/>
 		</element>
-		<element name="indicatorGunsLocked" class="SignalGunsLocked" url="central_feedback.swf" autoPerfTest="false" autoPerfTestGroup="indicators"/>
 		<element name="indicatorCollisionText" class="WarningCollisionText" url="central_feedback.swf" autoPerfTestGroup="indicators"/>
-		<element name="smokeIndicator" class="SmokeIndicator" url="central_feedback.swf" autoPerfTestGroup="indicators"/>
-		<element name="atbaOffIndicator" class="atbaOffIndicator" url="central_feedback.swf" autoPerfTestGroup="indicators"/>
-		
-		<element name="alarmClipCompass" class="AlarmClip" url="dangers.swf" enabled="false"> <!-- NEED ONLY FOR SWF RESOURCES -->
-			<properties dangerClipClassName='AlarmSignalClip'/>
-		</element>
+		<element name="smokeIndicator" class="SmokeIndicator" url="dangers.swf" autoPerfTestGroup="indicators"/> <!-- load incorrect swf only for resources form dangers.swf-->
 
 		<element name="compass" class="lesta.unbound2.UbElement" elementName="CompassContainer" url="ship_doll.swf" autoPerfTestGroup="shipDoll" enabled="true">
 			<properties hitTest = "false"/>
 		</element>
-
-		<element name="headerPlayersNum" class="HeaderPlayerNum" url="battle_stats.swf" autoPerfTestGroup="header"/>
 
 		<element name="fpsPanel" class="lesta.unbound2.UbElement" elementName="FpsPanel" url="battle_stats.swf">
 			<properties hitTest = "false"/>
@@ -62,24 +53,24 @@
 		<element name="helpHint" class="HelpHint" url="battle_stats.swf" autoPerfTestGroup="header"/>
 		<element name="battleTimer" class="BattleTimer" url="battle_stats.swf" autoPerfTestGroup="header"/>
 		<element name="prebattleText" class="PrebattleText" url="battle_stats.swf" autoPerfTestGroup="header"/>
-		<element name="quickCommandHelpPanel_v" class="QuickCommandHelpPanelHUD_v" url="quick_commands.swf"/>
 		<element name="gameVersion" class="GameVersion" url="battle_stats.swf" autoPerfTestGroup="header"/>
 		<element name="observedPlayerLabel" class="ObservedPlayer" url="battle_stats.swf"/>
-		<element name="captureBase" class="CaptureBarIndicator" url="capture_bars.swf"/>
+
+		<element name="captureBase" class="CaptureBarIndicator" url="capture_bars.swf,capture_indicators.swf"/>
 		<element name="repairIndicator" class="IndividualRepairIndicatorClip" url="capture_bars.swf"/>
-		<element name="evacuationIndicator" class="IndividualEvacuationIndicatorClip" url="capture_bars.swf"/>
+		<element name="unboundIndividualProgress" class="lesta.unbound2.UbElement" elementName="IndividualProgressContainer" url="capture_bars.swf">
+			<properties hitTest = "false"/>
+		</element>
+		
+		
 		<element name="dangerousStateIndicator" class="DangerousStateIndicatorClip" url="central_feedback.swf"/>
 		<element name="localWeatherIndicator" class="LocalWeatherIndicatorClip" url="central_feedback.swf"/>
-		<element name="barReloadContainer" class="ReloadBarContainer" url="reload_bars.swf"/>
-		<element name="gunMarkerPlaceholder" class="MarkersPlaceholder" url="gun_marker.swf"/>
-		<element name="crosshairLocked" class="LockedCrosshair" url="crosshair_screen.swf"/>
-		<element name="crosshairDefault" class="DefaultCrosshairClip" url="crosshair_screen.swf" autoPerfTestGroup="crosshair"/>
-		<element name="crosshairFPS" class="FPSCrosshairClip" url="crosshair_screen.swf"/>
-		<element name="fakeElement" class="flash.display.Sprite" url="capture_indicators.swf"/>
-		<element name="fakeElement2" class="flash.display.Sprite" url="scenario_markers.swf"/>
-		<element name="fakeElement3" class="flash.display.Sprite" url="task_progress_track.swf"/>
-		<element name="crosshairSpectator" class="crosshairSpectator" url="after_death_panel.swf"/>
-		<element name="tacticalMapHelp" class="TacticalMapHelpClip" url="navpoints.swf" autoPerfTest="false"/>
+
+		<element name="crosshairFull" class="lesta.unbound2.UbElement" elementName="CrosshairContainer" url="crosshair_screen.swf,crosshair_info.swf,gun_marker.swf" autoPerfTestGroup="crosshair" forceHide="false">
+			<properties hitTest = "false"/>
+		</element>
+
+		<element name="tacticalMapHelp" class="lesta.unbound2.UbElement" elementName="TacticalMapHelpElement" url="navpoints.swf" autoPerfTest="false"/>
 
 		<element name="unboundShipsList" class="lesta.unbound2.UbElement" elementName="HeaderShipList" url="battle_stats.swf">
 			<properties hitTest = "false"/>
@@ -98,13 +89,14 @@
 		<element name="deathPanel" class="AfterDeathAttentionPanel" url="after_death_panel.swf" autoPerfTest="false">
 			<properties hitTest = 'true'/>
 		</element>
-		<element name="autopilot_indicator" class="AutopilotIndicator" url="navpoints.swf" autoPerfTestGroup="indicators"/>
-		<element name="tacticalMap" class="lesta.dialogs.battle_window.TacticalMap" url="navpoints.swf" autoPerfTest="false"/>
+		<element name="ubAutopilotIndicator" class="lesta.unbound2.UbElement" elementName="AutopilotIndicator" url="navpoints.swf"/>
+
+		<element name="tacticalMap" class="lesta.unbound2.UbElement" elementName="TacticalMapTextGridContainer" url="navpoints.swf"/>
 
 		<element name="unboundMinimap" class="lesta.unbound2.UbElement" elementName="BattleMinimapUb2" url="minimap.swf">
 			<properties hitTest = "true"/>
 		</element>
-		<element name="tasksContainer" class="flash.display.Sprite" url="task_manager.swf">
+		<element name="tasksContainer" class="flash.display.Sprite" url="task_manager.swf,task_progress_track.swf">
 			<properties x='9' y='18' />
 		</element>
 		<element name="battleHint" class="actionPanelHint" url="battle_hints.swf">
@@ -114,71 +106,70 @@
 			<properties hitTest = "true"/>
 		</element>
 
+		<element name="first_battle_prompt_elements" class="lesta.unbound2.UbElement" elementName="TutorialHint" url="battle_stats.swf">
+			<properties hitTest = "false"/>
+		</element>
+
 		
 		<!-- Unbound elements -->
-		<element name="ubModulesBar" class="lesta.libs.unbound.UnboundElement" url="modules_panel.swf" autoPerfTest="false">
-			<properties config='../unbound/ship_modules_states.xml' rootElementId='ShipModulesStates' hitTest = "true"/>
-		</element>
-		<element name="ubCapturingIndicator" class="lesta.libs.unbound.UnboundElement" autoPerfTest="false">
-			<properties config='../unbound/capturing_indicator.xml' rootElementId='CapturingIndicator' hitTest = "false"/>
-		</element>
-		<element name="mainHud" class="lesta.unbound2.UbElement" elementName="MainHud" url="battle_stats.swf">
+		<element name="ubWeaponsPanel" class="lesta.unbound2.UbElement" elementName="ShipWeaponsPanel">
 			<properties hitTest = "true"/>
 		</element>
+		<element name="ubModulesBar" class="lesta.libs.unbound.UnboundElement" url="modules_panel.swf" autoPerfTest="false">
+			<properties rootElementId='ShipModulesStates' hitTest = "false"/>
+		</element>
+
+		<element name="ubCapturingIndicator" class="lesta.libs.unbound.UnboundElement" autoPerfTest="false">
+			<properties rootElementId='CapturingIndicator' hitTest = "false"/>
+		</element>
+
+		<element name="centralDangers" class="lesta.unbound2.UbElement" elementName="CentralDangersContainer">
+			<properties hitTest = "false"/>
+		</element>
+		<element name="mainHud" class="lesta.unbound2.UbElement" elementName="MainHud">
+			<properties hitTest = "true"/>
+		</element>
+		<element name="ubGunsReloadBar" class="lesta.unbound2.UbElement" elementName="GunsReloadBarContainer">
+			<properties hitTest = "false"/>
+		</element>
+
 		<element name="ubMainHudPC" class="lesta.libs.unbound.UnboundElement" url="battle_stats.swf">
-			<properties config='../unbound/main_hud_pc.xml' rootElementId='MainHUDPCContainer' hitTest = "true"/>
+			<properties rootElementId='MainHUDPCContainer' hitTest = "true"/>
 		</element>
 		<element name="ubStatsPanel" class="lesta.libs.unbound.UnboundElement" url="battle_stats.swf" autoPerfTest="false">
-			<properties config='../unbound/battle_stats.xml' rootElementId='BattleStats' hitTest = "true"/>
+			<properties rootElementId='BattleStats' hitTest = "true"/>
 		</element>
 
-		<element name="expectedAction" class="ExpectedActionContainerClip" url="tutorial.swf"/>
-
-		<element name="ubQuickCommandsPanel" class="lesta.libs.unbound.UnboundElement" url="quick_commands.swf" autoPerfTest="false">
-			<properties config='../unbound/modal_quick_commands.xml' rootElementId='ModalWindowQuickCommands' hitTest = "true"/>
+		<element name="ubExpectedAction" class="lesta.unbound2.UbElement" elementName="TutorialContextHintsContainer">
+			<properties hitTest = "false"/>
 		</element>
-		<element name="ubQuickCommandsPanelMini" class="lesta.libs.unbound.UnboundElement" url="quick_commands.swf" autoPerfTest="false">
-			<properties config='../unbound/modal_quick_commands_small.xml' rootElementId='ModalWindowQuickCommandsSmall' hitTest = "true"/>
+
+		<element name="ubQuickCommandsPanel" class="lesta.unbound2.UbElement" elementName="ModalQuickCommandsFullscreenContainer" url="quick_commands.swf">
+			<properties hitTest = "true"/>
+		</element>
+		<element name="ubQuickCommandsPanelMini" class="lesta.unbound2.UbElement" elementName="ModalWindowQuickCommandsSmallContainer" url="quick_commands.swf">
+			<properties hitTest = "true"/>
 		</element>
 	</elementList>
 	
 	<controllers>
-		<controller class="lesta.dialogs.battle_window_controllers.CruiseController" clips="indicatorSpeed,indicatorAngle,indicatorDepth"/>
-		<controller class="lesta.dialogs.battle_window_controllers.IndicatorsController" clips="logPlayerState,logEvent,indicatorGunsLocked,indicatorCollisionText,atbaOffIndicator,smokeIndicator,repairIndicator,evacuationIndicator,dangerousStateIndicator,localWeatherIndicator"/>
-		<controller class="lesta.dialogs.battle_window_controllers.HeaderController" clips="headerPlayersNum,battleTimer,helpHint,prebattleText,captureBase,battleProgress,gameVersion,observedPlayerLabel"/>
-		<controller class="lesta.dialogs.battle_window_controllers.GunsStateController" clips="barReloadContainer"/>
-		<controller class="lesta.dialogs.battle_window_controllers.GunMarkersController" clips="!gunMarkerPlaceholder,gunMarkerPlaceholder.mainGunMarker,gunMarkerPlaceholder.torpedoGunMarker,gunMarkerPlaceholder.lockedIndicator"/>
-		<controller name="crosshair" class="lesta.dialogs.battle_window_controllers.CrosshairController" clips="crosshairDefault,crosshairFPS,crosshairLocked"/>
+		<controller class="lesta.dialogs.battle_window_controllers.IndicatorsController" clips="logEvent,indicatorCollisionText,smokeIndicator,repairIndicator,evacuationIndicator,dangerousStateIndicator,localWeatherIndicator"/>
+		<controller class="lesta.dialogs.battle_window_controllers.HeaderController" clips="battleTimer,helpHint,prebattleText,captureBase,battleProgress,gameVersion,observedPlayerLabel"/>
+
 		<controller class="lesta.dialogs.battle_window_controllers.FlyOffMessageController" clips="flyOffDamage"/>      
 		<controller name="fullScreenEffectsController" class="lesta.dialogs.battle_window_controllers.FullScreenEffectsController" clips="fireScreenEffect,suffocationScreenEffect"/>
 		<controller class="lesta.dialogs.battle_window_controllers.MarkersController" clips="markersContainer"/>
-		<controller class="lesta.dialogs.battle_window_controllers.DamageSignalController" clips="alarmClipCompass"/>
-		<controller class="lesta.dialogs.battle_window_controllers.weapons_controllers.WeaponsPanelController" clips="weaponsPanel,weaponsPanel.artilleryPanel,weaponsPanel.planePanel,weaponsPanel.torpedoPanel,weaponsPanel.consumesPanel"/>
-		<controller class="lesta.dialogs.battle_window_controllers.weapons_controllers.WeaponBarController" clips="weaponsPanel.artilleryPanel,weaponsPanel.torpedoPanel"/>
-		<controller class="lesta.dialogs.battle_window.NavpointsController" clips="tacticalMap,autopilot_indicator,indicatorAngle"/>
-		<controller name="guidesManager" class="lesta.dialogs.battle_window.GuidesManager" clips="placeHolderGuidesManager"/>
+
 		<controller class="lesta.dialogs.battle_window_controllers.AchievementController" clips="damageWidget,ribbonContainer,ribbonAppear"/>
-		<controller class="lesta.dialogs.battle_window_controllers.TutorialController" clips="expectedAction"/>	
-		<controller class="lesta.dialogs.battle_window_controllers.DeathPanelController" clips="deathPanel,crosshairSpectator"/>	
+		<controller class="lesta.dialogs.battle_window_controllers.DeathPanelController" clips="deathPanel"/>
 		<controller class="lesta.dialogs.battle_window_controllers.BattleTasksController" clips="tasksContainer"/>	
 		<controller class="lesta.dialogs.battle_window_controllers.InvitationController" clips="invitationContainer"/>
 		
 		<controller class="lesta.dialogs.battle_window_controllers.UnboundElementController" clips="ubModulesBar"/>
 		<controller class="lesta.dialogs.battle_window_controllers.UnboundElementController" clips="ubCapturingIndicator"/>
 		<controller class="lesta.dialogs.battle_window_controllers.UnboundElementController" clips="ubMainHudPC"/>
-		<controller class="lesta.dialogs.battle_window_controllers.UnboundElementController" clips="ubBinoculars"/>
 		<controller class="lesta.dialogs.battle_window_controllers.StatsPanelController" clips="ubStatsPanel"/>
-		
-		<controller name="quickCommandsController" class="lesta.dialogs.battle_window_controllers.QuickCommandsPanelController" clips="ubQuickCommandsPanel"/>
-		<controller name="quickCommandsMiniController" class="lesta.dialogs.battle_window_controllers.QuickCommandsMiniPanelController" clips="ubQuickCommandsPanelMini"/>
 
 	</controllers>
-	
-	<animation>
-		<key delay="0" clips="crosshairDefault.cross"/>
-		<key delay="10" clips="crosshairDefault.iconDist,crosshairDefault.iconVisibility,crosshairDefault.aimAssistant"/>
-		<key delay="10" clips="crosshairFPS.iconDist,crosshairFPS.iconVisibility,crosshairFPS.aimAssistant"/>
-	</animation>
-	
-	<grid/>
+
 </battle_elements.xml>

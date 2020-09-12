@@ -1,11 +1,12 @@
 (def constant FLAG_TOOLTIP_WIDTH 300px)
 
-(def element FlagTooltipUB2(__installed:bool, __id:number, __name:str, __shipId:number, __canUse:bool, __isRankSeasonTemp:bool, __isLeague:bool, __iconPath: str, __isNaval: bool, __optionData:dict) layout=true dispatch_size_change=true
+(def element FlagTooltipUB2(__installed:bool, __id:number, __name:str, __shipId:number, __groupId:number, __canUse:bool, __isRankSeasonTemp:bool, __isLeague:bool, __iconPath: str, __isNaval: bool, __optionData:dict) layout=true dispatch_size_change=true
 	(scope
 		(var _installed: bool = "__installed")
 		(var _id: number = "__id")
 		(var _name: str = "__name")
 		(var _shipId: number = "__shipId")
+		(var _groupId: number = "__groupId")
 		(var _canUse: bool = "__canUse")
 		(var _isRankSeasonTemp: bool = "__isRankSeasonTemp")
 		(var _isLeague: bool = "__isLeague")
@@ -50,6 +51,7 @@
 				(scope
 					(bind _name "_name")
 					(bind _installed "_installed")
+					(bind _groupId "_groupId")
 					(bind _isLeague "_isLeague")
 					(bind _iconPath "_iconPath")
 					(bind _isNaval "_isNaval")
@@ -242,6 +244,7 @@
 		(var _isLeague: bool = true)
 		(var _iconPath: str = '')
 		(var _isNaval: bool = true)
+		(var _groupId: number = 0)
 	)
 	(hblock
 		(block 
@@ -265,7 +268,7 @@
 					(maxWidth = "200")
 				)
 				(class $TextDefault)
-				(bind text "_isLeague ? 'IDS_LEAGUE_FLAG' : _isNaval ? 'IDS_NAVAL_FLAG' : 'IDS_SEASON_ENSIGN'")
+				(bind text "_isLeague ? 'IDS_LEAGUE_FLAG' : _isNaval ? 'IDS_NAVAL_FLAG' : _groupId != 0 ? 'IDS_ENSIGN_GROUP_SUBTYPE_' + toUpper(_groupId) : 'IDS_SEASON_ENSIGN'")
 			)
 		)
 	)

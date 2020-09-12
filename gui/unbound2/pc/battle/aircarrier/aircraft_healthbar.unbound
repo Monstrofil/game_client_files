@@ -28,13 +28,29 @@
 	(textColor = 0xFF111111)
 )
 
+(def css $AirplanesHealthBarAttackerText ()
+	(extends $TextDefaultWhiteBold)
+	(fontSize = 12)
+)
+
 (def constant AircraftHealthbarSettings {
 		TOTAL_BAR_WIDTH: 314,
-		PLANE_ICON_NAMES: ['plane_scout_own', 'plane_bomber_own', 'plane_torpedo_own', 'plane_fighter_own_bg'],
-		PLANE_ICON_TOP_OFFSETS: [-6px, -5px, -6px, -4px]
+		
+		PLANE_ICON_NAMES: [
+			'plane_fighter_own_bg',
+			'plane_bomber_own',
+			'plane_bomber_own_AP',
+			'plane_torpedo_own',
+			'plane_torpedo_own_deepwater',
+			'plane_fighter_own_AP'
+		],
+		PLANE_ICON_WIDTHS: [19px, 9px, 9px, 15px, 19px, 19px],
+		PLANE_ICON_HEIGHTS: [19px, 21px, 21px, 21px, 21px, 19px],
+		PLANE_ICON_TOP_OFFSETS: [-4px, -5px, -5px, -5px, -5px, -4px],
+		HP_ATTACKER_PADDING: 22
 })
 
-(def element AircraftHealthbar() layout=true
+(def element AircraftHealthbar () layout=true
 	(scope
 		(var ownCarrierEntity:gfx = "$datahub.getSingleEntity(CC.aircarrier)")
 		(var aircarrier:gfx = "ownCarrierEntity.aircarrier")
@@ -46,16 +62,18 @@
 		(var healthPercent:number = "maxHP_points ? currentHP_points / maxHP_points : 0")
 		(var planeNameIDS:str = "ownSquadronEntity.plane.planeNameIDS")
 		(var levelRome:str = "ownSquadronEntity.plane.levelRome")
-		(var healthPointWidth:number = "ceil(AircraftHealthbarSettings.TOTAL_BAR_WIDTH/maxPlanes)")
+		(var ammoType:number = "ownSquadronEntity.plane.ammoType")
 		(var aircraftCol:gfx = "$datahub.getCollection(CC.aircraft)")
 		(var subColName:str = "'bySquadron.'+ownSquadronEntity.squadron.id" (event "aircarrier.evStateChanged"))
-		(var hpCollection:gfx = "aircraftCol.getChildByPath(subColName)")
+		(var hpCollection:gfx = "aircraftCol.getChildByPath(subColName)" (event "aircraftCol.evAdded") (event "aircraftCol.evRemoved"))
+		(var hpCount:number = "hpCollection.items.length" (event "hpCollection.evAdded") (event "hpCollection.evRemoved"))
 		(var attackerSize:number = "ownSquadronEntity.ownSquadron.attackerSize")
 		(var notchesNum:number = "attackerSize ? floor(maxPlanes/attackerSize) : 0")
+		(var healthPointWidth:number = "ceil((AircraftHealthbarSettings.TOTAL_BAR_WIDTH - AircraftHealthbarSettings.HP_ATTACKER_PADDING * notchesNum)/maxPlanes)")
 	)
 
 	(style
-		(bottom = 115px) (paddingLeft = "-AircraftHealthbarSettings.TOTAL_BAR_WIDTH/2")
+		(bottom = 128px) (paddingLeft = "-AircraftHealthbarSettings.TOTAL_BAR_WIDTH/2")
 	)
 
 	(class $MiddleAlignedAbsolutely)
@@ -70,18 +88,21 @@
 			(bind count "maxPlanes")
 			(args
 				hpWidth = "healthPointWidth"
+				attackerSize = "attackerSize"
+				maxPlanes = "maxPlanes"
 			)
 		)
 	)
 
 	(block
 		(style (position = "absolute"))
-		(controller $Repeat renderer='AirplanesHealthBarNotch' layout=false
+		(controller $Repeat renderer='AirplanesHealthBarAttackerId' layout=false
 			(bind count "notchesNum")
 			(exprs
 				(scope
 					(bind _healthPointWidth "healthPointWidth")
 					(bind _attackerSize "attackerSize")
+					(bind _isFullAttacker "hpCount > attackerSize * $index")
 				)
 			)
 		)
@@ -90,10 +111,11 @@
 	(hblock
 		(style (position = "absolute") (left = 1px) (top = 1px))
 		(controller $Repeat renderer='AirplanesHealthPoint' layout=false
-			(bind count "hpCollection.items.length" (event "hpCollection.evAdded") (event "hpCollection.evRemoved"))
+			(bind count "hpCount")
 			(args
 				col = "hpCollection"
 				hpWidth = "healthPointWidth"
+				attackerSize = "attackerSize"
 			)
 		)
 	)
@@ -106,17 +128,18 @@
 		
 		(block
 			(style
-				(position = "absolute")
-				(left = 1px)
-				(width = 22px)
-				(bind top "AircraftHealthbarSettings.PLANE_ICON_TOP_OFFSETS[ownSquadronEntity.plane.planeType]")
-				(bind backgroundImage "'bitmap:' + AircraftHealthbarSettings.PLANE_ICON_NAMES[ownSquadronEntity.plane.planeType]")
+				(marginLeft = 1px)
+				(marginRight = "S")
+				(bind width "AircraftHealthbarSettings.PLANE_ICON_WIDTHS[ammoType]")
+				(bind height "AircraftHealthbarSettings.PLANE_ICON_HEIGHTS[ammoType]")
+				(bind marginTop "AircraftHealthbarSettings.PLANE_ICON_TOP_OFFSETS[ammoType]")
+				(bind backgroundImage "'bitmap:' + AircraftHealthbarSettings.PLANE_ICON_NAMES[ammoType]")
 			)
 		)
 
 		
 		(tf
-			(style (position = "absolute") (left = 21px) (top = -6px) (width = 200px) (multiline = "false"))
+			(style (marginTop = -6px) (width = 200px) (multiline = "false"))
 			(class $TextDefaultBoldNM)
 			(macro TFMouseEnabled value=false)
 			(bind text "levelRome + ' ' + planeNameIDS")
@@ -144,7 +167,10 @@
 	)
 )
 
-(def element AirplanesHealthPointBg(hpWidth:number) layout=true
+(def element AirplanesHealthPointBg (hpWidth:number, attackerSize:number, maxPlanes:number) layout=true
+	(style
+		(marginRight = "($index+1)%attackerSize == 0 && $index < maxPlanes-1 ? AircraftHealthbarSettings.HP_ATTACKER_PADDING: 0")
+	)
 	(mc hud_bar_bg_sliced
 		(style
 			(bind width "hpWidth")
@@ -153,7 +179,7 @@
 )
 
 
-(def element AirplanesHealthPoint (col:gfx, hpWidth:number) layout=true
+(def element AirplanesHealthPoint (col:gfx, hpWidth:number,attackerSize:number) layout=true
 	(scope
 		(event evUpdatePrevState)
 		(event evPlayAnimationBlink)
@@ -180,7 +206,8 @@
 
 	
 	(style
-		(height = 2) (marginRight = 2)
+		(height = 2)
+		(marginRight = "($index+1)%attackerSize == 0 && $index < col.items.length - 1 ? AircraftHealthbarSettings.HP_ATTACKER_PADDING + 2: 2")
 		(bind width "hpWidth-2")
 	)
 
@@ -196,18 +223,23 @@
 	)
 )
 
-(def element AirplanesHealthBarNotch() layout=true
+(def element AirplanesHealthBarAttackerId () layout=true
 	(scope
 		(var _healthPointWidth:number = 0)
 		(var _attackerSize:number = 0)
+		(var _isFullAttacker:bool = false)
 	)
 	(style
 		(position = "absolute")
-		(width = 4px) (height = 3px) (top = -2px)
-		(bind left "(_healthPointWidth * _attackerSize) * $index - 2")
-		(backgroundImage = 'url:../aircraft/notch.png')
+		(top = -8px)
+		(bind left "(_healthPointWidth * _attackerSize + AircraftHealthbarSettings.HP_ATTACKER_PADDING) * $index - 10")
 	)
-	(bind visible "$index != 0")
+	(tf
+		(class $AirplanesHealthBarAttackerText)
+		(style (align = "right"))
+		(bind text "$index + 1")
+	)
+	(bind alpha "_isFullAttacker ? 0.7 : 0.3")
 )
 
 

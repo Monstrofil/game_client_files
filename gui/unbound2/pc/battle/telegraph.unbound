@@ -1,0 +1,818 @@
+(def constant CRUISE_ITEM_WIDTH 39)
+(def constant CRUISE_ITEM_HEIGHT 19)
+(def constant CRUISE_ITEM_MARGIN 2)
+
+(def constant DEPTH_ITEM_WIDTH 23)
+(def constant DEPTH_ITEM_HEIGHT 15)
+(def constant DEPTH_TEXT_HEIGHT 23)
+(def constant DEPTH_HOTKEYS_MARGIN 20)
+
+
+(def constant SPEED_CONTROL_VALUES "{
+   '-1':'scale_value_full',
+    '0':'scale_value_stop',
+    '1':'scale_value_1_4',
+    '2':'scale_value_1_2',
+    '3':'scale_value_3_4',
+    '4':'scale_value_full'
+}")
+
+(def constant ANGLE_CONTROL_VALUES "{
+    '-2':'scale_value_max',
+    '-1':'scale_value_1_2',
+    '0':'scale_value_0',
+    '1':'scale_value_1_2',
+    '2':'scale_value_max'
+}")
+
+(def css $TelegraphMeasureText ()
+	(extends $TextDefault17NM)
+    (extends $FontEnableReadability)
+)
+
+(def css $TelegraphValueText ()
+	(extends $TextDefaultBold17NM)
+    (extends $FontEnableReadability)
+)
+
+(def element SpeedControl () layout=true dispatch_size_change=true
+    (scope
+        (var cruiseEntity:gfx = "$datahub.getPrimaryEntity(CC.cruise, SC.Battle.CRUISE_CONTROL_TYPE.SPEED)")
+        (var speedItemsNumber:number = "cruiseEntity.cruise.states.length")
+
+        (var maxSpeed:number = "cruiseEntity.cruise.max")
+        (var minSpeed:number = "cruiseEntity.cruise.min")
+
+        (var speed:number = "cruiseEntity.cruise.value > maxSpeed  ? maxSpeed :
+                             cruiseEntity.cruise.value < minSpeed  ? minSpeed
+                                                                        : cruiseEntity.cruise.value" (event "cruiseEntity.cruise.evValueChanged"))
+        
+        (var speedWarning:number = "cruiseEntity.cruiseLimit.limitValue")
+        (var clampedSpeedWarning:number = "speedWarning > maxSpeed ? maxSpeed : speedWarning")
+        (var limitWarningEnabled:bool = "cruiseEntity.cruiseLimit.limitWarningEnabled" (event "cruiseEntity.cruiseLimit.evLimitWarningEnabledChanged"))
+
+        (var softCriticalEnabled:bool = "cruiseEntity.cruise.softCriticalEnabled" (event "cruiseEntity.cruise.evJammedChanged"))
+        (var isJammed:bool = "cruiseEntity.cruise.jammed" (event "cruiseEntity.cruise.evJammedChanged"))
+
+        (var hotkeysState:number = "isJammed    ? softCriticalEnabled   ? HotkeyState.WARNING
+                                                                        : HotkeyState.CRITICAL
+                                                : HotkeyState.INVALID")
+
+        (var fwdItemsNum:number = "cruiseEntity.cruise.statesPositiveNum")
+        (var bwdItemsNum:number = "cruiseEntity.cruise.statesNegativeNum")
+
+        (var speedItemHeight:number = "CRUISE_ITEM_HEIGHT + CRUISE_ITEM_MARGIN * 2")
+
+        (var speedPointerPosition:number = "speed / (speed > 0 ? -maxSpeed : minSpeed) * speedItemHeight * (speed > 0 ? fwdItemsNum : bwdItemsNum)")
+        (var speedWarningPointerPosition:number = "- clampedSpeedWarning / maxSpeed * speedItemHeight * fwdItemsNum")
+
+        
+        (var forwardSpeedStepSize:number = "maxSpeed / fwdItemsNum")
+        (var backwardSpeedStepSize:number = "minSpeed / bwdItemsNum")
+        (var relativeSpeedState:number = "speed > 0 ? (speed / forwardSpeedStepSize)
+												    : -(speed / backwardSpeedStepSize)")
+
+        (var avatarEntity:gfx = "$datahub.getSingleEntity(CC.playerAvatar)")
+		(var isAlive:bool = "avatarEntity.health.isAlive" (event "avatarEntity.health.evIsAliveChanged"))
+
+        (var ownCarrierEntity:gfx = "$datahub.getSingleEntity(CC.aircarrier)")
+		(var aircarrier:gfx = "ownCarrierEntity.aircarrier")
+		(var activeSquadron:number = "aircarrier.activeSquadron" (event "aircarrier.evStateChanged"))
+		(var squadronCameraMode:str = "aircarrier.squadronCameraMode" (event "aircarrier.evSquadronCameraModeChanged"))
+
+        (var isEnabled:bool = "isAlive && ((aircarrier == null) || (activeSquadron == -1) && (squadronCameraMode == SquadronCameraModes.DEFAULT))")
+    )
+
+    (bind visible "isEnabled")
+
+    (block
+        
+        (block
+            (style
+                (position = "absolute")
+                (bind left "CRUISE_ITEM_WIDTH")
+                (bind top "speedItemHeight * fwdItemsNum")
+            )
+
+            (controller $Instance (renderer = 'SpeedPointer')
+                (exprs
+                    (bind y "speedPointerPosition + CRUISE_ITEM_MARGIN")
+                )
+            )
+
+            (controller $Instance (renderer = 'SpeedLimitPointer')
+                (bind enabled "limitWarningEnabled")
+                (exprs
+                    (bind y "speedWarningPointerPosition")
+                )
+            )
+        )
+
+        
+        (controller $Repeat (renderer = 'SpeedItem')
+            (bind count "speedItemsNumber")
+            (exprs
+                (scope
+                    (bind relativeSpeedState "relativeSpeedState") 
+                )
+            )
+        )   
+    )
+)
+
+(def element SpeedItem () layout=true
+    (scope
+        (var relativeSpeedState:number = "0")
+        
+        (var cruiseEntity:gfx = "$datahub.getPrimaryEntity(CC.cruise, SC.Battle.CRUISE_CONTROL_TYPE.SPEED)")
+        (var state:number = "cruiseEntity.cruise.state" (event "cruiseEntity.cruise.evStateChanged"))
+
+        (var battleInfoComponent:gfx = "$datahub.getSingleComponent(CC.battleInfo)")
+		(var isReplayPlaying:bool = "battleInfoComponent.isReplayPlaying")
+
+        (var isSet:bool = "state == cruiseEntity.cruise.states[$index] && !isReplayPlaying")
+        (var isHighlighted:bool = "abs(relativeSpeedState - cruiseEntity.cruise.states[$index]) < 0.5 || isSet")
+
+        (var softCriticalEnabled:bool = "cruiseEntity.cruise.softCriticalEnabled" (event "cruiseEntity.cruise.evJammedChanged"))
+        (var isJammed:bool = "cruiseEntity.cruise.jammed" (event "cruiseEntity.cruise.evJammedChanged"))
+
+        (var hotkeyState:number = "isJammed     ? softCriticalEnabled   ? HotkeyState.WARNING
+                                                                        : HotkeyState.CRITICAL
+                                                : state == 0    ? HotkeyState.WARNING
+                                                                : HotkeyState.DEFAULT")
+
+        (var stateFolder:str = "    cruiseEntity.cruise.states[$index] == 0 && isSet    ? 'default/' :
+                                    !(isSet)                                            ? isJammed  ? softCriticalEnabled   ? 'yellow/'
+                                                                                                                            : 'red/'
+                                                                                                    : 'default/'
+                                                                                        : 'black/'")
+    )
+
+    (style
+        (bind width "CRUISE_ITEM_WIDTH")
+        (bind height "CRUISE_ITEM_HEIGHT")
+        (marginTop = "CRUISE_ITEM_MARGIN")
+        (marginBottom = "CRUISE_ITEM_MARGIN")
+    )
+
+    (block
+        (class $FullsizeAbsolute)
+        (visible = "isSet")
+        (alpha = "state == 0 ? 0.75 : 1")
+        (controller $Animation
+            (bindcall play  duration = 0.15
+                            easing = "Easing.cubic_out"
+                            from = "{ alpha: 0, visible: false }"
+                            to = "{ alpha: state == 0 ? 0.75 : 1, visible: true }"
+                            (bind enabled "isSet")
+            )
+            (bindcall play  duration = 0.15
+                            easing = "Easing.cubic_out"
+                            to = "{ alpha: 0, visible: false }"
+                            (bind enabled "!(isSet)")
+            )
+        )
+
+        (element HotkeyBackground "hotkeyState"
+            (scope (bind hotkeyState "hotkeyState"))
+        )
+    )
+
+    (block
+        (alpha = "isHighlighted ? 1 : 0.5")
+        (style           
+            (bind backgroundImage "'url:../battle_hud/cruise_control/scale_values/' + stateFolder + SPEED_CONTROL_VALUES[cruiseEntity.cruise.states[$index]] + '.png'")
+        )
+        (controller $Animation
+            (bindcall play  duration = 0.3
+                            easing = "Easing.cubic_out"
+                            from = { alpha: 0.5 }
+                            to = { alpha: 1 }
+                            reverse = "!(isHighlighted)"
+                            (bind trigger "isHighlighted")
+            )
+        )
+    )
+)
+
+(def element SpeedPointer () layout=true
+    (scope
+        (var cruiseEntity:gfx = "$datahub.getPrimaryEntity(CC.cruise, SC.Battle.CRUISE_CONTROL_TYPE.SPEED)")
+        
+        (var speed:number = "cruiseEntity.cruise.value" (event "cruiseEntity.cruise.evValueChanged"))
+
+        (var limitWarning:bool = "cruiseEntity.cruiseLimit.limitWarning" (event "cruiseEntity.cruiseLimit.evLimitWarningChanged"))
+        (var limitWarningEnabled:bool = "cruiseEntity.cruiseLimit.limitWarningEnabled" (event "cruiseEntity.cruiseLimit.evLimitWarningEnabledChanged"))
+
+        (var softCriticalEnabled:bool = "cruiseEntity.cruise.softCriticalEnabled" (event "cruiseEntity.cruise.evJammedChanged"))
+        (var isJammed:bool = "cruiseEntity.cruise.jammed" (event "cruiseEntity.cruise.evJammedChanged"))
+
+        (var isLimitSpeeding:bool = "limitWarning && limitWarningEnabled")
+
+        (var textClass:str = "isJammed      ? softCriticalEnabled   ? '$TextColorWarning'
+                                                                    : '$TextColorHUDCritical'
+                                            : isLimitSpeeding   ? '$TextColorWarning'
+                                                                : '$TextColorNeutral'")
+
+        (var pointerColor:str = "isJammed   ? softCriticalEnabled   ? 'yellow'
+                                                                    : 'red'
+                                            : isLimitSpeeding   ? 'yellow'
+                                                                : 'white'")
+    )
+
+    (style
+        (position = "absolute")
+        (width = "CRUISE_ITEM_WIDTH")
+        (height = "CRUISE_ITEM_HEIGHT")
+        (align = "middle")
+    )
+    
+    
+    (block
+        (style
+            (position = "absolute")
+            (top = "18px")
+            (bind backgroundImage "'url:../battle_hud/cruise_control/pointers/pointer_' + pointerColor + '.png'")
+        )
+        (rotation = "-90")
+    )
+
+    
+    (hblock
+        (tf
+            (style (marginLeft = "8px"))
+            (class $TelegraphValueText)
+            (bind class "textClass")
+            (bind text "(speed < -0.09 ? '-' : '') + formatFloatingPoint(abs(speed), 1)") 
+        )
+        (tf
+            (style (marginTop = -7px) (marginLeft = -1px))
+            (class $TelegraphMeasureText)
+            (bind class "textClass")
+            (alpha = 0.7)
+            (bind text "' kts'")
+        )
+    )
+)
+
+(def element SpeedLimitPointer () layout=true
+    (scope
+        (var cruiseEntity:gfx = "$datahub.getPrimaryEntity(CC.cruise, SC.Battle.CRUISE_CONTROL_TYPE.SPEED)")
+        (var limitWarning:bool = "cruiseEntity.cruiseLimit.limitWarning" (event "cruiseEntity.cruiseLimit.evLimitWarningChanged"))
+    )
+
+    (block
+        (style
+            (position = "absolute")
+            (top = "18px")
+            (bind backgroundImage "limitWarning ? 'url:../battle_hud/cruise_control/pointers/pointer_speed_limit_warning.png' : 'url:../battle_hud/cruise_control/pointers/pointer_speed_limit_default.png'")
+        )
+        (rotation = "-90")
+    )
+)
+
+(def element AngleControl () layout=true dispatch_size_change=true
+    (scope
+        (var angleEntity:gfx = "$datahub.getPrimaryEntity(CC.cruise, SC.Battle.CRUISE_CONTROL_TYPE.ANGLE)")
+        (var angle:number = "angleEntity.cruise.value" (event "angleEntity.cruise.evValueChanged"))
+        (var maxAngle:number = "angleEntity.cruise.max ? angleEntity.cruise.max : 1")
+        (var stepsNum:number = "angleEntity.cruise.statesPositiveNum")
+        (var softCriticalEnabled:bool = "angleEntity.cruise.softCriticalEnabled" (event "angleEntity.cruise.evJammedChanged"))
+        (var isJammed:bool = "angleEntity.cruise.jammed" (event "angleEntity.cruise.evJammedChanged"))
+        (var state:number = "angleEntity.cruise.state" (event "angleEntity.cruise.evStateChanged"))
+
+        (var angleItemWidth:number = "CRUISE_ITEM_WIDTH")
+        (var angleStepSize:number = "maxAngle / stepsNum")
+        (var relativeAngleState:number = "angle / angleStepSize")
+
+        (var anglePointerX:number =  "(stepsNum + 0.5) * angleItemWidth + (angle / maxAngle) * angleItemWidth * stepsNum")
+
+        (var stateSelected:bool = "state != 0")
+        (var isVisible:bool = "stateSelected || angle != 0 || isJammed")
+        (var hotkeysState:number = "isJammed    ? softCriticalEnabled   ? HotkeyState.WARNING
+                                                                        : HotkeyState.CRITICAL
+                                                : HotkeyState.INVALID")
+
+        (var avatarEntity:gfx = "$datahub.getSingleEntity(CC.playerAvatar)")
+		(var isAlive:bool = "avatarEntity.health.isAlive" (event "avatarEntity.health.evIsAliveChanged"))
+
+        (var ownCarrierEntity:gfx = "$datahub.getSingleEntity(CC.aircarrier)")
+		(var aircarrier:gfx = "ownCarrierEntity.aircarrier")
+		(var activeSquadron:number = "aircarrier.activeSquadron" (event "aircarrier.evStateChanged"))
+		(var squadronCameraMode:str = "aircarrier.squadronCameraMode" (event "aircarrier.evSquadronCameraModeChanged"))
+
+        (var airDefenseFocus:gfx = "$datahub.getSingleComponent(CC.airDefenseFocus)")
+        (var activeAirDefense:bool = "airDefenseFocus.active" (event "airDefenseFocus.evActiveChanged"))
+
+        (var isEnabled:bool = "isAlive && ((aircarrier == null) || (activeSquadron == -1) && (squadronCameraMode == SquadronCameraModes.DEFAULT)) && !(activeAirDefense)")
+
+        (var moveLeftCommand:gfx = "$datahub.getPrimaryEntity(CC.commandMappingCommand, Cmd.CMD_MOVE_LEFT)")
+        (var moveRightCommand:gfx = "$datahub.getPrimaryEntity(CC.commandMappingCommand, Cmd.CMD_MOVE_RIGHT)")
+        (var isMoveLeftCmdActive:bool = "moveLeftCommand.commandMappingCommand.isDown" (event "moveLeftCommand.commandMappingCommand.evIsDownChanged"))
+        (var isMoveRightCmdActive:bool = "moveRightCommand.commandMappingCommand.isDown" (event "moveRightCommand.commandMappingCommand.evIsDownChanged"))
+    )
+
+    (bind visible "isEnabled")
+    (bind alpha "isEnabled && isVisible ? 1 : 0")
+
+    (controller $Animation
+        (bindcall play  duration="0.75"
+                        easing="Easing.quad_in"
+                        to="{ alpha: 0 }"
+                        killAll=true
+                        (bind enabled "!(isVisible)")
+                        (bind trigger "isVisible")
+        )
+        (bindcall play  duration="0.15"
+                        easing="Easing.quad_in"
+                        to="{ alpha: 1 }"
+                        killAll=true
+                        (bind enabled "isVisible")
+                        (bind trigger "isVisible")
+        )
+    )
+    
+    (block
+        (style
+            (position = "absolute")
+            (left = "-CRUISE_ITEM_MARGIN")
+            (height = "CRUISE_ITEM_HEIGHT")
+        )
+        (element HotkeyIndicator "Cmd.CRUISE_ANGLE_LEFT"
+            (scope
+                (bind toggled "true")
+                (bind overwriteState "hotkeysState")
+            )
+            (style (position = "absolute") (right = 0))
+            (bind visible "state < 0")
+        )
+        (element HotkeyIndicator "Cmd.CMD_MOVE_LEFT"
+            (scope
+                (bind overwriteState "hotkeysState")
+            )
+            (style (position = "absolute") (right = 0))
+            (bind visible "isMoveLeftCmdActive")
+        )
+    )
+
+    (hblock
+        (controller $Repeat (renderer = 'AngleItem')
+            (bind count "angleEntity.cruise.states.length")
+            (exprs
+                (scope
+                    (bind relativeAngleState "relativeAngleState")
+                )
+            )
+        )
+        (controller $Instance (renderer = 'AnglePointer')
+            (exprs
+                (style
+                    (bind left "anglePointerX - 9") 
+                )
+            )
+        )
+    )
+
+    (block
+        (style
+            (position = "absolute")
+            (right = "-CRUISE_ITEM_MARGIN")
+            (height = "CRUISE_ITEM_HEIGHT")
+        )
+        (element HotkeyIndicator "Cmd.CRUISE_ANGLE_RIGHT"
+            (scope
+                (bind toggled "true")
+                (bind overwriteState "hotkeysState")
+            )
+            (style (position = "absolute"))
+            (bind visible "state > 0")
+        )
+        (element HotkeyIndicator "Cmd.CMD_MOVE_RIGHT"
+            (scope
+                (bind overwriteState "hotkeysState")
+            )
+            (style (position = "absolute"))
+            (bind visible "isMoveRightCmdActive")
+        )
+    )
+)
+
+(def element AngleItem () layout=true
+    (scope
+        (var relativeAngleState:number = 0)
+        (var angleEntity:gfx = "$datahub.getPrimaryEntity(CC.cruise, SC.Battle.CRUISE_CONTROL_TYPE.ANGLE)")
+        (var state:number = "angleEntity.cruise.state" (event "angleEntity.cruise.evStateChanged"))
+        (var softCriticalEnabled:bool = "angleEntity.cruise.softCriticalEnabled")
+        (var isJammed:bool = "angleEntity.cruise.jammed" (event "angleEntity.cruise.evJammedChanged"))
+        (var isSet:bool = "state != 0 && state == angleEntity.cruise.states[$index]")
+        (var isHighlighted:bool = "(abs(relativeAngleState - angleEntity.cruise.states[$index]) < 0.5) || isSet")
+
+        (var stateFolder:str = "    isSet       ? 'black/' :
+                                    isJammed    ? softCriticalEnabled   ? 'yellow/'
+                                                                        : 'red/'
+                                                : 'default/'")
+        (var hotkeyState:number = "isJammed ? softCriticalEnabled   ? HotkeyState.WARNING
+                                                                    : HotkeyState.CRITICAL
+                                            : HotkeyState.DEFAULT")
+    )
+
+    (style
+        (width = "CRUISE_ITEM_WIDTH")
+        (height = "CRUISE_ITEM_HEIGHT")
+    )
+
+     (block
+        (class $FullsizeAbsolute)
+        (visible = "isSet")
+        (controller $Animation
+            (bindcall play  duration = 0.15
+                            easing = "Easing.cubic_out"
+                            from = "{ alpha: 0, visible: false }"
+                            to = "{ alpha: 1, visible: true }"
+                            (bind enabled "isSet")
+            )
+            (bindcall play  duration = 0.15
+                            easing = "Easing.cubic_out"
+                            to = "{ alpha: 0, visible: false }"
+                            (bind enabled "!(isSet)")
+            )
+        )
+
+        (element HotkeyBackground "hotkeyState"
+			(scope (bind hotkeyState "hotkeyState"))
+		)
+    )
+
+    (block
+        (alpha = "isHighlighted ? 1 : 0.5")
+        (style           
+            (bind backgroundImage "'url:../battle_hud/cruise_control/scale_values/' + stateFolder + ANGLE_CONTROL_VALUES[angleEntity.cruise.states[$index]] + '.png'")
+        )
+        (controller $Animation
+            (bindcall play  duration = 0.3
+                            easing = "Easing.cubic_out"
+                            from = { alpha: 0.5 }
+                            to = { alpha: 1 }
+                            reverse="!(isHighlighted)"
+                            (bind trigger "isHighlighted")
+            )
+        )
+    )
+)
+
+(def element AnglePointer () layout=true
+    (scope
+        (var angleEntity:gfx = "$datahub.getPrimaryEntity(CC.cruise, SC.Battle.CRUISE_CONTROL_TYPE.ANGLE)")
+        (var softCriticalEnabled:bool = "angleEntity.cruise.softCriticalEnabled")
+        (var isJammed:bool = "angleEntity.cruise.jammed" (event "angleEntity.cruise.evJammedChanged"))
+        (var statePostfix:str = "   isJammed    ? softCriticalEnabled   ? 'yellow'
+                                                                        : 'red'
+                                                : 'white'")
+    )
+    (style
+        (position = "absolute")
+        (top = "CRUISE_ITEM_HEIGHT")
+        (bind backgroundImage "'url:../battle_hud/cruise_control/pointers/pointer_' + statePostfix + '.png'")
+    )
+)
+
+
+(def macro DEPTH_CONTROL_HOTKEY_ANIMATION (isActive:expression)
+    (alpha = "isActive ? 1 : 0")
+    (controller $Animation
+        (bindcall play  duration="0.35"
+                        delay="0.15"
+                        from="{ alpha: 0 }"
+                        to="{ alpha: 1 }"
+                        killAll=true
+                        (bind enabled "isActive")
+                        (bind trigger "isActive")
+        )
+        (bindcall play  duration="0.15"
+                        from="{ alpha: 1 }"
+                        to="{ alpha: 0 }"
+                        killAll=true
+                        (bind enabled "!(isActive)")
+                        (bind trigger "isActive")
+        )
+    )
+)
+
+(def element DepthControlNew () layout=true
+    (scope
+        (var cruiseEntity:gfx = "$datahub.getPrimaryEntity(CC.cruise, SC.Battle.CRUISE_CONTROL_TYPE.DEPTH)")
+        (var cruiseState:number = "cruiseEntity.cruise.state" (event "cruiseEntity.cruise.evStateChanged"))
+        (var currentDepthLimit:number = "cruiseEntity.cruiseLimit.limitValue" (event "cruiseEntity.cruiseLimit.evLimitValueChanged"))
+
+        (var depthValue:number = "abs(cruiseEntity.cruise.value)" (event "cruiseEntity.cruise.evValueChanged"))
+        (var currentDepth:number = "depthValue" watch=false)
+        (controller $Animation
+            (bindcall play  duration=0.3
+                            easing="Easing.linear"
+                            to="{ currentDepth: depthValue }"
+                            watch=false
+                            killAll=true
+                            (bind trigger "depthValue")
+            )
+        )
+
+        (var prefsEntity:gfx = "$datahub.getSingleEntity(CC.prefsMarker)")
+    	(var altVisionMode:number = "prefsEntity.prefsBattle.altVisionMode" (event "prefsEntity.prefsBattle.evUpdate"))
+
+    	(var cameraEntity:gfx = "$datahub.getSingleEntity(CC.camera)")
+    	(var altVision:bool = "cameraEntity.camera.altVision" (event "cameraEntity.camera.evAltVisionChanged"))
+        (var isTactical:bool = "cameraEntity.camera.isTactical" (event "cameraEntity.camera.evTacticalStateChanged"))
+    	(var isAltVisionMode:bool = "altVision || altVisionMode == AltVisionMode.ENABLED")
+
+        (var moveUpCommand:gfx = "$datahub.getPrimaryEntity(CC.commandMappingCommand, Cmd.CMD_MOVE_UP)")
+        (var moveDownCommand:gfx = "$datahub.getPrimaryEntity(CC.commandMappingCommand, Cmd.CMD_MOVE_DOWN)")
+        (var isMoveUpCmdActive:bool = "moveUpCommand.commandMappingCommand.isDown" (event "moveUpCommand.commandMappingCommand.evIsDownChanged"))
+        (var isMoveDownCmdActive:bool = "moveDownCommand.commandMappingCommand.isDown" (event "moveDownCommand.commandMappingCommand.evIsDownChanged"))
+
+        (var selfVehicleEntity:gfx = "$datahub.getSingleEntity(CC.selfVehicle)")
+        (var submarine:gfx = "selfVehicleEntity.submarine")
+		(var depthIndex:number = "submarine.depthIndex" (event "submarine.evDepthIndexChanged"))
+        (var depthRanges:dict = "submarine.depthRanges")
+        (var maxDepthLimit:number = "depthRanges[SC.Battle.DEPTH_STATE.CRITICAL][1]")
+
+        (var currentRange:array = "depthRanges[depthIndex]")
+        (var rangeLength:number = "abs(currentRange[1] - currentRange[0])")
+        (var currentRangeRatio:number = "abs((currentRange[0] + currentDepth) / rangeLength)")
+        (var currentOffset:number = "(depthIndex-1) * DEPTH_ITEM_HEIGHT + currentRangeRatio * DEPTH_ITEM_HEIGHT")
+
+        (var criticalDepthState:str = "currentDepthLimit == maxDepthLimit ? '_yellow' : '_red'")
+
+        (var battleStateEntity:gfx = "$datahub.getSingleEntity(CC.battleState)")
+		(var battleState:number = "battleStateEntity.battleState.battleState" (event "battleStateEntity.battleState.evBattleStateChanged"))
+
+        (var isVisible:bool = "battleState == BattleState.STARTED && !(isTactical)")
+    )
+
+    (style
+        (hitTest = false)
+    )
+
+    (alpha = "isVisible ? 1 : 0")
+    (controller $Animation
+        (bindcall play  duration = 0.35
+                        from = "{ alpha: 0 }"
+                        to = "{ alpha: 1 }"
+                        reverse = "!(isVisible)"
+                        (bind trigger "isVisible")
+        )
+    )
+
+    (block
+        (style
+            (position = "absolute")
+            (top = 14) (right = 153)
+        )
+
+        (block
+            (alpha = "isAltVisionMode ? 1 : 0")
+            (bind alpha "1" init=false (event "cruiseEntity.cruise.evValueChanged") (bind trigger "isAltVisionMode"))
+            (controller $Animation
+                (bindcall play  duration = "0.35"
+                                delay = 1.4
+                                from = "{ alpha: 1 }"
+                                to = "{ alpha: 0 }"
+                                killAll=true
+                                (bind enabled "!(isAltVisionMode)")
+                                (event "cruiseEntity.cruise.evValueChanged")
+                )
+                (bindcall play  duration = "0.35"
+                                delay = 1.4
+                                from = "{ alpha: 1 }"
+                                to = "{ alpha: 0 }"
+                                (bind enabled "!(isAltVisionMode)")
+                                (bind trigger "isAltVisionMode")
+                )
+                (bindcall play  duration=0.15
+                                to="{ alpha: 1 }"
+                                killAll=true
+                                (bind enabled "isAltVisionMode")
+                )
+                (bindcall play  duration=0.3
+                                to="{ alpha: 0 }"
+                                killAll=true
+                                (bind enabled "!(isAltVisionMode)")
+                )
+            )
+
+            
+            (block
+                (alpha = 0.3)
+                (style
+                    (position = "absolute")
+                    (bind top "-currentOffset")
+                )
+                (controller $Repeat renderer='DepthRangeItem'
+                    (bind count "SC.Battle.DEPTH_STATE.AVAILABLE_FOR_SUBS.length")
+                    (args _state='_small')
+                )
+                (controller $Instance renderer='DepthRangeItem'
+                    (args _state = '_yellow_small' _index = 4)
+                    (exprs
+                        (scope
+                            (bind state "criticalDepthState + '_small'")
+                        )
+                    )
+                )
+            )
+
+            (block
+                (style
+                    (position = "absolute")
+                )
+                (block
+                    (style
+                        (position = "absolute")
+                        (backgroundImage = 'url:../battle_hud/depth_indicator/depth_bg.png')
+                    )
+                )
+
+                
+                (block
+                    (style
+                        (position = "absolute")
+                        (bind top "-currentOffset")
+                    )
+                    (controller $Repeat renderer='DepthRangeItem'
+                        (bind count "SC.Battle.DEPTH_STATE.AVAILABLE_FOR_SUBS.length")
+                    )
+                    (controller $Instance renderer='DepthRangeItem'
+                        (args _state = '_yellow' _index = 4)
+                        (exprs
+                            (scope
+                                (bind state "criticalDepthState")
+                            )
+                        )
+                    )
+                )
+
+                
+                (block
+                    (style
+                        (position = "absolute")
+                        (backgroundImage = 'url:../battle_hud/depth_indicator/depth_over.png')
+                    )
+                )
+
+                
+                (block
+                    (style
+                        (position = "absolute") (backgroundColor = 0xFF000000)
+                        (width = "DEPTH_ITEM_WIDTH") (height = "DEPTH_ITEM_HEIGHT")
+                    )
+                    (isMask = true)
+                )
+            )
+        )
+
+        (block
+            (style
+                (position = "absolute")
+                (right = 7) (top = 1)
+                (align = "right")
+            )
+
+            (block
+                (style
+                    (position = "absolute") (right = -3)
+                    (top = "-HOTKEY_BUTTON_SIZE - DEPTH_HOTKEYS_MARGIN")
+                )
+                (element HotkeyIndicator "Cmd.CRUISE_DEEP_UP"
+                    (scope
+                        (bind toggled "true")
+                    )
+                    (macro DEPTH_CONTROL_HOTKEY_ANIMATION "cruiseState > 0")
+                    (style (position = "absolute") (right = 0))
+                )
+                (element HotkeyIndicator "Cmd.CMD_MOVE_UP"
+                    (macro DEPTH_CONTROL_HOTKEY_ANIMATION "isMoveUpCmdActive && cruiseState == 0")
+                    (style (position = "absolute") (right = 0))
+                )
+            )
+
+            
+            (hblock
+                (tf
+                    (style (textAlign = "right") (width = 80))
+                    (alpha = 0.9)
+                    (class $TextDefaultBold19NM)
+                    (macro TFMouseEnabled value=false)
+                    (bind text "formatFloatingPoint(currentDepth)")
+                )
+                (tf
+                    (style (textAlign = "right") (marginTop = -6px) (marginLeft = -1px))
+                    (class $TextDefault17NM)
+                    (alpha = 0.7)
+                    (macro TFMouseEnabled value=false)
+                    (bind text "' m'")
+                )
+            )
+
+            
+            (block
+                (alpha = "isAltVisionMode ? 1 : 0")
+                (controller $Animation
+                    (bindcall play  duration=0.3
+                                    delay=3.0
+                                    from="{ alpha: 1 }"
+                                    to="{ alpha: 0 }"
+                                    killAll=true
+                                    (bind enabled "!(isAltVisionMode)")
+                                    (event "submarine.evDepthIndexChanged")
+                    )
+                    (bindcall play  duration=0.15
+                                    delay=0.3
+                                    to="{ alpha: 1 }"
+                                    (event "submarine.evDepthIndexChanged")
+                    )
+                    
+                    (bindcall play  duration=0.15
+                                    to="{ alpha: 1 }"
+                                    killAll=true
+                                    (bind enabled "isAltVisionMode")
+                    )
+                    (bindcall play  duration=0.3
+                                    to="{ alpha: 0 }"
+                                    killAll=true
+                                    (bind enabled "!(isAltVisionMode)")
+                    )
+                )
+                (block
+                    (controller $Animation
+                        (bindcall play  duration=0.3
+                                        easing="Easing.quad_in"
+                                        to="{ top: -DEPTH_TEXT_HEIGHT * (depthIndex-1) }"
+                                        killAll=true
+                                        (event "submarine.evDepthIndexChanged")
+                        )
+                    )
+                    (style
+                        (top = "-DEPTH_TEXT_HEIGHT * (depthIndex-1)")
+                        (position = "absolute")
+                        (right = 0) (align = "right")
+                    )
+                    (controller $Repeat renderer='DepthTextItem'
+                        (bind count "SC.Battle.DEPTH_STATE.AVAILABLE_FOR_SUBS.length")
+                    )
+                )
+                (block
+                    (style
+                        (position = "absolute") (right = -10)
+                        (width = 360) (height = "DEPTH_TEXT_HEIGHT")
+                        (backgroundColor = 0xFFFF0000)
+                    )
+                    (isMask = true)
+                )
+            )
+
+            (block
+                (style
+                    (position = "absolute") (right = -3)
+                    (bottom = "-HOTKEY_BUTTON_SIZE - DEPTH_HOTKEYS_MARGIN")
+                )
+                (element HotkeyIndicator "Cmd.CRUISE_DEEP_DOWN"
+                    (scope
+                        (bind toggled "true")
+                    )
+                    (macro DEPTH_CONTROL_HOTKEY_ANIMATION "cruiseState < 0")
+                    (style (position = "absolute") (right = 0))
+                )
+                (element HotkeyIndicator "Cmd.CMD_MOVE_DOWN"
+                    (macro DEPTH_CONTROL_HOTKEY_ANIMATION "isMoveDownCmdActive && cruiseState == 0")
+                    (style (position = "absolute") (right = 0))
+                )
+            )
+        )
+    )
+        
+)
+
+(def element DepthRangeItem (_state:str='', _index:number=-1) layout=true
+    (scope
+        (var state:str = "_state")
+        (var index:number = "_index != -1 ? _index : $index")
+        (var itemPath:str = "'url:../battle_hud/depth_indicator/depth_' + index + state + '.png'")
+    )
+
+    (style
+        (width = "DEPTH_ITEM_WIDTH") (height = "DEPTH_ITEM_HEIGHT")
+        (bind backgroundImage "itemPath")
+    )
+)
+
+(def element DepthTextItem () layout=true
+    (style
+        (height = "DEPTH_TEXT_HEIGHT")
+        (align = "right|middle")
+    )
+    (tf
+        (style (textAlign = "right"))
+        (alpha = 0.9)
+        (class $TextDefaultBold13NM)
+        (bind text "toUpper(tr('IDS_SUBMARINE_DEPTH_STATE_' + ($index + 1)))")
+    )
+)

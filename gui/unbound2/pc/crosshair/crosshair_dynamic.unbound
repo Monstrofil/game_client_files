@@ -1,0 +1,221 @@
+
+(def constant DYNAMIC_C_CENTER_PATH 'url:../crosshairs/dynamic_01/center.png')
+
+(def constant DYNAMIC_C_LINE_LEFT_PATH 'url:../crosshairs/dynamic_01/scale_line_left.png')
+(def constant DYNAMIC_C_LINE_RIGHT_PATH 'url:../crosshairs/dynamic_01/scale_line_right.png')
+
+(def constant DYNAMIC_C_LINE_LEFT_SYMBOL 'symbol:binocular_scale_left_side')
+(def constant DYNAMIC_C_LINE_RIGHT_SYMBOL 'symbol:binocular_scale_right_side')
+
+(def constant DYNAMIC_C_LINE_V_BIG_PATH 'url:../crosshairs/dynamic_01/vertical_line_big.png')
+(def constant DYNAMIC_C_LINE_V_SMALL_PATH 'url:../crosshairs/dynamic_01/vertical_line_small.png')
+
+(def constant DYNAMIC_C_LINE_V_BIG_SYMBOL 'symbol:binocular_scale_vert_big')
+(def constant DYNAMIC_C_LINE_V_SMALL_SYMBOL 'symbol:binocular_scale_vert_small')
+
+(def constant DYNAMIC_C_TICK_SIZE 0.30)
+(def constant DYNAMIC_C_LINE_HOR_PADDING 80)
+(def constant DYNAMIC_C_MAX_BIG_TICKS 76)
+
+(def element DynamicBinocularCrosshairRenderer_01() layout=true
+	(scope
+		(var _crosshairId:number = 0)
+		(var crosshair:gfx = "$datahub.getPrimaryEntity(CC.crosshairBinocularView, _crosshairId)")
+		(var textureIds:array = "crosshair.crosshairBinocularView.textureIds")
+
+		(var stageComponent:gfx = "$datahub.getSingleEntity(CC.stage).stage")
+		(var stageWidth:number = "stageComponent.width" (event "stageComponent.evStageSizeChanged"))
+		(var stageHalfW:number = "stageWidth * 0.5")
+		(var stageHeight:number = "stageComponent.height" (event "stageComponent.evStageSizeChanged"))
+
+		(var cameraEntity:gfx = "$datahub.getSingleEntity(CC.camera)")
+		(var frustumAngleOriginal:number = "radToGrad(cameraEntity.camera.frustumAngle)" (event "cameraEntity.camera.evFrustumAngleChanged"))
+		(var frustumAngle:number = "min(frustumAngleOriginal, 70)")
+
+		(var maxTicksCount:number = "DYNAMIC_C_MAX_BIG_TICKS")
+
+		(var horizontalLineMaxWidth:number = "stageHalfW - DYNAMIC_C_LINE_HOR_PADDING")
+		(var lineStep:number = "stageHalfW / frustumAngle")
+		(var horizontalLineOffset:number = "lineStep*DYNAMIC_C_TICK_SIZE*2")
+
+		(var horizontalLineWidth:number = "min(horizontalLineMaxWidth, horizontalLineOffset*maxTicksCount)")
+
+		(var maxVisibleTickIndex:number = "floor((horizontalLineOffset + horizontalLineWidth) / (horizontalLineOffset))")
+
+	)
+	(style
+		(bind width "stageWidth")
+		(bind height "stageHeight")
+	)
+
+	(block
+		(style
+			(position = "absolute")
+			(left = 50%)
+			(top = 50%)
+		)
+
+		
+		(block
+			(style
+				(position = "absolute")
+				(top = -15)
+				(left = -15)
+				(width = 30)
+				(height = 30)
+				(backgroundImage = "DYNAMIC_C_CENTER_PATH")
+			)
+		)
+
+		
+		(block
+			 (style
+				 (position = "absolute")
+				 (top = -2)
+				 (bind left "floor(horizontalLineOffset)-2")
+			 )
+
+			 (block
+				(style
+					 (position = "absolute")
+					 (bind width "horizontalLineWidth")
+					 (height = 4)
+					 (backgroundImage = "DYNAMIC_C_LINE_RIGHT_SYMBOL")
+					 (backgroundSize = "fill")
+				)
+			 )
+		)
+
+		
+		(block
+			 (style
+				 (position = "absolute")
+				 (top = -2)
+				 (bind left "-floor(horizontalLineOffset)+1")
+			 )
+
+			 (block
+				(style
+					 (position = "absolute")
+					 (bind width "horizontalLineWidth")
+					 (height = 4)
+					 (backgroundImage = "DYNAMIC_C_LINE_LEFT_SYMBOL")
+					 (backgroundSize = "fill")
+				)
+			 )
+		)
+
+
+		
+        (controller $Repeat renderer='DynamicTickLineRendererMc'
+            (bind count "maxTicksCount")
+            (args __horizontalLineOffset="horizontalLineOffset")
+            (exprs
+                (scope
+                    (bind _horizontalLineOffset "horizontalLineOffset")
+                    (bind _maxIndex "maxVisibleTickIndex")
+                )
+            )
+        )
+
+		
+        (controller $Repeat renderer='DynamicTickLineRendererMc'
+            (bind count "maxTicksCount")
+            (args __horizontalLineOffset="-horizontalLineOffset")
+            (exprs
+                (scope
+                    (bind _horizontalLineOffset "-horizontalLineOffset")
+                    (bind _maxIndex "maxVisibleTickIndex")
+                )
+            )
+        )
+	)
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(def element DynamicTickLineRendererMc(__horizontalLineOffset:number) layout=true
+	(scope
+		(var _horizontalLineOffset:number = "__horizontalLineOffset")
+		(var _maxIndex:number = 0)
+		(var isZeroTick:bool = "$index == 0")
+		(var isBigTick:bool = "$index % 5 == 0")
+	)
+
+	(style
+        (position = "absolute")
+        (top = -2)
+        (bind left "floor(_horizontalLineOffset*$index)")
+    )
+
+	(bind visible "$index <= _maxIndex")
+
+    (block $enabled="!isZeroTick"
+        (style
+            (position = "absolute")
+            (bind top "isBigTick ? 0 : 0")
+            (width = 4)
+            (height = 10)
+            (backgroundImage = "$index % 5 == 0 ? DYNAMIC_C_LINE_V_BIG_SYMBOL : DYNAMIC_C_LINE_V_SMALL_SYMBOL")
+        )
+    )
+
+
+    (tf $enabled="!isZeroTick && isBigTick"
+        (class $FontEnableReadability)
+        (style
+            (position = "absolute")
+            (left = -12)
+            (top = -36)
+            (width = 24)
+            (fontFamily = '$WWSDefaultFont')
+            (fontSize = 12)
+            (textColor = 0xCCCCCC)
+            (textAlign = "center")
+        )
+        (bind text "$index")
+    )
+)

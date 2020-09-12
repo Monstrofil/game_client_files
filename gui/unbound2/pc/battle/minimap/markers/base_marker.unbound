@@ -36,59 +36,72 @@
     {markerRenderer: 'MapNavpointMarker', disableUpdatePos: true}  
 ])
 
+(def constant QUICK_COMMAND_ANIM_LIFETIME 6)
+(def constant SUBMARINE_PING_ANIM_LIFETIME 3.15)
 (def constant MIN_TEXT_OFSSET_ANGLE 1.7707)
 (def constant ADDTIVE_TEXT_OFSSET_ANGLE 4.7123)
 (def constant RANGES_TEXT_ANGLE 1.4)
 (def constant MINIMAP_RANGES_SETTINGS "{
     shootMGRange: {
-        symbolName: 'minimap_shoot_range_circle',
-        txtColor: 0xBBBBBB,
+        color: 0xBBBBBB,
         boldText: true
     },
     shootTARange: {
-        symbolName: 'minimap_shoot_range_circle',
-        txtColor: 0xBBBBBB,
+        color: 0xBBBBBB,
+        boldText: true
+    },
+    shootPingerRange: {
+        color: 0xBBBBBB,
         boldText: true
     },
 
     visibilityRange: {
-        symbolName: 'minimap_visibility_range_circle',
-        txtColor: 0x6EE1F7
+        color: 0x6EE1F7,
+        dashLength: 11,
+        spacing: 11
     },
     visibilityPlaneRange: {
-        symbolName: 'minimap_visibility_plane_range_circle',
-        txtColor: 0x6EE1D8
+        color: 0x6EE1D8,
+        dashLength: 13,
+        spacing: 27
     },
 
     aaRangeMax: {
-        symbolName: 'minimap_aa_range_circle',
-        txtColor: 0xF0A522
+        color: 0xF0A522
     },
 
     atbaRange: {
-        symbolName: 'minimap_atba_range_circle',
-        txtColor: 0xA9C272
+        color: 0xA9C272
     },
 
     rlsRange: {
-        symbolName: 'minimap_rls_range_circle',
-        txtColor: 0x00CCFF
+        color: 0x00CCFF,
+        lineThickness: 1.5,
+        drawDotted: true,
+        spacing: 15.5
     },
     sonarRange: {
-        symbolName: 'minimap_sonar_range_circle',
-        txtColor: 0x00CCFF
+        color: 0x00CCFF,
+        lineThickness: 2,
+        drawDotted: true,
+        spacing: 21
     },
+
     visDistance: {
-        symbolName: 'minimap_visDistance_range_circle',
-        txtColor: 0x00CCFF,
-        forceEnabled: true,
-        addRelation: true
+        color: 0x00CCFF,
+        forceEnabled: true
     },
     shootDistance: {
-        symbolName: 'minimap_shootDistance_range_circle',
-        txtColor: 0x00CCFF,
+        color: 0x00CCFF,
         forceEnabled: true,
-        addRelation: true
+        dashLength: 11,
+        spacing: 11
+    },
+
+    visibilityAfterPingByShipRange: {
+        color: 0x00BBFF,
+        dashLength: 16,
+        spacing: 40
     }
 }")
 
@@ -96,7 +109,7 @@
     (var entity:gfx = "$datahub.getEntity(_entityId)")
     (var mapScale:number = "_mapScale")
     (var itemScale:number = "_itemScale")
-    (var scaleRatio:number = "_scaleRatio")    
+    (var scaleRatio:number = "_scaleRatio")
 )
 
 (def element MapMarkerItem (_mapScale:number, _itemScale:number, _scaleRatio:number, _layerName:str) layout=true
@@ -117,7 +130,7 @@
 
         (var target:gfx = "markerEntity.target" (event "markerEntity.evAdded") (event "markerEntity.evRemoved"))
         (var targetFlags:number = "target.flags" (event "target.evChanged") (event "target.evFlagsChanged"))
-		(var isTargetLocked:bool = "(targetFlags & (1 << WeaponType.ARTILLERY | 1 << WeaponType.TORPEDO)) > 0")
+		(var isTargetLocked:bool = "(targetFlags & (1 << WeaponType.ARTILLERY | 1 << WeaponType.TORPEDO | 1 << WeaponType.PINGER)) > 0")
 
         (var mapVisible:bool = "markerEntity.visibility.mapVisible" (event "markerEntity.visibility.evChanged"))
 
@@ -148,9 +161,9 @@
     
     (block 
         (style (position = "absolute"))
-        (controller $FxInstance renderer='MapMarkerItemQCAnim' lifetime="6"
+        (controller $FxInstance renderer='MapMarkerItemQCAnim' lifetime="QUICK_COMMAND_ANIM_LIFETIME"
             (bindcall create (event "markerEntity.quickCommand.evPlay"))
-            (args _type="$event[1]" _lifetime="6")
+            (args _type="$event[1]")
         )
     )
 
@@ -180,10 +193,13 @@
     )
 )
 
-(def element MapMarkerItemQCAnim (_type:str, _lifetime:number) layout=true
+(def element MapMarkerItemQCAnim (_type:str) layout=true
+    (scope
+        (var lifetime:number = "_type == 'Submarine_Ping_CMD' ? SUBMARINE_PING_ANIM_LIFETIME : QUICK_COMMAND_ANIM_LIFETIME")
+    )
 	(style 
 		(position = "absolute")
-		(bind backgroundImage "_type == 'Target_CMD' ? 'symbol:TargetMinimap' : 'symbol:SenderMinimap'")
+		(bind backgroundImage "isIn(_type, ['Target_CMD', 'Submarine_Ping_CMD']) ? 'symbol:TargetMinimap' : 'symbol:SenderMinimap'")
 	)
 
 	(controller $Animation
@@ -196,7 +212,7 @@
 
 		(play
 			duration=0.15
-			delay="_lifetime-0.15"
+			delay="lifetime-0.15"
 			from={alpha: 1}
 			to={alpha: 0}
 			easing="Easing.quint_out"
@@ -243,11 +259,29 @@
     )
 )
 
+(def macro RANGE_CIRCLE (_rangeSettings:expression, _rangeRadius:expression)
+    (block
+        (macro BIND_FAIR_SCALE "_rangeRadius")
+        (block
+            (controller $Sector
+                (bind arc "360")
+                (bind radius "MINIMAP_ASSETS_SIZE")
+                (bind innerRadius "MINIMAP_ASSETS_SIZE")
+                (bind lineThickness "_rangeSettings.lineThickness ? _rangeSettings.lineThickness : 1")
+                (bind lineAlpha "1")
+                (bind lineColor "_rangeSettings.color")
+                (bind dashLength "_rangeSettings.dashLength ? _rangeSettings.dashLength : 0")
+                (bind spacing "_rangeSettings.spacing ? _rangeSettings.spacing : 0")
+                (bind drawDotted "_rangeSettings.drawDotted ? _rangeSettings.drawDotted : false")
+            )
+            (cacheAsBitmap = true)
+        )    
+    )
+)
+
 (def element MapMarkerItemRange (_entityId:number, _mapScale:number) layout = true
     (scope
         (var ownerEntity:gfx = "$datahub.getEntity(_entityId)")
-
-        (macro VAR_RELATION "ownerEntity")
 
         (var mapScale:number = "_mapScale")
         (var rangesTextScale:number = "mapScale > 1 ? 1 / mapScale : 1")
@@ -260,8 +294,6 @@
         (var isConsumable:bool = "rangeEntity.minimapRange.isConsumable")
         (var isActive:bool = "rangeEntity.minimapRange.isActive || isConsumable" (event "rangeEntity.minimapRange.evIsActiveChanged"))
         (var rangeSettings:dict = "MINIMAP_RANGES_SETTINGS[parameterKey]")
-
-        (var relationPostfix:str = "rangeSettings.addRelation ? '_' + relation : ''")
         
         (var minimapEntity:gfx = "$datahub.getSingleEntity(CC.minimap)")
         (var angleToRotate:number = "minimapEntity.minimap.rotationAngleDeg" (event "minimapEntity.minimap.evRotationAngleDegChanged"))
@@ -277,14 +309,12 @@
         (controller $Animation
             (bindcall play  duration=0.3
                             easing="Easing.linear"
-                            to="{ rangeRadius:range }"
+                            to="{ rangeRadius: range }"
                             watch=false
                             (bind trigger "range")
-                            (bind enabled "rangeEnabled")                      
+                            (bind enabled "rangeEnabled")
             )
         )
-
-        (var rangeSize:number = "rangeRadius * 2 * MINIMAP_ASSETS_SIZE")
 
         
         (var rangeCurrentValue:number = "rangeEntity.parameter.currentValue" (event "rangeEntity.parameter.evChanged"))
@@ -297,15 +327,12 @@
 
         (var cameraEntity:gfx = "$datahub.getSingleEntity(CC.camera)")
     	(var altVision:bool = "cameraEntity.camera.altVision" (event "cameraEntity.camera.evAltVisionChanged"))
-        
-        
-        
-        
+
         (var offsetAngle:number = "RANGES_TEXT_ANGLE / minimapRanges.items.length" watch=false)
         (var rangeRotation:number = "(distanceDisplayEnabled || altVision) ? (offsetAngle * (0 - minimapRanges.items.length / 2 + $index)) + atan2(0.5 - posY, 0.5 - posX) : 0")
     )
-
-    (bind visible "rangeEnabled && range > 0")
+    (bind name "parameterKey")
+    (bind visible "rangeEnabled && rangeRadius > 0")
 
     
     (block
@@ -313,25 +340,18 @@
 
         (block
             (bind alpha "isActive ? 1 : 0.65") 
-            (style 
-                (position = "absolute")
-                (bind width "rangeSize")
-                (bind height "rangeSize")
-                (backgroundSize = "fill")
-                (backgroundImage = "'symbol:' + rangeSettings.symbolName + relationPostfix")
-            )
+            (macro RANGE_CIRCLE "rangeSettings" "rangeRadius")
 
             
             (block
                 (alpha = "0")
-                (class $FullsizeAbsolute)
                 (style
-                    (backgroundSize = "fill") (backgroundImage = "'symbol:' + rangeSettings.symbolName + relationPostfix")
                     (dropShadowFilter = { distance: 0, angle: 90, color: 0xFFFFFF, alpha: 1.0, blurX: 3.5, blurY: 3.5, strength: 1.2, quality: 2 })
                 )
+                (macro RANGE_CIRCLE "rangeSettings" "rangeRadius")
 
                 (controller $Animation
-                    (bindcall play duration=0.2                            
+                    (bindcall play duration=0.2
                             easing="Easing.linear"
                             from="{ alpha: 0 }"
                             to="{ alpha: 1 }"
@@ -350,14 +370,14 @@
             )
 
             (controller $Animation
-                (bindcall play duration=0.6                            
+                (bindcall play duration=0.6
                         easing="Easing.linear"
                         from="{ alpha: 0.65 }"
                         to="{ alpha: 1 }"
                         (bind enabled "isActive")
                         (event "rangeEntity.minimapRange.evIsActiveChanged")
                 )
-                (bindcall play duration=0.6                            
+                (bindcall play duration=0.6
                         easing="Easing.linear"
                         from="{ alpha: 1 }"
                         to="{ alpha: 0.65 }"
@@ -385,9 +405,9 @@
                     (style
                         (position = "absolute")
                         (width = "38px") (height = "20px")
-                        (left = "-19px") (top = "-10px")                        
+                        (left = "-19px") (top = "-10px")
                         (textAlign = "center")
-                        (textColor = "rangeSettings.txtColor")
+                        (textColor = "rangeSettings.color")
                     )
                     (bind class "rangeSettings.boldText ? '$TextMinimapRangeBold' : '$TextMinimapRange'")
                     (bind text "rangeValue")

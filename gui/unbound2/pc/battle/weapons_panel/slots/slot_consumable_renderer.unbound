@@ -1,0 +1,159 @@
+(def element SlotConsumableRenderer (isAircarrier:bool, totalCount:number) layout=true
+	(scope
+		(var col:gfx = "null") 
+		(var itemsList:array = "col.items" (event "col.evUpdated"))
+		(var consumableEntity:gfx = "itemsList[$index]" (event "col.evUpdated"))
+		(var battleConsumable:gfx = "consumableEntity.battleConsumable")
+		(var consumableName:str = "battleConsumable.ident")
+		(var consumableCmd:str = "battleConsumable.cmd")
+		(var consumableNum:number = "battleConsumable.consumeNum" (event "battleConsumable.evConsumeNumChanged"))
+		(var consumableState:number = "battleConsumable.state" (event "battleConsumable.evStateChanged"))
+		(var ownerSquadronId:number = "battleConsumable.ownerSquadronId" (event "battleConsumable.evStateChanged"))
+		(var consumableIndex:number = "ownerSquadronId == -1 ? battleConsumable.index : $index"  (event "battleConsumable.evStateChanged"))
+
+		(var atWork:bool = "consumableState == 1")
+		(var isReloading:bool = "consumableState == 2")
+		(var isEmpty:bool = "consumableState == 3")
+
+		(var consumePostfix:str = "consumableNum == 0 && !(atWork) ? '_empty' : ''")
+		(var itemImageUrl:str = "'url:../consumables/' + consumableName + consumePostfix + '.png'")
+		
+		(var timerEntity:gfx = "$datahub.getSingleEntity(CC.timer)")
+		(var countdown:gfx = "consumableEntity && consumableEntity.hasComponent(CC.countDown) ? consumableEntity.countDown : null" (event "consumableEntity.evAdded") (event "consumableEntity.evRemoved"))		
+		(var remainTime:number = "countdown ? countdown.endTime - timerEntity.timer.currentTime : 0" (event "timerEntity.timer.evFrequent") (event "countdown.evEndTimeChanged"))
+		(var percentPassed:number = "countdown ? remainTime / countdown.duration : 1")
+
+		(var cmdEntity:gfx =  "$datahub.getPrimaryEntity(CC.commandMappingCommandName, consumableCmd)")
+		(var commandId:number = "isAircarrier ? 0 : cmdEntity.commandMappingCommand.id" (event  "cmdEntity.commandMappingCommand.evChanged"))
+
+		(var avatarEntity:gfx = "$datahub.getSingleEntity(CC.playerAvatar)")
+
+		(var _width:number = "SLOT_SIZE")
+		(var _height:number = "SLOT_SIZE")
+
+		(macro MOUSE_HANDLER_SCOPE)
+	)
+
+	(style
+		(width = "_width")
+		(height = "_height")
+		(bind marginRight "($index + 1) != totalCount ? PANEL_ITEM_MARGIN : 0")
+	)
+
+	(block
+		(style
+			(position = "absolute") (width = 46px) (height = 16px) (hcenter = 0px) (bottom = -16px)
+			(backgroundImage = 'url:../aircraft/key_auto_label.png')
+		)
+		(alpha = 0.8)
+		(bind visible "commandId == 0")
+	)
+
+	(block
+		(class $FullsizeAbsolute)
+
+		(macro MOUSE_EVENTS_DISPATCHER)
+
+		(macro MOUSE_LMB_EXTERNAL_CALL 'direct.action' "['battle.useConsumable', [{consumableIndex: consumableIndex, squadronId: ownerSquadronId}]]" "!(isAircarrier)")
+
+		(mc 'lesta.libs.unbound2.BattleHintBridgeMC'
+			(bindcall showBattleTooltip "BattleHintType.CONSUME" "consumableEntity.id" init=false watch=false (event "evMouseOver"))
+			(bindcall hideBattleTooltip init=false (event "evMouseOut"))
+		)
+
+		(element SlotItem
+			(scope
+				(bind _itemImageUrl "itemImageUrl")
+				(bind _isSelectable "commandId")
+				(bind _width "_width")
+				(bind _height "_height")
+			)
+		)
+
+		
+		(element SlotReloadBar
+			(scope
+				(bind _atWork "atWork")
+				(bind _percentPassed "percentPassed")
+				(bind _remainTime "remainTime > 0 ? remainTime : 0")
+			)
+			(class $FullsizeAbsolute)
+			(bind visible "isReloading || atWork")
+		)
+
+		
+		(block
+			(class $FullsizeAbsolute)
+			(tf
+				(style (position = "absolute") (top = -1px) (right = 2px))
+				(bind visible "(consumableNum > 0)")
+				(class $TextDefaultBoldNM)
+				(bind text "consumableNum")
+			)
+		)
+
+		
+		(block
+			(class $FullsizeAbsolute)
+			(controller $FxInstance lifetime=0.5
+				(bind renderer 'SlotWorkStartedFX')
+				(bindcall create (event "consumableEntity.battleConsumable.evWorkStarted"))
+			)
+			(controller $FxInstance lifetime=0.5
+				(bind renderer 'SlotWorkStartedFX')
+				(args
+					accented="true"
+				)
+				(bindcall create (event "consumableEntity.battleConsumable.evReloadEnded"))
+			)
+			(controller $FxInstance lifetime=0.5
+				(bind renderer "'SlotReloadStartedFX'")
+				(bindcall create (event "consumableEntity.battleConsumable.evReloadStarted"))
+			)
+		)
+
+		
+		(block
+			(style
+				(position = "absolute")
+				(left = "-(SLOT_FX_SIZE - SLOT_SIZE) / 2")
+				(top = "-(SLOT_FX_SIZE - SLOT_SIZE) / 2")
+			)
+			(bind visible "atWork")
+			(block
+				(style
+					(backgroundImage = 'url:../battle_hud/weapons_panel/slot/weapon_panel_slot_stroke_green.png')
+					(backgroundSize = "fill")
+					(width = "SLOT_FX_SIZE")
+					(height = "SLOT_FX_SIZE")
+				)
+			)
+			(controller $Animation
+				(play duration=1.0
+								from={alpha: 1}
+								to={alpha: 0.3}
+								repeatCount=-1
+								killAll=true
+				)
+				(bind enabled "atWork")
+			)
+		)
+	)
+
+	
+	(element HotkeyIndicator "commandId" toggle="true"
+		(scope
+			(bind commandId "commandId")
+			(bind enabled "isReloading || consumableNum != 0")			
+			(bind toggled "atWork")
+			(bind isKeyActive "atWork")
+		)
+		(style
+			(bottom = "-HOTKEY_BUTTON_SIZE")
+			(position = "absolute")
+			(hcenter = "0px")
+		)
+		(bind visible "commandId != 0")
+	)
+)
+

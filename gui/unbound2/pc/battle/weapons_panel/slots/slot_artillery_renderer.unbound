@@ -1,0 +1,114 @@
+(def element SlotArtilleryRenderer (entityId:number, totalCount:number) layout=true
+	(scope
+		(var weaponEntity:gfx = "$datahub.getEntity(entityId)")
+		(var value:str = "weaponEntity.weaponControl.ammoTypes[$index]")
+		(var commandId:number = "weaponEntity.simpleControl.commandId")
+
+		(var countAliveGuns:bool = "weaponEntity.gunsCount.countAliveGuns" (event "weaponEntity.gunsCount.evChanged"))
+		(var countActiveGuns:bool = "weaponEntity.gunsCount.countActiveGuns" (event "weaponEntity.gunsCount.evChanged"))
+
+		(var itemImagePostfix:str = "countAliveGuns == 0	? '_inactive' :
+									 countActiveGuns == 0	? '_disabled'
+									 						: ''")
+		(var itemImageUrl:str = "'url:../consumables/ammo_' + toLower(value) + itemImagePostfix + '.png'")
+
+		(var weaponGroupIsSelected:bool = "weaponEntity.selection.value" (event "weaponEntity.selection.evChanged"))
+		(var ammoIsSelected:bool = "weaponEntity.weaponControl.selectedIndex == $index" (event "weaponEntity.weaponControl.evSelectedIndexChanged"))
+		(var isNext:bool = "weaponEntity.weaponControl.nextSelectionIndex == $index" (event "weaponEntity.weaponControl.evNextSelectionIndexChanged"))
+		(var isPreSelected:bool = "isNext && weaponGroupIsSelected")
+		(var isSlotActive:bool = "ammoIsSelected || isPreSelected")
+
+		(var showAmmoReload:bool = "weaponEntity.hasComponent(CC.countDown) && ammoIsSelected" (event "weaponEntity.evAdded") (event "weaponEntity.weapon.evReloadEnded"))
+		(var weaponGroupAndAmmoAreSelected:bool = "weaponGroupIsSelected && ammoIsSelected")
+
+		(var _width:number = "SLOT_SIZE")
+		(var _height:number = "SLOT_SIZE")
+
+		(var countdown:gfx = "weaponEntity.hasComponent(CC.countDown) ? weaponEntity.countDown : null" (event "weaponEntity.evAdded") (event "weaponEntity.evRemoved"))		
+		(var remainTime:number = "countdown ? countdown.remain : 0" (event "countdown.evRemainChanged"))
+		(var percentPassed:number = "countdown ? remainTime / countdown.duration : 1")
+
+		(macro MOUSE_HANDLER_SCOPE)
+	)
+
+	(style
+		(width = "_width")
+		(height = "_height")
+		(bind marginRight "($index + 1) != totalCount ? PANEL_ITEM_MARGIN : 0")
+	)
+	
+	(bind name "'button_ammo_' + $index")
+
+
+	
+	
+	(block
+		(class $FullsizeAbsolute)
+
+		(macro MOUSE_EVENTS_DISPATCHER)
+
+		(macro MOUSE_LMB_EXTERNAL_CALL 'direct.action' "['weaponsPanel.buttonPressed', [WeaponType.ARTILLERY, $index] ]")
+
+		(mc 'lesta.libs.unbound2.BattleHintBridgeMC'
+			(bindcall showBattleTooltip "BattleHintType.ARTILLERY" "value" init=false watch=false (event "evMouseOver"))
+			(bindcall hideBattleTooltip init=false (event "evMouseOut"))
+		)
+
+		(element SlotItem
+			(scope
+				(bind _itemImageUrl "itemImageUrl")
+				(bind _isSelectable true)
+				(bind _width "_width")
+				(bind _height "_height")
+				(bind _isPreSelected "isPreSelected")
+				(bind _isSelected "weaponGroupAndAmmoAreSelected")
+			)
+			(bind alpha "isSlotActive ? 1 : 0.6")
+		)
+
+		
+		(element SlotReloadBar
+			(scope
+				(bind _atWork "false")
+				(bind _percentPassed "percentPassed")
+				(bind _remainTime "remainTime")
+			)
+			(class $FullsizeAbsolute)
+			(bind visible "showAmmoReload")
+		)
+
+		(tf
+			(class $TextHUDBold)
+			(style
+				(position = "absolute")
+				(fontSize = 14)
+				(left = 2px)
+				(top = 1px)
+			)
+			(bind text "'IDS_AMMOTYPE_' + toUpper(value)")
+			(mouseEnabled = false)
+			(selectable = false)
+		)
+
+		(controller $FxInstance lifetime=0.5
+			(bind renderer "ammoIsSelected ? 'SlotWorkStartedFX' : 'EmptyElement'")
+			(args
+				accented="!(weaponGroupIsSelected)"
+			)
+			(bindcall create (event "weaponEntity.weapon.evReloadEnded"))
+		)
+	)
+
+	(element HotkeyIndicator "commandId + $index"
+		(scope
+			(bind toggled "ammoIsSelected && weaponGroupIsSelected")
+			(bind isKeyActive "(isNext && weaponGroupIsSelected) || ammoIsSelected")
+		)
+		(style
+			(position = "absolute")
+			(hcenter = 0px)
+			(bottom = "-HOTKEY_BUTTON_SIZE")
+		)
+		(bind alpha "isSlotActive ? 1 : 0.8")
+	)
+)

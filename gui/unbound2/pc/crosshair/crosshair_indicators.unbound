@@ -1,0 +1,349 @@
+(def css $TextIndicator ()
+	(extends $FontEnableReadability)
+	(extends $FontFamilyDefault)
+	(extends $FontColorWhite)
+	(extends $FontSizeDefault)
+	(extends $TextMouseDisable)
+)
+
+(def css $TextGunLockStyle()
+	(extends $FontEnableReadability)
+	(extends $FontFamilyDefaultBold)
+	(extends $BlockDropShadowFilter3)
+	(fontSize = 13)
+	(extends $FontColorGrey)
+	(extends $TextMouseDisable)
+)
+
+(def macro CROSS_SHOW_ANIMATION(index:expression, startCondition:expression)
+	(alpha = "startCondition ? 1 : 0")
+	(controller $Animation
+		(bindcall play duration=0.07 delay="0.5 + index * 0.15" from={alpha:0} to={alpha:1} killAll=true init=false (bind enabled "startCondition"))
+		
+	)
+)
+
+(def element CrosshairGunLockedIndicator() layout=true
+	(scope
+		(event evGunLockedMessageChanged)
+		(var cameraEntity:gfx = "$datahub.getSingleEntity(CC.camera)")
+		(var cameraMode:number = "cameraEntity.camera.mode" (event "cameraEntity.camera.evModeChanged"))
+		(var isObserving:bool = "cameraEntity.camera.observing" (event "cameraEntity.camera.evObservingChanged"))
+		(var isTacticalMap:bool = "cameraEntity.camera.isTactical" (event "cameraEntity.camera.evTacticalStateChanged"))
+		(var isCameraTracking:bool = "cameraMode == CameraMode.PLANETRACKER || cameraMode == CameraMode.SHELLTRACKER")
+
+		(var avatar:gfx = "$datahub.getSingleEntity(CC.playerAvatar)")
+		(var isAlive:bool = "avatar.health.isAlive" (event "avatar.health.evIsAliveChanged"))
+
+		(var crosshairEntity:gfx = "$datahub.getSingleEntity(CC.crosshair)")
+		(var angleLock:bool = "crosshairEntity.aimLock.angleLock" (event "crosshairEntity.aimLock.evAngleLockChanged"))
+		(var sectorLock:bool = "crosshairEntity.aimLock.sectorLock" (event "crosshairEntity.aimLock.evSectorLockChanged"))
+
+		(var gunLockedMessageTemp:str = '')
+        (var gunLockedMessage:str = "isObserving    ? 'IDS_LOCKED' :
+                                     angleLock      ? 'IDS_GUN_LOCK_INDICATOR_RELATIVE' :
+                                     sectorLock     ? 'IDS_GUN_LOCK_INDICATOR_ABSOLUTE'
+                                                    : gunLockedMessageTemp" 
+									 (event "evGunLockedMessageChanged")
+								)
+        (bind gunLockedMessageTemp "gunLockedMessage" watch=false init=false (event "evGunLockedMessageChanged")) 
+
+		(var isGunLockedState:bool = "isAlive && !isTacticalMap && !isCameraTracking && (isObserving || sectorLock || angleLock)")
+	)
+	(dispatch evGunLockedMessageChanged 
+					(event "crosshairEntity.aimLock.evSectorLockChanged")
+					(event "crosshairEntity.aimLock.evAngleLockChanged")
+					(event "cameraEntity.camera.evObservingChanged")
+	)
+	(style
+		(position = "absolute")
+	)
+
+	(visible = "isGunLockedState")
+	(controller $Animation
+		(bindcall play duration=0.1 from={visible:0.0} to={visible:1.0} init=false killAll=true reverse="!isGunLockedState" (bind trigger "isGunLockedState"))
+	)
+
+	(block
+		(style
+			(position = "absolute")
+		)
+		(alpha = "isGunLockedState ? 1.0 : 0.0") 
+
+		(controller $Animation
+			(bindcall play duration=0.1 from={alpha:0.0, top:24} to={alpha:1.0, top:0} init=false killAll=true reverse="!isGunLockedState" (bind trigger "isGunLockedState"))
+		)
+
+		(tf
+			(class $TextGunLockStyle)
+			(style
+				(position = "absolute")
+				(left = 15)
+				(top = -25)
+			)
+
+			(bind text "gunLockedMessage")
+		)
+	)
+)
+
+(def element CrosshairIndicators () layout=true
+	(scope
+		(var cameraEntity:gfx = "$datahub.getSingleEntity(CC.camera)")
+		(var battlePrefs:gfx = "$datahub.getSingleComponent(CC.prefsBattle)")
+		(var selfVehicleEntity:gfx = "$datahub.getSingleEntity(CC.selfVehicle)")
+
+		
+		(var weaponType:number = "selfVehicleEntity.vehicleWeapons.selectedWeaponType" (event "selfVehicleEntity.vehicleWeapons.evSelectedWeaponTypeChanged"))
+
+		(var currentWeapon:gfx = "$datahub.getPrimaryEntity(CC.weapon, weaponType)")
+		(var gunsCount:gfx = "currentWeapon.gunsCount")
+		(var countAliveGuns:number = "gunsCount.countAliveGuns" (event "gunsCount.evChanged"))
+		(var isOutOfDistWeapon:bool = "currentWeapon.weapon.isOutOfDist" (event "currentWeapon.weapon.evIsOutOfDistChanged"))
+
+		
+		(var isBinocular:bool = "cameraEntity.camera.isBinocular" (event "cameraEntity.camera.evIsBinocularChanged"))
+		(var cameraMode:number = "cameraEntity.camera.mode" (event "cameraEntity.camera.evModeChanged"))
+		(var isAltVision:bool = "cameraEntity.camera.altVision || battlePrefs.altVisionMode >= AltVisionMode.ADAPTIVE" (event "cameraEntity.camera.evAltVisionChanged") (event "battlePrefs.evUpdate"))
+		(var isTacticalMap:bool = "cameraEntity.camera.isTactical" (event "cameraEntity.camera.evTacticalStateChanged"))
+		(var isSnakeTailMode:bool = "cameraEntity.camera.mode == CameraMode.SNAKETAIL")
+		(var isObserving:bool = "cameraEntity.camera.observing" (event "cameraEntity.camera.evObservingChanged"))
+		(var isCameraTracking:bool = "cameraMode == CameraMode.PLANETRACKER || cameraMode == CameraMode.SHELLTRACKER")
+
+		(var battleDataEntity:gfx = "$datahub.getSingleEntity(CC.battleData)")
+		(var isBattleStarted:bool = "battleDataEntity.battleState.battleState == BattleState.STARTED" (event "battleDataEntity.battleState.evBattleStateChanged"))
+
+		(var avatar:gfx = "$datahub.getSingleEntity(CC.playerAvatar)")
+		(var isAlive:bool = "avatar.health.isAlive" (event "avatar.health.evIsAliveChanged"))
+		(var isSubmarine:bool = "avatar.avatar.ship.ref.ship.subtype == ShipTypes.SUBMARINE")
+
+		
+		(var isAirplanesWeaponSelected:bool = "(weaponType == WeaponType.AIRPLANES)")
+
+		(var aircarrier:gfx = "$datahub.getSingleComponent(CC.aircarrier)")
+		(var activeSquadron:number = "aircarrier.activeSquadron" (event "aircarrier.evStateChanged"))
+		(var activeSquadronEntity:gfx = "$datahub.getPrimaryEntity(CC.ownSquadron, activeSquadron)")
+
+		(var squadronCameraMode:str = "aircarrier.squadronCameraMode" (event "aircarrier.evSquadronCameraModeChanged"))
+		(var isDefaultOrNoSquadronCameraMode:bool = "squadronCameraMode == SquadronCameraModes.UNKNOWN || squadronCameraMode == SquadronCameraModes.DEFAULT")
+		(var isAimingWithSquadron:bool = "activeSquadronEntity && activeSquadronEntity.ownSquadron.attackState == SquadronAttackState.AIMING && isDefaultOrNoSquadronCameraMode" (event "activeSquadronEntity.ownSquadron.evAttackStateChanged"))
+
+		
+		(var energyValue:number = "selfVehicleEntity.energy.value" (event "selfVehicleEntity.energy.evValueChanged"))
+		(var energyDelta:number = "selfVehicleEntity.energy.delta" (event "selfVehicleEntity.energy.evDeltaChanged"))
+		(var energyTemp:number = "energyValue" watch=false)
+		(controller $Animation
+            (bindcall play  duration="energyDelta >= 0 ? 0.35 : 0.15"
+                            easing="Easing.linear"
+                            to="{ energyTemp: energyValue }"
+                            killAll=true
+                            (bind trigger "energyValue")
+            )
+        )
+		(var energyText:str = "formatSeparator(round(energyTemp))")
+
+		(var pingerGunEntity:gfx = "$datahub.getPrimaryEntity(CC.weapon, WeaponType.PINGER)")
+		(var selectedIndex:number = "pingerGunEntity.weaponControl.selectedIndex" (event "pingerGunEntity.weaponControl.evSelectedIndexChanged"))
+		(var pingEnergyCost:number = "pingerGunEntity.weaponControl.ammoTypes[selectedIndex]")
+		(var canShootPing:bool = "energyValue >= pingEnergyCost")
+
+		
+		(var crosshairEntity:gfx = "$datahub.getSingleEntity(CC.crosshair)")
+		(var terrainAim:gfx = "crosshairEntity.terrainAim")
+		(var aimAssist:gfx = "crosshairEntity.aimAssist")
+		(var cross:gfx = "crosshairEntity.crosshair")
+
+		(var bulletTime:number = "aimAssist.collisionTime" (event "evEnterFrame"))
+		(var bulletTimeText:str = "formatFloatingPoint(bulletTime, 2)")
+
+		(var spotDistance:number = "aimAssist.shootVisibilityDistance" (event "aimAssist.evShootVisibilityDistanceChanged"))
+		(var spotDistanceText:str = "formatFloatingPoint(spotDistance, 2)")
+
+		(var shootDistance:number = "aimAssist.distance" (event "evEnterFrame"))
+		(var isOutOfShootingRange:bool = "isOutOfDistWeapon")
+		(var shootDistanceText:str = "shootDistance <= -1 ? '-.--' : formatFloatingPoint(shootDistance, 2)")
+
+		
+		(var distanceRed:number = "isOutOfShootingRange ? 1 : 1" watch=false)
+		(var distanceGreen:number = "isOutOfShootingRange ? 0.25 : 1" watch=false)
+		(var distanceBlue:number = "isOutOfShootingRange ? 0 : 1" watch=false)
+		(controller $Animation
+			(bindcall play duration=0.25 to="{distanceRed:1,distanceGreen:0.25, distanceBlue:0}" watch=false init=false (bind enabled "isOutOfShootingRange"))
+			(bindcall play duration=0.25 to="{distanceRed:1,distanceGreen:1,distanceBlue:1}" watch=false init=false (bind enabled "!isOutOfShootingRange"))
+		)
+
+		
+		(var baseVisibility:bool = "isAlive && !isTacticalMap && isAltVision && (isAirplanesWeaponSelected == isCameraTracking)")
+
+		(var isEnergyIndicatorVisible:bool = "isAlive && isSubmarine && weaponType == WeaponType.PINGER")
+		(var isShootDistanceVisible:bool = "baseVisibility && isDefaultOrNoSquadronCameraMode")
+		(var isSpotDistanceVisible:bool = "isShootDistanceVisible")
+		(var isBulletTimeVisible:bool = "baseVisibility && (isAimingWithSquadron || !isAirplanesWeaponSelected)")
+
+		(var isHittingTerrainVisible:bool = "terrainAim.value" (event "terrainAim.evChanged"))
+		(var isHittingTerrainShifted:bool = "isShootDistanceVisible")
+
+		(var animationIndexOffset:number = "isEnergyIndicatorVisible ? 1 : 0")
+
+		
+		(var isBattleStartAnimationTriggered:bool = "isBattleStarted")
+		
+	)
+
+	
+	(block
+		(style (position = "absolute") (left = 19) (top = 14))
+		
+		
+		(block
+			(bind visible "isEnergyIndicatorVisible")
+			(element CrosshairIndicator "'crosshair_indicator_energy'" "''" "0"
+				(scope
+					(bind _valueText "energyText")
+					(bind _animationTrigger "isBattleStartAnimationTriggered")
+				)	
+			)
+			(controller $FxInstance renderer='EnergySpendFX' lifetime="2"
+				(args _amount="$event[1]")
+				(bindcall create (event "selfVehicleEntity.energy.evEnergySpended"))
+			)
+			(bind colorTransform "canShootPing	? {redMultiplier:1,greenMultiplier:1,blueMultiplier:1}
+												: {redMultiplier:1,greenMultiplier:0.25,blueMultiplier:0}")
+		)
+
+		
+		(element CrosshairIndicator "'crosshair_indicator_distance'" "'km'" "0 + animationIndexOffset"
+			(scope
+				(bind _valueText "shootDistanceText")
+				(bind _animationTrigger "isBattleStartAnimationTriggered")
+				(bind _index "0 + animationIndexOffset")
+			)
+			(bind visible "isShootDistanceVisible")
+			(bind colorTransform "{redMultiplier:distanceRed,greenMultiplier:distanceGreen,blueMultiplier:distanceBlue}")
+		)
+
+		
+		(element CrosshairIndicator "'crosshair_indicator_visibility'" "'km'" "1 + animationIndexOffset"
+			(scope
+				(bind _valueText "spotDistanceText")
+				(bind _animationTrigger "isBattleStartAnimationTriggered")
+				(bind _index "1 + animationIndexOffset")
+			)
+			(bind visible "isSpotDistanceVisible")
+		)
+	)
+
+	
+	(block
+		(style
+			(position = "absolute") (right = 19) (top = 14)
+			(width = 200) (align = "right")
+		)
+
+		
+		(element CrosshairIndicator "'crosshair_indicator_bullettime'" "'s'" "0" "true"
+			(scope
+				(bind _valueText "bulletTimeText")
+				(bind _animationTrigger "isBattleStartAnimationTriggered")
+			)
+			(bind visible "isBulletTimeVisible")
+		)
+	)
+
+	
+	(block
+		(style
+			(position = "absolute")
+			(left = "isAltVision ? 106 : 26")
+			(top = 1)
+		)
+
+		(controller $Animation
+			(bindcall play duration=0.12 to="{left:106}" watch=false killAll=true init=false (bind enabled "isHittingTerrainShifted"))
+			(bindcall play duration=0.12 to="{left:26}" watch=false killAll=true init=false (bind enabled "!isHittingTerrainShifted"))
+		)
+
+		(mc icon_island_shoot_indicator
+			(bind isShown "isHittingTerrainVisible")
+		)
+	)
+)
+
+(def element CrosshairIndicator (_iconName:str, _measure:str, _animationIndex:number, _rightAligned:bool = false) layout=true
+	(scope
+		(var _valueText:str = '')
+		(var _animationTrigger:bool = false)
+		(var _index:number = "_animationIndex")
+	)
+	(style (flow = "Flow.HORIZONTAL") (marginTop = -5))
+
+	(block
+		(bind visible "!(_rightAligned)")
+		(style
+			(bind backgroundImage "'url:../battle_hud/crosshair/indicators/' + _iconName + '.png'")
+			(width = 19) (height = 19)
+			(marginTop = 4)
+		)
+		(macro CROSS_SHOW_ANIMATION "_index" "_animationTrigger")
+	)
+	(hblock
+		(style (marginTop = 2))
+		(tf
+			(class $TextIndicator)
+			(bind text "_valueText")
+		)
+		(tf
+			(alpha = 0.7)
+			(class $TextIndicator)
+			(text = "_measure")
+		)
+		(macro CROSS_SHOW_ANIMATION "_rightAligned ? _index : _index + 0.5" "_animationTrigger")
+	)
+	(block
+		(bind visible "_rightAligned")
+		(style
+			(bind backgroundImage "'url:../battle_hud/crosshair/indicators/' + _iconName + '.png'")
+			(width = 19) (height = 19)
+			(marginTop = 4)
+		)
+		(macro CROSS_SHOW_ANIMATION "_index + 0.5" "_animationTrigger")
+	)
+)
+
+(def element EnergySpendFX (_amount:number) layout=true
+	(scope
+		(event evAddedToStage)
+	)
+	(dispatch evAddedToStage on='addedToStage')
+	(style
+		(position = "absolute")
+		(left = 19) (top = -1)
+	)
+	(block
+		(style
+			(position = "absolute")
+		)
+		(tf
+			(class $TextIndicator)
+			(bind class "'$FontSizeSmall'")
+			(bind text "'-' + _amount")
+		)
+		(controller $Animation
+			(bindcall play 	duration=0.35
+							easing="Easing.quad_out"
+							from="{alpha: 0, top: -8}"
+							to="{alpha: 1, top: -16}"
+							(event "evAddedToStage")
+			)
+			(bindcall play 	duration=0.35
+							delay=1.0
+							easing="Easing.quad_in"
+							from="{alpha: 1, top: -16}"
+							to="{alpha: 0, top: -32}"
+							(event "evAddedToStage")
+			)
+		)
+	)
+	
+	
+)

@@ -102,18 +102,18 @@
 
         (var capturedBarSymbol:str = "isCaptureInProgress   ?   relation == 'ally'  ? 'symbol:capture_base_bar_green_centered' :
                                                                 relation == 'enemy' ? 'symbol:capture_base_bar_red_centered'
-                                                                                    : 'symbol:empty'
-                                                            : 'symbol:empty'")
+                                                                                    : ''
+                                                            : ''")
 
         (var barSymbol:str = "isCaptureInProgress   ?   barRelation == 'ally'   ? 'symbol:capture_base_bar_green_centered' :
                                                         barRelation == 'enemy'  ? 'symbol:capture_base_bar_red_centered'
-                                                                                : 'symbol:empty'
-                                                    : 'symbol:empty'")
+                                                                                : ''
+                                                    : ''")
 
-        (var indicatorSymbol:str = "(relation == 'neutral' || isCaptureInProgress   ? 'symbol:capture_base_bar_dark_centered' :
+        (var indicatorSymbol:str = "relation == 'neutral' || isCaptureInProgress    ? 'symbol:capture_base_bar_dark_centered' :
                                     relation == 'ally'                              ? 'symbol:capture_base_captured_ally_centered' :
                                     relation == 'enemy'                             ? 'symbol:capture_base_captured_enemy_centered'
-                                                                                    : '') + (isLargeBase ? '_expensive' : '')")
+                                                                                    : ''")
 
         (var indicatorProgress:number = "isCaptureInProgress    ? captureProgress == 0  ? 360 
                                                                                         : 360 * captureProgress * (invaderRelation == 'ally' ? 1 : -1)
@@ -141,14 +141,14 @@
                 from={rotation: 45}
                 to={rotation: 0}
                 (bind enabled "!(isCaptureInProgress || relation == 'neutral')")
-                (bind trigger "isCaptureInProgress")                
+                (bind trigger "isCaptureInProgress")
             )
         )
 
         (block
             (style
                 (position = "absolute")
-                (bind backgroundImage "indicatorSymbol")                
+                (bind backgroundImage "indicatorSymbol ? indicatorSymbol + (isLargeBase ? '_expensive' : '') : 'symbol:empty'")
             )
         )
 
@@ -159,7 +159,7 @@
             (bind visible "relation != 'neutral' && isCaptureInProgress")
             (style
                 (position = "absolute")
-                (bind backgroundImage "capturedBarSymbol ? capturedBarSymbol + (isLargeBase ? '_expensive' : '') : ''")                    
+                (bind backgroundImage "capturedBarSymbol ? capturedBarSymbol + (isLargeBase ? '_expensive' : '') : 'symbol:empty'")
             )
         )
 
@@ -179,7 +179,7 @@
             (block
                 (style
                     (position = "absolute")
-                    (bind backgroundImage "barSymbol ? barSymbol + (isLargeBase ? '_expensive' : '') : ''")                    
+                    (bind backgroundImage "barSymbol ? barSymbol + (isLargeBase ? '_expensive' : '') : 'symbol:empty'")
                 )
             )
         )

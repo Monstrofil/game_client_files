@@ -1,0 +1,133 @@
+(def element BinocularsBackground () layout=true
+    (scope
+        (var stageComponent:gfx = "$datahub.getSingleEntity(CC.stage).stage")
+		(var stageWidth:number = "stageComponent.width" (event "stageComponent.evStageSizeChanged"))
+		(var stageHeight:number = "stageComponent.height" (event "stageComponent.evStageSizeChanged"))
+
+        (var cameraEntity:gfx = "$datahub.getSingleEntity(CC.camera)")
+		(var isBinocular:bool = "cameraEntity.camera.isBinocular" (event "cameraEntity.camera.evIsBinocularChanged"))
+
+        (var selfVehicleEntity:gfx = "$datahub.getSingleEntity(CC.selfVehicle)")
+        (var submarine:gfx = "selfVehicleEntity.submarine")
+		(var depthIndex:number = "submarine ? submarine.depthIndex : SC.Battle.DEPTH_STATE.SURFACE" (event "submarine.evDepthIndexChanged"))
+    )
+
+	(style
+		(bind width "stageWidth")
+		(bind height "stageHeight")
+	)
+
+    (controller $Instance renderer='NormalMode'
+		(bind enabled "isBinocular && depthIndex == SC.Battle.DEPTH_STATE.SURFACE")
+	)
+
+    (controller $Instance renderer='PeriscopeMode'
+		(bind enabled "isBinocular && depthIndex > SC.Battle.DEPTH_STATE.SURFACE")
+	)
+)
+
+(def element NormalMode () layout=true
+    (scope
+        (event evShow)
+    )
+    (dispatch evShow on=addedToStage)
+
+    (class $FullsizeAbsolute)
+
+    (controller $Animation        
+        (bindcall play  duration="0.3"
+                        from="{alpha: 0}"
+                        to="{alpha: 1}"
+                        (event "evShow")
+        )
+    )
+
+    (mc binocular_top_left
+        (style (position = "absolute") (left = 0) (top = 0))
+    )
+
+    (block
+        (style (position = "absolute") (left = 50%) (top = 0))
+        (mc binocular_top
+            (style (marginLeft = -50%))
+        )
+    )
+
+    (mc binocular_top_right
+        (style (position = "absolute") (right = 0) (top = 0))
+    )
+
+    (mc binocular_bottom_left
+        (style (position = "absolute") (left = 0) (bottom = 0))
+    )
+
+    (block
+        (style (position = "absolute") (left = 50%) (bottom = 0))
+        (mc binocular_bottom
+            (style (marginLeft = -50%))
+        )
+    )
+    
+    (mc binocular_bottom_right
+        (style (position = "absolute") (right = 0) (bottom = 0))
+    )
+)
+
+(def element PeriscopeMode () layout=true
+    (scope
+        (event evShow)
+    )
+    (dispatch evShow on=addedToStage)
+
+    (class $FullsizeAbsolute)
+
+    (controller $Animation        
+        (bindcall play  duration="0.3"
+                        from="{alpha: 0}"
+                        to="{alpha: 1}"
+                        (event "evShow")
+        )
+    )
+
+    (block
+        (class $FullsizeAbsolute)
+        (style
+            (top = -4) (left = -4)
+        )
+        (block
+            (class $MiddleVAlignedAbsolutely)
+            (style
+                (width = 100%) (height = 8)
+                (backgroundImage = "'url:../battle_hud/binoculars/periscope/periscope_horizontal.png'")
+                (backgroundSize = "fill")
+                (scale9Grid = "[1, 1, 6, 6]")
+            )
+        )
+
+        (block
+            (class $MiddleAlignedAbsolutely)
+            (style
+                (width = 8) (height = 100%)
+                (backgroundImage = "'url:../battle_hud/binoculars/periscope/periscope_vertical.png'")
+                (backgroundSize = "fill")
+                (scale9Grid = "[1, 1, 6, 6]")
+            )
+        )
+    )
+
+    (block
+        (style
+            (position = "absolute") (left = 0) (top = 0) (height = 100%) (width = 377)
+            (backgroundImage = "'url:../battle_hud/binoculars/periscope/periscope_ocular_left.png'")
+            (backgroundSize = "fill")
+        )
+    )
+
+    (block
+        (style
+            (position = "absolute") (right = 0) (top = 0) (height = 100%) (width = 377)
+            (backgroundImage = "'url:../battle_hud/binoculars/periscope/periscope_ocular_right.png'")
+            (backgroundSize = "fill")
+        )
+    )
+)

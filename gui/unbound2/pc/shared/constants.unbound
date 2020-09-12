@@ -20,8 +20,6 @@
 (def constant C_ERROR 0xFFFF4400)
 (def constant C_DARK_33 0x33333333) 
 
-(def constant HOTKEY_BUTTON_SIZE 17)
-
 (def constant EventDirection {
 								NONE:	0,
 								UP:		1,
@@ -35,21 +33,11 @@
 								NEUTRAL: 'neutral'
 								})
 
-(def constant SHIP_TYPE   {
-								DESTROYER: 'Destroyer',
-								CRUISER: 'Cruiser',
-								BATTLESHIP: 'Battleship',
-								AIR_CARRIER: 'AirCarrier',
-								AUXILIARY: 'Auxiliary',
-                               	SUBMARINE  : 'Submarine'
-								})
-
 (def constant GameMode {
 								TEST: 0,
 								STANDARD: 1,
 								SINGLEBASE: 2,
 								DOMINATION: 7,
-								TUTORIAL: 8,
 								MEGABASE: 9,
 								FORTS: 10,
 								STANDARD_DOMINATION: 11,
@@ -81,7 +69,9 @@
 								ATBA: 1,
 								TORPEDO: 2,
 								AIRPLANES: 3,
-								AIRDEFENSE: 4
+								AIRDEFENSE: 4,
+								DEPTH_CHARGES: 5,
+								PINGER: 6
 								})
 
 (def constant DangerType {
@@ -89,20 +79,14 @@
 								TORPEDO: 1,
 								PLANE: 2,
 								PLANE_FIGHTER: 3,
-								SHIP: 4
+								SHIP: 4,
+								PLANE_CONSUMABLE: 5,
+								SUBMARINE: 6
 								})
 
 (def constant DangerDistance {
 								NEAR: 'near',
 								FAR: 'far'
-								})
-
-(def constant SquadronAmmoType {
-								FIGHTER: 0,
-								BOMBER: 1,
-								BOMBER_AP: 2,
-								TORPEDO: 3,
-								TORPEDO_DEEPWATER: 4
 								})
 
 (def constant SquadronAttackState {
@@ -118,9 +102,15 @@
 
 (def constant BattleHintType {
 								SIMPLE: 'SIMPLE',
+								ARTILLERY: 'ARTILLERY',
+								TORPEDO: 'TORPEDO',
+								SUBMARINE_TORPEDO: 'SUBMARINE_TORPEDO',
+								SURFACE_TORPEDO: 'SURFACE_TORPEDO',
 								SQUADRON: 'SQUADRON',
 								SQUADRON_WEAPON: 'SQUADRON_WEAPON',
-								CONSUME: 'CONSUME'
+								CONSUME: 'CONSUME',
+								PINGER: 'PINGER',
+								DEPTH_CHARGES: 'DEPTH_CHARGES'
 								})
 
 (def constant AltVisionMode {
@@ -138,28 +128,112 @@
 								AUXILIARY: 5
 							})
 
-
-(def constant PlaneSquadronTypes {
-                                FIGHTER: 0,
-                                BOMBER_HE: 1,
-                                BOMBER_AP: 2,
-                                TORPEDO: 3,
-                                TORPEDO_DEEPWATER: 4
-                            })
-
-(def constant PlaneAmmoTypes	{
-									PROJECTILE: 0,
-									BOMB_HE: 1,
-									BOMB_AP: 2,
-									TORPEDO: 3,
-									TORPEDO_DEEPWATER: 4
-								})
-
 (def constant BattleState {
 								STARTED: 0,
 								COUNTDOWN: 1,
 								WAITING: 2
 								})
+
+(def constant BattleTypes { STANDART_BATTLE : 	'StandartBattle',
+							SINGLE_BATTLE :		'SingleBattle',
+							STUDY_BATTLE :		'Study',
+							TRAINING_BATTLE :	'TrainingBattle',
+							RANDOM_BATTLE:		'RandomBattle',
+							COOPERATIVE_BATTLE :'CooperativeBattle',
+							RANKED_BATTLE :		'RankedBattle',
+							INTRO_MISSION :		'TutorialBattle',
+							CLUB_BATTLE :		'ClubBattle',
+							PVE_BATTLE:			'PVEBattle',
+							CLAN_BATTLE :		'ClanBattle',
+							EVENT_BATTLE :		'EventBattle'
+						  })
+
+(def constant CapturePointType { 	CONTROL : 			0x01,
+									BASE :				0x02,
+									MEGABASE :			0x03,
+									BUILDING_CP :		0x4,
+									BASE_WITH_POINTS:	0x5,
+									EPICENTER_CP :		0x6,
+
+									NAMES :				['', 'Control', 'Base', 'MegaBase', 'BuildingCP', 'BaseWithPoints', 'EpicenterCP']
+								})
+
+(def constant ModuleNames   [
+                                'engine',
+								'maingun',
+								'atba',
+								'aviation',
+								'airdefence',
+								'none',
+								'torpedoes',
+								'wheel',
+								'none',
+								'none',
+								'fire',
+								'flood'
+							])
+
+(def constant ModuleIds  {
+								ENGINE:        		0,
+								MAIN_CALIBER:  		1,
+								ATBA_GUN:     		2,
+								AVIATION:      		3,
+								AIR_DEFENSE:   		4,
+								OBSERVATION:   		5,
+								TORPEDO_TUBE: 		6,
+								PATH_CONTROL:  		7, 
+								DEPTH_CHARGE_GUN: 	8,
+								BURN:  				10,
+								FLOOD: 				11
+							})
+
+
+(def constant ShipTypes {
+						DESTROYER : 'Destroyer',
+						AIRCARRIER: 'AirCarrier',
+						CRUISER : 'Cruiser',
+						BATTLESHIP : 'Battleship',
+						AUXILIARYSHIP : 'Auxiliary',
+						SUBMARINE : 'Submarine'
+						})
+
+(def constant ConsumableState {
+							READY : 0x00,
+							AT_WORK :	0x01,
+							RELOAD :	0x02,
+							NO_AMMO :	0x03
+											})
+
+(def constant HitLocationState {
+								NORMAL       : 0, 
+								DAMAGED      : 1, 
+								CRIT         : 2, 
+								DEAD         : 3, 
+								DETONATED    : 4 
+											})
+
+(def constant RotationStates {
+								AIMED: 1,
+								AIMING: 2,
+								CANT_AIM : 3
+											})
+
+(def constant ReloadStates {
+								COMPLETE: 0,
+								IN_PROGRESS: 1
+											})
+
+(def constant PVE_NORMAL_DIFFICULTY 'normal')
+(def constant PVE_HARD_DIFFICULTY 'hard')
+
+(def constant SquadronCameraModes {
+								UNKNOWN : '',
+								DEFAULT : 'default',
+								LAST_SQUADRON_ATTACK_START : 'lastSquadronAttackStart',
+								LAST_SQUADRON_ATTACKED    : 'lastSquadronAttacked',
+								SQUADRON_DEAD  : 'squadronDead'
+})
+
 
 (def constant AirDefenseSectorState {
 								DEFAULT: 'default',
@@ -167,6 +241,13 @@
 								DEACTIVATING: 'deactivating',
 								COOLDOWN: 'cooldown'
 								})
+
+(def constant BuoyancyStates {
+	SURFACE: 0,
+	PERISCOPE: 1,
+	DEEP_WATER: 2,
+	DEEP_WATER_INVUL: 3
+})
 
 (def constant XXS 2px)
 (def constant XS 4px)
@@ -182,6 +263,18 @@
 (def constant XXLXL 192px)
 (def constant XXXL 256px)
 
+
+(def element EmptyElement())
+
+(def constant GunMarkerState {
+	INVALID: 0,
+	READY: 1,
+	NOT_READY: 2,
+	BLOCKED: 3,
+	DEAD: 4,
+	CRIT: 5
+})
+
 (def constant GunRotationState {
 	AIMED:		1,
 	AIMING:		2,
@@ -193,17 +286,10 @@
 	IN_PROGRESS:	1
 })
 
-(def constant HitLocationState {
-	NORMAL:		0,
-	DAMAGED:	1,
-	CRIT:		2,
-	DEAD:		3,
-	DETONATED:	4
+(def constant HitLocationHealthState {
+	ST_NORMAL:       0, 
+	ST_DAMAGED:      1, 
+	ST_CRIT:         2, 
+	ST_DEAD:         3, 
+	ST_DETONATED:    4 
 })
-
-(def constant SquadronCameraModes {
-								DEFAULT : 'default',
-								LAST_SQUADRON_ATTACK_START : 'lastSquadronAttackStart',
-								LAST_SQUADRON_ATTACKED    : 'lastSquadronAttacked',
-								SQUADRON_DEAD  : 'squadronDead'
-								})

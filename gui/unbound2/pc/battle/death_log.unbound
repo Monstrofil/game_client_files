@@ -30,23 +30,6 @@
 (def constant DEATH_LOG_MESSAGE_LIFETIME "DEATH_LOG_MESSAGE_HIDE_DELAY + DEATH_LOG_MESSAGE_ALPHA_DURATION*2")
 
 
-(def constant FRAG_TYPE_ICONS [
-              				'frags',
-              				'icon_frag_detonate',
-              				'icon_frag_main_caliber',
-              				'icon_frag_main_caliber',
-              				'icon_frag_torpedo',
-              				'icon_frag_bomb',
-              				'icon_frag_ram',
-              				'icon_frag_burning',
-              				'icon_frag_flood',
-              				'icon_frag_atba',
-              				'icon_frag_naval_mine',
-              				'icon_frag_fel',
-              				'icon_frag_depthbomb',
-              				'icon_frag_rocket'
-                          ])
-
 (def element ShipBlock(entity:gfx, colorClass:str) layout=true
 	(scope
 		(var isBuilding:bool = "entity.hasComponent(CC.building)")
@@ -127,7 +110,7 @@
         (var isInSameDivisionVictim:bool = "victimEntity.avatar.isInSameDivision" $enabled="hasVictim")
         (var victimRelationStr:str = "victimRelation <= 1 ? (isInSameDivisionVictim || isSelfVictim ? 'division' : 'ally') : victimRelation == 2 ? 'enemy' : 'neutral'" $enabled="hasVictim")
 
-        (var weapon:number = "eventData.info.weapon")
+        (var weaponIcon:str = "eventData.info.weaponIcon")
     )
 
 	(style
@@ -158,7 +141,7 @@
                 (height = 21px)
                 (marginLeft = 2px)
                 (marginRight = 2px)
-                (backgroundImage = "'bitmap:' + FRAG_TYPE_ICONS[weapon]")
+                (backgroundImage = "'bitmap:' + weaponIcon")
             )
         )
     

@@ -1,15 +1,15 @@
-(def element MainHud() layout=true
+(def element MainHud () layout=true
 	(scope
 		(var avatarEntity:gfx = "$datahub.getSingleEntity(CC.playerAvatar)")
+		(var isAlive:bool = "avatarEntity.health.isAlive" (event "avatarEntity.health.evIsAliveChanged"))
 		(var shipType:str = "avatarEntity.avatar.ship.ref.ship.subtype")
-		(var isAircraftHudVisible:bool = "avatarEntity.avatar.ship.ref.ship.subtype == SHIP_TYPE.AIR_CARRIER")
+		(var isAircraftHudVisible:bool = "avatarEntity.avatar.ship.ref.ship.subtype == ShipTypes.AIRCARRIER")
+		(var isSubmarineHudVisible:bool = "avatarEntity.avatar.ship.ref.ship.subtype == ShipTypes.SUBMARINE")
 
 		(var stageComponent:gfx = "$datahub.getSingleEntity(CC.stage).stage")
 		(var stageWidth:number = "stageComponent.width" (event "stageComponent.evStageSizeChanged"))
 		(var stageHeight:number = "stageComponent.height" (event "stageComponent.evStageSizeChanged"))
 	)
-
-	(class $FullsizeAbsolute)
 
 	(style
 		(bind width "stageWidth")
@@ -20,7 +20,39 @@
 		(bind enabled "isAircraftHudVisible == true")
 	)
 
-	(element CentralDangersContainer)
+	(controller $Instance renderer='SubmarineHud'
+		(bind enabled "isSubmarineHudVisible == true")
+	)
 
 	
+	
+
+	
+)
+
+(def macro DRAW_GUIDE (_x1:expression, _y1:expression, _x2:expression, _y2:expression)
+	(block
+		(.graphics
+			(lineStyle "1" "0x00FFFF" "1")
+			(moveTo "_x1" "_y1")
+			(lineTo "_x2" "_y2")
+			(endFill)
+		)
+	)
+)
+
+(def element Guides () layout=true
+	(scope
+		(var stageComponent:gfx = "$datahub.getSingleEntity(CC.stage).stage")
+		(var stageWidth:number = "stageComponent.width" (event "stageComponent.evStageSizeChanged"))
+		(var stageHeight:number = "stageComponent.height" (event "stageComponent.evStageSizeChanged"))
+	)
+	(style
+		(position = "absolute")
+		(bind width "stageWidth")
+		(bind height "stageHeight")
+	)
+
+	(macro DRAW_GUIDE "stageWidth/2" "0" "stageWidth/2" "stageHeight")
+	(macro DRAW_GUIDE "0" "stageHeight/2" "stageWidth" "stageHeight/2")
 )

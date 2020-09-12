@@ -18,6 +18,7 @@
 	<AVATAR_ID>INT64</AVATAR_ID>
 	<CAMPAIGN_TASK_ID>UINT32</CAMPAIGN_TASK_ID>
 	<ARENA_UNIQUE_ID>UINT64</ARENA_UNIQUE_ID>
+	<REASON_ID>UINT32</REASON_ID>
 
 	<ATBA_TARGETS>
 		ARRAY<of>UINT32</of>
@@ -75,7 +76,9 @@
 	<TEAMS_DEF>
 		FIXED_DICT
 		<Properties>
-			<data><Type>ARRAY<of>TEAM_INFO</of></Type></data>
+			<detonation><Type>BOOL</Type></detonation>
+			<friendlyFire><Type>BOOL</Type></friendlyFire>
+			<teams><Type>ARRAY<of>TEAM_INFO</of></Type></teams>
 		</Properties>
 		<implementedBy>TeamsDef.converter</implementedBy>
 	</TEAMS_DEF>
@@ -94,6 +97,7 @@
 			<pveInfo><Type>UINT64</Type></pveInfo>
 			<realms><Type>ARRAY<of>STRING</of></Type></realms>
 			<eventInfo><Type>GAMEPARAMS_ID</Type></eventInfo>
+			<holderTeams><Type>ARRAY<of>TEAM_ID</of></Type></holderTeams>
 		</Properties>
 		<implementedBy>BattleDef.converter</implementedBy>
 	</BATTLE_DEF>
@@ -186,7 +190,6 @@
 		FIXED_DICT
 		<Properties>
 			<id><Type>DB_ID</Type></id>
-			<creatorType><Type>UINT8</Type></creatorType>
 			<info><Type>PYTHON</Type></info>
 		</Properties>
 		<AllowNone> true </AllowNone>
@@ -334,9 +337,25 @@
 			<pos>		<Type>VECTOR3</Type></pos>
 			<dir>		<Type>VECTOR3</Type></dir>
 			<shotID>	<Type>UINT16</Type>	</shotID>
-			<armed>		<Type>UINT16</Type>	</armed>
+			<armed>		<Type>BOOL</Type>	</armed>
 		</Properties>
 	</TORPEDO>
+
+	<ACC_TORPEDO>
+		FIXED_DICT
+		<Properties>
+			<pos>		        <Type>VECTOR3</Type>    </pos>
+			<dir>		        <Type>VECTOR3</Type>    </dir>
+			<shotID>	        <Type>UINT16</Type>	    </shotID>
+			<armed>		        <Type>BOOL</Type>	    </armed>
+			<modificatorsLevel> <Type>UINT8</Type>	    </modificatorsLevel>
+			<speedCoef>	        <Type>FLOAT</Type>	    </speedCoef>
+			<rotationYaw>	    <Type>FLOAT</Type>	    </rotationYaw>
+			<verticalSpeed>	    <Type>FLOAT</Type>	    </verticalSpeed>
+			<targetYaw>	        <Type>FLOAT</Type>	    </targetYaw>
+			<targetDepth>	    <Type>FLOAT</Type>	    </targetDepth>
+		</Properties>
+	</ACC_TORPEDO>
 
 	<TORPEDOES_PACK>
 		FIXED_DICT
@@ -349,7 +368,18 @@
 		</Properties>
 	</TORPEDOES_PACK>
 
-	
+	<ACC_TORPEDOES_PACK>
+		FIXED_DICT
+		<Properties>
+			<paramsID>	    <Type>GAMEPARAMS_ID</Type>			    </paramsID>
+			<ownerID>	    <Type>PLAYER_ID</Type>				    </ownerID>
+			<salvoID>	    <Type>INT32</Type>					    </salvoID>
+			<skinID>	    <Type>GAMEPARAMS_ID</Type>			    </skinID>
+			<torpedoes>	    <Type>ARRAY<of>ACC_TORPEDO</of></Type>	</torpedoes>
+		</Properties>
+	</ACC_TORPEDOES_PACK>
+
+
 	<DEPTHCHARGESHOT>
 		FIXED_DICT
 		<Properties>
@@ -556,14 +586,27 @@
 		</Properties>
 	</ON_HIT_INFO>
 
-	<ZONE_TARGET_PRIORITY_INFO>
+	<SURFACE_HYDROPHONE_ZONE_INFO>
 		FIXED_DICT
 		<Properties>
-			<zoneCenter> <Type> VECTOR3 </Type> </zoneCenter>
-			<zoneRadius> <Type> FLOAT </Type> </zoneRadius>
+			<zoneID> 		<Type> UINT8 		</Type> </zoneID>
+			<entityID> 		<Type> ENTITY_ID 	</Type> </entityID>
+			<position2D> 	<Type> VECTOR2 		</Type> </position2D>
 		</Properties>
-	</ZONE_TARGET_PRIORITY_INFO>
-	
+	</SURFACE_HYDROPHONE_ZONE_INFO>
+
+    <SUBMARINE_HYDROPHONE_TARGET_INFO>
+        FIXED_DICT
+		<Properties>
+			<entityID> 		<Type> ENTITY_ID 	    </Type> </entityID>
+			<paramsID> 		<Type> GAMEPARAMS_ID    </Type> </paramsID>
+			<position> 	    <Type> VECTOR3 		    </Type> </position>
+			<yaw> 	        <Type> FLOAT 		    </Type> </yaw>
+			<pitch> 	    <Type> FLOAT 		    </Type> </pitch>
+		</Properties>
+	</SUBMARINE_HYDROPHONE_TARGET_INFO>
+
+
 	<READY_CLIENTS_LIST>
 		ARRAY<of>ENTITY_ID</of>
 	</READY_CLIENTS_LIST>
@@ -574,13 +617,13 @@
 			<name><Type>STRING</Type></name>
 			<markerType><Type>UINT8</Type></markerType>
 			<subType><Type>UINT8</Type></subType>
-			<caption><Type>STRING</Type><AllowNone>true</AllowNone></caption>
-			<position><Type>FIXED_DICT<Properties><x><Type>FLOAT</Type></x><z><Type>FLOAT</Type></z></Properties><AllowNone>true</AllowNone></Type></position>
+			<caption><Type>STRING</Type></caption>
+			<position><Type>VECTOR2</Type></position>
 			<ownerType><Type>UINT8</Type></ownerType>
 			<ownerId><Type>ENTITY_ID</Type></ownerId>
 			<linkedTaskName><Type>STRING</Type></linkedTaskName>
 		</Properties>
-		<AllowNone>true</AllowNone>
+		<implementedBy>AttentionMarkerDef.converter</implementedBy>
 	</ATTENTION_MARKER_STATE>
 
 	<!--<BUILDINGS_STATE>-->
@@ -592,12 +635,9 @@
 	<CLIENT_ANIMATION_STATE>
 		FIXED_DICT
 		<Properties>
-			<type><Type>INT8</Type></type>
 			<targetType><Type>INT8</Type></targetType>
-			<ids><Type>ARRAY<of>ENTITY_ID</of></Type><AllowNone>true</AllowNone></ids>
-			<indexes><Type>ARRAY<of>UINT16</of></Type><AllowNone>true</AllowNone></indexes>
+			<ids><Type>ARRAY<of>ENTITY_ID</of></Type></ids>
 		</Properties>
-		<AllowNone>true</AllowNone>
 	</CLIENT_ANIMATION_STATE>
 
 	<CONTROL_POINT_STATE>
@@ -648,38 +688,15 @@
 		<AllowNone>true</AllowNone>
 	</RESOURCE_STATE>
 
-	<ZONE_RESOURCE_STATE>
+	<INTERACTIVE_ZONE_ENTITY_STATE>
 		FIXED_DICT
 		<Properties>
-			<resourceType><Type>UINT8</Type></resourceType>
-			<values><Type>RESOURCE_RECORD</Type></values>
+			<forOwner><Type>UINT8</Type></forOwner>
+			<forAllies><Type>UINT8</Type></forAllies>
+			<forEnemies><Type>UINT8</Type></forEnemies>
 		</Properties>
-	</ZONE_RESOURCE_STATE>
-
-	<ZONE_TEAM_STATE>
-		FIXED_DICT
-		<Properties>
-			<teamId><Type>TEAM_ID</Type></teamId>
-			<state><Type>UINT8</Type></state>
-		</Properties>
-	</ZONE_TEAM_STATE>
-
-	<INTERACTIVE_ZONE_STATE>
-		FIXED_DICT
-		<Properties>
-			<name><Type>STRING</Type></name>
-			<radius><Type>FLOAT</Type></radius>
-			<state><Type>UINT8</Type></state>
-			<teamsStates><Type>ARRAY<of>ZONE_TEAM_STATE</of></Type></teamsStates>
-			<type><Type>UINT8</Type></type>
-			<ownerId><Type>ENTITY_ID</Type></ownerId>
-			<position><Type>VECTOR2</Type></position>
-			<remainAfterOwnerDeath><Type>BOOL</Type></remainAfterOwnerDeath>
-			<info><Type>BLOB</Type></info>
-			<resources><Type>ARRAY<of>ZONE_RESOURCE_STATE</of></Type></resources>
-		</Properties>
-		<AllowNone>true</AllowNone>
-	</INTERACTIVE_ZONE_STATE>
+		<implementedBy>InteractiveZoneStateDef.converter</implementedBy>
+	</INTERACTIVE_ZONE_ENTITY_STATE>
 
 	<KEY_OBJECT_STATE>
 		FIXED_DICT
@@ -756,8 +773,8 @@
 			<suppress><Type>ARRAY<of>SUPPRESS_BUILDING_MISSION_STATE</of></Type></suppress>
 			<kill><Type>ARRAY<of>KILL_SPECIFIC_SHIP_MISSION_STATE</of></Type></kill>
 			<teamsScore><Type>ARRAY<of>TEAM_SCORE</of></Type></teamsScore>
-			<teamWinScore><Type>UINT16</Type></teamWinScore>
-			<teamLoseScore><Type>UINT16</Type></teamLoseScore>
+			<teamWinScore><Type>INT16</Type></teamWinScore>
+			<teamLoseScore><Type>INT16</Type></teamLoseScore>
 		</Properties>
 		<AllowNone>true</AllowNone>
 	</MISSIONS_STATE>
@@ -818,40 +835,17 @@
 		<AllowNone>true</AllowNone>
 	</ENTITY_STATE_STATE>
 
-	<!--<TRIGGERS_STATE>-->
-		<!--FIXED_DICT-->
-		<!--<Properties>-->
-		<!--</Properties>-->
-	<!--</TRIGGERS_STATE>-->
-
-	<!--<ROUTES_STATE>-->
-		<!--FIXED_DICT-->
-		<!--<Properties>-->
-		<!--</Properties>-->
-	<!--</ROUTES_STATE>-->
-	<MINE_STATE>
+	<MINEFIELD_INFO>
 		FIXED_DICT
 		<Properties>
-			<position><Type>VECTOR2</Type></position>
-			<id><Type>UINT32</Type></id>
-		</Properties>
-	</MINE_STATE>
-	
-	<MINEFIELD_STATE>
-		FIXED_DICT
-		<Properties>
-			<id><Type>UINT32</Type></id>
-			<position><Type>VECTOR2</Type></position>
-			<length><Type>FLOAT</Type></length>
-			<width><Type>FLOAT</Type></width>
-			<yaw><Type>FLOAT</Type></yaw>
-			<depth><Type>FLOAT</Type></depth>
+			<id><Type>UINT16</Type></id>
 			<mineType><Type>GAMEPARAMS_ID</Type></mineType>
-			<mines><Type>ARRAY<of>MINE_STATE</of></Type></mines>
-			<enableDebugDraw><Type>BOOL</Type></enableDebugDraw>
+			<ownerID><Type>ENTITY_ID</Type></ownerID>
+			<minBounds><Type>VECTOR3</Type></minBounds>
+			<maxBounds><Type>VECTOR3</Type></maxBounds>
+			<depth><Type>FLOAT</Type></depth>
 		</Properties>
-	</MINEFIELD_STATE>
-
+	</MINEFIELD_INFO>
 
 	<LOCAL_WEATHER_STATE>
 		FIXED_DICT
@@ -911,12 +905,13 @@
 			<maxVisibilityDistanceByPlane><Type> FLOAT </Type></maxVisibilityDistanceByPlane>
 			<mgVisibilityTime><Type> FLOAT </Type></mgVisibilityTime>
 			<smokeVisibilityTime><Type> FLOAT </Type></smokeVisibilityTime>
+			<airDefenseVisibilityTime><Type> FLOAT </Type></airDefenseVisibilityTime>
 			<GMIdealRadius><Type> FLOAT </Type></GMIdealRadius>
 			<GSIdealRadius><Type> FLOAT </Type></GSIdealRadius>
 			<AAMaxDist><Type> FLOAT </Type></AAMaxDist>
 			<shootShift><Type> FLOAT </Type></shootShift>
 			<speedCoef><Type> FLOAT </Type></speedCoef>
-			<airplanesSpeed><Type> FLOAT </Type></airplanesSpeed>
+			<planeSpeed><Type> FLOAT </Type></planeSpeed>
 			<burnDamage><Type> FLOAT </Type></burnDamage>
 			<burnTime><Type> FLOAT </Type></burnTime>
 			<smokeLifeTime><Type> FLOAT </Type></smokeLifeTime>
@@ -937,14 +932,31 @@
 		</Properties>
 	</WEATHER_STATE>
 
+	<CAPTURE_LOGIC_STATE>
+		FIXED_DICT
+		<Properties>
+			<captureProgress><Type>FLOAT</Type></captureProgress>
+			<timeLeft><Type>FLOAT</Type></timeLeft>
+			<teamId><Type>TEAM_ID</Type></teamId>
+		</Properties>
+		<AllowNone>true</AllowNone>
+	</CAPTURE_LOGIC_STATE>
+
+	<MODIFIER_STATE>
+		USER_TYPE
+		<implementedBy>ModifierDef.converter</implementedBy>
+	</MODIFIER_STATE>
+
 	<DROP_ITEM_STATE>
 		FIXED_DICT
 		<Properties>
 			<id><Type>INT8</Type></id>
 			<paramsId><Type>GAMEPARAMS_ID</Type></paramsId>
-			<zoneName><Type>STRING</Type></zoneName>
+			<zoneId><Type>ENTITY_ID</Type></zoneId>
 			<startTime><Type>INT16</Type></startTime>
 			<isContested><Type>BOOL</Type></isContested>
+			<captureLogicState><Type>CAPTURE_LOGIC_STATE</Type></captureLogicState>
+			<visualId><Type>GAMEPARAMS_ID</Type></visualId>
 		</Properties>
 	</DROP_ITEM_STATE>
 
@@ -961,11 +973,24 @@
 	<DROP_STATE>
 		FIXED_DICT
 		<Properties>
-			<dropItems><Type>ARRAY<of>DROP_ITEM_STATE</of></Type></dropItems>
+			<data><Type>ARRAY<of>DROP_ITEM_STATE</of></Type></data>
 			<plane><Type>DROP_PLANE_STATE</Type></plane>
 		</Properties>
 		<AllowNone>true</AllowNone>
 	</DROP_STATE>
+
+	<BATTLE_ITEM_STATE>
+		USER_TYPE
+		<implementedBy>BattleItemDef.converter</implementedBy>
+	</BATTLE_ITEM_STATE>
+
+	<STASHED_BATTLE_ITEM_STATE>
+		FIXED_DICT
+		<Properties>
+			<id><Type> UINT8 </Type></id>
+			<item><Type> BATTLE_ITEM_STATE </Type></item>
+		</Properties>
+	</STASHED_BATTLE_ITEM_STATE>
 	
 	<BATTLE_LOGIC_STATE>
 		FIXED_DICT
@@ -975,15 +1000,14 @@
 			<controlPoints><Type>ARRAY<of>CONTROL_POINT_STATE</of></Type></controlPoints>
 			<entityStates><Type>ARRAY<of>ENTITY_STATE_STATE</of></Type></entityStates>
 			<expectedActions><Type>EXPECTED_ACTION_STATE</Type></expectedActions>
-			<interactiveZones> <Type>ARRAY<of>INTERACTIVE_ZONE_STATE</of></Type></interactiveZones>
-			<weather> <Type>WEATHER_STATE</Type></weather>
+			<weather><Type>WEATHER_STATE</Type></weather>
 			<keyObjects><Type>ARRAY<of>KEY_OBJECT_STATE</of></Type></keyObjects>
-			<missions> <Type>MISSIONS_STATE</Type> </missions>
-			<resources> <Type> ARRAY <of> RESOURCE_STATE </of> </Type> </resources>
-			<successStoryProgress> <Type>ARRAY<of>SUCCESS_STORY_PROGRESS_STATE</of></Type>  </successStoryProgress>
-			<screenplayMessage> <Type> SCREENPLAY_MESSAGE_STATE </Type> </screenplayMessage>
-			<tasks> <Type>ARRAY<of>TASKS_STATE</of></Type></tasks>
-			<minefields><Type>ARRAY<of>MINEFIELD_STATE</of></Type></minefields>
+			<missions><Type>MISSIONS_STATE</Type></missions>
+			<resources><Type>ARRAY<of>RESOURCE_STATE</of></Type></resources>
+			<minefields><Type>ARRAY<of>MINEFIELD_INFO</of></Type></minefields>
+			<successStoryProgress><Type>ARRAY<of>SUCCESS_STORY_PROGRESS_STATE</of></Type></successStoryProgress>
+			<screenplayMessage><Type>SCREENPLAY_MESSAGE_STATE</Type></screenplayMessage>
+			<tasks><Type>ARRAY<of>TASKS_STATE</of></Type></tasks>
 			<entities><Type>ARRAY<of>BATTLE_LOGIC_ENTITY_STATE</of></Type></entities>
 			<effects><Type>ARRAY<of>EFFECT_STATE</of></Type></effects>
 			<drop><Type>DROP_STATE</Type></drop>
@@ -1001,23 +1025,31 @@
 		</Properties>
 	</INDIVIDUAL_TASK_STATE>
 
-	<MODIFIER_STATE>
+	<BUFF_STATE>
 		FIXED_DICT
 		<Properties>
 			<paramsId><Type>GAMEPARAMS_ID</Type></paramsId>
 			<level><Type>INT8</Type></level>
-			<startTime><Type>INT16</Type></startTime>
 			<endTime><Type>INT16</Type></endTime>
 		</Properties>
-		<implementedBy>ModifierDef.converter</implementedBy>
-	</MODIFIER_STATE>
+		<implementedBy>BuffDef.converter</implementedBy>
+	</BUFF_STATE>
 
+	<TRIGGERS_STATE>
+		FIXED_DICT
+		<Properties>
+			<modifier><Type> MODIFIER_STATE </Type></modifier>
+		</Properties>
+		<AllowNone>true</AllowNone>
+	</TRIGGERS_STATE>
 
 	<PRIVATE_BATTLE_LOGIC_STATE>
 		FIXED_DICT
 		<Properties>
 			<individualTasks><Type> ARRAY <of> INDIVIDUAL_TASK_STATE </of> </Type></individualTasks>
-			<modifiers><Type> ARRAY <of> MODIFIER_STATE </of> </Type></modifiers>
+			<buffs><Type> ARRAY <of> BUFF_STATE </of> </Type></buffs>
+			<battleItems><Type> ARRAY <of> STASHED_BATTLE_ITEM_STATE </of> </Type></battleItems>
+			<triggers><Type> TRIGGERS_STATE </Type></triggers>
 			<screenplayMessage> <Type> SCREENPLAY_MESSAGE_STATE </Type> </screenplayMessage>
 		</Properties>
 	</PRIVATE_BATTLE_LOGIC_STATE>
@@ -1070,20 +1102,44 @@
 		</Properties>
 	</INDIVIDUAL_TASK_DEF>
 
+	<COMBINED_CLASSES_RESTRICTION>
+		FIXED_DICT
+		<Properties>
+			<min><Type>INT32</Type></min>
+			<max><Type>INT32</Type></max>
+			<shipTypes><Type>ARRAY<of>STRING</of></Type></shipTypes>
+		</Properties>
+	</COMBINED_CLASSES_RESTRICTION>
+
+	<SHIP_CLASS_RESTRICTION>
+		FIXED_DICT
+		<Properties>
+			<shipClass><Type>STRING</Type></shipClass>
+			<minLimit><Type>INT32</Type></minLimit>
+			<maxLimit><Type>INT32</Type></maxLimit>
+		</Properties>
+	</SHIP_CLASS_RESTRICTION>
+
+	<RESTRICTION_FILTER>
+		FIXED_DICT
+		<Properties>
+			<concreteShips><Type>ARRAY<of>STRING</of></Type></concreteShips>
+			<excludeShips><Type>ARRAY<of>STRING</of></Type></excludeShips>
+			<shipTypes><Type>ARRAY<of>STRING</of></Type></shipTypes>
+			<shipLevels><Type>ARRAY<of>INT8</of></Type></shipLevels>
+			<nations><Type>ARRAY<of>STRING</of></Type></nations>
+		</Properties>
+	</RESTRICTION_FILTER>
+
 	<SHIP_RESTRICTIONS>
 		FIXED_DICT
-		<implementedBy>ShipRestrictions.converter</implementedBy>
+		<implementedBy>ShipRestrictions.ShipRestrictionsDefConverter.converter</implementedBy>
 		<Properties>
 			<totalShips><Type>INT32</Type></totalShips>
 			<minShips><Type>INT32</Type></minShips>
-			<concreteShips><Type>ARRAY<of>INT32</of></Type></concreteShips>
-			<excludeShips><Type>ARRAY<of>INT32</of></Type></excludeShips>
-			<shipTypes><Type>ARRAY<of>INT8</of></Type></shipTypes>
-			<shipLevels><Type>ARRAY<of>INT8</of></Type></shipLevels>
-			<nations><Type>ARRAY<of>INT8</of></Type></nations>
-			<shipClassesForFilters><Type>ARRAY<of>INT32</of></Type></shipClassesForFilters>
-			<minLimitsForFilters><Type>ARRAY<of>INT32</of></Type></minLimitsForFilters>
-			<maxLimitsForFilters><Type>ARRAY<of>INT32</of></Type></maxLimitsForFilters>
+			<classes><Type>ARRAY<of>SHIP_CLASS_RESTRICTION</of></Type></classes>
+			<combinedClasses><Type>COMBINED_CLASSES_RESTRICTION</Type></combinedClasses>
+			<filters><Type>ARRAY<of>RESTRICTION_FILTER</of></Type></filters>
 		</Properties>
 		<AllowNone> true </AllowNone>
 	</SHIP_RESTRICTIONS>
@@ -1104,6 +1160,7 @@
 			<hideShips><Type>BOOL</Type></hideShips>
 			<passwordAction><Type>INT8</Type></passwordAction>
 			<password><Type>UNICODE_STRING</Type></password>
+			<observersAvailable><Type>BOOL</Type></observersAvailable>
 		</Properties>
 	</TRAINING_ROOM_PROPERTIES>
 
@@ -1121,6 +1178,7 @@
 			<notDistributedPlayersCount><Type>INT32</Type></notDistributedPlayersCount>
 			<passwordLen><Type>INT32</Type></passwordLen>
 			<hasFriends><Type>BOOL</Type></hasFriends>
+			<observersAvailable><Type>BOOL</Type></observersAvailable>
 		</Properties>
 		<AllowNone>true</AllowNone>
 	</TRAINING_ROOM_DEF>
@@ -1147,9 +1205,6 @@
 			<mapName><Type>UINT16</Type></mapName>
 			<gameType><Type>INT8</Type></gameType>
 			<gameMode><Type>INT8</Type></gameMode>
-			<result><Type>INT8</Type></result>
-			<shipId><Type>SHIP_ID</Type></shipId>
-			<stats><Type>REPLAY_METADATA_STATS</Type></stats>
 			<dateTime><Type>UINT32</Type></dateTime>
 			<version><Type>STRING</Type></version>
 			<networkInterface><Type>STRING</Type></networkInterface>
@@ -1245,6 +1300,12 @@
 		<implementedBy>MsgPackCustomConverter.converter</implementedBy>
 	</MSGPACK_BLOB>
 
+	<ZIPPED_BLOB>
+		USER_TYPE
+		<Type>BLOB</Type>
+		<implementedBy>ZippedBlobConverter.converter</implementedBy>
+	</ZIPPED_BLOB>
+
 	<PLAYER_DIGEST>
 		FIXED_DICT
 		<Properties>
@@ -1270,4 +1331,46 @@
 		<implementedBy>MapBorderDef.converter</implementedBy>
 		<AllowNone> true </AllowNone>
 	</MAP_BORDER>
+
+	<REPLAY_DATA>
+		FIXED_DICT
+		<Properties>
+			<battleID><Type>ARENA_UNIQUE_ID</Type></battleID>
+			<permitDBIDs><Type>ARRAY<of>DB_ID</of></Type></permitDBIDs>
+			<metadata><Type>MSGPACK_BLOB</Type></metadata>
+			<readyReplay><Type>BLOB</Type></readyReplay>
+		</Properties>
+		<implementedBy>ReplayInfoDef.converter</implementedBy>
+	</REPLAY_DATA>
+
+	<PLAYER_MODE>
+		FIXED_DICT
+		<Properties>
+			<playerModeType><Type>UINT8</Type></playerModeType>
+			<observedTeamId><Type>TEAM_ID</Type></observedTeamId>
+		</Properties>
+		<implementedBy>PlayerModeDef.converter</implementedBy>
+	</PLAYER_MODE>
+
+
+	<RESTART_INFO>
+		USER_TYPE
+		<implementedBy>AutoCompensationDataTypes.restartInfoConverterInstance</implementedBy>
+	</RESTART_INFO>
+
+    <NAVIGATION_UNPASSABLE_CELL>
+        TUPLE <of> INT32 </of> <size> 2 </size>
+    </NAVIGATION_UNPASSABLE_CELL>
+
+    <NAVIGATION_DEBUG_DATA>
+		FIXED_DICT
+		<Properties>
+			<mapMin> <Type> VECTOR3 </Type> </mapMin>
+			<numCellsX> <Type> UINT16 </Type> </numCellsX>
+			<numCellsZ> <Type> UINT16 </Type> </numCellsZ>
+			<unpassableCells> <Type> ARRAY <of> NAVIGATION_UNPASSABLE_CELL </of> </Type> </unpassableCells>
+			<cellSize> <Type> FLOAT </Type> </cellSize>
+		</Properties>
+	</NAVIGATION_DEBUG_DATA>
+
 </root>
