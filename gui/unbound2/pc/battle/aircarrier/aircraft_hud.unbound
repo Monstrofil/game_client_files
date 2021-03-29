@@ -1,37 +1,43 @@
-(def constant AIRPLANE_FLIGHT_STATE_DISBANDED 0)
-(def constant AIRPLANE_FLIGHT_STATE_PREPARING 1)
-(def constant AIRPLANE_FLIGHT_STATE_READY 2)
-(def constant AIRPLANE_FLIGHT_STATE_IN_LAUNCH_QUEUE 3)
-(def constant AIRPLANE_FLIGHT_STATE_LAUNCHING 4)
-(def constant AIRPLANE_FLIGHT_STATE_FLY 5)
-(def constant AIRPLANE_FLIGHT_STATE_IN_LAND_QUEUE 6)
-(def constant AIRPLANE_FLIGHT_STATE_LANDING 7)
+(def constant AIRPLANE_FLIGHT_STATE_INACTIVE 0)
+(def constant AIRPLANE_FLIGHT_STATE_LAUNCHING 1)
+(def constant AIRPLANE_FLIGHT_STATE_FLY 2)
 
+(def constant AIRPLANE_ATTACK_STATE_DEFAULT 0)
+(def constant AIRPLANE_ATTACK_STATE_PREPARATION 1)
+(def constant AIRPLANE_ATTACK_STATE_AIMING 2)
+(def constant AIRPLANE_ATTACK_STATE_MAIN_SQUADRON_ATTACK 3)
+
+
+(def constant SKIP_ANIM_PANEL_BOTTOM_OFFSET 154)
+(def constant DEATH_TIMER_PANEL_BOTTOM_OFFSET 190)
 
 (def element AircraftHud () layout=true
 	(scope
 		(var cameraEntity:gfx = "$datahub.getSingleEntity(CC.camera)")
 		(var tacticalMap:bool = "cameraEntity.camera.isTactical" (event "cameraEntity.camera.evTacticalStateChanged"))
 
-		(var ownCarrierEntity:gfx = "$datahub.getSingleEntity(CC.aircarrier)")
-		(var aircarrier:gfx = "ownCarrierEntity.aircarrier")
-		(var activeSquadron:number = "aircarrier.activeSquadron" (event "aircarrier.evStateChanged"))
+		(var aircarrier:gfx = "$datahub.getSingleComponent(CC.aircarrier)")
+
+		(var activeSquadron:number = "aircarrier ? aircarrier.activeSquadron : -1" (event "aircarrier.evStateChanged"))
+		(var selectedSquadron:number = "aircarrier ? aircarrier.selectedSquadron : -1" (event "aircarrier.evSelectedSquadronChanged"))
+
+		(var lastSelectedSquadron:number = "aircarrier ? aircarrier.lastSelectedSquadron : ActiveSquadron.NONE" (event "aircarrier.evLastSelectedSquadronChanged"))
+		(var activeOrSelectedSquadronIndex:number = "activeSquadron != ActiveSquadron.NONE ? activeSquadron : lastSelectedSquadron != ActiveSquadron.NONE ? lastSelectedSquadron : ActiveSquadron.NONE")
+
 		(var squadronCameraMode:str = "aircarrier.squadronCameraMode" (event "aircarrier.evSquadronCameraModeChanged"))
 		(var canLaunchSquadrons:bool = "aircarrier.canLaunchSquadrons" (event "aircarrier.evCanLaunchSquadronsChanged"))
 
-		(var selectedSquadronId:number = "aircarrier.selectedSquadron" (event "aircarrier.evSelectedSquadronChanged"))
-
-
 		(var currentSquadronEntity:gfx = "$datahub.getPrimaryEntity(CC.ownSquadron, activeSquadron)")
-		(var ownSquadron:gfx = "currentSquadronEntity.ownSquadron")
-		(var flightState:number = "ownSquadron.state" (event "ownSquadron.evStateChanged"))
+		(var ownSquadron:gfx = "currentSquadronEntity ? currentSquadronEntity.ownSquadron : null")
+		(var flightState:number = "ownSquadron ? ownSquadron.state : 0" (event "ownSquadron.evStateChanged"))
+		(var attackState:number = "ownSquadron ? ownSquadron.attackState : AIRPLANE_ATTACK_STATE_DEFAULT" (event "ownSquadron.evAttackStateChanged"))
 
 		(var avatar:gfx =  "$datahub.getSingleEntity(CC.playerAvatar)")
 		(var timeToLive:number = "avatar.playerAvatar.timeToLive" (event "avatar.playerAvatar.evWillDieSoon"))
 		(var isAlive:bool = "avatar.health.isAlive" (event "avatar.health.evIsAliveChanged"))
 
-		(var isOnSquadron:bool = "activeSquadron != -1 && squadronCameraMode == SquadronCameraModes.DEFAULT")
-		(var isOnNoAvatarCamera:bool = "squadronCameraMode != SquadronCameraModes.DEFAULT")
+		(var isOnSquadron:bool = "activeSquadron != ActiveSquadron.NONE && squadronCameraMode == SquadronCameraModes.DEFAULT")
+		(var isOnNoAvatarCamera:bool = "aircarrier && (squadronCameraMode != SquadronCameraModes.DEFAULT)")
 		(var lastAttackStartedState:bool = "squadronCameraMode == SquadronCameraModes.LAST_SQUADRON_ATTACK_START")
 
 		(var isTimerToDieVisible:bool = "isOnSquadron && timeToLive != 0")
@@ -43,13 +49,14 @@
 		(var battleState:number = "battleStateEntity.battleState.battleState" (event "battleStateEntity.battleState.evBattleStateChanged"))
 
 		(var isShowReturnAnimation:bool = "isOnNoAvatarCamera && isAlive && !lastAttackStartedState")
+		(var isSquadronAttacking:bool = "attackState == AIRPLANE_ATTACK_STATE_MAIN_SQUADRON_ATTACK")
 	)
 
 	(class $FullsizeAbsolute)
 
 	(controller $Animation
 		(bindcall play duration=0.08 delay=0 from={alpha:0, visible:0} to={alpha:1, visible:1} killAll=true (bind enabled "!(tacticalMap)"))
-		(bindcall play duration=0.08 delay=0 from={alpha:1, visible:1} to={alpha:0, visible:0} killAll=true (bind enabled  "(tacticalMap)"))
+		(bindcall play duration=0.08 delay=0 from={alpha:1, visible:1} to={alpha:0, visible:0} killAll=true (bind enabled "(tacticalMap)"))
 	)
 
 	(block
@@ -62,75 +69,97 @@
 
 		(controller $Animation
 			(bindcall play duration=0.1 delay=0.18 from={alpha:0, visible:0, top:5} to={alpha:1, visible:1, top:0} killAll=true (bind enabled "isFlying && showCarrierPanel"))
-			(bindcall play duration=0.1 delay=0.00 from={alpha:1, visible:1, top:0} to={alpha:0, visible:0, top:5} killAll=true (bind enabled  "!(isFlying && showCarrierPanel)"))
+			(bindcall play duration=0.1 delay=0.00 from={alpha:1, visible:1, top:0} to={alpha:0, visible:0, top:5} killAll=true (bind enabled "!(isFlying && showCarrierPanel)"))
 		)
-		(controller $Instance renderer='AircraftHealthbar'
-			(bind enabled "isFlying")
+
+		(element AircraftHealthbar
+			(bind visible "isFlying")
 		)
 	)
 
-	(controller $Instance renderer='AircraftCentralHud'
-		(bind enabled "isOnSquadron")
+	(element AircraftCentralHud
+		(bind visible "isOnSquadron")
+		(scope
+			(bind _activeSquadronIndex "activeSquadron")
+		)
 	)
 
 	(block
 		(style
 			(position = "absolute")
-			(left = 50%)
-			(marginTop = 50%)
-			(bottom = "isTimerToDieVisible ? 180 : 175")
+			(width = 100%)
+			(align = "center")
+			(bottom = "DEATH_TIMER_PANEL_BOTTOM_OFFSET")
 		)
+		(visible = "isTimerToDieVisible")
 
-		(alpha = "isTimerToDieVisible ? 1 : 0")
-		(visible = "isTimerToDieVisible ? 1 : 0")
 		(controller $Animation
-			(bindcall play duration=0.1 delay=0.25 from={alpha:0, visible:0, bottom:175} to={alpha:1, visible:1, bottom:180} killAll=true (bind enabled "isTimerToDieVisible"))
-			(bindcall play duration=0.1 delay=0.00 from={alpha:1, visible:1, bottom:180} to={alpha:0, visible:0, bottom:175} killAll=true (bind enabled  "!isTimerToDieVisible"))
+			(bindcall play duration=0.1 delay=0.25 from="{alpha:0, visible:0, bottom:DEATH_TIMER_PANEL_BOTTOM_OFFSET-5}" to="{alpha:1, visible:1, bottom:DEATH_TIMER_PANEL_BOTTOM_OFFSET}" killAll=true (bind enabled "isTimerToDieVisible"))
+			(bindcall play duration=0.1 delay=0.00 from="{alpha:1, visible:1, bottom:DEATH_TIMER_PANEL_BOTTOM_OFFSET}" to="{alpha:0, visible:0, bottom:DEATH_TIMER_PANEL_BOTTOM_OFFSET-5}" killAll=true (bind enabled "!isTimerToDieVisible"))
 		)
 		(element AircraftDeathTimer)
 	)
 
 	(block
 		(style
-            (position = "absolute")
-            (width = 100%)
-            (align = "center")
+			(position = "absolute")
+			(width = 100%)
+			(align = "center")
 			(bottom = 92px)
 		)
 		(visible = "isShowReturnAnimation")
 
 		(controller $Animation
-        	(bindcall play duration=0.08 delay=0.08 from={alpha:0, visible:0, bottom:87} to={alpha:1, visible:1, bottom:92} killAll=true (bind enabled "isShowReturnAnimation"))
-        	(bindcall play duration=0.08 delay=0.08 from={alpha:1, visible:1, bottom:92} to={alpha:0, visible:0, bottom:87} killAll=true (bind enabled "!isShowReturnAnimation"))
-        )
+			(bindcall play duration=0.08 delay=0.08 from={alpha:0, visible:0, bottom:87} to={alpha:1, visible:1, bottom:92} killAll=true (bind enabled "isShowReturnAnimation"))
+			(bindcall play duration=0.08 delay=0.08 from={alpha:1, visible:1, bottom:92} to={alpha:0, visible:0, bottom:87} killAll=true (bind enabled "!isShowReturnAnimation"))
+		)
 
 		(element AircraftCarrierPanelReturnInstruction)
+	)
+
+	(block
+		(style
+			(position = "absolute")
+			(width = 100%)
+			(align = "center")
+			(paddingRight = "S")
+			(bottom = "SKIP_ANIM_PANEL_BOTTOM_OFFSET")
+		)
+		(visible = "isSquadronAttacking")
+
+		(controller $Animation
+			(bindcall play duration=0.08 delay=0.12 from="{alpha:0, visible:0, bottom:SKIP_ANIM_PANEL_BOTTOM_OFFSET-5}" to="{alpha:1, visible:1, bottom:SKIP_ANIM_PANEL_BOTTOM_OFFSET}" killAll=true (bind enabled "isSquadronAttacking"))
+			(bindcall play duration=0.08 delay=0.05 from="{alpha:1, visible:1, bottom:SKIP_ANIM_PANEL_BOTTOM_OFFSET}" to="{alpha:0, visible:0, bottom:SKIP_ANIM_PANEL_BOTTOM_OFFSET-5}" killAll=true (bind enabled "!isSquadronAttacking"))
+		)
+
+		(element AircraftCarrierPanelSkipAttackCameraInstruction)
 	)
 
 
 	(block
 		(style
-            (position = "absolute")
-            (width = 100%)
-            (align = "center")
-            (bottom = 117px)
-        )
+			(position = "absolute")
+			(width = 100%)
+			(align = "center")
+			(bottom = 117px)
+		)
 
-        (controller $Instance renderer='AircraftCarrierPanelInstruction'
-            (args __selectedSquadronEntityId = "selectedSquadronId")
-            (exprs
-                (scope
-                    (bind _selectedSquadronEntityId "selectedSquadronId")
-                    (bind _isOnSquadronAndAlive "!isOnNoAvatarCamera && !isDeathCamera")
-                )
-            )
-            (bind enabled "(activeSquadron == ActiveSquadron.NONE && battleState==0 && canLaunchSquadrons)")
-        )
+		(controller $Instance renderer='AircraftCarrierPanelInstruction'
+			(args _selectedSquadron = "selectedSquadron")
+			(exprs
+				(scope
+					(bind selectedSquadron "selectedSquadron")
+					(bind isOnSquadronAndAlive "!isOnNoAvatarCamera && !isDeathCamera")
+				)
+			)
+			(bind enabled "(activeSquadron == ActiveSquadron.NONE && battleState==0 && canLaunchSquadrons)")
+		)
 	)
 
 	(element SquadronWeaponsPanel
 		(scope
-			(bind _activeSquadron "activeSquadron")
+			(bind _isActiveSquadron "activeSquadron != ActiveSquadron.NONE")
+			(bind _activeSquadronIndex "activeOrSelectedSquadronIndex")
 		)
 	)
 

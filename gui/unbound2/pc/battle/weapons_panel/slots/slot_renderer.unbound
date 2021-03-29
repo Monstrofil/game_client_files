@@ -1,0 +1,179 @@
+(def element SlotRenderer (_id:number, _type:number, _count:number) layout=true
+	(scope
+		(event emptyEvent)
+
+		
+		(var entity:gfx = "$datahub.getSingleEntity(CC.selfVehicle)")
+		(var controller:gfx = "entity.weaponController")		
+		(var shipInfo:gfx = "entity ? $datahub.getEntity(entity.vehicleInfo.shipInfoEntityId) : null")
+		(var slot:gfx = "$datahub.getPrimaryEntity(CC.weaponSlot, _id)")
+		(var ammo:gfx = "$datahub.getPrimaryEntity(CC.ammo, '' + slot.weaponSlot.type + '_' + slot.weaponSlot.ammoName)")
+		(var ammoComponent:gfx = "ammo ? ammo.ammo : null")
+
+		(var slotOptions:gfx = "slot ? slot.slotOptions : null" (event "slot.evAdded") (event "slot.evRemoved"))
+
+		
+		(var display:str = "ammoComponent && ammoComponent.weaponType == WeaponType.ARTILLERY ? 'IDS_AMMOTYPE_' + ammoComponent.name : ''")	
+		(var name:str = "ammoComponent ? toLower(ammoComponent.name) : ''")																	
+		(var status:str = "																									# Ammo status modifier
+			slot.weaponSlot.state >= SC.Weapons.GUN_STATE.DESTROYED ? '_inactive' :											#
+			slot.weaponSlot.state >= SC.Weapons.GUN_STATE.CRITICAL  ? '_disabled'											#
+														            : ''													#
+		" (event "slot.weaponSlot.evStateChanged"))																			
+
+		(var icon:str = "ammoComponent ? 'url:../consumables/ammo_' + name + status + '.png' : null")												
+
+        
+        (var state:number = "slot.weaponSlot.state" (event "slot.weaponSlot.evStateChanged"))
+
+		
+		(var command:number = "slot.weaponSlot.command")																	
+
+        
+        (var animationProgress:number = "1")
+        (var isAnimated:bool = "animationProgress < 1")
+
+		
+		(var _width:number = "SLOT_SIZE")
+		(var _height:number = "SLOT_SIZE")
+		(var hint:str = "ammoComponent ? BattleHintWeaponTypeMap['' + ammoComponent.weaponType] : ''")
+		(var isWeaponActive:bool = "controller.selectedWeapon == _type" (event "controller.evSelectedWeaponChanged"))
+		(var isActive:bool = "slot.weaponSlot.active" (event "slot.weaponSlot.evActiveChanged"))
+		(var isSelected:bool = "slot.weaponSlot.selected" (event "slot.weaponSlot.evSelectedChanged"))
+		(var isAlive:bool = "state < SC.Weapons.GUN_STATE.CRITICAL")
+        (var isWorking:bool = "state == SC.Weapons.GUN_STATE.WORK")
+        (var isReloading:bool = "state == SC.Weapons.GUN_STATE.RELOAD")
+        (var isCharging:bool = "state == SC.Weapons.GUN_STATE.CHARGE")
+
+		
+		(var progress:number = "slot.progress.max != 0 ? 1 - slot.progress.value / slot.progress.max : 0" (event "slot.progress.evChanged"))
+		(var remain:number = "slot.progress.max - slot.progress.value" (event "slot.progress.evChanged"))
+
+        (controller $Animation
+            (bindcall play
+                duration="0.1" delay="0"
+                from="{progress: 0, animationProgress: 0}"
+                to="{progress: 1, animationProgress: 1}"
+                (event "slot.weaponSlot.evCharged")
+            )
+        )
+
+		(macro MOUSE_HANDLER_SCOPE)
+	)
+
+	(style
+		(flow = "Flow.HORIZONTAL")
+		(bind marginRight "($index + 1) != _count ? PANEL_ITEM_MARGIN : 0")
+	)
+
+	(bind name "'button_ammo_' + name")
+
+	(controller $Instance renderer='AngleSwitcher'
+		(bind enabled "slotOptions && slotOptions.items && slot.slotOptions.items.length > 1 && slot.slotOptions.type == SlotOptionType.ANGLE")
+		(args _command="command" _hint="hint" _height="_height")
+		(exprs
+			(scope
+				(bind _selected "slot.slotOptions.selected" (event "slot.slotOptions.evSelectedChanged"))
+				(bind _options "slot.slotOptions.items")
+			)
+		)
+	)
+
+	
+	(block
+	    
+	    (bind name "isActive && isWeaponActive ? 'selected' : 'not_selected'")
+
+		(macro MOUSE_EVENTS_DISPATCHER)
+
+		(macro MOUSE_LMB_EXTERNAL_CALL 'direct.action' "['weaponSlot.pressed', [command]]")
+
+		(mc 'lesta.libs.unbound2.BattleHintBridgeMC'
+			(bindcall showBattleTooltip "hint" "ammo.ammo.ammoName" init=false watch=false (event "evMouseOver"))
+			(bindcall hideBattleTooltip init=false (event "evMouseOut"))
+		)
+
+		(block
+			(controller $Instance renderer='AngleBackground'
+				(bind enabled "isAlive && slotOptions && slotOptions.type == SlotOptionType.ANGLE")
+				(args _width = "_width" _height = "_height")
+				(exprs
+					(scope
+						(bind _selected "slot.slotOptions.selected" (event "slot.slotOptions.evSelectedChanged"))
+						(bind _options "slot.slotOptions.items")
+					)
+				)
+			)
+		)
+		
+		
+		(element SlotItem
+			(scope
+				(bind _itemImageUrl "icon")
+				(bind _isSelectable "true")
+				(bind _width "_width")
+				(bind _height "_height")
+                (bind _selectedImageUrl "isCharging || isAnimated ? 'url:../battle_hud/weapons_panel/slot/weapon_panel_slot_stroke_blue.png' : ''")
+				(bind _isPreSelected "isWeaponActive && isSelected")
+				(bind _isSelected "isWeaponActive && isActive")
+			)
+			(bind alpha "isActive || (isWeaponActive && isSelected) ? 1 : 0.6")
+		)
+
+		
+		
+		(element SlotReloadBar
+			(bind visible "isActive && progress > 0 && isAlive")
+			(scope
+				(bind _atWork "isWorking")
+                (bind _atCharge "isCharging || isAnimated")
+                (bind _inverted "false")
+                (bind _showTime "!isAnimated && !isWorking")
+				(bind _percentPassed "progress")
+				(bind _remainTime "remain")
+			)
+
+			(class $FullsizeAbsolute)
+		)
+
+		
+		(block
+			(bind visible "display")
+			(style
+				(position = "absolute")
+				(left = 2px)
+				(top = 1px)
+			)
+
+			(tf
+				(class $TextHUDBold)
+				(style (fontSize = 14))
+
+				(bind text "display")
+				(mouseEnabled = false)
+				(selectable = false)
+			)
+		)
+
+		
+		(controller $FxInstance lifetime=0.5
+			(bind renderer "'SlotWorkStartedFX'")
+			(args accented = "!isWeaponActive")
+			(bindcall create (event "slot.weaponSlot.evReloaded") (bind enabled "isActive"))
+		)
+
+		
+		(element HotkeyIndicator "command"
+			(scope
+				(bind toggled "isActive && isWeaponActive")
+				(bind isKeyActive "(isSelected && isWeaponActive) || (isActive && (isWeaponActive || slot.weaponSlot.type == WeaponType.ARTILLERY))")
+			)
+			(style
+				(position = "absolute")
+				(hcenter = 0px)
+				(bottom = "-HOTKEY_BUTTON_SIZE")
+			)
+			(bind alpha "(isActive || isSelected) ? 1 : 0.8")
+		)
+	)
+)

@@ -10,6 +10,7 @@
 		(var healthComponent:gfx = "currentSquadronEntity.health")
 		(var ownSquadronComponent:gfx = "currentSquadronEntity.ownSquadron")
 		(var ammoType:number = "planeComponent.ammoType")
+		(var planeType:number = "planeComponent.planeType")
 		(var numPlanes:number = "healthComponent.value" (event "healthComponent.evValueChanged"))
 		(var attackState:number = "ownSquadronComponent.attackState" (event "ownSquadronComponent.evAttackStateChanged"))
 		(var flightState:number = "ownSquadronComponent.state" (event "ownSquadronComponent.evStateChanged"))
@@ -17,7 +18,7 @@
 		(var cmdEntity:gfx = "$datahub.getPrimaryEntity(CC.commandMappingCommandName, 'CMD_WEAPON_0')")
 		(var commandId:number = "cmdEntity.commandMappingCommand.id" (event "cmdEntity.commandMappingCommand.evChanged"))
 
-		(var weaponImageUrl:str ="'url:../aircraft/planetype_weapon_' + ammoType + '.png'")
+		(var weaponImageUrl:str ="'url:../aircraft/ammo_' + toLower(SC.Common.PLANE_AMMO_TYPES.VALUE_TO_NAME[ammoType]) + '.png'")
 
 		(var atWork:bool = "attackState == SquadronAttackState.AIMING")
 		(var isLocked:bool = "flightState == AIRPLANE_FLIGHT_STATE_LAUNCHING")
@@ -30,7 +31,8 @@
 
 		(var _width:number = "SLOT_SIZE")
 		(var _height:number = "SLOT_SIZE")
-
+				
+		(macro PLANE_TYPE_TO_STR "planeType" "ammoType")
 		(macro MOUSE_HANDLER_SCOPE)
 	)
 
@@ -45,7 +47,7 @@
 		(macro MOUSE_EVENTS_DISPATCHER)
 
 		(mc 'lesta.libs.unbound2.BattleHintBridgeMC'
-			(bindcall showBattleTooltip "BattleHintType.SQUADRON_WEAPON" "ammoType" init=false watch=false (event "evMouseOver"))
+			(bindcall showBattleTooltip "BattleHintType.SQUADRON_WEAPON" "planeTypeStr" init=false watch=false (event "evMouseOver"))
 			(bindcall hideBattleTooltip init=false (event "evMouseOut"))
 		)
 
@@ -72,9 +74,8 @@
 			(bind visible "remainTime > 0")
 		)
 
-		(controller $FxInstance lifetime=0.5
-			(bind renderer "atWork ? 'SlotWorkStartedFX' : 'EmptyElement'")
-			(bindcall create (event "ownSquadronComponent.evAttackStateChanged"))
+		(controller $FxInstance lifetime=0.5 renderer='SlotWorkStartedFX'
+			(bindcall create (event "ownSquadronComponent.evAttackStateChanged") (bind enabled "atWork"))
 		)
 	)
 

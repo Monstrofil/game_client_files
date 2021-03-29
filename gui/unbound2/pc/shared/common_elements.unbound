@@ -63,25 +63,25 @@
 
 
 (def element InstructionWarning() layout=true
-    (scope
-        (var _instructionText:str = '')
-        (var _maxWidth:number = 0)
-        (var _leading:number = 0)
-    )
-    (style 
-        (flow = "Flow.HORIZONTAL")
-    )
-    (mc icon_warning_orange)
-    (tf 
-        (style 
-            (marginTop = -5px)
-            (marginLeft = "XS")
-            (bind maxWidth "_maxWidth  ?  _maxWidth  :  180")
-            (bind leading "_leading")
-        )
-        (class $WarningTextOrange)
-        (bind text "_instructionText")
-    )
+	(scope
+		(var _instructionText:str = '')
+		(var _maxWidth:number = 0)
+		(var _leading:number = 0)
+	)
+	(style 
+		(flow = "Flow.HORIZONTAL")
+	)
+	(mc icon_warning_orange)
+	(tf 
+		(style 
+			(marginTop = -5px)
+			(marginLeft = "XS")
+			(bind maxWidth "_maxWidth  ?  _maxWidth  :  180")
+			(bind leading "_leading")
+		)
+		(class $WarningTextOrange)
+		(bind text "_instructionText")
+	)
 )
 
 (def element MouseInstruction(_type: str, _instructionText: str, _maxWidth: number, _leading: number) layout=true
@@ -110,29 +110,29 @@
 
 
 (def element MouseInstructionRepeater(_type:str, _instructionText:str, _maxWidth:number, _lastIndex:number) layout=true
-    (style
-        (bind marginBottom "$index != _lastIndex  ?  6 : 0")
-    )
-    
-    (controller $Instance renderer='MouseInstruction'
-        (args 
-            _type = "_type" 
-            _instructionText = "_instructionText"
-            _maxWidth = "_maxWidth"
-            _leading = 0
-        )
-        (bind enabled "!(_type == 'warning')")
-    )
-    
-    (controller $Instance renderer='InstructionWarning'
-        (exprs 
-            (scope
-                (bind _instructionText "_instructionText")
-                (bind _maxWidth "_maxWidth")
-            )
-        )
-        (bind enabled "_type == 'warning'")
-    )
+	(style
+		(bind marginBottom "$index != _lastIndex  ?  6 : 0")
+	)
+	
+	(controller $Instance renderer='MouseInstruction'
+		(args 
+			_type = "_type" 
+			_instructionText = "_instructionText"
+			_maxWidth = "_maxWidth"
+			_leading = 0
+		)
+		(bind enabled "!(_type == 'warning')")
+	)
+	
+	(controller $Instance renderer='InstructionWarning'
+		(exprs 
+			(scope
+				(bind _instructionText "_instructionText")
+				(bind _maxWidth "_maxWidth")
+			)
+		)
+		(bind enabled "_type == 'warning'")
+	)
 )
 
 
@@ -208,7 +208,7 @@
 
 
 
-(def element InvertableTextLine () layout=true
+(def layout InvertableTextLine ()
 	(scope
 		(var _name:str = '')
 		(var _width:number = 0)
@@ -218,7 +218,7 @@
 		(var _letterSpacing:number = 0)
 		(var _text:str = '')
 	)
-	
+
 	(tf
 		(bind name "_name")
 		(bind class "_invert ? _normalClass : _invertedClass")
@@ -235,10 +235,10 @@
 		(bind class "_invert ? _normalClass : _invertedClass")
 		(style
 			(position = "absolute") (top = -1px)
-            (bind multiline "_width ? false : true")
-            (bind letterSpacing "_letterSpacing ? _letterSpacing : 0")
-        )
-        (alpha = 0.1) 
+			(bind multiline "_width ? false : true")
+			(bind letterSpacing "_letterSpacing ? _letterSpacing : 0")
+		)
+		(alpha = 0.1)
 		(bind width "_width ? _width : 0")
 		(bind text "_text")
 	)
@@ -246,10 +246,10 @@
 		(bind class "_invert ? _normalClass : _invertedClass")
 		(style
 			(position = "absolute") (left = 1px)
-            (bind multiline "_width ? false : true")
-            (bind letterSpacing "_letterSpacing ? _letterSpacing : 0")
-        )
-        (alpha = 0.2) 
+			(bind multiline "_width ? false : true")
+			(bind letterSpacing "_letterSpacing ? _letterSpacing : 0")
+		)
+		(alpha = 0.2)
 		(bind width "_width ? _width : 0")
 		(bind text "_text")
 	)
@@ -257,19 +257,19 @@
 		(bind class "_invert ? _normalClass : _invertedClass")
 		(style
 			(position = "absolute") (left = -1px)
-            (bind multiline "_width ? false : true")
-            (bind letterSpacing "_letterSpacing ? _letterSpacing : 0")
-        )
-        (alpha = 0.2)
+			(bind multiline "_width ? false : true")
+			(bind letterSpacing "_letterSpacing ? _letterSpacing : 0")
+		)
+		(alpha = 0.2)
 		(bind width "_width ? _width : 0")
 		(bind text "_text")
 	)
 	(tf
 		(bind class "_invert ? _invertedClass : _normalClass")
 		(style
-            (bind multiline "_width ? false : true")
-            (bind letterSpacing "_letterSpacing ? _letterSpacing : 0")
-        )
+			(bind multiline "_width ? false : true")
+			(bind letterSpacing "_letterSpacing ? _letterSpacing : 0")
+		)
 		(bind width "_width ? _width : 0")
 		(bind text "_text")
 	)
@@ -477,8 +477,8 @@
 
 
 (def css $WarningTextOrange()
-    (extends $TextDefault)
-    (extends $FontColorUnready)
+	(extends $TextDefault)
+	(extends $FontColorUnready)
 )
 
 

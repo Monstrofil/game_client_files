@@ -1,4 +1,5 @@
 (def constant HUD_FORSAGE_RADIUS 152)
+(def constant HUD_BOOSTER_RADIUS 158)
 (def constant HUD_SQUADRON_AIM_RADIUS 150)
 
 (def element AircraftCentralHud() layout=true
@@ -8,7 +9,7 @@
 		(var stageHeight:number = "stageComponent.height" (event "stageComponent.evStageSizeChanged"))
 
 		(var ownCarrierEntity:gfx = "$datahub.getSingleEntity(CC.aircarrier)")
-		(var activeSquadron:number = "ownCarrierEntity.aircarrier.activeSquadron" (event "ownCarrierEntity.aircarrier.evStateChanged"))
+		(var _activeSquadronIndex:number = -1)
 	)
 	(style
 		(position = "absolute")
@@ -17,34 +18,48 @@
 		(align = "center|middle")
 	)
 
-	(element AircraftForsage "activeSquadron")
-	(element AirplaneAttackIndicator "activeSquadron")
+	(element AircraftForsage
+		(scope
+			(bind activeSquadron "_activeSquadronIndex")
+		)
+	)
+	(element AirplaneAttackIndicator
+		(scope
+			(bind activeSquadron "_activeSquadronIndex")
+		)
+	)
 )
 
-(def element AircraftForsage(activeSquadron:number) layout=true
+(def element AircraftForsage() layout=true
 	(scope
 		(event evForsageFinishedAnimate)
 
+		(var activeSquadron:number = -1)
 		(var currentSquadronEntity:gfx = "$datahub.getPrimaryEntity(CC.ownSquadron, activeSquadron)")
-		(var forsageElement:gfx = "currentSquadronEntity.forsageElement")
-		(var isForsageDepleted:bool =  "forsageElement.isDepleted" (event "forsageElement.evIsDepletedChanged"))
-		(var isForsageUsing:bool = "forsageElement.isUsing" (event "forsageElement.evForsageStateChanged"))
-		(var forsageCurrentValue:number = "forsageElement.current" (event "forsageElement.evCurrentChanged"))
-		(var healState:number = "forsageElement.healState" (event "forsageElement.evHealStateChanged"))
-		(var flightSpeed:number = "currentSquadronEntity.flightSpeed.value" (event "currentSquadronEntity.flightSpeed.evValueChanged"))
-		(var forsageMaxValue:number = "currentSquadronEntity.forsageElement.max")
-		(var forsageMaxRegenTime:number = "currentSquadronEntity.forsageElement.maxRegenTime")
-		(var currentPercent:number = "forsageCurrentValue / forsageMaxValue")
+		(var forsageElement:gfx = "currentSquadronEntity ? currentSquadronEntity.forsageElement : null")
+		(var isForsageDepleted:bool =  "forsageElement ? forsageElement.isDepleted : false" (event "forsageElement.evIsDepletedChanged"))
+		(var isForsageUsing:bool = "forsageElement ? forsageElement.isUsing : false" (event "forsageElement.evForsageStateChanged"))
+		(var forsageCurrentValue:number = "forsageElement ? forsageElement.current : 0" (event "forsageElement.evCurrentChanged"))
+		(var healState:number = "forsageElement ? forsageElement.healState : 0" (event "forsageElement.evHealStateChanged"))
+		(var flightSpeed:number = "currentSquadronEntity ? currentSquadronEntity.flightSpeed.value : 0" (event "currentSquadronEntity.flightSpeed.evValueChanged"))
+		(var forsageMaxValue:number = "currentSquadronEntity ? currentSquadronEntity.forsageElement.max : 0")
+		(var forsageMaxRegenTime:number = "currentSquadronEntity ? currentSquadronEntity.forsageElement.maxRegenTime : 0")
+		(var currentPercent:number = "forsageMaxValue ? forsageCurrentValue / forsageMaxValue : 0")
 		(var showForsageIndicator:bool = "isForsageUsing || healState == 1")
 
 		(var wasButtonUp:bool = false)
 
+		(var takeoffBoosterEntity:gfx = "$datahub.getSingleEntity(CC.takeoffBooster)")
+		(var countdown:gfx = "takeoffBoosterEntity && takeoffBoosterEntity.hasComponent(CC.countDown) ? takeoffBoosterEntity.countDown : null" (event "takeoffBoosterEntity.evAdded") (event "takeoffBoosterEntity.evRemoved"))
+
+		(var takeoffBoosterInUse:bool = "takeoffBoosterEntity ? takeoffBoosterEntity.takeoffBooster.isUsing : false" (event "takeoffBoosterEntity.takeoffBooster.evUsingChanged"))
+		(var takeoffBoosterPercent:number = "countdown ? countdown.reloadPercent : 0" (event "countdown.evRemainChanged"))
 
 		
 		(var transitionForsageProgress:bool = "currentPercent != 1 || showForsageIndicator")
-
-		(dispatch evForsageFinishedAnimate on="currentSquadronEntity.forsageElement.evForsageFinished")
 	)
+
+	(dispatch evForsageFinishedAnimate on="currentSquadronEntity.forsageElement.evForsageFinished")
 
 	(style
 		(left = 3)
@@ -80,13 +95,35 @@
 		)
 	)
 
+	(block
+		(mc takeoff_booster_progress_bar
+			(style (position  = "absolute"))
+			(alpha = 0)
+			(controller $Animation
+				(bindcall play duration=0.2 delay=0.2 to={alpha:1} killAll=true (bind enabled "takeoffBoosterInUse"))
+				(bindcall play duration=0.4 delay=0.4 to={alpha:0} killAll=true (bind enabled "!takeoffBoosterInUse"))
+			)
+		)
+		(mc 'flash.display.Sprite'
+			(style (position = "absolute"))
+			(isMask = true)
+			(controller $Sector
+				(bind offset "147")
+				(bind color "0xFFFFFF")
+				(bind arc "0 + 66 * takeoffBoosterPercent")
+				(bind radius "HUD_BOOSTER_RADIUS")
+				(bind innerRadius "HUD_BOOSTER_RADIUS - 7")
+			)
+		)
+	)
+
 	
 	(hblock
 		(style (right = 164px) (position = "absolute"))
 
 		(tf
 			(style (textAlign = "right") (width = 80))
-			 (alpha = 0.9)
+			(alpha = 0.9)
 			(class $TextDefaultBold19NM)
 			(macro TFMouseEnabled value=false)
 			(bind text "round(flightSpeed)")
@@ -102,11 +139,11 @@
 
 	
 	(block
-		(style (position = "absolute") (right = 188px) (top = 24px))
 		(alpha = 0)
+		(style (position = "absolute") (top = 24px) (width = 100%) (align = "right") (right = "158px"))
 		(controller $Animation
-			(bindcall play duration=0.2 delay="showForsageIndicator ? 0 : 0.2" to={alpha:1, visible:1} killAll=true (bind enabled "showForsageIndicator"))
-			(bindcall play duration=0.2 delay="showForsageIndicator ? 0 : 0.2" to={alpha:0, visible:0} killAll=true (bind enabled "!showForsageIndicator"))
+			(bindcall play duration=0.2 delay="showForsageIndicator ? 0 : 0.2" to="{alpha:1, visible:1}" killAll=true (bind enabled "showForsageIndicator"))
+			(bindcall play duration=0.2 delay="showForsageIndicator ? 0 : 0.2" to="{alpha:0, visible:0}" killAll=true (bind enabled "!showForsageIndicator"))
 			(bindcall play duration=0.2 delay=0.00 from={alpha:1} to={alpha:0.5} killAll=true (event "evForsageFinishedAnimate"))
 			(bindcall play duration=0.2 delay=0.25 from={alpha:0.5} to={alpha:1} killAll=true (event "evForsageFinishedAnimate"))
 		)
@@ -118,18 +155,31 @@
 			)
 		)
 	)
+	(block
+		(alpha = 0)
+		(style (position = "absolute") (top = 57px) (width = 100%) (align = "right") (right = "145px")) 
+		(controller $Animation
+			(bindcall play duration=0.2 delay=0.2 to={alpha:1, visible:1} killAll=true (bind enabled "takeoffBoosterInUse"))
+			(bindcall play duration=0.2 delay=0.2 to={alpha:0, visible:0} killAll=true (bind enabled "!takeoffBoosterInUse"))
+		)
+		(style
+			(width = 32px)
+			(height = 32px)
+			(backgroundImage = 'url:../aircraft/takeoff_booster_icon.png')
+		)
+	)
 )
 
-(def element AirplaneAttackIndicator (activeSquadron:number) layout=true
+(def element AirplaneAttackIndicator () layout=true
 	(scope
+		(var activeSquadron:number = -1)
 		(var currentSquadronEntity:gfx = "$datahub.getPrimaryEntity(CC.ownSquadron, activeSquadron)")
-		(var ownSquadron:gfx = "currentSquadronEntity.ownSquadron")
-		(var countDown:gfx = "currentSquadronEntity.countDown")
-		(var attackState:number = "ownSquadron.attackState" (event "ownSquadron.evAttackStateChanged"))
+		(var ownSquadron:gfx = "currentSquadronEntity ? currentSquadronEntity.ownSquadron : null")
+		(var countDown:gfx = "currentSquadronEntity && currentSquadronEntity.hasComponent(CC.countDown) ? currentSquadronEntity.countDown : null" (event "currentSquadronEntity.evAdded") (event "currentSquadronEntity.evRemoved"))
+		(var attackState:number = "ownSquadron ? ownSquadron.attackState : 0" (event "ownSquadron.evAttackStateChanged"))
 
-		(var timerEntity:gfx = "$datahub.getSingleEntity(CC.timer)")
-		(var timeRemain:number = "countDown ? countDown.endTime - timerEntity.timer.currentTime : 0" (event "timerEntity.timer.evDrawer"))
-		(var reloadPercent:number = "countDown && countDown.duration? 1 - timeRemain / countDown.duration : 1")
+		(var timeRemain:number = "countDown ? countDown.remain : 0" (event "countDown.evRemainChanged"))
+		(var reloadPercent:number = "countDown ? countDown.reloadPercent : 1" (event "countDown.evRemainChanged"))
 		(var reloadPercentFX:number = "reloadPercent < 1 ? reloadPercent : attackState == SquadronAttackState.NONE ? 0 : 1")
 		(var showReload:bool = "reloadPercent < 1 && (timeRemain > 0)")
 		(var isReloadHacked:bool = "reloadPercent != 1 && attackState == SquadronAttackState.NONE")
@@ -210,8 +260,10 @@
 	(style (position = "absolute") (top = 0px))
 
 	(mc 'flash.display.Sprite'
-		(style (position = "absolute"))
-		(bind rotation "_rotation")
+		(style
+			(position = "absolute")
+			(bind rotation "_rotation")
+		)
 		(controller $Sector
 			(bind offset "_angle")
 			(bind color "_color")
@@ -228,11 +280,10 @@
 		(var _healState:number = 0)
 		(var _isForsageDepleted:bool = false)
 		(var itemImageUrl:str = "_healState == 1	? '../aircraft/forsage_indicator_icon_enabled.png'
-        								 			: '../aircraft/forsage_indicator_icon.png'"
-        								 			)
+													: '../aircraft/forsage_indicator_icon.png'"
+													)
 	)
 	(style
-		(position = "absolute")
 		(width = 30px)
 		(height = 28px)
 		(bind backgroundImage "'url:' + itemImageUrl")

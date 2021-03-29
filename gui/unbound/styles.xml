@@ -24,7 +24,7 @@
 		<textColor value="0xff2f3034"/>
 	</css>
 	<css name="$ArcEventTextStyle">
-		<dropShadowFilter value="0 0 0x000000 0 0 0 0 0"/>
+		<dropShadowFilter value=""/>
 		<textColor value="0xff2f3034"/>
 	</css>
 
@@ -327,48 +327,59 @@
 		<textColor value="0x08222a"/>
 	</css>
 
-	<!-- crew_elements -->
+	<!-- crew_management_assign_inset -->
+	<css name="$AssignColumn">
+		<width value="1280:346,1920:520aw"/>
+		<height value="100%"/>
+	</css>
+	<css name="$CrewListPaddings">
+		<width value="100%"/>
+		<paddingLeft value="1280:8,1920:48aw"/>
+		<paddingRight value="1280:8,1920:48aw"/>
+	</css>
+	<css name="$CrewListPaddingsHack">
+		<width value="1280:8,1920:48aw"/>
+	</css>
+	<css name="$CrewListHeader">
+		<width value="100%"/>
+		<paddingLeft value="1280:8,1920:48aw"/>
+		<marginBottom value="8px"/>
+		<paddingRight value="1280:8,1920:48aw"/>
+	</css>
+	<css name="$AssignNewCrew">
+		<align value="right"/>
+		<paddingLeft value="1280:8,1920:48aw"/>
+		<height value="30px"/>
+		<width value="100%"/>
+		<marginTop value="720:4,1080:16ah"/>
+		<paddingRight value="1280:8,1920:48aw"/>
+	</css>
+	<css name="$CrewListBackground">
+		<width value="100%"/>
+		<backgroundColor value="0x30000000"/>
+		<height value="100%"/>
+	</css>
+
+	<!-- crew_portraits -->
 	<css name="$CrewPortraitSizeSmall">
+		<hitTest value="false"/>
 		<width value="82px"/>
 		<height value="75px"/>
 	</css>
 	<css name="$CrewPortraitSizeNormal">
+		<hitTest value="false"/>
 		<width value="90px"/>
 		<height value="82px"/>
 	</css>
 	<css name="$CrewPortraitSizeBig">
+		<hitTest value="false"/>
 		<width value="125px"/>
 		<height value="114px"/>
 	</css>
 	<css name="$CrewPortraitSizeMax">
+		<hitTest value="false"/>
 		<width value="160px"/>
 		<height value="147px"/>
-	</css>
-	<css name="$TextSkillTierLabel">
-		<mouseChildren value="false"/>
-		<mouseEnabled value="false"/>
-		<fontFamily value="$WWSDefaultFontBold"/>
-		<fontSize value="21"/>
-		<selectable value="false"/>
-		<textColor value="0x9CBABA"/>
-	</css>
-	<css name="$TextSkillTierLabelBlack">
-		<mouseChildren value="false"/>
-		<mouseEnabled value="false"/>
-		<fontFamily value="$WWSDefaultFontBold"/>
-		<fontSize value="21"/>
-		<selectable value="false"/>
-		<textColor value="0x08222a"/>
-	</css>
-
-	<!-- crew_skill_elements -->
-	<css name="$CrewSkillSmallSize">
-		<width value="26px"/>
-		<height value="26px"/>
-	</css>
-	<css name="$CrewSkillMediumSize">
-		<width value="40px"/>
-		<height value="40px"/>
 	</css>
 
 	<!-- divisions_elements -->
@@ -417,7 +428,7 @@
 		<mouseEnabled value="false"/>
 		<mouseChildren value="false"/>
 		<fontSize value="17"/>
-		<dropShadowFilter value="0 0 0x000000 0 0 0 0 0"/>
+		<dropShadowFilter value=""/>
 		<selectable value="false"/>
 		<textColor value="0x9CBABA"/>
 	</css>
@@ -426,7 +437,7 @@
 		<mouseEnabled value="false"/>
 		<mouseChildren value="false"/>
 		<fontSize value="17"/>
-		<dropShadowFilter value="0 0 0x000000 0 0 0 0 0"/>
+		<dropShadowFilter value=""/>
 		<selectable value="false"/>
 		<textColor value="0x9CBABA"/>
 	</css>
@@ -434,7 +445,23 @@
 		<fontFamily value="$WWSDefaultFont"/>
 		<textColor value="0x758b8b"/>
 		<fontSize value="13"/>
-		<dropShadowFilter value="0 0 0x000000 0 0 0 0 0"/>
+		<dropShadowFilter value=""/>
+	</css>
+
+	<!-- dogtag_hud_spectator -->
+	<css name="$CommonBattleDogtagSize">
+		<width value="190px"/>
+		<height value="190px"/>
+	</css>
+	<css name="$DiplomacyBattleDogtagSize">
+		<width value="80px"/>
+		<height value="80px"/>
+	</css>
+	<css name="$CommonBattleDogtagStyle">
+		<width value="190px"/>
+		<bottom value="30px"/>
+		<left value="30px"/>
+		<height value="190px"/>
 	</css>
 
 	<!-- dynamic_divisions -->
@@ -548,9 +575,6 @@
 	<css name="$FontColorCompareNegative">
 		<textColor value="0xFF6600"/>
 	</css>
-	<css name="$FontColorMercenaries">
-		<textColor value="0x4ce8aa"/>
-	</css>
 	<css name="$FontSizeThumbelina">
 		<fontSize value="7"/>
 	</css>
@@ -604,10 +628,10 @@
 		<dropShadowFilter value="1 90 0xffffff 0.3 4.0 3.0 0.2 2"/>
 	</css>
 	<css name="$GlowDisabler">
-		<dropShadowFilter value="0 0 0x000000 0 0 0 0 0"/>
+		<dropShadowFilter value=""/>
 	</css>
 	<css name="$DropShadowDisabler">
-		<dropShadowFilter value="0 0 0x000000 0 0 0 0 0"/>
+		<dropShadowFilter value=""/>
 	</css>
 	<css name="$FontDropShadowFilter1">
 		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
@@ -1226,56 +1250,9 @@
 		<textColor value="0x9CBABA"/>
 	</css>
 
-	<!-- modal_crew_elements -->
-	<css name="$CrewTrainingTypeMultiplier">
-		<mouseChildren value="false"/>
-		<mouseEnabled value="false"/>
-		<fontFamily value="$WWSDefaultFont"/>
-		<fontSize value="84"/>
-		<alpha value="0.15"/>
-		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
-		<selectable value="false"/>
-		<textColor value="0xEEEEEE"/>
-	</css>
-
-	<!-- modal_crew_elements_retrainingtype -->
-	<css name="$SelectTypeListRetrainingItemIndent">
-		<marginBottom value="15px"/>
-		<marginTop value="18px"/>
-		<marginLeft value="12px"/>
-		<marginRight value="9px"/>
-	</css>
-
-	<!-- modal_crew_retrain -->
-	<css name="$SelectTypeListRetrainingItem">
-		<width value="100%"/>
-		<height value="93px"/>
-	</css>
-
 	<!-- modal_modernizations -->
 	<css name="$ModernizationQuestionMargins">
 		<marginTop value="15px"/>
-	</css>
-	<css name="$ModernizationHeaderText">
-		<maxWidth value="204"/>
-	</css>
-
-	<!-- modal_ship_purchase -->
-	<css name="$CustomTextPriceLarge">
-		<mouseChildren value="false"/>
-		<mouseEnabled value="false"/>
-		<fontFamily value="$WWSDefaultFontBold"/>
-		<fontSize value="19"/>
-		<selectable value="false"/>
-		<textColor value="0xEEEEEE"/>
-	</css>
-	<css name="$CustomTextPriceLargeGold">
-		<fontFamily value="$WWSDefaultFontBold"/>
-		<mouseEnabled value="false"/>
-		<mouseChildren value="false"/>
-		<fontSize value="19"/>
-		<selectable value="false"/>
-		<textColor value="0xFFCC66"/>
 	</css>
 
 	<!-- modal_sse_2019 -->
@@ -1287,6 +1264,9 @@
 	</css>
 	<css name="$SseCardBackgroundSelected">
 		<backgroundColor value="0x66758b8b"/>
+	</css>
+	<css name="$SseLinkLineBackground">
+		<backgroundColor value="0x66FFFFFF"/>
 	</css>
 
 	<!-- modal_window_elements -->
@@ -1333,7 +1313,7 @@
 		<fontSize value="30"/>
 		<marginText value="-3px|-4px|-11px|-8px"/>
 		<alpha value="0.8"/>
-		<dropShadowFilter value="0 0 0x000000 0 0 0 0 0"/>
+		<dropShadowFilter value=""/>
 		<selectable value="false"/>
 		<textColor value="0xff212223"/>
 	</css>
@@ -1344,7 +1324,7 @@
 		<fontSize value="25"/>
 		<marginText value="-3px|-3px|-9px|-8px"/>
 		<alpha value="0.8"/>
-		<dropShadowFilter value="0 0 0x000000 0 0 0 0 0"/>
+		<dropShadowFilter value=""/>
 		<selectable value="false"/>
 		<textColor value="0xff212223"/>
 	</css>
@@ -1355,7 +1335,7 @@
 		<fontSize value="23"/>
 		<marginText value="-3px|-3px|-9px|-6px"/>
 		<alpha value="0.8"/>
-		<dropShadowFilter value="0 0 0x000000 0 0 0 0 0"/>
+		<dropShadowFilter value=""/>
 		<selectable value="false"/>
 		<textColor value="0xff212223"/>
 	</css>
@@ -1366,7 +1346,7 @@
 		<fontSize value="21"/>
 		<marginText value="-3px|-3px|-8px|-7px"/>
 		<alpha value="0.8"/>
-		<dropShadowFilter value="0 0 0x000000 0 0 0 0 0"/>
+		<dropShadowFilter value=""/>
 		<selectable value="false"/>
 		<textColor value="0xff212223"/>
 	</css>
@@ -1377,7 +1357,7 @@
 		<fontSize value="19"/>
 		<marginText value="-3px|-3px|-8px|-6px"/>
 		<alpha value="0.8"/>
-		<dropShadowFilter value="0 0 0x000000 0 0 0 0 0"/>
+		<dropShadowFilter value=""/>
 		<selectable value="false"/>
 		<textColor value="0xff212223"/>
 	</css>
@@ -1388,7 +1368,7 @@
 		<fontSize value="19"/>
 		<marginText value="-3px|-3px|-7px|-5px"/>
 		<alpha value="0.8"/>
-		<dropShadowFilter value="0 0 0x000000 0 0 0 0 0"/>
+		<dropShadowFilter value=""/>
 		<selectable value="false"/>
 		<textColor value="0xff212223"/>
 	</css>
@@ -1399,7 +1379,7 @@
 		<fontSize value="17"/>
 		<marginText value="-3px|-4px|-7px|-6px"/>
 		<alpha value="0.8"/>
-		<dropShadowFilter value="0 0 0x000000 0 0 0 0 0"/>
+		<dropShadowFilter value=""/>
 		<selectable value="false"/>
 		<textColor value="0xff212223"/>
 	</css>
@@ -1410,9 +1390,22 @@
 		<fontSize value="15"/>
 		<marginText value="-3px|-3px|-6px|-5px"/>
 		<alpha value="0.8"/>
-		<dropShadowFilter value="0 0 0x000000 0 0 0 0 0"/>
+		<dropShadowFilter value=""/>
 		<selectable value="false"/>
 		<textColor value="0xff212223"/>
+	</css>
+
+	<!-- modal_window_postbattle_key_battle -->
+	<css name="$TextDefaultBoldCounter60NM">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<multiline value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="60"/>
+		<marginText value="-4px|-5px|-14px|-10px"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xFFFFFF"/>
 	</css>
 
 	<!-- modal_window_postbattle_rewards -->
@@ -1611,16 +1604,6 @@
 		<textColor value="0xEEEEEE"/>
 	</css>
 
-	<!-- player_profile_clubs -->
-	<css name="$SqueezeHorizontal">
-		<width value="90%"/>
-		<left value="5%"/>
-	</css>
-	<css name="$SqueezeVertical">
-		<top value="5%"/>
-		<height value="90%"/>
-	</css>
-
 	<!-- player_profile_collections -->
 	<css name="$CollectionMarginTop">
 		<marginTop value="1280:10,1920:15aw"/>
@@ -1633,26 +1616,6 @@
 		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
 		<selectable value="false"/>
 		<textColor value="0xEEEEEE"/>
-	</css>
-
-	<!-- player_profile_ranks -->
-	<css name="$TextAccentWhiteBold">
-		<mouseChildren value="false"/>
-		<mouseEnabled value="false"/>
-		<fontFamily value="$WWSDefaultFontBold"/>
-		<fontSize value="25"/>
-		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
-		<selectable value="false"/>
-		<textColor value="0xFFFFFF"/>
-	</css>
-	<css name="$LocalTextHeaderUnready">
-		<mouseChildren value="false"/>
-		<mouseEnabled value="false"/>
-		<fontFamily value="$WWSDefaultFont"/>
-		<fontSize value="19"/>
-		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
-		<selectable value="false"/>
-		<textColor value="0xFF9933"/>
 	</css>
 
 	<!-- player_profile_summary -->
@@ -1835,50 +1798,13 @@
 		<textColor value="0x08222a"/>
 	</css>
 
-	<!-- quest_elements -->
-	<css name="$QuestBar">
-		<backgroundColor value="0xFF009999"/>
-	</css>
-	<css name="$QuestBlockVMargins">
-		<width value="100%"/>
-		<marginBottom value="6px"/>
-	</css>
-	<css name="$SSEDescTextNormal">
-		<mouseChildren value="false"/>
-		<leading value="-4"/>
-		<mouseEnabled value="false"/>
+	<!-- prmp -->
+	<css name="$TextHeaderBigDefaultSelectable">
 		<fontFamily value="$WWSDefaultFont"/>
-		<fontSize value="17"/>
-		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
-		<selectable value="false"/>
-		<textColor value="0xFFFFFF"/>
-	</css>
-	<css name="$SSEDescTextSubheader">
-		<mouseChildren value="false"/>
-		<mouseEnabled value="false"/>
-		<fontFamily value="$WWSDefaultFont"/>
-		<fontSize value="17"/>
-		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
-		<selectable value="false"/>
-		<textColor value="0x9CBABA"/>
-	</css>
-	<css name="$SSEDescTextSubheaderSecondary">
-		<mouseChildren value="false"/>
-		<mouseEnabled value="false"/>
-		<fontFamily value="$WWSDefaultFont"/>
-		<fontSize value="17"/>
-		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
-		<selectable value="false"/>
-		<textColor value="0x9CBABA"/>
-	</css>
-	<css name="$TextHeaderBigDefaultBold">
-		<fontFamily value="$WWSDefaultFontBold"/>
-		<mouseEnabled value="false"/>
-		<mouseChildren value="false"/>
-		<fontSize value="17"/>
-		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
-		<selectable value="false"/>
+		<selectable value="true"/>
 		<textColor value="0xEEEEEE"/>
+		<fontSize value="17"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
 	</css>
 
 	<!-- random_battle -->
@@ -1912,6 +1838,17 @@
 		<textColor value="0xFF9933"/>
 	</css>
 
+	<!-- results_screen_personal_result -->
+	<css name="$TextHeaderBigDefaultBold">
+		<fontFamily value="$WWSDefaultFontBold"/>
+		<mouseEnabled value="false"/>
+		<mouseChildren value="false"/>
+		<fontSize value="17"/>
+		<dropShadowFilter value="1 90 0x08222a 0.5 2.0 2.0 1.0 2"/>
+		<selectable value="false"/>
+		<textColor value="0xEEEEEE"/>
+	</css>
+
 	<!-- ship_management -->
 	<css name="$ModulesLink">
 		<hitTest value="false"/>
@@ -1938,6 +1875,12 @@
 		<paddingBottom value="32px"/>
 		<paddingTop value="24px"/>
 		<backgroundColor value="0x30000000"/>
+	</css>
+	<css name="$ManagementSubBlock">
+		<width value="100%"/>
+		<align value="center"/>
+		<marginBottom value="-32px"/>
+		<marginTop value="32px"/>
 	</css>
 	<css name="$ManagementBlockBottomMargin">
 		<marginBottom value="720:12,1080:32ah"/>

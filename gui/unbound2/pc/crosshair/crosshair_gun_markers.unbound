@@ -1,123 +1,70 @@
 (def element CrosshairGunMarkersContainer() layout=true
 	(scope
-		(var selfVehicleEntity:gfx = "$datahub.getSingleEntity(CC.selfVehicle)")
-        (var weaponType:number = "selfVehicleEntity.vehicleWeapons.selectedWeaponType" (event "selfVehicleEntity.vehicleWeapons.evSelectedWeaponTypeChanged"))
+		(var markers:gfx = "$datahub.getCollection(CC.gunMarker)")
 	)
+    (style (position = "absolute"))
 
-	
-	(controller $Instance renderer='ArtilleryMarkers'
-        (bind enabled "weaponType == WeaponType.ARTILLERY")
+    (controller $Repeat renderer='GunMarkerRenderer'
+        (bind count "markers.items.length")
+        (args markerID = "markers.items[$index].id")
     )
-
-	
-    (controller $Instance renderer='TorpedoCentralMarker'
-        (bind enabled "weaponType == WeaponType.TORPEDO")
-    )
-
-	
-	(block
-		(element PingerGunStateCentralMarker
-			(scope
-				(bind isEnabled "weaponType == WeaponType.PINGER")	
-			)
-		)
-		(controller $Instance renderer='PingerGunCentralMarker'
-			(bind enabled "weaponType == WeaponType.PINGER")
-		)
-	)
 )
 
-(def element ArtilleryMarkers() layout=true
-	(scope
-		(var currentWeapon:gfx = "$datahub.getPrimaryEntity(CC.weapon, WeaponType.ARTILLERY)")
-	)
-	(style (position = "absolute"))
+(def element GunMarkerRenderer(markerID:number) layout=true
+    (scope
+        (event emptyEvent)
+        (event evShoot)
+
+        
+        (var marker:gfx = "$datahub.getEntity(markerID)")
+        (var state:number = "marker.gunMarker.state" (event "marker.gunMarker.evStateChanged"))
+        (var index:number = "marker.gunMarker.index" (event "marker.gunMarker.evIndexChanged"))
+
+        
+        (var progress:number = "marker.progress.max != 0 ? marker.progress.value / marker.progress.max : 0" (event "marker.progress.evChanged"))
+
+        
+        (var azimuth:number = "radToGrad(marker.gunTarget.azimuth)" (event "marker.gunTarget.evAzimuthChanged"))
+        (var isBlocked:bool = "marker.gunTarget.invalid" (event "marker.gunTarget.evInvalidChanged"))
+        (var isCentral:bool = "index == 0")
+        (var isAimed:bool = "azimuth == 0")
+
+        
+        (var isActive:bool = "marker.gunMarker.active" (event "marker.gunMarker.evActiveChanged"))
+        (var position:number = "marker.gunMarker.position" (event "marker.gunMarker.evPositionChanged"))
+        (var isVisible:bool = "marker.gunMarker.visible" (event "marker.gunMarker.evVisibleChanged"))
+    )
+
+    (style (position = "absolute"))
+
+    (bind visible "isActive && isVisible && state < SC.Weapons.GUN_STATE.DESTROYED && (isCentral || !isAimed)")
+
+    (dispatch evShoot dir="EventDirection.DOWN" (event "isCentral ? marker.weapon.evShoot : emptyEvent"))
 
     (block
-        (style (position = "absolute"))
+        (style (bind left "position") (position = "absolute"))
 
-        (controller $Repeat renderer='GunMarkerArtillery'
-            (bind count "currentWeapon.weapon.guns.length")
-            (args _gunId = "currentWeapon.weapon.guns[$index]")
-            (exprs
+        
+
+        (hblock
+            (element GunMarker _index="index"
                 (scope
-                    (bind gunId "currentWeapon.weapon.guns[$index]")
+                    (bind _azimuth "azimuth")
+                    (bind _state "state")
+                    (bind _blocked "isBlocked")
+                    (bind _progress "progress")
                 )
             )
         )
     )
-
-    (element ArtilleryCentralMarker)
 )
 
-(def element TorpedoCentralMarker() layout=true
-	(scope
-		(event emptyEvent)
-		(event evShoot)
-        (var currentWeapon:gfx = "$datahub.getPrimaryEntity(CC.weapon, WeaponType.TORPEDO)")
 
-        (var centralMarker:gfx = "currentWeapon.centralGunMarker")
-        (var isVisible:bool = "centralMarker.isVisible" (event "centralMarker.evIsVisibleChanged"))
-        (var markerState:number = "centralMarker.markerState" (event "centralMarker.evMarkerStateChanged"))
-        (var reloadState:number = "centralMarker.reloadState" (event "centralMarker.evReloadStateChanged"))
-        (var reloadPercent:number = "reloadState == GunReloadState.IN_PROGRESS ? centralMarker.reloadPercent : 1" (event "reloadState == GunReloadState.IN_PROGRESS ? evEnterFrame : emptyEvent"))
-        (var gunAimDiffAngle:number = "centralMarker.aimDiff" (event "evEnterFrame"))
-        (var gunScreenX:number = "centralMarker.screenX" (event "evEnterFrame"))
-    )
-
-	(dispatch evShoot dir="EventDirection.DOWN" (event "currentWeapon.weapon.evShoot"))
-
-    (style (position = "absolute"))
-
-	(bind visible "markerState != GunMarkerState.DEAD")
-
-	(bind x "gunScreenX")
-
-	(element GunMarker _hasText=false
-		(style (position = "absolute"))
-		(scope
-            (bind _gunAimDiffAngle "gunAimDiffAngle")
-            (bind _markerState "markerState")
-            (bind _reloadPercent "reloadPercent")
-        )
-	)
-)
-
-(def element ArtilleryCentralMarker() layout=true
-	(scope
-		(event emptyEvent)
-		(event evShoot)
-        (var currentWeapon:gfx = "$datahub.getPrimaryEntity(CC.weapon, WeaponType.ARTILLERY)")
-
-        (var centralMarker:gfx = "currentWeapon.centralGunMarker")
-        (var isVisible:bool = "centralMarker.isVisible" (event "centralMarker.evIsVisibleChanged"))
-        (var markerState:number = "centralMarker.markerState" (event "centralMarker.evMarkerStateChanged"))
-        (var reloadState:number = "centralMarker.reloadState" (event "centralMarker.evReloadStateChanged"))
-        (var reloadPercent:number = "reloadState == GunReloadState.IN_PROGRESS ? centralMarker.reloadPercent : 1" (event "reloadState == GunReloadState.IN_PROGRESS ? evEnterFrame : emptyEvent"))
-        (var gunAimDiffAngle:number = "centralMarker.aimDiff" (event "evEnterFrame"))
-        (var gunScreenX:number = "centralMarker.screenX" (event "evEnterFrame"))
-    )
-
-	(dispatch evShoot dir="EventDirection.DOWN" (event "currentWeapon.weapon.evShoot"))
-
-    (style (position = "absolute"))
-
-	(bind visible "isVisible && markerState != GunMarkerState.DEAD")
-
-	(bind x "gunScreenX")
-
-	(element GunMarker _hasText=false
-		(style (position = "absolute"))
-		(scope
-            (bind _gunAimDiffAngle "gunAimDiffAngle")
-            (bind _markerState "markerState")
-            (bind _reloadPercent "reloadPercent")
-        )
-	)
-)
 
 (def element PingerGunCentralMarker() layout=true
 	(scope
+		(var isEnabled:bool = false)
+
 		(event emptyEvent)
 		(event evShoot)
 		(var currentWeapon:gfx = "$datahub.getPrimaryEntity(CC.weapon, WeaponType.PINGER)")
@@ -135,11 +82,9 @@
 
 	(dispatch evShoot dir="EventDirection.DOWN" (event "currentWeapon.weapon.evShoot"))
 
-	(style (position = "absolute"))
+	(style (position = "absolute") (bind left "gunScreenX"))
 
-	(bind visible "isVisible")
-
-	(bind x "gunScreenX")
+	(bind visible "isEnabled && isVisible")
 
 	(element GunMarker 	_hasText=false
 						_backgroundMC='crosshair_gun_marker_rect_background'
@@ -149,7 +94,7 @@
 			(scope
 				(bind _markerState "markerState")
 				(bind _reloadPercent "reloadPercent")
-		)
+			)
 	)
 )
 
@@ -163,7 +108,7 @@
 		(var isEnabled:bool = false)
 
 		(var weaponEntity:gfx = "$datahub.getPrimaryEntity(CC.weapon, WeaponType.PINGER)")
-		(var selectedIndex:number = "weaponEntity.weaponControl.selectedIndex" (event "weaponEntity.weaponControl.evSelectedIndexChanged"))
+		(var selectedIndex:number = "isEnabled ? weaponEntity.weaponControl.selectedIndex : 0" (event "weaponEntity.weaponControl.evSelectedIndexChanged"))
 
 		(var currentSizes:array = "PINGER_GUN_STATES_SIZES[selectedIndex]")
 		(var currentWidth:number = "currentSizes[0]")
@@ -176,6 +121,8 @@
 		(width = 300) (height = 300)
 		(align = "center|middle")
 	)
+
+	(bind visible "isEnabled")
 
 	(block
 		(alpha = 0)
@@ -191,7 +138,7 @@
 							killAll=true
 							reverse="!(isEnabled)"
 							(bind trigger "isEnabled")
-			)   
+			)
 			(bindcall play	duration=0.15
 							to="{width: currentWidth, height: currentHeight}"
 							killAll=true

@@ -1,10 +1,12 @@
+(def constant QUICK_COMMANDS_NEAR_SLOTS_COUNT 8)
+(def constant QUICK_COMMANDS_FAR_SLOTS_COUNT 4)
 
 (def element ModalQuickCommandsFullscreenContainer () layout=true
 	(scope
 		(var battleInfo:gfx = "$datahub.getSingleComponent(CC.battleInfo)")
 		(var avatar:gfx =  "$datahub.getSingleEntity(CC.playerAvatar)")
 		(var isAlive:bool = "avatar.health.isAlive" (event "avatar.health.evIsAliveChanged"))
-		(var canSendQuickCommands:bool = "isAlive && battleInfo.gameModeId != GameMode.TUTORIAL")
+		(var canSendQuickCommands:bool = "isAlive && battleInfo.gameModeId != SC.Battle.GAME_MODE.TUTORIAL")
 	)
 	(controller $Instance renderer='ModalWindowQuickCommandsFullscreen'
 		(bind enabled "canSendQuickCommands")
@@ -58,7 +60,8 @@
 		(class $CenterAbsolute)
 		(block
 			(class $CenterAbsolute)
-			(controller $Repeat count=8 renderer='QCSector'
+			(controller $Repeat renderer='QCSector'
+				(bind count "commandsData.length > 0 ? QUICK_COMMANDS_NEAR_SLOTS_COUNT : 0")
 				(exprs
 					(scope
 						(bind _stageHeight "stageHeight")
@@ -68,7 +71,8 @@
 		)
 		(block
 			(class $CenterAbsolute)
-			(controller $Repeat count=4 renderer='QCSectorFar'
+			(controller $Repeat renderer='QCSectorFar'
+				(bind count "commandsData.length > 0 ? QUICK_COMMANDS_FAR_SLOTS_COUNT : 0")
 				(exprs
 					(scope
 						(bind _stageHeight "stageHeight")
@@ -78,7 +82,7 @@
 		)
 		(block
 			(mouseEnabled = false)
-            (mouseChildren = false)
+			(mouseChildren = false)
 			(controller $Repeat renderer='QCItem'
 				(bind count "commandsData.length")
 				(exprs
@@ -180,21 +184,21 @@
 
 		(var itemPosition:array = "[
 											{ qc_top: 0,				    qc_left: (_stageHeight * 0.27)},
-                                  			{ qc_top: (_stageHeight * 0.18), qc_left: (_stageHeight * 0.2)},
-                                  			{ qc_top: (_stageHeight * 0.27), qc_left: 0					},
-                                  			{ qc_top: (_stageHeight * 0.18), qc_left: -(_stageHeight * 0.2)},
-                                  			{ qc_top: 0,				    qc_left: -(_stageHeight * 0.27)},
-                                  			{ qc_top: -(_stageHeight * 0.18), qc_left: -(_stageHeight * 0.2)},
-                                  			{ qc_top: -(_stageHeight * 0.27), qc_left: 0					},
-                                  			{ qc_top: -(_stageHeight * 0.18), qc_left: (_stageHeight * 0.2) },
+											{ qc_top: (_stageHeight * 0.18), qc_left: (_stageHeight * 0.2)},
+											{ qc_top: (_stageHeight * 0.27), qc_left: 0					},
+											{ qc_top: (_stageHeight * 0.18), qc_left: -(_stageHeight * 0.2)},
+											{ qc_top: 0,				    qc_left: -(_stageHeight * 0.27)},
+											{ qc_top: -(_stageHeight * 0.18), qc_left: -(_stageHeight * 0.2)},
+											{ qc_top: -(_stageHeight * 0.27), qc_left: 0					},
+											{ qc_top: -(_stageHeight * 0.18), qc_left: (_stageHeight * 0.2) },
 
-                                  			{ qc_top: (_stageHeight * 0.10), qc_left: (_stageHeight * 0.5)},
-                                  			{ qc_top: (_stageHeight * 0.10) , qc_left: -(_stageHeight * 0.5)},
-                                  			{ qc_top: -(_stageHeight * 0.10), qc_left: -(_stageHeight * 0.5)},
-                                  			{ qc_top: -(_stageHeight * 0.10), qc_left: (_stageHeight * 0.5)}
-                                  ]"
-                                  )
-    )
+											{ qc_top: (_stageHeight * 0.10), qc_left: (_stageHeight * 0.5)},
+											{ qc_top: (_stageHeight * 0.10) , qc_left: -(_stageHeight * 0.5)},
+											{ qc_top: -(_stageHeight * 0.10), qc_left: -(_stageHeight * 0.5)},
+											{ qc_top: -(_stageHeight * 0.10), qc_left: (_stageHeight * 0.5)}
+								  ]"
+								  )
+	)
 
 	(style
 		(position = "absolute")

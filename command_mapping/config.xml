@@ -8,20 +8,22 @@
 		<watercraft parent="alive"/>
 		<ship parent="watercraft"/>
 		<submarine parent="battle"/>
+		<ingamebonusselection parent="battle"/>
 		<carrier parent="watercraft"/>
 		<replay parent="default"/>
 		<tactical/>
+		<minimap/>
 		<cursor parent="default"/>
 		<battle parent="cursor"/>
 		<sound/>
 		<default parent="sound"/>
 		<airplane parent="alive"/>
 		<fake/>
+		<diplomacy/>
 	</context>
 
 	<presets>
 		<keyboard name = "preset_keyboard_1.xml"/>
-		<gamepad name = "preset_gamepad_1.xml"/>
 	</presets>
 
 	<ui>
@@ -40,15 +42,17 @@
 			</IDS_CRUISECONTROLS>
 
 			<IDS_WEAPONGROUPS>
-				<!-- CMD_NEXT_WEAPON_TYPE ids="IDS_NEXT_WEAPON_TYPE"/-->
-				<!-- CMD_NEXT_WEAPON_MODE ids="IDS_NEXT_WEAPON_MODE"/-->
-				<!-- CMD_SELECT_NEXT_WEAPON_MODE ids="IDS_NEXT_WEAPON_MODE"/-->
-				<CMD_ARTILLERY_AMMO_0 ids="IDS_ARTILLERY_AMMO_0"/>
-				<CMD_ARTILLERY_AMMO_1 ids="IDS_ARTILLERY_AMMO_1"/>
-				<CMD_TORPEDOES_ANGLE ids="IDS_TORPEDOES_ANGLE"/>
+				<CMD_AMMO_SLOT_1 ids="IDS_ARMAMENT_SLOT_1"/>
+				<CMD_AMMO_SLOT_2 ids="IDS_ARMAMENT_SLOT_2"/>
+				<CMD_AMMO_SLOT_3 ids="IDS_ARMAMENT_SLOT_3"/>
+				<CMD_AMMO_SLOT_4 ids="IDS_ARMAMENT_SLOT_4"/>
+				<CMD_AMMO_SLOT_5 ids="IDS_ARMAMENT_SLOT_5"/>
+				<CMD_AMMO_SLOT_6 ids="IDS_ARMAMENT_SLOT_6"/>
+				<CMD_AMMO_SLOT_7 ids="IDS_ARMAMENT_SLOT_7"/>
+				<CMD_AMMO_SLOT_8 ids="IDS_ARMAMENT_SLOT_8"/>
+				<CMD_TORPEDO_RELOAD ids="IDS_TORPEDO_RELOAD"/>
 				<CMD_MAIN_CALIBER ids="IDS_MAIN_CALIBER"/>
 				<CMD_TORPEDO ids="IDS_TORPEDOES"/>
-				<CMD_TORPEDO_RELOAD ids="IDS_TORPEDO_RELOAD"/>
 			</IDS_WEAPONGROUPS>
 
 			<IDS_CONSUMABLES>
@@ -68,6 +72,14 @@
 			</IDS_CAMERACONTROLS>
 
 			<IDS_WEAPONCONTROLS>
+				<!--<CMD_AMMO_SLOT_1 ids="IDS_"/>-->
+				<!--<CMD_AMMO_SLOT_2 ids="IDS_"/>-->
+				<!--<CMD_AMMO_SLOT_3 ids="IDS_"/>-->
+				<!--<CMD_AMMO_SLOT_4 ids="IDS_"/>-->
+				<!--<CMD_AMMO_SLOT_5 ids="IDS_"/>-->
+				<!--<CMD_AMMO_SLOT_6 ids="IDS_"/>-->
+				<!--<CMD_AMMO_SLOT_7 ids="IDS_"/>-->
+				<!--<CMD_AMMO_SLOT_8 ids="IDS_"/>-->
 				<CMD_SHOOT ids="IDS_COMMAND_SHOOT"/>
 				<CMD_FIXING_TARGET_POSITION ids="IDS_FIXING_TARGET_POSITION"/>
 				<CMD_CINEMATIC_SHOOT ids="IDS_CINEMATIC_SHOOT"/>
@@ -90,10 +102,10 @@
 				<CMD_WEAPON_0 ids="IDS_AIRPLANE_WEAPON_0"/>
 				<CMD_WEAPON_1 ids="IDS_AIRPLANE_WEAPON_1"/>
 				<CMD_OBSERVE_CAM ids="IDS_AIRPLANE_OBSERVE_CAM"/>
-				<CMD_SQUADRON_0 ids="IDS_SQUADRON_1"/>
-				<CMD_SQUADRON_1 ids="IDS_SQUADRON_2"/>
-				<CMD_SQUADRON_2 ids="IDS_SQUADRON_3"/>
-				<CMD_SQUADRON_3 ids="IDS_SQUADRON_4"/>
+<!--				<CMD_SQUADRON_0 ids="IDS_SQUADRON_1"/>-->
+<!--				<CMD_SQUADRON_1 ids="IDS_SQUADRON_2"/>-->
+<!--				<CMD_SQUADRON_2 ids="IDS_SQUADRON_3"/>-->
+<!--				<CMD_SQUADRON_3 ids="IDS_SQUADRON_4"/>-->
 				<!-- <CMD_SQUADRON_4 ids="IDS_SQUADRON_5"/> -->
 				<!-- <CMD_SQUADRON_5 ids="IDS_SQUADRON_6"/> -->
 				<!-- <CMD_SQUADRON_6 ids="IDS_SQUADRON_7"/> -->
@@ -182,21 +194,18 @@
 			</IDS_CRUISECONTROLS>
 
 			<IDS_WEAPONGROUPS>
-				<!-- CMD_NEXT_WEAPON_TYPE ids="IDS_NEXT_WEAPON_TYPE"/-->
-				<!-- CMD_NEXT_WEAPON_MODE ids="IDS_NEXT_WEAPON_MODE"/-->
-				<!-- CMD_SELECT_NEXT_WEAPON_MODE ids="IDS_NEXT_WEAPON_MODE"/-->
-				<CMD_ARTILLERY_AMMO_0 ids="IDS_ARTILLERY_AMMO_0"/>
-				<CMD_ARTILLERY_AMMO_1 ids="IDS_ARTILLERY_AMMO_1"/>
-				<CMD_TORPEDOES_ANGLE ids="IDS_TORPEDOES_ANGLE"/>
-				<CMD_SQUADRON_0 ids="IDS_SQUADRON_1"/>
-				<CMD_SQUADRON_1 ids="IDS_SQUADRON_2"/>
-				<CMD_SQUADRON_2 ids="IDS_SQUADRON_3"/>
-				<CMD_SQUADRON_3 ids="IDS_SQUADRON_4"/>
-				<CMD_SQUADRON_4 ids="IDS_SQUADRON_5"/>
-				<CMD_SQUADRON_5 ids="IDS_SQUADRON_6"/>
-				<CMD_SQUADRON_6 ids="IDS_SQUADRON_7"/>
-				<CMD_SQUADRON_7 ids="IDS_SQUADRON_8"/>
-				<CMD_SQUADRON_8 ids="IDS_SQUADRON_9"/>
+				<CMD_AMMO_SLOT_1 ids="IDS_ARTILLERY_AMMO_0"/>
+				<CMD_AMMO_SLOT_2 ids="IDS_ARTILLERY_AMMO_1"/>
+				<CMD_AMMO_SLOT_3 ids="IDS_TORPEDOES_ANGLE"/>
+<!--				<CMD_SQUADRON_0 ids="IDS_SQUADRON_1"/>-->
+<!--				<CMD_SQUADRON_1 ids="IDS_SQUADRON_2"/>-->
+<!--				<CMD_SQUADRON_2 ids="IDS_SQUADRON_3"/>-->
+<!--				<CMD_SQUADRON_3 ids="IDS_SQUADRON_4"/>-->
+<!--				<CMD_SQUADRON_4 ids="IDS_SQUADRON_5"/>-->
+<!--				<CMD_SQUADRON_5 ids="IDS_SQUADRON_6"/>-->
+<!--				<CMD_SQUADRON_6 ids="IDS_SQUADRON_7"/>-->
+<!--				<CMD_SQUADRON_7 ids="IDS_SQUADRON_8"/>-->
+<!--				<CMD_SQUADRON_8 ids="IDS_SQUADRON_9"/>-->
 				<CMD_MAIN_CALIBER ids="IDS_MAIN_CALIBER"/>
 				<CMD_TORPEDO ids="IDS_TORPEDOES"/>
 				<CMD_TORPEDO_RELOAD ids="IDS_TORPEDO_RELOAD"/>

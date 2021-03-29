@@ -6,7 +6,7 @@
     (scope
         (var avatarEntity:gfx = "$datahub.getSingleEntity(CC.playerAvatar)")
         (var resourcesCollection:gfx = "$datahub.getCollection(CC.resource)")
-        (var playerResources:gfx = "resourcesCollection.getChildByPath('byOwnerId.' + avatarEntity.id)" (event "resourcesCollection.evAdded"))
+        (var playerResources:gfx = "resourcesCollection.getChildByPath('byOwnerId.' + avatarEntity.id + '.byType.' + SC.Battle.RESOURCE_TYPES.FILTHIOR)" (event "resourcesCollection.evAdded"))
         (var isEnabled:bool = "playerResources != null ? playerResources.items.length != 0 : false")
     )
 
@@ -24,13 +24,14 @@
 		(var resourcesCollection:gfx = "$datahub.getCollection(CC.resource)")
 
 		
-		(var teamResourceId:str = "'' + ResourceTypes.FILTHIOR + '_team_' + teamId")
+		(var teamResourceId:str = "'' + SC.Battle.RESOURCE_TYPES.FILTHIOR + '_team_' + teamId")
 		(var teamResource:gfx = "$datahub.getPrimaryEntity(CC.resource, teamResourceId)" (event "resourcesCollection.evAdded"))
-        (var teamValue:number = "teamResource.progress.value" (event "teamResource.progress.evChanged"))
+		(var progressComponent:gfx = "teamResource ? teamResource.progress : null")
+		(var teamValue:number = "progressComponent ? progressComponent.value : 0" (event "progressComponent.evChanged"))
 		(var currentValue:number = "teamValue" watch=false)
 
 		
-		(var savedTeamResourceId:str = "'' + ResourceTypes.FILTHIOR_SAVED + '_team_' + teamId")
+		(var savedTeamResourceId:str = "'' + SC.Battle.RESOURCE_TYPES.FILTHIOR_SAVED + '_team_' + teamId")
 		(var savedTeamResource:gfx = "$datahub.getPrimaryEntity(CC.resource, savedTeamResourceId)" (event "resourcesCollection.evAdded"))
         (var savedTeamValue:number = "savedTeamResource ? savedTeamResource.progress.value : 0" (event "savedTeamResource.progress.evChanged"))
 		(var savedValue:number = "savedTeamValue" watch=false)

@@ -1,137 +1,140 @@
-(def element AutopilotIndicatorOld () layout=true dispatch_size_change=true
-    (scope
-        (var battleDataEntity:gfx = "$datahub.getSingleEntity(CC.battleData)")
+(def layout AutopilotIndicatorOld () dispatch_size_change=true
+	(scope
+		(var battleDataEntity:gfx = "$datahub.getSingleEntity(CC.battleData)")
 		(var battleState:number = "battleDataEntity.battleState.battleState" (event "battleDataEntity.battleState.evBattleStateChanged"))
-        (var gameModeId:number = "battleDataEntity.battleInfo.gameModeId")
-        (var avatarEntity:gfx = "$datahub.getSingleEntity(CC.playerAvatar)")
+		(var gameModeId:number = "battleDataEntity.battleInfo.gameModeId")
+		(var avatarEntity:gfx = "$datahub.getSingleEntity(CC.playerAvatar)")
 		(var isAlive:bool = "avatarEntity.health.isAlive" (event "avatarEntity.health.evIsAliveChanged"))
 
-        (var cameraEntity:gfx = "$datahub.getSingleEntity(CC.camera)")
+		(var cameraEntity:gfx = "$datahub.getSingleEntity(CC.camera)")
 		(var isTactical:bool = "cameraEntity.camera.isTactical" (event "cameraEntity.camera.evTacticalStateChanged"))
 
-        (var waypointsColl:gfx = "$datahub.getCollection(CC.navpoint)")
-        (var hasWaypoints:bool = "waypointsColl.items.length > 0" (event "waypointsColl.evAdded") (event "waypointsColl.evRemoved"))
-    )
+		(var waypointsColl:gfx = "$datahub.getCollection(CC.navpoint)")
+		(var hasWaypoints:bool = "waypointsColl.items.length > 0" (event "waypointsColl.evAdded") (event "waypointsColl.evRemoved"))
+	)
 
-    (bind visible "isAlive && (battleState == BattleState.STARTED) && (gameModeId != GameMode.TUTORIAL)")
+    (bind visible "isAlive && (battleState == BattleState.STARTED) && (gameModeId != SC.Battle.GAME_MODE.TUTORIAL)")
 
-    (style 
-        (width = "80px")
-        (height = "80px")
-        (align = "bottom")
-    )
+	(style
+		(width = "80px")
+		(height = "80px")
+		(align = "bottom")
+	)
 
-    (block
-        (style (align = "center"))
-        (block
-            (alpha = "hasWaypoints ? 1 : 0.5")        
-            (tf
-                (style                    
-                    (width = "80px")
-                    (textAlign = "center")
-                )
-                (class $TextDefaultBold13NM)
-                (bind class "hasWaypoints ? '$FontColorHealth' : '$None'")
-                (bind text "hasWaypoints ? 'IDS_AUTOPILOT_ON' : 'IDS_AUTOPILOT'")
-            )  
-            (controller $Animation
-                (bindcall play  duration = 0.3
-                                easing = "Easing.cubic_in"
-                                from = "{ alpha: 0, y: 10 }"
-                                to = "{ alpha: hasWaypoints ? 1 : 0.5, y: 0 }"
-                                killAll=true
-                                (bind trigger "hasWaypoints")                                
-                )
-            )  
-        )
-        
-        (block
-            (style
-                (width = "39px") (height = "29px")
-                (bind backgroundImage "'bitmap:autopilot_indicator_' + (hasWaypoints ? 'on' : 'off')")
-                (marginTop = "4px")
-            )
-            (block
-                (alpha = "hasWaypoints ? 1 : 0")
-                (pivotX = 6)
-                (pivotY = 4)
-                (style
-                    (position = "absolute")
-                    (top = "-2px") (right = "7px")
-                    (width = "11px") (height = "7px")
-                    (backgroundImage = "'bitmap:autopilot_indicator_on_navpoint'")
-                ) 
-                (controller $Animation
-                    (bindcall play  duration = 0.3
-                                    easing = "Easing.cubic_in"
-                                    from = "{ alpha: 0, scaleX: 0, scaleY: 0 }"
-                                    to = "{ alpha: 1, scaleX: 1, scaleY: 1 }"
-                                    reverse="!(hasWaypoints)"
-                                    killAll=true
-                                    (bind trigger "hasWaypoints")
-                    )
-                )
-            )
-        )
+	(block
+		(style (align = "center"))
+		(block
+			(alpha = "hasWaypoints ? 1 : 0.5")
+			(tf
+				(style
+					(maxWidth = "80px")
+					(width = "80px")
+					(wordWrap=true)
+					(autoSize=true)
+					(textAlign = "center")
+				)
+				(class $TextDefaultBold13NM)
+				(bind class "hasWaypoints ? '$FontColorHealth' : '$None'")
+				(bind text "hasWaypoints ? 'IDS_AUTOPILOT_ON' : 'IDS_AUTOPILOT'")
+			)
+			(controller $Animation
+				(bindcall play  duration = 0.3
+								easing = "Easing.cubic_in"
+								from = "{ alpha: 0, y: 10 }"
+								to = "{ alpha: hasWaypoints ? 1 : 0.5, y: 0 }"
+								killAll=true
+								(bind trigger "hasWaypoints")
+				)
+			)
+		)
 
-        (element HotkeyIndicator "Cmd.CMD_TACTICAL_MAP" toggle=true
-            (style (marginTop = "-5px"))
-            (scope
-                (bind toggled "isTactical")
-            )
-        )
-    )
+		(block
+			(style
+				(width = "39px") (height = "29px")
+				(bind backgroundImage "'bitmap:autopilot_indicator_' + (hasWaypoints ? 'on' : 'off')")
+				(marginTop = "4px")
+			)
+			(block
+				(alpha = "hasWaypoints ? 1 : 0")
+				(style
+					(pivotX = 6)
+					(pivotY = 4)
+					(position = "absolute")
+					(top = 0) (right = 12)
+					(width = 11) (height = 7)
+					(backgroundImage = "'bitmap:autopilot_indicator_on_navpoint'")
+				)
+				(controller $Animation
+					(bindcall play  duration = 0.3
+									easing = "Easing.cubic_in"
+									from = "{ alpha: 0, scaleX: 0, scaleY: 0 }"
+									to = "{ alpha: 1, scaleX: 1, scaleY: 1 }"
+									reverse="!(hasWaypoints)"
+									killAll=true
+									(bind trigger "hasWaypoints")
+					)
+				)
+			)
+		)
+
+		(element HotkeyIndicator "Cmd.CMD_TACTICAL_MAP" toggle=true
+			(style (marginTop = "-5px"))
+			(scope
+				(bind toggled "isTactical")
+			)
+		)
+	)
 )
 
-(def element AutopilotIndicator () layout=true dispatch_size_change=true
-    (scope
-        (var battleDataEntity:gfx = "$datahub.getSingleEntity(CC.battleData)")
+(def layout AutopilotIndicator () dispatch_size_change=true
+	(scope
+		(var battleDataEntity:gfx = "$datahub.getSingleEntity(CC.battleData)")
 		(var battleState:number = "battleDataEntity.battleState.battleState" (event "battleDataEntity.battleState.evBattleStateChanged"))
-        (var gameModeId:number = "battleDataEntity.battleInfo.gameModeId")
-        (var avatarEntity:gfx = "$datahub.getSingleEntity(CC.playerAvatar)")
+		(var gameModeId:number = "battleDataEntity.battleInfo.gameModeId")
+		(var avatarEntity:gfx = "$datahub.getSingleEntity(CC.playerAvatar)")
 		(var isAlive:bool = "avatarEntity.health.isAlive" (event "avatarEntity.health.evIsAliveChanged"))
 
-        (var cameraEntity:gfx = "$datahub.getSingleEntity(CC.camera)")
+		(var cameraEntity:gfx = "$datahub.getSingleEntity(CC.camera)")
 		(var isTactical:bool = "cameraEntity.camera.isTactical" (event "cameraEntity.camera.evTacticalStateChanged"))
 
-        (var waypointsColl:gfx = "$datahub.getCollection(CC.navpoint)")
-        (var hasWaypoints:bool = "waypointsColl.items.length > 0" (event "waypointsColl.evAdded") (event "waypointsColl.evRemoved"))
-    )
+		(var waypointsColl:gfx = "$datahub.getCollection(CC.navpoint)")
+		(var hasWaypoints:bool = "waypointsColl.items.length > 0" (event "waypointsColl.evAdded") (event "waypointsColl.evRemoved"))
+	)
 
-    (bind visible "isAlive && (battleState == BattleState.STARTED) && (gameModeId != GameMode.TUTORIAL)")
+    (bind visible "isAlive && (battleState == BattleState.STARTED) && (gameModeId != SC.Battle.GAME_MODE.TUTORIAL)")
 
-    (style 
-        (align = "middle")
-        (flow = "Flow.HORIZONTAL")
-    )
+	(style
+		(align = "middle")
+		(flow = "Flow.HORIZONTAL")
+	)
 
-    (element HotkeyIndicator "Cmd.CMD_TACTICAL_MAP" toggle=true
-        (style (marginRight = "4px"))
-        (scope
-            (bind toggled "isTactical")
-        )
-    )
+	(element HotkeyIndicator "Cmd.CMD_TACTICAL_MAP" toggle=true
+		(style (marginRight = "4px"))
+		(scope
+			(bind toggled "isTactical")
+		)
+	)
 
-    (block
-        (style (marginTop = "1px"))
-        (block
-            (alpha = "hasWaypoints ? 1 : 0.5")        
-            (tf            
-                (class $TextDefaultBold13NM)
-                (bind class "hasWaypoints ? '$FontColorHealth' : '$None'")
-                (bind text "hasWaypoints ? 'IDS_AUTOPILOT_ON' : 'IDS_AUTOPILOT'")
-            )  
-            (controller $Animation
-                (bindcall play  duration = 0.3
-                                easing = "Easing.cubic_in"
-                                from = "{ alpha: 0, marginTop: 10 }"
-                                to = "{ alpha: hasWaypoints ? 1 : 0.5, marginTop: 0 }"
-                                killAll=true
-                                (bind trigger "hasWaypoints")                                
-                )
-            )  
-        )
-    )
+	(block
+		(style (marginTop = "1px"))
+		(block
+			(alpha = "hasWaypoints ? 1 : 0.5")
+			(tf
+				(class $TextDefaultBold13NM)
+				(bind class "hasWaypoints ? '$FontColorHealth' : '$None'")
+				(bind text "hasWaypoints ? 'IDS_AUTOPILOT_ON' : 'IDS_AUTOPILOT'")
+			)
+			(controller $Animation
+				(bindcall play  duration = 0.3
+								easing = "Easing.cubic_in"
+								from = "{ alpha: 0, marginTop: 10 }"
+								to = "{ alpha: hasWaypoints ? 1 : 0.5, marginTop: 0 }"
+								killAll=true
+								(bind trigger "hasWaypoints")
+				)
+			)
+		)
+	)
 )
 
 (def element TacticalMapTextGridContainer () layout=true
@@ -142,8 +145,9 @@
 	(style
 		(position = "absolute")
 	)
-	(element TacticalMapTextGrid
-		(bind visible "isTactical")
+
+	(controller $Instance renderer='TacticalMapTextGrid'
+		(bind enabled "isTactical")
 	)
 )
 
@@ -166,8 +170,8 @@
 		(var entity:gfx = "_col.items[$index]" (event "_col.evChanged") (event "_col.evAdded") (event "_col.evRemoved"))
 		(var component:gfx = "entity.tacticalMapGridTextElement")
 		(var haveScreenPosition:bool = "entity.screenPosition !=null" (event "entity.evAdded") (event "entity.evRemoved"))
-		(var posX:number = "entity.screenPosition.position.x" (event "haveScreenPosition ? evEnterFrame : emptyEventHack"))
-		(var posY:number = "entity.screenPosition.position.y" (event "haveScreenPosition ? evEnterFrame : emptyEventHack"))
+		(var posX:number = "haveScreenPosition ? entity.screenPosition.position.x : 0" (event "haveScreenPosition ? evEnterFrame : emptyEventHack"))
+		(var posY:number = "haveScreenPosition ? entity.screenPosition.position.y : 0" (event "haveScreenPosition ? evEnterFrame : emptyEventHack"))
 	)
 	(style
 		(position = "absolute")

@@ -16,12 +16,20 @@
 			<properties hitTest = "true"/>
 		</element>
 
+		<element name="unboundPOIIndicators" class="lesta.unbound2.UbElement" elementName="POIIndicatorsContainer">
+			<properties hitTest = "false"/>
+		</element>
+
 		<element name="unboundShipStateBars" class="lesta.unbound2.UbElement" elementName="OwnShipHealth" url="ship_state.swf" autoPerfTestGroup="shipInfo">
 			<properties hitTest = "true"/>
 		</element>
 
-		<element name="ubIndicatorSpeed" class="lesta.unbound2.UbElement" elementName="SpeedControl"/>
-		<element name="ubIndicatorAngle" class="lesta.unbound2.UbElement" elementName="AngleControl"/>
+		<element name="ubIndicatorSpeed" class="lesta.unbound2.UbElement" elementName="SpeedControl">
+			<properties hitTest = "false"/>
+		</element>
+		<element name="ubIndicatorAngle" class="lesta.unbound2.UbElement" elementName="AngleControl">
+			<properties hitTest = "false"/>
+		</element>
 
 
 		<element name="logPlayerStateUB2" class="lesta.unbound2.UbElement" elementName="LowerLog" autoPerfTestGroup="logs">
@@ -32,6 +40,7 @@
 		<element name="unboundBattleStats" class="lesta.unbound2.UbElement" elementName="BattleStatsContainer" url="battle_stats.swf">
 			<properties hitTest = "false"/>
 		</element>
+		
 		
 		<element name="logEvent" class="EventLog" url="central_feedback.swf" autoPerfTestGroup="logs">
 			<properties itemRendererName="[MessageListItemRendererForVictoryPointLogs,MessageListItemRendererForVictoryPointKillsLog,MessageListItemRendererForTeamkillEvent,MessageListItemRendererForThirdParty,MessageListItemRendererWithStatus]" antiSpam="true" blinkTimer="0" enabled="true" listItemRendererDethTime="3" listItemRendererLifeTime="12000" messageBufferLength="1" messageBufferOverflowDeathTime="1" scrollBarStep="1" scrollPosition="left" textDisplayFlow="bottom-up" tweenTime="0.3" tweenListItemRenderer="true" hasSubstitution="true" lineSpacing="0" width="600"/>
@@ -50,11 +59,11 @@
 			<properties hitTest = "false"/>
 		</element>
 
-		<element name="helpHint" class="HelpHint" url="battle_stats.swf" autoPerfTestGroup="header"/>
 		<element name="battleTimer" class="BattleTimer" url="battle_stats.swf" autoPerfTestGroup="header"/>
 		<element name="prebattleText" class="PrebattleText" url="battle_stats.swf" autoPerfTestGroup="header"/>
 		<element name="gameVersion" class="GameVersion" url="battle_stats.swf" autoPerfTestGroup="header"/>
-		<element name="observedPlayerLabel" class="ObservedPlayer" url="battle_stats.swf"/>
+		<element name="observedPlayerLabel" class="lesta.unbound2.UbElement" elementName="UbObservedPlayerLabel"/>
+
 
 		<element name="captureBase" class="CaptureBarIndicator" url="capture_bars.swf,capture_indicators.swf"/>
 		<element name="repairIndicator" class="IndividualRepairIndicatorClip" url="capture_bars.swf"/>
@@ -93,6 +102,9 @@
 
 		<element name="tacticalMap" class="lesta.unbound2.UbElement" elementName="TacticalMapTextGridContainer" url="navpoints.swf"/>
 
+		<element name="portalCountdown" class="lesta.unbound2.UbElement" elementName="PortalCountdownHolder">
+			<properties hitTest = "false"/>
+		</element>
 		<element name="unboundMinimap" class="lesta.unbound2.UbElement" elementName="BattleMinimapUb2" url="minimap.swf">
 			<properties hitTest = "true"/>
 		</element>
@@ -106,14 +118,11 @@
 			<properties hitTest = "true"/>
 		</element>
 
-		<element name="first_battle_prompt_elements" class="lesta.unbound2.UbElement" elementName="TutorialHint" url="battle_stats.swf">
-			<properties hitTest = "false"/>
-		</element>
-
-		
-		<!-- Unbound elements -->
-		<element name="ubWeaponsPanel" class="lesta.unbound2.UbElement" elementName="ShipWeaponsPanel">
+		<element name="ubWeaponsPanel" class="lesta.unbound2.UbElement" elementName="ShipWeaponsPanel" url="weapons_panel.swf">
 			<properties hitTest = "true"/>
+		</element>
+		<element name="ubGunsReloadBar" class="lesta.unbound2.UbElement" elementName="GunsReloadBarContainer">
+			<properties hitTest = "false"/>
 		</element>
 		<element name="ubModulesBar" class="lesta.libs.unbound.UnboundElement" url="modules_panel.swf" autoPerfTest="false">
 			<properties rootElementId='ShipModulesStates' hitTest = "false"/>
@@ -126,16 +135,14 @@
 		<element name="centralDangers" class="lesta.unbound2.UbElement" elementName="CentralDangersContainer">
 			<properties hitTest = "false"/>
 		</element>
-		<element name="mainHud" class="lesta.unbound2.UbElement" elementName="MainHud">
+		<element name="mainHud" class="lesta.unbound2.UbElement" elementName="MainHud" url="main_hud.swf">
 			<properties hitTest = "true"/>
-		</element>
-		<element name="ubGunsReloadBar" class="lesta.unbound2.UbElement" elementName="GunsReloadBarContainer">
-			<properties hitTest = "false"/>
 		</element>
 
 		<element name="ubMainHudPC" class="lesta.libs.unbound.UnboundElement" url="battle_stats.swf">
 			<properties rootElementId='MainHUDPCContainer' hitTest = "true"/>
 		</element>
+
 		<element name="ubStatsPanel" class="lesta.libs.unbound.UnboundElement" url="battle_stats.swf" autoPerfTest="false">
 			<properties rootElementId='BattleStats' hitTest = "true"/>
 		</element>
@@ -150,6 +157,11 @@
 		<element name="ubQuickCommandsPanelMini" class="lesta.unbound2.UbElement" elementName="ModalWindowQuickCommandsSmallContainer" url="quick_commands.swf">
 			<properties hitTest = "true"/>
 		</element>
+
+		<element name="ubEventIngameBattleResults" class="lesta.unbound2.UbElement" elementName="EventIngameBattleResultsContainer">
+			<properties hitTest = "true"/>
+		</element>
+
 	</elementList>
 	
 	<controllers>

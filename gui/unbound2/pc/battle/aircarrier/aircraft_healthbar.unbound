@@ -34,20 +34,8 @@
 )
 
 (def constant AircraftHealthbarSettings {
-		TOTAL_BAR_WIDTH: 314,
-		
-		PLANE_ICON_NAMES: [
-			'plane_fighter_own_bg',
-			'plane_bomber_own',
-			'plane_bomber_own_AP',
-			'plane_torpedo_own',
-			'plane_torpedo_own_deepwater',
-			'plane_fighter_own_AP'
-		],
-		PLANE_ICON_WIDTHS: [19px, 9px, 9px, 15px, 19px, 19px],
-		PLANE_ICON_HEIGHTS: [19px, 21px, 21px, 21px, 21px, 19px],
-		PLANE_ICON_TOP_OFFSETS: [-4px, -5px, -5px, -5px, -5px, -4px],
-		HP_ATTACKER_PADDING: 22
+	TOTAL_BAR_WIDTH: 314,
+	HP_ATTACKER_PADDING: 22
 })
 
 (def element AircraftHealthbar () layout=true
@@ -56,47 +44,68 @@
 		(var aircarrier:gfx = "ownCarrierEntity.aircarrier")
 		(var activeSquadron:number = "aircarrier.activeSquadron" (event "aircarrier.evStateChanged"))
 		(var ownSquadronEntity:gfx = "$datahub.getPrimaryEntity(CC.ownSquadron, activeSquadron)")
-		(var maxPlanes:number = "ownSquadronEntity.health.max" (event "ownSquadronEntity.health.evValueChanged"))
-		(var currentHP_points:number = "ownSquadronEntity.squadron.currentHP" (event "ownSquadronEntity.squadron.evCurrentHPChanged"))
-		(var maxHP_points:number = "ownSquadronEntity.squadron.maxHP" (event "ownSquadronEntity.squadron.evMaxHPChanged"))
+
+		(var maxPlanes:number = "ownSquadronEntity ? ownSquadronEntity.health.max : 0" (event "ownSquadronEntity.health.evValueChanged"))
+		(var currentPlanes:number = "ownSquadronEntity ? ownSquadronEntity.health.value : 0" (event "ownSquadronEntity.health.evValueChanged"))
+		(var currentHP_points:number = "ownSquadronEntity ? ownSquadronEntity.squadron.currentHP : 0" (event "ownSquadronEntity.squadron.evCurrentHPChanged"))
+		(var maxHP_points:number = "ownSquadronEntity ? ownSquadronEntity.squadron.maxHP : 0" (event "ownSquadronEntity.squadron.evMaxHPChanged"))
 		(var healthPercent:number = "maxHP_points ? currentHP_points / maxHP_points : 0")
-		(var planeNameIDS:str = "ownSquadronEntity.plane.planeNameIDS")
-		(var levelRome:str = "ownSquadronEntity.plane.levelRome")
-		(var ammoType:number = "ownSquadronEntity.plane.ammoType")
+		(var planeNameIDS:str = "ownSquadronEntity ? ownSquadronEntity.plane.planeNameIDS : ''")
+		(var levelRome:str = "ownSquadronEntity ? ownSquadronEntity.plane.levelRome : ''")
+		(var ammoType:number = "ownSquadronEntity ? ownSquadronEntity.plane.ammoType : 0")
 		(var aircraftCol:gfx = "$datahub.getCollection(CC.aircraft)")
-		(var subColName:str = "'bySquadron.'+ownSquadronEntity.squadron.id" (event "aircarrier.evStateChanged"))
-		(var hpCollection:gfx = "aircraftCol.getChildByPath(subColName)" (event "aircraftCol.evAdded") (event "aircraftCol.evRemoved"))
-		(var hpCount:number = "hpCollection.items.length" (event "hpCollection.evAdded") (event "hpCollection.evRemoved"))
-		(var attackerSize:number = "ownSquadronEntity.ownSquadron.attackerSize")
+		(var subColName:str = "ownSquadronEntity ? 'bySquadron.'+ ownSquadronEntity.squadron.id : '0'" (event "aircarrier.evStateChanged"))
+		(var hpCollection:gfx = "ownSquadronEntity ? aircraftCol.getChildByPath(subColName) : null" (event "aircraftCol.evAdded") (event "aircraftCol.evRemoved"))
+		(var hpCount:number = "hpCollection ? currentPlanes : 0" (event "hpCollection.evAdded") (event "hpCollection.evRemoved"))
+
+		(var attackerSize:number = "ownSquadronEntity ? ownSquadronEntity.ownSquadron.attackerSize : 0")
 		(var notchesNum:number = "attackerSize ? floor(maxPlanes/attackerSize) : 0")
-		(var healthPointWidth:number = "ceil((AircraftHealthbarSettings.TOTAL_BAR_WIDTH - AircraftHealthbarSettings.HP_ATTACKER_PADDING * notchesNum)/maxPlanes)")
-	)
+		(var healthPointWidth:number = "ceil((AircraftHealthbarSettings.TOTAL_BAR_WIDTH - AircraftHealthbarSettings.HP_ATTACKER_PADDING * notchesNum)/max(1, maxPlanes))")
 
+		
+		(var planeIconSettings:array = "ammoType == SC.Common.PLANE_AMMO_TYPES.PROJECTILE			? ['plane_fighter_own_bg', 19px, 19px, -4px] :
+										ammoType == SC.Common.PLANE_AMMO_TYPES.PROJECTILE_AP		? ['plane_fighter_own_AP', 19px, 19px, -4px] :
+										ammoType == SC.Common.PLANE_AMMO_TYPES.BOMB_HE				? ['plane_bomber_own', 9px, 21px, -5px] :
+										ammoType == SC.Common.PLANE_AMMO_TYPES.BOMB_AP				? ['plane_bomber_own_AP', 9px, 21px, -5px] :
+										ammoType == SC.Common.PLANE_AMMO_TYPES.TORPEDO				? ['plane_torpedo_own', 15px, 21px, -5px] :
+										ammoType == SC.Common.PLANE_AMMO_TYPES.TORPEDO_DEEPWATER	? ['plane_torpedo_own_deepwater', 19px, 21px, -5px] :
+										ammoType == SC.Common.PLANE_AMMO_TYPES.SKIP_BOMB_HE			? ['plane_skip_own', 19px, 21px, -4px] :
+										ammoType == SC.Common.PLANE_AMMO_TYPES.SKIP_BOMB_AP			? ['plane_skip_own', 19px, 21px, -4px]
+																									: ['', 0px, 0px, 0px]")
+	)
 	(style
-		(bottom = 128px) (paddingLeft = "-AircraftHealthbarSettings.TOTAL_BAR_WIDTH/2")
+		(bottom = 128px)
+		(position = "absolute")
+		(left = 50%)
+		(marginLeft = "-AircraftHealthbarSettings.TOTAL_BAR_WIDTH/2")
 	)
 
-	(class $MiddleAlignedAbsolutely)
-
-	(controller $Animation layout=false
+	(controller $Animation
 		(bindcall play duration=0.1 delay=1 from={alpha:0, visible:0} to={alpha:1, visible:1} killAll=true (bind enabled "currentHP_points > 0"))
 		(bindcall play duration=0.1 delay=0.1 from={alpha:1, visible:1} to={alpha:0, visible:0} killAll=true (bind enabled "!(currentHP_points > 0)"))
 	)
 
 	(hblock
-		(controller $Repeat renderer='AirplanesHealthPointBg' layout=false
+		(controller $Repeat renderer='AirplanesHealthPointBg'
 			(bind count "maxPlanes")
 			(args
-				hpWidth = "healthPointWidth"
-				attackerSize = "attackerSize"
-				maxPlanes = "maxPlanes"
+				_hpWidth = "healthPointWidth"
+				_attackerSize = "attackerSize"
+				_maxPlanes = "maxPlanes"
+			)
+			(exprs
+				(scope
+					(bind hpWidth "healthPointWidth")
+					(bind attackerSize "attackerSize")
+					(bind maxPlanes "maxPlanes")
+				)
 			)
 		)
 	)
 
 	(block
 		(style (position = "absolute"))
-		(controller $Repeat renderer='AirplanesHealthBarAttackerId' layout=false
+		(controller $Repeat renderer='AirplanesHealthBarAttackerId'
 			(bind count "notchesNum")
 			(exprs
 				(scope
@@ -110,12 +119,21 @@
 
 	(hblock
 		(style (position = "absolute") (left = 1px) (top = 1px))
-		(controller $Repeat renderer='AirplanesHealthPoint' layout=false
+		(controller $Repeat renderer='AirplanesHealthPoint'
 			(bind count "hpCount")
 			(args
-				col = "hpCollection"
-				hpWidth = "healthPointWidth"
-				attackerSize = "attackerSize"
+				_col = "hpCollection"
+				_hpWidth = "healthPointWidth"
+				_attackerSize = "attackerSize"
+				_maxPlanes = "maxPlanes"
+			)
+			(exprs
+				(scope
+					(bind col "hpCollection")
+					(bind hpWidth "healthPointWidth")
+					(bind attackerSize "attackerSize")
+					(bind maxPlanes "maxPlanes")
+				)
 			)
 		)
 	)
@@ -130,16 +148,16 @@
 			(style
 				(marginLeft = 1px)
 				(marginRight = "S")
-				(bind width "AircraftHealthbarSettings.PLANE_ICON_WIDTHS[ammoType]")
-				(bind height "AircraftHealthbarSettings.PLANE_ICON_HEIGHTS[ammoType]")
-				(bind marginTop "AircraftHealthbarSettings.PLANE_ICON_TOP_OFFSETS[ammoType]")
-				(bind backgroundImage "'bitmap:' + AircraftHealthbarSettings.PLANE_ICON_NAMES[ammoType]")
+				(bind width "planeIconSettings[1]")
+				(bind height "planeIconSettings[2]")
+				(bind marginTop "planeIconSettings[3]")
+				(bind backgroundImage "'bitmap:' + planeIconSettings[0]")
 			)
 		)
 
 		
 		(tf
-			(style (marginTop = -6px) (width = 200px) (multiline = "false"))
+			(style (width = 190px) (multiline = "false"))
 			(class $TextDefaultBoldNM)
 			(macro TFMouseEnabled value=false)
 			(bind text "levelRome + ' ' + planeNameIDS")
@@ -167,9 +185,14 @@
 	)
 )
 
-(def element AirplanesHealthPointBg (hpWidth:number, attackerSize:number, maxPlanes:number) layout=true
+(def element AirplanesHealthPointBg (_hpWidth:number, _attackerSize:number, _maxPlanes:number) layout=true
+	(scope
+		(var hpWidth:number = "_hpWidth")
+        (var attackerSize:number = "_attackerSize")
+        (var maxPlanes:number = "_maxPlanes")
+	)
 	(style
-		(marginRight = "($index+1)%attackerSize == 0 && $index < maxPlanes-1 ? AircraftHealthbarSettings.HP_ATTACKER_PADDING: 0")
+		(bind marginRight "($index+1)%(max(1,attackerSize)) == 0 && $index < maxPlanes-1 ? AircraftHealthbarSettings.HP_ATTACKER_PADDING: 0")
 	)
 	(mc hud_bar_bg_sliced
 		(style
@@ -179,17 +202,22 @@
 )
 
 
-(def element AirplanesHealthPoint (col:gfx, hpWidth:number,attackerSize:number) layout=true
+(def element AirplanesHealthPoint (_col:gfx, _hpWidth:number, _attackerSize:number,_maxPlanes:number) layout=true
 	(scope
+		(var col:gfx = "_col")
+		(var hpWidth:number = "_hpWidth")
+		(var attackerSize:number = "_attackerSize")
+		(var maxPlanes:number = "_maxPlanes")
+
+
 		(event evUpdatePrevState)
 		(event evPlayAnimationBlink)
 		(event emptyEventHack) 
 
-		(var entity:gfx = "col.items[$index]" (event "col.evUpdated") (event "col.evMoved") (event "col.evAdded") (event "col.evRemoved"))
+		(var entity:gfx = "col ? col.items[$index] : null" (event "col.evUpdated") (event "col.evMoved") (event "col.evAdded") (event "col.evRemoved"))
 
-		(var healthComponent:gfx = "entity.health")
-		(var aircraftAnim:gfx = "entity.aircraftAnimation")
-		(var currentState:number = "healthComponent.value" (event "healthComponent.evValueChanged"))
+		(var healthComponent:gfx = "entity ? entity.health : null" (event "entity.evAdded") (event "entity.evRemoved"))
+		(var currentState:number = "healthComponent ? healthComponent.value : 0" (event "healthComponent.evValueChanged"))
 
 		(var airplaneColorStatus:str ="	(currentState	==	0)		? '$ColorStatePlaneFullHP' :
 										(currentState	==	1)		? '$ColorStatePlaneHalfHP'
@@ -207,7 +235,7 @@
 	
 	(style
 		(height = 2)
-		(marginRight = "($index+1)%attackerSize == 0 && $index < col.items.length - 1 ? AircraftHealthbarSettings.HP_ATTACKER_PADDING + 2: 2")
+		(bind marginRight "($index+1)%max(1,attackerSize) == 0 && $index < maxPlanes - 1 ? AircraftHealthbarSettings.HP_ATTACKER_PADDING + 2: 2")
 		(bind width "hpWidth-2")
 	)
 
@@ -216,7 +244,7 @@
 		(class $FullsizeAbsolute)
 		(class $ColorStatePlaneDamage)
 		(bind alpha 0)
-		(controller $Animation layout=false
+		(controller $Animation
 			(bindcall play duration=0.25 delay=0.0 from={alpha:0} to={alpha:1} killAll=true (event "evPlayAnimationBlink")) 
 			(bindcall play duration=0.25 delay=0.3 from={alpha:1} to={alpha:0} (event "evPlayAnimationBlink"))
 		)

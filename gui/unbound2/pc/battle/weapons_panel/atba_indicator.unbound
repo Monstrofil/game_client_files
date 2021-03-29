@@ -3,7 +3,7 @@
 (def element ATBAIndicator(entityId:number) layout=true
 	(scope
 		(var atbaEntity:gfx = "$datahub.getEntity(entityId)")
-		(var isSlotVisible:bool = "!atbaEntity.simpleControl.enabled" (event "atbaEntity.simpleControl.evEnabledChanged"))
+		(var isSlotVisible:bool = "!atbaEntity.shipATBA.enabled" (event "atbaEntity.shipATBA.evEnabledChanged"))
 
 		(var _width:number = "SLOT_ATBA_ICON_WIDTH")
 		(var _height:number = "SLOT_SIZE")
@@ -13,23 +13,25 @@
 	(macro MOUSE_EVENTS_DISPATCHER)
 
 	(style 
-		(width = "_width")
+		(width = "_width") 
 		(height = "_height")
 	)
-
+	
 	(block
 		(macro MOUSE_LMB_EXTERNAL_CALL 'direct.action' "['weaponsPanel.switchATBAButtonPressed', [] ]")
 
-		(style
+		(style 
 			(position = "absolute")
 			(width = "_width") (height = "_height")
 			(backgroundImage = "'bitmap:icon_atba_off'")
+			(alpha = "isSlotVisible ? 1 : 0")
+			(pivotX = "_width/2")
+			(pivotY = "_height/2")
+			(left = "_width/2")
+			(top = "_height/2")
 		)
-		(alpha = "isSlotVisible ? 1 : 0")
 		(visible = "isSlotVisible")
         (bind name "'atbaOffIndicator'")
-		(pivotX = "_width/2")
-		(pivotY = "_height/2")
 
 		(controller $Animation
 			(bindcall play  duration = 0.35
@@ -51,11 +53,9 @@
 			)
 		)
 
-		(element SlotMouseOverAnimationFrame
+		(element SlotMouseOverAnimationFrame _width="_width+8" _height="SLOT_FX_SIZE" _slotWidth="_width" _slotHeight="_height"
 			(scope
 				(bind isEnabled "rollOver")
-				(bind _width "_width + 8")
-				(bind _height "SLOT_FX_SIZE")
 			)
 		)
 	)

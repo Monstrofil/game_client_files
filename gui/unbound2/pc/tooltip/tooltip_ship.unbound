@@ -13,8 +13,8 @@
 
 		(var playerShipEntity:gfx = "$datahub.getPrimaryEntity(CC.ownShip, _shipId)")
 		(var isOwned:bool = "playerShipEntity != null")
-		(var exp:number = "playerShipEntity.ownShip.exp" (event "playerShipEntity.ownShip.evUpdateConfig"))
-		(var isInFormation:bool = "playerShipEntity.ownShip.isInFormation" (event "playerShipEntity.ownShip.evUpdateLock"))
+		(var exp:number = "playerShipEntity ? playerShipEntity.ownShip.exp : 0" (event "playerShipEntity.ownShip.evUpdateConfig"))
+		(var isInFormation:bool = "playerShipEntity ? playerShipEntity.ownShip.isInFormation : false" (event "playerShipEntity.ownShip.evUpdateLock"))
 	)
 
 	(macro PULL_SHIP "_shipId")
@@ -51,8 +51,8 @@
 			
 		)
 	)
-	
-	
+
+
 	(block
 		(class $InfoBlockIndent)
 		(style 
@@ -117,8 +117,8 @@
 			(class $PxHorizontalCorrection)
 			(style
 				(position = "absolute") 
-				(paddingTop = 1px)
-				(paddingBottom = -1px)
+				(paddingTop = 3px)
+				(paddingBottom = -2px)
 			)
 			(mc inner_panel
 				(class $Fullsize)
@@ -139,7 +139,7 @@
 		(style 
 			(width = 100%) 
 		)
-	
+
 		(controller $Instance renderer='ShipExtendedTooltipShowStats'
 			(args _shipIdCtr="_shipId" _inSideCompareCtr="_inSideCompare")
 			(exprs
@@ -218,7 +218,7 @@
 	
 		(var collection:gfx = "$datahub.getCollection(CC.shipParamsView)")
 		(var entity:gfx = "$datahub.getPrimaryCompositeEntity(CC.shipParamsView, _shipId, 'tooltipShipParams')" (event "collection.evAdded"))
-		(var shipParamsView:gfx = "entity.shipParamsView")
+		(var shipParamsView:gfx = "entity ? entity.shipParamsView : null")
 		(var paramsRendererData:array = "shipParamsView ? shipParamsView.paramsRendererData : []" (event "shipParamsView.evParamsRendererDataChanged"))
 	)
 	(bindcall externalCall 'direct.action' "['make_tooltipShipParams_list', [_shipId]]" init=true)
@@ -289,11 +289,7 @@
 		(style 
 			(width = 100%) 
 			(height = 100%)
-			(paddingLeft = 12px)
-			(paddingRight = 12px)
 			(paddingTop = 1px) 
-			
-			
 			(position = "absolute")
 		)
 		
@@ -307,12 +303,10 @@
 
 		(block
 			(style
-				
+				(paddingLeft = 12px)
 			)
-		
 			(tf 
-				(style 
-					
+				(style
 					(maxWidth = 160)
 				)
 				(bind class "shipParamRendererData.meta ? '$TextMetaHeader' : '$TextMetaInfo'")
@@ -331,9 +325,14 @@
 		)
 		(block
 			(class $AlignRight)
-			(element ParamElement _valueEntityID="shipParamRendererData.valueEntityID"
-				(scope
-					(bind valueEntityID "shipParamRendererData.valueEntityID" (event "shipParamRendererData.evChanged"))
+			(block
+				(style
+					(paddingRight = 12px)
+				)
+				(element ParamElement _valueEntityID="shipParamRendererData.valueEntityID"
+					(scope
+						(bind valueEntityID "shipParamRendererData.valueEntityID" (event "shipParamRendererData.evChanged"))
+					)
 				)
 			)
 		)

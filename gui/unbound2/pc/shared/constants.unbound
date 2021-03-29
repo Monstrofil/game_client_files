@@ -33,19 +33,6 @@
 								NEUTRAL: 'neutral'
 								})
 
-(def constant GameMode {
-								TEST: 0,
-								STANDARD: 1,
-								SINGLEBASE: 2,
-								DOMINATION: 7,
-								MEGABASE: 9,
-								FORTS: 10,
-								STANDARD_DOMINATION: 11,
-								EPICENTER: 12,
-								ASSAULT_DEFENSE: 13,
-								PVE: 14
-								})
-
 (def constant CameraMode {
 		AIRPLANES           :1,
 		DOCK			    :2,
@@ -71,7 +58,11 @@
 								AIRPLANES: 3,
 								AIRDEFENSE: 4,
 								DEPTH_CHARGES: 5,
-								PINGER: 6
+								PINGER: 6,
+								CHARGE_LASER: 7,
+								IMPULSE_LASER: 8,
+								AXIS_LASER: 9,
+								WAVES: 10,
 								})
 
 (def constant DangerType {
@@ -81,7 +72,8 @@
 								PLANE_FIGHTER: 3,
 								SHIP: 4,
 								PLANE_CONSUMABLE: 5,
-								SUBMARINE: 6
+								SUBMARINE: 6,
+								WAVE: 7
 								})
 
 (def constant DangerDistance {
@@ -124,8 +116,9 @@
 								DIVEBOMBER: 1,
 								TORPEDOBOMBER: 2,
 								FIGHTER: 3,
-								EMPTYBOMBER: 4,
-								AUXILIARY: 5
+								SKIP_BOMBER: 4,
+								EMPTYBOMBER: 5,
+								AUXILIARY: 6
 							})
 
 (def constant BattleState {
@@ -133,20 +126,6 @@
 								COUNTDOWN: 1,
 								WAITING: 2
 								})
-
-(def constant BattleTypes { STANDART_BATTLE : 	'StandartBattle',
-							SINGLE_BATTLE :		'SingleBattle',
-							STUDY_BATTLE :		'Study',
-							TRAINING_BATTLE :	'TrainingBattle',
-							RANDOM_BATTLE:		'RandomBattle',
-							COOPERATIVE_BATTLE :'CooperativeBattle',
-							RANKED_BATTLE :		'RankedBattle',
-							INTRO_MISSION :		'TutorialBattle',
-							CLUB_BATTLE :		'ClubBattle',
-							PVE_BATTLE:			'PVEBattle',
-							CLAN_BATTLE :		'ClanBattle',
-							EVENT_BATTLE :		'EventBattle'
-						  })
 
 (def constant CapturePointType { 	CONTROL : 			0x01,
 									BASE :				0x02,
@@ -184,7 +163,9 @@
 								PATH_CONTROL:  		7, 
 								DEPTH_CHARGE_GUN: 	8,
 								BURN:  				10,
-								FLOOD: 				11
+								FLOOD: 				11,
+								ACID: 				12,
+								HEATED:				13
 							})
 
 
@@ -256,6 +237,7 @@
 (def constant M 16px)
 (def constant MS 24px)
 (def constant L 32px)
+(def constant LS 40px)
 (def constant LM 48px)
 (def constant XL 64px)
 (def constant XLM 98px)
@@ -263,33 +245,45 @@
 (def constant XXLXL 192px)
 (def constant XXXL 256px)
 
+(def constant TA 0.9) 
+(def constant TC 0.75) 
+(def constant TS 0.45) 
 
-(def element EmptyElement())
 
-(def constant GunMarkerState {
-	INVALID: 0,
-	READY: 1,
-	NOT_READY: 2,
-	BLOCKED: 3,
-	DEAD: 4,
-	CRIT: 5
+(def element EmptyElement() layout=false)
+
+(def constant SlotOptionType {
+	NONE: 0,
+	ANGLE: 1
 })
 
-(def constant GunRotationState {
-	AIMED:		1,
-	AIMING:		2,
-	CANT_AIM:	3
+
+(def constant BattleHintWeaponTypeMap {
+	'0': 'ARTILLERY',
+	'2': 'TORPEDO',
+	'6': 'PINGER',
+	'7': 'CHARGE_LASER',
+	'8': 'IMPULSE_LASER',
+	'9': 'AXIS_LASER',
+	'10': 'WAVES'
 })
 
-(def constant GunReloadState {
-	COMPLETE:		0,
-	IN_PROGRESS:	1
+
+(def constant LOCKABLE_WEAPONS
+	
+	
+	
+	
+	
+	
+
+	"1 << 0 | 1 << 2 | 1 << 6 | 1 << 7 | 1 << 8 | 1<< 10"
+)
+
+(def constant AttributeModifiersCategory {
+	NEUTRAL: 0,
+	POSITIVE: 1,
+	NEGATIVE: 2,
 })
 
-(def constant HitLocationHealthState {
-	ST_NORMAL:       0, 
-	ST_DAMAGED:      1, 
-	ST_CRIT:         2, 
-	ST_DEAD:         3, 
-	ST_DETONATED:    4 
-})
+(def constant MIN_DISPLAY_TIME_LEFT 0.3)

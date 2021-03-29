@@ -75,14 +75,12 @@
             )
 
             
- 			(controller $FxInstance lifetime=0.5
-				(bind renderer "!(atWork) && (countdown == null) ? 'SlotWorkStartedFX' : 'EmptyElement'")
-				(bindcall create (bind trigger "atWork"))
+ 			(controller $FxInstance lifetime=0.5 renderer='SlotWorkStartedFX'
+				(bindcall create (bind trigger "atWork") (bind enabled "!(atWork) && (countdown == null)"))
 			)
 
-			(controller $FxInstance lifetime=0.5
-				(bind renderer "!(atWork) ? 'SlotReloadStartedFX' : 'EmptyElement'")
-				(bindcall create (event "weaponEntity.weapon.evReloadStarted"))
+			(controller $FxInstance lifetime=0.5 renderer='SlotReloadStartedFX'
+				(bindcall create (event "weaponEntity.weapon.evReloadStarted") (bind enabled "!(atWork)"))
 			)
         )
 

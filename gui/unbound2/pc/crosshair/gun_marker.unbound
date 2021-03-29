@@ -1,12 +1,3 @@
-(def constant GunMarkerStateMap {
-	'0': 'warning',
-	'1': 'ready',
-	'2': 'warning',
-	'3': 'alert',
-	'4': 'dead',
-	'5': 'crit'
-})
-
 (def constant MIN_GUN_MARKER_SCALE 0.5)
 
 (def css $TextGunMarkerStyle()
@@ -18,74 +9,64 @@
 	(extends $TextMouseDisable)
 )
 
-(def element GunMarkerArtillery(_gunId:number) layout=true
-	(scope
-		(var gunId:number = "_gunId")
-		(var gunEntity:gfx = "$datahub.getEntity(gunId)")
-		(var gun:gfx = "gunEntity.gun")
-		(var positionID:number = "gun.positionID")
+(def constant GunMarkerThemeMap {
+    '1': 'ready',
+    '2': 'ready',
+    '3': 'warning',
+    '4': 'charging',
+    '5': 'crit',
+    '6': 'dead'
+})
 
-		(var gunScreenX:number = "gunEntity.gun.screenX" (event "evEnterFrame"))
-		(var gunAimDiffAngle:number = "gunEntity.gun.aimDiff" (event "evEnterFrame"))
-		(var percentAiming:number = "gunEntity.gun.percentAiming" (event "evEnterFrame"))
 
-		(var markerScale:number = "1 - abs(gunAimDiffAngle) * (1 - MIN_GUN_MARKER_SCALE) / 180")
 
-		(var markerState:number = "gun.markerState" (event "gun.evMarkerStateChanged"))
-		(var isReloading:bool = "gunEntity.hasComponent(CC.countDown)" (event "gun.evReloadStateChanged"))
-		(var reloadPercent:number = "isReloading ? gunEntity.countDown.reloadPercent : 1" watch=false (event "evEnterFrame"))
-	)
 
-	(name = "'GunMarker_' + (positionID + 1)")
 
-	(bind visible "gunAimDiffAngle != 0 && markerState != GunMarkerState.DEAD")
 
-	(style (position = "absolute"))
 
-	(bind x "gunScreenX")
 
-	(element GunMarker _hasText=true _stateAnimations=false
-		(scope
-            (bind _positionID "positionID")
-            (bind _gunAimDiffAngle "gunAimDiffAngle")
-            (bind _markerState "markerState")
-            (bind _reloadPercent "reloadPercent")
-        )
-	)
-)
-
-(def element GunMarker(_hasText:bool, _stateAnimations:bool=true, _backgroundMC:str='crosshair_gun_marker_background', _markerMC:str='crosshair_gun_marker', _shootAnimMC:str='crosshair_gun_marker_shoot_anim') layout=true
+(def element GunMarker(_index:number) layout=true
 	(scope
 		(event evShoot)
 
-		(var _positionID:number = 0)
-		(var _gunAimDiffAngle:number = 0)
-		(var _markerState:number = 0)
-		(var _reloadPercent:number = 1)
+		
+		(var _azimuth:number = 0)
+		(var _state:number = 0)
+		(var _blocked:bool = false)
+		(var _progress:number = 1)
 
-		(var markerScale:number = "1 - abs(_gunAimDiffAngle) * (1 - MIN_GUN_MARKER_SCALE) / 180")
+		
 
+		(var theme:str = "_blocked
+								?
+									_state == SC.Weapons.GUN_STATE.WORK     ? 'shooting_alert' :
+									_state < SC.Weapons.GUN_STATE.CRITICAL  ? 'alert'
+																			: GunMarkerThemeMap[_state]
+								:
+									_state == SC.Weapons.GUN_STATE.WORK                     ? 'ready' :
+									_azimuth != 0 && _state < SC.Weapons.GUN_STATE.CHARGE 	? 'warning'
+																							: GunMarkerThemeMap[_state]")
 
-		(var d:number = "25") 
-		(var reloadAngle:number = "_reloadPercent*(90-d)*4") 
-		(var startArcOffset:number = "-90-d/2")
+		(var markerScale:number = "1 - abs(_azimuth) * (1 - MIN_GUN_MARKER_SCALE) / 180")
+		(var d:number = "25")																
+		(var reloadAngle:number = "_progress * (90 - d) * 4")								
+		(var startArcOffset:number = "-90 - d / 2")
 		(var customAngle:number = "min(360, 0
-									+d
-									+(reloadAngle >= (90-d) ? d : 0)
-									+(reloadAngle >= (90-d)*2 ? d : 0)
-									+(reloadAngle >= (90-d)*3 ? d : 0)
+									+ d
+									+ (reloadAngle >= (90-d) ? d : 0)
+									+ (reloadAngle >= (90-d) * 2 ? d : 0)
+									+ (reloadAngle >= (90-d) *3 ? d : 0)
 									+ reloadAngle
 								 )")
 
-		(var mappedMarkerState:str = "GunMarkerStateMap[_markerState]")
-
 	)
+
 	(style (position = "absolute"))
 
-	(tf $enabled="_hasText"
+	
+	(tf $enabled="_index != 0"
 		(style
-			(width = 26)
-			(height = 19)
+			(width = 26) (height = 19)
 			(position="absolute")
 			(left = -13) (top = 4)
 			(textAlign="center")
@@ -93,33 +74,37 @@
 		(class $TextGunMarkerStyle)
 		(alpha = 0.6)
 
-		(bind text "_positionID + 1")
+		(bind text "_index")
 	)
 
-	(mc "_backgroundMC"
+	
+	(mc crosshair_gun_marker_background
 		(style (position = "absolute"))
+
 		(bind scaleX "markerScale")
 		(bind scaleY "markerScale")
 
-		(bindcall setState "mappedMarkerState" "!_stateAnimations" init=true)
+		(bindcall setState "theme" false init=true)
 	)
 
 	
 	(block
 		(style (position = "absolute"))
 
-		(mc "_markerMC"
+		(mc crosshair_gun_marker
 			(style (position = "absolute"))
 			(bind scaleX "markerScale")
-            (bind scaleY "markerScale")
-			(bindcall setState "mappedMarkerState" "!_stateAnimations" init=true)
+			(bind scaleY "markerScale")
+			(bindcall setState "theme" false init=true)
 		)
 
 		(block
 			(style (position = "absolute"))
-			(isMask = true)
+
 			(bind scaleX "markerScale")
-            (bind scaleY "markerScale")
+			(bind scaleY "markerScale")
+
+            (isMask = true)
 
 			(controller $Sector
 				(color = 0xFF000000)
@@ -129,15 +114,18 @@
 			)
 		)
 	)
+
 	
 	(block
 		(style (position = "absolute"))
 
-		(mc "_shootAnimMC"
+		(mc crosshair_gun_marker_shoot_anim
 			(style (position = "absolute"))
+
 			(bind scaleX "markerScale")
 			(bind scaleY "markerScale")
-			(bindcall playAnim "'shoot'" init=false (event "evShoot"))
+
+			(bindcall playAnim shoot init=false (event "evShoot"))
 		)
 	)
 )

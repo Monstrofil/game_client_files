@@ -166,9 +166,6 @@
 (def css $FontColorCompareNegative ()
 	(textColor = 0xFF6600))
 
-(def css $FontColorMercenaries ()
-	(textColor = 0x4ce8aa))
-
 (def css $TextColorWarning ()
 	(textColor = "C_WARNING"))
 
@@ -256,21 +253,42 @@
 
 (def css $FontGlowFilterBright ()
 	
-	(dropShadowFilter = { distance: 1, angle: 90, color: 0xFFFFFF, alpha:0.3, blurX: 5.0, blurY: 3.0, strength: 0.9, quality: 2 })
+	(filters 
+		(dropShadow 
+			(distance = 1)
+			(angle = 90)
+			(color = 0xFFFFFF)
+			(alpha = 0.3)
+			(blurX = 5.0)
+			(blurY = 3.0)
+			(strength = 0.9)
+			(quality = 2)
+		)
+	)
 )
 
 (def css $BlockGlowFilterBright ()
 	
-	(dropShadowFilter = { distance: 1, angle: 90, color: 0xFFFFFF, alpha:0.3, blurX: 4.0, blurY: 3.0, strength: 0.2, quality: 2 })
+	(filters 
+		(dropShadow 
+			(distance = 1)
+			(angle = 90)
+			(color = 0xFFFFFF)
+			(alpha = 0.3)
+			(blurX = 4.0)
+			(blurY = 3.0)
+			(strength = 0.2)
+			(quality = 2)
+		)
+	)
 )
 
 (def css $GlowDisabler ()
-	
-	(dropShadowFilter = { distance: 0, angle: 0, color: 0x000000, alpha:0.0, blurX: 0.0, blurY: 0.0, strength: 0.0, quality: 0 })
+	(filters)
 )
 
 (def css $DropShadowDisabler ()
-	(dropShadowFilter = { distance: 0, angle: 0, color: 0x000000, alpha:0.0, blurX: 0.0, blurY: 0.0, strength: 0.0, quality: 0 })
+	(filters)
 )
 
 
@@ -278,39 +296,138 @@
 
 
 (def css $FontDropShadowFilter1 () 
-	(dropShadowFilter = { distance: 1, angle: 90, color: 0x08222A, alpha:0.5, blurX: 2.0, blurY: 2.0, strength: 1.0, quality: 2 })
+	(filters 
+		(dropShadow 
+			(distance = 1)
+			(angle = 90)
+			(color = 0x08222A)
+			(alpha = 0.5)
+			(blurX = 2.0)
+			(blurY = 2.0)
+			(strength = 1.0)
+			(quality = 2)
+		)
+	)
 )
 
 (def css $FontDropShadowFilterBlack ()
-	(dropShadowFilter = { distance: 1, angle: 0, color: 0x000000, alpha:1.0, blurX: 2.0, blurY: 2.0, strength: 0.6, quality: 2 })
+	(filters 
+		(dropShadow 
+			(distance = 1)
+			(angle = 0)
+			(color = 0x000000)
+			(alpha = 1.0)
+			(blurX = 2.0)
+			(blurY = 2.0)
+			(strength = 0.6)
+			(quality = 2)
+		)
+	)
 )
 
 (def css $FontDropShadowFilterStrong () 
-	(dropShadowFilter = { distance: 1, angle: 90, color: 0x08222A, alpha:0.8, blurX: 3.0, blurY: 3.0, strength: 1.5, quality: 1 })
+	(filters 
+		(dropShadow 
+			(distance = 1)
+			(angle = 90)
+			(color = 0x08222A)
+			(alpha = 0.8)
+			(blurX = 3.0)
+			(blurY = 3.0)
+			(strength = 1.5)
+			(quality = 1)
+		)
+	)
 )
 
 (def css $FontDropShadowWhite () 
-	(dropShadowFilter = { distance: 0, angle: 90, color: 0xFFFFFF, alpha:1.0, blurX: 3.0, blurY: 3.0, strength: 0.3, quality: 1 })
+	(filters 
+		(dropShadow 
+			(distance = 0)
+			(angle = 90)
+			(color = 0xFFFFFF)
+			(alpha = 1.0)
+			(blurX = 3.0)
+			(blurY = 3.0)
+			(strength = 0.3)
+			(quality = 1)
+		)
 	)
+)
 
-(def css $FontDropShadowWhite2 () 
-	(dropShadowFilter = { distance: 0, angle: 90, color: 0xFFFFFF, alpha:1.0, blurX: 2.0, blurY: 2.0, strength: 0.6, quality: 2 })
+(def css $FontDropShadowWhite2 ()
+	(filters 
+		(dropShadow 
+			(distance = 0)
+			(angle = 90)
+			(color = 0xFFFFFF)
+			(alpha = 1.0)
+			(blurX = 2.0)
+			(blurY = 2.0)
+			(strength = 0.6)
+			(quality = 2)
+		)
+	)
 )
 
 (def css $BlockDropShadowFilter1 () 
-	(dropShadowFilter = { distance: 5, angle: 110, color: 0x000000, alpha:0.6, blurX: 6.0, blurY: 6.0, strength: 0.6, quality: 1 })
+	(filters 
+		(dropShadow 
+			(distance = 5)
+			(angle = 110)
+			(color = 0x000000)
+			(alpha = 0.6)
+			(blurX = 6.0)
+			(blurY = 6.0)
+			(strength = 0.6)
+			(quality = 1)
+		)
+	)
 )
 
 (def css $BlockDropShadowFilter2 () 
-	(dropShadowFilter = { distance: 3, angle: 110, color: 0x000000, alpha:0.6, blurX: 6.0, blurY: 6.0, strength: 0.6, quality: 1 })
+	(filters 
+		(dropShadow 
+			(distance = 3)
+			(angle = 110)
+			(color = 0x000000)
+			(alpha = 0.6)
+			(blurX = 6.0)
+			(blurY = 6.0)
+			(strength = 0.6)
+			(quality = 1)
+		)
+	)
 )
 
-(def css $BlockDropShadowFilter3 () 
-	(dropShadowFilter = { distance: 0, angle: 90, color: 0x333333, alpha:1.0, blurX: 2.0, blurY: 2.0, strength: 0.6, quality: 1 })
+(def css $BlockDropShadowFilter3 ()
+	(filters 
+		(dropShadow 
+			(distance = 0)
+			(angle = 90)
+			(color = 0x333333)
+			(alpha = 1.0)
+			(blurX = 2.0)
+			(blurY = 2.0)
+			(strength = 0.6)
+			(quality = 1)
+		)
+	)
 )
 
 (def css $BlockDropShadowFilter4 ()
-	(dropShadowFilter = { distance: 0, angle: 90, color: 0x000000, alpha:1.0, blurX: 2.0, blurY: 2.0, strength: 0.6, quality: 1 })
+	(filters 
+		(dropShadow 
+			(distance = 0)
+			(angle = 90)
+			(color = 0x000000)
+			(alpha = 1.0)
+			(blurX = 2.0)
+			(blurY = 2.0)
+			(strength = 0.6)
+			(quality = 1)
+		)
+	)
 )
 
 (def css $TextDefault12NM ()
@@ -318,8 +435,8 @@
 	(extends $FontColorWhite)
 	
 	(fontSize = 12)
-	(marginLeft = 3px)
-	(marginRight = 3px)
+	(marginLeft = -3px)
+	(marginRight = -3px)
 	(marginTop = -6px)
 	(marginBottom = -5px)
 )
@@ -469,7 +586,18 @@
 
 (def css $QuickCommandNameText ()
 	(fontFamily = $WWSDefaultFont)
-	(dropShadowFilter = { distance: 1, angle: 90, color: 0x08222a, alpha: 0.5, blurX: 2.0, blurY: 2.0, strength: 1.0, quality: 2 })
+	(filters 
+		(dropShadow 
+			(distance = 1)
+			(angle = 90)
+			(color = 0x08222a)
+			(alpha = 0.5)
+			(blurX = 2.0)
+			(blurY = 2.0)
+			(strength = 1.0)
+			(quality = 2)
+		)
+	)
 	(fontSize = 18)
 	(textColor = 0xEEEEEE)
 )

@@ -1,24 +1,25 @@
 (def macro SHIP_MARKER_ICON_DATA (_entityId:expression)
-    (var entity:gfx = "$datahub.getEntity(_entityId)")
-    (var avatarComponent:gfx = "entity.avatar")
-    (var subType:str = "avatarComponent.ship.ref.ship.subtype")
-    (var shipType:str = "toLower(subType)")
-    (var isSelf:bool = "entity.relation.value == 0" (event "entity.relation.evChanged"))
-    (var isAlly:bool = "entity.relation.value == 1" (event "entity.relation.evChanged"))
-    (var isAlive:bool = "entity.health.isAlive" (event "entity.health.evIsAliveChanged"))
-    (var tkStatus:bool = "avatarComponent.tkStatus && isAlly" (event "avatarComponent.evTeamkillStatusChanged"))
-    (var ttkStatus:bool = "avatarComponent.ttkStatus" (event "avatarComponent.evTTKStatusChanged"))
-    (var isInSameDivision:bool = "avatarComponent.isInSameDivision" (event "avatarComponent.evDivisionChanged"))
-    (var isDeadEnemy:bool = "!isAlly && !isAlive")
-    (var worldVisible:bool = "entity.visibility.visible" (event "entity.visibility.evChanged"))
-    (var mapVisible:bool = "entity.visibility.mapVisible" (event "entity.visibility.evChanged"))
+	(var entity:gfx = "$datahub.getEntity(_entityId)")
+	(var avatarComponent:gfx = "entity ? entity.avatar : null")
+	(var subType:str = "avatarComponent ? avatarComponent.ship.ref.ship.subtype : null")
+	(var shipType:str = "toLower(subType)")
+	(var relationComponent:gfx = "entity ? entity.relation : null")
+	(var isSelf:bool = "relationComponent && relationComponent.value == 0" (event "relationComponent.evChanged"))
+	(var isAlly:bool = "relationComponent && relationComponent.value == 1" (event "relationComponent.evChanged"))
+	(var isAlive:bool = "entity && entity.hasComponent(CC.health) && entity.health.isAlive" (event "entity.health.evIsAliveChanged"))
+	(var tkStatus:bool = "avatarComponent && avatarComponent.tkStatus && isAlly" (event "avatarComponent.evTeamkillStatusChanged"))
+	(var ttkStatus:bool = "avatarComponent && avatarComponent.ttkStatus" (event "avatarComponent.evTTKStatusChanged"))
+	(var isInSameDivision:bool = "avatarComponent && avatarComponent.isInSameDivision" (event "avatarComponent.evDivisionChanged"))
+	(var isDeadEnemy:bool = "!isAlly && !isAlive")
+	(var worldVisible:bool = "entity && entity.hasComponent(CC.visibility) && entity.visibility.visible" (event "entity.visibility.evChanged"))
+	(var mapVisible:bool = "entity && entity.hasComponent(CC.visibility) && entity.visibility.mapVisible" (event "entity.visibility.evChanged"))
 )
 
 
 (def element ShipMarkerIconSimple (_entityId:number) layout=true
-    (scope
+	(scope
 		(var entityId:number = "_entityId")
-        (macro SHIP_MARKER_ICON_DATA "entityId")
+		(macro SHIP_MARKER_ICON_DATA "entityId")
 
 		(var markerIcon:str = 
 			"isAlive 
@@ -38,11 +39,94 @@
 				: isAlly || isSelf
 					? 'ally_' + shipType + '_sunk_small'
 					: 'enemy_' + shipType + '_sunk_small'")
-    )
+	)
 
-    (block
+	(block
 		(style
 			(bind backgroundImage "'bitmap:' + toLower(markerIcon)")
+		)
+	)
+)
+
+(def element WorldShipMarkerShipTeamIcon(_entityId:number) layout=true
+	(scope
+		(var cameraComponent:gfx = "$datahub.getSingleComponent(CC.camera)")
+		(var isTactical:bool = "cameraComponent ? cameraComponent.isTactical : false" (event "cameraComponent.evTacticalStateChanged"))
+	)
+
+	(controller $Instance renderer='DiplomacyShipTeamIcon'
+		(exprs
+			(bind visible "!isTactical")
+		)
+		(args
+			_entityId="_entityId"
+		)		
+	)
+
+	(controller $Instance renderer='DiplomacyMapShipMarker'
+		(exprs
+			(bind visible "isTactical")
+		)
+		(args
+			_entityId="_entityId"
+			_mapScale = "1"
+			_itemScale = "1"
+			_scaleRatio = "1"
+		)	
+	)
+)
+
+(def element DiplomacyShipTeamIcon(_entityId: number) layout=true
+	(scope
+		(var entity:gfx = "$datahub.getEntity(_entityId)")
+		(var avatarComponent:gfx = "entity ? entity.avatar : null")
+		(var teamId:number = "avatarComponent ? avatarComponent.teamId : -1" (event "avatarComponent.evTeamIdChanged"))
+
+		
+		
+		
+
+		
+		(var resources:gfx = "$datahub.getCollection(CC.resource)")
+		(var keyCollectionPath:str = "entity ? 'byOwnerId.' + entity.id + '.byType.'+  SC.Battle.RESOURCE_TYPES.KEYS : null")
+		(var keyCollection:gfx = "resources && keyCollectionPath ? resources.getChildByPath(keyCollectionPath) : null" (event "resources.evChildAdded") (event "resources.evChildRemoved"))
+		(var keyItem:gfx = "keyCollection && keyCollection.items.length > 0 ? keyCollection.items[0] : null" (event "keyCollection.evAdded") (event "keyCollection.evRemoved"))
+		(var keyItemProgress:gfx = "keyItem ? keyItem.progress : null")
+		(var hasKey:bool = "keyItemProgress ? keyItemProgress.value > 0 : false" (event "keyItemProgress.evChanged"))
+
+		(var targetComponent:gfx = "entity && entity.hasComponent(CC.target) ? entity.target : null" (event "entity.evAdded") (event "entity.evRemoved") )
+		(var targetFlags:number = "targetComponent ? targetComponent.flags : 0" (event "targetComponent.evFlagsChanged"))
+		(var isTargetLockedATBA:bool = "(targetFlags & (1 << WeaponType.ATBA)) > 0")
+
+		(var battlePrefs:gfx = "$datahub.getSingleComponent(CC.prefsBattle)")
+		(var cameraComponent:gfx = "$datahub.getSingleComponent(CC.camera)")
+		(var isAltVision:bool = "cameraComponent.altVision || battlePrefs.altVisionMode >= AltVisionMode.ADAPTIVE" (event "cameraComponent.evAltVisionChanged") (event "battlePrefs.evUpdate"))
+		(var keyIconMargin:number = "isAltVision	? -28 : -14")
+	)
+
+	(block
+		
+		(style
+			(marginTop = -50%)
+			(marginLeft = "-50%")
+			(width = "20px")
+			(height = "20px")
+		)
+
+		
+		
+		
+		
+		
+		
+		
+		
+
+		(block
+			(class $FullsizeAbsolute)
+			(style
+				(bind backgroundImage "'url:../battle_hud/diplomacy/teams/diplomacy_team_' + teamId + '.png'")
+			)
 		)
 	)
 )

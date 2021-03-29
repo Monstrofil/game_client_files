@@ -1,7 +1,18 @@
 (def css $IndicatorText ()
 	(extends $TextDefaultBoldNM)
 	(fontSize = 13)
-    (dropShadowFilter = { distance: 0, angle: 0, color: 0x000000, alpha: 0.7, blurX: 1.0, blurY: 1.0, strength: 1.0, quality: 1 })
+	(filters 
+		(dropShadow 
+			(distance = 0)
+			(angle = 0)
+			(color = 0x000000)
+			(alpha = 0.7)
+			(blurX = 1.0)
+			(blurY = 1.0)
+			(strength = 1.0)
+			(quality = 1)
+		)
+)
 )
 
 (def css $IndicatorTextWarning ()
@@ -17,7 +28,7 @@
     (scope
         (var ownCarrierEntity:gfx = "$datahub.getSingleEntity(CC.aircarrier)")
 		(var activeSquadron:number = "ownCarrierEntity ? ownCarrierEntity.aircarrier.activeSquadron : -1" (event "ownCarrierEntity.aircarrier.evStateChanged"))
-        (var isOnPlane:bool = "activeSquadron != -1")
+        (var isOnPlane:bool = "activeSquadron != ActiveSquadron.NONE")
 
         (var avatar:gfx = "$datahub.getSingleEntity(CC.playerAvatar)")
         (var isSubmarine:bool = "avatar.avatar.ship.ref.ship.subtype == ShipTypes.SUBMARINE")

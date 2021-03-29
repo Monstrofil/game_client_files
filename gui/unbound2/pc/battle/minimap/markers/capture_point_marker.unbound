@@ -1,260 +1,262 @@
 (def constant CONTROL_POINT_TYPE
-    {
-        CONTROL:            1,
-        BASE:               2,
-        MEGABASE:           3,
-        BUILDING_CP:        4,
-        BASE_WITH_POINTS:   5,
-        EPICENTER_CP:       6
-    }
+	{
+		CONTROL:            1,
+		BASE:               2,
+		MEGABASE:           3,
+		BUILDING_CP:        4,
+		BASE_WITH_POINTS:   5,
+		EPICENTER_CP:       6
+	}
 )
 
 (def constant CAPTURE_POINTS_SETTINGS
-    {
-        NEUTRAL: {
-            STROKE_COLOR: 0xFFFFFF,
-            COLORS: [0xFFFFFF, 0xFFFFFF, 0xFFFFFF],
-            ALPHAS: [0.18, 0.13, 0.08],
-            RATIOS: [0, 128, 255]
-        },
-        ALLY: {
-            STROKE_COLOR: 0x4CE8AA,
-            COLORS: [0x4CE8AA, 0x4CE8AA, 0x4CE8AA],
-            ALPHAS: [0.39, 0.26, 0.21],
-            RATIOS: [0, 128, 255]
-        },
-        ENEMY: {
-            STROKE_COLOR: 0xFF3300,
-            COLORS: [0xFF3300, 0xFF3300, 0xFF3300],
-            ALPHAS: [0.39, 0.26, 0.21],
-            RATIOS: [0, 128, 255]
-        }
-    }
+	{
+		NEUTRAL: {
+			STROKE_COLOR: 0xFFFFFF,
+			COLORS: [0xFFFFFF, 0xFFFFFF, 0xFFFFFF],
+			ALPHAS: [0.18, 0.13, 0.08],
+			RATIOS: [0, 128, 255]
+		},
+		ALLY: {
+			STROKE_COLOR: 0x4CE8AA,
+			COLORS: [0x4CE8AA, 0x4CE8AA, 0x4CE8AA],
+			ALPHAS: [0.39, 0.26, 0.21],
+			RATIOS: [0, 128, 255]
+		},
+		ENEMY: {
+			STROKE_COLOR: 0xFF3300,
+			COLORS: [0xFF3300, 0xFF3300, 0xFF3300],
+			ALPHAS: [0.39, 0.26, 0.21],
+			RATIOS: [0, 128, 255]
+		}
+	}
 )
 
 (def css $ControlPointTextColorAlly ()
-    (textColor = "0x4CE8AA"))
+	(textColor = "0x4CE8AA"))
 
 (def css $ControlPointTextColorEnemy ()
-    (textColor = "0xFF3300"))
+	(textColor = "0xFF3300"))
 
 (def css $ControlPointTextColorNeutral ()
-    (textColor = "0xFFFFFF"))
+	(textColor = "0xFFFFFF"))
 
 (def element MapCapturePointMarker (_entityId:number, _mapScale:number, _itemScale:number, _scaleRatio:number) layout=true
-    (scope
-        (macro BASE_MAP_MARKER_PARAMS)
+	(scope
+		(macro BASE_MAP_MARKER_PARAMS)
 
-        (var circleRadius:number = "entity.circle.radius" (event "entity.circle.evRadiusChanged"))
-        (var circleInnerRadius:number = "entity.circle.innerRadius" (event "entity.circle.evInnerRadiusChanged"))
-        (macro VAR_RELATION "entity")
-    )
+		(var circleRadius:number = "entity.circle.radius" (event "entity.circle.evRadiusChanged"))
+		(var circleInnerRadius:number = "entity.circle.innerRadius" (event "entity.circle.evInnerRadiusChanged"))
+		(macro VAR_RELATION "entity")
+	)
 
-    (macro BIND_FAIR_SCALE "itemScale / mapScale")
+	(macro BIND_FAIR_SCALE "itemScale / mapScale")
 
-    
-    
-    (block
-        (style (position = "absolute"))
-        (controller $Sector
-            (bind arc "360")
-            (bind colors "CAPTURE_POINTS_SETTINGS[toUpper(relation)].COLORS")
-            (bind alphas "CAPTURE_POINTS_SETTINGS[toUpper(relation)].ALPHAS")
-            (bind ratios "CAPTURE_POINTS_SETTINGS[toUpper(relation)].RATIOS")
-            (bind radius "circleRadius * scaleRatio")
-            (bind innerRadius "circleInnerRadius * scaleRatio")
+	
+	
+	(block
+		(style (position = "absolute"))
+		(controller $Sector
+			(bind arc "360")
+			(bind colors "CAPTURE_POINTS_SETTINGS[toUpper(relation)].COLORS")
+			(bind alphas "CAPTURE_POINTS_SETTINGS[toUpper(relation)].ALPHAS")
+			(bind ratios "CAPTURE_POINTS_SETTINGS[toUpper(relation)].RATIOS")
+			(bind radius "circleRadius * scaleRatio")
+			(bind innerRadius "circleInnerRadius * scaleRatio")
 
-            (bind lineThickness "1")
-            (bind lineAlpha "0.6")
-            (bind lineColor "CAPTURE_POINTS_SETTINGS[toUpper(relation)].STROKE_COLOR")
-        )
-    ) 
-    
+			(bind lineThickness "1")
+			(bind lineAlpha "0.6")
+			(bind lineColor "CAPTURE_POINTS_SETTINGS[toUpper(relation)].STROKE_COLOR")
+		)
+	) 
+	
 
-    (block 
-        (element MapCapturePointIndicator
-            _entityId="entity.id"
-            (macro FAIR_SCALE "0.6")
-        )
-    )
+	(block 
+		(element MapCapturePointIndicator
+			_entityId="entity.id"
+			(macro FAIR_SCALE "0.6")
+		)
+	)
 )
 
 (def element MapCapturePointIndicator (_entityId:number) layout=true
-    (scope
-        (var entity:gfx = "$datahub.getEntity(_entityId)")
+	(scope
+		(var entity:gfx = "$datahub.getEntity(_entityId)")
 
-        (var pointType:str = "entity.capturePoint.type")
-        (var isLargeBase:bool = "pointType == CONTROL_POINT_TYPE.MEGABASE || pointType == CONTROL_POINT_TYPE.BASE_WITH_POINTS")
-        (var isFlagPoint:bool = "pointType == CONTROL_POINT_TYPE.BASE_WITH_POINTS || pointType == CONTROL_POINT_TYPE.MEGABASE || pointType == CONTROL_POINT_TYPE.BASE")
+		(var pointType:str = "entity.capturePoint.type")
+		(var isLargeBase:bool = "pointType == CONTROL_POINT_TYPE.MEGABASE || pointType == CONTROL_POINT_TYPE.BASE_WITH_POINTS")
+		(var isFlagPoint:bool = "pointType == CONTROL_POINT_TYPE.BASE_WITH_POINTS || pointType == CONTROL_POINT_TYPE.MEGABASE || pointType == CONTROL_POINT_TYPE.BASE")
 
-        (var progressComponent:gfx = "entity.progress")
-        (var captureProgress:number = "progressComponent.value" (event "progressComponent.evChanged"))
-        (var isCaptured:bool = "captureProgress == 0")
+		(var progressComponent:gfx = "entity.progress")
+		(var captureProgress:number = "progressComponent.value" (event "progressComponent.evChanged"))
+		(var isCaptured:bool = "captureProgress == 0")
 
-        (var neutralProgress:number = "entity.capturePoint.neutralProgress" (event "progressComponent.evChanged"))
-        (var bothInside:bool = "entity.capturePoint.bothInside" (event "entity.capturePoint.evBothInsideChanged"))
-        (var invaderRelation:str = "entity.capturePoint.invaderRelation == 1 ? 'ally' : 'enemy'" (event "entity.capturePoint.evInvaderChanged"))
+		(var neutralProgress:number = "entity.capturePoint.neutralProgress" (event "progressComponent.evChanged"))
+		(var bothInside:bool = "entity.capturePoint.bothInside" (event "entity.capturePoint.evBothInsideChanged"))
+		(var invaderRelation:str = "entity.capturePoint.invaderRelation == 1 ? 'ally' : 'enemy'" (event "entity.capturePoint.evInvaderChanged"))
 
-        (macro VAR_RELATION "entity")
-        (var barRelation:str = "isCaptured ? relation : invaderRelation")
+		(macro VAR_RELATION "entity")
+		(var barRelation:str = "isCaptured ? relation : invaderRelation")
 
-        (var isCaptureInProgress:bool = "bothInside || captureProgress > 0 || neutralProgress" (event "progressComponent.evChanged") (event "entity.capturePoint.evBothInsideChanged"))
+		(var isCaptureInProgress:bool = "bothInside || captureProgress > 0 || neutralProgress" (event "progressComponent.evChanged") (event "entity.capturePoint.evBothInsideChanged"))
 
-        (var capturedBarSymbol:str = "isCaptureInProgress   ?   relation == 'ally'  ? 'symbol:capture_base_bar_green_centered' :
-                                                                relation == 'enemy' ? 'symbol:capture_base_bar_red_centered'
-                                                                                    : ''
-                                                            : ''")
+		(var capturedBarSymbol:str = "isCaptureInProgress   ?   relation == 'ally'  ? 'symbol:capture_base_bar_green_centered' :
+																relation == 'enemy' ? 'symbol:capture_base_bar_red_centered'
+																					: ''
+															: ''")
 
-        (var barSymbol:str = "isCaptureInProgress   ?   barRelation == 'ally'   ? 'symbol:capture_base_bar_green_centered' :
-                                                        barRelation == 'enemy'  ? 'symbol:capture_base_bar_red_centered'
-                                                                                : ''
-                                                    : ''")
+		(var barSymbol:str = "isCaptureInProgress   ?   barRelation == 'ally'   ? 'symbol:capture_base_bar_green_centered' :
+														barRelation == 'enemy'  ? 'symbol:capture_base_bar_red_centered'
+																				: ''
+													: ''")
 
-        (var indicatorSymbol:str = "relation == 'neutral' || isCaptureInProgress    ? 'symbol:capture_base_bar_dark_centered' :
-                                    relation == 'ally'                              ? 'symbol:capture_base_captured_ally_centered' :
-                                    relation == 'enemy'                             ? 'symbol:capture_base_captured_enemy_centered'
-                                                                                    : ''")
+		(var indicatorSymbol:str = "relation == 'neutral' || isCaptureInProgress    ? 'symbol:capture_base_bar_dark_centered' :
+									relation == 'ally'                              ? 'symbol:capture_base_captured_ally_centered' :
+									relation == 'enemy'                             ? 'symbol:capture_base_captured_enemy_centered'
+																					: ''")
 
-        (var indicatorProgress:number = "isCaptureInProgress    ? captureProgress == 0  ? 360 
-                                                                                        : 360 * captureProgress * (invaderRelation == 'ally' ? 1 : -1)
-                                                                : 0")
-    )
+		(var indicatorProgress:number = "isCaptureInProgress    ? captureProgress == 0  ? 360 
+																						: 360 * captureProgress * (invaderRelation == 'ally' ? 1 : -1)
+																: 0")
+	)
 
-    
-    
-    
-    (block
-        (style (position = "absolute") (align = "center|middle"))
+	
+	
+	
+	(block
+		(style 
+			(position = "absolute")
+			(align = "center|middle")
+			(rotation = "isCaptureInProgress || relation == 'neutral' ? 45 : 0")
+		)
+		(controller $Animation
+			(bindcall play
+				duration=0.15
+				from={rotation: 0}
+				to={rotation: 45}
+				(bind enabled "isCaptureInProgress || relation == 'neutral'")
+				(bind trigger "isCaptureInProgress")
+			)
 
-        (rotation = "isCaptureInProgress || relation == 'neutral' ? 45 : 0")
-        (controller $Animation
-        	(bindcall play
-                duration=0.15
-                from={rotation: 0}
-                to={rotation: 45}
-                (bind enabled "isCaptureInProgress || relation == 'neutral'")
-                (bind trigger "isCaptureInProgress")
-            )
+			(bindcall play
+				duration=0.15
+				from={rotation: 45}
+				to={rotation: 0}
+				(bind enabled "!(isCaptureInProgress || relation == 'neutral')")
+				(bind trigger "isCaptureInProgress")
+			)
+		)
 
-        	(bindcall play
-                duration=0.15
-                from={rotation: 45}
-                to={rotation: 0}
-                (bind enabled "!(isCaptureInProgress || relation == 'neutral')")
-                (bind trigger "isCaptureInProgress")
-            )
-        )
+		(block
+			(style
+				(position = "absolute")
+				(bind backgroundImage "indicatorSymbol ? indicatorSymbol + (isLargeBase ? '_expensive' : '') : 'symbol:empty'")
+			)
+		)
 
-        (block
-            (style
-                (position = "absolute")
-                (bind backgroundImage "indicatorSymbol ? indicatorSymbol + (isLargeBase ? '_expensive' : '') : 'symbol:empty'")
-            )
-        )
+		
+		
+		
+		(block
+			(bind visible "relation != 'neutral' && isCaptureInProgress")
+			(style
+				(position = "absolute")
+				(bind backgroundImage "capturedBarSymbol ? capturedBarSymbol + (isLargeBase ? '_expensive' : '') : 'symbol:empty'")
+			)
+		)
 
-        
-        
-        
-        (block
-            (bind visible "relation != 'neutral' && isCaptureInProgress")
-            (style
-                (position = "absolute")
-                (bind backgroundImage "capturedBarSymbol ? capturedBarSymbol + (isLargeBase ? '_expensive' : '') : 'symbol:empty'")
-            )
-        )
+		
+		
+		
+		(block
+			(block
+				(controller $Sector
+					(bind arc "indicatorProgress")
+					(offset = "-135")
+					(radius = "23")
+				)
+				(isMask = true)
+			)
 
-        
-        
-        
-        (block
-            (block
-                (controller $Sector
-                    (bind arc "indicatorProgress")
-                    (offset = "-135")                    
-                    (radius = "23")
-                )
-                (isMask = true)
-            )
+			(block
+				(style
+					(position = "absolute")
+					(bind backgroundImage "barSymbol ? barSymbol + (isLargeBase ? '_expensive' : '') : 'symbol:empty'")
+				)
+			)
+		)
+				
+		
+		
+		
+		(block 
+			(style (position = "absolute"))
+			(controller $FxInstance renderer='MapCapturePointIndicatorFX' lifetime="1"
+				(bindcall create (bind trigger "isCaptureInProgress"))
+				(args isCaptureInProgress="isCaptureInProgress")
+			)
+		)
+	)
 
-            (block
-                (style
-                    (position = "absolute")
-                    (bind backgroundImage "barSymbol ? barSymbol + (isLargeBase ? '_expensive' : '') : 'symbol:empty'")
-                )
-            )
-        )
-                
-        
-        
-        
-        (block 
-            (style (position = "absolute"))
-            (controller $FxInstance renderer='MapCapturePointIndicatorFX' lifetime="1"
-                (bindcall create (bind trigger "isCaptureInProgress"))
-                (args isCaptureInProgress="isCaptureInProgress" indicatorSymbol="indicatorSymbol")
-            )
-        )
-    )
-
-    
-    
-    
-    (block 
-        (style 
-            (position = "absolute")
-            (width = "0px")
-            (height = "0px")
-            (align = "center|middle")
-        )
-        (tf 
-            (bind visible "!(isFlagPoint)")
-            (class $TextDefaultBoldNM)
-            (bind class "relation == 'ally' ? '$ControlPointTextColorAlly' : relation == 'enemy' ? '$ControlPointTextColorEnemy' : '$ControlPointTextColorNeutral'")
-            (bind text "entity.capturePoint.label")
-        )
-        (block
-            (bind visible "isFlagPoint")
-            (style
-                (bind backgroundImage "'symbol:base_' + relation + '_flag_centered'")
-            )
-        )
-    )
+	
+	
+	
+	(block 
+		(style 
+			(position = "absolute")
+			(width = "0px")
+			(height = "0px")
+			(align = "center|middle")
+		)
+		(tf 
+			(bind visible "!(isFlagPoint)")
+			(class $TextDefaultBoldNM)
+			(bind class "relation == 'ally' ? '$ControlPointTextColorAlly' : relation == 'enemy' ? '$ControlPointTextColorEnemy' : '$ControlPointTextColorNeutral'")
+			(bind text "entity.capturePoint.label")
+		)
+		(block
+			(bind visible "isFlagPoint")
+			(style
+				(bind backgroundImage "'symbol:base_' + relation + '_flag_centered'")
+			)
+		)
+	)
 )
 
 (def element MapCapturePointIndicatorFX (isCaptureInProgress:bool) layout=true
-    (scope
-        (event evAddedToStage)
-    )
-    (dispatch evAddedToStage on=addedToStage)
+	(scope
+		(event evAddedToStage)
+	)
+	(dispatch evAddedToStage on=addedToStage)
 
-    (controller $Animation
-        (bindcall play
-            duration=0.15
-            from={rotation: 0}
-            to={rotation: -45}
-            (bind enabled "isCaptureInProgress")
-            (event "evAddedToStage") 
-        )
-        (bindcall play
-            duration=0.15
-            from={rotation: 0}
-            to={rotation: 45}
-            (bind enabled "!(isCaptureInProgress)")
-            (event "evAddedToStage") 
-        )
+	(controller $Animation
+		(bindcall play
+			duration=0.15
+			from={rotation: 0}
+			to={rotation: -45}
+			(bind enabled "isCaptureInProgress")
+			(event "evAddedToStage") 
+		)
+		(bindcall play
+			duration=0.15
+			from={rotation: 0}
+			to={rotation: 45}
+			(bind enabled "!(isCaptureInProgress)")
+			(event "evAddedToStage") 
+		)
 
-        (bindcall play
-            duration=0.15
-            delay=0.15               
-            to={scaleX: 3, scaleY: 3, alpha: 0}
-            (event "evAddedToStage") 
-        ) 
-    )
-    (block
-        (style
-            (position = "absolute")
-            (backgroundImage = 'symbol:capture_base_bar_dark_centered')            
-        )    
-    )
+		(bindcall play
+			duration=0.15
+			delay=0.15
+			to={scaleX: 3, scaleY: 3, alpha: 0}
+			(event "evAddedToStage") 
+		) 
+	)
+	(block
+		(style
+			(position = "absolute")
+			(backgroundImage = 'symbol:capture_base_bar_dark_centered')
+		)
+	)
 )
 

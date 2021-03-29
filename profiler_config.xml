@@ -94,6 +94,8 @@ Each entry corresponds to a profiler marker in C++ code
 	<entry id="CPU_Update_GUI_NewLayout_validate" unit="1" count="1" />
 	<entry id="CPU_Update_GUI_Unbound_onEvent" unit="1" count="1" />
 	<entry id="CPU_Update_GUI_Invoke_ConvertPythonToScaleform" unit="1" count="1" />
+	<entry id="CPU_Update_GUI_DataCenter_To_Python" unit="1" count="0" />
+	<entry id="CPU_Update_GUI_DataCenter_To_UB" unit="1" count="0" />
 	<entry id="CPU_Update_ChunkEmbodiment" unit="1" count="0" />
 	<entry id="CPU_Update_ClientChunkSpace_SceneGraph" unit="1" count="0" />
 	<entry id="SceneGraphManager_Update" unit="1" count="0" />
@@ -315,11 +317,16 @@ Each entry corresponds to a profiler marker in C++ code
 	<entry id="GPU_Pass_PostProcessing_LightShafts" unit="1" count="0" />
 	<entry id="GPU_Pass_PostProcessing_TXAA" unit="1" count="0" />
 	<entry id="GPU_Pass_PostProcessing_Sharpen" unit="1" count="0" />
+	<entry id="GPU_Pass_PostProcessing_Upscale" unit="1" count="0" />
 
 	<entry id="CPU_SpatialUI_Update" unit="1" count="1" />
 	<entry id="CPU_SpatialUI_DrawCalls" unit="0" count="1" />	
 	<entry id="CPU_Draw_SpatialUI" unit="1" count="1" />
 	<entry id="GPU_Draw_SpatialUI" unit="1" count="1" />
+
+	<entry id="CPU_Update_WaveSystem" unit="1" count="1" />
+	<entry id="CPU_Draw_WaveSystem" unit="1" count="1" />
+	<entry id="GPU_Draw_WaveSystem" unit="1" count="1" />
 	
 	<entry id="GPU_GUI_Begin" unit="1" count="0" />
 	<entry id="GPU_GUI_Finish" unit="1" count="0" />
@@ -354,10 +361,37 @@ Each entry corresponds to a profiler marker in C++ code
 	<entry id="SoundSystem_Bank_Loading" unit="1" count="0" />
 	<entry id="SoundSystem_Starvation" unit="0" count="0" />
 	<entry id="Sound_PostEvent" unit="1" count="0" />
-	<entry id="Sound_KillGameObjects" unit="1" count="0" />
+	<entry id="Sound_InitWorldObject" unit="1" count="0" />
 	<entry id="Sound_PostSOEvent" unit="1" count="0" />
-	<entry id="Sound_Tasks_PlaylistUpdate" unit="1" count="0" />
-	<entry id="Sound_Tasks_GameObjectUpdate" unit="1" count="0" />
+	<entry id="Sound_WWISE_AudioThread_Total_CPU" unit="0" count="0" />
+	<entry id="Sound_WWISE_AudioThread_Plugin_CPU" unit="0" count="0" />
+	<entry id="Sound_WWISE_AudioThread_Total_Voices" unit="0" count="0" />
+	<entry id="Sound_WWISE_AudioThread_Physical_Voices" unit="0" count="0" />
+	<entry id="Sound_WWISE_AudioThread_Virtual_Voices" unit="0" count="0" />
+	<entry id="Sound_WWISE_AudioThread_Active_Events" unit="0" count="0" />
+
+	<entry id="Sound_WorldObjectUpdate_Scoped_Type_Airplane" unit="1" count="0" />
+	<entry id="Sound_WorldObjectUpdate_Scoped_Type_AnimatedModel" unit="1" count="0" />
+	<entry id="Sound_WorldObjectUpdate_Scoped_Type_Building" unit="1" count="0" />
+	<entry id="Sound_WorldObjectUpdate_Scoped_Type_HitEffect" unit="1" count="0" />
+	<entry id="Sound_WorldObjectUpdate_Scoped_Type_Incoming" unit="1" count="0" />
+	<entry id="Sound_WorldObjectUpdate_Scoped_Type_LocalWeather" unit="1" count="0" />
+	<entry id="Sound_WorldObjectUpdate_Scoped_Type_Misc" unit="1" count="0" />
+	<entry id="Sound_WorldObjectUpdate_Scoped_Type_ScenarioSoundEffect" unit="1" count="0" />
+	<entry id="Sound_WorldObjectUpdate_Scoped_Type_Squadron" unit="1" count="0" />
+	<entry id="Sound_WorldObjectUpdate_Scoped_Type_Vehicle" unit="1" count="0" />
+	
+	<entry id="Sound_WorldObjectUpdate_Count_Type_Airplane" unit="0" count="0" />
+	<entry id="Sound_WorldObjectUpdate_Count_Type_AnimatedModel" unit="0" count="0" />
+	<entry id="Sound_WorldObjectUpdate_Count_Type_Building" unit="0" count="0" />
+	<entry id="Sound_WorldObjectUpdate_Count_Type_HitEffect" unit="0" count="0" />
+	<entry id="Sound_WorldObjectUpdate_Count_Type_Incoming" unit="0" count="0" />
+	<entry id="Sound_WorldObjectUpdate_Count_Type_LocalWeather" unit="0" count="0" />
+	<entry id="Sound_WorldObjectUpdate_Count_Type_Misc" unit="0" count="0" />
+	<entry id="Sound_WorldObjectUpdate_Count_Type_ScenarioSoundEffect" unit="0" count="0" />
+	<entry id="Sound_WorldObjectUpdate_Count_Type_Squadron" unit="0" count="0" />
+	<entry id="Sound_WorldObjectUpdate_Count_Type_Vehicle" unit="0" count="0" />
+	
 	
 	<entry id="Traffic_Downloaded" unit="0" count="0" />
 	<entry id="Traffic_Uploaded" unit="0" count="0" />
@@ -592,6 +626,8 @@ Each entry corresponds to a profiler marker in C++ code
 	<entry id="IO_Close_Count" unit="0" count="0" />
 	<entry id="IO_Read_Size_KB" unit="3" count="0" />
 	<entry id="IO_Read_Size_MB" unit="2" count="0" />
+
+	<entry id="Script_Tick_Transfers" unit="0" count="0" />
 </entries>
 <memgroups>
 	<entry id='WWISE'		path="client\source\lib\wwisesound" />

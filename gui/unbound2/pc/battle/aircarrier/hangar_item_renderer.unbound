@@ -1,7 +1,9 @@
 (def constant PLANE_ICON_NAMES [
 	'planes_hangar_rocket_HE', 
 	'planes_hangar_bomb_HE', 
-	'planes_hangar_bomb_AP', 
+	'planes_hangar_bomb_AP',
+	'planes_hangar_skip', 
+	'planes_hangar_skip',
 	'planes_hangar_torpedo', 
 	'planes_hangar_torpedo_deepwater', 
 	'planes_hangar_rocket_AP'
@@ -13,7 +15,9 @@
 		(event evMouseOut)
 		(var squadronEntity:gfx = "col.items[$index]" (event "col.evAdded") (event "col.evRemoved") (event "col.evUpdated"))
 		(var ammoType:number = "squadronEntity.plane.ammoType")
-		(var curPlanesInHangar:number = "squadronEntity.hangar.planeCount" 	(event "squadronEntity.hangar.evChanged"))
+
+		(var hangarEntity:gfx = "$datahub.getPrimaryEntity(CC.hangar, squadronEntity.ownSquadron.id)")
+		(var curPlanesInHangar:number = "hangarEntity ? hangarEntity.hangar.planeCount : 0" (event "hangarEntity.hangar.evChanged"))
 		(var planeIconPath:str = "'url:../aircraft/hangar_icons/' + PLANE_ICON_NAMES[ammoType] + '.png'")
 
 		(var isRollOver:bool = false)
@@ -22,12 +26,12 @@
 	)
 
 	(style
-		(width = 32px) (top = 26px)
+		(width = 32px)
 		(bind marginLeft "$index == 0 ? 16 : 14")
 	)
 
 	(block
-		(style (position = "absolute") (left = -129) (bottom = 24px))
+		(style (position = "absolute") (left = -129) (bottom = 50px))
 		(bind alpha "isRollOver ? 0 : 0")
 		(bind visible "isRollOver")
 		(controller $Animation layout=false
@@ -35,6 +39,9 @@
 		)
 		(controller $Instance renderer='HangarItemTooltip'
 			(bind enabled "isRollOver")
+			(args
+				__squadronEntityId = "squadronEntity.id"
+			)
 			(exprs
 				(scope
 					(bind _squadronEntityId  "squadronEntity.id")
@@ -45,52 +52,58 @@
 	)
 
 	(block
-		(style
-			(position = "absolute") (width = 30px) (height = 30px) (left = 1px)
-			(bind backgroundImage "planeIconPath")
+		(block
+			(style
+				(position = "absolute")
+				(bottom = 0)
+				(width = 30px) (height = 30px)
+				(bind backgroundImage "planeIconPath")
+			)
+
+			(bind alpha "(curPlanesInHangar > 0 ? 1 : 0.5)")
 		)
 
-		(bind alpha "(curPlanesInHangar > 0 ? 1 : 0.5)")
-	)
-
-	(block
-		(style (position = "absolute") (top = -6px))
-		(element PlaneReloadProgressAndAttackersBar
-			(scope
-				(bind _squadronEntityId "squadronEntity.id")
-				(bind _width 30)
+		(block
+			(element PlaneReloadProgressAndAttackersBar _squadronEntityId = "squadronEntity.id"
+				(scope
+					(bind squadronEntityId "squadronEntity.id")
+					(bind _width "30")
+				)
 			)
 		)
 	)
 
 	
 	(block
-		(style (position = "absolute") (width = 30) (height = 50)(backgroundColor = 0x00FFFFFF) (bottom = -30))
+		(style (position = "absolute") (width = 30) (height = 50) (backgroundColor = 0x00FFFFFF))
 		(dispatch evMouseOver on='rollOver')
 		(dispatch evMouseOut on='rollOut')
 	)
 )
 
-(def element HangarItemTooltip() layout=true
+(def element HangarItemTooltip(__squadronEntityId:number) layout=true
 	(scope
-		(var _squadronEntityId:number = -1)
+		(var _squadronEntityId:number = "__squadronEntityId")
 		(var _planeIconPath:str = '')
 		(var squadronEntity:gfx = "_squadronEntityId > -1 ? $datahub.getEntity(_squadronEntityId) : null")
-		(var hangar:gfx = "squadronEntity.hangar")
+		(var hangarEntity:gfx = "$datahub.getPrimaryEntity(CC.hangar, squadronEntity.ownSquadron.id)")
+		(var hangar:gfx = "hangarEntity.hangar")
 		(var planeCount:number = "hangar.planeCount")
 		(var maxPlanesInSquadron:number = "squadronEntity.health.max")
 		(var maxPlaneCount:number = "hangar.maxPlaneCount")
 		(var timeToRestore:number = "hangar.timeToRestore" (event "hangar.evChanged"))
 		(var ammoType:number = "squadronEntity.plane.ammoType")
 		(var planesInAttacker:number = "squadronEntity.ownSquadron.attackerSize")
-		(var numAttakers:number = "maxPlanesInSquadron ? floor(maxPlanesInSquadron / planesInAttacker) : 0")
+		(var numAttakers:number = "maxPlanesInSquadron && planesInAttacker ? floor(maxPlanesInSquadron / planesInAttacker) : 0")
 
 		(var squadronType:str = " 		ammoType == SC.Common.PLANE_AMMO_TYPES.PROJECTILE			?  tr('IDS_DOCK_AMMO_TITLE_FIGHTER'):
 										ammoType == SC.Common.PLANE_AMMO_TYPES.PROJECTILE_AP		?  tr('IDS_DOCK_AMMO_TITLE_FIGHTER_AP'):
 										ammoType == SC.Common.PLANE_AMMO_TYPES.BOMB_HE 				?  tr('IDS_DOCK_AMMO_TITLE_DIVE'):
 										ammoType == SC.Common.PLANE_AMMO_TYPES.BOMB_AP				?  tr('IDS_DOCK_AMMO_TITLE_DIVE_AP'):
 										ammoType == SC.Common.PLANE_AMMO_TYPES.TORPEDO				?  tr('IDS_DOCK_AMMO_TITLE_BOMBER'):
-										ammoType == SC.Common.PLANE_AMMO_TYPES.TORPEDO_DEEPWATER	?  tr('IDS_DOCK_AMMO_TITLE_BOMBER_DEEPWATER')
+										ammoType == SC.Common.PLANE_AMMO_TYPES.TORPEDO_DEEPWATER	?  tr('IDS_DOCK_AMMO_TITLE_BOMBER_DEEPWATER'):
+										ammoType == SC.Common.PLANE_AMMO_TYPES.SKIP_BOMB_HE			?  tr('IDS_DOCK_AMMO_TITLE_SKIP'):
+										ammoType == SC.Common.PLANE_AMMO_TYPES.SKIP_BOMB_AP			?  tr('IDS_DOCK_AMMO_TITLE_SKIP_AP')
 																									:  ''")
 
 		(var attributesNeutral:array ="[	{attributeIDS: 'IDS_HANGAR_SQUADRON_PLANES_CURRENT',		measuredValue: planeCount,			measure: ''},
@@ -102,7 +115,7 @@
 											)
 	)
 
-	(style (width = 290px))
+	(style (width = 320px))
 	(mouseChildren = false)
 	(mouseEnabled = false)
 
@@ -113,9 +126,15 @@
 
 	
 	(block
-		(style (width = 100%) (marginTop = 14px) (marginLeft = 2px) (marginRight = 2px) (marginBottom = 2px))
+		(style (width = 100%) (marginLeft = 2px) (marginRight = 2px))
+
 		(hblock
-			(style (marginLeft = "SXS") (marginRight = "SXS") (width = 100%) (marginBottom = "S"))
+			(style
+				(width = 100%)
+				(paddingLeft = "M") (paddingRight = "M")
+				(marginTop = "M") (marginBottom = "M")
+				(align = "middle")
+			)
 			(block
 				(style
 					(width = 30px) (height = 30px)
@@ -123,17 +142,17 @@
 				)
 			)
 			(tf
-				(style (marginLeft = "SXS") (width = 100%)(marginTop = 2px))
-				(alpha = 1)
+				(style (marginLeft = "SXS") (width = 100%))
 				(class $TextDefaultBold18NM)
-				(macro TFMouseEnabled value=false)
 				(bind text "squadronType")
 			)
 		)
+
 		(block
 			(style (width = 100%))
 			(element HorizontalDivider)
 		)
+
 		(block
 			(style (width = 100%))
 			
@@ -147,6 +166,8 @@
 					(bind count "attributesNeutral.length")
 					(args
 						_shrinkHeight = true
+						_category = "AttributeModifiersCategory.NEUTRAL"
+						__dataItem = "attributesNeutral[$index]"
 					)
 					(exprs
 						(scope
@@ -161,7 +182,7 @@
 
 (def element HangarItemTooltipBackground(_isInBattle:bool = false) layout=true
 	(scope
-		(var optionDataEntity:gfx = "$datahub.getsingleEntity(CC.optionData)")
+		(var optionDataEntity:gfx = "$datahub.getSingleEntity(CC.optionData)")
 		(var blurEnabled:bool = "optionDataEntity.optionData.blurEnabled" (event "optionDataEntity.optionData.evBlurEnabledChanged"))
 		(var contrast:bool = "optionDataEntity.optionData.contrast" (event "optionDataEntity.optionData.evContrastChanged"))
 	)

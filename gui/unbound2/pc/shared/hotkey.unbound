@@ -69,10 +69,10 @@
 
 		(var keyId:number = "(deviceMap[0] != null) ? deviceMap[0] : -1")	
 		(var keyEntity:gfx = "$datahub.getEntity(keyId)")
-		(var keyCode:number = "keyEntity.commandMappingKey.keyId")
-		(var mods:number = "keyEntity.commandMappingKey.mods")
+		(var keyCode:number = "keyEntity ? keyEntity.commandMappingKey.keyId : 0")
+		(var mods:number = "keyEntity ? keyEntity.commandMappingKey.mods : 0")
 		(var inputKeyEntity:gfx = "$datahub.getPrimaryEntity(CC.inputKey, keyCode)")
-		(var keyPureName:str = "inputKeyEntity.inputKey.pureName")
+		(var keyPureName:str = "inputKeyEntity ? inputKeyEntity.inputKey.pureName : ''")
 
 		(var cmModKeyEntity:gfx = "$datahub.getPrimaryEntity(CC.commandMappingMod, '0_' + mods)") 
 		(var modKeyCode:number = "mods ? cmModKeyEntity.commandMappingModKey.keyCode : 0")
@@ -86,6 +86,9 @@
 
 		(var useDefaultWidth:bool = "(keyPureName.length == 1) && (modKeyCode == 0)")
 	)
+
+    
+	(bind name "keyPureName")
 
 	(dispatch evIsKeyActiveChanged args="{ cmdId: commandId, isKeyActive: isKeyActive }" dir="EventDirection.UP" (bind trigger "isKeyActive"))
 	
@@ -161,7 +164,7 @@
 				(marginRight = "0px")
 			)
 			(bind class "hotkeyTextStyle")
-			(text = '+')
+			(text = ' + ')
 		)
 		(element KeyRenderer "keyCode" "hotkeyTextStyle"
 			(scope
@@ -176,9 +179,9 @@
 	(scope
 		(var keyCode:number = "_keyCode")
 		(var hotkeyTextStyle:str = "_hotkeyTextStyle")
-		(var inputKeyEntity:gfx = "$datahub.getPrimaryEntity(CC.inputKey, keyCode)")	
-		(var keyPureName:str = "inputKeyEntity.inputKey.pureName")
-		(var keyName:str = "inputKeyEntity.inputKey.name") 
+		(var inputKeyEntity:gfx = "$datahub.getPrimaryEntity(CC.inputKey, keyCode)")
+		(var keyPureName:str = "inputKeyEntity ? inputKeyEntity.inputKey.pureName : ''")
+		(var keyName:str = "inputKeyEntity ? inputKeyEntity.inputKey.name : ''")
 	)
 
 	(tf
@@ -189,67 +192,51 @@
 	)
 )
 
-(def element HotkeyIndicatorLarge(commandId:number, toggle:bool=false) layout=true
+(def element HotkeyIndicatorWithText (commandDescription:str, commandId:number, toggle:bool=false, fxOnDown:bool=true, _descriptionFirst:bool=false) layout=true
 	(scope
-		(var command:gfx = "$datahub.getPrimaryEntity(CC.commandMappingCommand, commandId)")
-		(var deviceMap:dict = "command.commandKeyList.deviceMap" (event "command.commandKeyList.evChanged"))
-		(var keyId:number = "(deviceMap[0] != null) ? deviceMap[0] : -1")
-		(var keyEntity:gfx = "$datahub.getEntity(keyId)")
-		(var keyCode:number = "keyEntity.commandMappingKey.keyId")
-		(var inputKeyEntity:gfx = "$datahub.getPrimaryEntity(CC.inputKey, keyCode)")
-		(var keyPureName:str = "inputKeyEntity.inputKey.pureName")
-		(var keyName:str = "inputKeyEntity.inputKey.name")
-
-		(var isCmdDown:bool = "$event[1]" init=false watch=false (event "command.commandMappingCommand.evCall"))
+		(var textStyleClass:str = "null")
 	)
 	(style
-		(minWidth = "42") (minHeight = "42") (align = "center|middle")
+		(flow = "Flow.HORIZONTAL")
 	)
 
 	(block
-		(class $FullsizeAbsolute)
+		(bind visible "_descriptionFirst")
 		(style
-			(bind backgroundImage "'symbol:hotkey_holder_simple_white'")
-			(backgroundSize = "fill") (align = "center|middle") (padding = [4, 4, 4, 4])
+			(marginLeft = "XS")
+			(height = 100%)
+			(align = "center|middle")
 		)
-
-		(block
-			(class $FullsizeAbsolute)
-			(alpha = 0)
-
-			(block
-				(class $FullsizeAbsolute)
-				(style
-					(bind backgroundImage "'symbol:hotkey_holder_simple_green'")
-					(backgroundSize = "fill") (align = "center|middle")
-				)
-			)
-
-			(controller $Animation
-				(bindcall play 	from="{alpha:0.0}"
-								to="{alpha:1.0}"
-								duration=0.05
-								(event "command.commandMappingCommand.evCall")
-				)
-			)
-			(controller $Animation
-				(bindcall play 	from="{alpha:1.0}"
-								to="{alpha:0.0}"
-								duration=0.05
-								delay=0.1
-								(event "command.commandMappingCommand.evCall")
-				)
-			)
+			
+		(tf
+			(class $TextDefaultBoldNM)
+			(class $FontEnableReadability)
+			(bind class "textStyleClass")
+			(bind text "tr(commandDescription)")
+		)
+	)
+		
+	(controller $Instance renderer='HotkeyIndicator'
+		(args
+			_commandId = "commandId"
+			toggle="toggle"
+			fxOnDown="fxOnDown"
 		)
 	)
 
 	(block
-		(style (marginLeft = "12px") (marginRight = "12px"))
+		(bind visible "!_descriptionFirst")
+		(style
+			(marginLeft = "XS")
+			(height = 100%)
+			(align = "center|middle")
+		)
+			
 		(tf
-			(class $HotkeyTextBig)
-			(class $DropShadowDisabler)
-			(bind text "keyId == -1 	? '-'
-										: (keyPureName.length == 1 || NOT_LOCALIZE_KEYS[keyPureName]) ? keyPureName : ('IDS_' + keyName)")
+			(class $TextDefaultBoldNM)
+			(class $FontEnableReadability)
+			(bind class "textStyleClass")
+			(bind text "tr(commandDescription)")
 		)
 	)
 )

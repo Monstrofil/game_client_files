@@ -43,14 +43,14 @@
         (var gunLockedMessage:str = "isObserving    ? 'IDS_LOCKED' :
                                      angleLock      ? 'IDS_GUN_LOCK_INDICATOR_RELATIVE' :
                                      sectorLock     ? 'IDS_GUN_LOCK_INDICATOR_ABSOLUTE'
-                                                    : gunLockedMessageTemp" 
+                                                    : gunLockedMessageTemp"
 									 (event "evGunLockedMessageChanged")
 								)
         (bind gunLockedMessageTemp "gunLockedMessage" watch=false init=false (event "evGunLockedMessageChanged")) 
 
 		(var isGunLockedState:bool = "isAlive && !isTacticalMap && !isCameraTracking && (isObserving || sectorLock || angleLock)")
 	)
-	(dispatch evGunLockedMessageChanged 
+	(dispatch evGunLockedMessageChanged
 					(event "crosshairEntity.aimLock.evSectorLockChanged")
 					(event "crosshairEntity.aimLock.evAngleLockChanged")
 					(event "cameraEntity.camera.evObservingChanged")
@@ -86,7 +86,6 @@
 		)
 	)
 )
-
 (def element CrosshairIndicators () layout=true
 	(scope
 		(var cameraEntity:gfx = "$datahub.getSingleEntity(CC.camera)")
@@ -94,12 +93,12 @@
 		(var selfVehicleEntity:gfx = "$datahub.getSingleEntity(CC.selfVehicle)")
 
 		
-		(var weaponType:number = "selfVehicleEntity.vehicleWeapons.selectedWeaponType" (event "selfVehicleEntity.vehicleWeapons.evSelectedWeaponTypeChanged"))
-
-		(var currentWeapon:gfx = "$datahub.getPrimaryEntity(CC.weapon, weaponType)")
-		(var gunsCount:gfx = "currentWeapon.gunsCount")
-		(var countAliveGuns:number = "gunsCount.countAliveGuns" (event "gunsCount.evChanged"))
-		(var isOutOfDistWeapon:bool = "currentWeapon.weapon.isOutOfDist" (event "currentWeapon.weapon.evIsOutOfDistChanged"))
+		(var weaponType:number = "selfVehicleEntity.weaponController.selectedWeapon" (event "selfVehicleEntity.weaponController.evSelectedWeaponChanged"))
+		(var gunCollection:gfx = "$datahub.getCollection(CC.gun)")
+		(var guns:gfx = "gunCollection.getChildByPath('byWeaponType.' + weaponType)" (event "guns.evChanged"))
+		(var usableGuns:gfx = "guns ? guns.child('usable') : null")
+		(var usableGunsCount:number = "usableGuns ? usableGuns.items.length : 0" (event "usableGuns.evRemoved") (event "usableGuns.evAdded"))
+		(var isOutOfDistWeapon:bool = "usableGunsCount == 0")
 
 		
 		(var isBinocular:bool = "cameraEntity.camera.isBinocular" (event "cameraEntity.camera.evIsBinocularChanged"))
@@ -124,13 +123,13 @@
 		(var activeSquadron:number = "aircarrier.activeSquadron" (event "aircarrier.evStateChanged"))
 		(var activeSquadronEntity:gfx = "$datahub.getPrimaryEntity(CC.ownSquadron, activeSquadron)")
 
-		(var squadronCameraMode:str = "aircarrier.squadronCameraMode" (event "aircarrier.evSquadronCameraModeChanged"))
-		(var isDefaultOrNoSquadronCameraMode:bool = "squadronCameraMode == SquadronCameraModes.UNKNOWN || squadronCameraMode == SquadronCameraModes.DEFAULT")
+		(var squadronCameraMode:str = "aircarrier ? aircarrier.squadronCameraMode : SquadronCameraModes.UNKNOWN" (event "aircarrier.evSquadronCameraModeChanged"))
+		(var isDefaultOrNoSquadronCameraMode:bool = "(squadronCameraMode == SquadronCameraModes.UNKNOWN) || (squadronCameraMode == SquadronCameraModes.DEFAULT)")
 		(var isAimingWithSquadron:bool = "activeSquadronEntity && activeSquadronEntity.ownSquadron.attackState == SquadronAttackState.AIMING && isDefaultOrNoSquadronCameraMode" (event "activeSquadronEntity.ownSquadron.evAttackStateChanged"))
 
 		
-		(var energyValue:number = "selfVehicleEntity.energy.value" (event "selfVehicleEntity.energy.evValueChanged"))
-		(var energyDelta:number = "selfVehicleEntity.energy.delta" (event "selfVehicleEntity.energy.evDeltaChanged"))
+		(var energyValue:number = "selfVehicleEntity.energy ? selfVehicleEntity.energy.value : 0" (event "selfVehicleEntity.energy.evValueChanged"))
+		(var energyDelta:number = "selfVehicleEntity.energy ? selfVehicleEntity.energy.delta : 0" (event "selfVehicleEntity.energy.evDeltaChanged"))
 		(var energyTemp:number = "energyValue" watch=false)
 		(controller $Animation
             (bindcall play  duration="energyDelta >= 0 ? 0.35 : 0.15"
@@ -142,9 +141,10 @@
         )
 		(var energyText:str = "formatSeparator(round(energyTemp))")
 
+		
 		(var pingerGunEntity:gfx = "$datahub.getPrimaryEntity(CC.weapon, WeaponType.PINGER)")
-		(var selectedIndex:number = "pingerGunEntity.weaponControl.selectedIndex" (event "pingerGunEntity.weaponControl.evSelectedIndexChanged"))
-		(var pingEnergyCost:number = "pingerGunEntity.weaponControl.ammoTypes[selectedIndex]")
+		(var selectedIndex:number = "pingerGunEntity ? pingerGunEntity.weaponControl.selectedIndex : -1" (event "pingerGunEntity.weaponControl.evSelectedIndexChanged"))
+		(var pingEnergyCost:number = "pingerGunEntity ? pingerGunEntity.weaponControl.ammoTypes[selectedIndex] : 0")
 		(var canShootPing:bool = "energyValue >= pingEnergyCost")
 
 		
@@ -160,7 +160,7 @@
 		(var spotDistanceText:str = "formatFloatingPoint(spotDistance, 2)")
 
 		(var shootDistance:number = "aimAssist.distance" (event "evEnterFrame"))
-		(var isOutOfShootingRange:bool = "isOutOfDistWeapon")
+		(var isOutOfShootingRange:bool = "isOutOfDistWeapon && !(activeSquadronEntity)")
 		(var shootDistanceText:str = "shootDistance <= -1 ? '-.--' : formatFloatingPoint(shootDistance, 2)")
 
 		
@@ -193,7 +193,7 @@
 	
 	(block
 		(style (position = "absolute") (left = 19) (top = 14))
-		
+
 		
 		(block
 			(bind visible "isEnergyIndicatorVisible")
@@ -201,7 +201,7 @@
 				(scope
 					(bind _valueText "energyText")
 					(bind _animationTrigger "isBattleStartAnimationTriggered")
-				)	
+				)
 			)
 			(controller $FxInstance renderer='EnergySpendFX' lifetime="2"
 				(args _amount="$event[1]")
@@ -344,6 +344,6 @@
 			)
 		)
 	)
-	
-	
+
+
 )

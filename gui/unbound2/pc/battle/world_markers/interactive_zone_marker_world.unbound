@@ -9,7 +9,7 @@
 (def element InteractiveZoneDistanceIndicator (_entityId:number) layout=true
 	(scope
 		(var entity:gfx = "$datahub.getEntity(_entityId)")
-        (var distanceComponent:gfx = "entity.distance" (event "entity.evAdded"))
+		(var distanceComponent:gfx = "entity.distance" (event "entity.evAdded"))
 
 		(var timerEntity:gfx = "$datahub.getSingleEntity(CC.timer)")
 		(var distanceLeft:number = "distanceComponent.distanceToShip" (event "timerEntity.timer.evInfrequent"))
@@ -17,8 +17,8 @@
 	)
 
 	(block
-        (style 	
-        		(position = "absolute")
+		(style 	
+				(position = "absolute")
 				(align = "center") 
 				(width = 100%)
 				(top = "INTERACTIVE_ZONE_ICON_SIZE/2 + 4")
@@ -38,7 +38,7 @@
 (def element InteractiveZoneTimeoutIndicator (_entityId:number, _indicatorType:number) layout=true
 	(scope
 		(var timeoutEntity:gfx = "$datahub.getEntity(_entityId)")
-        (var timeoutComponent:gfx = "timeoutEntity.timeout" (event "timeoutEntity.evAdded"))
+		(var timeoutComponent:gfx = "timeoutEntity.timeout" (event "timeoutEntity.evAdded"))
 		(var timeoutTime:number = "timeoutComponent.time" (event "timeoutComponent.evTimeChanged"))
 		(var totalTime:number = "timeoutComponent.total")
 		(var timeoutIsRunning:bool = "timeoutComponent.running" (event "timeoutComponent.evRunningChanged"))
@@ -59,10 +59,10 @@
 		(bind visible "isActive")
 
 		(block
-	        (style 
-	        		(position = "absolute")
+			(style 
+					(position = "absolute")
 					(align = "center") 
-	        		(top = "-INTERACTIVE_ZONE_ICON_SIZE")
+					(top = "-INTERACTIVE_ZONE_ICON_SIZE")
 					(width = 100%)
 			)
 
@@ -164,55 +164,56 @@
 	(scope
 		
 		(var resourceZoneEntity:gfx = "$datahub.getEntity(_entityId)")
-	 	(var resourceHolder:gfx = "resourceZoneEntity.resourceHolder" (event "resourceZoneEntity.evAdded"))
-        (var resourceName:str = "toLower(resourceHolder.resourceName + (resourceHolder.loading ? '_gathering' : '_unloading'))")
+		(var resourceHolder:gfx = "resourceZoneEntity.resourceHolder" (event "resourceZoneEntity.evAdded"))
+		(var resourceName:str = "resourceHolder ? toLower(resourceHolder.resourceName + (resourceHolder.loading ? '_gathering' : '_unloading')) : null")
 	)
 
-	 (block
-        (style
-            (position = "absolute") (top = "-INTERACTIVE_ZONE_ICON_SIZE/2px") (left = "-INTERACTIVE_ZONE_ICON_SIZE/2px")
-            (bind backgroundImage "'url:../scenario_markers/' + resourceName + '.png'")
-        )
-    )
+	(block
+		(style
+			(position = "absolute") (top = "-INTERACTIVE_ZONE_ICON_SIZE/2px") (left = "-INTERACTIVE_ZONE_ICON_SIZE/2px")
+			(bind backgroundImage "'url:../scenario_markers/' + resourceName + '.png'")
+		)
+	)
 )
 
 (def element InteractiveDropZoneIcon (_entityId:number) layout=true
 	(scope
 		(var dropZoneEntity:gfx = "$datahub.getEntity(_entityId)")
-        (var dropComponent:gfx = "dropZoneEntity.drop" (event "dropZoneEntity.evAdded"))
-        (var isActive:bool = "dropComponent.isActive" (event "dropComponent.evIsActiveChanged"))
-        (var markerName:str = "isActive ? dropComponent.markerNameActive : dropComponent.markerNameInactive")
+		(var dropComponent:gfx = "dropZoneEntity.drop" (event "dropZoneEntity.evAdded"))
+		(var isActive:bool = "dropComponent.isActive" (event "dropComponent.evIsActiveChanged"))
+		(var markerName:str = "isActive ? dropComponent.markerNameActive : dropComponent.markerNameInactive")
 	)
 
 	 (block
-        (style
-            (position = "absolute") (top = "-INTERACTIVE_DROP_ZONE_ICON_SIZE/2") (left = "-INTERACTIVE_DROP_ZONE_ICON_SIZE/2")
-            (bind backgroundImage "'url:../powerups/icon_marker_' + markerName + '.png'")
-        )
-    )
+		(style
+			(position = "absolute") (top = "-INTERACTIVE_DROP_ZONE_ICON_SIZE/2") (left = "-INTERACTIVE_DROP_ZONE_ICON_SIZE/2")
+			(bind backgroundImage "'url:../powerups/icon_marker_' + markerName + '.png'")
+		)
+	)
 )
 
 (def element InteractiveZoneMarker (_entityId:number) layout=true
   	(scope
   	 	(var entity:gfx = "$datahub.getEntity(_entityId)")
 
-        (var timeoutComponent:gfx = "entity.timeout" (event "entity.evAdded"))
-        (var markerScaleComponent:gfx = "entity.worldMarkerScale" (event "entity.evAdded"))
-        (var cameraComponent:gfx = "$datahub.getCollection(CC.camera).items[0].camera")
-        (var progressComponent:gfx = "entity.progress" (event "entity.evAdded"))
+		(var timeoutComponent:gfx = "entity.timeout" (event "entity.evAdded"))
+		(var markerScaleComponent:gfx = "entity.worldMarkerScale" (event "entity.evAdded"))
+		(var cameraComponent:gfx = "$datahub.getCollection(CC.camera).items[0].camera")
+		(var progressComponent:gfx = "entity.progress" (event "entity.evAdded"))
 
   	 	(var type:number = "entity.interactiveZone.type")
   		(var isAltVision:bool = "cameraComponent.altVision" (event "cameraComponent.evAltVisionChanged"))
  		(var markerScaleRaw:number = "markerScaleComponent ? markerScaleComponent.value : 1" (event "markerScaleComponent.evValueChanged"))
-        (var markerScale:number = "isAltVision ? 1 : round(markerScaleRaw*10)/10") 
-        (var extraComponentsEnabled:bool = "markerScale > 0.8")
-        (var progressValue:number = "progressComponent.value" (event "progressComponent.evChanged"))
-     	(event evAddedToStage)
-    )
+		(var markerScale:number = "isAltVision ? 1 : round(markerScaleRaw*10)/10") 
+		(var extraComponentsEnabled:bool = "markerScale > 0.8")
+		(var progressValue:number = "progressComponent.value" (event "progressComponent.evChanged"))
+		(var showProgressText:bool = "progressValue > 0 && progressComponent.max > 1")
+	 	(event evAddedToStage)
+	)
 
-    (dispatch evAddedToStage on=addedToStage)
+	(dispatch evAddedToStage on=addedToStage)
 
-    (bind scaleX "markerScale")
+	(bind scaleX "markerScale")
 	(bind scaleY "markerScale")
 	(bind alpha "markerScale")
 
@@ -221,13 +222,13 @@
 
 
 		(controller $Instance (renderer = 'InteractiveResourceZoneIcon') 
-		    (bind enabled "type == INTERACTIVE_ZONE_TYPES.RESOURCE_ZONE && entity.resourceHolder" (event "entity.evAdded"))
-		    (args _entityId="_entityId")
+			(bind enabled "type == INTERACTIVE_ZONE_TYPES.RESOURCE_ZONE && entity.resourceHolder" (event "entity.evAdded"))
+			(args _entityId="_entityId")
 		)
 
 		(controller $Instance (renderer = 'InteractiveDropZoneIcon') 
-		    (bind enabled "type == INTERACTIVE_ZONE_TYPES.DROP_ZONE")
-		    (args _entityId="_entityId")
+			(bind enabled "type == INTERACTIVE_ZONE_TYPES.DROP_ZONE")
+			(args _entityId="_entityId")
 		)
 
 		(controller $Instance (renderer = 'InteractiveZoneTimeoutIndicator')
@@ -239,10 +240,10 @@
 				_indicatorType="ZONE_TIMEOUT_TYPES.CIRCLE"
 			)
 			(exprs
-                (scope
-                    (bind enabledByDistance "extraComponentsEnabled")
-                )
-            )
+				(scope
+					(bind enabledByDistance "extraComponentsEnabled")
+				)
+			)
 		)
 
 		(controller $Instance (renderer = 'InteractiveZoneDistanceIndicator')
@@ -251,7 +252,7 @@
 		)
 
 		(block
-			(bind visible "progressValue != 0")
+			(bind visible "showProgressText")
 
 			(style
 				(position = "absolute")
@@ -271,21 +272,21 @@
 			)
 		)
 
-		(controller $Animation        
-		    (bindcall  play
-		        duration=0.3
-		        from={alpha: 0, scaleX: 0, scaleY: 0}
-		        to={alpha: 1, scaleX: 1, scaleY: 1}
-		        easing="Easing.quint_in"
-		        (event "evAddedToStage")
-		    )
-		    (bindcall  play
-		        duration=0.3
-		        from={alpha: 1, scaleX: 1, scaleY: 1}
-		        to={alpha: 0, scaleX: 0, scaleY: 0}
-		        easing="Easing.quint_in"
-		        (event "entity.interactiveZone.evHide")
-		    )
+		(controller $Animation
+			(bindcall  play
+				duration=0.3
+				from={alpha: 0, scaleX: 0, scaleY: 0}
+				to={alpha: 1, scaleX: 1, scaleY: 1}
+				easing="Easing.quint_in"
+				(event "evAddedToStage")
+			)
+			(bindcall  play
+				duration=0.3
+				from={alpha: 1, scaleX: 1, scaleY: 1}
+				to={alpha: 0, scaleX: 0, scaleY: 0}
+				easing="Easing.quint_in"
+				(event "entity.interactiveZone.evHide")
+			)
 		)
 	)
 )

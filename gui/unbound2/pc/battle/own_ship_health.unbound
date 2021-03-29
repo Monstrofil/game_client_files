@@ -37,7 +37,7 @@
 
 (def macro HEALTH_PERCENT_AND_ALIVE(entity:expression)
 	(var healthComponent:gfx = "entity.health")
-	(var maxHealth:number = "healthComponent.max")
+	(var maxHealth:number = "healthComponent.max" (event "healthComponent.evMaxChanged"))
 	(var healthValue:number = "healthComponent.value" (event "healthComponent.evValueChanged"))
 	(var healthPercent:number = "healthValue / maxHealth")
 	(var isAlive:bool = "healthComponent.isAlive" (event "healthComponent.evIsAliveChanged"))
@@ -62,6 +62,15 @@
 		(var playerAvatarEntity:gfx = "$datahub.getSingleEntity(CC.playerAvatar)")
 		(var playerAvatarId:number = "playerAvatarEntity.avatar.id")
 		(var isSelfObserved:bool = "playerAvatarId == observedAvatarId")
+
+		(var diplomacyCollection:gfx = "$datahub.getCollection(CC.diplomacyRelation)")
+		(var hasDiplomacyItems:bool = "diplomacyCollection.items.length > 0" (event "diplomacyCollection.evAdded")) 
+
+		(var battleDataEntity:gfx = "$datahub.getSingleEntity(CC.battleData)")
+		(var gameModeId:number = "battleDataEntity.battleInfo.gameModeId")
+		(var isEventHealthContainerVisible:bool = "gameModeId == SC.Battle.GAME_MODE.PORTAL_2021 || gameModeId == SC.Battle.GAME_MODE.TEAM_BATTLE_ROYALE_2021 || hasDiplomacyItems")
+
+		(var observedAvatarName:str = "observedAvatarEntity && observedAvatarEntity.hasComponent(CC.avatar) ? observedAvatarEntity.avatar.name : null")
 	)
 		
 	(style
@@ -83,13 +92,33 @@
                 (bind left "11")
             )
         )
-        (bind enabled "entityId")
+        (bind enabled "entityId && !isEventHealthContainerVisible")
     )
+
+	(controller $Instance renderer='EventShipHealthContainer'
+		(args __entityId="entityId" __isSelfObserved="isSelfObserved" __avatarName="observedAvatarName")
+		(exprs
+			(scope
+				(bind entityId "entityId")
+				(bind isSelfObserved "isSelfObserved")
+				(bind avatarName "observedAvatarName")
+			)
+			(style
+				(position = "absolute")
+				(bind bottom "224")
+				(bind left "11")
+			)
+		)
+		(bind enabled "entityId && isEventHealthContainerVisible")
+	)
 )
 (def element OwnShipHealthContainer(__entityId:number, __isSelfObserved:bool) layout=true
 	(scope
 		(var entityId:number = "__entityId")
 		(var isSelfObserved:bool = "__isSelfObserved")
+		(var entity:gfx = "$datahub.getEntity(entityId)")
+		(var healthComponent:gfx = "entity.health")
+		(var isAlive:bool = "healthComponent != null ? healthComponent.isAlive : false" (event "healthComponent.evIsAliveChanged"))
 	)
 	
 	(style
@@ -104,18 +133,18 @@
 		
 		(element HotkeyIndicator "Cmd.CMD_SHIP_PARAMS" toggle=false fxOnDown=true
 			(style
-                (position = "absolute")
-                (top = 0px)
-                (left = -2px)
-            )
-            (bind visible "isSelfObserved")
+				(position = "absolute")
+				(top = 0px)
+				(left = -2px)
+			)
+			(bind visible "isSelfObserved && isAlive")
 		)
 		
 		
 		(controller $Instance renderer='OwnHealthBar'
-        	(args _entityId="entityId")
-        	(bindcall recreate (bind trigger "entityId"))   		
-        )
+			(args _entityId="entityId")
+			(bindcall recreate (bind trigger "entityId"))
+		)
 		
 		
 
@@ -309,7 +338,7 @@
 		(var shortName:str = "shipInfo.ship.shortName")
 
 		(var healthComponent:gfx = "entity.health")
-        (var maxHealth:number = "healthComponent.max" (event "healthComponent.evValueChanged"))
+        (var maxHealth:number = "healthComponent.max" (event "healthComponent.evMaxChanged"))
 		(var shipBarConfigLeft:number = "shipInfo.shipBarConfig.left")
 		(var shipBarConfigRight:number = "shipInfo.shipBarConfig.right")
 		(var barVisibleWidth:number = "barImageWidth - shipBarConfigRight - shipBarConfigLeft")
@@ -373,6 +402,7 @@
 							from = "{ currentWidth: currentWidth }"
                             to = "{ currentWidth: resultWidth }"
                             (event "healthComponent.evChanged")
+                            (event "healthComponent.evMaxChanged")
 			)
 		)
 	)
@@ -417,6 +447,7 @@
                             from = "{ currentWidth: currentWidth }"
                             to = "{ currentWidth: resultWidth }"
                             (event "healthComponent.evChanged")
+                            (event "healthComponent.evMaxChanged")
             )
         )
 	)
@@ -510,6 +541,7 @@
 		(var energyMax:number = "energyComponent.max")
 		(var energyPercent:number = "energyValue / energyMax")
 
+		
 		(var pingerGunEntity:gfx = "$datahub.getPrimaryEntity(CC.weapon, WeaponType.PINGER)")
 		(var selectedIndex:number = "pingerGunEntity.weaponControl.selectedIndex" (event "pingerGunEntity.weaponControl.evSelectedIndexChanged"))
 		(var pingEnergyCost:number = "pingerGunEntity.weaponControl.ammoTypes[selectedIndex]")
@@ -552,7 +584,7 @@
 		(var energyValue:number = "energyComponent.value" (event "energyComponent.evValueChanged"))
 		(var energyMax:number = "energyComponent.max")
 		(var energyPercent:number = "energyValue / energyMax")
-
+		
 		(var pingerGunEntity:gfx = "$datahub.getPrimaryEntity(CC.weapon, WeaponType.PINGER)")
 		(var selectedIndex:number = "pingerGunEntity.weaponControl.selectedIndex" (event "pingerGunEntity.weaponControl.evSelectedIndexChanged"))
 		(var pingEnergyCost:number = "pingerGunEntity.weaponControl.ammoTypes[selectedIndex]")
@@ -619,7 +651,7 @@
 	(class $FullsizeAbsolute)
 
 	(controller $Repeat renderer = 'FireItem'
-		(bind count "entity.burnModule.coordArray.length")
+		(bind count "entity ? entity.burnModule.coordArray.length : 0")
 		(args _entityId = "entityId")
 		(exprs
 			(scope
@@ -629,7 +661,7 @@
 	)
 
 	(controller $Repeat renderer = 'FloodItem'
-		(bind count "entity.floodModule.coordArray.length")
+		(bind count "entity ? entity.floodModule.coordArray.length : 0")
 		(args _entityId = "entityId")
 		(exprs
 			(scope

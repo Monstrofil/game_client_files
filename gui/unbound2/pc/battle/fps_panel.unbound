@@ -16,10 +16,9 @@
 
 (def element FpsPanel() layout=true
 	(scope      
-		(var battleInfo:gfx = "$datahub.getSingleComponent(CC.pingLagInfo)")
-		(var timer:gfx = "$datahub.getSingleComponent(CC.timer)")
-		(var fps:number = "battleInfo.fps" (event "timer.evInfrequent"))
-		(var ping:number = "battleInfo.ping" (event "timer.evInfrequent"))
+		(var info:cpp = "$DataCenter.battle.info")
+		(var fps:number = "info.FPS" (event "info.evChanged"))
+		(var ping:number = "info.Ping" (event "info.evChanged"))
 	)
 
 	(style

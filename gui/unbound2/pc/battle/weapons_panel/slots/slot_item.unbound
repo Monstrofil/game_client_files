@@ -2,7 +2,7 @@
 (def constant SLOT_SIZE 60)
 (def constant SLOT_FX_SIZE 68)
 
-(def element SlotItem () layout=true
+(def layout SlotItem ()
 	(scope
 		(var _itemImageUrl:str = '')
 		(var _isSelectable:bool = true)
@@ -32,7 +32,7 @@
 
 	(element SlotImage
 		(scope
-			(bind _imageUrl "_itemImageUrl")
+			(bind _imageUrl "_itemImageUrl" init=false)
 		)
 		(style
 			(bind width  "_width")
@@ -85,19 +85,17 @@
 )
 
 
-(def element SlotMouseOverAnimationFrame () layout=true
+(def layout SlotMouseOverAnimationFrame (_width:number = "SLOT_FX_SIZE", _height:number = "SLOT_FX_SIZE", _slotWidth:number = "SLOT_SIZE", _slotHeight:number = "SLOT_SIZE")
 	(scope
 		(var isEnabled:bool = "false")
-		(var _width:number = "SLOT_FX_SIZE")
-		(var _height:number = "SLOT_FX_SIZE")
 	)
 
 	(alpha = 0)
 
 	(style
 		(position = "absolute")
-		(left = "-(_width - SLOT_SIZE) / 2")
-		(top = "-(_height - SLOT_SIZE) / 2")
+		(left = "-(_width - _slotWidth) / 2")
+		(top = "-(_height - _slotHeight) / 2")
 	)
 
 	(block
@@ -105,7 +103,7 @@
 			(bind width "_width")
 			(bind height "_height")
 			(backgroundSize = "fill")
-			(scale9Grid = "[4, 4, 60, 60]")
+			(scale9grid = "rect(4)")
 			(backgroundImage = "'url:../battle_hud/weapons_panel/slot/weapon_panel_slot_stroke_white.png'")
 		)
 	)
@@ -119,7 +117,7 @@
 	)
 )
 
-(def element SlotPreSelectedFrame () layout=true
+(def layout SlotPreSelectedFrame ()
 	(scope
 		(var _isPreSelected:bool = "false")
 		(var _imageUrl:str = '')
@@ -131,13 +129,11 @@
 	(style
 		(position = "absolute")
 		(bind backgroundImage "_imageUrl == '' ? 'url:../battle_hud/weapons_panel/slot/weapon_panel_slot_stroke_white.png' : _imageUrl")
-		(left = "-(_width - SLOT_SIZE) / 2")
-		(top = "-(_height - SLOT_SIZE) / 2")
+		(left = "SLOT_SIZE / 2")
+		(top = "SLOT_SIZE / 2")
+		(pivotX = "_width / 2")
+		(pivotY = "_height / 2")
 	)
-
-	(pivotX = "_width / 2")
-	(pivotY = "_height / 2")
-
 	(controller $Animation
 		(bindcall play  duration=0.15
 						from={ scaleX: 1.2, scaleY: 1.2 }
@@ -147,7 +143,7 @@
 	)
 )
 
-(def element SlotSelectedFrame (isSelectedDefault:bool) layout=true
+(def layout SlotSelectedFrame (isSelectedDefault:bool)
 	(scope
 		(var _isSelected:bool = "isSelectedDefault")
 		(var _selectedAnimation:bool = true)
@@ -155,16 +151,14 @@
 		(var _width:number = "SLOT_FX_SIZE")
 		(var _height:number = "SLOT_FX_SIZE")
 	)
-
 	(style
 		(position = "absolute")
 		(bind backgroundImage "_imageUrl == '' ? 'url:../battle_hud/weapons_panel/slot/weapon_panel_slot_stroke_green.png' : _imageUrl")
-		(left = "-(_width - SLOT_SIZE) / 2")
-		(top = "-(_height - SLOT_SIZE) / 2")
+		(left = "SLOT_SIZE / 2")
+		(top = "SLOT_SIZE / 2")
+		(pivotX = "_width / 2")
+		(pivotY = "_height / 2")
 	)
-
-	(pivotX = "_width / 2")
-	(pivotY = "_height / 2")
 
 	(controller $Animation
 		(bindcall play  duration=0.15
@@ -175,7 +169,7 @@
 	)
 )
 
-(def element SlotLockedIndicator () layout=true
+(def layout SlotLockedIndicator ( )
 	(scope
 		(var isLocked:bool = "false")
 		(var _width:number = "SLOT_FX_SIZE")
@@ -219,7 +213,7 @@
 	)
 )
 
-(def element SlotImage () layout=true
+(def layout SlotImage ()
 	(scope
 		(var _imageUrl:str = '')
 	)

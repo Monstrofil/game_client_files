@@ -1,6 +1,6 @@
-(def element ParamsModifierItem(_shrinkHeight: bool) layout=true
+(def element ParamsModifierItem(_shrinkHeight: bool, _category:number, __dataItem:dict) layout=true
 	(scope
-		(var _dataItem: dict = {})
+		(var _dataItem: dict = "__dataItem")
 	)
 
 	(style 
@@ -9,10 +9,11 @@
 		(marginBottom = "M")
 		(bind marginTop "(_shrinkHeight == true) ? -S : 0")
 	)
+
 	
-	(tf 
+	(tf
 		(class $TextDefaultNM)
-		(style 
+		(style
 			(leading = "-3")
 			(width = "100%")
 		)
@@ -20,25 +21,25 @@
 		(bind text "_dataItem.attributeIDS")
 	)
 	
-	(tf 
-		(style 
+	(tf
+		(style
 			(marginLeft = "SXS - 3") 
 		)
 		(class $TextDefaultNM)
-		(bind class "_dataItem.category == 'positive' ? '$FontColorComparePositive' : 
-			_dataItem.category == 'negative' ? '$FontColorCompareNegative' : '$FontColorDefault'")
+		(bind class "_category == AttributeModifiersCategory.POSITIVE ? '$FontColorComparePositive' :
+			_category == AttributeModifiersCategory.NEGATIVE ? '$FontColorCompareNegative' : '$FontColorDefault'")
 		(bind text "_dataItem.measuredValue")
 	)
 	
-	(tf 
+	(tf
 		(style 
 			(marginLeft = "1")
 			(marginRight = "-9")
 		)
-		(bind alpha "_dataItem.category == 'positive' ? 0.65 : 0.8")
+		(bind alpha "_category == AttributeModifiersCategory.POSITIVE ? 0.65 : 0.8")
 		(class $TextDefaultNM)
-		(bind class "_dataItem.category == 'positive' ? '$FontColorComparePositive' : 
-			_dataItem.category == 'negative' ? '$FontColorCompareNegative' : '$FontColorDefault'")
+		(bind class "_category == AttributeModifiersCategory.POSITIVE ? '$FontColorComparePositive' :
+			_category == AttributeModifiersCategory.NEGATIVE ? '$FontColorCompareNegative' : '$FontColorDefault'")
 		(bind text "_dataItem.measure")
 	)
 )
@@ -61,6 +62,8 @@
 			(bind count "_attributesPositive.length")
 			(args 
 				_shrinkHeight = "_shrinkHeight"
+				_category = "AttributeModifiersCategory.POSITIVE"
+				__dataItem = "_attributesPositive[$index]"
 			)
 			(exprs
 				(scope
@@ -77,6 +80,8 @@
 			(bind count "_attributesNegative.length")
 			(args 
 				_shrinkHeight = "_shrinkHeight"
+				_category = "AttributeModifiersCategory.NEGATIVE"
+				__dataItem = "_attributesNegative[$index]"
 			)
 			(exprs
 				(scope
@@ -93,6 +98,8 @@
 			(bind count "_attributesNeutral.length")
 			(args 
 				_shrinkHeight = "_shrinkHeight"
+				_category = "AttributeModifiersCategory.NEUTRAL"
+				__dataItem = "_attributesNeutral[$index]"
 			)
 			(exprs
 				(scope

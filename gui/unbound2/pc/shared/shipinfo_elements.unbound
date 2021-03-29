@@ -1,79 +1,79 @@
 (def css $TextShipLineNormal()
-    (fontFamily = '$WWSDefaultFontBold')
-    (extends $FontColorWhite)
-    (extends $FontSizeDefault)
-    (extends $TextMouseDisable)
-    )
+	(fontFamily = '$WWSDefaultFontBold')
+	(extends $FontColorWhite)
+	(extends $FontSizeDefault)
+	(extends $TextMouseDisable)
+	)
 (def css $TextShipLinePremium()
-    (extends $TextShipLineNormal)
-    (extends $FontColorGolden)
-    )
+	(extends $TextShipLineNormal)
+	(extends $FontColorGolden)
+	)
 (def css $TextShipLineBlack()
-    (extends $TextShipLineNormal)
-    (extends $FontColorAlmostBlack)
-    )
+	(extends $TextShipLineNormal)
+	(extends $FontColorAlmostBlack)
+	)
 (def css $TextMetaHeader()
-    (extends $TextDefaultBold)
-    (extends $FontColorWhite)
-    )
+	(extends $TextDefaultBold)
+	(extends $FontColorWhite)
+	)
 (def css $TextMetaInfo()
-    (extends $TextDefault)
-    (extends $FontColorDefault)
-    )
+	(extends $TextDefault)
+	(extends $FontColorDefault)
+	)
 (def css $ShipParamTitleWidth()
-    (width = "160px")
-    )
+	(width = "160px")
+	)
 (def css $ShipParamOnePieceTitleWidth()
-    (maxWidth = "160")
-    )
+	(maxWidth = "160")
+	)
 (def css $TextShipLinePremiumAccentBold()
-    (extends $TextShipLineBoldAccent)
-    (extends $FontColorGolden)
-    )
+	(extends $TextShipLineBoldAccent)
+	(extends $FontColorGolden)
+	)
 (def css $TextShipLineBoldAccent()
-    (fontFamily = '$WWSDefaultFontBold')
-    (extends $FontColorDefault)
-    (extends $FontSizeHeader3)
-    (extends $TextMouseDisable)
-    )
+	(fontFamily = '$WWSDefaultFontBold')
+	(extends $FontColorDefault)
+	(extends $FontSizeHeader3)
+	(extends $TextMouseDisable)
+	)
 (def css $TextShipLinePremiumBold()
-    (extends $TextShipLineBold)
-    (extends $FontColorGolden)
-    )
+	(extends $TextShipLineBold)
+	(extends $FontColorGolden)
+	)
 (def css $TextShipLineBold()
-    (fontFamily = '$WWSDefaultFontBold')
-    (extends $FontColorDefault)
-    (extends $FontSizeDefault)
-    (extends $TextMouseDisable)
-    )
+	(fontFamily = '$WWSDefaultFontBold')
+	(extends $FontColorDefault)
+	(extends $FontSizeDefault)
+	(extends $TextMouseDisable)
+	)
 (def css $TextShipLineBlackAccentBold()
-    (extends $TextShipLineBoldAccent)
-    (extends $FontColorAlmostBlack)
-    )
+	(extends $TextShipLineBoldAccent)
+	(extends $FontColorAlmostBlack)
+	)
 (def css $TextShipLineBlackBold()
-    (extends $TextShipLineBold)
-    (extends $FontColorAlmostBlack)
-    )
+	(extends $TextShipLineBold)
+	(extends $FontColorAlmostBlack)
+	)
 
 (def css $TextShipHeaderNameGolden21()
-    (fontFamily = '$WWSDefaultFontBold')
-    (extends $FontColorWhite)
-    (extends $FontSizeHeader5)
-    (extends $TextMouseDisable)
-    (extends $FontColorGolden)
-    )
+	(fontFamily = '$WWSDefaultFontBold')
+	(extends $FontColorWhite)
+	(extends $FontSizeHeader5)
+	(extends $TextMouseDisable)
+	(extends $FontColorGolden)
+	)
 (def css $TextShipHeaderNameNormal21()
-    (fontFamily = '$WWSDefaultFontBold')
-    (extends $FontColorWhite)
-    (extends $FontSizeHeader5)
-    (extends $TextMouseDisable)
-    )
+	(fontFamily = '$WWSDefaultFontBold')
+	(extends $FontColorWhite)
+	(extends $FontSizeHeader5)
+	(extends $TextMouseDisable)
+	)
 (def css $TextShipHeaderNameBlack21()
-    (extends $TextShipHeaderNameNormal21)
-    (extends $FontColorAlmostBlack)
-    )
-    
-(def element ShipLineItem()
+	(extends $TextShipHeaderNameNormal21)
+	(extends $FontColorAlmostBlack)
+	)
+
+(def layout ShipLineItem()
 
 
 
@@ -113,123 +113,119 @@
 
 )
 
-(def element ShipInfoTabHeader () layout=true
-    (scope
-        (var _shipId:number = 0)
-        (var _isNotMyShip:bool = false)
-        (var _inSideCompare:bool = false)
-        (var _fromCrew:bool = false)
+(def layout ShipInfoTabHeader ()
+	(scope
+		(var _shipId:number = 0)
+		(var _isNotMyShip:bool = false)
+		(var _inSideCompare:bool = false)
+		(var _fromCrew:bool = false)
 
-        (var playerShipEntity:gfx = "$datahub.getPrimaryEntity(CC.ownShip, _shipId)")
-        (var isOwned:bool = "playerShipEntity != null")
-    )
-    
-    (macro PULL_SHIP "_shipId")
-    (macro PULL_USI "playerShipEntity")
-        
-    (scope
-        (macro SHIP_CLASS_STR "shipComponent")
-        (var shipType:str = "   shipComponent.uiSpecial  ? '_special' :
-                                shipComponent.isFarming  ? '_premium' :
-                             upgradableShipInfo.isElite  ? '_elite'
-                                                         : ''")
+		(var playerShipEntity:gfx = "$datahub.getPrimaryEntity(CC.ownShip, _shipId)")
+		(var isOwned:bool = "playerShipEntity != null")
+	)
 
-        (var shipIconPath:str = "'url:../service_kit/ship_classes/icon_default_' + toLower(shipComponent.subtype) + shipType + '.png'")
-    )
-    
-    (block
-        (style
-            (position = "absolute")
-            (width = 100%)
-            (height = 184)
-            (align = "center")
-            
-        )
-    
-        
-        (element NationFlagsBig
-            (scope
-                (bind shipCountry "shipComponent.flagName")
-            )
-            (style
-                (position = "absolute")
-                (width = 300)
-                (height = 184)
-                
-            )
-            (alpha = 0.5)
-        )   
-        
-        
-        (block 
-            (style
-                (width = 214px) 
-                (height = 126px) 
-                (marginTop = 32px) 
-                (bind backgroundImage "'url:' + shipComponent.pathPreview")
-                
-                
-            )
-        )
-        
-    )
-    
-    
-    (block
-        (style
-            
-            (marginTop = 7px) (marginBottom = 8px)
-        )
-        (class $InfoBlockHorizontalIndent)
-        
-        (hblock
-            (style (height = 25))
-            
-            (block
-                (style
-                    (width = 27)
-                    (height = 27)
-                    (marginTop = 2px)
-                    (bind backgroundImage "shipIconPath")
-                )
-            )
+	(macro PULL_SHIP "_shipId")
+	(macro PULL_USI "playerShipEntity")
 
-            
-            (block
-                
-                
-                
-                (element InvertableTextLine
-                    (scope
-                        (bind _text "shipComponent ? (shipComponent.levelRome) + ' ' + toUpper(tr(shipComponent.nameIDS + '_FULL')) : ''")
-                        (bind _invert "_fromCrew ? !isOwned : false")
-                        (bind _normalClass "(shipComponent.isFarming || shipComponent.uiSpecial) && !_isNotMyShip ? '$TextShipHeaderNameGolden21' : '$TextShipHeaderNameNormal21'")
-                        (bind _invertedClass "'$TextShipHeaderNameBlack21'")
-                    )
-                )
-            )
-        )
-        
-        
-        (block
-            (alpha = 0.8)
-            (style
-                
-            )
-            
-            (element InvertableTextLine
-                (scope
-                    (bind _text "subst('IDS_SHIP_LEVEL', [], {_shipClass: shipClass, _shipLevel: shipComponent.levelRome})")
-                    (bind _invert "_fromCrew ? !isOwned : false")
-                    (bind _normalClass "(shipComponent.isFarming || shipComponent.uiSpecial) && !_isNotMyShip ? '$TextShipLinePremium' : '$TextShipLineNormal'")
-                    (bind _invertedClass "'$TextShipLineBlack'")
-                )
-            )
-        )
-    )
+	(scope
+		(macro SHIP_CLASS_STR "shipComponent")
+		(var shipType:str = "   shipComponent.uiSpecial  ? '_special' :
+								shipComponent.isFarming  ? '_premium' :
+							 upgradableShipInfo.isElite  ? '_elite'
+														 : ''")
+
+		(var shipIconPath:str = "'url:../service_kit/ship_classes/icon_default_' + toLower(shipComponent.subtype) + shipType + '.png'")
+	)
+
+	(block
+		(style
+			(position = "absolute")
+			(width = 100%)
+			(height = 184)
+			(align = "center")
+			
+		)
+
+		
+		(element NationFlagsBig
+			(scope
+				(bind shipCountry "shipComponent.flagName")
+			)
+			(style
+				(position = "absolute")
+				(width = 300)
+				(height = 184)
+				
+			)
+			(alpha = 0.5)
+		)
+
+		
+		(block
+			(style
+				(width = 214px)
+				(height = 126px)
+				(marginTop = 32px)
+				(bind backgroundImage "'url:' + shipComponent.pathPreview")
+				
+				
+			)
+		)
+
+	)
+
+	
+	(block
+		(style
+			
+			(marginTop = 7px) (marginBottom = 8px)
+		)
+		(class $InfoBlockHorizontalIndent)
+
+		(hblock
+			(style (height = 25))
+
+			(block
+				(style
+					(width = 27)
+					(height = 27)
+					(marginTop = 2px)
+					(bind backgroundImage "shipIconPath")
+				)
+			)
+
+			
+			(block
+				
+				
+
+				(element InvertableTextLine
+					(scope
+						(bind _text "shipComponent ? (shipComponent.levelRome) + ' ' + toUpper(tr(shipComponent.nameIDS + '_FULL')) : ''")
+						(bind _invert "_fromCrew ? !isOwned : false")
+						(bind _normalClass "(shipComponent.isFarming || shipComponent.uiSpecial) && !_isNotMyShip ? '$TextShipHeaderNameGolden21' : '$TextShipHeaderNameNormal21'")
+						(bind _invertedClass "'$TextShipHeaderNameBlack21'")
+					)
+				)
+			)
+		)
+
+		
+		(block
+			(alpha = 0.8)
+			(element InvertableTextLine
+				(scope
+					(bind _text "subst('IDS_SHIP_LEVEL', [], {_shipClass: shipClass, _shipLevel: shipComponent.levelRome})")
+					(bind _invert "_fromCrew ? !isOwned : false")
+					(bind _normalClass "(shipComponent.isFarming || shipComponent.uiSpecial) && !_isNotMyShip ? '$TextShipLinePremium' : '$TextShipLineNormal'")
+					(bind _invertedClass "'$TextShipLineBlack'")
+				)
+			)
+		)
+	)
 )
 
-(def element TitleDefaultMockup()
+(def layout TitleDefaultMockup()
 
 
 
@@ -248,7 +244,7 @@
 
 
 )
-(def element TitleVertMockup()
+(def layout TitleVertMockup()
 
 
 
@@ -277,7 +273,7 @@
 
 )
 
-(def element ShipInfoTabRow()
+(def layout ShipInfoTabRow()
 
 
 
@@ -502,59 +498,52 @@
 
 
 )
-(def element ShipDescription() layout=true
-    (scope
-        (var _shipNameIDS:str = '') 
-        (var _needShowProjectYear:bool = false) 
-        (var _isPaperShip:bool = false)
-        (var _peculiarity:str = '')
-    )
-    
-    (style
-        
-        
-        
-    )
-    
-    (class $InfoBlockIndent)
-    (block 
-        (bind visible "_peculiarity == 'default' && _needShowProjectYear")
-        (style 
-            (width = "100%")
-            (marginTop = "-3px")
-        )
-        (hblock 
-            (tf 
-                (class $TextSecondary)
-                (bind text "(_isPaperShip ? tr('IDS_PROJECT_YEAR') : tr('IDS_RELEASE_YEAR')) + tr('IDS_COLON')")
-            )
-            (tf 
-                (class $TextSecondaryBold)
-                (bind text "_shipNameIDS + '_YEAR'")
-            )
-        )
-        (hblock 
-            (class $AlignRight)
-            (bind visible "_isPaperShip != true")
-            (tf 
-                (class $TextSecondary)
-                (bind text "tr('IDS_SHIPS_IN_SERIES') + tr('IDS_COLON')")
-            )
-            (tf 
-                (class $TextSecondaryBold)
-                (bind text "_shipNameIDS + '_NUMBER'")
-            )
-        )
-    )
-    (tf 
-        
-        (class $TextSecondaryBold)
-        (style 
-            (width = "100%")
-            (bind marginTop "(_peculiarity  ==  'default')  ?  3  :  -2")
-        )
-        (bind text "_shipNameIDS + '_DESCR'")
-    )
+(def layout ShipDescription()
+	(scope
+		(var _shipNameIDS:str = '')
+		(var _needShowProjectYear:bool = false)
+		(var _isPaperShip:bool = false)
+		(var _peculiarity:str = '')
+	)
+	(class $InfoBlockIndent)
+	(block
+		(bind visible "_peculiarity == 'default' && _needShowProjectYear")
+		(style
+			(width = "100%")
+			(marginTop = "-3px")
+		)
+		(hblock
+			(tf
+				(class $TextSecondary)
+				(bind text "(_isPaperShip ? tr('IDS_PROJECT_YEAR') : tr('IDS_RELEASE_YEAR')) + tr('IDS_COLON')")
+			)
+			(tf
+				(class $TextSecondaryBold)
+				(bind text "_shipNameIDS + '_YEAR'")
+			)
+		)
+		(hblock
+			(class $AlignRight)
+			(bind visible "_isPaperShip != true")
+			(tf
+				(class $TextSecondary)
+				(bind text "tr('IDS_SHIPS_IN_SERIES') + tr('IDS_COLON')")
+			)
+			(tf
+				(class $TextSecondaryBold)
+				(bind text "_shipNameIDS + '_NUMBER'")
+			)
+		)
+	)
+	(tf
+		
+		(class $TextSecondaryBold)
+		(style
+			(width = "100%")
+			(bind marginTop "(_peculiarity  ==  'default')  ?  3  :  -2")
+		)
+		(bind text "_shipNameIDS + '_DESCR'")
+	)
 )
 (def element ShipParamsList() layout=true
 
@@ -563,7 +552,8 @@
 
 
 )
-(def element ShipParamsListView() layout=true
+(def layout ShipParamsListView()
+
 
 
 
@@ -748,48 +738,46 @@
 
 
 )
-(def element LabelComingSoon() layout=true
-    (scope
-        (var _showTestSampleLabel:bool = false)
-    )
-    (style 
-        (width = 100%)
-        (height = 80px)
-        
-        (align = "middle|center")
-    )
-    
-    (block
-        (style
-            (width = 100%)
-            
-            (align = "center")
-        )
-        (rotation = -6)
-        (pivotX = "TOOLTIP_SHIP_MAX_WIDTH/2")
-        (pivotY = "80/2")
-                  
-        (block
-            (style
-                (backgroundImage = 'symbol:coming_soon_frame')
-                (backgroundSize = "fill")
-                
-            )
-            (tf
-                (class $TextAccentBold)
-                (class $FontColorWhite)
-                (style
-                   (marginTop = 2px)
-                   (marginBottom = 2px)
-                   (marginLeft = 10px)
-                   (marginRight = 10)
-                )
-                
-                (bind text "_showTestSampleLabel ? toUpper(tr('IDS_TEST_SAMPLE')) : toUpper(tr('IDS_UNAVAILABLE_TO_DISPLAY_SOON'))")                    
-            )
-        )
-    
-    )
+(def layout LabelComingSoon()
+	(scope
+		(var _showTestSampleLabel:bool = false)
+	)
+	(style
+		(width = 100%)
+		(height = 80px)
+		
+		(align = "middle|center")
+	)
+
+	(block
+		(style
+			(width = 100%)
+			
+			(align = "center")
+			(rotation = -6)
+			(pivotX = "TOOLTIP_SHIP_MAX_WIDTH/2")
+			(pivotY = "80/2")
+		)
+		(block
+			(style
+				(backgroundImage = 'symbol:coming_soon_frame')
+				(backgroundSize = "fill")
+				
+			)
+			(tf
+				(class $TextAccentBold)
+				(class $FontColorWhite)
+				(style
+					(marginTop = 2px)
+					(marginBottom = 2px)
+					(marginLeft = 10px)
+					(marginRight = 10)
+				)
+
+				(bind text "_showTestSampleLabel ? toUpper(tr('IDS_TEST_SAMPLE')) : toUpper(tr('IDS_UNAVAILABLE_TO_DISPLAY_SOON'))")
+			)
+		)
+	)
 )
 (def element ShipResearchBlock() layout=true
 

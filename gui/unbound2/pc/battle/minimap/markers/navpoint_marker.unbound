@@ -6,12 +6,13 @@
 		(var minimapPath:array = "autopilotPathEntity.autopilotPath.minimapPath" (event "autopilotPathEntity.autopilotPath.evMinimapPathChanged"))
 
 		(var vehicleEntity:gfx = "$datahub.getSingleEntity(CC.selfVehicle)")
+		(var mapPositionComponent:gfx = "vehicleEntity.mapPosition")
 		(var timer:gfx = "$datahub.getSingleComponent(CC.timer)")
 	)
 
 	(mc 'lesta.libs.unbound2.AutopilotPathDrawer'
 		(bindcall setSettings "scaleRatio" "autopilotPathEntity.autopilotPath.color" init=true)
 		(bindcall drawPathByCoords "minimapPath" init=true)
-		(bindcall drawBowPoint "vehicleEntity.mapPosition.position" watch=false (event "timer.evFrequent"))
+		(bindcall drawBowPoint "mapPositionComponent ? mapPositionComponent.position : null" watch=false (event "timer.evFrequent"))
 	)
 )

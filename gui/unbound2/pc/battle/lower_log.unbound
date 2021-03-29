@@ -3,17 +3,17 @@
 (def constant LOWER_LOG_LOW_RESOLUTION_HEIGHT 20)
 (def constant LOWER_LOG_MESSAGE_MARGIN 4)
 
-(def constant LOWER_LOG_MESSAGE_RENDERERS ['LowerLogSignleLine', 'LowerLogModifierAppliedMessage'])
+(def constant LOWER_LOG_MESSAGE_RENDERERS ['LowerLogSingleLine', 'LowerLogMultiLineMessage'])
 
 
 (def element LowerLog() layout=true dispatch_size_change=true
-    (scope
-        (var messagesCollection:gfx = "$datahub.getCollection(CC.lowerLogMessage)")
+	(scope
+		(var messagesCollection:gfx = "$datahub.getCollection(CC.lowerLogMessage)")
 		(var stageComponent:gfx = "$datahub.getSingleComponent(CC.stage)")
 		(var stageWidth:number = "stageComponent.width" (event "stageComponent.evStageSizeChanged"))
 		(var stageHeight:number = "stageComponent.height" (event "stageComponent.evStageSizeChanged"))
 		(var isHighResolution:bool = "stageHeight >= 1080" (event "stageComponent.evStageSizeChanged"))
-    )
+	)
 
 	(style
 		(bind height "isHighResolution ? LOWER_LOG_MESSAGE_HEIGHT * 3 + LOWER_LOG_MESSAGE_MARGIN * 2 : LOWER_LOG_LOW_RESOLUTION_HEIGHT * 2 + LOWER_LOG_MESSAGE_MARGIN")
@@ -35,18 +35,21 @@
 )
 
 
-(def element LowerLogMessage() layout=true dispatch_size_change=true
+(def element LowerLogMessage () layout=true
 	(scope
 		(var messagesCollection:gfx = "$datahub.getCollection(CC.lowerLogMessage)")
 		(var message:gfx = "messagesCollection.items[$index]" watch=false)
 		(var indexTo:number = "message.lowerLogMessage.indexTo" (event "messagesCollection.evAdded")(event "messagesCollection.evRemoved")(event "message.lowerLogMessage.evMove")(event "message.lowerLogMessage.evShow"))
 		(var indexFrom:number = "message.lowerLogMessage.indexFrom" (event "message.lowerLogMessage.evMove"))
-		(var lowerLogItemName:str = "message.lowerLogMessage.itemRendererId ? LOWER_LOG_MESSAGE_RENDERERS[message.lowerLogMessage.itemRendererId] : LOWER_LOG_MESSAGE_RENDERERS[SC.Common.LOWER_LOG_ITEM_RENDERERS.DEFAULT]")
+		(var itemRendererId:number = "message.lowerLogMessage.itemRendererId")
+		(var lowerLogItemName:str = "itemRendererId ? LOWER_LOG_MESSAGE_RENDERERS[itemRendererId] : LOWER_LOG_MESSAGE_RENDERERS[SC.Common.LOWER_LOG_ITEM_RENDERERS.DEFAULT]")
 
 		
 		(var stageComponent:gfx = "$datahub.getSingleComponent(CC.stage)")
-		(var stageHeight:number = "stageComponent.height" (event "stageComponent.evStageSizeChanged"))
-		(var messageHeight:number = "stageHeight < 1080 ? LOWER_LOG_LOW_RESOLUTION_HEIGHT : LOWER_LOG_MESSAGE_HEIGHT") 
+		(var isHighResolution:bool = "stageComponent.height >= 1080" (event "stageComponent.evStageSizeChanged"))
+
+		(var messageHeight:number = "itemRendererId == SC.Common.LOWER_LOG_ITEM_RENDERERS.DEFAULT	? (isHighResolution ? LOWER_LOG_MESSAGE_HEIGHT : LOWER_LOG_LOW_RESOLUTION_HEIGHT)
+																									: (isHighResolution ? LOWER_LOG_MESSAGE_HEIGHT * 2 + LOWER_LOG_MESSAGE_MARGIN : LOWER_LOG_LOW_RESOLUTION_HEIGHT * 2 + LOWER_LOG_MESSAGE_MARGIN)") 
 	)
 	(style
 		(position = "absolute")
@@ -95,7 +98,7 @@
 	)
 )
 
-(def element LowerLogSignleLine (_message:gfx) layout=true
+(def element LowerLogSingleLine (_message:gfx) layout=true
 	(scope
 		(var message:gfx = "_message" watch=false)
 		
@@ -120,10 +123,11 @@
 			(marginLeft = "30")
 			(marginRight = "30")
 			(marginTop = "4")
+			(bind height "messageHeight")
 		)
 		
 		(block
-			(style 
+			(style
 				(marginRight = "S")
 				(width = "30")
 				(height = "30")
@@ -134,20 +138,23 @@
 
 			(bind visible "icon != ''")
 		)
-
-		(tf
-			(bind class "stageWidth > 1280 ? '$TextDefaultBoldNM19' : '$TextDefaultBoldNM17'")
-			(style 
-				(textAlign = "center")
-				(bind textColor "color ? color : null")
+		(block
+			(style
 				(marginTop = -50%)
 			)
-			(bindcall substitute imageOffset="6"  substitutionMap="substituteMap" 	sourceText="textIDS"  postfix='' init=true)
+			(tf
+				(class "stageWidth > 1280 ? '$TextDefaultBoldNM19' : '$TextDefaultBoldNM17'")
+				(style
+					(textAlign = "center")
+					(bind textColor "color")
+				)
+				(bindcall substitute imageOffset="6"  substitutionMap="substituteMap" 	sourceText="textIDS"  postfix='' init=true)
+			)
 		)
 	)
 )
 
-(def element LowerLogModifierAppliedMessage (_message:gfx) layout=true
+(def element LowerLogMultiLineMessage (_message:gfx) layout=true
 	(scope
 		(var stageComponent:gfx = "$datahub.getSingleComponent(CC.stage)")
 		(var stageWidth:number = "stageComponent.width" (event "stageComponent.evStageSizeChanged"))
@@ -160,19 +167,40 @@
 		(var secondaryIDS:str = "message.lowerLogMessage.extraText")
 
 		(var isHighResolution:bool = "stageHeight >= 1080" (event "stageComponent.evStageSizeChanged"))
+
+		(var battleDataEntity:gfx = "$datahub.getSingleEntity(CC.battleData)")
+		(var gameModeId:number = "battleDataEntity.battleInfo.gameModeId")
+		(var isDiplomacyBg:bool = "gameModeId == SC.Battle.GAME_MODE.PORTAL_2021 || gameModeId == SC.Battle.GAME_MODE.TEAM_BATTLE_ROYALE_2021")
 	)
 
 	(style 
-		(bind height "isHighResolution ? LOWER_LOG_MESSAGE_HEIGHT * 2 + LOWER_LOG_MESSAGE_MARGIN : LOWER_LOG_LOW_RESOLUTION_HEIGHT * 2 + LOWER_LOG_MESSAGE_MARGIN")
+		(bind height "isHighResolution ? LOWER_LOG_MESSAGE_HEIGHT * 2 : LOWER_LOG_LOW_RESOLUTION_HEIGHT * 2")
 		(marginLeft = "-50%")
 	)
 
-	(hblock	
+	(hblock
 		(style			
 			(height = "100%")
-			(backgroundSize = "fill")
-			(bind backgroundImage "'url:../central_log/lower_log_bg_9scale.png'")
-			(scale9Grid = "[4, 4, 2, 4]")
+			(align = "middle")
+		)
+
+		(block
+			(bind visible "isDiplomacyBg")
+			(macro DIPLOMACY_BG )
+			(class $FullsizeAbsolute)
+		)
+
+		(block
+			(bind visible "!isDiplomacyBg")
+			(class $FullsizeAbsolute)
+			
+			(style			
+				(height = "100%")
+				(backgroundSize = "fill")
+				(bind backgroundImage "'url:../battle_hud/central_log/lower_log_bg_9scale.png'")
+				(scale9grid = "rect(4, 3, 4, 3)")
+				(align = "middle")
+			)
 		)
 
 		(block
@@ -195,30 +223,33 @@
 			)
 
 			(block
-				(style
-					(bind marginTop "isHighResolution ? M : S")
-				)
-
 				(tf
-					(bind class "isHighResolution ? '$TextDefaultBoldNM19' : '$TextDefaultBoldNM17'")
+					(class "isHighResolution ? '$TextDefaultBoldNM19' : '$TextDefaultBoldNM17'")
 					(style
-						(bind textColor "color ? color : null")
+						(bind textColor "color")
 					)
-
 					(bind text "textIDS")
 				)
 			)
 
 			(block
+				(bind visible "secondaryIDS")
 				(style 
 					(bind marginTop "isHighResolution ? S : 6")
 				)
-				
 				(tf
-					(bind class "isHighResolution ? '$TextDefaultNM' : '$TextDefaultNM13'")					
+					(bind class "isHighResolution ? '$TextDefaultNM' : '$TextDefaultNM13'")
 					(bind text "secondaryIDS")
 				)
 			)
 		)
+	)
+)
+
+(def macro LOWER_LOG_BG ()
+	(style
+		(backgroundSize = "fill")
+		(backgroundImage = "'url:../battle_hud/central_log/lower_log_bg_9scale.png'")
+		(scale9grid = "rect(4, 4, 4, 4)")	
 	)
 )

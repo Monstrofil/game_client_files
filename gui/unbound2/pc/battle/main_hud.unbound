@@ -3,12 +3,20 @@
 		(var avatarEntity:gfx = "$datahub.getSingleEntity(CC.playerAvatar)")
 		(var isAlive:bool = "avatarEntity.health.isAlive" (event "avatarEntity.health.evIsAliveChanged"))
 		(var shipType:str = "avatarEntity.avatar.ship.ref.ship.subtype")
-		(var isAircraftHudVisible:bool = "avatarEntity.avatar.ship.ref.ship.subtype == ShipTypes.AIRCARRIER")
 		(var isSubmarineHudVisible:bool = "avatarEntity.avatar.ship.ref.ship.subtype == ShipTypes.SUBMARINE")
+
+		(var aircarrierSqudronsCollection:gfx = "$datahub.getCollection(CC.ownSquadron)")
+		(var isAircraftHudVisible:bool = "aircarrierSqudronsCollection.items.length > 0")
 
 		(var stageComponent:gfx = "$datahub.getSingleEntity(CC.stage).stage")
 		(var stageWidth:number = "stageComponent.width" (event "stageComponent.evStageSizeChanged"))
 		(var stageHeight:number = "stageComponent.height" (event "stageComponent.evStageSizeChanged"))
+
+		(var diplomacyCollection:gfx = "$datahub.getCollection(CC.diplomacyRelation)")
+		(var hasDiplomacyItems:bool = "diplomacyCollection.items.length > 0" (event "diplomacyCollection.evAdded"))
+
+		(var inGameLeveling:gfx = "$datahub.getCollection(CC.battleLeveling)")
+		(var hasInGameLeveling:bool = "inGameLeveling.items.length > 0" (event "inGameLeveling.evAdded")(event "inGameLeveling.evRemoved"))
 	)
 
 	(style
@@ -23,11 +31,54 @@
 	(controller $Instance renderer='SubmarineHud'
 		(bind enabled "isSubmarineHudVisible == true")
 	)
-
 	
 	
 
 	
+
+	(controller $Instance renderer='DiplomacyHud'
+		(bind enabled "hasDiplomacyItems && isAlive")
+	)
+
+	(block
+		(style
+			(width = 100%)
+			(marginLeft = 50%)
+			(paddingTop = "MS + 1")
+		)
+
+		(controller $Instance renderer='InGameLevelingHolder'
+			(bind enabled "isAlive && hasInGameLeveling")
+			(exprs
+				(style
+					(marginLeft = -50%)
+				)
+			)
+		)
+
+		(controller $Instance renderer='InGameBonusSelector'
+			(bind enabled "isAlive")
+			(exprs
+				(style
+					(marginTop = "XS")
+					(marginLeft = -50%)
+				)
+			)
+		)
+	)
+
+	(controller $Instance renderer='DiplomacyEventsHolder'
+		(bind enabled "hasDiplomacyItems && isAlive")
+	)
+
+	(block
+		(style
+			(position = "absolute")
+			(width = 100%)
+			(height = 100%)
+		)
+		(element ScenarioTaskExtraHudTimers)
+	)
 )
 
 (def macro DRAW_GUIDE (_x1:expression, _y1:expression, _x2:expression, _y2:expression)

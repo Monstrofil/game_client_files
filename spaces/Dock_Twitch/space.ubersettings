@@ -7,6 +7,9 @@
 				<farPlane>
 					<value>	5000.0000	</value>
 				</farPlane>
+				<useNewSkyInterpolation>
+					<value>	false	</value>
+				</useNewSkyInterpolation>
 			</settings>
 			<Decals>
 				<settings>
@@ -23,9 +26,6 @@
 					<lightMapShadow>
 						<value>	spaces/Dock_Twitch/lightmap_shadow.dds	</value>
 					</lightMapShadow>
-					<lightMapAO>
-						<value>	spaces/Dock/lightmap_ao.tga	</value>
-					</lightMapAO>
 					<lightMapIndirection>
 						<value>	spaces/Dock_Twitch/lightMapIndirection.dds	</value>
 					</lightMapIndirection>
@@ -106,12 +106,18 @@
 				<uiBrightnessMultiplier>
 					<value>	1.0000	</value>
 				</uiBrightnessMultiplier>
-				<minSmokeTracerBrightness>
-					<value>	1.0000	</value>
-				</minSmokeTracerBrightness>
-				<maxSmokeTracerBrightness>
-					<value>	1.0000	</value>
-				</maxSmokeTracerBrightness>
+				<tracerAmbientMultiplier>
+					<value>	0.1500	</value>
+				</tracerAmbientMultiplier>
+				<tracerSunMultiplier>
+					<value>	0.1000	</value>
+				</tracerSunMultiplier>
+				<tracerSmokeTint>
+					<value>	0.5000 0.5000 0.5000 1.0000	</value>
+				</tracerSmokeTint>
+				<AAtracerSmokeTint>
+					<value>	1.0000 1.0000 1.0000 1.0000	</value>
+				</AAtracerSmokeTint>
 			</settings>
 			<Fog>
 				<settings>
@@ -235,24 +241,18 @@
 						<whitePoint>
 							<value>	1.5000	</value>
 						</whitePoint>
-						<contrast>
-							<value>	5.0000	</value>
-						</contrast>
-						<whiteClip>
-							<value>	5.0000	</value>
-						</whiteClip>
 					</settings>
 				</Tonemapping>
 				<Environment>
 					<settings>
 						<skyLumMultiplier>
-							<value>	1.0000	</value>
+							<value>	0.1000	</value>
 						</skyLumMultiplier>
 						<sunlightLumMultiplier>
 							<value>	1.0000	</value>
 						</sunlightLumMultiplier>
 						<ambientLumMultiplier>
-							<value>	1.0000	</value>
+							<value>	0.9000	</value>
 						</ambientLumMultiplier>
 					</settings>
 				</Environment>
@@ -552,9 +552,6 @@
 				<HDRCompose>
 					<settings />
 				</HDRCompose>
-				<Colorblind>
-					<settings />
-				</Colorblind>
 			</PostFX>
 			<Sea>
 				<settings />
@@ -604,20 +601,35 @@
 							<value>	1.4780	</value>
 						</subSurfaceThickness>
 						<subSurfaceBrightness>
-							<value>	1.0000	</value>
+							<value>	0.9000	</value>
 						</subSurfaceBrightness>
 						<turbidColor>
-							<value>	0.1209 0.2667 0.1180 0.3333	</value>
+							<value>	0.3114 0.5427 0.8675 0.3294	</value>
 						</turbidColor>
+						<turbidGlobalBrightness>
+							<value>	0.0100	</value>
+						</turbidGlobalBrightness>
+						<turbidLocalBrightness>
+							<value>	0.0250	</value>
+						</turbidLocalBrightness>
 						<rgbAbsorption>
 							<value>	2.0000 7.0000 8.0000 1.0000	</value>
 						</rgbAbsorption>
 						<sunGlitterIntensity>
-							<value>	0.8000	</value>
+							<value>	0.2420	</value>
 						</sunGlitterIntensity>
 						<sunGlitterGlossiness>
-							<value>	0.8500	</value>
+							<value>	0.5710	</value>
 						</sunGlitterGlossiness>
+						<reflectionMapSpecIntensity>
+							<value>	0.7500	</value>
+						</reflectionMapSpecIntensity>
+						<reflectionMapSpecRoughness>
+							<value>	0.7760	</value>
+						</reflectionMapSpecRoughness>
+						<momentsFresnelInfluence>
+							<value>	1.0000	</value>
+						</momentsFresnelInfluence>
 					</settings>
 					<SeaShadows>
 						<settings>
@@ -642,7 +654,7 @@
 							<value>	0.9100	</value>
 						</sunRefractionIndex>
 						<sunGlitterIntensity>
-							<value>	0.8000	</value>
+							<value>	0.3200	</value>
 						</sunGlitterIntensity>
 						<sunGlitterGlossiness>
 							<value>	0.6000	</value>
@@ -737,25 +749,25 @@
 							<value>	0.0000	</value>
 						</seaLevel>
 						<simpleWavesScale>
-							<value>	1.0000	</value>
+							<value>	1.4500	</value>
 						</simpleWavesScale>
 						<simpleWavesSpeed>
 							<value>	0.0550	</value>
 						</simpleWavesSpeed>
 						<simpleWavesAmplitude>
-							<value>	0.2680	</value>
+							<value>	0.3500	</value>
 						</simpleWavesAmplitude>
 						<wavesScales0>
-							<value>	0.0450 4.0000 1.5000 0.0800	</value>
+							<value>	0.0450 4.0000 1.5000 0.2800	</value>
 						</wavesScales0>
 						<wavesScales1>
-							<value>	0.6500 1.0000 1.0000 0.9500	</value>
+							<value>	0.6500 1.0000 1.0000 1.9500	</value>
 						</wavesScales1>
 						<wavesScales2>
 							<value>	0.9000 0.3500 1.0000 0.3000	</value>
 						</wavesScales2>
 						<wavesScales3>
-							<value>	3.5000 0.0800 1.0000 -1.8000	</value>
+							<value>	3.5000 0.0800 1.0000 0.0000	</value>
 						</wavesScales3>
 						<simpleWavesWindAngle>
 							<value>	140.0000	</value>
@@ -763,6 +775,15 @@
 						<wavesWindAngles>
 							<value>	30.0000 -30.0000 15.0000 -15.0000	</value>
 						</wavesWindAngles>
+						<variationMapPower>
+							<value>	1.9000	</value>
+						</variationMapPower>
+						<variationMapThreshold>
+							<value>	0.2830	</value>
+						</variationMapThreshold>
+						<variationMapScale>
+							<value>	1.4400	</value>
+						</variationMapScale>
 					</settings>
 				</Simulation>
 			</Sea>
@@ -805,51 +826,63 @@
 				</SunDisk>
 				<SkyDome>
 					<settings>
+						<skyDomeModel>
+							<value>	content\location\skybox\LK001_moving\LK001_moving.visual	</value>
+						</skyDomeModel>
 						<skyDomeYaw>
 							<value>	234.9470	</value>
 						</skyDomeYaw>
-						<parallax>
-							<value>	0.0100	</value>
-						</parallax>
-						<windSpeed>
-							<value>	0.0050	</value>
-						</windSpeed>
-						<windDir>
-							<value>	-1.0000 -0.8000	</value>
-						</windDir>
-						<scrollDist>
-							<value>	0.1000	</value>
-						</scrollDist>
-						<horizonFactor>
-							<value>	0.0100	</value>
-						</horizonFactor>
-						<distorDistanceFalloff>
-							<value>	6.0000	</value>
-						</distorDistanceFalloff>
 						<skyDomeTexture>
 							<value>	content/location/skybox/textures/Dock_Twitch_HDR_48_Cloudy.dds	</value>
 						</skyDomeTexture>
+						<cycleFrequency>
+							<value>	0.0100	</value>
+						</cycleFrequency>
+						<parallax>
+							<value>	0.0100	</value>
+						</parallax>
+						<windYaw>
+							<value>	108.7658	</value>
+						</windYaw>
+						<windScrollDist>
+							<value>	0.0500	</value>
+						</windScrollDist>
+						<windHorizonFactor>
+							<value>	0.0100	</value>
+						</windHorizonFactor>
+						<windHorizonDistancePower>
+							<value>	6.0000	</value>
+						</windHorizonDistancePower>
+						<skyDomeFlowMap>
+							<value>	null	</value>
+						</skyDomeFlowMap>
+						<flowMapMultiplier>
+							<value>	0.1000	</value>
+						</flowMapMultiplier>
+						<blendingDuration>
+							<value>	1.0000	</value>
+						</blendingDuration>
+						<skyDomeBlendMap>
+							<value>	null	</value>
+						</skyDomeBlendMap>
+						<blendingMapTiling>
+							<value>	0.0000	</value>
+						</blendingMapTiling>
+						<blendingMapWindFactor>
+							<value>	0.0000	</value>
+						</blendingMapWindFactor>
+						<blendingMapFlowFactor>
+							<value>	0.0000	</value>
+						</blendingMapFlowFactor>
+						<blendingMapCycleFrequency>
+							<value>	0.5000	</value>
+						</blendingMapCycleFrequency>
 						<cloudsMaskTexture>
 							<value>	null	</value>
 						</cloudsMaskTexture>
 						<starsBrightness>
 							<value>	0.0000	</value>
 						</starsBrightness>
-						<isCIESkyEnabled>
-							<value>	false	</value>
-						</isCIESkyEnabled>
-						<cieSkyType>
-							<value>	2.0000	</value>
-						</cieSkyType>
-						<cieSkyLuminance>
-							<value>	1.0000	</value>
-						</cieSkyLuminance>
-						<cieSkySaturation>
-							<value>	0.8000	</value>
-						</cieSkySaturation>
-						<cieSkyUseLumMask>
-							<value>	1.0000	</value>
-						</cieSkyUseLumMask>
 					</settings>
 					<CloudsShadows>
 						<settings>
@@ -860,10 +893,10 @@
 								<value>	content/location/skybox/textures/cloud_shadows/CloudShadows_Blurred_med_01.dds	</value>
 							</cloudsShadowMapTextureLayer1>
 							<intensityLayer0>
-								<value>	0.3500	</value>
+								<value>	0.2500	</value>
 							</intensityLayer0>
 							<intensityLayer1>
-								<value>	0.5930	</value>
+								<value>	0.4020	</value>
 							</intensityLayer1>
 							<scaleLayer0>
 								<value>	1.2960	</value>
@@ -887,25 +920,25 @@
 						<value>	1.0000	</value>
 					</luminanceFactor>
 					<maxSkyFactor>
-						<value>	1.5000	</value>
+						<value>	1.0000	</value>
 					</maxSkyFactor>
 					<skyFactorHorizonOffset>
-						<value>	0.2000	</value>
+						<value>	0.0000	</value>
 					</skyFactorHorizonOffset>
 					<skyFactorHorizonRange>
-						<value>	0.4000	</value>
+						<value>	0.0000	</value>
 					</skyFactorHorizonRange>
 					<maxSunFactor>
-						<value>	2.0000	</value>
+						<value>	1.0000	</value>
 					</maxSunFactor>
 					<sunFactorRange>
-						<value>	0.5000	</value>
+						<value>	0.0000	</value>
 					</sunFactorRange>
 					<maxSunReflectionFactor>
-						<value>	1.5000	</value>
+						<value>	3.0000	</value>
 					</maxSunReflectionFactor>
 					<sunReflectionRange>
-						<value>	0.0500	</value>
+						<value>	0.2000	</value>
 					</sunReflectionRange>
 					<underwaterFadingDepth>
 						<value>	15.0000	</value>

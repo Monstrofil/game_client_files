@@ -8,23 +8,26 @@
 
 (def macro SHIP_CLASS_STR (shipComponent:expression)
 	(var shipClass:str =    "(shipComponent.subtype == ShipTypes.CRUISER) 		? tr('IDS_CRUISER') :
-	                        (shipComponent.subtype == ShipTypes.AIRCARRIER)		? tr('IDS_AIRCARRIER') :
+							(shipComponent.subtype == ShipTypes.AIRCARRIER)		? tr('IDS_AIRCARRIER') :
 							(shipComponent.subtype == ShipTypes.BATTLESHIP) 	? tr('IDS_BATTLESHIP') : 
-	                        (shipComponent.subtype == ShipTypes.AUXILIARYSHIP) 	? tr('IDS_AUXILIARY') :
-	                        (shipComponent.subtype == ShipTypes.SUBMARINE)		? tr('IDS_SUBMARINE') 
-	                                                            				: tr('IDS_DESTROYER')"
-    )			
+							(shipComponent.subtype == ShipTypes.AUXILIARYSHIP) 	? tr('IDS_AUXILIARY') :
+							(shipComponent.subtype == ShipTypes.SUBMARINE)		? tr('IDS_SUBMARINE') 
+																				: tr('IDS_DESTROYER')"
+	)			
 )
 
 
 (def macro trace(expr:expression)
 	(block
 		(style 
-			(backgroundColor = "0xFF000000")
+			(backgroundColor = "0x88000000")
 		)
 		(tf
 			(class $TextDefault)
 			(autoSize='left')
+			(style
+				(autoSize=true) 
+			)
 			(bind text "expr")
 		)
 	)
@@ -125,26 +128,26 @@
 )
 
 (def macro FAIR_SCALE (scale:expression)
-    (scaleX = "scale")
-    (scaleY = "scale")
-    (style
-        (ubScaleX = "scale")
-        (ubScaleY = "scale")
-    )
+	(scaleX = "scale")
+	(scaleY = "scale")
+	(style
+		(ubScaleX = "scale")
+		(ubScaleY = "scale")
+	)
 )
 
 (def macro BIND_FAIR_SCALE (scale:expression)
-    (bind scaleX "scale")
-    (bind scaleY "scale")
-    (style
-        (bind ubScaleX "scale")
-        (bind ubScaleY "scale")
-    )
+	(bind scaleX "scale")
+	(bind scaleY "scale")
+	(style
+		(bind ubScaleX "scale")
+		(bind ubScaleY "scale")
+	)
 )
 
 (def macro HIDE_UI_CMD ()
 	(scope
-        (var cmdEntity:gfx = "$datahub.getPrimaryEntity(CC.commandMappingCommandName, 'CMD_HIDE_INTERFACE')")
+		(var cmdEntity:gfx = "$datahub.getPrimaryEntity(CC.commandMappingCommandName, 'CMD_HIDE_INTERFACE')")
 		(var hudVisible:bool = "true")
 		(bind hudVisible "!hudVisible" init=false (event "cmdEntity.commandMappingCommand.evCall"))
 	)
@@ -153,17 +156,17 @@
 )
 
 (def macro PULL_SHIP (shipId:expression)
-    (scope
+	(scope
 		(var shipEntity:gfx = "$datahub.getPrimaryEntity(CC.ship, shipId)")
-        (var shipComponent:gfx = "shipEntity.ship" (event "shipEntity.ship.evUpdate") (event "shipEntity.ship.evCurrentSkinChanged"))
-        (var shipComponentSlim:gfx = "shipEntity.slimClientComponent" (event "shipEntity.slimClientComponent.evUpdate"))
-    )
+		(var shipComponent:gfx = "shipEntity.ship" (event "shipEntity.ship.evUpdate") (event "shipEntity.ship.evCurrentSkinChanged"))
+		(var shipComponentSlim:gfx = "shipEntity.slimClientComponent" (event "shipEntity.slimClientComponent.evUpdate"))
+	)
 )
 
 (def macro PULL_USI (entity:expression)
-    (scope
-        (var upgradableShipInfo:gfx = "entity.upgradableShipInfo" (event "entity.upgradableShipInfo.evUpdate"))
-    )
+	(scope
+		(var upgradableShipInfo:gfx = "entity.upgradableShipInfo" (event "entity.upgradableShipInfo.evUpdate"))
+	)
 )
 
 (def macro PULL_EXTERIOR (exteriorId:expression)
@@ -189,14 +192,14 @@
 )
 
 (def macro MOUSE_HANDLER_SCOPE (_prefix:expression='')
-    (event name="_prefix + 'evMouseOver'")
-    (event name="_prefix + 'evMouseOut'")
+	(event name="_prefix + 'evMouseOver'")
+	(event name="_prefix + 'evMouseOut'")
 
-    (event name="_prefix + 'evMouseDown'")
-    (event name="_prefix + 'evMouseUp'")
+	(event name="_prefix + 'evMouseDown'")
+	(event name="_prefix + 'evMouseUp'")
 
-    (var name="_prefix + 'rollOver'" type=bool value="$event.isOver" init=false watch=false (event "$scope[_prefix + 'evMouseOver']") (event "$scope[_prefix + 'evMouseOut']"))
-    (var name="_prefix + 'mouseDown'" type=bool value="$event.isDown" init=false watch=false (event "$scope[_prefix + 'evMouseDown']") (event "$scope[_prefix + 'evMouseUp']"))
+	(var name="_prefix + 'rollOver'" type=bool value="$event.isOver" init=false watch=false (event "$scope[_prefix + 'evMouseOver']") (event "$scope[_prefix + 'evMouseOut']"))
+	(var name="_prefix + 'mouseDown'" type=bool value="$event.isDown" init=false watch=false (event "$scope[_prefix + 'evMouseDown']") (event "$scope[_prefix + 'evMouseUp']"))
 )
 
 (def macro MOUSE_EVENTS_DISPATCHER (_prefix:expression='')
@@ -208,17 +211,40 @@
 )
 
 (def macro MOUSE_HANDLER (_enabled:expression=true, _prefix:expression='')
-    (block
+	(block
 		(bind visible "_enabled")
-        (class $FullsizeAbsolute)
-        (style (backgroundColor = "0x01000000"))
+		(class $FullsizeAbsolute)
+		(style (backgroundColor = "0x01000000"))
 
-        (macro MOUSE_EVENTS_DISPATCHER "_prefix")
-    )
+		(macro MOUSE_EVENTS_DISPATCHER "_prefix")
+	)
 )
 
 (def macro HUMAN_READABLE_COUNTDOWN_SCOPE (remainTime:expression)
 	(var formatDigitsNumber:number = "remainTime < 9.9 ? 1 : 0")
 	(var isShowMinutes:bool = "round(remainTime) > 59")
 	(var countdownText:str = "countdownFormat(remainTime, formatDigitsNumber, isShowMinutes, false)")
+)
+(def macro PULL_EVENT_ENTITY ()
+	(scope
+		(var battleDataEntity:gfx = "$datahub.getSingleEntity(CC.battleData)")
+		(var gameModeId:number = "battleDataEntity.battleInfo.gameModeId")
+		(var inEvent:bool = "gameModeId == SC.Battle.GAME_MODE.KEY_BATTLE")
+	)
+)
+
+(def macro IS_ALT_VISION_MODE ()
+	(var prefsEntity:gfx = "$datahub.getSingleEntity(CC.prefsMarker)")
+	(var altVisionMode:number = "prefsEntity.prefsBattle.altVisionMode" (event "prefsEntity.prefsBattle.evUpdate"))
+
+	(var cameraEntity:gfx = "$datahub.getSingleEntity(CC.camera)")
+	(var altVision:bool = "cameraEntity.camera.altVision" (event "cameraEntity.camera.evAltVisionChanged"))
+	(var isTactical:bool = "cameraEntity.camera.isTactical" (event "cameraEntity.camera.evTacticalStateChanged"))
+	(var isAltVisionMode:bool = "altVision || altVisionMode == AltVisionMode.ENABLED")
+)
+
+(def macro STAGE_SIZE ()
+	(var stageComponent:gfx = "$datahub.getSingleEntity(CC.stage).stage")
+	(var stageWidth:number = "stageComponent.width" (event "stageComponent.evStageSizeChanged"))
+	(var stageHeight:number = "stageComponent.height" (event "stageComponent.evStageSizeChanged"))
 )

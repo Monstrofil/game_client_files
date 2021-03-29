@@ -1,6 +1,6 @@
-(def element SlotConsumableRenderer (isAircarrier:bool, totalCount:number) layout=true
+(def element SlotConsumableRenderer (isAircarrier:bool, totalCount:number, _col:gfx) layout=true
 	(scope
-		(var col:gfx = "null") 
+		(var col:gfx = "_col") 
 		(var itemsList:array = "col.items" (event "col.evUpdated"))
 		(var consumableEntity:gfx = "itemsList[$index]" (event "col.evUpdated"))
 		(var battleConsumable:gfx = "consumableEntity.battleConsumable")
@@ -140,20 +140,24 @@
 		)
 	)
 
+
 	
-	(element HotkeyIndicator "commandId" toggle="true"
-		(scope
-			(bind commandId "commandId")
-			(bind enabled "isReloading || consumableNum != 0")			
-			(bind toggled "atWork")
-			(bind isKeyActive "atWork")
+	(controller $Instance (renderer = 'HotkeyIndicator')
+		(bind enabled "commandId && !isAircarrier")
+		(args _commandId="commandId" toggle="true")
+		(exprs
+			(scope
+				(bind commandId "commandId")
+				(bind enabled "isReloading || consumableNum != 0")
+				(bind toggled "atWork")
+				(bind isKeyActive "atWork")
+			)
+			(style
+				(bottom = "-HOTKEY_BUTTON_SIZE")
+				(position = "absolute")
+				(hcenter = "0px")
+			)
 		)
-		(style
-			(bottom = "-HOTKEY_BUTTON_SIZE")
-			(position = "absolute")
-			(hcenter = "0px")
-		)
-		(bind visible "commandId != 0")
 	)
 )
 

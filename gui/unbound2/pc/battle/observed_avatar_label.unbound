@@ -1,0 +1,37 @@
+(def element UbObservedPlayerLabel() layout=true dispatch_size_change=true
+	(scope
+		(var cameraComponent:gfx = "$datahub.getSingleComponent(CC.camera)")
+		(var observedAvatarId:number = "cameraComponent.observedAvatarId" (event "cameraComponent.evObservedAvatarIdChanged"))
+
+		(var playerAvatarEntity:gfx = "$datahub.getSingleEntity(CC.playerAvatar)")
+		(var playerAvatarId:number = "playerAvatarEntity.avatar.id")
+		(var isSelfObserved:bool = "playerAvatarId == observedAvatarId")
+
+		(var observedAvatarEntity:gfx = "$datahub.getPrimaryEntity(CC.avatar, observedAvatarId)")
+		(var avatarName:str = "observedAvatarEntity && observedAvatarEntity.hasComponent(CC.avatar) ? observedAvatarEntity.avatar.name : null")
+
+		(var diplomacyCollection:gfx = "$datahub.getCollection(CC.diplomacyRelation)")
+		(var hasDiplomacyItems:bool = "diplomacyCollection.items.length > 0" (event "diplomacyCollection.evAdded"))
+	)
+
+	(bind visible "!isSelfObserved && !hasDiplomacyItems && (avatarName != null)")
+
+	(style
+		(width = "206px")
+		(height = "26px")
+		(align = "middle")
+	)
+
+	(tf
+		(class $TextDefaultBold17NM)
+		(class $FontEnableReadability)
+		(class $FontColorWhite)
+		(style
+			(textAlign = "center")
+			(width = 100%)
+			(elideMode = true)
+		)
+
+		(bind text "avatarName")
+	)	
+)

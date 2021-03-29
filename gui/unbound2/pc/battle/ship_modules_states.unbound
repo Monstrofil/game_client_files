@@ -18,8 +18,8 @@
 	(scope
 		(var selfVehicleEntity:gfx = "$datahub.getSingleEntity(CC.selfVehicle)")
 		(var ownCarrierEntity:gfx = "$datahub.getSingleEntity(CC.aircarrier)")
-		(var activeSquadron:number = "ownCarrierEntity ? ownCarrierEntity.aircarrier.activeSquadron : -1" (event "ownCarrierEntity.aircarrier.evStateChanged"))
-		(var isOnPlane:bool =  "activeSquadron != -1")
+		(var activeSquadron:number = "ownCarrierEntity ? ownCarrierEntity.aircarrier.activeSquadron : ActiveSquadron.NONE" (event "ownCarrierEntity.aircarrier.evStateChanged"))
+		(var isOnPlane:bool =  "activeSquadron != ActiveSquadron.NONE")
 	)
 	(hblock
 		(style (width = 400) (align = "center"))
@@ -28,7 +28,9 @@
 			(args
 				damageModuleList = "selfVehicleEntity.damageModuleList"
 			)
-			(bind enabled "!isOnPlane")
+			(exprs
+				(bind visible "!(isOnPlane) && selfVehicleEntity.damageModuleList")
+			)
 		)
 
 		(controller $Instance renderer='ShipCurrentModifierList' layout=true)
@@ -38,17 +40,19 @@
 (def element ShipCurrentModifierList() layout = true
 	(scope
 		(var prefsEntity:gfx = "$datahub.getSingleEntity(CC.prefsMarker)")
-    	(var altVisionMode:number = "prefsEntity.prefsBattle.altVisionMode" (event "prefsEntity.prefsBattle.evUpdate"))
+		(var altVisionMode:number = "prefsEntity.prefsBattle.altVisionMode" (event "prefsEntity.prefsBattle.evUpdate"))
 
-    	(var cameraEntity:gfx = "$datahub.getSingleEntity(CC.camera)")
-    	(var altVision:bool = "cameraEntity.camera.altVision" (event "cameraEntity.camera.evAltVisionChanged"))
-    	(var isAltVisionMode:bool = "altVision || altVisionMode >= AltVisionMode.ENABLED")
+		(var cameraEntity:gfx = "$datahub.getSingleEntity(CC.camera)")
+		(var altVision:bool = "cameraEntity.camera.altVision" (event "cameraEntity.camera.evAltVisionChanged"))
+		(var isAltVisionMode:bool = "altVision || altVisionMode >= AltVisionMode.ENABLED")
 
 		(var selfVehicleEntity:gfx = "$datahub.getSingleEntity(CC.selfVehicle)")
 		(var selfVehicleId:number = "selfVehicleEntity.vehicle.id" watch=false)
 		(var allShipModifiersCollection:gfx = "$datahub.getCollection(CC.shipModifier)")
-		(var vehicleModifiersCollection:gfx = "allShipModifiersCollection.getChildByPath('byOwner.' + selfVehicleId)" (event "allShipModifiersCollection.evChildAdded") (event "allShipModifiersCollection.evChildRemoved"))		
+		(var vehicleModifiersCollection:gfx = "allShipModifiersCollection.getChildByPath('byOwner.' + selfVehicleId + '.visible')" (event "allShipModifiersCollection.evChildAdded") (event "allShipModifiersCollection.evChildRemoved"))		
 		(var damageModuleListCount:number = "selfVehicleEntity.damageModuleList.value.length" (event "selfVehicleEntity.damageModuleList.evValueChanged"))
+		(var modifierItems:array = "vehicleModifiersCollection ? vehicleModifiersCollection.items : null" (event "vehicleModifiersCollection.evAdded") (event "vehicleModifiersCollection.evRemoved"))
+		(var modifierItemsCount:number = "modifierItems ? modifierItems.length : 0")
 	)
 
 	(block
@@ -66,14 +70,17 @@
 		(bind visible "isAltVisionMode")
 
 		(controller $Repeat renderer='OneShipModifierRenderer' layout=false
-			(bind count "vehicleModifiersCollection.items.length" (event "vehicleModifiersCollection.evAdded") (event "vehicleModifiersCollection.evRemoved"))
-			(bind enabled "vehicleModifiersCollection != null")
+			(bind count "modifierItemsCount")
 			(args
-				collection="vehicleModifiersCollection"
-				isNegative=false
+				_modifierEntity="modifierItems[$index]"
+			)
+			(exprs
+				(scope
+					(bind modifierEntity "modifierItems[$index]")
+				)
 			)
 		)
-		
+
 	)
 )
 
@@ -81,8 +88,8 @@
 	(scope
 		(var shipModifiersCountEntityCollection:gfx = "$datahub.getCollection(CC.shipModifiersCount)")
 		(var shipModifiersCountEntity:gfx = "$datahub.getSingleEntity(CC.shipModifiersCount)" (event "shipModifiersCountEntityCollection.evAdded") (event "shipModifiersCountEntityCollection.evRemoved"))
-		(var shipModifiersCountComponent:gfx = "shipModifiersCountEntity.shipModifiersCount")
-		(var modifiersCount:number = "shipModifiersCountComponent.count"	(event "shipModifiersCountComponent.evCountChanged"))
+		(var shipModifiersCountComponent:gfx = "shipModifiersCountEntity ? shipModifiersCountEntity.shipModifiersCount : null")
+		(var modifiersCount:number = "shipModifiersCountComponent ? shipModifiersCountComponent.count : 0" (event "shipModifiersCountComponent.evCountChanged"))
 		(var hasModifiers:bool = "modifiersCount > 0")
 
 		(var widthAnimated:number = "hasModifiers ? MODULE_ICON_WIDTH + 4 : 0" watch=false)
@@ -113,7 +120,7 @@
 		(controller $Animation
 			(bindcall play duration=0.15 from={alpha:0, visible:0} to={alpha:1, visible: 1} (bind enabled "hasModifiers"))
 			(bindcall play duration=0.15 to={alpha:0, visible: 0} (bind enabled "!hasModifiers"))
-        )
+		)
 
 		(block
 			(class $FullsizeAbsolute)
@@ -174,12 +181,21 @@
 	)
 )
 
-(def element OneShipModifierRenderer (collection:gfx, isNegative:bool) layout=true
+(def element OneShipModifierRenderer (_modifierEntity:gfx) layout=true
 	(scope
-
-		(var modifierEntity:gfx = "collection.items[$index]")
+		(var modifierEntity:gfx = "_modifierEntity")
 		(var shipModifierComponent:gfx = "modifierEntity.shipModifier")
 		(var iconPath:str = "'url:../powerups/icon_ship_modifier_' + shipModifierComponent.name + '.png'")
+		(var isNegative:bool = "shipModifierComponent ? shipModifierComponent.isNegative : false")
+
+		(var timerEntity:gfx = "$datahub.getSingleEntity(CC.timer)")
+		(var timeout:gfx = "modifierEntity.hasComponent(CC.timeout) ? modifierEntity.timeout : null" (event "modifierEntity.evAdded") (event "modifierEntity.evRemoved"))
+		(var timeFull:number = "timeout ? timeout.total : 0" (event "timeout.evTotalChanged"))
+		(var timeLeft:number = "timeout ? max(timeout.time - timerEntity.timer.currentTime, 0) : 0" (event "timerEntity.timer.evFrequent"))
+		(var timeEnabled:bool = "timeLeft > MIN_DISPLAY_TIME_LEFT")
+		(var arcProgress:number = "timeFull && timeLeft ? 360 * (timeLeft/timeFull) : 0")
+		
+		(macro HUMAN_READABLE_COUNTDOWN_SCOPE "timeLeft")
 		
 		(var modifiersCount:number = "shipModifierComponent.level"	(event "shipModifierComponent.evLevelChanged"))
 		(var hasModifiers:bool = "modifiersCount > 0")
@@ -211,9 +227,9 @@
 		(controller $Animation
 			(bindcall play duration=0.15 from={alpha:0, visible:0} to={alpha:1, visible: 1} (bind enabled "hasModifiers"))
 			(bindcall play duration=0.15 to={alpha:0, visible: 0} (bind enabled "!hasModifiers"))
-        )
+		)
 
-		(block		
+		(block
 			(class $FullsizeAbsolute)
 			(style (left = "MODULE_ICON_WIDTH/2") (top = "MODULE_ICON_HEIGHT/2 - 2")(height = "MODULE_ICON_HEIGHT"))
 
@@ -236,9 +252,68 @@
 						(width = "MODULE_ICON_WIDTH")
 						(height = "MODULE_ICON_HEIGHT")
 						(bind backgroundImage "iconPath")
+						(backgroundSize = "cover")
 					)
 
 					(bind colorTransform "{ redOffset:-30,greenOffset:-30,blueOffset:-30}")
+				)
+
+					
+				
+				(block
+					(bind visible "timeEnabled")
+					(class $FullsizeAbsolute)
+					(style (width = "MODULE_ICON_WIDTH") (left = "MODULE_ICON_WIDTH/2") (top = "MODULE_ICON_HEIGHT/2"))
+					(block
+						
+						(block
+							(style (position = "absolute"))
+							(controller $Sector
+								(bind color "C_DARK_33")
+								(bind arc 360)
+								(bind offset 0)
+								(bind radius "MODULE_ICON_WIDTH/2 - 2")
+								(bind innerRadius "MODULE_ICON_WIDTH/2 - 4")
+							)
+						)
+						
+						(block
+							(style (position = "absolute"))
+							(controller $Sector
+								(bind color "isNegative ? C_CRITICAL : C_POSITIVE")
+								(bind arc "arcProgress")
+								(bind offset "isNegative ? -90 : (-90 - arcProgress)")
+								(bind radius "MODULE_ICON_WIDTH/2 - 2")
+								(bind innerRadius "MODULE_ICON_WIDTH/2 - 4")
+							)
+						)
+					)
+				)
+
+				
+				(block
+					(bind visible "timeEnabled")
+					(style 
+						(position = "absolute")
+						(bind width "MODULE_ICON_WIDTH")
+						(paddingTop = "XXS")
+						(align = "center")
+					)
+					(tf
+						(class $TextDefaultNM)
+						(class $FontDropShadowFilterStrong)
+						(style
+							(width = 100%) 
+							(textAlign = "center")
+							(marginTop = "-100%")
+						)
+						(bind text "countdownText")
+
+						(controller $Animation
+							(bindcall play duration=0.15 from={alpha:0} to={alpha:1} (bind enabled "timeEnabled"))
+							(bindcall play duration=0.15 to={alpha:0} (bind enabled "!(timeEnabled)"))
+						)
+					)
 				)
 				
 				(block
@@ -268,11 +343,11 @@
 
 	(scope
 		(var prefsEntity:gfx = "$datahub.getSingleEntity(CC.prefsMarker)")
-    	(var altVisionMode:number = "prefsEntity.prefsBattle.altVisionMode" (event "prefsEntity.prefsBattle.evUpdate"))
+		(var altVisionMode:number = "prefsEntity.prefsBattle.altVisionMode" (event "prefsEntity.prefsBattle.evUpdate"))
 
-    	(var cameraEntity:gfx = "$datahub.getSingleEntity(CC.camera)")
-    	(var altVision:bool = "cameraEntity.camera.altVision" (event "cameraEntity.camera.evAltVisionChanged"))
-    	(var isAltVisionMode:bool = "altVision || altVisionMode >= AltVisionMode.ADAPTIVE")
+		(var cameraEntity:gfx = "$datahub.getSingleEntity(CC.camera)")
+		(var altVision:bool = "cameraEntity.camera.altVision" (event "cameraEntity.camera.evAltVisionChanged"))
+		(var isAltVisionMode:bool = "altVision || altVisionMode >= AltVisionMode.ADAPTIVE")
 
 		(var moduleEntity:gfx = "$datahub.getEntity(damageModuleList.value[$index])" (event "damageModuleList.evValueChanged"))
 		(var damageModule:gfx = "moduleEntity.damageModule")
@@ -285,7 +360,8 @@
 		(var timeLeft:number = "damageModuleState.timeLeft >= 10 ? floor(damageModuleState.timeLeft) : damageModuleState.timeLeft" (event "damageModuleState.evTimeLeftChanged"))
 		(var timeFull:number = "damageModuleState.timeFull" (event "damageModuleState.evTimeFullChanged"))
 		(var numDigits:number = "timeLeft >= 10 ? 0 : 1")
-
+		(var timeEnabled:bool = "timeLeft > MIN_DISPLAY_TIME_LEFT && isAltVisionMode")
+		(var arcProgress:number = "timeFull && timeLeft ? 360 * (timeLeft/timeFull) : 0")
 
 		(var widthAnimated:number = "moduleState > 1 ? MODULE_ICON_WIDTH + 4 : 0" watch=false)
 		(controller $Animation
@@ -316,7 +392,7 @@
 		(block
 			(style
 				(position = "absolute")
-				 (left = "-MODULE_ICON_WIDTH/2") (top = "-MODULE_ICON_HEIGHT/2 - 2")
+				(left = "-MODULE_ICON_WIDTH/2") (top = "-MODULE_ICON_HEIGHT/2 - 2")
 			)
 
 			(class $PanelElementSize)
@@ -338,31 +414,41 @@
 				(controller $Instance renderer='FloodStateIcon' layout=false
 					(bind enabled "moduleId == ModuleIds.FLOOD")
 				)
+
+				(controller $Instance renderer='AcidStateIcon' layout=false
+					(bind enabled "moduleId == ModuleIds.ACID")
+				)
+
+				(controller $Instance renderer='HeatedStateIcon' layout=false
+					(bind enabled "moduleId == ModuleIds.HEATED")
+				)
+				
 				(bind alpha "isAltVisionMode ? 0.5 : 1")
 			)
 
 			(block
+				(bind visible "moduleId != ModuleIds.HEATED")
 				(style (position = "absolute") (top = 5) (left = 5))
 				(block
 					
-					(mc 'flash.display.Sprite'
-                    	(style (position = "absolute"))
-                    	(alpha = 0.3)
-                    	(controller $Sector
-                    		(bind color 0x000000)
+					(block
+						(style (position = "absolute"))
+						(alpha = 0.3)
+						(controller $Sector
+							(bind color 0x000000)
 							(bind arc 360)
 							(bind offset 0)
 							(bind radius 5)
 							(bind innerRadius 3)
-                    	)
-                    )
+						)
+					)
 					
-					(mc 'flash.display.Sprite'
+					(block
 						(style (position = "absolute"))
 						(alpha = 0.5)
 						(controller $Sector
 							(bind color 0xFF3500)
-							(bind arc "timeFull && timeLeft ? 360 * (timeLeft/timeFull) : 0")
+							(bind arc "arcProgress")
 							(bind offset 90)
 							(bind radius 5)
 							(bind innerRadius 3)
@@ -373,16 +459,25 @@
 
 			
 			(block
-				(style (position = "absolute") (width = 100%) (top = 7))
-				(tf
-					(style (width = 100%) (textAlign = "center"))
-					(alpha = "timeLeft > 0.3 && isAltVisionMode ? 1 :0" )
-					(y =  "timeLeft > 0.3 && isAltVisionMode ? 0 : 10")
-					(visible = "timeLeft > 0.3 && isAltVisionMode ? 1 :0")
-					(controller $Animation
-						(bindcall play duration=0.15 from={alpha:0, y:10, visible:0} to={alpha:1, y:0, visible:1} (bind enabled "timeLeft > 0.3 && isAltVisionMode"))
-						(bindcall play duration=0.15 to={alpha:0, y:10, visible:0} (bind enabled "!(timeLeft > 0.3 && isAltVisionMode)"))
+				(class $FullsizeAbsolute)
+				(style
+					(top = "timeEnabled ? 0 : 10")
+					(align = "center|middle")
+				)
+
+				(alpha = "timeEnabled ? 1 : 0" )
+				(visible = "timeEnabled ? 1 : 0")
+
+				(controller $Animation
+					(bindcall play 	duration=0.15
+									from="{alpha: 0, top: 10, visible: 0}"
+									to="{alpha: 1, top: 0, visible: 1}"
+									reverse="!(timeEnabled)"
+									(bind trigger "timeEnabled")
 					)
+				)
+
+				(tf
 					(class $TextDefault25NM)
 					(class $FontColorRepairTimer)
 					(bind text "countdownFormat(timeLeft, numDigits, false)")
@@ -406,17 +501,34 @@
 
 (def element BurnStateIcon() layout=true
 	(block
-	   	
+		
 		(style (width = "MODULE_ICON_WIDTH") (height = "MODULE_ICON_HEIGHT") (backgroundImage = 'bitmap:icon_fire_small'))
 	)
 )
+
 (def element FloodStateIcon() layout=true
 	(block
-	    
+		
 		(style (width = "MODULE_ICON_WIDTH") (height = "MODULE_ICON_HEIGHT") (backgroundImage = 'bitmap:icon_flooding'))
 	)
 )
 
+(def element AcidStateIcon() layout=true
+	(block
+		
+		(style (width = "MODULE_ICON_WIDTH") (height = "MODULE_ICON_HEIGHT") (backgroundImage = 'url:../battle_hud/module_state_icons/icon_acid.png'))
+	)
+)
 
-
-
+(def element HeatedStateIcon() layout=true
+	(scope
+		(var selfVehicleEntity:gfx = "$datahub.getSingleEntity(CC.selfVehicle)")
+		(var heatedComponent:gfx = "selfVehicleEntity.heatModule")
+		(var moduleState:number = "heatedComponent ? heatedComponent.heatState : 0" (event "heatedComponent.evHeatStateChanged"))
+	)
+	(style 
+		(width = "MODULE_ICON_WIDTH") (height = "MODULE_ICON_HEIGHT")
+		(bind backgroundImage "'url:../battle_hud/module_state_icons/icon_overheating_' + moduleState + '.png'" (bind enabled "moduleState > 0"))
+		(backgroundSize = "fill")
+	)
+)

@@ -19,10 +19,10 @@
 											  'AirBase': 17px
 											})
 
-(def constant DEATH_LOG_COLOR_CLASSES       {   ally    : '$TextColorAlly',
-												enemy   : '$TextColorEnemy',
-												division: '$TextColorAlly',
-												neutral : '$TextColorNeutral'
+(def constant DEATH_LOG_COLOR_CLASSES       {   'ally'    : '$TextColorAlly',
+												'enemy'   : '$TextColorEnemy',
+												'division': '$TextColorAlly',
+												'neutral' : '$TextColorNeutral'
 											})
 
 (def constant DEATH_LOG_MESSAGE_ALPHA_DURATION 0.3)
@@ -33,8 +33,11 @@
 (def element ShipBlock(entity:gfx, colorClass:str) layout=true
 	(scope
 		(var isBuilding:bool = "entity.hasComponent(CC.building)")
-		(var playerDisplayName:str = "isBuilding ? '' : entity.avatar.name")
-		(var entityDisplayName:str = "toUpper(isBuilding ? entity.building.typeIDS : entity.avatar.ship.ref.ship.levelRome + ' ' + tr(entity.avatar.ship.ref.ship.nameIDS))")
+		(var isDiplomacyEnemy:bool = "entity.hasComponent(CC.diplomacyRelation) && entity.diplomacyRelation.value == SC.Battle.DIPLOMACY_RELATIONS.ENEMY")
+		(var playerDisplayName:str = "isBuilding || isDiplomacyEnemy ? '' : entity.avatar.name")
+		(var entityDisplayName:str = "toUpper(	isBuilding 			? entity.building.typeIDS :
+												isDiplomacyEnemy	? tr(entity.avatar.ship.ref.ship.nameIDS)
+																	: entity.avatar.ship.ref.ship.levelRome + ' ' + tr(entity.avatar.ship.ref.ship.nameIDS))")
 		(var entityType:str = "isBuilding ? entity.building.type : entity.avatar.ship.ref.ship.subtype")
 		(var isAlly:bool = "entity.relation.value <= 1")
 		(var iconName:str = "isBuilding ? (DEATH_LOG_BUILDING_ICONS[entityType] + (isAlly ? '_ally' : '_enemy')) : ((isAlly ? 'ally_' : 'enemy_') + toLower(entityType) + '_small')")
@@ -49,6 +52,7 @@
 			(text = "playerDisplayName")
 		)
 		(block
+			(bind visible "!isDiplomacyEnemy")
 			(style
 				(width = "isBuilding ? DEATH_LOG_BUILDING_ICONS_W[entityType] : (entityType == 'Destroyer' ? 17px : 21px)")
 				(height = "isBuilding ? DEATH_LOG_BUILDING_ICONS_H[entityType] : 11px")
@@ -96,19 +100,19 @@
 (def element DeathLogMessage (eventData:dict) layout=true
     (scope
         (var hasKiller:bool = "eventData.info.killer != null")
-        (var killerEntity:gfx = "$datahub.getEntity(eventData.info.killer)" $enabled="hasKiller")
-        (var killerRelation:number = "hasKiller ? killerEntity.relation.value : 0" $enabled="hasKiller")
+        (var killerEntity:gfx = "hasKiller ? $datahub.getEntity(eventData.info.killer) : null")
+        (var killerRelation:number = "hasKiller ? killerEntity.relation.value : 0")
 
-		(var isSelfKiller:bool = "killerRelation == 0" $enabled="hasKiller")
-        (var isInSameDivisionKiller:bool = "killerEntity.avatar.isInSameDivision" $enabled="hasKiller")
-        (var killerRelationStr:str = "killerRelation <= 1 ? (isInSameDivisionKiller || isSelfKiller ? 'division' : 'ally') : killerRelation == 2 ? 'enemy' : 'neutral'" $enabled="hasKiller")
+		(var isSelfKiller:bool = "killerRelation == 0")
+        (var isInSameDivisionKiller:bool = "hasKiller ? killerEntity.avatar.isInSameDivision : false")
+        (var killerRelationStr:str = "killerRelation <= 1 ? (isInSameDivisionKiller || isSelfKiller ? 'division' : 'ally') : killerRelation == 2 ? 'enemy' : 'neutral'")
 
         (var hasVictim:bool = "eventData.info.victim != null")
-        (var victimEntity:gfx = "$datahub.getEntity(eventData.info.victim)" $enabled="hasVictim")
-        (var victimRelation:number = "hasVictim ? victimEntity.relation.value : 0" $enabled="hasVictim")
-		(var isSelfVictim:bool = "victimRelation == 0" $enabled="hasVictim")
-        (var isInSameDivisionVictim:bool = "victimEntity.avatar.isInSameDivision" $enabled="hasVictim")
-        (var victimRelationStr:str = "victimRelation <= 1 ? (isInSameDivisionVictim || isSelfVictim ? 'division' : 'ally') : victimRelation == 2 ? 'enemy' : 'neutral'" $enabled="hasVictim")
+        (var victimEntity:gfx = "hasVictim ? $datahub.getEntity(eventData.info.victim) : null")
+        (var victimRelation:number = "hasVictim ? victimEntity.relation.value : 0")
+		(var isSelfVictim:bool = "victimRelation == 0")
+        (var isInSameDivisionVictim:bool = "hasVictim ? victimEntity.avatar.isInSameDivision : false")
+        (var victimRelationStr:str = "victimRelation <= 1 ? (isInSameDivisionVictim || isSelfVictim ? 'division' : 'ally') : victimRelation == 2 ? 'enemy' : 'neutral'")
 
         (var weaponIcon:str = "eventData.info.weaponIcon")
     )

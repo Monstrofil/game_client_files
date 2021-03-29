@@ -1,13 +1,18 @@
+(def constant QUICK_COMMANDS_SMALL_SLOTS_COUNT 8)
 
 (def element ModalWindowQuickCommandsSmallContainer () layout=true
 	(scope
 		(var battleInfo:gfx = "$datahub.getSingleComponent(CC.battleInfo)")
+		(var isReplayPlaying:bool = "battleInfo.isReplayPlaying")
 		(var avatar:gfx =  "$datahub.getSingleEntity(CC.playerAvatar)")
 		(var isAlive:bool = "avatar.health.isAlive" (event "avatar.health.evIsAliveChanged"))
-		(var canSendQuickCommands:bool = "isAlive && battleInfo.gameModeId != GameMode.TUTORIAL")
+		(var canSendQuickCommands:bool = "isAlive && battleInfo.gameModeId != SC.Battle.GAME_MODE.TUTORIAL")
 	)
 	(controller $Instance (renderer='ModalWindowQuickCommandsSmall')
 		(bind enabled "canSendQuickCommands")
+	)
+	(controller $Instance renderer='PlaybackPanelContainer'
+		(bind enabled "isReplayPlaying")
 	)
 )
 
@@ -72,10 +77,10 @@
 		(style
 			(position = "absolute")
 			(bind left "mouseX < (stageHeight * 0.17) 								? (stageHeight * 0.17) :
-             					 (mouseX > (stageWidth - (stageHeight * 0.17))		? stageWidth - (stageHeight * 0.17)
-             																		: mouseX)"
+								 (mouseX > (stageWidth - (stageHeight * 0.17))		? stageWidth - (stageHeight * 0.17)
+																					: mouseX)"
 				(bind enabled "isActive")
-             )
+			)
 			(bind top 	"mouseY < (stageHeight * 0.17)						? (stageHeight * 0.17) :
 						(mouseY > (stageHeight - (stageHeight * 0.17))		? stageHeight - (stageHeight * 0.17)
 																			: mouseY)"
@@ -85,7 +90,8 @@
 
 		(block
 			(class $CenterAbsolute)
-			(controller $Repeat count=8 renderer='QCSSector'
+			(controller $Repeat renderer='QCSSector'
+				(bind count "commandsData.length > 0 ? QUICK_COMMANDS_SMALL_SLOTS_COUNT : 0")
 				(exprs
 					(scope
 						(bind _stageHeight "stageHeight")
@@ -98,7 +104,8 @@
 			(class $CenterAbsolute)
 			(mouseChildren = false)
 			(mouseEnabled = false)
-			(controller $Repeat count=8 renderer='QCSItem'
+			(controller $Repeat renderer='QCSItem'
+				(bind count "commandsData.length > 0 ? QUICK_COMMANDS_SMALL_SLOTS_COUNT : 0")
 				(exprs
 					(scope
 						(bind _stageHeight "stageHeight")
@@ -109,7 +116,7 @@
 
 		(mc quick_command_crosshair
 			(class $CenterAbsolute)
-			(alpha =0.6)
+			(alpha = 0.6)
 		)
 	)
 
